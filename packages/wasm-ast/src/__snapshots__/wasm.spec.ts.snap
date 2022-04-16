@@ -16,7 +16,9 @@ exports[`readonly classes 1`] = `
   client: CosmWasmClient;
   contractAddress: string;
 
-  constructor() {
+  constructor(client: CosmWasmClient, contractAddress: string) {
+    this.client = client;
+    this.contractAddress = contractAddress;
     this.approval = this.approval.bind(this);
     this.otherProp = this.otherProp.bind(this);
     this.hello = this.hello.bind(this);

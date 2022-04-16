@@ -221,14 +221,46 @@ it('readonly classes', async () => {
               )),
 
               // constructor
-              t.classMethod('constructor', t.identifier('constructor'), [], t.blockStatement(
+              t.classMethod('constructor',
+                t.identifier('constructor'),
                 [
-                  bindMethod('approval'),
-                  bindMethod('otherProp'),
-                  bindMethod('hello'),
-                  bindMethod('mintme')
-                ]
-              )),
+                  typedIdentifier('client', t.tsTypeAnnotation(t.tsTypeReference(t.identifier('CosmWasmClient')))),
+                  typedIdentifier('contractAddress', t.tsTypeAnnotation(t.tsStringKeyword()))
+
+                ],
+                t.blockStatement(
+                  [
+
+                    // client/contract set
+                    t.expressionStatement(
+                      t.assignmentExpression(
+                        '=',
+                        t.memberExpression(
+                          t.thisExpression(),
+                          t.identifier('client')
+                        ),
+                        t.identifier('client')
+                      )
+                    ),
+                    t.expressionStatement(
+                      t.assignmentExpression(
+                        '=',
+                        t.memberExpression(
+                          t.thisExpression(),
+                          t.identifier('contractAddress')
+                        ),
+                        t.identifier('contractAddress')
+                      )
+                    ),
+
+
+                    // bindings
+                    bindMethod('approval'),
+                    bindMethod('otherProp'),
+                    bindMethod('hello'),
+                    bindMethod('mintme')
+                  ]
+                )),
 
               // methods:
               t.classProperty(
@@ -332,18 +364,52 @@ it('mutation classes', async () => {
               )),
 
               // constructor
-              t.classMethod('constructor', t.identifier('constructor'), [], t.blockStatement(
+              t.classMethod('constructor',
+                t.identifier('constructor'),
                 [
-                  t.expressionStatement(t.callExpression(
-                    t.super(),
-                    []
-                  )),
-                  bindMethod('approval'),
-                  bindMethod('otherProp'),
-                  bindMethod('hello'),
-                  bindMethod('mintme')
-                ]
-              )),
+                  typedIdentifier('client', t.tsTypeAnnotation(t.tsTypeReference(t.identifier('SigningCosmWasmClient')))),
+                  typedIdentifier('contractAddress', t.tsTypeAnnotation(t.tsStringKeyword()))
+                ],
+                t.blockStatement(
+                  [
+                    // super()
+                    t.expressionStatement(t.callExpression(
+                      t.super(),
+                      [
+                        t.identifier('client'),
+                        t.identifier('contractAddress')
+                      ]
+                    )),
+
+                    // client/contract set
+                    t.expressionStatement(
+                      t.assignmentExpression(
+                        '=',
+                        t.memberExpression(
+                          t.thisExpression(),
+                          t.identifier('client')
+                        ),
+                        t.identifier('client')
+                      )
+                    ),
+                    t.expressionStatement(
+                      t.assignmentExpression(
+                        '=',
+                        t.memberExpression(
+                          t.thisExpression(),
+                          t.identifier('contractAddress')
+                        ),
+                        t.identifier('contractAddress')
+                      )
+                    ),
+
+                    // bindings
+                    bindMethod('approval'),
+                    bindMethod('otherProp'),
+                    bindMethod('hello'),
+                    bindMethod('mintme')
+                  ]
+                )),
 
               // methods:
               t.classProperty(
