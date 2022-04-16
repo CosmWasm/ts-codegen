@@ -235,7 +235,14 @@ it('classes', async () => {
                                 t.identifier('approval'),
                                 arrowFunctionExpression(
                                     [
-                                        t.identifier('owner')
+                                        // props
+                                        typedIdentifier('owner', t.tsTypeAnnotation(
+                                            t.tsStringKeyword()
+                                        )),
+                                        // 
+                                        typedIdentifier('spender', t.tsTypeAnnotation(
+                                            t.tsStringKeyword()
+                                        ))
                                     ],
                                     t.blockStatement(
                                         [
@@ -249,7 +256,24 @@ it('classes', async () => {
                                                         t.identifier('queryContractSmart')
                                                     ),
                                                     [
+                                                        t.memberExpression(t.thisExpression(), t.identifier('contractAddress')),
+                                                        t.objectExpression([
+                                                            // props
+                                                            t.objectProperty(
+                                                                t.identifier('owner'),
+                                                                t.identifier('owner'),
+                                                                false,
+                                                                true
+                                                            ),
 
+                                                            t.objectProperty(
+                                                                t.identifier('spender'),
+                                                                t.identifier('spender'),
+                                                                false,
+                                                                true
+                                                            ),
+
+                                                        ])
                                                     ]
                                                 )
                                             )
@@ -266,7 +290,8 @@ it('classes', async () => {
                                                 ]
                                             )
                                         )
-                                    )
+                                    ),
+                                    true
                                 )
                             )
 
