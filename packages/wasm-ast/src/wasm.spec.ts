@@ -17,9 +17,10 @@ const printCode = (ast) => {
     );
 }
 
-const typedIdentifier = (name: string, typeAnnotation: TSTypeAnnotation) => {
+const typedIdentifier = (name: string, typeAnnotation: TSTypeAnnotation, optional: boolean = false) => {
     const type = t.identifier(name);
     type.typeAnnotation = typeAnnotation;
+    type.optional = optional;
     return type;
 }
 
@@ -63,6 +64,28 @@ it('class', async () => {
                                     t.tsTypeAnnotation(
                                         t.tsStringKeyword()
                                     )
+                                ),
+                                // methods
+
+                                t.tSPropertySignature(
+                                    t.identifier('tokens'),
+                                    t.tsTypeAnnotation(
+                                        t.tsFunctionType(
+                                            null,
+                                            [
+                                                typedIdentifier('owner', t.tsTypeAnnotation(
+                                                    t.tsStringKeyword()
+                                                )),
+                                                typedIdentifier('startAfter', t.tsTypeAnnotation(
+                                                    t.tsStringKeyword()
+                                                ), true),
+                                                typedIdentifier('limit', t.tsTypeAnnotation(
+                                                    t.tsStringKeyword()
+                                                ), true)
+                                            ],
+                                            promiseTypeAnnotation('TokensResponse')
+                                        )
+                                    )
                                 )
                             ]
                         )
@@ -82,6 +105,9 @@ it('class', async () => {
                         ],
                         t.tSInterfaceBody(
                             [
+
+                                // contract address
+
                                 t.tSPropertySignature(
                                     t.identifier('contractAddress'),
                                     t.tsTypeAnnotation(
@@ -89,6 +115,7 @@ it('class', async () => {
                                     )
                                 ),
 
+                                // METHOD
                                 t.tSPropertySignature(
                                     t.identifier('mint'),
                                     t.tsTypeAnnotation(
@@ -97,10 +124,15 @@ it('class', async () => {
                                             [
                                                 typedIdentifier('sender', t.tsTypeAnnotation(
                                                     t.tsStringKeyword()
+                                                )),
+                                                typedIdentifier('anotherProp', t.tsTypeAnnotation(
+                                                    t.tsStringKeyword()
+                                                )),
+                                                typedIdentifier('prop3', t.tsTypeAnnotation(
+                                                    t.tsStringKeyword()
                                                 ))
                                             ],
                                             promiseTypeAnnotation('ExecuteResult')
-
                                         )
                                     )
                                 )
