@@ -11,4 +11,25 @@ export interface SG721Instance extends SG721ReadOnlyInstance {
 }"
 `;
 
+exports[`readonly classes 1`] = `
+"export class SG721QueryClient implements SG721ReadOnlyInstance {
+  client: CosmWasmClient;
+  contractAddress: string;
+
+  constructor() {
+    this.approval = this.approval.bind(this);
+    this.otherProp = this.otherProp.bind(this);
+    this.hello = this.hello.bind(this);
+    this.mintme = this.mintme.bind(this);
+  }
+
+  approval = async (owner: string, spender: string): Promise<ApprovalResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      owner,
+      spender
+    });
+  };
+}"
+`;
+
 exports[`top import 1`] = `"import { CosmWasmClient, ExecuteResult, SigningCosmWasmClient } from \\"@cosmjs/cosmwasm-stargate\\";"`;
