@@ -1,9 +1,15 @@
-import { contractClass } from './wasm';
 import { importStmt } from './utils'
 import generate from '@babel/generator';
 import * as t from '@babel/types';
 
-import { TSTypeAnnotation, TSExpressionWithTypeArguments } from '@babel/types';
+import {
+  bindMethod,
+  typedIdentifier,
+  promiseTypeAnnotation,
+  classDeclaration,
+  classProperty,
+  arrowFunctionExpression
+} from './utils'
 
 const expectCode = (ast) => {
   expect(
@@ -17,25 +23,7 @@ const printCode = (ast) => {
   );
 }
 
-const typedIdentifier = (name: string, typeAnnotation: TSTypeAnnotation, optional: boolean = false) => {
-  const type = t.identifier(name);
-  type.typeAnnotation = typeAnnotation;
-  type.optional = optional;
-  return type;
-}
 
-const promiseTypeAnnotation = (name) => {
-  return t.tsTypeAnnotation(
-    t.tsTypeReference(
-      t.identifier('Promise'),
-      t.tsTypeParameterInstantiation(
-        [
-          t.tsTypeReference(t.identifier(name))
-        ]
-      )
-    )
-  );
-}
 
 it('top import', async () => {
   expectCode(
@@ -146,61 +134,6 @@ it('interfaces', async () => {
 
 });
 
-const classDeclaration = (name: string, body: any[], implementsExressions: TSExpressionWithTypeArguments[] = [], superClass: t.Identifier = null) => {
-  const declaration = t.classDeclaration(
-    t.identifier(name),
-    superClass,
-    t.classBody(body)
-  );
-  if (implementsExressions.length) {
-    declaration.implements = implementsExressions;
-  }
-  return declaration;
-};
-
-const classProperty = (name: string, typeAnnotation: TSTypeAnnotation = null, isReadonly: boolean = false, isStatic: boolean = false) => {
-  const prop = t.classProperty(t.identifier(name));
-  if (isReadonly) prop.readonly = true;
-  if (isStatic) prop.static = true;
-  if (typeAnnotation) prop.typeAnnotation = typeAnnotation;
-  return prop;
-};
-
-const bindMethod = (name: string) => {
-  return t.expressionStatement(
-    t.assignmentExpression('=', t.memberExpression(
-      t.thisExpression(),
-      t.identifier(name)
-    ),
-      t.callExpression(
-        t.memberExpression(
-          t.memberExpression(
-            t.thisExpression(),
-            t.identifier(name)
-          ),
-          t.identifier('bind')
-        ),
-        [
-          t.thisExpression()
-        ]
-      )
-    )
-  )
-}
-
-// TODO: 
-// - [ ] pass client and contractAddress into constructor()
-
-const arrowFunctionExpression = (
-  params: (t.Identifier | t.Pattern | t.RestElement)[],
-  body: t.BlockStatement,
-  returnType: t.TSTypeAnnotation,
-  isAsync: boolean = false
-) => {
-  const func = t.arrowFunctionExpression(params, body, isAsync);
-  if (returnType) func.returnType = returnType;
-  return func;
-};
 
 it('readonly classes', async () => {
   expectCode(
@@ -346,7 +279,7 @@ it('readonly classes', async () => {
 });
 
 it('mutation classes', async () => {
-  printCode(
+  expectCode(
     t.program(
       [
 

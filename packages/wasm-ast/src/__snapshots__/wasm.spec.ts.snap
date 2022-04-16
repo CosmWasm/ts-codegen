@@ -11,6 +11,34 @@ export interface SG721Instance extends SG721ReadOnlyInstance {
 }"
 `;
 
+exports[`mutation classes 1`] = `
+"export class SG721Client extends SG721QueryClient implements SG721ReadOnlyInstance {
+  client: SigningCosmWasmClient;
+  contractAddress: string;
+
+  constructor(client: SigningCosmWasmClient, contractAddress: string) {
+    super(client, contractAddress);
+    this.client = client;
+    this.contractAddress = contractAddress;
+    this.approval = this.approval.bind(this);
+    this.otherProp = this.otherProp.bind(this);
+    this.hello = this.hello.bind(this);
+    this.mintme = this.mintme.bind(this);
+  }
+
+  mint = async (sender: string, tokenId: string, owner: string, token_uri: string): Promise<ExecuteResult> => {
+    return await this.client.execute(sender, this.contractAddress, {
+      mint: {
+        token_id: tokenId,
+        owner: owner,
+        token_uri: token_uri,
+        expression: {}
+      }
+    }, \\"auto\\");
+  };
+}"
+`;
+
 exports[`readonly classes 1`] = `
 "export class SG721QueryClient implements SG721ReadOnlyInstance {
   client: CosmWasmClient;
