@@ -3,7 +3,7 @@ import { importStmt } from './utils'
 import generate from '@babel/generator';
 import * as t from '@babel/types';
 
-import { TSTypeAnnotation } from '@babel/types';
+import { TSTypeAnnotation, TSExpressionWithTypeArguments } from '@babel/types';
 
 const expectCode = (ast) => {
     expect(
@@ -47,9 +47,8 @@ it('top import', async () => {
     );
 });
 
-it('class', async () => {
-
-    printCode(
+it('interfaces', async () => {
+    expectCode(
         t.program(
             [
                 t.exportNamedDeclaration(
@@ -140,6 +139,148 @@ it('class', async () => {
                         )
                     )
                 )
+
+            ]
+        )
+    )
+
+});
+
+const classDeclaration = (name: string, body: any[], implementsExressions: TSExpressionWithTypeArguments[] = []) => {
+    const declaration = t.classDeclaration(
+        t.identifier(name),
+        null,
+        t.classBody(body)
+    );
+    if (implementsExressions.length) {
+        declaration.implements = implementsExressions;
+    }
+    return declaration;
+};
+
+const classProperty = (name: string, typeAnnotation: TSTypeAnnotation = null, isReadonly: boolean = false, isStatic: boolean = false) => {
+    const prop = t.classProperty(t.identifier(name));
+    if (isReadonly) prop.readonly = true;
+    if (isStatic) prop.static = true;
+    if (typeAnnotation) prop.typeAnnotation = typeAnnotation;
+    return prop;
+};
+
+const bindMethod = (name: string) => {
+    return t.expressionStatement(
+        t.assignmentExpression('=', t.memberExpression(
+            t.thisExpression(),
+            t.identifier(name)
+        ),
+            t.callExpression(
+                t.memberExpression(
+                    t.memberExpression(
+                        t.thisExpression(),
+                        t.identifier(name)
+                    ),
+                    t.identifier('bind')
+                ),
+                [
+                    t.thisExpression()
+                ]
+            )
+        )
+    )
+}
+
+// TODO: 
+// - [ ] pass client and contractAddress into constructor()
+
+const arrowFunctionExpression = (
+    params: (t.Identifier | t.Pattern | t.RestElement)[],
+    body: t.BlockStatement,
+    returnType: t.TSTypeAnnotation,
+    isAsync: boolean = false
+) => {
+    const func = t.arrowFunctionExpression(params, body, isAsync);
+    if (returnType) func.returnType = returnType;
+    return func;
+};
+
+it('classes', async () => {
+    printCode(
+        t.program(
+            [
+
+                t.exportNamedDeclaration(
+                    classDeclaration('SG721QueryClient',
+                        [
+                            // client
+                            classProperty('client', t.tsTypeAnnotation(
+                                t.tsTypeReference(t.identifier('CosmWasmClient'))
+                            )),
+
+                            // contractAddress
+                            classProperty('contractAddress', t.tsTypeAnnotation(
+                                t.tsStringKeyword()
+                            )),
+
+                            // constructor
+                            t.classMethod('constructor', t.identifier('constructor'), [], t.blockStatement(
+                                [
+                                    bindMethod('approval'),
+                                    bindMethod('otherProp'),
+                                    bindMethod('hello'),
+                                    bindMethod('mintme')
+                                ]
+                            )),
+
+                            // methods:
+                            t.classProperty(
+                                t.identifier('approval'),
+                                arrowFunctionExpression(
+                                    [
+                                        t.identifier('owner')
+                                    ],
+                                    t.blockStatement(
+                                        [
+                                            t.returnStatement(
+                                                t.callExpression(
+                                                    t.memberExpression(
+                                                        t.memberExpression(
+                                                            t.thisExpression(),
+                                                            t.identifier('client')
+                                                        ),
+                                                        t.identifier('queryContractSmart')
+                                                    ),
+                                                    [
+
+                                                    ]
+                                                )
+                                            )
+                                        ]
+                                    ),
+                                    t.tsTypeAnnotation(
+                                        t.tsTypeReference(
+                                            t.identifier('Promise'),
+                                            t.tsTypeParameterInstantiation(
+                                                [
+                                                    t.tSTypeReference(
+                                                        t.identifier('ApprovalResponse')
+                                                    )
+                                                ]
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+
+                        ],
+                        [
+                            t.tSExpressionWithTypeArguments(
+                                t.identifier('SG721ReadOnlyInstance')
+                            )
+                        ])
+                ),
+
+
+
+
 
             ]
         )
