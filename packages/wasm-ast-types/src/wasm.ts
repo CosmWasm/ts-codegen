@@ -513,14 +513,14 @@ export const createExecuteInterface = (
   );
 };
 
-export const createTypedObjectParams = (jsonschema: any) => {
+export const createTypedObjectParams = (jsonschema: any, camelize: boolean = true) => {
   const keys = Object.keys(jsonschema.properties ?? {});
   if (!keys.length) return;
 
   const typedParams = keys.map(prop => {
     const { type, optional } = getPropertyType(jsonschema, prop);
     return t.tsPropertySignature(
-      t.identifier(prop),
+      camelize ? t.identifier(camel(prop)) : t.identifier(prop),
       t.tsTypeAnnotation(
         type
       )
@@ -528,8 +528,8 @@ export const createTypedObjectParams = (jsonschema: any) => {
   });
   const params = keys.map(prop => {
     return t.objectProperty(
-      t.identifier(prop),
-      t.identifier(prop),
+      camelize ? t.identifier(camel(prop)) : t.identifier(prop),
+      camelize ? t.identifier(camel(prop)) : t.identifier(prop),
       false,
       true
     );
