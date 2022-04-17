@@ -8,6 +8,7 @@ import generate from "@babel/generator";
 import { compile } from 'json-schema-to-typescript';
 
 import { parser } from "./parse";
+import { clean } from "./clean";
 
 export default async (name: string, schemas: any[], outPath: string) => {
 
@@ -40,7 +41,7 @@ export default async (name: string, schemas: any[], outPath: string) => {
     const typeHash = parser(allTypes);
     Object.values(typeHash).forEach(type => {
         body.push(
-            type
+            clean(type)
         )
     });
 
