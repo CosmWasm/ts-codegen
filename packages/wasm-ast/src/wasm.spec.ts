@@ -4,12 +4,14 @@ import * as t from '@babel/types';
 
 import query_msg from './__fixtures__/schema/query_msg.json';
 import execute_msg from './__fixtures__/schema/execute_msg_for__empty.json';
+import some_resp from './__fixtures__/schema/approval_response.json';
 
 import {
   createQueryClass,
   createQueryInterface,
   createExecuteClass,
-  createExecuteInterface
+  createExecuteInterface,
+  createTypeInterface
 } from './wasm'
 
 const expectCode = (ast) => {
@@ -23,6 +25,12 @@ const printCode = (ast) => {
     generate(ast).code
   );
 }
+
+it('types', () => {
+  printCode(createTypeInterface(
+    some_resp
+  ))
+});
 
 it('query classes', () => {
   expectCode(createQueryClass(
@@ -42,7 +50,7 @@ it('execute classes', () => {
 });
 
 it('execute interfaces', () => {
-  printCode(createExecuteInterface(
+  expectCode(createExecuteInterface(
     'SG721Instance',
     'SG721ReadOnlyInstance',
     execute_msg

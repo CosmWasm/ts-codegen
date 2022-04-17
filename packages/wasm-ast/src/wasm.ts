@@ -471,12 +471,20 @@ export const createExecuteInterface = (
               t.tsStringKeyword()
             )
           ),
+
+          // contract address
+          t.tSPropertySignature(
+            t.identifier('sender'),
+            t.tsTypeAnnotation(
+              t.tsStringKeyword()
+            )
+          ),
           ...methods
         ]
       )
     )
   );
-}
+};
 
 export const createQueryInterface = (className: string, queryMsg: QueryMsg) => {
   const methods = queryMsg.oneOf
@@ -520,4 +528,28 @@ export const createQueryInterface = (className: string, queryMsg: QueryMsg) => {
       )
     )
   );
-}
+};
+
+export const createTypeInterface = () => {
+  t.exportNamedDeclaration(
+    t.tsInterfaceDeclaration(
+      t.identifier('AllNftInfoResponse'),
+      null,
+      [],
+      t.tsInterfaceBody(
+        [
+          t.tsPropertySignature(
+            t.identifier('access'),
+            t.tsTypeAnnotation(
+              t.tsTypeReference(
+                t.identifier(
+                  'OwnerOfResponse'
+                )
+              )
+            )
+          )
+        ]
+      )
+    )
+  )
+};

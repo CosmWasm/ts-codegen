@@ -84,6 +84,21 @@ exports[`execute classes 1`] = `
 }"
 `;
 
+exports[`execute interfaces 1`] = `
+"export interface SG721Instance extends SG721ReadOnlyInstance {
+  contractAddress: string;
+  sender: string;
+  transferNft: (recipient?: string, tokenId?: string) => Promise<ExecuteResult>;
+  sendNft: (contract?: string, msg?: BinaryType, tokenId?: string) => Promise<ExecuteResult>;
+  approve: (expires?: Expiration, spender?: string, tokenId?: string) => Promise<ExecuteResult>;
+  revoke: (spender?: string, tokenId?: string) => Promise<ExecuteResult>;
+  approveAll: (expires?: Expiration, operator?: string) => Promise<ExecuteResult>;
+  revokeAll: (operator?: string) => Promise<ExecuteResult>;
+  mint: () => Promise<ExecuteResult>;
+  burn: (tokenId?: string) => Promise<ExecuteResult>;
+}"
+`;
+
 exports[`query classes 1`] = `
 "export class SG721QueryClient implements SG721ReadOnlyInstance {
   client: CosmWasmClient;
