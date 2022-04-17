@@ -49,7 +49,7 @@ export default async (name: string, schemas: any[], outPath: string) => {
     if (QueryMsg) {
 
         QueryClient = pascal(`${name}QueryClient`);
-        ReadOnlyInstance = pascal(`${name}ReadOnlyInstance`);
+        ReadOnlyInstance = pascal(`${name}ReadOnlyInterface`);
 
         body.push(
             w.createQueryInterface(ReadOnlyInstance, QueryMsg)
@@ -62,7 +62,7 @@ export default async (name: string, schemas: any[], outPath: string) => {
     // execute messages
     if (ExecuteMsg) {
         Client = pascal(`${name}Client`);
-        Instance = pascal(`${name}Instance`);
+        Instance = pascal(`${name}Interface`);
 
         body.push(
             w.createExecuteInterface(
