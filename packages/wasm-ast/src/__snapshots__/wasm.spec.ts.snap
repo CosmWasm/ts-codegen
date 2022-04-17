@@ -84,13 +84,6 @@ exports[`execute classes 1`] = `
 }"
 `;
 
-exports[`execute interfaces 1`] = `
-"export interface SG721Instance extends SG721ReadOnlyInstance {
-  contractAddress: string;
-  mint: (sender: string, anotherProp: string, prop3: string) => Promise<ExecuteResult>;
-}"
-`;
-
 exports[`query classes 1`] = `
 "export class SG721QueryClient implements SG721ReadOnlyInstance {
   client: CosmWasmClient;
@@ -204,8 +197,19 @@ exports[`query classes 1`] = `
 `;
 
 exports[`query interfaces 1`] = `
-"export interface SG721Instance {
+"export interface SG721ReadOnlyInstance {
   contractAddress: string;
-  tokens: (owner: string, startAfter?: string, limit?: string) => Promise<TokensResponse>;
+  ownerOf: (includeExpired?: boolean, tokenId?: string) => Promise<OwnerOfResponse>;
+  approval: (includeExpired?: boolean, spender?: string, tokenId?: string) => Promise<ApprovalResponse>;
+  approvals: (includeExpired?: boolean, tokenId?: string) => Promise<ApprovalsResponse>;
+  allOperators: (includeExpired?: boolean, limit?: number, owner?: string, startAfter?: string) => Promise<AllOperatorsResponse>;
+  numTokens: () => Promise<NumTokensResponse>;
+  contractInfo: () => Promise<ContractInfoResponse>;
+  nftInfo: (tokenId?: string) => Promise<NftInfoResponse>;
+  allNftInfo: (includeExpired?: boolean, tokenId?: string) => Promise<AllNftInfoResponse>;
+  tokens: (limit?: number, owner?: string, startAfter?: string) => Promise<TokensResponse>;
+  allTokens: (limit?: number, startAfter?: string) => Promise<AllTokensResponse>;
+  minter: () => Promise<MinterResponse>;
+  collectionInfo: () => Promise<CollectionInfoResponse>;
 }"
 `;

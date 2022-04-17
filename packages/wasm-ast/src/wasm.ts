@@ -406,13 +406,9 @@ export const createExecuteClass = (
                   t.identifier('contractAddress')
                 )
               ),
-
-              // bindings
               ...bindings
             ]
           )),
-
-        // methods:
         ...methods
       ],
       [
@@ -428,8 +424,34 @@ export const createExecuteClass = (
 export const createExecuteInterface = (
   className: string,
   extendsClassName: string,
-  jsonschema: any
+  execMsg: ExecuteMsg
 ) => {
+
+  const methods = execMsg.oneOf
+    .map(jsonschema => {
+      const underscoreName = Object.keys(jsonschema.properties)[0];
+      const methodName = camel(underscoreName);
+      const properties = jsonschema.properties[underscoreName].properties ?? {};
+
+      const params = Object.keys(properties).map(prop => {
+        return getProperty(jsonschema.properties[underscoreName], prop)
+      });
+
+      return t.tSPropertySignature(
+        t.identifier(methodName),
+        t.tsTypeAnnotation(
+          t.tsFunctionType(
+            null,
+            [
+              ...params
+            ],
+            promiseTypeAnnotation('ExecuteResult')
+          )
+        )
+      );
+    });
+
+
   return t.exportNamedDeclaration(
     t.tsInterfaceDeclaration(
       t.identifier(className),
@@ -443,35 +465,13 @@ export const createExecuteInterface = (
         [
 
           // contract address
-
           t.tSPropertySignature(
             t.identifier('contractAddress'),
             t.tsTypeAnnotation(
               t.tsStringKeyword()
             )
           ),
-
-          // METHOD
-          t.tSPropertySignature(
-            t.identifier('mint'),
-            t.tsTypeAnnotation(
-              t.tsFunctionType(
-                null,
-                [
-                  typedIdentifier('sender', t.tsTypeAnnotation(
-                    t.tsStringKeyword()
-                  )),
-                  typedIdentifier('anotherProp', t.tsTypeAnnotation(
-                    t.tsStringKeyword()
-                  )),
-                  typedIdentifier('prop3', t.tsTypeAnnotation(
-                    t.tsStringKeyword()
-                  ))
-                ],
-                promiseTypeAnnotation('ExecuteResult')
-              )
-            )
-          )
+          ...methods
         ]
       )
     )

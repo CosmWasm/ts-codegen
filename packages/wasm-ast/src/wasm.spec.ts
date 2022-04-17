@@ -42,7 +42,7 @@ it('execute classes', () => {
 });
 
 it('execute interfaces', () => {
-  expectCode(createExecuteInterface(
+  printCode(createExecuteInterface(
     'SG721Instance',
     'SG721ReadOnlyInstance',
     execute_msg
@@ -50,7 +50,7 @@ it('execute interfaces', () => {
 });
 
 it('query interfaces', () => {
-  printCode(createQueryInterface(
+  expectCode(createQueryInterface(
     'SG721ReadOnlyInstance',
     query_msg
   ))
