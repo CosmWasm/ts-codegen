@@ -13,7 +13,7 @@
   "registry": "https://registry.npmjs.org",
   "command": {
     "create": {
-      "homepage": "https://github.com/pyramation/cosmscript",
+      "homepage": "https://github.com/pyramation/cosmwasm-typescript-gen",
       "license": "SEE LICENSE IN LICENSE",
       "access": "restricted"
     },

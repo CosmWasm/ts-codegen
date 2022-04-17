@@ -1,4 +1,4 @@
-# cosmscript
+# cosmwasm-typescript-gen
 
 A Transpiler for CosmWasm Smart Contracts
 
@@ -8,13 +8,13 @@ A Transpiler for CosmWasm Smart Contracts
 
 
 ```
-npm install -g cosmscript
+npm install -g cosmwasm-typescript-gen
 ```
 
 ## usage
 
 ```
- cosmscript generate \
+ cosmwasm-typescript-gen generate \
     --schema ./schema \
     --out ./src \
     --name MyContractName

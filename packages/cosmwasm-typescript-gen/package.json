@@ -1,15 +1,15 @@
 {
-  "name": "cosmscript",
+  "name": "cosmwasm-typescript-gen",
   "version": "0.0.18",
   "description": "A TypeScript Transpiler for Comsos Protobufs",
   "author": "Dan Lynch <pyramation@gmail.com>",
-  "homepage": "https://github.com/pyramation/cosmscript/tree/master/packages/cosmscript#readme",
+  "homepage": "https://github.com/pyramation/cosmwasm-typescript-gen/tree/master/packages/cosmscript#readme",
   "license": "SEE LICENSE IN LICENSE",
   "main": "main/index.js",
   "module": "module/index.js",
   "typings": "types/index.d.ts",
   "bin": {
-    "cosmscript": "main/cosmscript.js"
+    "cosmwasm-typescript-gen": "main/cosmwasm-typescript-gen.js"
   },
   "directories": {
     "lib": "src",
@@ -39,11 +39,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/pyramation/cosmscript/tree/master/packages/cosmscript"
+    "url": "https://github.com/pyramation/cosmwasm-typescript-gen/tree/master/packages/cosmscript"
   },
   "keywords": [],
   "bugs": {
-    "url": "https://github.com/pyramation/cosmscript/tree/master/packages/cosmscript/issues"
+    "url": "https://github.com/pyramation/cosmwasm-typescript-gen/tree/master/packages/cosmscript/issues"
   },
   "devDependencies": {
     "@babel/cli": "7.17.6",

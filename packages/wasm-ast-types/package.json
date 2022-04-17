@@ -3,7 +3,7 @@
   "version": "0.0.7",
   "description": "CosmWasm TypeScript AST generation",
   "author": "Dan Lynch <pyramation@gmail.com>",
-  "homepage": "https://github.com/pyramation/cosmscript/tree/master/packages/wasm-ast-types#readme",
+  "homepage": "https://github.com/pyramation/cosmwasm-typescript-gen/tree/master/packages/wasm-ast-types#readme",
   "license": "SEE LICENSE IN LICENSE",
   "main": "main/index.js",
   "module": "module/index.js",
@@ -42,11 +42,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/pyramation/cosmscript/tree/master/packages/wasm-ast-types"
+    "url": "https://github.com/pyramation/cosmwasm-typescript-gen/tree/master/packages/wasm-ast-types"
   },
   "keywords": [],
   "bugs": {
-    "url": "https://github.com/pyramation/cosmscript/tree/master/packages/wasm-ast-types/issues"
+    "url": "https://github.com/pyramation/cosmwasm-typescript-gen/tree/master/packages/wasm-ast-types/issues"
   },
   "devDependencies": {
     "@babel/cli": "7.17.6",
