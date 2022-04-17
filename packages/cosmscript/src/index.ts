@@ -28,21 +28,13 @@ export default async (name: string, schemas: any[], outPath: string) => {
         w.importStmt(['CosmWasmClient', 'ExecuteResult', 'SigningCosmWasmClient'], '@cosmjs/cosmwasm-stargate')
     );
 
-    const definitions = {};
-    Types.forEach(type => {
-        Object.keys(type.definitions ?? {}).map(Defn => {
-            definitions[Defn] = type.definitions[Defn];
-        });
-    });
-
+    // TYPES
     const allTypes = [];
     for (const typ in Types) {
         const result = await compile(Types[typ], typ);
         allTypes.push(result);
     }
-
     const typeHash = parser(allTypes);
-
     Object.values(typeHash).forEach(type => {
         body.push(
             type
@@ -50,6 +42,7 @@ export default async (name: string, schemas: any[], outPath: string) => {
     });
 
 
+    // query messages
     if (QueryMsg) {
         body.push(
             w.createQueryInterface(ReadOnlyInstance, QueryMsg)
