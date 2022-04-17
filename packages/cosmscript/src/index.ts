@@ -59,10 +59,7 @@ export default async (name: string, schemas: any[], outPath: string) => {
         );
     }
 
-
-
-    // [ ] handle case: what if there is no QueryMsg?
-    // ideas: potentially pass in boolean so it does/doesn't extend another class
+    // execute messages
     if (ExecuteMsg) {
         Client = pascal(`${name}Client`);
         Instance = pascal(`${name}Instance`);
