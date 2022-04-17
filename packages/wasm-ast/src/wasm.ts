@@ -448,14 +448,14 @@ export const createExecuteClass = (
           t.identifier(implementsClassName)
         )
       ],
-      t.identifier(extendsClassName)
+      extendsClassName ? t.identifier(extendsClassName) : null
     )
   );
 }
 
 export const createExecuteInterface = (
   className: string,
-  extendsClassName: string,
+  extendsClassName: string | null,
   execMsg: ExecuteMsg
 ) => {
 
@@ -483,16 +483,15 @@ export const createExecuteInterface = (
       );
     });
 
+  const extendsAst = extendsClassName ? [t.tSExpressionWithTypeArguments(
+    t.identifier(extendsClassName)
+  )] : []
 
   return t.exportNamedDeclaration(
     t.tsInterfaceDeclaration(
       t.identifier(className),
       null,
-      [
-        t.tSExpressionWithTypeArguments(
-          t.identifier(extendsClassName)
-        )
-      ],
+      extendsAst,
       t.tSInterfaceBody(
         [
 

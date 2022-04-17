@@ -110,10 +110,19 @@ it('execute classes', () => {
   ))
 });
 
-it('execute interfaces', () => {
+it('execute classes no extends', () => {
+  expectCode(createExecuteClass(
+    'SG721Client',
+    'SG721Instance',
+    null,
+    execute_msg
+  ))
+});
+
+it('execute interfaces no extends', () => {
   expectCode(createExecuteInterface(
     'SG721Instance',
-    'SG721ReadOnlyInstance',
+    null,
     execute_msg
   ))
 });

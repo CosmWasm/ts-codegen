@@ -17,10 +17,10 @@ export default async (name: string, schemas: any[], outPath: string) => {
     const ExecuteMsg = schemas.find(schema => schema.title === 'ExecuteMsg' || schema.title === 'ExecuteMsg_for_Empty');
     const Types = schemas.filter(schema => schema.title !== 'ExecuteMsg' && schema.title !== 'ExecuteMsg_for_Empty' && schema.title !== 'QueryMsg');
 
-    const Client = pascal(`${name}Client`);
-    const Instance = pascal(`${name}Instance`);
-    const QueryClient = pascal(`${name}QueryClient`);
-    const ReadOnlyInstance = pascal(`${name}ReadOnlyInstance`);
+    let Client = null;
+    let Instance = null;
+    let QueryClient = null;
+    let ReadOnlyInstance = null;
 
     const body = [];
 
@@ -47,6 +47,9 @@ export default async (name: string, schemas: any[], outPath: string) => {
 
     // query messages
     if (QueryMsg) {
+        QueryClient = pascal(`${name}QueryClient`);
+        ReadOnlyInstance = pascal(`${name}ReadOnlyInstance`);
+
         body.push(
             w.createQueryInterface(ReadOnlyInstance, QueryMsg)
         );
@@ -55,8 +58,14 @@ export default async (name: string, schemas: any[], outPath: string) => {
         );
     }
 
+
+
     // [ ] handle case: what if there is no QueryMsg?
+    // ideas: potentially pass in boolean so it does/doesn't extend another class
     if (ExecuteMsg) {
+        Client = pascal(`${name}Client`);
+        Instance = pascal(`${name}Instance`);
+
         body.push(
             w.createExecuteInterface(
                 Instance,
