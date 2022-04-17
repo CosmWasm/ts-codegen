@@ -1,6 +1,6 @@
 {
   "name": "wasm-ast-types",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "CosmWasm TypeScript AST generation",
   "author": "Dan Lynch <pyramation@gmail.com>",
   "homepage": "https://github.com/pyramation/cosmscript/tree/master/packages/wasm-ast-types#readme",
