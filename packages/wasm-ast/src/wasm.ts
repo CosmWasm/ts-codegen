@@ -125,7 +125,90 @@ interface QueryMsg {
   oneOf: any;
 }
 
-export const readonlyClass = (
+export const createQueryClass = (
+  className: string,
+  implementsClassName: string,
+  queryMsg: QueryMsg
+) => {
+
+  const propertyNames = queryMsg.oneOf
+    .map(method => Object.keys(method.properties)?.[0])
+    .filter(Boolean);
+
+  console.log(propertyNames)
+
+  const bindings = propertyNames
+    .map(camel)
+    .map(bindMethod);
+
+  const methods = queryMsg.oneOf
+    .map(schema => {
+      return createWasmQueryMethod(schema)
+    });
+
+  return t.exportNamedDeclaration(
+    classDeclaration(className,
+      [
+        // client
+        classProperty('client', t.tsTypeAnnotation(
+          t.tsTypeReference(t.identifier('CosmWasmClient'))
+        )),
+
+        // contractAddress
+        classProperty('contractAddress', t.tsTypeAnnotation(
+          t.tsStringKeyword()
+        )),
+
+        // constructor
+        t.classMethod('constructor',
+          t.identifier('constructor'),
+          [
+            typedIdentifier('client', t.tsTypeAnnotation(t.tsTypeReference(t.identifier('CosmWasmClient')))),
+            typedIdentifier('contractAddress', t.tsTypeAnnotation(t.tsStringKeyword()))
+
+          ],
+          t.blockStatement(
+            [
+
+              // client/contract set
+              t.expressionStatement(
+                t.assignmentExpression(
+                  '=',
+                  t.memberExpression(
+                    t.thisExpression(),
+                    t.identifier('client')
+                  ),
+                  t.identifier('client')
+                )
+              ),
+              t.expressionStatement(
+                t.assignmentExpression(
+                  '=',
+                  t.memberExpression(
+                    t.thisExpression(),
+                    t.identifier('contractAddress')
+                  ),
+                  t.identifier('contractAddress')
+                )
+              ),
+
+              ...bindings
+
+            ]
+          )),
+
+        ...methods
+
+      ],
+      [
+        t.tSExpressionWithTypeArguments(
+          t.identifier(implementsClassName)
+        )
+      ])
+  );
+}
+
+export const createMutationClass = (
   className: string,
   implementsClassName: string,
   queryMsg: QueryMsg

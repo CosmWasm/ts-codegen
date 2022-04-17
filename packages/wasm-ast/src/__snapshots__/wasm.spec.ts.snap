@@ -1,6 +1,118 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`readonly classes 1`] = `
+exports[`mutation classes 1`] = `
+"export class SG721Client implements SG721Instance {
+  client: CosmWasmClient;
+  contractAddress: string;
+
+  constructor(client: CosmWasmClient, contractAddress: string) {
+    this.client = client;
+    this.contractAddress = contractAddress;
+    this.ownerOf = this.ownerOf.bind(this);
+    this.approval = this.approval.bind(this);
+    this.approvals = this.approvals.bind(this);
+    this.allOperators = this.allOperators.bind(this);
+    this.numTokens = this.numTokens.bind(this);
+    this.contractInfo = this.contractInfo.bind(this);
+    this.nftInfo = this.nftInfo.bind(this);
+    this.allNftInfo = this.allNftInfo.bind(this);
+    this.tokens = this.tokens.bind(this);
+    this.allTokens = this.allTokens.bind(this);
+    this.minter = this.minter.bind(this);
+    this.collectionInfo = this.collectionInfo.bind(this);
+  }
+
+  ownerOf = async (includeExpired?: boolean, tokenId?: string): Promise<OwnerOfResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      owner_of: {
+        include_expired: includeExpired,
+        token_id: tokenId
+      }
+    });
+  };
+  approval = async (includeExpired?: boolean, spender?: string, tokenId?: string): Promise<ApprovalResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      approval: {
+        include_expired: includeExpired,
+        spender,
+        token_id: tokenId
+      }
+    });
+  };
+  approvals = async (includeExpired?: boolean, tokenId?: string): Promise<ApprovalsResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      approvals: {
+        include_expired: includeExpired,
+        token_id: tokenId
+      }
+    });
+  };
+  allOperators = async (includeExpired?: boolean, limit?: number, owner?: string, startAfter?: string): Promise<AllOperatorsResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      all_operators: {
+        include_expired: includeExpired,
+        limit,
+        owner,
+        start_after: startAfter
+      }
+    });
+  };
+  numTokens = async (): Promise<NumTokensResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      num_tokens: {}
+    });
+  };
+  contractInfo = async (): Promise<ContractInfoResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      contract_info: {}
+    });
+  };
+  nftInfo = async (tokenId?: string): Promise<NftInfoResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      nft_info: {
+        token_id: tokenId
+      }
+    });
+  };
+  allNftInfo = async (includeExpired?: boolean, tokenId?: string): Promise<AllNftInfoResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      all_nft_info: {
+        include_expired: includeExpired,
+        token_id: tokenId
+      }
+    });
+  };
+  tokens = async (limit?: number, owner?: string, startAfter?: string): Promise<TokensResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      tokens: {
+        limit,
+        owner,
+        start_after: startAfter
+      }
+    });
+  };
+  allTokens = async (limit?: number, startAfter?: string): Promise<AllTokensResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      all_tokens: {
+        limit,
+        start_after: startAfter
+      }
+    });
+  };
+  minter = async (): Promise<MinterResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      minter: {}
+    });
+  };
+  collectionInfo = async (): Promise<CollectionInfoResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      collection_info: {}
+    });
+  };
+}"
+`;
+
+exports[`query classes 1`] = `
 "export class SG721QueryClient implements SG721ReadOnlyInstance {
   client: CosmWasmClient;
   contractAddress: string;
@@ -8,16 +120,105 @@ exports[`readonly classes 1`] = `
   constructor(client: CosmWasmClient, contractAddress: string) {
     this.client = client;
     this.contractAddress = contractAddress;
+    this.ownerOf = this.ownerOf.bind(this);
     this.approval = this.approval.bind(this);
-    this.otherProp = this.otherProp.bind(this);
-    this.hello = this.hello.bind(this);
-    this.mintme = this.mintme.bind(this);
+    this.approvals = this.approvals.bind(this);
+    this.allOperators = this.allOperators.bind(this);
+    this.numTokens = this.numTokens.bind(this);
+    this.contractInfo = this.contractInfo.bind(this);
+    this.nftInfo = this.nftInfo.bind(this);
+    this.allNftInfo = this.allNftInfo.bind(this);
+    this.tokens = this.tokens.bind(this);
+    this.allTokens = this.allTokens.bind(this);
+    this.minter = this.minter.bind(this);
+    this.collectionInfo = this.collectionInfo.bind(this);
   }
 
-  approval = async (owner: string, spender: string): Promise<ApprovalResponse> => {
+  ownerOf = async (includeExpired?: boolean, tokenId?: string): Promise<OwnerOfResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
-      owner,
-      spender
+      owner_of: {
+        include_expired: includeExpired,
+        token_id: tokenId
+      }
+    });
+  };
+  approval = async (includeExpired?: boolean, spender?: string, tokenId?: string): Promise<ApprovalResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      approval: {
+        include_expired: includeExpired,
+        spender,
+        token_id: tokenId
+      }
+    });
+  };
+  approvals = async (includeExpired?: boolean, tokenId?: string): Promise<ApprovalsResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      approvals: {
+        include_expired: includeExpired,
+        token_id: tokenId
+      }
+    });
+  };
+  allOperators = async (includeExpired?: boolean, limit?: number, owner?: string, startAfter?: string): Promise<AllOperatorsResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      all_operators: {
+        include_expired: includeExpired,
+        limit,
+        owner,
+        start_after: startAfter
+      }
+    });
+  };
+  numTokens = async (): Promise<NumTokensResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      num_tokens: {}
+    });
+  };
+  contractInfo = async (): Promise<ContractInfoResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      contract_info: {}
+    });
+  };
+  nftInfo = async (tokenId?: string): Promise<NftInfoResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      nft_info: {
+        token_id: tokenId
+      }
+    });
+  };
+  allNftInfo = async (includeExpired?: boolean, tokenId?: string): Promise<AllNftInfoResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      all_nft_info: {
+        include_expired: includeExpired,
+        token_id: tokenId
+      }
+    });
+  };
+  tokens = async (limit?: number, owner?: string, startAfter?: string): Promise<TokensResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      tokens: {
+        limit,
+        owner,
+        start_after: startAfter
+      }
+    });
+  };
+  allTokens = async (limit?: number, startAfter?: string): Promise<AllTokensResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      all_tokens: {
+        limit,
+        start_after: startAfter
+      }
+    });
+  };
+  minter = async (): Promise<MinterResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      minter: {}
+    });
+  };
+  collectionInfo = async (): Promise<CollectionInfoResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      collection_info: {}
     });
   };
 }"
