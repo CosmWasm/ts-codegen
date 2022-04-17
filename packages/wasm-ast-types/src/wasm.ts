@@ -114,6 +114,11 @@ const getPropertyType = (schema, prop) => {
   if (!type) {
     throw new Error('cannot find type for ' + JSON.stringify(info))
   }
+
+  if (schema.required?.includes(prop)) {
+    optional = false;
+  }
+
   return { type, optional };
 };
 
@@ -513,17 +518,41 @@ export const createExecuteInterface = (
   );
 };
 
+export const propertySignature = (
+  name: string,
+  typeAnnotation: t.TSTypeAnnotation,
+  optional: boolean = false
+) => {
+
+  // prop.leadingComments = [{
+  //   type: 'Comment',
+  //   value: ' Data on the token itself'
+  // }];
+  // prop.leadingComments = [{
+  //   type: 'CommentBlock',
+  //   value: '* Data on the token itself'
+  // }];
+
+  return {
+    type: 'TSPropertySignature',
+    key: t.identifier(name),
+    typeAnnotation,
+    optional
+  }
+};
+
 export const createTypedObjectParams = (jsonschema: any, camelize: boolean = true) => {
   const keys = Object.keys(jsonschema.properties ?? {});
   if (!keys.length) return;
 
   const typedParams = keys.map(prop => {
     const { type, optional } = getPropertyType(jsonschema, prop);
-    return t.tsPropertySignature(
-      camelize ? t.identifier(camel(prop)) : t.identifier(prop),
+    return propertySignature(
+      camelize ? camel(prop) : prop,
       t.tsTypeAnnotation(
         type
-      )
+      ),
+      optional
     )
   });
   const params = keys.map(prop => {
@@ -604,23 +633,6 @@ export const createQueryInterface = (className: string, queryMsg: QueryMsg) => {
     )
   );
 };
-
-export const propertySignature = (name: string, typeAnnotation: t.TSTypeAnnotation, optional: boolean = false) => {
-  const prop = t.tsPropertySignature(
-    t.identifier(name),
-    typeAnnotation
-  );
-  // prop.leadingComments = [{
-  //   type: 'Comment',
-  //   value: ' Data on the token itself'
-  // }];
-  // prop.leadingComments = [{
-  //   type: 'CommentBlock',
-  //   value: '* Data on the token itself'
-  // }];
-  return prop;
-}
-
 
 
 export const createTypeOrInterface = (Type: string, jsonschema: any) => {

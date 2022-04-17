@@ -23,9 +23,9 @@ exports[`collection_info_response 1`] = `
 "export interface CollectionInfoResponse {
   creator: string;
   description: string;
-  externalLink: string;
+  externalLink?: string;
   image: string;
-  royaltyInfo: RoyaltyInfoResponse;
+  royaltyInfo?: RoyaltyInfoResponse;
 }"
 `;
 
@@ -93,7 +93,7 @@ exports[`execute classes 1`] = `
     spender,
     tokenId
   }: {
-    expires: Expiration;
+    expires?: Expiration;
     spender: string;
     tokenId: string;
   }): Promise<ExecuteResult> => {
@@ -123,7 +123,7 @@ exports[`execute classes 1`] = `
     expires,
     operator
   }: {
-    expires: Expiration;
+    expires?: Expiration;
     operator: string;
   }): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
@@ -219,7 +219,7 @@ exports[`execute classes no extends 1`] = `
     spender,
     tokenId
   }: {
-    expires: Expiration;
+    expires?: Expiration;
     spender: string;
     tokenId: string;
   }): Promise<ExecuteResult> => {
@@ -249,7 +249,7 @@ exports[`execute classes no extends 1`] = `
     expires,
     operator
   }: {
-    expires: Expiration;
+    expires?: Expiration;
     operator: string;
   }): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
@@ -314,7 +314,7 @@ exports[`execute interfaces no extends 1`] = `
     spender,
     tokenId
   }: {
-    expires: Expiration;
+    expires?: Expiration;
     spender: string;
     tokenId: string;
   }) => Promise<ExecuteResult>;
@@ -329,7 +329,7 @@ exports[`execute interfaces no extends 1`] = `
     expires,
     operator
   }: {
-    expires: Expiration;
+    expires?: Expiration;
     operator: string;
   }) => Promise<ExecuteResult>;
   revokeAll: ({
@@ -358,7 +358,7 @@ exports[`instantiate_msg 1`] = `
 exports[`nft_info_response 1`] = `
 "export interface NftInfoResponse {
   extension: Empty;
-  tokenUri: string;
+  tokenUri?: string;
 }"
 `;
 
@@ -407,7 +407,7 @@ exports[`query classes 1`] = `
     includeExpired,
     tokenId
   }: {
-    includeExpired: boolean;
+    includeExpired?: boolean;
     tokenId: string;
   }): Promise<OwnerOfResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
@@ -422,7 +422,7 @@ exports[`query classes 1`] = `
     spender,
     tokenId
   }: {
-    includeExpired: boolean;
+    includeExpired?: boolean;
     spender: string;
     tokenId: string;
   }): Promise<ApprovalResponse> => {
@@ -438,7 +438,7 @@ exports[`query classes 1`] = `
     includeExpired,
     tokenId
   }: {
-    includeExpired: boolean;
+    includeExpired?: boolean;
     tokenId: string;
   }): Promise<ApprovalsResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
@@ -454,10 +454,10 @@ exports[`query classes 1`] = `
     owner,
     startAfter
   }: {
-    includeExpired: boolean;
-    limit: number;
+    includeExpired?: boolean;
+    limit?: number;
     owner: string;
-    startAfter: string;
+    startAfter?: string;
   }): Promise<AllOperatorsResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
       all_operators: {
@@ -493,7 +493,7 @@ exports[`query classes 1`] = `
     includeExpired,
     tokenId
   }: {
-    includeExpired: boolean;
+    includeExpired?: boolean;
     tokenId: string;
   }): Promise<AllNftInfoResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
@@ -508,9 +508,9 @@ exports[`query classes 1`] = `
     owner,
     startAfter
   }: {
-    limit: number;
+    limit?: number;
     owner: string;
-    startAfter: string;
+    startAfter?: string;
   }): Promise<TokensResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
       tokens: {
@@ -524,8 +524,8 @@ exports[`query classes 1`] = `
     limit,
     startAfter
   }: {
-    limit: number;
-    startAfter: string;
+    limit?: number;
+    startAfter?: string;
   }): Promise<AllTokensResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
       all_tokens: {
@@ -554,7 +554,7 @@ exports[`query interfaces 1`] = `
     includeExpired,
     tokenId
   }: {
-    includeExpired: boolean;
+    includeExpired?: boolean;
     tokenId: string;
   }) => Promise<OwnerOfResponse>;
   approval: ({
@@ -562,7 +562,7 @@ exports[`query interfaces 1`] = `
     spender,
     tokenId
   }: {
-    includeExpired: boolean;
+    includeExpired?: boolean;
     spender: string;
     tokenId: string;
   }) => Promise<ApprovalResponse>;
@@ -570,7 +570,7 @@ exports[`query interfaces 1`] = `
     includeExpired,
     tokenId
   }: {
-    includeExpired: boolean;
+    includeExpired?: boolean;
     tokenId: string;
   }) => Promise<ApprovalsResponse>;
   allOperators: ({
@@ -579,10 +579,10 @@ exports[`query interfaces 1`] = `
     owner,
     startAfter
   }: {
-    includeExpired: boolean;
-    limit: number;
+    includeExpired?: boolean;
+    limit?: number;
     owner: string;
-    startAfter: string;
+    startAfter?: string;
   }) => Promise<AllOperatorsResponse>;
   numTokens: () => Promise<NumTokensResponse>;
   contractInfo: () => Promise<ContractInfoResponse>;
@@ -595,7 +595,7 @@ exports[`query interfaces 1`] = `
     includeExpired,
     tokenId
   }: {
-    includeExpired: boolean;
+    includeExpired?: boolean;
     tokenId: string;
   }) => Promise<AllNftInfoResponse>;
   tokens: ({
@@ -603,16 +603,16 @@ exports[`query interfaces 1`] = `
     owner,
     startAfter
   }: {
-    limit: number;
+    limit?: number;
     owner: string;
-    startAfter: string;
+    startAfter?: string;
   }) => Promise<TokensResponse>;
   allTokens: ({
     limit,
     startAfter
   }: {
-    limit: number;
-    startAfter: string;
+    limit?: number;
+    startAfter?: string;
   }) => Promise<AllTokensResponse>;
   minter: () => Promise<MinterResponse>;
   collectionInfo: () => Promise<CollectionInfoResponse>;
