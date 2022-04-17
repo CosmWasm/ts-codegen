@@ -15,7 +15,7 @@ npm install -g cosmscript
 
 ```
  cosmscript generate \
-    --jsonSchemaPath ./schema \
-    --outPath ./src \
+    --schema ./schema \
+    --out ./src \
     --name MyContractName
  ```

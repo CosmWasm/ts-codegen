@@ -9,14 +9,14 @@ export default async (argv) => {
         {
             _: true,
             type: 'path',
-            name: 'jsonSchemaPath',
+            name: 'schema',
             message: 'which directory contains the the Rust contracts?',
             default: './schema'
         },
         {
             _: true,
             type: 'path',
-            name: 'outPath',
+            name: 'out',
             message: 'where is the output directory?',
             default: './code'
         },
