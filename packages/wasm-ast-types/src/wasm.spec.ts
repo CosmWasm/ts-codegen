@@ -102,7 +102,7 @@ it('query classes', () => {
 });
 
 it('execute classes', () => {
-  expectCode(createExecuteClass(
+  printCode(createExecuteClass(
     'SG721Client',
     'SG721Instance',
     'SG721QueryClient',
