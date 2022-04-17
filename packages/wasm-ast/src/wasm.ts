@@ -380,6 +380,45 @@ export const createExecuteClass = (
       return createWasmExecMethod(schema)
     });
 
+  const blockStmt = [];
+
+  if (extendsClassName) {
+    blockStmt.push(    // super()
+      t.expressionStatement(t.callExpression(
+        t.super(),
+        [
+          t.identifier('client'),
+          t.identifier('contractAddress')
+        ]
+      ))
+    );
+  }
+
+  [].push.apply(blockStmt, [
+    // client/contract set
+    t.expressionStatement(
+      t.assignmentExpression(
+        '=',
+        t.memberExpression(
+          t.thisExpression(),
+          t.identifier('client')
+        ),
+        t.identifier('client')
+      )
+    ),
+    t.expressionStatement(
+      t.assignmentExpression(
+        '=',
+        t.memberExpression(
+          t.thisExpression(),
+          t.identifier('contractAddress')
+        ),
+        t.identifier('contractAddress')
+      )
+    ),
+    ...bindings
+  ]);
+
   return t.exportNamedDeclaration(
     classDeclaration(className,
       [
@@ -407,39 +446,7 @@ export const createExecuteClass = (
             typedIdentifier('contractAddress', t.tsTypeAnnotation(t.tsStringKeyword()))
           ],
           t.blockStatement(
-            [
-              // super()
-              t.expressionStatement(t.callExpression(
-                t.super(),
-                [
-                  t.identifier('client'),
-                  t.identifier('contractAddress')
-                ]
-              )),
-
-              // client/contract set
-              t.expressionStatement(
-                t.assignmentExpression(
-                  '=',
-                  t.memberExpression(
-                    t.thisExpression(),
-                    t.identifier('client')
-                  ),
-                  t.identifier('client')
-                )
-              ),
-              t.expressionStatement(
-                t.assignmentExpression(
-                  '=',
-                  t.memberExpression(
-                    t.thisExpression(),
-                    t.identifier('contractAddress')
-                  ),
-                  t.identifier('contractAddress')
-                )
-              ),
-              ...bindings
-            ]
+            blockStmt
           )),
         ...methods
       ],

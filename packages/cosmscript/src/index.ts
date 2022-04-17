@@ -47,6 +47,7 @@ export default async (name: string, schemas: any[], outPath: string) => {
 
     // query messages
     if (QueryMsg) {
+
         QueryClient = pascal(`${name}QueryClient`);
         ReadOnlyInstance = pascal(`${name}ReadOnlyInstance`);
 
