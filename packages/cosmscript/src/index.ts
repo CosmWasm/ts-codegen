@@ -27,6 +27,9 @@ export default async (name: string, schemas: any[], outPath: string) => {
     body.push(
         w.importStmt(['CosmWasmClient', 'ExecuteResult', 'SigningCosmWasmClient'], '@cosmjs/cosmwasm-stargate')
     );
+    body.push(
+        w.importStmt(['Coin'], '@cosmjs/amino')
+    );
 
     // TYPES
     const allTypes = [];
