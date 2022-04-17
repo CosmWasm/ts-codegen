@@ -581,7 +581,6 @@ export const propertySignature = (name: string, typeAnnotation: t.TSTypeAnnotati
 
 
 export const createTypeOrInterface = (Type: string, jsonschema: any) => {
-  // const Type = jsonschema.title;
   if (jsonschema.type !== 'object') {
     return t.exportNamedDeclaration(
       t.tsTypeAliasDeclaration(
@@ -591,9 +590,8 @@ export const createTypeOrInterface = (Type: string, jsonschema: any) => {
       )
     )
   }
-  const props = Object.keys(jsonschema.properties)
+  const props = Object.keys(jsonschema.properties ?? {})
     .map(prop => {
-      const typeInfo = jsonschema.properties;
       const { type, optional } = getPropertyType(jsonschema, prop);
       return propertySignature(camel(prop), t.tsTypeAnnotation(
         type

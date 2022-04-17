@@ -40,9 +40,15 @@ export default (name: string, schemas: any[], outPath: string) => {
     });
 
     Object.keys(definitions).forEach(Defn => {
-        // body.push(
-        //     w.createTypeOrInterface(Defn, definitions[Defn])
-        // )
+        try {
+            // hack for some native types we don't yet parse...
+
+            body.push(
+                w.createTypeOrInterface(Defn, definitions[Defn])
+            )
+        } catch (e) {
+
+        }
     });
 
     Types.forEach(type => {
