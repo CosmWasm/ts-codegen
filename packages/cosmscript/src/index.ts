@@ -5,21 +5,17 @@ import * as w from 'wasm-ast-types';
 import * as t from '@babel/types';
 import { writeFileSync } from 'fs';
 import generate from "@babel/generator";
+import { compile } from 'json-schema-to-typescript';
 
-export default (name: string, schemas: any[], outPath: string) => {
+import { parser } from "./parse";
+
+export default async (name: string, schemas: any[], outPath: string) => {
 
     const Contract = pascal(`${name}Contract`) + '.ts';
 
     const QueryMsg = schemas.find(schema => schema.title === 'QueryMsg');
     const ExecuteMsg = schemas.find(schema => schema.title === 'ExecuteMsg' || schema.title === 'ExecuteMsg_for_Empty');
     const Types = schemas.filter(schema => schema.title !== 'ExecuteMsg' && schema.title !== 'ExecuteMsg_for_Empty' && schema.title !== 'QueryMsg');
-
-    if (!QueryMsg) {
-        throw new Error('QueryMsg');
-    }
-    if (!ExecuteMsg) {
-        throw new Error('ExecuteMsg');
-    }
 
     const Client = pascal(`${name}Client`);
     const Instance = pascal(`${name}Instance`);
@@ -39,46 +35,48 @@ export default (name: string, schemas: any[], outPath: string) => {
         });
     });
 
-    Object.keys(definitions).forEach(Defn => {
-        try {
-            // hack for some native types we don't yet parse...
+    const allTypes = [];
+    for (const typ in Types) {
+        const result = await compile(Types[typ], typ);
+        allTypes.push(result);
+    }
 
-            body.push(
-                w.createTypeOrInterface(Defn, definitions[Defn])
-            )
-        } catch (e) {
+    const typeHash = parser(allTypes);
 
-        }
-    });
-
-    Types.forEach(type => {
+    Object.values(typeHash).forEach(type => {
         body.push(
-            w.createTypeInterface(type)
+            type
         )
     });
 
 
-    body.push(
-        w.createQueryInterface(ReadOnlyInstance, QueryMsg)
-    );
-    body.push(
-        w.createQueryClass(QueryClient, ReadOnlyInstance, QueryMsg)
-    );
-    body.push(
-        w.createExecuteInterface(
-            Instance,
-            ReadOnlyInstance,
-            ExecuteMsg
-        )
-    );
-    body.push(
-        w.createExecuteClass(
-            Client,
-            Instance,
-            QueryClient,
-            ExecuteMsg
-        )
-    );
+    if (QueryMsg) {
+        body.push(
+            w.createQueryInterface(ReadOnlyInstance, QueryMsg)
+        );
+        body.push(
+            w.createQueryClass(QueryClient, ReadOnlyInstance, QueryMsg)
+        );
+    }
+
+    // [ ] handle case: what if there is no QueryMsg?
+    if (ExecuteMsg) {
+        body.push(
+            w.createExecuteInterface(
+                Instance,
+                ReadOnlyInstance,
+                ExecuteMsg
+            )
+        );
+        body.push(
+            w.createExecuteClass(
+                Client,
+                Instance,
+                QueryClient,
+                ExecuteMsg
+            )
+        );
+    }
 
     const code = generate(
         t.program(body)

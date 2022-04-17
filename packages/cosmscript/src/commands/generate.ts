@@ -18,7 +18,7 @@ export default async (argv) => {
             type: 'path',
             name: 'out',
             message: 'where is the output directory?',
-            default: './code'
+            default: './ts'
         },
         {
             _: true,
@@ -28,9 +28,9 @@ export default async (argv) => {
         }
     ];
 
-    const { jsonSchemaPath, outPath, name } = await prompt(questions, argv);
+    const { schema, out, name } = await prompt(questions, argv);
 
-    const files = glob(jsonSchemaPath + '/**/*.json');
+    const files = glob(schema + '/**/*.json');
     const schemas = files.map(file => JSON.parse(readFileSync(file, 'utf-8')));
-    cosmscript(name, schemas, outPath);
+    await cosmscript(name, schemas, out);
 };
