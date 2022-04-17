@@ -39,6 +39,16 @@ exports[`mutation classes 1`] = `
 }"
 `;
 
+exports[`object parms 1`] = `
+"ownerOf = ({
+  includeExpired,
+  tokenId
+}: {
+  includeExpired: boolean;
+  tokenId: string;
+}): Promise<OwnerOfResponse> => {};"
+`;
+
 exports[`readonly classes 1`] = `
 "export class SG721QueryClient implements SG721ReadOnlyInstance {
   client: CosmWasmClient;

@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.25](https://github.com/pyramation/cosmwasm-typescript-gen/compare/cosmwasm-typescript-gen@0.0.24...cosmwasm-typescript-gen@0.0.25) (2022-04-17)
+
+**Note:** Version bump only for package cosmwasm-typescript-gen
+
+
+
+
+
+## [0.0.24](https://github.com/pyramation/cosmwasm-typescript-gen/compare/cosmwasm-typescript-gen@0.0.23...cosmwasm-typescript-gen@0.0.24) (2022-04-17)
+
+**Note:** Version bump only for package cosmwasm-typescript-gen
+
+
+
+
+
+## [0.0.23](https://github.com/pyramation/cosmwasm-typescript-gen/compare/cosmwasm-typescript-gen@0.0.22...cosmwasm-typescript-gen@0.0.23) (2022-04-17)
+
+**Note:** Version bump only for package cosmwasm-typescript-gen
+
+
+
+
+
+## [0.0.22](https://github.com/pyramation/cosmwasm-typescript-gen/compare/cosmwasm-typescript-gen@0.0.21...cosmwasm-typescript-gen@0.0.22) (2022-04-17)
+
+**Note:** Version bump only for package cosmwasm-typescript-gen
+
+
+
+
+
 ## [0.0.21](https://github.com/pyramation/cosmwasm-typescript-gen/compare/cosmwasm-typescript-gen@0.0.20...cosmwasm-typescript-gen@0.0.21) (2022-04-17)
 
 **Note:** Version bump only for package cosmwasm-typescript-gen

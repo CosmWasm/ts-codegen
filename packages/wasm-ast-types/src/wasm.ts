@@ -114,6 +114,11 @@ const getPropertyType = (schema, prop) => {
   if (!type) {
     throw new Error('cannot find type for ' + JSON.stringify(info))
   }
+
+  if (schema.required?.includes(prop)) {
+    optional = false;
+  }
+
   return { type, optional };
 };
 
@@ -133,11 +138,7 @@ export const createWasmQueryMethod = (
   const responseType = pascal(`${methodName}Response`);
   const properties = jsonschema.properties[underscoreName].properties ?? {};
 
-  // console.log({ jsonschema, methodName, underscoreName, properties });
-
-  const params = Object.keys(properties).map(prop => {
-    return getProperty(jsonschema.properties[underscoreName], prop)
-  });
+  const obj = createTypedObjectParams(jsonschema.properties[underscoreName]);
 
   const args = Object.keys(properties).map(prop => {
     return t.objectProperty(
@@ -154,7 +155,7 @@ export const createWasmQueryMethod = (
   return t.classProperty(
     t.identifier(methodName),
     arrowFunctionExpression(
-      params,
+      obj ? [obj] : [],
       t.blockStatement(
         [
           t.returnStatement(
@@ -281,11 +282,7 @@ export const createWasmExecMethod = (
   const underscoreName = Object.keys(jsonschema.properties)[0];
   const methodName = camel(underscoreName);
   const properties = jsonschema.properties[underscoreName].properties ?? {};
-
-  const params = Object.keys(properties).map(prop => {
-    return getProperty(jsonschema.properties[underscoreName], prop)
-  });
-
+  const obj = createTypedObjectParams(jsonschema.properties[underscoreName]);
   const args = Object.keys(properties).map(prop => {
     return t.objectProperty(
       t.identifier(prop),
@@ -298,10 +295,10 @@ export const createWasmExecMethod = (
   return t.classProperty(
     t.identifier(methodName),
     arrowFunctionExpression(
-      [
+      obj ? [
         // props
-        ...params
-      ],
+        obj
+      ] : [],
       t.blockStatement(
         [
           t.returnStatement(
@@ -480,23 +477,10 @@ export const createExecuteInterface = (
     .map(jsonschema => {
       const underscoreName = Object.keys(jsonschema.properties)[0];
       const methodName = camel(underscoreName);
-      const properties = jsonschema.properties[underscoreName].properties ?? {};
-
-      const params = Object.keys(properties).map(prop => {
-        return getProperty(jsonschema.properties[underscoreName], prop)
-      });
-
-      return t.tSPropertySignature(
-        t.identifier(methodName),
-        t.tsTypeAnnotation(
-          t.tsFunctionType(
-            null,
-            [
-              ...params
-            ],
-            promiseTypeAnnotation('ExecuteResult')
-          )
-        )
+      return createPropertyFunctionWithObjectParams(
+        methodName,
+        'ExecuteResult',
+        jsonschema.properties[underscoreName]
       );
     });
 
@@ -534,27 +518,99 @@ export const createExecuteInterface = (
   );
 };
 
+export const propertySignature = (
+  name: string,
+  typeAnnotation: t.TSTypeAnnotation,
+  optional: boolean = false
+) => {
+
+  // prop.leadingComments = [{
+  //   type: 'Comment',
+  //   value: ' Data on the token itself'
+  // }];
+  // prop.leadingComments = [{
+  //   type: 'CommentBlock',
+  //   value: '* Data on the token itself'
+  // }];
+
+  return {
+    type: 'TSPropertySignature',
+    key: t.identifier(name),
+    typeAnnotation,
+    optional
+  }
+};
+
+export const createTypedObjectParams = (jsonschema: any, camelize: boolean = true) => {
+  const keys = Object.keys(jsonschema.properties ?? {});
+  if (!keys.length) return;
+
+  const typedParams = keys.map(prop => {
+    const { type, optional } = getPropertyType(jsonschema, prop);
+    return propertySignature(
+      camelize ? camel(prop) : prop,
+      t.tsTypeAnnotation(
+        type
+      ),
+      optional
+    )
+  });
+  const params = keys.map(prop => {
+    return t.objectProperty(
+      camelize ? t.identifier(camel(prop)) : t.identifier(prop),
+      camelize ? t.identifier(camel(prop)) : t.identifier(prop),
+      false,
+      true
+    );
+  });
+
+  const obj = t.objectPattern(
+    [
+      ...params
+    ]
+  );
+  obj.typeAnnotation = t.tsTypeAnnotation(
+    t.tsTypeLiteral(
+      [
+        ...typedParams
+      ]
+    )
+  );
+
+  return obj;
+};
+
+export const createPropertyFunctionWithObjectParams = (methodName: string, responseType: string, jsonschema: any) => {
+  const obj = createTypedObjectParams(jsonschema);
+
+  const func = {
+    type: 'TSFunctionType',
+    typeAnnotation: promiseTypeAnnotation(responseType),
+    parameters: obj ? [
+      obj
+    ] : []
+  }
+
+  return t.tSPropertySignature(
+    t.identifier(methodName),
+    t.tsTypeAnnotation(
+      func
+    )
+  );
+};
+
 export const createQueryInterface = (className: string, queryMsg: QueryMsg) => {
   const methods = queryMsg.oneOf
     .map(jsonschema => {
       const underscoreName = Object.keys(jsonschema.properties)[0];
       const methodName = camel(underscoreName);
       const responseType = pascal(`${methodName}Response`);
-      const properties = jsonschema.properties[underscoreName].properties ?? {};
-      const params = Object.keys(properties).map(prop => {
-        return getProperty(jsonschema.properties[underscoreName], prop)
-      });
-      return t.tSPropertySignature(
-        t.identifier(methodName),
-        t.tsTypeAnnotation(
-          t.tsFunctionType(
-            null,
-            [
-              ...params
-            ],
-            promiseTypeAnnotation(responseType)
-          )
-        )
+      const obj = createTypedObjectParams(jsonschema.properties[underscoreName]);
+
+      return createPropertyFunctionWithObjectParams(
+        methodName,
+        responseType,
+        jsonschema.properties[underscoreName]
       );
     });
 
@@ -577,23 +633,6 @@ export const createQueryInterface = (className: string, queryMsg: QueryMsg) => {
     )
   );
 };
-
-export const propertySignature = (name: string, typeAnnotation: t.TSTypeAnnotation, optional: boolean = false) => {
-  const prop = t.tsPropertySignature(
-    t.identifier(name),
-    typeAnnotation
-  );
-  // prop.leadingComments = [{
-  //   type: 'Comment',
-  //   value: ' Data on the token itself'
-  // }];
-  // prop.leadingComments = [{
-  //   type: 'CommentBlock',
-  //   value: '* Data on the token itself'
-  // }];
-  return prop;
-}
-
 
 
 export const createTypeOrInterface = (Type: string, jsonschema: any) => {

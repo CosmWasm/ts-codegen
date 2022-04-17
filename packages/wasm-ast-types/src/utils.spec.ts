@@ -450,3 +450,76 @@ it('mutation classes', async () => {
     )
 
 });
+
+it('object parms', () => {
+
+    const obj = t.objectPattern(
+        [
+            t.objectProperty(
+                t.identifier('includeExpired'),
+                t.identifier('includeExpired'),
+                false,
+                true
+            ),
+            t.objectProperty(
+                t.identifier('tokenId'),
+                t.identifier('tokenId'),
+                false,
+                true
+            )
+        ]
+    );
+    obj.typeAnnotation = t.tsTypeAnnotation(
+        t.tsTypeLiteral(
+            [
+                t.tsPropertySignature(
+                    t.identifier('includeExpired'),
+                    t.tsTypeAnnotation(
+                        t.tsBooleanKeyword()
+                    )
+                ),
+                t.tsPropertySignature(
+                    t.identifier('tokenId'),
+                    t.tsTypeAnnotation(
+                        t.tsStringKeyword()
+                    )
+                )
+            ]
+        )
+    )
+    expectCode(
+        t.program(
+            [
+                t.expressionStatement(
+                    t.assignmentExpression(
+                        '=',
+                        t.identifier('ownerOf'),
+                        arrowFunctionExpression(
+                            [
+                                obj
+                            ],
+                            t.blockStatement(
+                                [
+                                    // body
+                                ],
+                                []
+                            ),
+                            t.tsTypeAnnotation(
+                                t.tsTypeReference(
+                                    t.identifier('Promise'),
+                                    t.tsTypeParameterInstantiation(
+                                        [
+                                            t.tsTypeReference(
+                                                t.identifier('OwnerOfResponse')
+                                            )
+                                        ]
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            ]
+        )
+    );
+})

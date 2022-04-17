@@ -23,9 +23,9 @@ exports[`collection_info_response 1`] = `
 "export interface CollectionInfoResponse {
   creator: string;
   description: string;
-  externalLink: string;
+  externalLink?: string;
   image: string;
-  royaltyInfo: RoyaltyInfoResponse;
+  royaltyInfo?: RoyaltyInfoResponse;
 }"
 `;
 
@@ -57,7 +57,13 @@ exports[`execute classes 1`] = `
     this.burn = this.burn.bind(this);
   }
 
-  transferNft = async (recipient?: string, tokenId?: string): Promise<ExecuteResult> => {
+  transferNft = async ({
+    recipient,
+    tokenId
+  }: {
+    recipient: string;
+    tokenId: string;
+  }): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       transfer_nft: {
         recipient,
@@ -65,7 +71,15 @@ exports[`execute classes 1`] = `
       }
     }, \\"auto\\");
   };
-  sendNft = async (contract?: string, msg?: BinaryType, tokenId?: string): Promise<ExecuteResult> => {
+  sendNft = async ({
+    contract,
+    msg,
+    tokenId
+  }: {
+    contract: string;
+    msg: BinaryType;
+    tokenId: string;
+  }): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       send_nft: {
         contract,
@@ -74,7 +88,15 @@ exports[`execute classes 1`] = `
       }
     }, \\"auto\\");
   };
-  approve = async (expires?: Expiration, spender?: string, tokenId?: string): Promise<ExecuteResult> => {
+  approve = async ({
+    expires,
+    spender,
+    tokenId
+  }: {
+    expires?: Expiration;
+    spender: string;
+    tokenId: string;
+  }): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       approve: {
         expires,
@@ -83,7 +105,13 @@ exports[`execute classes 1`] = `
       }
     }, \\"auto\\");
   };
-  revoke = async (spender?: string, tokenId?: string): Promise<ExecuteResult> => {
+  revoke = async ({
+    spender,
+    tokenId
+  }: {
+    spender: string;
+    tokenId: string;
+  }): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       revoke: {
         spender,
@@ -91,7 +119,13 @@ exports[`execute classes 1`] = `
       }
     }, \\"auto\\");
   };
-  approveAll = async (expires?: Expiration, operator?: string): Promise<ExecuteResult> => {
+  approveAll = async ({
+    expires,
+    operator
+  }: {
+    expires?: Expiration;
+    operator: string;
+  }): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       approve_all: {
         expires,
@@ -99,7 +133,11 @@ exports[`execute classes 1`] = `
       }
     }, \\"auto\\");
   };
-  revokeAll = async (operator?: string): Promise<ExecuteResult> => {
+  revokeAll = async ({
+    operator
+  }: {
+    operator: string;
+  }): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       revoke_all: {
         operator
@@ -111,7 +149,11 @@ exports[`execute classes 1`] = `
       mint: {}
     }, \\"auto\\");
   };
-  burn = async (tokenId?: string): Promise<ExecuteResult> => {
+  burn = async ({
+    tokenId
+  }: {
+    tokenId: string;
+  }): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       burn: {
         token_id: tokenId
@@ -141,7 +183,13 @@ exports[`execute classes no extends 1`] = `
     this.burn = this.burn.bind(this);
   }
 
-  transferNft = async (recipient?: string, tokenId?: string): Promise<ExecuteResult> => {
+  transferNft = async ({
+    recipient,
+    tokenId
+  }: {
+    recipient: string;
+    tokenId: string;
+  }): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       transfer_nft: {
         recipient,
@@ -149,7 +197,15 @@ exports[`execute classes no extends 1`] = `
       }
     }, \\"auto\\");
   };
-  sendNft = async (contract?: string, msg?: BinaryType, tokenId?: string): Promise<ExecuteResult> => {
+  sendNft = async ({
+    contract,
+    msg,
+    tokenId
+  }: {
+    contract: string;
+    msg: BinaryType;
+    tokenId: string;
+  }): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       send_nft: {
         contract,
@@ -158,7 +214,15 @@ exports[`execute classes no extends 1`] = `
       }
     }, \\"auto\\");
   };
-  approve = async (expires?: Expiration, spender?: string, tokenId?: string): Promise<ExecuteResult> => {
+  approve = async ({
+    expires,
+    spender,
+    tokenId
+  }: {
+    expires?: Expiration;
+    spender: string;
+    tokenId: string;
+  }): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       approve: {
         expires,
@@ -167,7 +231,13 @@ exports[`execute classes no extends 1`] = `
       }
     }, \\"auto\\");
   };
-  revoke = async (spender?: string, tokenId?: string): Promise<ExecuteResult> => {
+  revoke = async ({
+    spender,
+    tokenId
+  }: {
+    spender: string;
+    tokenId: string;
+  }): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       revoke: {
         spender,
@@ -175,7 +245,13 @@ exports[`execute classes no extends 1`] = `
       }
     }, \\"auto\\");
   };
-  approveAll = async (expires?: Expiration, operator?: string): Promise<ExecuteResult> => {
+  approveAll = async ({
+    expires,
+    operator
+  }: {
+    expires?: Expiration;
+    operator: string;
+  }): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       approve_all: {
         expires,
@@ -183,7 +259,11 @@ exports[`execute classes no extends 1`] = `
       }
     }, \\"auto\\");
   };
-  revokeAll = async (operator?: string): Promise<ExecuteResult> => {
+  revokeAll = async ({
+    operator
+  }: {
+    operator: string;
+  }): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       revoke_all: {
         operator
@@ -195,7 +275,11 @@ exports[`execute classes no extends 1`] = `
       mint: {}
     }, \\"auto\\");
   };
-  burn = async (tokenId?: string): Promise<ExecuteResult> => {
+  burn = async ({
+    tokenId
+  }: {
+    tokenId: string;
+  }): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       burn: {
         token_id: tokenId
@@ -209,14 +293,56 @@ exports[`execute interfaces no extends 1`] = `
 "export interface SG721Instance {
   contractAddress: string;
   sender: string;
-  transferNft: (recipient?: string, tokenId?: string) => Promise<ExecuteResult>;
-  sendNft: (contract?: string, msg?: BinaryType, tokenId?: string) => Promise<ExecuteResult>;
-  approve: (expires?: Expiration, spender?: string, tokenId?: string) => Promise<ExecuteResult>;
-  revoke: (spender?: string, tokenId?: string) => Promise<ExecuteResult>;
-  approveAll: (expires?: Expiration, operator?: string) => Promise<ExecuteResult>;
-  revokeAll: (operator?: string) => Promise<ExecuteResult>;
+  transferNft: ({
+    recipient,
+    tokenId
+  }: {
+    recipient: string;
+    tokenId: string;
+  }) => Promise<ExecuteResult>;
+  sendNft: ({
+    contract,
+    msg,
+    tokenId
+  }: {
+    contract: string;
+    msg: BinaryType;
+    tokenId: string;
+  }) => Promise<ExecuteResult>;
+  approve: ({
+    expires,
+    spender,
+    tokenId
+  }: {
+    expires?: Expiration;
+    spender: string;
+    tokenId: string;
+  }) => Promise<ExecuteResult>;
+  revoke: ({
+    spender,
+    tokenId
+  }: {
+    spender: string;
+    tokenId: string;
+  }) => Promise<ExecuteResult>;
+  approveAll: ({
+    expires,
+    operator
+  }: {
+    expires?: Expiration;
+    operator: string;
+  }) => Promise<ExecuteResult>;
+  revokeAll: ({
+    operator
+  }: {
+    operator: string;
+  }) => Promise<ExecuteResult>;
   mint: () => Promise<ExecuteResult>;
-  burn: (tokenId?: string) => Promise<ExecuteResult>;
+  burn: ({
+    tokenId
+  }: {
+    tokenId: string;
+  }) => Promise<ExecuteResult>;
 }"
 `;
 
@@ -232,7 +358,7 @@ exports[`instantiate_msg 1`] = `
 exports[`nft_info_response 1`] = `
 "export interface NftInfoResponse {
   extension: Empty;
-  tokenUri: string;
+  tokenUri?: string;
 }"
 `;
 
@@ -277,7 +403,13 @@ exports[`query classes 1`] = `
     this.collectionInfo = this.collectionInfo.bind(this);
   }
 
-  ownerOf = async (includeExpired?: boolean, tokenId?: string): Promise<OwnerOfResponse> => {
+  ownerOf = async ({
+    includeExpired,
+    tokenId
+  }: {
+    includeExpired?: boolean;
+    tokenId: string;
+  }): Promise<OwnerOfResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
       owner_of: {
         include_expired: includeExpired,
@@ -285,7 +417,15 @@ exports[`query classes 1`] = `
       }
     });
   };
-  approval = async (includeExpired?: boolean, spender?: string, tokenId?: string): Promise<ApprovalResponse> => {
+  approval = async ({
+    includeExpired,
+    spender,
+    tokenId
+  }: {
+    includeExpired?: boolean;
+    spender: string;
+    tokenId: string;
+  }): Promise<ApprovalResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
       approval: {
         include_expired: includeExpired,
@@ -294,7 +434,13 @@ exports[`query classes 1`] = `
       }
     });
   };
-  approvals = async (includeExpired?: boolean, tokenId?: string): Promise<ApprovalsResponse> => {
+  approvals = async ({
+    includeExpired,
+    tokenId
+  }: {
+    includeExpired?: boolean;
+    tokenId: string;
+  }): Promise<ApprovalsResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
       approvals: {
         include_expired: includeExpired,
@@ -302,7 +448,17 @@ exports[`query classes 1`] = `
       }
     });
   };
-  allOperators = async (includeExpired?: boolean, limit?: number, owner?: string, startAfter?: string): Promise<AllOperatorsResponse> => {
+  allOperators = async ({
+    includeExpired,
+    limit,
+    owner,
+    startAfter
+  }: {
+    includeExpired?: boolean;
+    limit?: number;
+    owner: string;
+    startAfter?: string;
+  }): Promise<AllOperatorsResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
       all_operators: {
         include_expired: includeExpired,
@@ -322,14 +478,24 @@ exports[`query classes 1`] = `
       contract_info: {}
     });
   };
-  nftInfo = async (tokenId?: string): Promise<NftInfoResponse> => {
+  nftInfo = async ({
+    tokenId
+  }: {
+    tokenId: string;
+  }): Promise<NftInfoResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
       nft_info: {
         token_id: tokenId
       }
     });
   };
-  allNftInfo = async (includeExpired?: boolean, tokenId?: string): Promise<AllNftInfoResponse> => {
+  allNftInfo = async ({
+    includeExpired,
+    tokenId
+  }: {
+    includeExpired?: boolean;
+    tokenId: string;
+  }): Promise<AllNftInfoResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
       all_nft_info: {
         include_expired: includeExpired,
@@ -337,7 +503,15 @@ exports[`query classes 1`] = `
       }
     });
   };
-  tokens = async (limit?: number, owner?: string, startAfter?: string): Promise<TokensResponse> => {
+  tokens = async ({
+    limit,
+    owner,
+    startAfter
+  }: {
+    limit?: number;
+    owner: string;
+    startAfter?: string;
+  }): Promise<TokensResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
       tokens: {
         limit,
@@ -346,7 +520,13 @@ exports[`query classes 1`] = `
       }
     });
   };
-  allTokens = async (limit?: number, startAfter?: string): Promise<AllTokensResponse> => {
+  allTokens = async ({
+    limit,
+    startAfter
+  }: {
+    limit?: number;
+    startAfter?: string;
+  }): Promise<AllTokensResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
       all_tokens: {
         limit,
@@ -370,16 +550,70 @@ exports[`query classes 1`] = `
 exports[`query interfaces 1`] = `
 "export interface SG721ReadOnlyInstance {
   contractAddress: string;
-  ownerOf: (includeExpired?: boolean, tokenId?: string) => Promise<OwnerOfResponse>;
-  approval: (includeExpired?: boolean, spender?: string, tokenId?: string) => Promise<ApprovalResponse>;
-  approvals: (includeExpired?: boolean, tokenId?: string) => Promise<ApprovalsResponse>;
-  allOperators: (includeExpired?: boolean, limit?: number, owner?: string, startAfter?: string) => Promise<AllOperatorsResponse>;
+  ownerOf: ({
+    includeExpired,
+    tokenId
+  }: {
+    includeExpired?: boolean;
+    tokenId: string;
+  }) => Promise<OwnerOfResponse>;
+  approval: ({
+    includeExpired,
+    spender,
+    tokenId
+  }: {
+    includeExpired?: boolean;
+    spender: string;
+    tokenId: string;
+  }) => Promise<ApprovalResponse>;
+  approvals: ({
+    includeExpired,
+    tokenId
+  }: {
+    includeExpired?: boolean;
+    tokenId: string;
+  }) => Promise<ApprovalsResponse>;
+  allOperators: ({
+    includeExpired,
+    limit,
+    owner,
+    startAfter
+  }: {
+    includeExpired?: boolean;
+    limit?: number;
+    owner: string;
+    startAfter?: string;
+  }) => Promise<AllOperatorsResponse>;
   numTokens: () => Promise<NumTokensResponse>;
   contractInfo: () => Promise<ContractInfoResponse>;
-  nftInfo: (tokenId?: string) => Promise<NftInfoResponse>;
-  allNftInfo: (includeExpired?: boolean, tokenId?: string) => Promise<AllNftInfoResponse>;
-  tokens: (limit?: number, owner?: string, startAfter?: string) => Promise<TokensResponse>;
-  allTokens: (limit?: number, startAfter?: string) => Promise<AllTokensResponse>;
+  nftInfo: ({
+    tokenId
+  }: {
+    tokenId: string;
+  }) => Promise<NftInfoResponse>;
+  allNftInfo: ({
+    includeExpired,
+    tokenId
+  }: {
+    includeExpired?: boolean;
+    tokenId: string;
+  }) => Promise<AllNftInfoResponse>;
+  tokens: ({
+    limit,
+    owner,
+    startAfter
+  }: {
+    limit?: number;
+    owner: string;
+    startAfter?: string;
+  }) => Promise<TokensResponse>;
+  allTokens: ({
+    limit,
+    startAfter
+  }: {
+    limit?: number;
+    startAfter?: string;
+  }) => Promise<AllTokensResponse>;
   minter: () => Promise<MinterResponse>;
   collectionInfo: () => Promise<CollectionInfoResponse>;
 }"
