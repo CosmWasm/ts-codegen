@@ -411,6 +411,16 @@ export const createExecuteClass = (
         '=',
         t.memberExpression(
           t.thisExpression(),
+          t.identifier('sender')
+        ),
+        t.identifier('sender')
+      )
+    ),
+    t.expressionStatement(
+      t.assignmentExpression(
+        '=',
+        t.memberExpression(
+          t.thisExpression(),
           t.identifier('contractAddress')
         ),
         t.identifier('contractAddress')

@@ -45,6 +45,7 @@ exports[`execute classes 1`] = `
   constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
     super(client, contractAddress);
     this.client = client;
+    this.sender = sender;
     this.contractAddress = contractAddress;
     this.transferNft = this.transferNft.bind(this);
     this.sendNft = this.sendNft.bind(this);
@@ -128,6 +129,7 @@ exports[`execute classes no extends 1`] = `
 
   constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
     this.client = client;
+    this.sender = sender;
     this.contractAddress = contractAddress;
     this.transferNft = this.transferNft.bind(this);
     this.sendNft = this.sendNft.bind(this);
