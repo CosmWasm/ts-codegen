@@ -27,8 +27,17 @@ const getTypeFromRef = ($ref) => {
     case '#/definitions/Expiration':
       return t.tsTypeReference(t.identifier('Expiration'))
     default:
+      if ($ref.startsWith('#/definitions/')) {
+        return t.tsTypeReference(t.identifier($ref.replace('#/definitions/', '')))
+      }
       throw new Error('what is $ref: ' + $ref);
   }
+}
+
+const getArrayTypeFromRef = ($ref) => {
+  return t.tsArrayType(
+    getTypeFromRef($ref)
+  );
 }
 
 const getType = (type) => {
@@ -44,12 +53,16 @@ const getType = (type) => {
   }
 }
 
-const getProperty = (schema, prop) => {
+const getPropertyType = (schema, prop) => {
   const props = schema.properties ?? {};
-  const info = props[prop];
+  let info = props[prop];
 
   let type = null;
   let optional = schema.required?.includes(prop);
+
+  if (info.allOf && info.allOf.length === 1) {
+    info = info.allOf[0];
+  }
 
   if (typeof info.$ref === 'string') {
     type = getTypeFromRef(info.$ref)
@@ -69,7 +82,12 @@ const getProperty = (schema, prop) => {
   }
 
   if (typeof info.type === 'string') {
-    type = getType(info.type);
+    if (info.type === 'array') {
+      type = getArrayTypeFromRef(info.items.$ref);
+    } else {
+
+      type = getType(info.type);
+    }
   }
 
   if (Array.isArray(info.type)) {
@@ -87,6 +105,11 @@ const getProperty = (schema, prop) => {
   if (!type) {
     throw new Error('cannot find type for ' + JSON.stringify(info))
   }
+  return { type, optional };
+};
+
+const getProperty = (schema, prop) => {
+  const { type, optional } = getPropertyType(schema, prop);
   return typedIdentifier(camel(prop), t.tsTypeAnnotation(
     type
   ), optional);
@@ -530,24 +553,42 @@ export const createQueryInterface = (className: string, queryMsg: QueryMsg) => {
   );
 };
 
-export const createTypeInterface = () => {
-  t.exportNamedDeclaration(
+export const propertySignature = (name: string, typeAnnotation: t.TSTypeAnnotation, optional: boolean = false) => {
+  const prop = t.tsPropertySignature(
+    t.identifier(name),
+    typeAnnotation
+  );
+  // prop.leadingComments = [{
+  //   type: 'Comment',
+  //   value: ' Data on the token itself'
+  // }];
+  // prop.leadingComments = [{
+  //   type: 'CommentBlock',
+  //   value: '* Data on the token itself'
+  // }];
+  return prop;
+}
+
+export const createTypeInterface = (jsonschema: any) => {
+  const Type = jsonschema.title;
+  const props = Object.keys(jsonschema.properties)
+    .map(prop => {
+      const typeInfo = jsonschema.properties;
+      const { type, optional } = getPropertyType(jsonschema, prop);
+      return propertySignature(camel(prop), t.tsTypeAnnotation(
+        type
+      ), optional);
+    });
+
+
+  return t.exportNamedDeclaration(
     t.tsInterfaceDeclaration(
-      t.identifier('AllNftInfoResponse'),
+      t.identifier(Type),
       null,
       [],
       t.tsInterfaceBody(
         [
-          t.tsPropertySignature(
-            t.identifier('access'),
-            t.tsTypeAnnotation(
-              t.tsTypeReference(
-                t.identifier(
-                  'OwnerOfResponse'
-                )
-              )
-            )
-          )
+          ...props
         ]
       )
     )

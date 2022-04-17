@@ -1,5 +1,41 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`all_nft_info_response 1`] = `
+"export interface AllNftInfoResponse {
+  access: OwnerOfResponse;
+  info: NftInfoResponse_for_Empty;
+}"
+`;
+
+exports[`approval_response 1`] = `
+"export interface ApprovalResponse {
+  approval: Approval;
+}"
+`;
+
+exports[`approvals_response 1`] = `
+"export interface ApprovalsResponse {
+  approvals: Approval[];
+}"
+`;
+
+exports[`collection_info_response 1`] = `
+"export interface CollectionInfoResponse {
+  creator: string;
+  description: string;
+  externalLink: string;
+  image: string;
+  royaltyInfo: RoyaltyInfoResponse;
+}"
+`;
+
+exports[`contract_info_response 1`] = `
+"export interface ContractInfoResponse {
+  name: string;
+  symbol: string;
+}"
+`;
+
 exports[`execute classes 1`] = `
 "export class SG721Client extends SG721QueryClient implements SG721Instance {
   client: SigningCosmWasmClient;
@@ -96,6 +132,41 @@ exports[`execute interfaces 1`] = `
   revokeAll: (operator?: string) => Promise<ExecuteResult>;
   mint: () => Promise<ExecuteResult>;
   burn: (tokenId?: string) => Promise<ExecuteResult>;
+}"
+`;
+
+exports[`instantiate_msg 1`] = `
+"export interface InstantiateMsg {
+  collectionInfo: CollectionInfo_for_RoyaltyInfoResponse;
+  minter: string;
+  name: string;
+  symbol: string;
+}"
+`;
+
+exports[`nft_info_response 1`] = `
+"export interface NftInfoResponse {
+  extension: Empty;
+  tokenUri: string;
+}"
+`;
+
+exports[`num_tokens_response 1`] = `
+"export interface NumTokensResponse {
+  count: number;
+}"
+`;
+
+exports[`operators_response 1`] = `
+"export interface OperatorsResponse {
+  operators: Approval[];
+}"
+`;
+
+exports[`owner_of_response 1`] = `
+"export interface OwnerOfResponse {
+  approvals: Approval[];
+  owner: string;
 }"
 `;
 
