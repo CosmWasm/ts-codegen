@@ -260,7 +260,9 @@ export const createWasmExecMethod = (
   const args = Object.keys(properties).map(prop => {
     return t.objectProperty(
       t.identifier(prop),
-      t.identifier(camel(prop))
+      t.identifier(camel(prop)),
+      false,
+      prop === camel(prop)
     );
   });
 
