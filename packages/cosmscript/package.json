@@ -1,6 +1,6 @@
 {
   "name": "cosmscript",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A TypeScript Transpiler for Comsos Protobufs",
   "author": "Dan Lynch <pyramation@gmail.com>",
   "homepage": "https://github.com/pyramation/cosmscript/tree/master/packages/cosmscript#readme",
