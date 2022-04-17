@@ -1,2 +1,2 @@
-# wasm-ast
+# wasm-ast-types
 
