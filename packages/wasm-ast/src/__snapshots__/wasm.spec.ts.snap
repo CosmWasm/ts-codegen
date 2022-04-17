@@ -1,114 +1,93 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`mutation classes 1`] = `
-"export class SG721Client implements SG721Instance {
-  client: CosmWasmClient;
+exports[`execute classes 1`] = `
+"export class SG721Client extends SG721QueryClient implements SG721Instance {
+  client: SigningCosmWasmClient;
+  sender: string;
   contractAddress: string;
 
-  constructor(client: CosmWasmClient, contractAddress: string) {
+  constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
+    super(client, contractAddress);
     this.client = client;
     this.contractAddress = contractAddress;
-    this.ownerOf = this.ownerOf.bind(this);
-    this.approval = this.approval.bind(this);
-    this.approvals = this.approvals.bind(this);
-    this.allOperators = this.allOperators.bind(this);
-    this.numTokens = this.numTokens.bind(this);
-    this.contractInfo = this.contractInfo.bind(this);
-    this.nftInfo = this.nftInfo.bind(this);
-    this.allNftInfo = this.allNftInfo.bind(this);
-    this.tokens = this.tokens.bind(this);
-    this.allTokens = this.allTokens.bind(this);
-    this.minter = this.minter.bind(this);
-    this.collectionInfo = this.collectionInfo.bind(this);
+    this.transferNft = this.transferNft.bind(this);
+    this.sendNft = this.sendNft.bind(this);
+    this.approve = this.approve.bind(this);
+    this.revoke = this.revoke.bind(this);
+    this.approveAll = this.approveAll.bind(this);
+    this.revokeAll = this.revokeAll.bind(this);
+    this.mint = this.mint.bind(this);
+    this.burn = this.burn.bind(this);
   }
 
-  ownerOf = async (includeExpired?: boolean, tokenId?: string): Promise<OwnerOfResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      owner_of: {
-        include_expired: includeExpired,
+  transferNft = async (recipient?: string, tokenId?: string): Promise<ExecuteResult> => {
+    return await this.client.execute(this.sender, this.contractAddress, {
+      transfer_nft: {
+        recipient,
         token_id: tokenId
       }
-    });
+    }, \\"auto\\");
   };
-  approval = async (includeExpired?: boolean, spender?: string, tokenId?: string): Promise<ApprovalResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      approval: {
-        include_expired: includeExpired,
+  sendNft = async (contract?: string, msg?: BinaryType, tokenId?: string): Promise<ExecuteResult> => {
+    return await this.client.execute(this.sender, this.contractAddress, {
+      send_nft: {
+        contract,
+        msg,
+        token_id: tokenId
+      }
+    }, \\"auto\\");
+  };
+  approve = async (expires?: Expiration, spender?: string, tokenId?: string): Promise<ExecuteResult> => {
+    return await this.client.execute(this.sender, this.contractAddress, {
+      approve: {
+        expires,
         spender,
         token_id: tokenId
       }
-    });
+    }, \\"auto\\");
   };
-  approvals = async (includeExpired?: boolean, tokenId?: string): Promise<ApprovalsResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      approvals: {
-        include_expired: includeExpired,
+  revoke = async (spender?: string, tokenId?: string): Promise<ExecuteResult> => {
+    return await this.client.execute(this.sender, this.contractAddress, {
+      revoke: {
+        spender,
         token_id: tokenId
       }
-    });
+    }, \\"auto\\");
   };
-  allOperators = async (includeExpired?: boolean, limit?: number, owner?: string, startAfter?: string): Promise<AllOperatorsResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      all_operators: {
-        include_expired: includeExpired,
-        limit,
-        owner,
-        start_after: startAfter
+  approveAll = async (expires?: Expiration, operator?: string): Promise<ExecuteResult> => {
+    return await this.client.execute(this.sender, this.contractAddress, {
+      approve_all: {
+        expires,
+        operator
       }
-    });
+    }, \\"auto\\");
   };
-  numTokens = async (): Promise<NumTokensResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      num_tokens: {}
-    });
+  revokeAll = async (operator?: string): Promise<ExecuteResult> => {
+    return await this.client.execute(this.sender, this.contractAddress, {
+      revoke_all: {
+        operator
+      }
+    }, \\"auto\\");
   };
-  contractInfo = async (): Promise<ContractInfoResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      contract_info: {}
-    });
+  mint = async (): Promise<ExecuteResult> => {
+    return await this.client.execute(this.sender, this.contractAddress, {
+      mint: {}
+    }, \\"auto\\");
   };
-  nftInfo = async (tokenId?: string): Promise<NftInfoResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      nft_info: {
+  burn = async (tokenId?: string): Promise<ExecuteResult> => {
+    return await this.client.execute(this.sender, this.contractAddress, {
+      burn: {
         token_id: tokenId
       }
-    });
+    }, \\"auto\\");
   };
-  allNftInfo = async (includeExpired?: boolean, tokenId?: string): Promise<AllNftInfoResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      all_nft_info: {
-        include_expired: includeExpired,
-        token_id: tokenId
-      }
-    });
-  };
-  tokens = async (limit?: number, owner?: string, startAfter?: string): Promise<TokensResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      tokens: {
-        limit,
-        owner,
-        start_after: startAfter
-      }
-    });
-  };
-  allTokens = async (limit?: number, startAfter?: string): Promise<AllTokensResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      all_tokens: {
-        limit,
-        start_after: startAfter
-      }
-    });
-  };
-  minter = async (): Promise<MinterResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      minter: {}
-    });
-  };
-  collectionInfo = async (): Promise<CollectionInfoResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      collection_info: {}
-    });
-  };
+}"
+`;
+
+exports[`execute interfaces 1`] = `
+"export interface SG721Instance extends SG721ReadOnlyInstance {
+  contractAddress: string;
+  mint: (sender: string, anotherProp: string, prop3: string) => Promise<ExecuteResult>;
 }"
 `;
 
@@ -221,5 +200,12 @@ exports[`query classes 1`] = `
       collection_info: {}
     });
   };
+}"
+`;
+
+exports[`query interfaces 1`] = `
+"export interface SG721Instance {
+  contractAddress: string;
+  tokens: (owner: string, startAfter?: string, limit?: string) => Promise<TokensResponse>;
 }"
 `;

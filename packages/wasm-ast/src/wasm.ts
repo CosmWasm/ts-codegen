@@ -171,8 +171,6 @@ export const createQueryClass = (
     .map(method => Object.keys(method.properties)?.[0])
     .filter(Boolean);
 
-  console.log(propertyNames)
-
   const bindings = propertyNames
     .map(camel)
     .map(bindMethod);
@@ -248,7 +246,6 @@ export const createWasmExecMethod = (
   jsonschema: any
 ) => {
 
-
   const underscoreName = Object.keys(jsonschema.properties)[0];
   const methodName = camel(underscoreName);
   const properties = jsonschema.properties[underscoreName].properties ?? {};
@@ -265,7 +262,6 @@ export const createWasmExecMethod = (
       prop === camel(prop)
     );
   });
-
 
   return t.classProperty(
     t.identifier(methodName),
@@ -332,7 +328,7 @@ export const createWasmExecMethod = (
 
 }
 
-export const createMutationClass = (
+export const createExecuteClass = (
   className: string,
   implementsClassName: string,
   extendsClassName: string,
@@ -425,6 +421,103 @@ export const createMutationClass = (
         )
       ],
       t.identifier(extendsClassName)
+    )
+  );
+}
+
+export const createExecuteInterface = (
+  className: string,
+  extendsClassName: string,
+  jsonschema: any
+) => {
+  return t.exportNamedDeclaration(
+    t.tsInterfaceDeclaration(
+      t.identifier(className),
+      null,
+      [
+        t.tSExpressionWithTypeArguments(
+          t.identifier(extendsClassName)
+        )
+      ],
+      t.tSInterfaceBody(
+        [
+
+          // contract address
+
+          t.tSPropertySignature(
+            t.identifier('contractAddress'),
+            t.tsTypeAnnotation(
+              t.tsStringKeyword()
+            )
+          ),
+
+          // METHOD
+          t.tSPropertySignature(
+            t.identifier('mint'),
+            t.tsTypeAnnotation(
+              t.tsFunctionType(
+                null,
+                [
+                  typedIdentifier('sender', t.tsTypeAnnotation(
+                    t.tsStringKeyword()
+                  )),
+                  typedIdentifier('anotherProp', t.tsTypeAnnotation(
+                    t.tsStringKeyword()
+                  )),
+                  typedIdentifier('prop3', t.tsTypeAnnotation(
+                    t.tsStringKeyword()
+                  ))
+                ],
+                promiseTypeAnnotation('ExecuteResult')
+              )
+            )
+          )
+        ]
+      )
+    )
+  );
+}
+
+export const createQueryInterface = (className: string, queryMsg: QueryMsg) => {
+  const methods = queryMsg.oneOf
+    .map(jsonschema => {
+      const underscoreName = Object.keys(jsonschema.properties)[0];
+      const methodName = camel(underscoreName);
+      const responseType = pascal(`${methodName}Response`);
+      const properties = jsonschema.properties[underscoreName].properties ?? {};
+      const params = Object.keys(properties).map(prop => {
+        return getProperty(jsonschema.properties[underscoreName], prop)
+      });
+      return t.tSPropertySignature(
+        t.identifier(methodName),
+        t.tsTypeAnnotation(
+          t.tsFunctionType(
+            null,
+            [
+              ...params
+            ],
+            promiseTypeAnnotation(responseType)
+          )
+        )
+      );
+    });
+
+  return t.exportNamedDeclaration(
+    t.tsInterfaceDeclaration(
+      t.identifier(className),
+      null,
+      [],
+      t.tSInterfaceBody(
+        [
+          t.tSPropertySignature(
+            t.identifier('contractAddress'),
+            t.tsTypeAnnotation(
+              t.tsStringKeyword()
+            )
+          ),
+          ...methods
+        ]
+      )
     )
   );
 }

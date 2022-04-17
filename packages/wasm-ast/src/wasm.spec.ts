@@ -7,7 +7,9 @@ import execute_msg from './__fixtures__/schema/execute_msg_for__empty.json';
 
 import {
   createQueryClass,
-  createMutationClass
+  createQueryInterface,
+  createExecuteClass,
+  createExecuteInterface
 } from './wasm'
 
 const expectCode = (ast) => {
@@ -30,11 +32,26 @@ it('query classes', () => {
   ))
 });
 
-it('mutation classes', () => {
-  printCode(createMutationClass(
+it('execute classes', () => {
+  expectCode(createExecuteClass(
     'SG721Client',
     'SG721Instance',
     'SG721QueryClient',
     execute_msg
+  ))
+});
+
+it('execute interfaces', () => {
+  expectCode(createExecuteInterface(
+    'SG721Instance',
+    'SG721ReadOnlyInstance',
+    execute_msg
+  ))
+});
+
+it('query interfaces', () => {
+  printCode(createQueryInterface(
+    'SG721ReadOnlyInstance',
+    query_msg
   ))
 });
