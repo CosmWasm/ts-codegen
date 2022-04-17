@@ -1,27 +1,17 @@
 import babelTraverse from '@babel/traverse';
-import { parse } from '@babel/parser';
-import generate from '@babel/generator';
-import { camel } from 'case';
-import stringify from 'ast-stringify';
+import { parse, ParserPlugin } from '@babel/parser';
 
 export const parser = (codes) => {
 
     const hash = {};
     codes.forEach(code => {
 
-        const plugins = [
-            'objectRestSpread',
-            'classProperties',
-            'optionalCatchBinding',
-            'asyncGenerators',
-            'decorators-legacy',
+        const plugins: ParserPlugin[] = [
             'typescript',
-            'dynamicImport'
         ];
 
         const ast = parse(code, {
             sourceType: 'module',
-            // babelrc: false,
             plugins
         });
 
