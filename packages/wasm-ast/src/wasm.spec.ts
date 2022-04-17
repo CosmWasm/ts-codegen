@@ -31,10 +31,10 @@ it('query classes', () => {
 });
 
 it('mutation classes', () => {
-  expectCode(createMutationClass(
+  printCode(createMutationClass(
     'SG721Client',
     'SG721Instance',
-    // execute_msg
-    query_msg
+    'SG721QueryClient',
+    execute_msg
   ))
 });
