@@ -299,3 +299,9 @@ exports[`query interfaces 1`] = `
   collectionInfo: () => Promise<CollectionInfoResponse>;
 }"
 `;
+
+exports[`tokens_response 1`] = `
+"export interface TokensResponse {
+  tokens: string[];
+}"
+`;

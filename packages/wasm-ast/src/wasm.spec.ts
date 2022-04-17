@@ -14,6 +14,7 @@ import nft_info_response from './__fixtures__/schema/nft_info_response.json';
 import num_tokens_response from './__fixtures__/schema/num_tokens_response.json';
 import operators_response from './__fixtures__/schema/operators_response.json';
 import owner_of_response from './__fixtures__/schema/owner_of_response.json';
+import tokens_response from './__fixtures__/schema/tokens_response.json';
 
 import {
   createQueryClass,
@@ -84,6 +85,11 @@ it('operators_response', () => {
 it('owner_of_response', () => {
   expectCode(createTypeInterface(
     owner_of_response
+  ))
+})
+it('tokens_response', () => {
+  expectCode(createTypeInterface(
+    tokens_response
   ))
 })
 

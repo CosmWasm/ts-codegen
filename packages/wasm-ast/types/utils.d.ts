@@ -1,7 +1,12 @@
 import * as t from '@babel/types';
 import { Field } from './types';
-declare const BILLION: t.NumericLiteral;
-export { BILLION };
+import { TSTypeAnnotation, TSExpressionWithTypeArguments } from '@babel/types';
+export declare const bindMethod: (name: string) => t.ExpressionStatement;
+export declare const typedIdentifier: (name: string, typeAnnotation: TSTypeAnnotation, optional?: boolean) => t.Identifier;
+export declare const promiseTypeAnnotation: (name: any) => t.TSTypeAnnotation;
+export declare const classDeclaration: (name: string, body: any[], implementsExressions?: TSExpressionWithTypeArguments[], superClass?: t.Identifier) => t.ClassDeclaration;
+export declare const classProperty: (name: string, typeAnnotation?: TSTypeAnnotation, isReadonly?: boolean, isStatic?: boolean) => t.ClassProperty;
+export declare const arrowFunctionExpression: (params: (t.Identifier | t.Pattern | t.RestElement)[], body: t.BlockStatement, returnType: t.TSTypeAnnotation, isAsync?: boolean) => t.ArrowFunctionExpression;
 export declare const recursiveNamespace: (names: any, moduleBlockBody: any) => any;
 export declare const arrayTypeNDimensions: (body: any, n: any) => any;
 export declare const FieldTypeAsts: {
@@ -12,7 +17,6 @@ export declare const FieldTypeAsts: {
     Coin: () => t.TSTypeReference;
     Long: () => t.TSTypeReference;
 };
-export declare const typeUrlToAmino: (str: any, MsgName: any) => any;
 export declare const shorthandProperty: (prop: string) => t.ObjectProperty;
 export declare const importStmt: (names: string[], path: string) => t.ImportDeclaration;
 export declare const importAminoMsg: () => t.ImportDeclaration;

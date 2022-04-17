@@ -39,6 +39,11 @@ const getArrayTypeFromRef = ($ref) => {
     getTypeFromRef($ref)
   );
 }
+const getArrayTypeFromType = (type) => {
+  return t.tsArrayType(
+    getType(type)
+  );
+}
 
 const getType = (type) => {
   switch (type) {
@@ -83,7 +88,11 @@ const getPropertyType = (schema, prop) => {
 
   if (typeof info.type === 'string') {
     if (info.type === 'array') {
-      type = getArrayTypeFromRef(info.items.$ref);
+      if (info.items.$ref) {
+        type = getArrayTypeFromRef(info.items.$ref);
+      } else {
+        type = getArrayTypeFromType(info.items.type);
+      }
     } else {
 
       type = getType(info.type);
@@ -569,8 +578,19 @@ export const propertySignature = (name: string, typeAnnotation: t.TSTypeAnnotati
   return prop;
 }
 
-export const createTypeInterface = (jsonschema: any) => {
-  const Type = jsonschema.title;
+
+
+export const createTypeOrInterface = (Type: string, jsonschema: any) => {
+  // const Type = jsonschema.title;
+  if (jsonschema.type !== 'object') {
+    return t.exportNamedDeclaration(
+      t.tsTypeAliasDeclaration(
+        t.identifier(Type),
+        null,
+        getType(jsonschema.type)
+      )
+    )
+  }
   const props = Object.keys(jsonschema.properties)
     .map(prop => {
       const typeInfo = jsonschema.properties;
@@ -593,4 +613,9 @@ export const createTypeInterface = (jsonschema: any) => {
       )
     )
   )
+};
+
+export const createTypeInterface = (jsonschema: any) => {
+  const Type = jsonschema.title;
+  return createTypeOrInterface(Type, jsonschema);
 };
