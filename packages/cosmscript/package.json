@@ -1,6 +1,6 @@
 {
   "name": "cosmscript",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A TypeScript Transpiler for Comsos Protobufs",
   "author": "Dan Lynch <pyramation@gmail.com>",
   "homepage": "https://github.com/pyramation/cosmscript/tree/master/packages/cosmscript#readme",
@@ -92,7 +92,7 @@
     "minimist": "1.2.6",
     "mkdirp": "1.0.4",
     "shelljs": "0.8.5",
-    "wasm-ast-types": "^0.0.3"
+    "wasm-ast-types": "^0.0.4"
   },
   "gitHead": "1ffe54c4f88d6975105841dddf91d07b87f4f0ab"
 }
