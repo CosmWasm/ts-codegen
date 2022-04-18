@@ -32,7 +32,7 @@ cosmwasm-typescript-gen generate --schema ./schema --out ./ts --name SG721
 
 Currently you have to have the JSON Schema output. Here is an example to start:
 
-```
+```sh
 ## get the Rust contracts
 git clone git@github.com:public-awesome/stargaze-contracts.git
 cd stargaze-contracts
@@ -42,3 +42,7 @@ cargo build
 cd contracts/sg721/
 cargo schema
 ```
+
+### Example Output
+
+https://gist.github.com/pyramation/ba67ec56e4e2a39cadea55430f9993e5
