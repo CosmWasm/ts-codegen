@@ -88,7 +88,7 @@ export default async (name: string, schemas: any[], outPath: string) => {
  * DO NOT MODIFY IT BY HAND. Instead, modify the source JSONSchema file,
  * and run the cosmwasm-typescript-gen generate command to regenerate this file.
  */
-    `;
+\n`;
     const code = header + generate(
         t.program(body)
     ).code;
