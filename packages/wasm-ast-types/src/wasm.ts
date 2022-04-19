@@ -24,7 +24,7 @@ interface ExecuteMsg {
   anyOf?: any;
 }
 
-const getMessageProperties = (msg: QueryMsg | ExecuteMsg) => {
+export const getMessageProperties = (msg: QueryMsg | ExecuteMsg) => {
   if (msg.anyOf) return msg.anyOf;
   if (msg.oneOf) return msg.oneOf;
   if (msg.allOf) return msg.allOf;

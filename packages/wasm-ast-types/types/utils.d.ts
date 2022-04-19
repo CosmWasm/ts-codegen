@@ -1,5 +1,4 @@
 import * as t from '@babel/types';
-import { Field } from './types';
 import { TSTypeAnnotation, TSExpressionWithTypeArguments } from '@babel/types';
 export declare const bindMethod: (name: string) => t.ExpressionStatement;
 export declare const typedIdentifier: (name: string, typeAnnotation: TSTypeAnnotation, optional?: boolean) => t.Identifier;
@@ -21,9 +20,9 @@ export declare const shorthandProperty: (prop: string) => t.ObjectProperty;
 export declare const importStmt: (names: string[], path: string) => t.ImportDeclaration;
 export declare const importAminoMsg: () => t.ImportDeclaration;
 export declare const getFieldDimensionality: (field: Field) => {
-    typeName: string;
+    typeName: any;
     dimensions: number;
-    isArray: boolean;
+    isArray: any;
 };
 export declare const memberExpressionOrIdentifier: (names: any) => any;
 export declare const memberExpressionOrIdentifierSnake: (names: any) => any;
