@@ -12,12 +12,23 @@ import {
 interface QueryMsg {
   $schema: string;
   title: "QueryMsg";
-  oneOf: any;
+  oneOf?: any;
+  allOf?: any;
+  anyOf?: any;
 }
 interface ExecuteMsg {
   $schema: string;
   title: "ExecuteMsg" | "ExecuteMsg_for_Empty";
-  oneOf: any;
+  oneOf?: any;
+  allOf?: any;
+  anyOf?: any;
+}
+
+const getMessageProperties = (msg: QueryMsg | ExecuteMsg) => {
+  if (msg.anyOf) return msg.anyOf;
+  if (msg.oneOf) return msg.oneOf;
+  if (msg.allOf) return msg.allOf;
+  throw new Error('Message case not handled yet, contact maintainers.');
 }
 
 const getTypeFromRef = ($ref) => {
@@ -122,13 +133,6 @@ const getPropertyType = (schema, prop) => {
   return { type, optional };
 };
 
-const getProperty = (schema, prop) => {
-  const { type, optional } = getPropertyType(schema, prop);
-  return typedIdentifier(camel(prop), t.tsTypeAnnotation(
-    type
-  ), optional);
-};
-
 export const createWasmQueryMethod = (
   jsonschema: any
 ) => {
@@ -200,7 +204,7 @@ export const createQueryClass = (
   queryMsg: QueryMsg
 ) => {
 
-  const propertyNames = queryMsg.oneOf
+  const propertyNames = getMessageProperties(queryMsg)
     .map(method => Object.keys(method.properties)?.[0])
     .filter(Boolean);
 
@@ -208,7 +212,7 @@ export const createQueryClass = (
     .map(camel)
     .map(bindMethod);
 
-  const methods = queryMsg.oneOf
+  const methods = getMessageProperties(queryMsg)
     .map(schema => {
       return createWasmQueryMethod(schema)
     });
@@ -364,7 +368,7 @@ export const createExecuteClass = (
   execMsg: ExecuteMsg
 ) => {
 
-  const propertyNames = execMsg.oneOf
+  const propertyNames = getMessageProperties(execMsg)
     .map(method => Object.keys(method.properties)?.[0])
     .filter(Boolean);
 
@@ -372,7 +376,7 @@ export const createExecuteClass = (
     .map(camel)
     .map(bindMethod);
 
-  const methods = execMsg.oneOf
+  const methods = getMessageProperties(execMsg)
     .map(schema => {
       return createWasmExecMethod(schema)
     });
@@ -473,7 +477,7 @@ export const createExecuteInterface = (
   execMsg: ExecuteMsg
 ) => {
 
-  const methods = execMsg.oneOf
+  const methods = getMessageProperties(execMsg)
     .map(jsonschema => {
       const underscoreName = Object.keys(jsonschema.properties)[0];
       const methodName = camel(underscoreName);
@@ -600,7 +604,7 @@ export const createPropertyFunctionWithObjectParams = (methodName: string, respo
 };
 
 export const createQueryInterface = (className: string, queryMsg: QueryMsg) => {
-  const methods = queryMsg.oneOf
+  const methods = getMessageProperties(queryMsg)
     .map(jsonschema => {
       const underscoreName = Object.keys(jsonschema.properties)[0];
       const methodName = camel(underscoreName);
