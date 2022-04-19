@@ -28,7 +28,7 @@ const getMessageProperties = (msg: QueryMsg | ExecuteMsg) => {
   if (msg.anyOf) return msg.anyOf;
   if (msg.oneOf) return msg.oneOf;
   if (msg.allOf) return msg.allOf;
-  throw new Error('Message case not handled yet, contact maintainers.');
+  return [];
 }
 
 const getTypeFromRef = ($ref) => {
