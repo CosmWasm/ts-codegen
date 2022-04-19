@@ -51,30 +51,28 @@ const callExpression = (
   return callExpr;
 };
 
-// const tsIndexedAccessType = (
-//   objectType: t.TSType, indexType: t.TSType, typeParameters: t.TSTypeParameterInstantiation
-// ) => {
-//   const el = t.tsIndexedAccessType(
-//     objectType,
-//     indexType
-//     );
-// el.type
-//   return el;
-// };
+export const createRecoilSelector = (
+  keyPrefix: string,
+  QueryClient: string,
+  methodName: string
+) => {
 
-export const createRecoilSelectors = (contractName: string, queryMsg: QueryMsg) => {
-  const propertyNames = getMessageProperties(queryMsg)
-    .map(method => Object.keys(method.properties)?.[0])
-    .filter(Boolean);
+  // const propertyNames = getMessageProperties(queryMsg)
+  //   .map(method => Object.keys(method.properties)?.[0])
+  //   .filter(Boolean);
 
-  const methods = getMessageProperties(queryMsg)
-    .map(schema => createWasmRecoilMethod(schema))
+  // const methods = getMessageProperties(queryMsg)
+  //   .map(schema => createWasmRecoilMethod(schema))
+
+  const selectorName = camel(`${methodName}Selector`);
+  const responseType = pascal(`${methodName}Response`);
+  const getterKey = camel(`${keyPrefix}${pascal(methodName)}`);
 
   return t.exportNamedDeclaration(
     t.variableDeclaration(
       'const',
       [t.variableDeclarator(
-        t.identifier('governanceModulesSelector'),
+        t.identifier(selectorName),
         callExpression(
           t.identifier('selectorFamily'),
           [
@@ -82,7 +80,7 @@ export const createRecoilSelectors = (contractName: string, queryMsg: QueryMsg) 
               [
                 t.objectProperty(
                   t.identifier('key'),
-                  t.stringLiteral('cwGovernaneceGovernanceModules')
+                  t.stringLiteral(getterKey)
                 ),
                 t.objectProperty(
                   t.identifier('get'),
@@ -91,13 +89,13 @@ export const createRecoilSelectors = (contractName: string, queryMsg: QueryMsg) 
                       t.objectPattern(
                         [
                           t.objectProperty(
-                            t.identifier('contractAddress'),
-                            t.identifier('contractAddress'),
+                            t.identifier('params'),
+                            t.identifier('params'),
                             false,
                             true
                           ),
                           t.restElement(
-                            t.identifier('params')
+                            t.identifier('queryClientParams')
                           )
                         ]
                       )
@@ -127,7 +125,7 @@ export const createRecoilSelectors = (contractName: string, queryMsg: QueryMsg) 
                                     t.callExpression(
                                       t.identifier('queryClient'),
                                       [
-                                        t.identifier('contractAddress')
+                                        t.identifier('queryClientParams')
                                       ]
                                     )
                                   ]
@@ -146,10 +144,13 @@ export const createRecoilSelectors = (contractName: string, queryMsg: QueryMsg) 
                               t.callExpression(
                                 t.memberExpression(
                                   t.identifier('client'),
-                                  t.identifier('governanceModules')
+                                  t.identifier(methodName)
                                 ),
                                 [
-                                  t.identifier('params')
+                                  // t.identifier('params')
+                                  t.spreadElement(
+                                    t.identifier('params')
+                                  )
                                 ]
                               )
                             )
@@ -167,39 +168,36 @@ export const createRecoilSelectors = (contractName: string, queryMsg: QueryMsg) 
               t.tsUnionType(
                 [
                   t.tsTypeReference(
-                    t.identifier('GovernanceModulesResponse')
+                    t.identifier(responseType)
                   ),
                   t.tsUndefinedKeyword()
                 ]
               ),
               t.tsIntersectionType(
                 [
-                  t.tsIndexedAccessType(
-                    t.tsTypeReference(
-                      t.identifier('Parameters'),
-                      t.tsTypeParameterInstantiation(
-                        [
-                          t.tsIndexedAccessType(
-                            t.tsTypeReference(
-                              t.identifier('QueryClient')
-                            ),
-                            t.tsLiteralType(
-                              t.stringLiteral('governanceModules')
-                            )
-                          )
-                        ]
-                      )
-                    ),
-                    t.tsLiteralType(
-                      t.numericLiteral(0)
-                    )
+                  t.tsTypeReference(
+                    t.identifier('QueryClientParams')
                   ),
                   t.tsTypeLiteral(
                     [
                       t.tsPropertySignature(
-                        t.identifier('contractAddress'),
+                        t.identifier('params'),
                         t.tsTypeAnnotation(
-                          t.tsStringKeyword()
+                          t.tsTypeReference(
+                            t.identifier('Parameters'),
+                            t.tsTypeParameterInstantiation(
+                              [
+                                t.tsIndexedAccessType(
+                                  t.tsTypeReference(
+                                    t.identifier(QueryClient)
+                                  ),
+                                  t.tsLiteralType(
+                                    t.stringLiteral(methodName)
+                                  )
+                                )
+                              ]
+                            )
+                          )
                         )
                       )
                     ]
@@ -213,4 +211,24 @@ export const createRecoilSelectors = (contractName: string, queryMsg: QueryMsg) 
     )
   )
 
+};
+
+export const createRecoilSelectors = (
+  keyPrefix: string,
+  QueryClient: string,
+  queryMsg: QueryMsg
+) => {
+  return getMessageProperties(queryMsg)
+    .map(schema => {
+
+      const underscoreName = Object.keys(schema.properties)[0];
+      const methodName = camel(underscoreName);
+
+      return createRecoilSelector(
+        keyPrefix,
+        QueryClient,
+        methodName
+      );
+
+    });
 };

@@ -5,7 +5,8 @@ import * as t from '@babel/types';
 import query_msg from './__fixtures__/schema/query_msg.json';
 
 import {
-    createRecoilSelectors,
+    createRecoilSelector,
+    createRecoilSelectors
 } from './recoil';
 
 const expectCode = (ast) => {
@@ -20,9 +21,18 @@ const printCode = (ast) => {
     );
 }
 
-it('query interfaces', () => {
-    expectCode(createRecoilSelectors(
+it('selector', () => {
+    expectCode(createRecoilSelector(
         'SG721',
-        query_msg
+        'SG721QueryClient',
+        'governanceModules'
     ))
+});
+
+it('selectors', () => {
+    expectCode(t.program(createRecoilSelectors(
+        'SG721',
+        'SG721QueryClient',
+        query_msg
+    )))
 });
