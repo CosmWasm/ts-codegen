@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`query interfaces 1`] = `
+"export const governanceModulesSelector = selectorFamily<GovernanceModulesResponse | undefined, Parameters<QueryClient[\\"governanceModules\\"]>[0] & {
+  contractAddress: string;
+}>({
+  key: \\"cwGovernaneceGovernanceModules\\",
+  get: ({
+    contractAddress,
+    ...params
+  }) => ({
+    get
+  }) => {
+    const client = get(queryClient(contractAddress));
+    if (!client) return;
+    return await client.governanceModules(params);
+  }
+});"
+`;
