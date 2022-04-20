@@ -6,7 +6,8 @@ import query_msg from './__fixtures__/schema/query_msg.json';
 
 import {
     createRecoilSelector,
-    createRecoilSelectors
+    createRecoilSelectors,
+    createRecoilQueryClient,
 } from './recoil';
 
 const expectCode = (ast) => {
@@ -35,4 +36,11 @@ it('selectors', () => {
         'SG721QueryClient',
         query_msg
     )))
+});
+
+it('client', () => {
+    printCode(createRecoilQueryClient(
+        'SG721',
+        'SG721QueryClient'
+    ))
 });

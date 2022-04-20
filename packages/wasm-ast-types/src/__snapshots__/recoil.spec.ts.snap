@@ -1,5 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`client 1`] = `
+"export const sG721QueryClientSelector = selectorFamily<SG721QueryClientResponse | undefined, QueryClientParams & {
+  params: Parameters<SG721QueryClient[\\"SG721QueryClient\\"]>;
+}>({
+  key: \\"sG721SG721QueryClient\\",
+  get: ({
+    params,
+    ...queryClientParams
+  }) => async ({
+    get
+  }) => {
+    const client = get(queryClient(queryClientParams));
+    if (!client) return;
+    return await client.SG721QueryClient(...params);
+  }
+});"
+`;
+
 exports[`selector 1`] = `
 "export const governanceModulesSelector = selectorFamily<GovernanceModulesResponse | undefined, QueryClientParams & {
   params: Parameters<SG721QueryClient[\\"governanceModules\\"]>;
@@ -8,7 +26,7 @@ exports[`selector 1`] = `
   get: ({
     params,
     ...queryClientParams
-  }) => ({
+  }) => async ({
     get
   }) => {
     const client = get(queryClient(queryClientParams));
@@ -26,7 +44,7 @@ exports[`selectors 1`] = `
   get: ({
     params,
     ...queryClientParams
-  }) => ({
+  }) => async ({
     get
   }) => {
     const client = get(queryClient(queryClientParams));
@@ -41,7 +59,7 @@ export const approvalSelector = selectorFamily<ApprovalResponse | undefined, Que
   get: ({
     params,
     ...queryClientParams
-  }) => ({
+  }) => async ({
     get
   }) => {
     const client = get(queryClient(queryClientParams));
@@ -56,7 +74,7 @@ export const approvalsSelector = selectorFamily<ApprovalsResponse | undefined, Q
   get: ({
     params,
     ...queryClientParams
-  }) => ({
+  }) => async ({
     get
   }) => {
     const client = get(queryClient(queryClientParams));
@@ -71,7 +89,7 @@ export const allOperatorsSelector = selectorFamily<AllOperatorsResponse | undefi
   get: ({
     params,
     ...queryClientParams
-  }) => ({
+  }) => async ({
     get
   }) => {
     const client = get(queryClient(queryClientParams));
@@ -86,7 +104,7 @@ export const numTokensSelector = selectorFamily<NumTokensResponse | undefined, Q
   get: ({
     params,
     ...queryClientParams
-  }) => ({
+  }) => async ({
     get
   }) => {
     const client = get(queryClient(queryClientParams));
@@ -101,7 +119,7 @@ export const contractInfoSelector = selectorFamily<ContractInfoResponse | undefi
   get: ({
     params,
     ...queryClientParams
-  }) => ({
+  }) => async ({
     get
   }) => {
     const client = get(queryClient(queryClientParams));
@@ -116,7 +134,7 @@ export const nftInfoSelector = selectorFamily<NftInfoResponse | undefined, Query
   get: ({
     params,
     ...queryClientParams
-  }) => ({
+  }) => async ({
     get
   }) => {
     const client = get(queryClient(queryClientParams));
@@ -131,7 +149,7 @@ export const allNftInfoSelector = selectorFamily<AllNftInfoResponse | undefined,
   get: ({
     params,
     ...queryClientParams
-  }) => ({
+  }) => async ({
     get
   }) => {
     const client = get(queryClient(queryClientParams));
@@ -146,7 +164,7 @@ export const tokensSelector = selectorFamily<TokensResponse | undefined, QueryCl
   get: ({
     params,
     ...queryClientParams
-  }) => ({
+  }) => async ({
     get
   }) => {
     const client = get(queryClient(queryClientParams));
@@ -161,7 +179,7 @@ export const allTokensSelector = selectorFamily<AllTokensResponse | undefined, Q
   get: ({
     params,
     ...queryClientParams
-  }) => ({
+  }) => async ({
     get
   }) => {
     const client = get(queryClient(queryClientParams));
@@ -176,7 +194,7 @@ export const minterSelector = selectorFamily<MinterResponse | undefined, QueryCl
   get: ({
     params,
     ...queryClientParams
-  }) => ({
+  }) => async ({
     get
   }) => {
     const client = get(queryClient(queryClientParams));
@@ -191,7 +209,7 @@ export const collectionInfoSelector = selectorFamily<CollectionInfoResponse | un
   get: ({
     params,
     ...queryClientParams
-  }) => ({
+  }) => async ({
     get
   }) => {
     const client = get(queryClient(queryClientParams));

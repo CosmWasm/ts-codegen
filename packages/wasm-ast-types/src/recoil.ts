@@ -156,7 +156,8 @@ export const createRecoilSelector = (
                             )
                           )
                         ]
-                      )
+                      ),
+                      true
                     )
                   )
                 )
@@ -231,4 +232,141 @@ export const createRecoilSelectors = (
       );
 
     });
+};
+
+export const createRecoilQueryClientType = () => ({
+  "type": "TSTypeAliasDeclaration",
+  "id": {
+    "type": "Identifier",
+    "name": "QueryClientParams"
+  },
+  "typeAnnotation": {
+    "type": "TSTypeLiteral",
+    "members": [
+      {
+        "type": "TSPropertySignature",
+        "key": {
+          "type": "Identifier",
+          "name": "contractAddress"
+        },
+        "computed": false,
+        "typeAnnotation": {
+          "type": "TSTypeAnnotation",
+          "typeAnnotation": {
+            "type": "TSStringKeyword"
+          }
+        }
+      }
+    ]
+  }
+});
+
+export const createRecoilQueryClient = (
+  keyPrefix: string,
+  QueryClient: string
+) => {
+
+  const getterKey = camel(`${keyPrefix}${'QueryClient'}`);
+
+  return t.exportNamedDeclaration(
+    t.variableDeclaration(
+      'const',
+      [t.variableDeclarator(
+        t.identifier('queryClient'),
+        callExpression(
+          t.identifier('selectorFamily'),
+          [
+            t.objectExpression(
+              [
+                t.objectProperty(
+                  t.identifier('key'),
+                  t.stringLiteral(getterKey)
+                ),
+                t.objectProperty(
+                  t.identifier('get'),
+                  t.arrowFunctionExpression(
+                    [
+                      t.objectPattern(
+                        [
+                          t.objectProperty(
+                            t.identifier('contractAddress'),
+                            t.identifier('contractAddress'),
+                            false,
+                            true
+                          )
+                        ]
+                      )
+                    ],
+                    t.arrowFunctionExpression(
+                      [
+                        t.objectPattern(
+                          [
+                            t.objectProperty(
+                              t.identifier('get'),
+                              t.identifier('get'),
+                              false,
+                              true
+                            )
+                          ]
+                        )
+                      ],
+                      t.blockStatement(
+                        [
+                          t.variableDeclaration('const',
+                            [
+                              t.variableDeclarator(
+                                t.identifier('client'),
+                                t.callExpression(
+                                  t.identifier('get'),
+                                  [
+                                    t.identifier('cosmWasmClient')
+                                  ]
+                                )
+                              )
+                            ]),
+                          t.ifStatement(
+                            t.unaryExpression('!', t.identifier('client')),
+                            t.returnStatement(
+                              null
+                            ),
+                            null
+                          ),
+                          t.returnStatement(
+                            t.newExpression(
+                              t.identifier(QueryClient),
+                              [
+                                t.identifier('client'),
+                                t.identifier('contractAddress')
+                              ]
+                            )
+                          )
+                        ]
+                      ),
+                      false
+                    )
+                  )
+                )
+              ]
+            )
+          ],
+          t.tsTypeParameterInstantiation(
+            [
+              t.tsUnionType(
+                [
+                  t.tsTypeReference(
+                    t.identifier(QueryClient)
+                  ),
+                  t.tsUndefinedKeyword()
+                ]
+              ),
+              t.tsTypeReference(
+                t.identifier('QueryClientParams')
+              )
+            ]
+          )
+        )
+      )]
+    )
+  )
+
 };
