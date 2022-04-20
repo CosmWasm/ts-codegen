@@ -11,7 +11,8 @@ import { parser } from "./parse";
 
 export default async (name: string, schemas: any[], outPath: string) => {
 
-  const Contract = pascal(`${name}Contract`) + '.recoil.ts';
+  const RecoilFile = pascal(`${name}Contract`) + '.recoil.ts';
+  const Contract = pascal(`${name}Contract`) + '.ts';
 
   const QueryMsg = schemas.find(schema => schema.title === 'QueryMsg');
   const Types = schemas.filter(schema => schema.title !== 'ExecuteMsg' && schema.title !== 'ExecuteMsg_for_Empty' && schema.title !== 'QueryMsg');
@@ -37,7 +38,7 @@ export default async (name: string, schemas: any[], outPath: string) => {
   }
   const typeHash = parser(allTypes);
   body.push(
-    w.importStmt(Object.keys(typeHash), `../../clients/${kebab(name)}`)
+    w.importStmt(Object.keys(typeHash), `./${Contract}`)
   );
 
 
@@ -51,7 +52,7 @@ export default async (name: string, schemas: any[], outPath: string) => {
     ReadOnlyInstance = pascal(`${name}ReadOnlyInterface`);
 
     body.push(
-      w.importStmt([QueryClient], `../../clients/${kebab(name)}`)
+      w.importStmt([QueryClient], `./${Contract}`)
     );
 
     body.push(w.createRecoilQueryClientType());
@@ -78,5 +79,5 @@ export default async (name: string, schemas: any[], outPath: string) => {
   ).code;
 
   mkdirp(outPath);
-  writeFileSync(join(outPath, Contract), code);
+  writeFileSync(join(outPath, RecoilFile), code);
 };
