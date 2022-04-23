@@ -3,6 +3,16 @@ import { snake } from "case";
 import { Field } from './types';
 import { TSTypeAnnotation, TSExpressionWithTypeArguments } from '@babel/types';
 
+export const callExpression = (
+  callee: t.Expression | t.V8IntrinsicIdentifier,
+  _arguments: (t.Expression | t.SpreadElement | t.ArgumentPlaceholder)[],
+  typeParameters: t.TSTypeParameterInstantiation
+) => {
+  const callExpr = t.callExpression(callee, _arguments);
+  callExpr.typeParameters = typeParameters;
+  return callExpr;
+};
+
 export const bindMethod = (name: string) => {
   return t.expressionStatement(
     t.assignmentExpression('=', t.memberExpression(

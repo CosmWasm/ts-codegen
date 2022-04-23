@@ -9,20 +9,10 @@ import {
   arrowFunctionExpression
 } from './utils'
 
-interface QueryMsg {
-  $schema: string;
-  title: "QueryMsg";
-  oneOf?: any;
-  allOf?: any;
-  anyOf?: any;
-}
-interface ExecuteMsg {
-  $schema: string;
-  title: "ExecuteMsg" | "ExecuteMsg_for_Empty";
-  oneOf?: any;
-  allOf?: any;
-  anyOf?: any;
-}
+import {
+  QueryMsg,
+  ExecuteMsg
+} from './types';
 
 export const getMessageProperties = (msg: QueryMsg | ExecuteMsg) => {
   if (msg.anyOf) return msg.anyOf;
