@@ -1,7 +1,35 @@
 import * as t from '@babel/types';
 import { snake } from "case";
-import { Field } from './types';
+import { Field, QueryMsg } from './types';
 import { TSTypeAnnotation, TSExpressionWithTypeArguments } from '@babel/types';
+
+export const getMessageProperties = (msg: QueryMsg | ExecuteMsg) => {
+  if (msg.anyOf) return msg.anyOf;
+  if (msg.oneOf) return msg.oneOf;
+  if (msg.allOf) return msg.allOf;
+  return [];
+}
+
+export const tsPropertySignature = (
+  key: t.Expression,
+  typeAnnotation: t.TSTypeAnnotation,
+  optional: boolean
+) => {
+  const obj = t.tsPropertySignature(key, typeAnnotation);
+  obj.optional = optional;
+  return obj
+};
+
+export const tsObjectPattern = (
+  properties: (t.RestElement | t.ObjectProperty)[],
+  typeAnnotation: t.TSTypeAnnotation
+) => {
+  const obj = t.objectPattern(
+    properties
+  );
+  obj.typeAnnotation = typeAnnotation;
+  return obj;
+}
 
 export const callExpression = (
   callee: t.Expression | t.V8IntrinsicIdentifier,

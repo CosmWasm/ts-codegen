@@ -1,15 +1,13 @@
 import * as t from '@babel/types';
 import { camel, pascal } from 'case';
 import {
-  callExpression
+  callExpression,
+  getMessageProperties
 } from './utils';
 
 import {
-  QueryMsg,
-  ExecuteMsg
+  QueryMsg
 } from './types';
-
-import { getMessageProperties } from './wasm';
 
 export const createWasmRecoilMethod = (jsonschema: any) => {
 

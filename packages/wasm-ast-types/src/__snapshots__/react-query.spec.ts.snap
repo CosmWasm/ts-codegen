@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`create hook 1`] = `
-"export interface Sg721CollectionInfoQuery {
-  client: Sg721QueryClient;
-}"
-`;

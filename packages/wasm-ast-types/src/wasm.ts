@@ -6,20 +6,14 @@ import {
   promiseTypeAnnotation,
   classDeclaration,
   classProperty,
-  arrowFunctionExpression
+  arrowFunctionExpression,
+  getMessageProperties
 } from './utils'
 
 import {
   QueryMsg,
   ExecuteMsg
 } from './types';
-
-export const getMessageProperties = (msg: QueryMsg | ExecuteMsg) => {
-  if (msg.anyOf) return msg.anyOf;
-  if (msg.oneOf) return msg.oneOf;
-  if (msg.allOf) return msg.allOf;
-  return [];
-}
 
 const getTypeFromRef = ($ref) => {
   switch ($ref) {
@@ -59,7 +53,7 @@ const getType = (type) => {
   }
 }
 
-const getPropertyType = (schema, prop) => {
+export const getPropertyType = (schema, prop) => {
   const props = schema.properties ?? {};
   let info = props[prop];
 

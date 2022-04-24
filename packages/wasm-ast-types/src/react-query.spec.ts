@@ -18,6 +18,7 @@ import tokens_response from './__fixtures__/schema/tokens_response.json';
 
 import {
   createReactQueryHook,
+  createReactQueryHooks
 } from './react-query'
 
 const expectCode = (ast) => {
@@ -32,7 +33,18 @@ const printCode = (ast) => {
   );
 }
 
-it('create hook', () => {
-  printCode(createReactQueryHook())
+// it('createReactQueryHook', () => {
+//   printCode(createReactQueryHook({
+//     methodName: 'allNftInfo',
+//     hookName: 'useSg721AllNftInfoQuery',
+//     hookParamsTypeName: 'Sg721CollectionInfoQuery',
+//     responseType: 'AllNftInfoResponse',
+//     hookKeyName: 'Sg721AllNftInfo'
+//   }))
+// });
+
+
+it('createReactQueryHooks', () => {
+  printCode(t.program(createReactQueryHooks(query_msg)))
 });
 
