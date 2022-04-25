@@ -18,7 +18,7 @@ import {
 const getTypeFromRef = ($ref) => {
   switch ($ref) {
     case '#/definitions/Binary':
-      return t.tsTypeReference(t.identifier('BinaryType'))
+      return t.tsTypeReference(t.identifier('Binary'))
     case '#/definitions/Expiration':
       return t.tsTypeReference(t.identifier('Expiration'))
     default:

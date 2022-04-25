@@ -8,3 +8,17 @@ export interface Interface {
     name: string;
     fields: Field[];
 }
+export interface QueryMsg {
+    $schema: string;
+    title: "QueryMsg";
+    oneOf?: any;
+    allOf?: any;
+    anyOf?: any;
+}
+export interface ExecuteMsg {
+    $schema: string;
+    title: "ExecuteMsg" | "ExecuteMsg_for_Empty";
+    oneOf?: any;
+    allOf?: any;
+    anyOf?: any;
+}

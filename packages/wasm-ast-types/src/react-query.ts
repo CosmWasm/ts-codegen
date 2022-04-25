@@ -17,21 +17,24 @@ interface ReactQueryHookQuery {
     jsonschema: any;
 }
 
-export const createReactQueryHooks = (queryMsg: QueryMsg) => {
+export const createReactQueryHooks = (
+    queryMsg: QueryMsg,
+    contractName: string,
+    QueryClient: string) => {
     return getMessageProperties(queryMsg)
         .reduce((m, schema) => {
             const underscoreName = Object.keys(schema.properties)[0];
             const methodName = camel(underscoreName);
-            const hookName = camel(`${methodName}Query`);
-            const hookParamsTypeName = camel(`${methodName}Interface`);
+            const hookName = `use${pascal(contractName)}${pascal(methodName)}Query`;
+            const hookParamsTypeName = `${pascal(contractName)}${pascal(methodName)}Query`;
             const responseType = pascal(`${methodName}Response`);
-            const getterKey = camel(`get${pascal(methodName)}`);
+            const getterKey = camel(`${contractName}${pascal(methodName)}`);
             const jsonschema = schema.properties[underscoreName];
             return [
                 createReactQueryHookInterface({
                     hookParamsTypeName,
                     responseType,
-                    QueryClient: 'Sg721QueryClient',
+                    QueryClient,
                     jsonschema
                 }),
                 createReactQueryHook(
@@ -59,6 +62,28 @@ export const createReactQueryHook = ({
     jsonschema
 }: ReactQueryHookQuery) => {
 
+    const keys = Object.keys(jsonschema.properties ?? {});
+    let args = [];
+    if (keys.length) {
+        args = [
+            t.objectExpression([
+                ...keys.map(prop => {
+                    return t.objectProperty(
+                        t.identifier(camel(prop)),
+                        t.memberExpression(
+                            t.identifier('args'),
+                            t.identifier(camel(prop))
+                        )
+                    )
+                })
+            ])
+        ]
+    }
+
+    let props = ['client', 'options'];
+    if (keys.length) {
+        props = ['client', 'args', 'options'];
+    }
 
     return t.exportNamedDeclaration(
         t.functionDeclaration(
@@ -66,24 +91,14 @@ export const createReactQueryHook = ({
             [
                 tsObjectPattern(
                     [
-                        t.objectProperty(
-                            t.identifier('client'),
-                            t.identifier('client'),
-                            false,
-                            true
-                        ),
-                        t.objectProperty(
-                            t.identifier('args'),
-                            t.identifier('args'),
-                            false,
-                            true
-                        ),
-                        t.objectProperty(
-                            t.identifier('options'),
-                            t.identifier('options'),
-                            false,
-                            true
-                        )
+                        ...props.map(prop => {
+                            return t.objectProperty(
+                                t.identifier(prop),
+                                t.identifier(prop),
+                                false,
+                                true
+                            )
+                        })
                     ],
                     t.tsTypeAnnotation(t.tsTypeReference(
                         t.identifier(hookParamsTypeName)
@@ -111,21 +126,7 @@ export const createReactQueryHook = ({
                                             t.identifier('client'),
                                             t.identifier(methodName)
                                         ),
-                                        [
-                                            t.objectExpression(
-                                                [
-                                                    ...Object.keys(jsonschema.properties ?? {}).map(prop => {
-                                                        return t.objectProperty(
-                                                            t.identifier(camel(prop)),
-                                                            t.memberExpression(
-                                                                t.identifier('args'),
-                                                                t.identifier(camel(prop))
-                                                            )
-                                                        )
-                                                    })
-                                                ]
-                                            )
-                                        ]
+                                        args
                                     ),
                                     false
                                 ),
@@ -178,58 +179,64 @@ export const createReactQueryHookInterface = ({
     responseType,
     jsonschema
 }: ReactQueryHookQueryInterface) => {
+    const body = [
+        t.tsPropertySignature(
+            t.identifier('client'),
+            t.tsTypeAnnotation(
+                t.tsTypeReference(
+                    t.identifier(QueryClient)
+                )
+            )
+        ),
+        tsPropertySignature(
+            t.identifier('options'),
+            t.tsTypeAnnotation(
+                t.tsTypeReference(
+                    t.identifier('UseQueryOptions'),
+                    t.tsTypeParameterInstantiation(
+                        [
+                            t.tsTypeReference(
+                                t.identifier(responseType)
+                            ),
+                            t.tsTypeReference(t.identifier('Error')),
+                            t.tsTypeReference(
+                                t.identifier(responseType)
+                            ),
+                            t.tsArrayType(
+                                t.tsParenthesizedType(
+                                    t.tsUnionType(
+                                        [
+                                            t.tsStringKeyword(),
+                                            t.tsUndefinedKeyword()
+                                        ]
+                                    )
+                                )
+                            )
+                        ]
+                    )
+                )
+            ),
+            true
+        )
+    ];
+
+    const props = getProps(jsonschema, true);
+    if (props.length) {
+        body.push(t.tsPropertySignature(
+            t.identifier('args'),
+            t.tsTypeAnnotation(
+                t.tsTypeLiteral(props)
+            )
+        ))
+    }
+
+
     return t.exportNamedDeclaration(t.tsInterfaceDeclaration(
         t.identifier(hookParamsTypeName),
         null,
         [],
         t.tsInterfaceBody(
-            [
-                t.tsPropertySignature(
-                    t.identifier('client'),
-                    t.tsTypeAnnotation(
-                        t.tsTypeReference(
-                            t.identifier(QueryClient),
-                            t.tsTypeParameterInstantiation(
-                                [
-                                    t.tsTypeReference(
-                                        t.identifier(responseType)
-                                    ),
-                                    t.tsTypeReference(t.identifier('Error')),
-                                    t.tsTypeReference(
-                                        t.identifier(responseType)
-                                    ),
-                                    t.tsArrayType(
-                                        t.tsParenthesizedType(
-                                            t.tsUnionType(
-                                                [
-                                                    t.tsStringKeyword(),
-                                                    t.tsUndefinedKeyword()
-                                                ]
-                                            )
-                                        )
-                                    )
-                                ]
-                            )
-
-                        )
-                    )
-                ),
-                tsPropertySignature(
-                    t.identifier('options'),
-                    t.tsTypeAnnotation(
-                        t.tsTypeReference(
-                            t.identifier('UseQueryOptions')
-                        )
-                    ),
-                    true
-                ),
-                t.tsPropertySignature(
-                    t.identifier('args'),
-                    t.tsTypeAnnotation(
-                        t.tsTypeLiteral(getProps(jsonschema, true))
-                    )
-                )
-            ]
+            body
         )
     ))
 
