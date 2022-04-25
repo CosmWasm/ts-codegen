@@ -1,30 +1,13 @@
 import * as t from '@babel/types';
 import { camel, pascal } from 'case';
 import {
-  bindMethod,
-  typedIdentifier,
-  promiseTypeAnnotation,
-  classDeclaration,
-  classProperty,
-  arrowFunctionExpression
-} from './utils'
+  callExpression,
+  getMessageProperties
+} from './utils';
 
-import { getMessageProperties } from './wasm';
-
-interface QueryMsg {
-  $schema: string;
-  title: "QueryMsg";
-  oneOf?: any;
-  allOf?: any;
-  anyOf?: any;
-}
-interface ExecuteMsg {
-  $schema: string;
-  title: "ExecuteMsg" | "ExecuteMsg_for_Empty";
-  oneOf?: any;
-  allOf?: any;
-  anyOf?: any;
-}
+import {
+  QueryMsg
+} from './types';
 
 export const createWasmRecoilMethod = (jsonschema: any) => {
 
@@ -39,16 +22,6 @@ export const createWasmRecoilMethod = (jsonschema: any) => {
 
   }
 
-};
-
-const callExpression = (
-  callee: t.Expression | t.V8IntrinsicIdentifier,
-  _arguments: (t.Expression | t.SpreadElement | t.ArgumentPlaceholder)[],
-  typeParameters: t.TSTypeParameterInstantiation
-) => {
-  const callExpr = t.callExpression(callee, _arguments);
-  callExpr.typeParameters = typeParameters;
-  return callExpr;
 };
 
 export const createRecoilSelector = (

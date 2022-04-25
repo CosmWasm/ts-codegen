@@ -6,35 +6,19 @@ import {
   promiseTypeAnnotation,
   classDeclaration,
   classProperty,
-  arrowFunctionExpression
+  arrowFunctionExpression,
+  getMessageProperties
 } from './utils'
 
-interface QueryMsg {
-  $schema: string;
-  title: "QueryMsg";
-  oneOf?: any;
-  allOf?: any;
-  anyOf?: any;
-}
-interface ExecuteMsg {
-  $schema: string;
-  title: "ExecuteMsg" | "ExecuteMsg_for_Empty";
-  oneOf?: any;
-  allOf?: any;
-  anyOf?: any;
-}
-
-export const getMessageProperties = (msg: QueryMsg | ExecuteMsg) => {
-  if (msg.anyOf) return msg.anyOf;
-  if (msg.oneOf) return msg.oneOf;
-  if (msg.allOf) return msg.allOf;
-  return [];
-}
+import {
+  QueryMsg,
+  ExecuteMsg
+} from './types';
 
 const getTypeFromRef = ($ref) => {
   switch ($ref) {
     case '#/definitions/Binary':
-      return t.tsTypeReference(t.identifier('BinaryType'))
+      return t.tsTypeReference(t.identifier('Binary'))
     case '#/definitions/Expiration':
       return t.tsTypeReference(t.identifier('Expiration'))
     default:
@@ -69,7 +53,7 @@ const getType = (type) => {
   }
 }
 
-const getPropertyType = (schema, prop) => {
+export const getPropertyType = (schema, prop) => {
   const props = schema.properties ?? {};
   let info = props[prop];
 

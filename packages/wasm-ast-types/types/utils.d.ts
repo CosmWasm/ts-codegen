@@ -1,5 +1,10 @@
 import * as t from '@babel/types';
+import { Field, QueryMsg } from './types';
 import { TSTypeAnnotation, TSExpressionWithTypeArguments } from '@babel/types';
+export declare const getMessageProperties: (msg: QueryMsg | ExecuteMsg) => any;
+export declare const tsPropertySignature: (key: t.Expression, typeAnnotation: t.TSTypeAnnotation, optional: boolean) => t.TSPropertySignature;
+export declare const tsObjectPattern: (properties: (t.RestElement | t.ObjectProperty)[], typeAnnotation: t.TSTypeAnnotation) => t.ObjectPattern;
+export declare const callExpression: (callee: t.Expression | t.V8IntrinsicIdentifier, _arguments: (t.Expression | t.SpreadElement | t.ArgumentPlaceholder)[], typeParameters: t.TSTypeParameterInstantiation) => t.CallExpression;
 export declare const bindMethod: (name: string) => t.ExpressionStatement;
 export declare const typedIdentifier: (name: string, typeAnnotation: TSTypeAnnotation, optional?: boolean) => t.Identifier;
 export declare const promiseTypeAnnotation: (name: any) => t.TSTypeAnnotation;
@@ -20,9 +25,9 @@ export declare const shorthandProperty: (prop: string) => t.ObjectProperty;
 export declare const importStmt: (names: string[], path: string) => t.ImportDeclaration;
 export declare const importAminoMsg: () => t.ImportDeclaration;
 export declare const getFieldDimensionality: (field: Field) => {
-    typeName: any;
+    typeName: string;
     dimensions: number;
-    isArray: any;
+    isArray: boolean;
 };
 export declare const memberExpressionOrIdentifier: (names: any) => any;
 export declare const memberExpressionOrIdentifierSnake: (names: any) => any;
