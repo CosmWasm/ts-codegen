@@ -1,6 +1,6 @@
 import * as t from '@babel/types';
 import { snake } from "case";
-import { Field, QueryMsg } from './types';
+import { Field, QueryMsg, ExecuteMsg } from './types';
 import { TSTypeAnnotation, TSExpressionWithTypeArguments } from '@babel/types';
 
 export const getMessageProperties = (msg: QueryMsg | ExecuteMsg) => {

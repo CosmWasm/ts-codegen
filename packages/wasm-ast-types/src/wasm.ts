@@ -40,6 +40,13 @@ const getArrayTypeFromType = (type) => {
   );
 }
 
+export const identifier = (name: string, typeAnnotation: t.TSTypeAnnotation, optional: boolean = false) => {
+  const type = t.identifier(name);
+  type.typeAnnotation = typeAnnotation;
+  type.optional = optional;
+  return type;
+}
+
 const getType = (type) => {
   switch (type) {
     case 'string':
@@ -263,6 +270,12 @@ export const createQueryClass = (
   );
 }
 
+const tsTypeOperator = (typeAnnotation: t.TSType, operator: string) => {
+  const obj = t.tsTypeOperator(typeAnnotation);
+  obj.operator = operator;
+  return obj;
+}
+
 export const createWasmExecMethod = (
   jsonschema: any
 ) => {
@@ -285,7 +298,37 @@ export const createWasmExecMethod = (
     arrowFunctionExpression(
       obj ? [
         // props
-        obj
+        obj,
+        t.assignmentPattern(
+          identifier(
+            'fee',
+            t.tsTypeAnnotation(
+              t.tsUnionType(
+                [
+                  t.tSNumberKeyword(),
+                  t.tsTypeReference(
+                    t.identifier('StdFee')
+                  )
+                ]
+              )
+            ),
+            false
+          ),
+          t.stringLiteral('auto')
+        ),
+        identifier('memo', t.tsTypeAnnotation(
+          t.tsStringKeyword()
+        ), true),
+        identifier('funds', t.tsTypeAnnotation(
+          tsTypeOperator(
+            t.tsArrayType(
+              t.tsTypeReference(
+                t.identifier('Coin')
+              )
+            ),
+            'readonly'
+          )
+        ), true)
       ] : [],
       t.blockStatement(
         [
@@ -319,7 +362,9 @@ export const createWasmExecMethod = (
 
                     ]
                   ),
-                  t.stringLiteral('auto')
+                  t.identifier('fee'),
+                  t.identifier('memo'),
+                  t.identifier('funds')
                 ]
               )
             )
@@ -465,7 +510,7 @@ export const createExecuteInterface = (
     .map(jsonschema => {
       const underscoreName = Object.keys(jsonschema.properties)[0];
       const methodName = camel(underscoreName);
-      return createPropertyFunctionWithObjectParams(
+      return createPropertyFunctionWithObjectParamsForExec(
         methodName,
         'ExecuteResult',
         jsonschema.properties[underscoreName]
@@ -499,7 +544,52 @@ export const createExecuteInterface = (
               t.tsStringKeyword()
             )
           ),
-          ...methods
+
+          ...methods,
+
+          // // fee
+          // t.tSPropertySignature(
+          //   t.identifier('fee'),
+          //   t.tsTypeAnnotation(
+          //     t.tsUnionType(
+          //       [
+          //         t.tsNumberKeyword(),
+          //         t.tsTypeReference(
+          //           t.identifier('StdFee')
+          //         ),
+          //         t.tsLiteralType(
+          //           t.stringLiteral('auto')
+          //         )
+          //       ]
+          //     )
+          //   )
+          // ),
+
+          // // memo
+          // propertySignature(
+          //   'memo',
+          //   t.tsTypeAnnotation(
+          //     t.tsStringKeyword()
+          //   ),
+          //   true
+          // ),
+
+          // // funds
+          // propertySignature(
+          //   'funds',
+          //   t.tsTypeAnnotation(
+          //     tsTypeOperator(
+          //       t.tsArrayType(
+          //         t.tsTypeReference(
+          //           t.identifier('Coin')
+          //         )
+          //       ),
+          //       'readonly'
+          //     )
+          //   ),
+          //   true
+          // )
+
         ]
       )
     )
@@ -577,6 +667,54 @@ export const createPropertyFunctionWithObjectParams = (methodName: string, respo
     parameters: obj ? [
       obj
     ] : []
+  }
+
+  return t.tSPropertySignature(
+    t.identifier(methodName),
+    t.tsTypeAnnotation(
+      func
+    )
+  );
+};
+
+export const createPropertyFunctionWithObjectParamsForExec = (methodName: string, responseType: string, jsonschema: any) => {
+  const obj = createTypedObjectParams(jsonschema);
+  const fixedParams = [
+    identifier('fee', t.tsTypeAnnotation(
+      t.tsUnionType(
+        [
+          t.tsNumberKeyword(),
+          t.tsTypeReference(
+            t.identifier('StdFee')
+          ),
+          t.tsLiteralType(
+            t.stringLiteral('auto')
+          )
+        ]
+      )
+    ), true),
+    identifier('memo', t.tsTypeAnnotation(
+      t.tsStringKeyword()
+    ), true),
+    identifier('funds', t.tsTypeAnnotation(
+      tsTypeOperator(
+        t.tsArrayType(
+          t.tsTypeReference(
+            t.identifier('Coin')
+          )
+        ),
+        'readonly'
+      )
+    ), true)
+  ];
+  const func = {
+    type: 'TSFunctionType',
+    typeAnnotation: promiseTypeAnnotation(responseType),
+    parameters: obj ? [
+      obj,
+      ...fixedParams
+
+    ] : fixedParams
   }
 
   return t.tSPropertySignature(
