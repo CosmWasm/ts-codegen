@@ -293,43 +293,47 @@ export const createWasmExecMethod = (
     );
   });
 
+  const constantParams = [
+    t.assignmentPattern(
+      identifier(
+        'fee',
+        t.tsTypeAnnotation(
+          t.tsUnionType(
+            [
+              t.tSNumberKeyword(),
+              t.tsTypeReference(
+                t.identifier('StdFee')
+              )
+            ]
+          )
+        ),
+        false
+      ),
+      t.stringLiteral('auto')
+    ),
+    identifier('memo', t.tsTypeAnnotation(
+      t.tsStringKeyword()
+    ), true),
+    identifier('funds', t.tsTypeAnnotation(
+      tsTypeOperator(
+        t.tsArrayType(
+          t.tsTypeReference(
+            t.identifier('Coin')
+          )
+        ),
+        'readonly'
+      )
+    ), true)
+  ];
+
   return t.classProperty(
     t.identifier(methodName),
     arrowFunctionExpression(
       obj ? [
         // props
         obj,
-        t.assignmentPattern(
-          identifier(
-            'fee',
-            t.tsTypeAnnotation(
-              t.tsUnionType(
-                [
-                  t.tSNumberKeyword(),
-                  t.tsTypeReference(
-                    t.identifier('StdFee')
-                  )
-                ]
-              )
-            ),
-            false
-          ),
-          t.stringLiteral('auto')
-        ),
-        identifier('memo', t.tsTypeAnnotation(
-          t.tsStringKeyword()
-        ), true),
-        identifier('funds', t.tsTypeAnnotation(
-          tsTypeOperator(
-            t.tsArrayType(
-              t.tsTypeReference(
-                t.identifier('Coin')
-              )
-            ),
-            'readonly'
-          )
-        ), true)
-      ] : [],
+        ...constantParams
+      ] : constantParams,
       t.blockStatement(
         [
           t.returnStatement(

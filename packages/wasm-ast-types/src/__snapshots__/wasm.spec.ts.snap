@@ -144,7 +144,7 @@ exports[`execute classes 1`] = `
       }
     }, fee, memo, funds);
   };
-  mint = async (): Promise<ExecuteResult> => {
+  mint = async (fee: number | StdFee = \\"auto\\", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       mint: {}
     }, fee, memo, funds);
@@ -270,7 +270,7 @@ exports[`execute classes no extends 1`] = `
       }
     }, fee, memo, funds);
   };
-  mint = async (): Promise<ExecuteResult> => {
+  mint = async (fee: number | StdFee = \\"auto\\", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       mint: {}
     }, fee, memo, funds);
