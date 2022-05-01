@@ -550,50 +550,6 @@ export const createExecuteInterface = (
           ),
 
           ...methods,
-
-          // // fee
-          // t.tSPropertySignature(
-          //   t.identifier('fee'),
-          //   t.tsTypeAnnotation(
-          //     t.tsUnionType(
-          //       [
-          //         t.tsNumberKeyword(),
-          //         t.tsTypeReference(
-          //           t.identifier('StdFee')
-          //         ),
-          //         t.tsLiteralType(
-          //           t.stringLiteral('auto')
-          //         )
-          //       ]
-          //     )
-          //   )
-          // ),
-
-          // // memo
-          // propertySignature(
-          //   'memo',
-          //   t.tsTypeAnnotation(
-          //     t.tsStringKeyword()
-          //   ),
-          //   true
-          // ),
-
-          // // funds
-          // propertySignature(
-          //   'funds',
-          //   t.tsTypeAnnotation(
-          //     tsTypeOperator(
-          //       t.tsArrayType(
-          //         t.tsTypeReference(
-          //           t.identifier('Coin')
-          //         )
-          //       ),
-          //       'readonly'
-          //     )
-          //   ),
-          //   true
-          // )
-
         ]
       )
     )
@@ -735,8 +691,6 @@ export const createQueryInterface = (className: string, queryMsg: QueryMsg) => {
       const underscoreName = Object.keys(jsonschema.properties)[0];
       const methodName = camel(underscoreName);
       const responseType = pascal(`${methodName}Response`);
-      const obj = createTypedObjectParams(jsonschema.properties[underscoreName]);
-
       return createPropertyFunctionWithObjectParams(
         methodName,
         responseType,
