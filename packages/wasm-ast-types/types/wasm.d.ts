@@ -1,5 +1,6 @@
 import * as t from '@babel/types';
 import { QueryMsg, ExecuteMsg } from './types';
+export declare const identifier: (name: string, typeAnnotation: t.TSTypeAnnotation, optional?: boolean) => t.Identifier;
 export declare const getPropertyType: (schema: any, prop: any) => {
     type: any;
     optional: any;
@@ -17,6 +18,7 @@ export declare const propertySignature: (name: string, typeAnnotation: t.TSTypeA
 };
 export declare const createTypedObjectParams: (jsonschema: any, camelize?: boolean) => t.ObjectPattern;
 export declare const createPropertyFunctionWithObjectParams: (methodName: string, responseType: string, jsonschema: any) => t.TSPropertySignature;
+export declare const createPropertyFunctionWithObjectParamsForExec: (methodName: string, responseType: string, jsonschema: any) => t.TSPropertySignature;
 export declare const createQueryInterface: (className: string, queryMsg: QueryMsg) => t.ExportNamedDeclaration;
 export declare const createTypeOrInterface: (Type: string, jsonschema: any) => t.ExportNamedDeclaration;
 export declare const createTypeInterface: (jsonschema: any) => t.ExportNamedDeclaration;

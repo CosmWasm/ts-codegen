@@ -1,5 +1,5 @@
 import * as t from '@babel/types';
-import { Field, QueryMsg } from './types';
+import { Field, QueryMsg, ExecuteMsg } from './types';
 import { TSTypeAnnotation, TSExpressionWithTypeArguments } from '@babel/types';
 export declare const getMessageProperties: (msg: QueryMsg | ExecuteMsg) => any;
 export declare const tsPropertySignature: (key: t.Expression, typeAnnotation: t.TSTypeAnnotation, optional: boolean) => t.TSPropertySignature;
