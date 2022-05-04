@@ -303,6 +303,9 @@ export const createWasmExecMethod = (
               t.tSNumberKeyword(),
               t.tsTypeReference(
                 t.identifier('StdFee')
+              ),
+              t.tsLiteralType(
+                t.stringLiteral('auto')
               )
             ]
           )
