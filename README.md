@@ -45,4 +45,18 @@ cargo schema
 
 ### Example Output
 
+- `cosmwasm-typescript-gen generate`
+
 https://gist.github.com/pyramation/ba67ec56e4e2a39cadea55430f9993e5
+
+- `cosmwasm-typescript-gen from-partial`
+
+https://gist.github.com/pyramation/f50869d1ecdb6d6ced2bc0a44c6ff492
+
+- `cosmwasm-typescript-gen react-query`
+
+https://gist.github.com/pyramation/a3bf4aa7b60a31287d0720ca1bb5473b
+
+- `cosmwasm-typescript-gen recoil`
+
+https://gist.github.com/pyramation/48b28a75def1a16b233b369297f05f0e
