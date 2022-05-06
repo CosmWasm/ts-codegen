@@ -5,7 +5,7 @@
  */
 
 import { CosmWasmClient, ExecuteResult, SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
-import { Coin, StdFee } from "@cosmjs/amino";
+import { StdFee } from "@cosmjs/amino";
 export type CosmosMsg_for_Empty = {
   bank: BankMsg;
 } | {

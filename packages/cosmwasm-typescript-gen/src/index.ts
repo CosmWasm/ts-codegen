@@ -1,4 +1,4 @@
-import { pascal } from "case";
+import { pascal, type } from "case";
 import { join } from "path";
 import { sync as mkdirp } from "mkdirp";
 import * as w from 'wasm-ast-types';
@@ -24,15 +24,6 @@ export default async (name: string, schemas: any[], outPath: string) => {
   let QueryClient = null;
   let ReadOnlyInstance = null;
 
-  const body = [];
-
-  body.push(
-    w.importStmt(['CosmWasmClient', 'ExecuteResult', 'SigningCosmWasmClient'], '@cosmjs/cosmwasm-stargate')
-  );
-  body.push(
-    w.importStmt(['Coin', 'StdFee'], '@cosmjs/amino')
-  );
-
   // TYPES
   const allTypes = [];
   for (const typ in Types) {
@@ -40,6 +31,26 @@ export default async (name: string, schemas: any[], outPath: string) => {
     allTypes.push(result);
   }
   const typeHash = parser(allTypes);
+
+
+  const body = [];
+  body.push(
+    w.importStmt(['CosmWasmClient', 'ExecuteResult', 'SigningCosmWasmClient'], '@cosmjs/cosmwasm-stargate')
+  );
+
+
+  if (typeHash.hasOwnProperty('Coin')) {
+    body.push(
+      w.importStmt(['StdFee'], '@cosmjs/amino')
+    );
+  } else {
+    body.push(
+      w.importStmt(['Coin', 'StdFee'], '@cosmjs/amino')
+    );
+  }
+
+
+  // TYPES
   Object.values(typeHash).forEach(type => {
     body.push(
       clean(type)
