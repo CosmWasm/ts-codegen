@@ -21,6 +21,7 @@ yarn.lock
 
 # project files
 __snapshots__
+__output__
 __fixtures__
 __tests__
 .babelrc
@@ -32,6 +33,10 @@ __tests__
 .gitignore
 .travis.yml
 .vscode
+*.spec.ts
+*.spec.js
+*.test.ts
+*.test.js
 CHANGELOG.md
 examples
 jest.config.js
