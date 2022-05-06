@@ -1,6 +1,6 @@
 {
   "name": "cosmwasm-typescript-gen",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "description": "A TypeScript Transpiler for Comsos Protobufs",
   "author": "Dan Lynch <pyramation@gmail.com>",
   "homepage": "https://github.com/pyramation/cosmwasm-typescript-gen/tree/master/packages/cosmscript#readme",
