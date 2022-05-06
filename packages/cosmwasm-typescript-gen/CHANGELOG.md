@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.7](https://github.com/pyramation/cosmwasm-typescript-gen/compare/cosmwasm-typescript-gen@0.2.6...cosmwasm-typescript-gen@0.2.7) (2022-05-06)
+
+**Note:** Version bump only for package cosmwasm-typescript-gen
+
+
+
+
+
 ## [0.2.6](https://github.com/pyramation/cosmwasm-typescript-gen/compare/cosmwasm-typescript-gen@0.2.5...cosmwasm-typescript-gen@0.2.6) (2022-05-06)
 
 **Note:** Version bump only for package cosmwasm-typescript-gen
