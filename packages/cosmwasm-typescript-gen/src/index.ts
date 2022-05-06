@@ -1,4 +1,4 @@
-import { pascal, type } from "case";
+import { pascal } from "case";
 import { join } from "path";
 import { sync as mkdirp } from "mkdirp";
 import * as w from 'wasm-ast-types';
