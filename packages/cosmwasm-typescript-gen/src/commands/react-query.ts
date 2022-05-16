@@ -1,7 +1,6 @@
 import { prompt } from '../prompt';
 import reactQuery from '../react-query';
-import { sync as glob } from 'glob';
-import { readFileSync } from 'fs';
+import { readSchemas } from '../utils';
 
 export default async (argv) => {
 
@@ -29,8 +28,6 @@ export default async (argv) => {
     ];
 
     const { schema, out, name } = await prompt(questions, argv);
-
-    const files = glob(schema + '/**/*.json');
-    const schemas = files.map(file => JSON.parse(readFileSync(file, 'utf-8')));
+    const schemas = readSchemas({ schemaDir: schema, argv });
     await reactQuery(name, schemas, out);
 };
