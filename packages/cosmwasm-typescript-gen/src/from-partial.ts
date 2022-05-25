@@ -37,6 +37,11 @@ export default async (name: string, schemas: any[], outPath: string) => {
         allTypes.push(result);
     }
     const typeHash = parser(allTypes);
+    if (!typeHash.hasOwnProperty('Coin')) {
+        body.push(
+            w.importStmt(['Coin'], '@cosmjs/amino')
+        );
+    }
     body.push(
         w.importStmt(Object.keys(typeHash), `./${Contract}`)
     );
