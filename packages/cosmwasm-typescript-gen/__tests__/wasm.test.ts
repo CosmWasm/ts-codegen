@@ -1,5 +1,5 @@
 import { readSchemas } from '../src/utils';
-import cosmscript from '../src/index';
+import cosmscript from '../src/generate';
 
 it('vectis', async () => {
     const out = __dirname + '/../__output__/vectis';
