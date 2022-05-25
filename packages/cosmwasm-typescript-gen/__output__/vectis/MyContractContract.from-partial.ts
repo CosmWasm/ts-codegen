@@ -7,85 +7,64 @@
 import { MsgExecuteContractEncodeObject } from "cosmwasm";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
-import { Coin } from "@cosmjs/amino";
-import { Expiration, Timestamp, Uint64, AllNftInfoResponse, OwnerOfResponse, Approval, NftInfoResponseFor_Empty, Empty, AllOperatorsResponse, AllTokensResponse, ApprovalResponse, ApprovalsResponse, Decimal, CollectionInfoResponse, RoyaltyInfoResponse, ContractInfoResponse, InstantiateMsg, CollectionInfoFor_RoyaltyInfoResponse, MinterResponse, NftInfoResponse, NumTokensResponse, OperatorsResponse, TokensResponse } from "./Sg721Contract.ts";
-export interface Sg721Message {
+import { CosmosMsg_for_Empty, BankMsg, Uint128, WasmMsg, Binary, Coin, Empty } from "./MyContractContract.ts";
+export interface MyContractMessage {
   contractAddress: string;
   sender: string;
-  transferNft: ({
-    recipient,
-    tokenId
+  execute: ({
+    msgs
   }: {
-    recipient: string;
-    tokenId: string;
+    msgs: CosmosMsg_for_Empty[];
   }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
-  sendNft: ({
-    contract,
-    msg,
-    tokenId
+  revertFreezeStatus: (funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
+  relay: ({
+    transaction
   }: {
-    contract: string;
-    msg: Binary;
-    tokenId: string;
+    transaction: RelayTransaction;
   }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
-  approve: ({
-    expires,
-    spender,
-    tokenId
+  rotateUserKey: ({
+    newUserAddress
   }: {
-    expires?: Expiration;
-    spender: string;
-    tokenId: string;
+    newUserAddress: string;
   }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
-  revoke: ({
-    spender,
-    tokenId
+  addRelayer: ({
+    newRelayerAddress
   }: {
-    spender: string;
-    tokenId: string;
+    newRelayerAddress: Addr;
   }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
-  approveAll: ({
-    expires,
-    operator
+  removeRelayer: ({
+    relayerAddress
   }: {
-    expires?: Expiration;
-    operator: string;
+    relayerAddress: Addr;
   }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
-  revokeAll: ({
-    operator
+  updateGuardians: ({
+    guardians,
+    newMultisigCodeId
   }: {
-    operator: string;
-  }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
-  mint: (funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
-  burn: ({
-    tokenId
-  }: {
-    tokenId: string;
+    guardians: Guardians;
+    newMultisigCodeId?: number;
   }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
 }
-export class Sg721MessageComposer implements Sg721Message {
+export class MyContractMessageComposer implements MyContractMessage {
   sender: string;
   contractAddress: string;
 
   constructor(sender: string, contractAddress: string) {
     this.sender = sender;
     this.contractAddress = contractAddress;
-    this.transferNft = this.transferNft.bind(this);
-    this.sendNft = this.sendNft.bind(this);
-    this.approve = this.approve.bind(this);
-    this.revoke = this.revoke.bind(this);
-    this.approveAll = this.approveAll.bind(this);
-    this.revokeAll = this.revokeAll.bind(this);
-    this.mint = this.mint.bind(this);
-    this.burn = this.burn.bind(this);
+    this.execute = this.execute.bind(this);
+    this.revertFreezeStatus = this.revertFreezeStatus.bind(this);
+    this.relay = this.relay.bind(this);
+    this.rotateUserKey = this.rotateUserKey.bind(this);
+    this.addRelayer = this.addRelayer.bind(this);
+    this.removeRelayer = this.removeRelayer.bind(this);
+    this.updateGuardians = this.updateGuardians.bind(this);
   }
 
-  transferNft = ({
-    recipient,
-    tokenId
+  execute = ({
+    msgs
   }: {
-    recipient: string;
-    tokenId: string;
+    msgs: CosmosMsg_for_Empty[];
   }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
@@ -93,23 +72,31 @@ export class Sg721MessageComposer implements Sg721Message {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify({
-          transfer_nft: {
-            recipient,
-            token_id: tokenId
+          execute: {
+            msgs
           }
         })),
         funds
       })
     };
   };
-  sendNft = ({
-    contract,
-    msg,
-    tokenId
+  revertFreezeStatus = (funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
+    return {
+      typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
+      value: MsgExecuteContract.fromPartial({
+        sender: this.sender,
+        contract: this.contractAddress,
+        msg: toUtf8(JSON.stringify({
+          revert_freeze_status: {}
+        })),
+        funds
+      })
+    };
+  };
+  relay = ({
+    transaction
   }: {
-    contract: string;
-    msg: Binary;
-    tokenId: string;
+    transaction: RelayTransaction;
   }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
@@ -117,24 +104,18 @@ export class Sg721MessageComposer implements Sg721Message {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify({
-          send_nft: {
-            contract,
-            msg,
-            token_id: tokenId
+          relay: {
+            transaction
           }
         })),
         funds
       })
     };
   };
-  approve = ({
-    expires,
-    spender,
-    tokenId
+  rotateUserKey = ({
+    newUserAddress
   }: {
-    expires?: Expiration;
-    spender: string;
-    tokenId: string;
+    newUserAddress: string;
   }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
@@ -142,22 +123,18 @@ export class Sg721MessageComposer implements Sg721Message {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify({
-          approve: {
-            expires,
-            spender,
-            token_id: tokenId
+          rotate_user_key: {
+            new_user_address: newUserAddress
           }
         })),
         funds
       })
     };
   };
-  revoke = ({
-    spender,
-    tokenId
+  addRelayer = ({
+    newRelayerAddress
   }: {
-    spender: string;
-    tokenId: string;
+    newRelayerAddress: Addr;
   }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
@@ -165,21 +142,18 @@ export class Sg721MessageComposer implements Sg721Message {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify({
-          revoke: {
-            spender,
-            token_id: tokenId
+          add_relayer: {
+            new_relayer_address: newRelayerAddress
           }
         })),
         funds
       })
     };
   };
-  approveAll = ({
-    expires,
-    operator
+  removeRelayer = ({
+    relayerAddress
   }: {
-    expires?: Expiration;
-    operator: string;
+    relayerAddress: Addr;
   }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
@@ -187,19 +161,20 @@ export class Sg721MessageComposer implements Sg721Message {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify({
-          approve_all: {
-            expires,
-            operator
+          remove_relayer: {
+            relayer_address: relayerAddress
           }
         })),
         funds
       })
     };
   };
-  revokeAll = ({
-    operator
+  updateGuardians = ({
+    guardians,
+    newMultisigCodeId
   }: {
-    operator: string;
+    guardians: Guardians;
+    newMultisigCodeId?: number;
   }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
@@ -207,40 +182,9 @@ export class Sg721MessageComposer implements Sg721Message {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify({
-          revoke_all: {
-            operator
-          }
-        })),
-        funds
-      })
-    };
-  };
-  mint = (funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
-    return {
-      typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
-      value: MsgExecuteContract.fromPartial({
-        sender: this.sender,
-        contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          mint: {}
-        })),
-        funds
-      })
-    };
-  };
-  burn = ({
-    tokenId
-  }: {
-    tokenId: string;
-  }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
-    return {
-      typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
-      value: MsgExecuteContract.fromPartial({
-        sender: this.sender,
-        contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          burn: {
-            token_id: tokenId
+          update_guardians: {
+            guardians,
+            new_multisig_code_id: newMultisigCodeId
           }
         })),
         funds

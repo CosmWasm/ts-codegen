@@ -1,6 +1,8 @@
 import { readSchemas } from '../src/utils';
 import generate from '../src/generate';
 import fromPartial from '../src/from-partial';
+import reactQuery from '../src/react-query';
+import recoil from '../src/recoil';
 
 it('vectis', async () => {
     const out = __dirname + '/../__output__/vectis';
@@ -8,6 +10,9 @@ it('vectis', async () => {
 
     const schemas = readSchemas({ schemaDir, argv: {} });
     await generate('MyContract', schemas, out);
+    await fromPartial('MyContract', schemas, out);
+    // await recoil('MyContract', schemas, out);
+    // await reactQuery('MyContract', schemas, out);
 })
 
 it('cosmwasm', async () => {
@@ -17,6 +22,8 @@ it('cosmwasm', async () => {
     const schemas = readSchemas({ schemaDir, argv: { packed: true } });
     await generate('CW4Group', schemas, out);
     await fromPartial('CW4Group', schemas, out);
+    await recoil('CW4Group', schemas, out);
+    await reactQuery('CW4Group', schemas, out);
 })
 
 it('minter', async () => {
@@ -26,6 +33,8 @@ it('minter', async () => {
     const schemas = readSchemas({ schemaDir, argv: {} });
     await generate('Minter', schemas, out);
     await fromPartial('Minter', schemas, out);
+    await recoil('Minter', schemas, out);
+    await reactQuery('Minter', schemas, out);
 })
 
 it('sg721', async () => {
@@ -35,4 +44,6 @@ it('sg721', async () => {
     const schemas = readSchemas({ schemaDir, argv: {} });
     await generate('Sg721', schemas, out);
     await fromPartial('Sg721', schemas, out);
+    await recoil('Sg721', schemas, out);
+    await reactQuery('Sg721', schemas, out);
 })

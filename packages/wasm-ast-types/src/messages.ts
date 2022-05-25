@@ -18,7 +18,7 @@ import {
 const getTypeFromRef = ($ref) => {
     switch ($ref) {
         case '#/definitions/Binary':
-            return t.tsTypeReference(t.identifier('Uint8Array'))
+            return t.tsTypeReference(t.identifier('Binary'))
         default:
             if ($ref.startsWith('#/definitions/')) {
                 return t.tsTypeReference(t.identifier($ref.replace('#/definitions/', '')))

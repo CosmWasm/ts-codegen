@@ -60,3 +60,22 @@ https://gist.github.com/pyramation/a3bf4aa7b60a31287d0720ca1bb5473b
 - `cosmwasm-typescript-gen recoil`
 
 https://gist.github.com/pyramation/48b28a75def1a16b233b369297f05f0e
+
+
+### Exporting Schemas
+
+#### `cosmwasm_std` Examples
+
+```rs
+use cosmwasm_std::{Addr, Binary, CosmosMsg, Empty};
+
+export_schema(&schema_for!(Binary), &out_dir);
+export_schema_with_title(&schema_for!(MinterData), &out_dir, "MinterResponse");
+export_schema_with_title(&schema_for!(Addr), &out_dir, "StakingResponse");
+export_schema_with_title(&schema_for!(Addr), &out_dir, "DaoResponse");
+export_schema_with_title(
+      &schema_for!(CosmosMsg<Empty>),
+      &out_dir,
+      "CosmosMsg_for_Empty",
+);
+```

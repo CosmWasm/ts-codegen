@@ -359,7 +359,7 @@ export interface Sg721Interface extends Sg721ReadOnlyInterface {
     tokenId
   }: {
     contract: string;
-    msg: Uint8Array;
+    msg: Binary;
     tokenId: string;
   }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
   approve: ({
@@ -437,7 +437,7 @@ export class Sg721Client extends Sg721QueryClient implements Sg721Interface {
     tokenId
   }: {
     contract: string;
-    msg: Uint8Array;
+    msg: Binary;
     tokenId: string;
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
