@@ -25,7 +25,7 @@ export interface Sg721Message {
     tokenId
   }: {
     contract: string;
-    msg: BinaryType;
+    msg: Uint8Array;
     tokenId: string;
   }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
   approve: ({
@@ -108,7 +108,7 @@ export class Sg721MessageComposer implements Sg721Message {
     tokenId
   }: {
     contract: string;
-    msg: BinaryType;
+    msg: Uint8Array;
     tokenId: string;
   }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
     return {
