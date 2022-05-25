@@ -1,5 +1,5 @@
 import { prompt } from '../prompt';
-import cosmscript from '../index';
+import cosmscript from '../generate';
 import { readSchemas } from '../utils';
 
 export default async (argv) => {
