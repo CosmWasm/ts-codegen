@@ -43,7 +43,7 @@ export default async (name: string, schemas: any[], outPath: string) => {
         );
     }
     body.push(
-        w.importStmt(Object.keys(typeHash), `./${Contract}`)
+        w.importStmt(Object.keys(typeHash), `./${Contract}`.replace(/\.ts$/, ''))
     );
 
 

@@ -39,12 +39,8 @@ export default async (name: string, schemas: any[], outPath: string) => {
   }
   const typeHash = parser(allTypes);
   body.push(
-    w.importStmt(Object.keys(typeHash), `./${Contract}`)
+    w.importStmt(Object.keys(typeHash), `./${Contract}`.replace(/\.ts$/, ''))
   );
-
-
-
-
 
   // query messages
   if (QueryMsg) {
