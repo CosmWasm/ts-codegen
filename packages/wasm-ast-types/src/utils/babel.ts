@@ -3,6 +3,19 @@ import { snake } from "case";
 import { Field, QueryMsg, ExecuteMsg } from '../types';
 import { TSTypeAnnotation, TSExpressionWithTypeArguments } from '@babel/types';
 
+export const propertySignature = (
+    name: string,
+    typeAnnotation: t.TSTypeAnnotation,
+    optional: boolean = false
+) => {
+    return {
+        type: 'TSPropertySignature',
+        key: t.identifier(name),
+        typeAnnotation,
+        optional
+    }
+};
+
 export const identifier = (name: string, typeAnnotation: t.TSTypeAnnotation, optional: boolean = false) => {
     const type = t.identifier(name);
     type.typeAnnotation = typeAnnotation;

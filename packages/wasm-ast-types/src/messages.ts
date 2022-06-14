@@ -15,7 +15,7 @@ import {
     ExecuteMsg
 } from './types';
 import { getPropertyType } from './utils/types';
-import { identifier, tsTypeOperator } from './utils/babel';
+import { identifier, tsTypeOperator, propertySignature } from './utils/babel';
 
 const createWasmExecMethodPartial = (
     jsonschema: any
@@ -288,30 +288,6 @@ export const createFromPartialInterface = (
             )
         )
     );
-};
-
-// MARKED AS NOT DRY 
-const propertySignature = (
-    name: string,
-    typeAnnotation: t.TSTypeAnnotation,
-    optional: boolean = false
-) => {
-
-    // prop.leadingComments = [{
-    //   type: 'Comment',
-    //   value: ' Data on the token itself'
-    // }];
-    // prop.leadingComments = [{
-    //   type: 'CommentBlock',
-    //   value: '* Data on the token itself'
-    // }];
-
-    return {
-        type: 'TSPropertySignature',
-        key: t.identifier(name),
-        typeAnnotation,
-        optional
-    }
 };
 
 // MARKED AS NOT DRY 

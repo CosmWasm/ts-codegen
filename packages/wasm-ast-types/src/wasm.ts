@@ -16,7 +16,7 @@ import {
 } from './types';
 
 import { getPropertyType, getType } from './utils/types';
-import { identifier } from './utils/babel';
+import { identifier, tsTypeOperator, propertySignature } from './utils/babel';
 
 export const createWasmQueryMethod = (
   jsonschema: any
@@ -162,12 +162,6 @@ export const createQueryClass = (
         )
       ])
   );
-}
-
-const tsTypeOperator = (typeAnnotation: t.TSType, operator: string) => {
-  const obj = t.tsTypeOperator(typeAnnotation);
-  obj.operator = operator;
-  return obj;
 }
 
 export const createWasmExecMethod = (
@@ -451,29 +445,6 @@ export const createExecuteInterface = (
       )
     )
   );
-};
-
-export const propertySignature = (
-  name: string,
-  typeAnnotation: t.TSTypeAnnotation,
-  optional: boolean = false
-) => {
-
-  // prop.leadingComments = [{
-  //   type: 'Comment',
-  //   value: ' Data on the token itself'
-  // }];
-  // prop.leadingComments = [{
-  //   type: 'CommentBlock',
-  //   value: '* Data on the token itself'
-  // }];
-
-  return {
-    type: 'TSPropertySignature',
-    key: t.identifier(name),
-    typeAnnotation,
-    optional
-  }
 };
 
 export const createTypedObjectParams = (jsonschema: any, camelize: boolean = true) => {
