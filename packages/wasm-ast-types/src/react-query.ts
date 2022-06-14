@@ -7,7 +7,8 @@ import {
     callExpression,
     getMessageProperties
 } from './utils'
-import { propertySignature, getPropertyType } from './wasm';
+import { propertySignature } from './wasm';
+import { getPropertyType } from './utils/types';
 interface ReactQueryHookQuery {
     hookName: string;
     hookParamsTypeName: string;

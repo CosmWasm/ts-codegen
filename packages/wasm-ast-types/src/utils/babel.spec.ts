@@ -1,4 +1,4 @@
-import { importStmt } from './utils'
+import { importStmt } from './babel'
 import generate from '@babel/generator';
 import * as t from '@babel/types';
 
@@ -9,7 +9,7 @@ import {
     classDeclaration,
     classProperty,
     arrowFunctionExpression
-} from './utils'
+} from './babel'
 
 const expectCode = (ast) => {
     expect(
