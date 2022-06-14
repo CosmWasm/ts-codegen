@@ -3,6 +3,19 @@ import { snake } from "case";
 import { Field, QueryMsg, ExecuteMsg } from '../types';
 import { TSTypeAnnotation, TSExpressionWithTypeArguments } from '@babel/types';
 
+export const identifier = (name: string, typeAnnotation: t.TSTypeAnnotation, optional: boolean = false) => {
+    const type = t.identifier(name);
+    type.typeAnnotation = typeAnnotation;
+    type.optional = optional;
+    return type;
+};
+
+export const tsTypeOperator = (typeAnnotation: t.TSType, operator: string) => {
+    const obj = t.tsTypeOperator(typeAnnotation);
+    obj.operator = operator;
+    return obj;
+};
+
 export const getMessageProperties = (msg: QueryMsg | ExecuteMsg) => {
     if (msg.anyOf) return msg.anyOf;
     if (msg.oneOf) return msg.oneOf;

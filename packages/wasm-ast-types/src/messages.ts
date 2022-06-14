@@ -15,23 +15,9 @@ import {
     ExecuteMsg
 } from './types';
 import { getPropertyType } from './utils/types';
+import { identifier, tsTypeOperator } from './utils/babel';
 
-// MARKED AS NOT DRY 
-const identifier = (name: string, typeAnnotation: t.TSTypeAnnotation, optional: boolean = false) => {
-    const type = t.identifier(name);
-    type.typeAnnotation = typeAnnotation;
-    type.optional = optional;
-    return type;
-}
-
-const tsTypeOperator = (typeAnnotation: t.TSType, operator: string) => {
-    const obj = t.tsTypeOperator(typeAnnotation);
-    obj.operator = operator;
-    return obj;
-}
-
-// MARKED AS NOT DRY 
-const createWasmExecMethod = (
+const createWasmExecMethodPartial = (
     jsonschema: any
 ) => {
 
@@ -191,7 +177,7 @@ export const createFromPartialClass = (
 
     const methods = getMessageProperties(execMsg)
         .map(schema => {
-            return createWasmExecMethod(schema)
+            return createWasmExecMethodPartial(schema)
         });
 
     const blockStmt = [];

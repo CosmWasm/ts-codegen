@@ -16,13 +16,7 @@ import {
 } from './types';
 
 import { getPropertyType, getType } from './utils/types';
-
-export const identifier = (name: string, typeAnnotation: t.TSTypeAnnotation, optional: boolean = false) => {
-  const type = t.identifier(name);
-  type.typeAnnotation = typeAnnotation;
-  type.optional = optional;
-  return type;
-}
+import { identifier } from './utils/babel';
 
 export const createWasmQueryMethod = (
   jsonschema: any
