@@ -5,9 +5,10 @@ import reactQuery from '../src/react-query';
 import recoil from '../src/recoil';
 
 const FIXTURE_DIR = __dirname + '/../../../__fixtures__';
+const OUTPUT_DIR = __dirname + '/../../../__output__';
 
 it('vectis', async () => {
-    const out = __dirname + '/../__output__/vectis';
+    const out = OUTPUT_DIR + '/vectis';
     const schemaDir = FIXTURE_DIR + '/vectis/';
 
     const schemas = readSchemas({ schemaDir, argv: {} });
@@ -18,7 +19,7 @@ it('vectis', async () => {
 })
 
 it('cosmwasm', async () => {
-    const out = __dirname + '/../__output__/cosmwasm';
+    const out = OUTPUT_DIR + '/cosmwasm';
     const schemaDir = FIXTURE_DIR + '/cosmwasm/';
     const schemas = readSchemas({ schemaDir, argv: { packed: true } });
     await generate('CW4Group', schemas, out);
@@ -28,7 +29,7 @@ it('cosmwasm', async () => {
 })
 
 it('minter', async () => {
-    const out = __dirname + '/../__output__/minter';
+    const out = OUTPUT_DIR + '/minter';
     const schemaDir = FIXTURE_DIR + '/minter/';
     const schemas = readSchemas({ schemaDir, argv: {} });
     await generate('Minter', schemas, out);
@@ -38,7 +39,7 @@ it('minter', async () => {
 })
 
 it('sg721', async () => {
-    const out = __dirname + '/../__output__/sg721';
+    const out = OUTPUT_DIR + '/sg721';
     const schemaDir = FIXTURE_DIR + '/sg721/';
 
     const schemas = readSchemas({ schemaDir, argv: {} });
@@ -49,7 +50,7 @@ it('sg721', async () => {
 })
 
 it('cw-named-groups', async () => {
-    const out = __dirname + '/../__output__/cw-named-groups';
+    const out = OUTPUT_DIR + '/cw-named-groups';
     const schemaDir = FIXTURE_DIR + '/cw-named-groups/';
 
     const schemas = readSchemas({ schemaDir, argv: {} });
