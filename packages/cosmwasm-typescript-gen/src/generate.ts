@@ -28,17 +28,15 @@ export default async (name: string, schemas: any[], outPath: string) => {
   // TYPES
   const allTypes = [];
   for (const typ in Types) {
-    const result = await compile(Types[typ], typ);
+    const result = await compile(Types[typ], Types[typ].title);
     allTypes.push(result);
   }
   const typeHash = parser(allTypes);
-
 
   const body = [];
   body.push(
     w.importStmt(['CosmWasmClient', 'ExecuteResult', 'SigningCosmWasmClient'], '@cosmjs/cosmwasm-stargate')
   );
-
 
   if (typeHash.hasOwnProperty('Coin')) {
     body.push(
