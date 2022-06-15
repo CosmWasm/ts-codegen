@@ -56,6 +56,7 @@ export interface ApprovalsResponse {
   approvals: Approval[];
   [k: string]: unknown;
 }
+export type Binary = string;
 export type Decimal = string;
 export interface CollectionInfoResponse {
   creator: string;
