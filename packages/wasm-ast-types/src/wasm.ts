@@ -15,7 +15,7 @@ import {
   ExecuteMsg
 } from './types';
 
-import { getPropertyType, getType } from './utils/types';
+import { getPropertyType, getType, createTypedObjectParams, forEmptyNameFix } from './utils/types';
 import { identifier, tsTypeOperator, propertySignature } from './utils/babel';
 
 export const createWasmQueryMethod = (
@@ -447,45 +447,6 @@ export const createExecuteInterface = (
   );
 };
 
-export const createTypedObjectParams = (jsonschema: any, camelize: boolean = true) => {
-  const keys = Object.keys(jsonschema.properties ?? {});
-  if (!keys.length) return;
-
-  const typedParams = keys.map(prop => {
-    const { type, optional } = getPropertyType(jsonschema, prop);
-    return propertySignature(
-      camelize ? camel(prop) : prop,
-      t.tsTypeAnnotation(
-        type
-      ),
-      optional
-    )
-  });
-  const params = keys.map(prop => {
-    return t.objectProperty(
-      camelize ? t.identifier(camel(prop)) : t.identifier(prop),
-      camelize ? t.identifier(camel(prop)) : t.identifier(prop),
-      false,
-      true
-    );
-  });
-
-  const obj = t.objectPattern(
-    [
-      ...params
-    ]
-  );
-  obj.typeAnnotation = t.tsTypeAnnotation(
-    t.tsTypeLiteral(
-      [
-        ...typedParams
-      ]
-    )
-  );
-
-  return obj;
-};
-
 export const createPropertyFunctionWithObjectParams = (methodName: string, responseType: string, jsonschema: any) => {
   const obj = createTypedObjectParams(jsonschema);
 
@@ -589,13 +550,24 @@ export const createQueryInterface = (className: string, queryMsg: QueryMsg) => {
 
 export const createTypeOrInterface = (Type: string, jsonschema: any) => {
   if (jsonschema.type !== 'object') {
+
+    if (!jsonschema.type) {
+      return t.exportNamedDeclaration(
+        t.tsTypeAliasDeclaration(
+          t.identifier(Type),
+          null,
+          t.tsTypeReference(t.identifier(forEmptyNameFix(jsonschema.title)))
+        )
+      )
+    }
+
     return t.exportNamedDeclaration(
       t.tsTypeAliasDeclaration(
         t.identifier(Type),
         null,
         getType(jsonschema.type)
       )
-    )
+    );
   }
   const props = Object.keys(jsonschema.properties ?? {})
     .map(prop => {

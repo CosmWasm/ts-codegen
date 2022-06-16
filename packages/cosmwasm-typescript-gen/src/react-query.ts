@@ -30,7 +30,13 @@ export default async (name: string, schemas: any[], outPath: string) => {
     // TYPES
     const allTypes = [];
     for (const typ in Types) {
-        const result = await compile(Types[typ], typ);
+        if (Types[typ].definitions) {
+            for (const key of Object.keys(Types[typ].definitions)) {
+                // set title
+                Types[typ].definitions[key].title = key;
+            }
+        }
+        const result = await compile(Types[typ], Types[typ].title);
         allTypes.push(result);
     }
     const typeHash = parser(allTypes);

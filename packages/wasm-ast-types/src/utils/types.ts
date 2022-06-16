@@ -1,11 +1,20 @@
 import * as t from '@babel/types';
+import { camel } from 'case';
+import { propertySignature } from './babel';
+
+export const forEmptyNameFix = (name) => {
+    if (name.endsWith('For_Empty')) {
+        return name.replace(/For_Empty$/, '_for_Empty');
+    }
+    return name;
+};
 
 const getTypeFromRef = ($ref) => {
     switch ($ref) {
         case '#/definitions/Binary':
             return t.tsTypeReference(t.identifier('Binary'))
         default:
-            if ($ref.startsWith('#/definitions/')) {
+            if ($ref?.startsWith('#/definitions/')) {
                 return t.tsTypeReference(t.identifier($ref.replace('#/definitions/', '')))
             }
             throw new Error('what is $ref: ' + $ref);
@@ -32,6 +41,8 @@ export const getType = (type) => {
             return t.tSBooleanKeyword();
         case 'integer':
             return t.tsNumberKeyword();
+        // case 'object':
+        // return t.tsObjectKeyword();
         default:
             throw new Error('contact maintainers [unknown type]: ' + type);
     }
@@ -43,7 +54,7 @@ export const getPropertyType = (schema, prop) => {
     let info = props[prop];
 
     let type = null;
-    let optional = schema.required?.includes(prop);
+    let optional = !schema.required?.includes(prop);
 
     if (info.allOf && info.allOf.length === 1) {
         info = info.allOf[0];
@@ -60,9 +71,17 @@ export const getPropertyType = (schema, prop) => {
         }
         const [nullableType, nullType] = info.anyOf;
         if (nullType?.type !== 'null') {
-            throw new Error('case not handled by transpiler. contact maintainers.')
+            throw new Error('[nullableType.type]: case not handled by transpiler. contact maintainers.')
         }
-        type = getTypeFromRef(nullableType?.$ref);
+        if (!nullableType?.$ref) {
+            if (nullableType.title) {
+                type = t.tsTypeReference(t.identifier(nullableType.title));
+            } else {
+                throw new Error('[nullableType.title] case not handled by transpiler. contact maintainers.')
+            }
+        } else {
+            type = getTypeFromRef(nullableType?.$ref);
+        }
         optional = true;
     }
 
@@ -70,8 +89,16 @@ export const getPropertyType = (schema, prop) => {
         if (info.type === 'array') {
             if (info.items.$ref) {
                 type = getArrayTypeFromRef(info.items.$ref);
-            } else {
+            } else if (info.items.title) {
+                type = t.tsArrayType(
+                    t.tsTypeReference(
+                        t.identifier(info.items.title)
+                    )
+                );
+            } else if (info.items.type) {
                 type = getArrayTypeFromType(info.items.type);
+            } else {
+                throw new Error('[info.items] case not handled by transpiler. contact maintainers.')
             }
         } else {
             type = getType(info.type);
@@ -107,4 +134,100 @@ export const getPropertyType = (schema, prop) => {
     }
 
     return { type, optional };
+};
+
+export const createTypedObjectParams = (jsonschema: any, camelize: boolean = true) => {
+    const keys = Object.keys(jsonschema.properties ?? {});
+    if (!keys.length) return;
+
+    const typedParams = keys.map(prop => {
+        if (jsonschema.properties[prop].type === 'object') {
+            if (jsonschema.properties[prop].title) {
+                return propertySignature(
+                    camelize ? camel(prop) : prop,
+                    t.tsTypeAnnotation(
+                        t.tsTypeReference(t.identifier(forEmptyNameFix(jsonschema.properties[prop].title)))
+                    )
+                );
+            } else {
+                throw new Error('createTypedObjectParams() contact maintainer')
+            }
+        }
+
+        if (Array.isArray(jsonschema.properties[prop].allOf)) {
+            const allOf = JSON.stringify(jsonschema.properties[prop].allOf, null, 2);
+
+            const isOptional = !jsonschema.required?.includes(prop);
+            const unionTypes = jsonschema.properties[prop].allOf.map(el => {
+                if (el.title) return el.title;
+                return el.type;
+            });
+            const uniqUnionTypes = [...new Set(unionTypes)];
+
+            if (uniqUnionTypes.length === 1) {
+                return propertySignature(
+                    camelize ? camel(prop) : prop,
+                    t.tsTypeAnnotation(
+                        t.tsTypeReference(
+                            t.identifier(forEmptyNameFix(uniqUnionTypes[0]))
+                        )
+                    ),
+                    isOptional
+                );
+            } else {
+                return propertySignature(
+                    camelize ? camel(prop) : prop,
+                    t.tsTypeAnnotation(
+                        t.tsUnionType(
+                            uniqUnionTypes.map(typ =>
+                                t.tsTypeReference(
+                                    t.identifier(forEmptyNameFix(typ))
+                                )
+                            )
+                        )
+                    ),
+                    isOptional
+                );
+            }
+        }
+
+        try {
+            getPropertyType(jsonschema, prop);
+        } catch (e) {
+            console.log(e);
+            console.log(jsonschema, prop);
+        }
+
+        const { type, optional } = getPropertyType(jsonschema, prop);
+        return propertySignature(
+            camelize ? camel(prop) : prop,
+            t.tsTypeAnnotation(
+                type
+            ),
+            optional
+        );
+    });
+    const params = keys.map(prop => {
+        return t.objectProperty(
+            camelize ? t.identifier(camel(prop)) : t.identifier(prop),
+            camelize ? t.identifier(camel(prop)) : t.identifier(prop),
+            false,
+            true
+        );
+    });
+
+    const obj = t.objectPattern(
+        [
+            ...params
+        ]
+    );
+    obj.typeAnnotation = t.tsTypeAnnotation(
+        t.tsTypeLiteral(
+            [
+                ...typedParams
+            ]
+        )
+    );
+
+    return obj;
 };
