@@ -30,12 +30,12 @@ export interface MyContractMessage {
   addRelayer: ({
     newRelayerAddress
   }: {
-    newRelayerAddress: Addr;
+    newRelayerAddress: string;
   }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
   removeRelayer: ({
     relayerAddress
   }: {
-    relayerAddress: Addr;
+    relayerAddress: string;
   }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
   updateGuardians: ({
     guardians,
@@ -134,7 +134,7 @@ export class MyContractMessageComposer implements MyContractMessage {
   addRelayer = ({
     newRelayerAddress
   }: {
-    newRelayerAddress: Addr;
+    newRelayerAddress: string;
   }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
@@ -153,7 +153,7 @@ export class MyContractMessageComposer implements MyContractMessage {
   removeRelayer = ({
     relayerAddress
   }: {
-    relayerAddress: Addr;
+    relayerAddress: string;
   }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",

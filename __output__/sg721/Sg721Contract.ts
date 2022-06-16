@@ -56,7 +56,6 @@ export interface ApprovalsResponse {
   approvals: Approval[];
   [k: string]: unknown;
 }
-export type Binary = string;
 export type Decimal = string;
 export interface CollectionInfoResponse {
   creator: string;
@@ -74,6 +73,59 @@ export interface RoyaltyInfoResponse {
 export interface ContractInfoResponse {
   name: string;
   symbol: string;
+  [k: string]: unknown;
+}
+export type ExecuteMsg_for_Empty = {
+  transfer_nft: {
+    recipient: string;
+    token_id: string;
+    [k: string]: unknown;
+  };
+} | {
+  send_nft: {
+    contract: string;
+    msg: Binary;
+    token_id: string;
+    [k: string]: unknown;
+  };
+} | {
+  approve: {
+    expires?: Expiration | null;
+    spender: string;
+    token_id: string;
+    [k: string]: unknown;
+  };
+} | {
+  revoke: {
+    spender: string;
+    token_id: string;
+    [k: string]: unknown;
+  };
+} | {
+  approve_all: {
+    expires?: Expiration | null;
+    operator: string;
+    [k: string]: unknown;
+  };
+} | {
+  revoke_all: {
+    operator: string;
+    [k: string]: unknown;
+  };
+} | {
+  mint: MintMsgFor_Empty;
+} | {
+  burn: {
+    token_id: string;
+    [k: string]: unknown;
+  };
+};
+export type Binary = string;
+export interface MintMsgFor_Empty {
+  extension: Empty;
+  owner: string;
+  token_id: string;
+  token_uri?: string | null;
   [k: string]: unknown;
 }
 export interface InstantiateMsg {
@@ -108,6 +160,74 @@ export interface OperatorsResponse {
   operators: Approval[];
   [k: string]: unknown;
 }
+export type QueryMsg = {
+  owner_of: {
+    include_expired?: boolean | null;
+    token_id: string;
+    [k: string]: unknown;
+  };
+} | {
+  approval: {
+    include_expired?: boolean | null;
+    spender: string;
+    token_id: string;
+    [k: string]: unknown;
+  };
+} | {
+  approvals: {
+    include_expired?: boolean | null;
+    token_id: string;
+    [k: string]: unknown;
+  };
+} | {
+  all_operators: {
+    include_expired?: boolean | null;
+    limit?: number | null;
+    owner: string;
+    start_after?: string | null;
+    [k: string]: unknown;
+  };
+} | {
+  num_tokens: {
+    [k: string]: unknown;
+  };
+} | {
+  contract_info: {
+    [k: string]: unknown;
+  };
+} | {
+  nft_info: {
+    token_id: string;
+    [k: string]: unknown;
+  };
+} | {
+  all_nft_info: {
+    include_expired?: boolean | null;
+    token_id: string;
+    [k: string]: unknown;
+  };
+} | {
+  tokens: {
+    limit?: number | null;
+    owner: string;
+    start_after?: string | null;
+    [k: string]: unknown;
+  };
+} | {
+  all_tokens: {
+    limit?: number | null;
+    start_after?: string | null;
+    [k: string]: unknown;
+  };
+} | {
+  minter: {
+    [k: string]: unknown;
+  };
+} | {
+  collection_info: {
+    [k: string]: unknown;
+  };
+};
 export interface TokensResponse {
   tokens: string[];
   [k: string]: unknown;
@@ -360,7 +480,7 @@ export interface Sg721Interface extends Sg721ReadOnlyInterface {
     tokenId
   }: {
     contract: string;
-    msg: Binary;
+    msg: string;
     tokenId: string;
   }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
   approve: ({
@@ -391,7 +511,17 @@ export interface Sg721Interface extends Sg721ReadOnlyInterface {
   }: {
     operator: string;
   }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
-  mint: (fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
+  mint: ({
+    extension,
+    owner,
+    tokenId,
+    tokenUri
+  }: {
+    extension: Empty;
+    owner: string;
+    tokenId: string;
+    tokenUri?: string;
+  }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
   burn: ({
     tokenId
   }: {
@@ -438,7 +568,7 @@ export class Sg721Client extends Sg721QueryClient implements Sg721Interface {
     tokenId
   }: {
     contract: string;
-    msg: Binary;
+    msg: string;
     tokenId: string;
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
@@ -505,9 +635,24 @@ export class Sg721Client extends Sg721QueryClient implements Sg721Interface {
       }
     }, fee, memo, funds);
   };
-  mint = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
+  mint = async ({
+    extension,
+    owner,
+    tokenId,
+    tokenUri
+  }: {
+    extension: Empty;
+    owner: string;
+    tokenId: string;
+    tokenUri?: string;
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
-      mint: {}
+      mint: {
+        extension,
+        owner,
+        token_id: tokenId,
+        token_uri: tokenUri
+      }
     }, fee, memo, funds);
   };
   burn = async ({

@@ -38,6 +38,38 @@ export interface Config {
   whitelist?: Addr | null;
   [k: string]: unknown;
 }
+export type ExecuteMsg = {
+  mint: {
+    [k: string]: unknown;
+  };
+} | {
+  set_whitelist: {
+    whitelist: string;
+    [k: string]: unknown;
+  };
+} | {
+  update_start_time: Timestamp;
+} | {
+  update_per_address_limit: {
+    per_address_limit: number;
+    [k: string]: unknown;
+  };
+} | {
+  mint_to: {
+    recipient: string;
+    [k: string]: unknown;
+  };
+} | {
+  mint_for: {
+    recipient: string;
+    token_id: number;
+    [k: string]: unknown;
+  };
+} | {
+  withdraw: {
+    [k: string]: unknown;
+  };
+};
 export type Decimal = string;
 export interface InstantiateMsg {
   base_token_uri: string;
@@ -70,6 +102,28 @@ export interface RoyaltyInfoResponse {
   share: Decimal;
   [k: string]: unknown;
 }
+export type QueryMsg = {
+  config: {
+    [k: string]: unknown;
+  };
+} | {
+  mintable_num_tokens: {
+    [k: string]: unknown;
+  };
+} | {
+  start_time: {
+    [k: string]: unknown;
+  };
+} | {
+  mint_price: {
+    [k: string]: unknown;
+  };
+} | {
+  mint_count: {
+    address: string;
+    [k: string]: unknown;
+  };
+};
 export interface MinterReadOnlyInterface {
   contractAddress: string;
   config: () => Promise<ConfigResponse>;
