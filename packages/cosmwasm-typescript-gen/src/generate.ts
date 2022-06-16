@@ -18,7 +18,8 @@ export default async (name: string, schemas: any[], outPath: string) => {
 
   const QueryMsg = schemas.find(schema => schema.title === 'QueryMsg');
   const ExecuteMsg = schemas.find(schema => schema.title === 'ExecuteMsg' || schema.title === 'ExecuteMsg_for_Empty');
-  const Types = schemas.filter(schema => schema.title !== 'ExecuteMsg' && schema.title !== 'ExecuteMsg_for_Empty' && schema.title !== 'QueryMsg');
+  const Types = schemas;
+  //.filter(schema => schema.title !== 'ExecuteMsg' && schema.title !== 'ExecuteMsg_for_Empty' && schema.title !== 'QueryMsg');
 
   let Client = null;
   let Instance = null;
@@ -28,17 +29,22 @@ export default async (name: string, schemas: any[], outPath: string) => {
   // TYPES
   const allTypes = [];
   for (const typ in Types) {
-    const result = await compile(Types[typ], typ);
+    if (Types[typ].definitions) {
+      for (const key of Object.keys(Types[typ].definitions)) {
+        // set title
+        Types[typ].definitions[key].title = key;
+      }
+    }
+    const result = await compile(Types[typ], Types[typ].title);
     allTypes.push(result);
   }
-  const typeHash = parser(allTypes);
 
+  const typeHash = parser(allTypes);
 
   const body = [];
   body.push(
     w.importStmt(['CosmWasmClient', 'ExecuteResult', 'SigningCosmWasmClient'], '@cosmjs/cosmwasm-stargate')
   );
-
 
   if (typeHash.hasOwnProperty('Coin')) {
     body.push(

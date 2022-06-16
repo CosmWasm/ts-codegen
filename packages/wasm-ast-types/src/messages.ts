@@ -14,7 +14,7 @@ import {
     QueryMsg,
     ExecuteMsg
 } from './types';
-import { getPropertyType } from './utils/types';
+import { getPropertyType, createTypedObjectParams } from './utils/types';
 import { identifier, tsTypeOperator, propertySignature } from './utils/babel';
 
 const createWasmExecMethodPartial = (
@@ -291,44 +291,6 @@ export const createFromPartialInterface = (
 };
 
 // MARKED AS NOT DRY 
-const createTypedObjectParams = (jsonschema: any, camelize: boolean = true) => {
-    const keys = Object.keys(jsonschema.properties ?? {});
-    if (!keys.length) return;
-
-    const typedParams = keys.map(prop => {
-        const { type, optional } = getPropertyType(jsonschema, prop);
-        return propertySignature(
-            camelize ? camel(prop) : prop,
-            t.tsTypeAnnotation(
-                type
-            ),
-            optional
-        )
-    });
-    const params = keys.map(prop => {
-        return t.objectProperty(
-            camelize ? t.identifier(camel(prop)) : t.identifier(prop),
-            camelize ? t.identifier(camel(prop)) : t.identifier(prop),
-            false,
-            true
-        );
-    });
-
-    const obj = t.objectPattern(
-        [
-            ...params
-        ]
-    );
-    obj.typeAnnotation = t.tsTypeAnnotation(
-        t.tsTypeLiteral(
-            [
-                ...typedParams
-            ]
-        )
-    );
-
-    return obj;
-};
 
 const createPropertyFunctionWithObjectParamsForPartial = (methodName: string, responseType: string, jsonschema: any) => {
     const obj = createTypedObjectParams(jsonschema);

@@ -70,6 +70,60 @@ export interface Coin {
 export interface Empty {
   [k: string]: unknown;
 }
+export type ExecuteMsg_for_Empty = {
+  execute: {
+    msgs: CosmosMsgFor_Empty[];
+    [k: string]: unknown;
+  };
+} | {
+  revert_freeze_status: {
+    [k: string]: unknown;
+  };
+} | {
+  relay: {
+    transaction: RelayTransaction;
+    [k: string]: unknown;
+  };
+} | {
+  rotate_user_key: {
+    new_user_address: string;
+    [k: string]: unknown;
+  };
+} | {
+  add_relayer: {
+    new_relayer_address: Addr;
+    [k: string]: unknown;
+  };
+} | {
+  remove_relayer: {
+    relayer_address: Addr;
+    [k: string]: unknown;
+  };
+} | {
+  update_guardians: {
+    guardians: Guardians;
+    new_multisig_code_id?: number | null;
+    [k: string]: unknown;
+  };
+};
+export type Addr = string;
+export interface RelayTransaction {
+  message: Binary;
+  nonce: number;
+  signature: Binary;
+  user_pubkey: Binary;
+  [k: string]: unknown;
+}
+export interface Guardians {
+  addresses: string[];
+  guardians_multisig?: MultiSig | null;
+  [k: string]: unknown;
+}
+export interface MultiSig {
+  multisig_initial_funds: Coin[];
+  threshold_absolute_count: number;
+  [k: string]: unknown;
+}
 export interface MyContractInterface {
   contractAddress: string;
   sender: string;
@@ -92,12 +146,12 @@ export interface MyContractInterface {
   addRelayer: ({
     newRelayerAddress
   }: {
-    newRelayerAddress: Addr;
+    newRelayerAddress: string;
   }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
   removeRelayer: ({
     relayerAddress
   }: {
-    relayerAddress: Addr;
+    relayerAddress: string;
   }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
   updateGuardians: ({
     guardians,
@@ -166,7 +220,7 @@ export class MyContractClient implements MyContractInterface {
   addRelayer = async ({
     newRelayerAddress
   }: {
-    newRelayerAddress: Addr;
+    newRelayerAddress: string;
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       add_relayer: {
@@ -177,7 +231,7 @@ export class MyContractClient implements MyContractInterface {
   removeRelayer = async ({
     relayerAddress
   }: {
-    relayerAddress: Addr;
+    relayerAddress: string;
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       remove_relayer: {

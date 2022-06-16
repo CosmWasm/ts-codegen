@@ -14,6 +14,41 @@ export interface Member {
   addr: string;
   weight: number;
 }
+export type ExecuteMsg = {
+  update_admin: {
+    admin?: string | null;
+  };
+} | {
+  update_members: {
+    add: Member[];
+    remove: string[];
+  };
+} | {
+  add_hook: {
+    addr: string;
+  };
+} | {
+  remove_hook: {
+    addr: string;
+  };
+};
+export type QueryMsg = {
+  admin: {};
+} | {
+  total_weight: {};
+} | {
+  list_members: {
+    limit?: number | null;
+    start_after?: string | null;
+  };
+} | {
+  member: {
+    addr: string;
+    at_height?: number | null;
+  };
+} | {
+  hooks: {};
+};
 export type QueryResponse = {
   admin: AdminResponse;
 } | {

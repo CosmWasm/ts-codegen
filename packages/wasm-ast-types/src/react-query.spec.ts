@@ -45,7 +45,7 @@ const printCode = (ast) => {
 
 
 it('createReactQueryHooks', () => {
-  printCode(t.program(
+  expectCode(t.program(
     createReactQueryHooks(
       query_msg,
       'Sg721',
