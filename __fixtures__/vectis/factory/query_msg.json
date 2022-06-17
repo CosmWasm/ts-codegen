@@ -1,0 +1,156 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "QueryMsg",
+  "oneOf": [
+    {
+      "description": "Shows proxy wallet address Returns WalletListResponse",
+      "type": "object",
+      "required": [
+        "wallets"
+      ],
+      "properties": {
+        "wallets": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "start_after": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/WalletQueryPrefix"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "wallets_of"
+      ],
+      "properties": {
+        "wallets_of": {
+          "type": "object",
+          "required": [
+            "user"
+          ],
+          "properties": {
+            "limit": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "start_after": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "user": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "code_id"
+      ],
+      "properties": {
+        "code_id": {
+          "type": "object",
+          "required": [
+            "ty"
+          ],
+          "properties": {
+            "ty": {
+              "$ref": "#/definitions/CodeIdType"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "description": "Returns the fee required to create a wallet Fee goes to the DAO",
+      "type": "object",
+      "required": [
+        "fee"
+      ],
+      "properties": {
+        "fee": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "description": "Returns the address of the Govec Voting Tokens Contract",
+      "type": "object",
+      "required": [
+        "govec_addr"
+      ],
+      "properties": {
+        "govec_addr": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "description": "Returns the address of the Admin of this contract",
+      "type": "object",
+      "required": [
+        "admin_addr"
+      ],
+      "properties": {
+        "admin_addr": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": false
+    }
+  ],
+  "definitions": {
+    "CodeIdType": {
+      "type": "string",
+      "enum": [
+        "Proxy",
+        "Multisig"
+      ]
+    },
+    "WalletQueryPrefix": {
+      "type": "object",
+      "required": [
+        "user_addr",
+        "wallet_addr"
+      ],
+      "properties": {
+        "user_addr": {
+          "type": "string"
+        },
+        "wallet_addr": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

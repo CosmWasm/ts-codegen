@@ -2,8 +2,8 @@ import { importStmt } from './utils'
 import generate from '@babel/generator';
 import * as t from '@babel/types';
 
-import cosmos_msg_for__empty from './../../../__fixtures__/vectis/cosmos_msg_for__empty.json';
-import execute_msg_for__empty from './../../../__fixtures__/vectis/execute_msg_for__empty.json';
+import cosmos_msg_for__empty from './../../../__fixtures__/vectis/govec/cosmos_msg_for__empty.json';
+import execute_msg_for__empty from './../../../__fixtures__/vectis/govec/execute_msg_for__empty.json';
 
 import {
     createQueryClass,

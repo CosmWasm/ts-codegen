@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "RelayTransaction",
+  "type": "object",
+  "required": [
+    "message",
+    "nonce",
+    "signature",
+    "user_pubkey"
+  ],
+  "properties": {
+    "message": {
+      "description": "Message to verify",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Binary"
+        }
+      ]
+    },
+    "nonce": {
+      "description": "Nonce",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0.0
+    },
+    "signature": {
+      "description": "Serialized signature (message + nonce). Cosmos format (64 bytes). Cosmos format (secp256k1 verification scheme).",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Binary"
+        }
+      ]
+    },
+    "user_pubkey": {
+      "description": "User pubkey",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Binary"
+        }
+      ]
+    }
+  },
+  "definitions": {
+    "Binary": {
+      "description": "Binary is a wrapper around Vec<u8> to add base64 de/serialization with serde. It also adds some helper methods to help encode inline.\n\nThis is only needed as serde-json-{core,wasm} has a horrible encoding for Vec<u8>",
+      "type": "string"
+    }
+  }
+}
