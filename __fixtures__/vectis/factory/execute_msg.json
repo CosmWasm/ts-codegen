@@ -1,0 +1,380 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ExecuteMsg",
+  "oneOf": [
+    {
+      "type": "object",
+      "required": [
+        "create_wallet"
+      ],
+      "properties": {
+        "create_wallet": {
+          "type": "object",
+          "required": [
+            "create_wallet_msg"
+          ],
+          "properties": {
+            "create_wallet_msg": {
+              "$ref": "#/definitions/CreateWalletMsg"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "update_proxy_user"
+      ],
+      "properties": {
+        "update_proxy_user": {
+          "type": "object",
+          "required": [
+            "new_user",
+            "old_user"
+          ],
+          "properties": {
+            "new_user": {
+              "$ref": "#/definitions/Addr"
+            },
+            "old_user": {
+              "$ref": "#/definitions/Addr"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "migrate_wallet"
+      ],
+      "properties": {
+        "migrate_wallet": {
+          "type": "object",
+          "required": [
+            "migration_msg",
+            "wallet_address"
+          ],
+          "properties": {
+            "migration_msg": {
+              "$ref": "#/definitions/ProxyMigrationTxMsg"
+            },
+            "wallet_address": {
+              "$ref": "#/definitions/WalletAddr"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "update_code_id"
+      ],
+      "properties": {
+        "update_code_id": {
+          "type": "object",
+          "required": [
+            "new_code_id",
+            "ty"
+          ],
+          "properties": {
+            "new_code_id": {
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0.0
+            },
+            "ty": {
+              "$ref": "#/definitions/CodeIdType"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "update_wallet_fee"
+      ],
+      "properties": {
+        "update_wallet_fee": {
+          "type": "object",
+          "required": [
+            "new_fee"
+          ],
+          "properties": {
+            "new_fee": {
+              "$ref": "#/definitions/Coin"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "update_govec_addr"
+      ],
+      "properties": {
+        "update_govec_addr": {
+          "type": "object",
+          "required": [
+            "addr"
+          ],
+          "properties": {
+            "addr": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "update_admin"
+      ],
+      "properties": {
+        "update_admin": {
+          "type": "object",
+          "required": [
+            "addr"
+          ],
+          "properties": {
+            "addr": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  ],
+  "definitions": {
+    "Addr": {
+      "description": "A human readable address.\n\nIn Cosmos, this is typically bech32 encoded. But for multi-chain smart contracts no assumptions should be made other than being UTF-8 encoded and of reasonable length.\n\nThis type represents a validated address. It can be created in the following ways 1. Use `Addr::unchecked(input)` 2. Use `let checked: Addr = deps.api.addr_validate(input)?` 3. Use `let checked: Addr = deps.api.addr_humanize(canonical_addr)?` 4. Deserialize from JSON. This must only be done from JSON that was validated before such as a contract's state. `Addr` must not be used in messages sent by the user because this would result in unvalidated instances.\n\nThis type is immutable. If you really need to mutate it (Really? Are you sure?), create a mutable copy using `let mut mutable = Addr::to_string()` and operate on that `String` instance.",
+      "type": "string"
+    },
+    "Binary": {
+      "description": "Binary is a wrapper around Vec<u8> to add base64 de/serialization with serde. It also adds some helper methods to help encode inline.\n\nThis is only needed as serde-json-{core,wasm} has a horrible encoding for Vec<u8>",
+      "type": "string"
+    },
+    "CanonicalAddr": {
+      "$ref": "#/definitions/Binary"
+    },
+    "CodeIdType": {
+      "type": "string",
+      "enum": [
+        "Proxy",
+        "Multisig"
+      ]
+    },
+    "Coin": {
+      "type": "object",
+      "required": [
+        "amount",
+        "denom"
+      ],
+      "properties": {
+        "amount": {
+          "$ref": "#/definitions/Uint128"
+        },
+        "denom": {
+          "type": "string"
+        }
+      }
+    },
+    "CreateWalletMsg": {
+      "type": "object",
+      "required": [
+        "guardians",
+        "label",
+        "proxy_initial_funds",
+        "relayers",
+        "user_pubkey"
+      ],
+      "properties": {
+        "guardians": {
+          "$ref": "#/definitions/Guardians"
+        },
+        "label": {
+          "type": "string"
+        },
+        "proxy_initial_funds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Coin"
+          }
+        },
+        "relayers": {
+          "description": "A List of keys can act as relayer for",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "user_pubkey": {
+          "$ref": "#/definitions/Binary"
+        }
+      }
+    },
+    "Guardians": {
+      "type": "object",
+      "required": [
+        "addresses"
+      ],
+      "properties": {
+        "addresses": {
+          "description": "A List of keys can act as guardian for",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "guardians_multisig": {
+          "description": "Whether multisig option for guardians is enabled",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/MultiSig"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "MultiSig": {
+      "type": "object",
+      "required": [
+        "multisig_initial_funds",
+        "threshold_absolute_count"
+      ],
+      "properties": {
+        "multisig_initial_funds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Coin"
+          }
+        },
+        "threshold_absolute_count": {
+          "description": "Only Fixed multisig is supported in this version",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0.0
+        }
+      }
+    },
+    "ProxyMigrationTxMsg": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "RelayTx"
+          ],
+          "properties": {
+            "RelayTx": {
+              "$ref": "#/definitions/RelayTransaction"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "DirectMigrationMsg"
+          ],
+          "properties": {
+            "DirectMigrationMsg": {
+              "$ref": "#/definitions/Binary"
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "RelayTransaction": {
+      "type": "object",
+      "required": [
+        "message",
+        "nonce",
+        "signature",
+        "user_pubkey"
+      ],
+      "properties": {
+        "message": {
+          "description": "Message to verify",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Binary"
+            }
+          ]
+        },
+        "nonce": {
+          "description": "Nonce",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0.0
+        },
+        "signature": {
+          "description": "Serialized signature (message + nonce). Cosmos format (64 bytes). Cosmos format (secp256k1 verification scheme).",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Binary"
+            }
+          ]
+        },
+        "user_pubkey": {
+          "description": "User pubkey",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Binary"
+            }
+          ]
+        }
+      }
+    },
+    "Uint128": {
+      "description": "A thin wrapper around u128 that is using strings for JSON encoding/decoding, such that the full u128 range can be used for clients that convert JSON numbers to floats, like JavaScript and jq.\n\n# Examples\n\nUse `from` to create instances of this and `u128` to get the value out:\n\n``` # use cosmwasm_std::Uint128; let a = Uint128::from(123u128); assert_eq!(a.u128(), 123);\n\nlet b = Uint128::from(42u64); assert_eq!(b.u128(), 42);\n\nlet c = Uint128::from(70u32); assert_eq!(c.u128(), 70); ```",
+      "type": "string"
+    },
+    "WalletAddr": {
+      "description": "Representation of the wallet address in both form used in migration",
+      "oneOf": [
+        {
+          "description": "CanonicalAddr",
+          "type": "object",
+          "required": [
+            "Canonical"
+          ],
+          "properties": {
+            "Canonical": {
+              "$ref": "#/definitions/CanonicalAddr"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "description": "Addr",
+          "type": "object",
+          "required": [
+            "Addr"
+          ],
+          "properties": {
+            "Addr": {
+              "$ref": "#/definitions/Addr"
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    }
+  }
+}

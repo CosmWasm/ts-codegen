@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "QueryMsg",
+  "oneOf": [
+    {
+      "description": "Query for wallet info",
+      "type": "object",
+      "required": [
+        "info"
+      ],
+      "properties": {
+        "info": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "description": "Checks permissions of the caller on this proxy. If CanExecuteRelay returns true then a call to `ExecuteRelay`, before any further state changes, should also succeed.",
+      "type": "object",
+      "required": [
+        "can_execute_relay"
+      ],
+      "properties": {
+        "can_execute_relay": {
+          "type": "object",
+          "required": [
+            "sender"
+          ],
+          "properties": {
+            "sender": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  ]
+}

@@ -2,8 +2,11 @@ import { importStmt } from './utils'
 import generate from '@babel/generator';
 import * as t from '@babel/types';
 
-import cosmos_msg_for__empty from './../../../__fixtures__/vectis/cosmos_msg_for__empty.json';
-import execute_msg_for__empty from './../../../__fixtures__/vectis/execute_msg_for__empty.json';
+import cosmos_msg_for__empty from './../../../__fixtures__/vectis/govec/cosmos_msg_for__empty.json';
+import execute_msg_for__empty from './../../../__fixtures__/vectis/govec/execute_msg_for__empty.json';
+import can_execute_relay_response from './../../../__fixtures__/vectis/govec/can_execute_relay_response.json';
+import info_response from './../../../__fixtures__/vectis/govec/info_response.json';
+import relay_transaction from './../../../__fixtures__/vectis/govec/relay_transaction.json';
 
 import {
     createQueryClass,
@@ -34,6 +37,24 @@ it('cosmos_msg_for__empty', () => {
 it('execute_msg_for__empty', () => {
     expectCode(createTypeInterface(
         execute_msg_for__empty
+    ))
+})
+
+it('can_execute_relay_response', () => {
+    expectCode(createTypeInterface(
+        can_execute_relay_response
+    ))
+})
+
+it('info_response', () => {
+    expectCode(createTypeInterface(
+        info_response
+    ))
+})
+
+it('relay_transaction', () => {
+    expectCode(createTypeInterface(
+        relay_transaction
     ))
 })
 

@@ -7,64 +7,72 @@
 import { MsgExecuteContractEncodeObject } from "cosmwasm";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
-import { CosmosMsg_for_Empty, BankMsg, Uint128, WasmMsg, Binary, Coin, Empty } from "./MyContractContract";
-export interface MyContractMessage {
+import { AdminAddrResponse, CodeIdResponse, CodeIdType, Uint128, Binary, CreateWalletMsg, Guardians, MultiSig, Coin, Cw20Coin, FeeResponse, GovecAddrResponse, InstantiateMsg, ProxyMigrationTxMsg, RelayTransaction, Duration, StakingOptions, WalletAddr, CanonicalAddr, Addr, WalletInfo, ContractVersion, WalletQueryPrefix, WalletsOfResponse, WalletsResponse } from "./FactoryContract";
+export interface FactoryMessage {
   contractAddress: string;
   sender: string;
-  execute: ({
-    msgs
+  createWallet: ({
+    createWalletMsg
   }: {
-    msgs: CosmosMsg_for_Empty[];
+    createWalletMsg: CreateWalletMsg;
   }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
-  revertFreezeStatus: (funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
-  relay: ({
-    transaction
+  updateProxyUser: ({
+    newUser,
+    oldUser
   }: {
-    transaction: RelayTransaction;
+    newUser: string;
+    oldUser: string;
   }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
-  rotateUserKey: ({
-    newUserAddress
+  migrateWallet: ({
+    migrationMsg,
+    walletAddress
   }: {
-    newUserAddress: string;
+    migrationMsg: object;
+    walletAddress: object;
   }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
-  addRelayer: ({
-    newRelayerAddress
+  updateCodeId: ({
+    newCodeId,
+    ty
   }: {
-    newRelayerAddress: string;
+    newCodeId: number;
+    ty: string;
   }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
-  removeRelayer: ({
-    relayerAddress
+  updateWalletFee: ({
+    newFee
   }: {
-    relayerAddress: string;
+    newFee: Coin;
   }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
-  updateGuardians: ({
-    guardians,
-    newMultisigCodeId
+  updateGovecAddr: ({
+    addr
   }: {
-    guardians: Guardians;
-    newMultisigCodeId?: number;
+    addr: string;
+  }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
+  updateAdmin: ({
+    addr
+  }: {
+    addr: string;
   }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
 }
-export class MyContractMessageComposer implements MyContractMessage {
+export class FactoryMessageComposer implements FactoryMessage {
   sender: string;
   contractAddress: string;
 
   constructor(sender: string, contractAddress: string) {
     this.sender = sender;
     this.contractAddress = contractAddress;
-    this.execute = this.execute.bind(this);
-    this.revertFreezeStatus = this.revertFreezeStatus.bind(this);
-    this.relay = this.relay.bind(this);
-    this.rotateUserKey = this.rotateUserKey.bind(this);
-    this.addRelayer = this.addRelayer.bind(this);
-    this.removeRelayer = this.removeRelayer.bind(this);
-    this.updateGuardians = this.updateGuardians.bind(this);
+    this.createWallet = this.createWallet.bind(this);
+    this.updateProxyUser = this.updateProxyUser.bind(this);
+    this.migrateWallet = this.migrateWallet.bind(this);
+    this.updateCodeId = this.updateCodeId.bind(this);
+    this.updateWalletFee = this.updateWalletFee.bind(this);
+    this.updateGovecAddr = this.updateGovecAddr.bind(this);
+    this.updateAdmin = this.updateAdmin.bind(this);
   }
 
-  execute = ({
-    msgs
+  createWallet = ({
+    createWalletMsg
   }: {
-    msgs: CosmosMsg_for_Empty[];
+    createWalletMsg: CreateWalletMsg;
   }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
@@ -72,31 +80,20 @@ export class MyContractMessageComposer implements MyContractMessage {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify({
-          execute: {
-            msgs
+          create_wallet: {
+            create_wallet_msg: createWalletMsg
           }
         })),
         funds
       })
     };
   };
-  revertFreezeStatus = (funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
-    return {
-      typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
-      value: MsgExecuteContract.fromPartial({
-        sender: this.sender,
-        contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          revert_freeze_status: {}
-        })),
-        funds
-      })
-    };
-  };
-  relay = ({
-    transaction
+  updateProxyUser = ({
+    newUser,
+    oldUser
   }: {
-    transaction: RelayTransaction;
+    newUser: string;
+    oldUser: string;
   }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
@@ -104,18 +101,21 @@ export class MyContractMessageComposer implements MyContractMessage {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify({
-          relay: {
-            transaction
+          update_proxy_user: {
+            new_user: newUser,
+            old_user: oldUser
           }
         })),
         funds
       })
     };
   };
-  rotateUserKey = ({
-    newUserAddress
+  migrateWallet = ({
+    migrationMsg,
+    walletAddress
   }: {
-    newUserAddress: string;
+    migrationMsg: object;
+    walletAddress: object;
   }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
@@ -123,18 +123,21 @@ export class MyContractMessageComposer implements MyContractMessage {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify({
-          rotate_user_key: {
-            new_user_address: newUserAddress
+          migrate_wallet: {
+            migration_msg: migrationMsg,
+            wallet_address: walletAddress
           }
         })),
         funds
       })
     };
   };
-  addRelayer = ({
-    newRelayerAddress
+  updateCodeId = ({
+    newCodeId,
+    ty
   }: {
-    newRelayerAddress: string;
+    newCodeId: number;
+    ty: string;
   }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
@@ -142,18 +145,19 @@ export class MyContractMessageComposer implements MyContractMessage {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify({
-          add_relayer: {
-            new_relayer_address: newRelayerAddress
+          update_code_id: {
+            new_code_id: newCodeId,
+            ty
           }
         })),
         funds
       })
     };
   };
-  removeRelayer = ({
-    relayerAddress
+  updateWalletFee = ({
+    newFee
   }: {
-    relayerAddress: string;
+    newFee: Coin;
   }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
@@ -161,20 +165,18 @@ export class MyContractMessageComposer implements MyContractMessage {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify({
-          remove_relayer: {
-            relayer_address: relayerAddress
+          update_wallet_fee: {
+            new_fee: newFee
           }
         })),
         funds
       })
     };
   };
-  updateGuardians = ({
-    guardians,
-    newMultisigCodeId
+  updateGovecAddr = ({
+    addr
   }: {
-    guardians: Guardians;
-    newMultisigCodeId?: number;
+    addr: string;
   }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
@@ -182,9 +184,27 @@ export class MyContractMessageComposer implements MyContractMessage {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify({
-          update_guardians: {
-            guardians,
-            new_multisig_code_id: newMultisigCodeId
+          update_govec_addr: {
+            addr
+          }
+        })),
+        funds
+      })
+    };
+  };
+  updateAdmin = ({
+    addr
+  }: {
+    addr: string;
+  }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
+    return {
+      typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
+      value: MsgExecuteContract.fromPartial({
+        sender: this.sender,
+        contract: this.contractAddress,
+        msg: toUtf8(JSON.stringify({
+          update_admin: {
+            addr
           }
         })),
         funds

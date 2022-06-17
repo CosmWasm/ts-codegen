@@ -155,7 +155,7 @@ export const createTypedObjectParams = (jsonschema: any, camelize: boolean = tru
         }
 
         if (Array.isArray(jsonschema.properties[prop].allOf)) {
-            const allOf = JSON.stringify(jsonschema.properties[prop].allOf, null, 2);
+
 
             const isOptional = !jsonschema.required?.includes(prop);
             const unionTypes = jsonschema.properties[prop].allOf.map(el => {
@@ -189,6 +189,40 @@ export const createTypedObjectParams = (jsonschema: any, camelize: boolean = tru
                     isOptional
                 );
             }
+        } else if (Array.isArray(jsonschema.properties[prop].oneOf)) {
+            const oneOf = JSON.stringify(jsonschema.properties[prop].oneOf, null, 2);
+            const isOptional = !jsonschema.required?.includes(prop);
+            const unionTypes = jsonschema.properties[prop].oneOf.map(el => {
+                if (el.title) return el.title;
+                return el.type;
+            });
+            const uniqUnionTypes = [...new Set(unionTypes)];
+            if (uniqUnionTypes.length === 1) {
+                return propertySignature(
+                    camelize ? camel(prop) : prop,
+                    t.tsTypeAnnotation(
+                        t.tsTypeReference(
+                            t.identifier(forEmptyNameFix(uniqUnionTypes[0]))
+                        )
+                    ),
+                    isOptional
+                );
+            } else {
+                return propertySignature(
+                    camelize ? camel(prop) : prop,
+                    t.tsTypeAnnotation(
+                        t.tsUnionType(
+                            uniqUnionTypes.map(typ =>
+                                t.tsTypeReference(
+                                    t.identifier(forEmptyNameFix(typ))
+                                )
+                            )
+                        )
+                    ),
+                    isOptional
+                );
+            }
+
         }
 
         try {

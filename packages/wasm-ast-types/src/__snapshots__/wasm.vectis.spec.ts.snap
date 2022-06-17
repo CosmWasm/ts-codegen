@@ -1,5 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`can_execute_relay_response 1`] = `
+"export interface CanExecuteRelayResponse {
+  canExecute: boolean;
+}"
+`;
+
 exports[`cosmos_msg_for__empty 1`] = `"export type CosmosMsg_for_Empty = CosmosMsg_for_Empty;"`;
 
 exports[`execute classes array types 1`] = `
@@ -19,6 +25,7 @@ exports[`execute classes array types 1`] = `
     this.addRelayer = this.addRelayer.bind(this);
     this.removeRelayer = this.removeRelayer.bind(this);
     this.updateGuardians = this.updateGuardians.bind(this);
+    this.updateLabel = this.updateLabel.bind(this);
   }
 
   execute = async ({
@@ -95,6 +102,17 @@ exports[`execute classes array types 1`] = `
       }
     }, fee, memo, funds);
   };
+  updateLabel = async ({
+    newLabel
+  }: {
+    newLabel: string;
+  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
+    return await this.client.execute(this.sender, this.contractAddress, {
+      update_label: {
+        new_label: newLabel
+      }
+    }, fee, memo, funds);
+  };
 }"
 `;
 
@@ -135,10 +153,30 @@ exports[`execute interfaces no extends 1`] = `
     guardians: Guardians;
     newMultisigCodeId?: number;
   }, fee?: number | StdFee | \\"auto\\", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
+  updateLabel: ({
+    newLabel
+  }: {
+    newLabel: string;
+  }, fee?: number | StdFee | \\"auto\\", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
 }"
 `;
 
 exports[`execute_msg_for__empty 1`] = `"export type ExecuteMsg_for_Empty = ExecuteMsg_for_Empty;"`;
+
+exports[`info_response 1`] = `
+"export interface InfoResponse {
+  codeId: number;
+  guardians: Addr[];
+  isFrozen: boolean;
+  label: string;
+  multisigAddress?: Addr;
+  multisigCodeId: number;
+  nonce: number;
+  relayers: Addr[];
+  userAddr: Addr;
+  version: ContractVersion;
+}"
+`;
 
 exports[`query classes 1`] = `
 "export class SG721QueryClient implements SG721ReadOnlyInstance {
@@ -150,6 +188,8 @@ exports[`query classes 1`] = `
     this.contractAddress = contractAddress;
     this.bank = this.bank.bind(this);
     this.custom = this.custom.bind(this);
+    this.staking = this.staking.bind(this);
+    this.distribution = this.distribution.bind(this);
     this.wasm = this.wasm.bind(this);
   }
 
@@ -161,6 +201,16 @@ exports[`query classes 1`] = `
   custom = async (): Promise<CustomResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
       custom: {}
+    });
+  };
+  staking = async (): Promise<StakingResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      staking: {}
+    });
+  };
+  distribution = async (): Promise<DistributionResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      distribution: {}
     });
   };
   wasm = async (): Promise<WasmResponse> => {
@@ -186,6 +236,7 @@ exports[`query classes 2`] = `
     this.addRelayer = this.addRelayer.bind(this);
     this.removeRelayer = this.removeRelayer.bind(this);
     this.updateGuardians = this.updateGuardians.bind(this);
+    this.updateLabel = this.updateLabel.bind(this);
   }
 
   execute = async ({
@@ -262,5 +313,25 @@ exports[`query classes 2`] = `
       }
     });
   };
+  updateLabel = async ({
+    newLabel
+  }: {
+    newLabel: string;
+  }): Promise<UpdateLabelResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      update_label: {
+        new_label: newLabel
+      }
+    });
+  };
+}"
+`;
+
+exports[`relay_transaction 1`] = `
+"export interface RelayTransaction {
+  message: Binary;
+  nonce: number;
+  signature: Binary;
+  userPubkey: Binary;
 }"
 `;
