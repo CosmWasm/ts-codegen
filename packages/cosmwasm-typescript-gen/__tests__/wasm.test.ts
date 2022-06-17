@@ -7,15 +7,37 @@ import recoil from '../src/recoil';
 const FIXTURE_DIR = __dirname + '/../../../__fixtures__';
 const OUTPUT_DIR = __dirname + '/../../../__output__';
 
-it('vectis', async () => {
-    const out = OUTPUT_DIR + '/vectis';
-    const schemaDir = FIXTURE_DIR + '/vectis/';
+it('vectis/factory', async () => {
+    const out = OUTPUT_DIR + '/vectis/factory';
+    const schemaDir = FIXTURE_DIR + '/vectis/factory/';
 
     const schemas = readSchemas({ schemaDir, argv: {} });
-    await generate('MyContract', schemas, out);
-    await fromPartial('MyContract', schemas, out);
-    // await recoil('MyContract', schemas, out);
-    // await reactQuery('MyContract', schemas, out);
+    await generate('Factory', schemas, out);
+    await fromPartial('Factory', schemas, out);
+    await recoil('Factory', schemas, out);
+    await reactQuery('Factory', schemas, out);
+})
+
+it('vectis/govec', async () => {
+    const out = OUTPUT_DIR + '/vectis/govec';
+    const schemaDir = FIXTURE_DIR + '/vectis/govec/';
+
+    const schemas = readSchemas({ schemaDir, argv: {} });
+    await generate('Govec', schemas, out);
+    await fromPartial('Govec', schemas, out);
+    await recoil('Govec', schemas, out);
+    await reactQuery('Govec', schemas, out);
+})
+
+it('vectis/proxy', async () => {
+    const out = OUTPUT_DIR + '/vectis/proxy';
+    const schemaDir = FIXTURE_DIR + '/vectis/proxy/';
+
+    const schemas = readSchemas({ schemaDir, argv: {} });
+    await generate('Proxy', schemas, out);
+    await fromPartial('Proxy', schemas, out);
+    await recoil('Proxy', schemas, out);
+    await reactQuery('Proxy', schemas, out);
 })
 
 it('cosmwasm', async () => {
