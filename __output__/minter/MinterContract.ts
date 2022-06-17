@@ -83,13 +83,13 @@ export interface InstantiateMsg {
   [k: string]: unknown;
 }
 export interface InstantiateMsg1 {
-  collection_info: CollectionInfoFor_RoyaltyInfoResponse;
+  collection_info: CollectionInfoForRoyaltyInfoResponse;
   minter: string;
   name: string;
   symbol: string;
   [k: string]: unknown;
 }
-export interface CollectionInfoFor_RoyaltyInfoResponse {
+export interface CollectionInfoForRoyaltyInfoResponse {
   creator: string;
   description: string;
   external_link?: string | null;

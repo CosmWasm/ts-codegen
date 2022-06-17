@@ -5,7 +5,7 @@
 */
 
 import { useQuery, UseQueryOptions } from "react-query";
-import { DumpResponse, Group, InstantiateMsg, Addr, ListAddressesResponse, ListGroupsResponse } from "./CwNamedGroupsContract";
+import { DumpResponse, Group, ExecuteMsg, InstantiateMsg, Addr, ListAddressesResponse, ListGroupsResponse, QueryMsg } from "./CwNamedGroupsContract";
 import { CwNamedGroupsQueryClient } from "./CwNamedGroupsContract.ts";
 export interface CwNamedGroupsIsAddressInGroupQuery {
   client: CwNamedGroupsQueryClient;

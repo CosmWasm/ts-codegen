@@ -5,7 +5,7 @@
 */
 
 import { useQuery, UseQueryOptions } from "react-query";
-import { CanExecuteRelayResponse, CosmosMsg_for_Empty, BankMsg, Uint128, StakingMsg, DistributionMsg, WasmMsg, Binary, Coin, Empty, Addr, InfoResponse, ContractVersion, InstantiateMsg, CreateWalletMsg, Guardians, MultiSig, RelayTransaction, Uint64 } from "./GovecContract";
+import { CanExecuteRelayResponse, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, WasmMsg, Binary, Coin, Empty, ExecuteMsgForEmpty, Addr, RelayTransaction, Guardians, MultiSig, InfoResponse, ContractVersion, InstantiateMsg, CreateWalletMsg, QueryMsg, Uint64 } from "./GovecContract";
 import { GovecQueryClient } from "./GovecContract.ts";
 export interface GovecCanExecuteRelayQuery {
   client: GovecQueryClient;

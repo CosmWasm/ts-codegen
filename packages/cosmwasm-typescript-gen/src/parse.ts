@@ -29,13 +29,14 @@ export const parser = (codes) => {
 
 const visitorFn = (parser) => ({
     TSTypeAliasDeclaration(path) {
-        if (path.node.id.name.endsWith('For_Empty')) {
-            const newName = path.node.id.name.replace(/For_Empty$/, '_for_Empty');
-            path.parentPath.node.declaration.id.name = newName;
-            parser.addType(newName, path.parentPath.node);
-        } else {
-            parser.addType(path.node.id.name, path.parentPath.node);
-        }
+        parser.addType(path.node.id.name, path.parentPath.node);
+        // if (path.node.id.name.endsWith('For_Empty')) {
+        //     const newName = path.node.id.name.replace(/For_Empty$/, '_for_Empty');
+        //     path.parentPath.node.declaration.id.name = newName;
+        //     parser.addType(newName, path.parentPath.node);
+        // } else {
+        //     parser.addType(path.node.id.name, path.parentPath.node);
+        // }
     },
     TSInterfaceDeclaration(path) {
         parser.addType(path.node.id.name, path.parentPath.node);

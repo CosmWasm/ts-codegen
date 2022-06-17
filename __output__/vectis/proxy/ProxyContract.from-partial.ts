@@ -7,14 +7,14 @@
 import { MsgExecuteContractEncodeObject } from "cosmwasm";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
-import { CanExecuteRelayResponse, CosmosMsg_for_Empty, BankMsg, Uint128, StakingMsg, DistributionMsg, WasmMsg, Binary, Coin, Empty, Addr, InfoResponse, ContractVersion, InstantiateMsg, CreateWalletMsg, Guardians, MultiSig, RelayTransaction, Uint64 } from "./ProxyContract";
+import { CanExecuteRelayResponse, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, WasmMsg, Binary, Coin, Empty, ExecuteMsgForEmpty, Addr, RelayTransaction, Guardians, MultiSig, InfoResponse, ContractVersion, InstantiateMsg, CreateWalletMsg, QueryMsg, Uint64 } from "./ProxyContract";
 export interface ProxyMessage {
   contractAddress: string;
   sender: string;
   execute: ({
     msgs
   }: {
-    msgs: CosmosMsg_for_Empty[];
+    msgs: CosmosMsgForEmpty[];
   }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
   revertFreezeStatus: (funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
   relay: ({
@@ -70,7 +70,7 @@ export class ProxyMessageComposer implements ProxyMessage {
   execute = ({
     msgs
   }: {
-    msgs: CosmosMsg_for_Empty[];
+    msgs: CosmosMsgForEmpty[];
   }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
