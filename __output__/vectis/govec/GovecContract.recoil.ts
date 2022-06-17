@@ -6,7 +6,7 @@
 
 import { selectorFamily } from "recoil";
 import { cosmWasmClient } from "./chain";
-import { CanExecuteRelayResponse, CosmosMsg_for_Empty, BankMsg, Uint128, StakingMsg, DistributionMsg, WasmMsg, Binary, Coin, Empty, Addr, InfoResponse, ContractVersion, InstantiateMsg, CreateWalletMsg, Guardians, MultiSig, RelayTransaction, Uint64 } from "./GovecContract";
+import { CanExecuteRelayResponse, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, WasmMsg, Binary, Coin, Empty, ExecuteMsgForEmpty, Addr, RelayTransaction, Guardians, MultiSig, InfoResponse, ContractVersion, InstantiateMsg, CreateWalletMsg, QueryMsg, Uint64 } from "./GovecContract";
 import { GovecQueryClient } from "./GovecContract.ts";
 type QueryClientParams = {
   contractAddress: string;

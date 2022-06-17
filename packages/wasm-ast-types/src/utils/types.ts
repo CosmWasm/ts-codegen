@@ -2,13 +2,6 @@ import * as t from '@babel/types';
 import { camel } from 'case';
 import { propertySignature } from './babel';
 
-export const forEmptyNameFix = (name) => {
-    if (name.endsWith('For_Empty')) {
-        return name.replace(/For_Empty$/, '_for_Empty');
-    }
-    return name;
-};
-
 const getTypeFromRef = ($ref) => {
     switch ($ref) {
         case '#/definitions/Binary':
@@ -146,7 +139,7 @@ export const createTypedObjectParams = (jsonschema: any, camelize: boolean = tru
                 return propertySignature(
                     camelize ? camel(prop) : prop,
                     t.tsTypeAnnotation(
-                        t.tsTypeReference(t.identifier(forEmptyNameFix(jsonschema.properties[prop].title)))
+                        t.tsTypeReference(t.identifier(jsonschema.properties[prop].title))
                     )
                 );
             } else {
@@ -155,8 +148,6 @@ export const createTypedObjectParams = (jsonschema: any, camelize: boolean = tru
         }
 
         if (Array.isArray(jsonschema.properties[prop].allOf)) {
-
-
             const isOptional = !jsonschema.required?.includes(prop);
             const unionTypes = jsonschema.properties[prop].allOf.map(el => {
                 if (el.title) return el.title;
@@ -169,7 +160,7 @@ export const createTypedObjectParams = (jsonschema: any, camelize: boolean = tru
                     camelize ? camel(prop) : prop,
                     t.tsTypeAnnotation(
                         t.tsTypeReference(
-                            t.identifier(forEmptyNameFix(uniqUnionTypes[0]))
+                            t.identifier(uniqUnionTypes[0])
                         )
                     ),
                     isOptional
@@ -181,7 +172,7 @@ export const createTypedObjectParams = (jsonschema: any, camelize: boolean = tru
                         t.tsUnionType(
                             uniqUnionTypes.map(typ =>
                                 t.tsTypeReference(
-                                    t.identifier(forEmptyNameFix(typ))
+                                    t.identifier(typ)
                                 )
                             )
                         )
@@ -190,7 +181,6 @@ export const createTypedObjectParams = (jsonschema: any, camelize: boolean = tru
                 );
             }
         } else if (Array.isArray(jsonschema.properties[prop].oneOf)) {
-            const oneOf = JSON.stringify(jsonschema.properties[prop].oneOf, null, 2);
             const isOptional = !jsonschema.required?.includes(prop);
             const unionTypes = jsonschema.properties[prop].oneOf.map(el => {
                 if (el.title) return el.title;
@@ -202,7 +192,7 @@ export const createTypedObjectParams = (jsonschema: any, camelize: boolean = tru
                     camelize ? camel(prop) : prop,
                     t.tsTypeAnnotation(
                         t.tsTypeReference(
-                            t.identifier(forEmptyNameFix(uniqUnionTypes[0]))
+                            t.identifier(uniqUnionTypes[0])
                         )
                     ),
                     isOptional
@@ -214,7 +204,7 @@ export const createTypedObjectParams = (jsonschema: any, camelize: boolean = tru
                         t.tsUnionType(
                             uniqUnionTypes.map(typ =>
                                 t.tsTypeReference(
-                                    t.identifier(forEmptyNameFix(typ))
+                                    t.identifier(typ)
                                 )
                             )
                         )

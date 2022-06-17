@@ -10,7 +10,7 @@ export interface CanExecuteRelayResponse {
   can_execute: boolean;
   [k: string]: unknown;
 }
-export type CosmosMsg_for_Empty = {
+export type CosmosMsgForEmpty = {
   bank: BankMsg;
 } | {
   custom: Empty;
@@ -109,9 +109,9 @@ export interface Coin {
 export interface Empty {
   [k: string]: unknown;
 }
-export type ExecuteMsg_for_Empty = {
+export type ExecuteMsgForEmpty = {
   execute: {
-    msgs: CosmosMsgFor_Empty[];
+    msgs: CosmosMsgForEmpty[];
     [k: string]: unknown;
   };
 } | {
@@ -255,7 +255,7 @@ export interface ProxyInterface extends ProxyReadOnlyInterface {
   execute: ({
     msgs
   }: {
-    msgs: CosmosMsg_for_Empty[];
+    msgs: CosmosMsgForEmpty[];
   }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
   revertFreezeStatus: (fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
   relay: ({
@@ -314,7 +314,7 @@ export class ProxyClient extends ProxyQueryClient implements ProxyInterface {
   execute = async ({
     msgs
   }: {
-    msgs: CosmosMsg_for_Empty[];
+    msgs: CosmosMsgForEmpty[];
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       execute: {

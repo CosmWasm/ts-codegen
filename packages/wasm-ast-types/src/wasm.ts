@@ -15,7 +15,7 @@ import {
   ExecuteMsg
 } from './types';
 
-import { getPropertyType, getType, createTypedObjectParams, forEmptyNameFix } from './utils/types';
+import { getPropertyType, getType, createTypedObjectParams } from './utils/types';
 import { identifier, tsTypeOperator, propertySignature } from './utils/babel';
 
 export const createWasmQueryMethod = (
@@ -556,7 +556,7 @@ export const createTypeOrInterface = (Type: string, jsonschema: any) => {
         t.tsTypeAliasDeclaration(
           t.identifier(Type),
           null,
-          t.tsTypeReference(t.identifier(forEmptyNameFix(jsonschema.title)))
+          t.tsTypeReference(t.identifier(jsonschema.title))
         )
       )
     }

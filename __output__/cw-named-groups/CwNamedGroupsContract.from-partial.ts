@@ -8,7 +8,7 @@ import { MsgExecuteContractEncodeObject } from "cosmwasm";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
 import { Coin } from "@cosmjs/amino";
-import { DumpResponse, Group, InstantiateMsg, Addr, ListAddressesResponse, ListGroupsResponse } from "./CwNamedGroupsContract";
+import { DumpResponse, Group, ExecuteMsg, InstantiateMsg, Addr, ListAddressesResponse, ListGroupsResponse, QueryMsg } from "./CwNamedGroupsContract";
 export interface CwNamedGroupsMessage {
   contractAddress: string;
   sender: string;

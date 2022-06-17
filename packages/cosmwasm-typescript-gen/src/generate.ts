@@ -6,40 +6,22 @@ import * as w from 'wasm-ast-types';
 import * as t from '@babel/types';
 import { writeFileSync } from 'fs';
 import generate from "@babel/generator";
-import { compile } from 'json-schema-to-typescript';
-
-import { parser } from "./parse";
 import { clean } from "./clean";
 import { getMessageProperties } from "wasm-ast-types";
+import { findAndParseTypes, findExecuteMsg, findQueryMsg } from "./utils";
 
 export default async (name: string, schemas: any[], outPath: string) => {
 
   const Contract = pascal(`${name}Contract`) + '.ts';
 
-  const QueryMsg = schemas.find(schema => schema.title === 'QueryMsg');
-  const ExecuteMsg = schemas.find(schema => schema.title === 'ExecuteMsg' || schema.title === 'ExecuteMsg_for_Empty');
-  const Types = schemas;
-  //.filter(schema => schema.title !== 'ExecuteMsg' && schema.title !== 'ExecuteMsg_for_Empty' && schema.title !== 'QueryMsg');
+  const QueryMsg = findQueryMsg(schemas);
+  const ExecuteMsg = findExecuteMsg(schemas);
+  const typeHash = await findAndParseTypes(schemas);
 
   let Client = null;
   let Instance = null;
   let QueryClient = null;
   let ReadOnlyInstance = null;
-
-  // TYPES
-  const allTypes = [];
-  for (const typ in Types) {
-    if (Types[typ].definitions) {
-      for (const key of Object.keys(Types[typ].definitions)) {
-        // set title
-        Types[typ].definitions[key].title = key;
-      }
-    }
-    const result = await compile(Types[typ], Types[typ].title);
-    allTypes.push(result);
-  }
-
-  const typeHash = parser(allTypes);
 
   const body = [];
   body.push(

@@ -19,7 +19,7 @@ export type Timestamp = Uint64;
 export type Uint64 = string;
 export interface AllNftInfoResponse {
   access: OwnerOfResponse;
-  info: NftInfoResponseFor_Empty;
+  info: NftInfoResponseForEmpty;
   [k: string]: unknown;
 }
 export interface OwnerOfResponse {
@@ -32,7 +32,7 @@ export interface Approval {
   spender: string;
   [k: string]: unknown;
 }
-export interface NftInfoResponseFor_Empty {
+export interface NftInfoResponseForEmpty {
   extension: Empty;
   token_uri?: string | null;
   [k: string]: unknown;
@@ -75,7 +75,7 @@ export interface ContractInfoResponse {
   symbol: string;
   [k: string]: unknown;
 }
-export type ExecuteMsg_for_Empty = {
+export type ExecuteMsgForEmpty = {
   transfer_nft: {
     recipient: string;
     token_id: string;
@@ -113,7 +113,7 @@ export type ExecuteMsg_for_Empty = {
     [k: string]: unknown;
   };
 } | {
-  mint: MintMsgFor_Empty;
+  mint: MintMsgForEmpty;
 } | {
   burn: {
     token_id: string;
@@ -121,7 +121,7 @@ export type ExecuteMsg_for_Empty = {
   };
 };
 export type Binary = string;
-export interface MintMsgFor_Empty {
+export interface MintMsgForEmpty {
   extension: Empty;
   owner: string;
   token_id: string;
@@ -129,13 +129,13 @@ export interface MintMsgFor_Empty {
   [k: string]: unknown;
 }
 export interface InstantiateMsg {
-  collection_info: CollectionInfoFor_RoyaltyInfoResponse;
+  collection_info: CollectionInfoForRoyaltyInfoResponse;
   minter: string;
   name: string;
   symbol: string;
   [k: string]: unknown;
 }
-export interface CollectionInfoFor_RoyaltyInfoResponse {
+export interface CollectionInfoForRoyaltyInfoResponse {
   creator: string;
   description: string;
   external_link?: string | null;
