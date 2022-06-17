@@ -42,48 +42,47 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/pyramation/cosmwasm-typescript-gen/tree/master/packages/wasm-ast-types"
+    "url": "https://github.com/pyramation/cosmwasm-typescript-gen"
   },
   "keywords": [],
   "bugs": {
-    "url": "https://github.com/pyramation/cosmwasm-typescript-gen/tree/master/packages/wasm-ast-types/issues"
+    "url": "https://github.com/pyramation/cosmwasm-typescript-gen/issues"
   },
   "devDependencies": {
-    "@babel/cli": "7.17.6",
-    "@babel/core": "7.17.8",
-    "@babel/eslint-parser": "^7.5.4",
-    "@babel/generator": "7.17.7",
-    "@babel/node": "^7.10.5",
-    "@babel/parser": "^7.17.8",
-    "@babel/plugin-proposal-class-properties": "7.16.7",
-    "@babel/plugin-proposal-export-default-from": "7.16.7",
-    "@babel/plugin-proposal-object-rest-spread": "7.17.3",
-    "@babel/plugin-transform-runtime": "7.17.0",
-    "@babel/preset-env": "7.16.11",
-    "@babel/preset-typescript": "^7.16.7",
-    "@babel/traverse": "7.17.3",
-    "@types/jest": "^27.4.1",
+    "@babel/cli": "7.17.10",
+    "@babel/core": "7.18.5",
+    "@babel/eslint-parser": "^7.18.2",
+    "@babel/generator": "7.18.2",
+    "@babel/node": "^7.18.5",
+    "@babel/parser": "^7.18.5",
+    "@babel/plugin-proposal-class-properties": "7.17.12",
+    "@babel/plugin-proposal-export-default-from": "7.17.12",
+    "@babel/plugin-proposal-object-rest-spread": "7.18.0",
+    "@babel/plugin-transform-runtime": "7.18.5",
+    "@babel/preset-env": "7.18.2",
+    "@babel/preset-typescript": "^7.17.12",
+    "@babel/traverse": "7.18.5",
+    "@types/jest": "^28.1.2",
     "babel-core": "7.0.0-bridge.0",
-    "babel-jest": "27.5.1",
+    "babel-jest": "28.1.1",
     "babel-watch": "^7.0.0",
     "cross-env": "^7.0.2",
-    "eslint": "8.12.0",
+    "eslint": "8.17.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "glob": "7.2.0",
-    "jest": "^27.5.1",
+    "glob": "8.0.3",
+    "jest": "^28.1.1",
     "jest-in-case": "^1.0.2",
     "mkdirp": "1.0.4",
-    "prettier": "^2.6.2",
+    "prettier": "^2.7.1",
     "regenerator-runtime": "^0.13.7",
-    "ts-jest": "^27.1.4",
-    "typescript": "^4.6.2"
+    "ts-jest": "^28.0.5",
+    "typescript": "^4.7.4"
   },
   "dependencies": {
-    "@babel/runtime": "^7.11.2",
-    "@babel/types": "7.17.0",
+    "@babel/runtime": "^7.18.3",
+    "@babel/types": "7.18.4",
     "ast-stringify": "0.1.0",
     "case": "1.6.3"
-  },
-  "gitHead": "1ffe54c4f88d6975105841dddf91d07b87f4f0ab"
+  }
 }
