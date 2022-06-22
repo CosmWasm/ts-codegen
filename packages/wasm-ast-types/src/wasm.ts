@@ -28,7 +28,6 @@ export const createWasmQueryMethod = (
   const properties = jsonschema.properties[underscoreName].properties ?? {};
 
   const obj = createTypedObjectParams(jsonschema.properties[underscoreName]);
-
   const args = Object.keys(properties).map(prop => {
     return t.objectProperty(
       t.identifier(prop),
