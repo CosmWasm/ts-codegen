@@ -72,12 +72,23 @@ it('sg721', async () => {
 })
 
 it('cw-named-groups', async () => {
-    const out = OUTPUT_DIR + '/cw-named-groups';
-    const schemaDir = FIXTURE_DIR + '/cw-named-groups/';
+    const out = OUTPUT_DIR + '/daodao/cw-named-groups';
+    const schemaDir = FIXTURE_DIR + '/daodao/cw-named-groups/';
 
     const schemas = readSchemas({ schemaDir, argv: {} });
     await generate('CwNamedGroups', schemas, out);
     await fromPartial('CwNamedGroups', schemas, out);
     await recoil('CwNamedGroups', schemas, out);
     await reactQuery('CwNamedGroups', schemas, out);
+})
+
+it('cw-proposal-single', async () => {
+    const out = OUTPUT_DIR + '/daodao/cw-proposal-single';
+    const schemaDir = FIXTURE_DIR + '/daodao/cw-proposal-single/';
+
+    const schemas = readSchemas({ schemaDir, argv: {} });
+    await generate('CwProposalSingle', schemas, out);
+    await fromPartial('CwProposalSingle', schemas, out);
+    await recoil('CwProposalSingle', schemas, out);
+    await reactQuery('CwProposalSingle', schemas, out);
 })

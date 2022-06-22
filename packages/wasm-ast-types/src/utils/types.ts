@@ -2,6 +2,18 @@ import * as t from '@babel/types';
 import { camel } from 'case';
 import { propertySignature } from './babel';
 
+const getTypeStrFromRef = ($ref) => {
+    switch ($ref) {
+        case '#/definitions/Binary':
+            return 'Binary';
+        default:
+            if ($ref?.startsWith('#/definitions/')) {
+                return $ref.replace('#/definitions/', '');
+            }
+            throw new Error('what is $ref: ' + $ref);
+    }
+}
+
 const getTypeFromRef = ($ref) => {
     switch ($ref) {
         case '#/definitions/Binary':
@@ -13,6 +25,7 @@ const getTypeFromRef = ($ref) => {
             throw new Error('what is $ref: ' + $ref);
     }
 }
+
 
 const getArrayTypeFromRef = ($ref) => {
     return t.tsArrayType(
@@ -151,6 +164,7 @@ export const createTypedObjectParams = (jsonschema: any, camelize: boolean = tru
             const isOptional = !jsonschema.required?.includes(prop);
             const unionTypes = jsonschema.properties[prop].allOf.map(el => {
                 if (el.title) return el.title;
+                if (el.$ref) return getTypeStrFromRef(el.$ref);
                 return el.type;
             });
             const uniqUnionTypes = [...new Set(unionTypes)];
@@ -184,6 +198,7 @@ export const createTypedObjectParams = (jsonschema: any, camelize: boolean = tru
             const isOptional = !jsonschema.required?.includes(prop);
             const unionTypes = jsonschema.properties[prop].oneOf.map(el => {
                 if (el.title) return el.title;
+                if (el.$ref) return getTypeStrFromRef(el.$ref);
                 return el.type;
             });
             const uniqUnionTypes = [...new Set(unionTypes)];
