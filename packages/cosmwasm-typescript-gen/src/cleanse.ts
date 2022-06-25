@@ -26,6 +26,15 @@ export const cleanse = (obj) => {
     // Handle Object
     if (obj instanceof Object || typeof obj === 'object') {
         copy = {};
+
+        // https://github.com/CosmWasm/cosmwasm-typescript-gen/issues/27
+        if (Array.isArray(obj.enum) && obj.enum.length === 0) {
+            delete obj.enum;
+            if (!obj.type) {
+                obj.type = 'string';
+            }
+        }
+
         for (var attr in obj) {
             if (obj.hasOwnProperty(attr)) {
 

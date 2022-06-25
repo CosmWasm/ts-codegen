@@ -92,3 +92,14 @@ it('cw-proposal-single', async () => {
     await recoil('CwProposalSingle', schemas, out);
     await reactQuery('CwProposalSingle', schemas, out);
 })
+
+it('cw-admin-factory', async () => {
+    const out = OUTPUT_DIR + '/daodao/cw-admin-factory';
+    const schemaDir = FIXTURE_DIR + '/daodao/cw-admin-factory/';
+
+    const schemas = readSchemas({ schemaDir, argv: {} });
+    await generate('CwAdminFactory', schemas, out);
+    await fromPartial('CwAdminFactory', schemas, out);
+    await recoil('CwAdminFactory', schemas, out);
+    await reactQuery('CwAdminFactory', schemas, out);
+})
