@@ -5,4 +5,5 @@
 */
 
 import { useQuery, UseQueryOptions } from "react-query";
-import { ExecuteMsg, Binary, InstantiateMsg } from "./CwAdminFactoryContract";
+import { ExecuteMsg, Binary, InstantiateMsg, QueryMsg } from "./CwAdminFactoryContract";
+import { CwAdminFactoryQueryClient } from "./CwAdminFactoryContract.ts";

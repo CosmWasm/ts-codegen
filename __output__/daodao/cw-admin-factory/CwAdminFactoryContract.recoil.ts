@@ -6,4 +6,20 @@
 
 import { selectorFamily } from "recoil";
 import { cosmWasmClient } from "./chain";
-import { ExecuteMsg, Binary, InstantiateMsg } from "./CwAdminFactoryContract";
+import { ExecuteMsg, Binary, InstantiateMsg, QueryMsg } from "./CwAdminFactoryContract";
+import { CwAdminFactoryQueryClient } from "./CwAdminFactoryContract.ts";
+type QueryClientParams = {
+  contractAddress: string;
+};
+export const queryClient = selectorFamily<CwAdminFactoryQueryClient | undefined, QueryClientParams>({
+  key: "cwAdminFactoryQueryClient",
+  get: ({
+    contractAddress
+  }) => ({
+    get
+  }) => {
+    const client = get(cosmWasmClient);
+    if (!client) return;
+    return new CwAdminFactoryQueryClient(client, contractAddress);
+  }
+});
