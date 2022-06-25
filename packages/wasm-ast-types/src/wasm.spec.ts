@@ -2,7 +2,7 @@ import { importStmt } from './utils'
 import generate from '@babel/generator';
 import * as t from '@babel/types';
 
-import execute_msg_named_groups from './../../../__fixtures__/cw-named-groups/execute_msg.json';
+import execute_msg_named_groups from './../../../__fixtures__/daodao/cw-named-groups/execute_msg.json';
 
 import query_msg from './../../../__fixtures__/basic/query_msg.json';
 import execute_msg from './../../../__fixtures__/basic/execute_msg_for__empty.json';
