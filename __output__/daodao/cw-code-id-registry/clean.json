@@ -695,7 +695,7 @@
           "info_for_code_id"
         ],
         "properties": {
-          "infoForcode_id": {
+          "info_for_code_id": {
             "type": "object",
             "required": [
               "chain_id",

@@ -103,3 +103,14 @@ it('cw-admin-factory', async () => {
     await recoil('CwAdminFactory', schemas, out);
     await reactQuery('CwAdminFactory', schemas, out);
 })
+
+it('cw-code-id-registry', async () => {
+    const out = OUTPUT_DIR + '/daodao/cw-code-id-registry';
+    const schemaDir = FIXTURE_DIR + '/daodao/cw-code-id-registry/';
+
+    const schemas = readSchemas({ schemaDir, argv: {} });
+    await generate('CwCodeIdRegistry', schemas, out);
+    await fromPartial('CwCodeIdRegistry', schemas, out);
+    await recoil('CwCodeIdRegistry', schemas, out);
+    await reactQuery('CwCodeIdRegistry', schemas, out);
+})
