@@ -1,5 +1,12 @@
 const cleanFor = (str) => {
-    return str.replace(/_for_/, 'For');
+    /*
+        1. look at first char after _for_
+        2. ONLY if you find capitals after, modify it
+    */
+    if (/_for_[A-Z]/.test(str)) {
+        return str.replace(/_for_/, 'For');
+    }
+    return str;
 };
 
 export const cleanse = (obj) => {
