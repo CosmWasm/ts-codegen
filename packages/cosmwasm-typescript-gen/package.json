@@ -1,6 +1,6 @@
 {
   "name": "cosmwasm-typescript-gen",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "A TypeScript Transpiler for CosmWasm Smart Contracts",
   "author": "Dan Lynch <pyramation@gmail.com>",
   "homepage": "https://github.com/pyramation/cosmwasm-typescript-gen",
