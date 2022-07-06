@@ -1,0 +1,103 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "QueryMsg",
+  "oneOf": [
+    {
+      "type": "object",
+      "required": [
+        "config"
+      ],
+      "properties": {
+        "config": {
+          "type": "object",
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "description": "If version provided, tries to find given version. Otherwise returns the latest version registered.",
+      "type": "object",
+      "required": [
+        "get_registration"
+      ],
+      "properties": {
+        "get_registration": {
+          "type": "object",
+          "required": [
+            "chain_id",
+            "name"
+          ],
+          "properties": {
+            "chain_id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "version": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "info_for_code_id"
+      ],
+      "properties": {
+        "info_for_code_id": {
+          "type": "object",
+          "required": [
+            "chain_id",
+            "code_id"
+          ],
+          "properties": {
+            "chain_id": {
+              "type": "string"
+            },
+            "code_id": {
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0.0
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "list_registrations"
+      ],
+      "properties": {
+        "list_registrations": {
+          "type": "object",
+          "required": [
+            "chain_id",
+            "name"
+          ],
+          "properties": {
+            "chain_id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  ]
+}
