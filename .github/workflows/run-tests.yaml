@@ -1,0 +1,30 @@
+name: Run Tests
+
+on:
+  push:
+
+  pull_request:
+    types: [opened, reopened]
+
+  workflow_dispatch:
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout 🛎️
+        uses: actions/checkout@v2.3.1
+      - name: node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.14.0
+      - name: deps
+        run: yarn
+      - name: bootstrap
+        run: yarn bootstrap
+      - name: build
+        run: yarn build
+      - name: cosmwasm-typescript-gen
+        run: cd ./packages/cosmwasm-typescript-gen && yarn test
+      - name: wasm-ast-types
+        run: cd ./packages/wasm-ast-types && yarn test
