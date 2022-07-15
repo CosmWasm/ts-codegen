@@ -1,5 +1,5 @@
 {
-  "name": "cosmscript",
+  "name": "@cosmwasm/ts-codegen",
   "version": "0.0.1",
   "publishConfig": {
     "access": "restricted"
@@ -8,12 +8,9 @@
   "scripts": {
     "build": "lerna run prepare --parallel",
     "bootstrap": "lerna bootstrap --use-workspaces",
-    "elint": "DEBUG=eslint:*,eslintrc:* eslint --ignore-path .gitignore .",
-    "lint": "eslint --ignore-path .gitignore .",
-    "lint:fix": "eslint --ignore-path .gitignore . --fix",
-    "pretest": "yarn lint",
-    "test:watch": "jest --watch",
-    "test": "jest"
+    "lint": "lerna run lint",
+    "format": "lerna run format",
+    "test": "lerna run test --stream"
   },
   "devDependencies": {
     "@babel/cli": "7.17.10",

@@ -6,6 +6,15 @@ A Transpiler for CosmWasm Smart Contracts
   <img width="120" src="https://user-images.githubusercontent.com/545047/163705368-bc899f6d-a2de-43ee-889b-dbf44e17f288.png">
 </p>
 
+<p align="center" width="100%">
+  <a href="https://github.com/CosmWasm/cosmwasm-typescript-gen/actions/workflows/run-tests.yaml">
+    <img height="20" src="https://github.com/CosmWasm/cosmwasm-typescript-gen/actions/workflows/run-tests.yaml/badge.svg" />
+  </a>
+   <a href="https://github.com/CosmWasm/cosmwasm-typescript-gen/blob/main/LICENSE-MIT"><img height="20" src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
+   <a href="https://github.com/CosmWasm/cosmwasm-typescript-gen/blob/main/LICENSE-Apache"><img height="20" src="https://img.shields.io/badge/license-Apache-blue.svg"></a>
+   <a href="https://www.npmjs.com/package/cosmwasm-typescript-gen"><img height="20" src="https://img.shields.io/github/package-json/v/CosmWasm/cosmwasm-typescript-gen?filename=packages%2Fcosmwasm-typescript-gen%2Fpackage.json"></a>
+</p>
+
 
 ```
 npm install -g cosmwasm-typescript-gen
