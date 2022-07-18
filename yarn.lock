@@ -8493,6 +8493,14 @@ walker@^1.0.8:
   dependencies:
     makeerror "1.0.12"
 
+"wasm-ast-types@file:packages/wasm-ast-types":
+  version "0.2.6"
+  dependencies:
+    "@babel/runtime" "^7.11.2"
+    "@babel/types" "7.17.0"
+    ast-stringify "0.1.0"
+    case "1.6.3"
+
 wcwidth@^1.0.0:
   version "1.0.1"
   resolved "https://registry.npmjs.org/wcwidth/-/wcwidth-1.0.1.tgz#f0b0dcf915bc5ff1528afadb2c0e17b532da2fe8"

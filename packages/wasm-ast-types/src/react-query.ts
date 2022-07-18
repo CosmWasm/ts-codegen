@@ -116,27 +116,42 @@ export const createReactQueryHook = ({
                                 t.arrayExpression([
                                     t.stringLiteral(hookKeyName),
                                     t.memberExpression(
-                                        t.identifier('client'),
-                                        t.identifier('contractAddress')
+                                        t.identifier('client?'),
+                                        t.identifier('contractAddress'),
                                     )
                                 ]),
                                 t.arrowFunctionExpression(
                                     [],
-                                    t.callExpression(
-                                        t.memberExpression(
-                                            t.identifier('client'),
-                                            t.identifier(methodName)
+                                    t.conditionalExpression(
+                                        t.identifier('client'),
+                                        t.callExpression(
+                                            t.memberExpression(
+                                                t.identifier('client'),
+                                                t.identifier(methodName)
+                                            ),
+                                            args
                                         ),
-                                        args
+                                        t.identifier('undefined')
                                     ),
                                     false
                                 ),
-                                t.identifier('options')
+                                t.objectExpression([
+                                    t.objectProperty(
+                                        t.identifier('enabled'),
+                                        t.unaryExpression('!', t.unaryExpression('!', t.identifier('client')))
+                                    ),
+                                    t.spreadElement(t.identifier('options'))
+                                ]),
                             ],
                             t.tsTypeParameterInstantiation(
                                 [
-                                    t.tsTypeReference(
-                                        t.identifier(responseType)
+                                    t.tsUnionType(
+                                        [
+                                          t.tsTypeReference(
+                                            t.identifier(responseType)
+                                          ),
+                                          t.tsUndefinedKeyword()
+                                        ]
                                     ),
                                     t.tsTypeReference(
                                         t.identifier('Error')
@@ -181,13 +196,14 @@ export const createReactQueryHookInterface = ({
     jsonschema
 }: ReactQueryHookQueryInterface) => {
     const body = [
-        t.tsPropertySignature(
+        tsPropertySignature(
             t.identifier('client'),
             t.tsTypeAnnotation(
                 t.tsTypeReference(
                     t.identifier(QueryClient)
                 )
-            )
+            ),
+            true
         ),
         tsPropertySignature(
             t.identifier('options'),
@@ -196,8 +212,13 @@ export const createReactQueryHookInterface = ({
                     t.identifier('UseQueryOptions'),
                     t.tsTypeParameterInstantiation(
                         [
-                            t.tsTypeReference(
-                                t.identifier(responseType)
+                            t.tsUnionType(
+                                [
+                                  t.tsTypeReference(
+                                    t.identifier(responseType)
+                                  ),
+                                  t.tsUndefinedKeyword()
+                                ]
                             ),
                             t.tsTypeReference(t.identifier('Error')),
                             t.tsTypeReference(
