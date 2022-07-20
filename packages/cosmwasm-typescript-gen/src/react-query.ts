@@ -10,8 +10,8 @@ import { findAndParseTypes, findQueryMsg } from "./utils";
 
 export default async (name: string, schemas: any[], outPath: string) => {
 
-    const RecoilFile = pascal(`${name}Contract`) + '.react-query.ts';
-    const Contract = pascal(`${name}Contract`) + '.ts';
+    const ReactQueryFile = pascal(`${name}Contract`) + '.react-query.ts';
+    const Contract = pascal(`${name}Contract`)
 
     const QueryMsg = findQueryMsg(schemas);
     const typeHash = await findAndParseTypes(schemas);
@@ -26,7 +26,7 @@ export default async (name: string, schemas: any[], outPath: string) => {
     );
 
     body.push(
-        w.importStmt(Object.keys(typeHash), `./${Contract}`.replace(/\.ts$/, ''))
+        w.importStmt(Object.keys(typeHash), `./${Contract}`)
     );
 
     // query messages
@@ -54,5 +54,5 @@ export default async (name: string, schemas: any[], outPath: string) => {
     ).code;
 
     mkdirp(outPath);
-    writeFileSync(join(outPath, RecoilFile), code);
+    writeFileSync(join(outPath, ReactQueryFile), code);
 };
