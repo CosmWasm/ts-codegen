@@ -115,10 +115,12 @@ export const createReactQueryHook = ({
                             [
                                 t.arrayExpression([
                                     t.stringLiteral(hookKeyName),
-                                    t.memberExpression(
-                                        t.identifier('client?'),
+                                    t.optionalMemberExpression(
+                                        t.identifier('client'),
                                         t.identifier('contractAddress'),
-                                    )
+                                        false,
+                                        true
+                                    ),
                                 ]),
                                 t.arrowFunctionExpression(
                                     [],
@@ -138,8 +140,19 @@ export const createReactQueryHook = ({
                                 t.objectExpression([
                                     t.objectProperty(
                                         t.identifier('enabled'),
-                                        t.unaryExpression('!', t.unaryExpression('!', t.identifier('client')))
-                                    ),
+                                        t.logicalExpression(
+                                            '&&',
+                                            t.unaryExpression(
+                                                '!',
+                                                t.unaryExpression('!', t.identifier('client'))
+                                            ),
+                                            t.optionalMemberExpression(
+                                                t.identifier('options'),
+                                                t.identifier('enabled'),
+                                                false,
+                                                true
+                                            )
+                                        )),
                                     t.spreadElement(t.identifier('options'))
                                 ]),
                             ],
@@ -147,10 +160,10 @@ export const createReactQueryHook = ({
                                 [
                                     t.tsUnionType(
                                         [
-                                          t.tsTypeReference(
-                                            t.identifier(responseType)
-                                          ),
-                                          t.tsUndefinedKeyword()
+                                            t.tsTypeReference(
+                                                t.identifier(responseType)
+                                            ),
+                                            t.tsUndefinedKeyword()
                                         ]
                                     ),
                                     t.tsTypeReference(
@@ -214,10 +227,10 @@ export const createReactQueryHookInterface = ({
                         [
                             t.tsUnionType(
                                 [
-                                  t.tsTypeReference(
-                                    t.identifier(responseType)
-                                  ),
-                                  t.tsUndefinedKeyword()
+                                    t.tsTypeReference(
+                                        t.identifier(responseType)
+                                    ),
+                                    t.tsUndefinedKeyword()
                                 ]
                             ),
                             t.tsTypeReference(t.identifier('Error')),
