@@ -1,4 +1,4 @@
-# cosmwasm-typescript-gen
+# @cosmwasm/ts-codegen
 
 A Transpiler for CosmWasm Smart Contracts
 
@@ -7,23 +7,24 @@ A Transpiler for CosmWasm Smart Contracts
 </p>
 
 <p align="center" width="100%">
-  <a href="https://github.com/CosmWasm/cosmwasm-typescript-gen/actions/workflows/run-tests.yaml">
-    <img height="20" src="https://github.com/CosmWasm/cosmwasm-typescript-gen/actions/workflows/run-tests.yaml/badge.svg" />
+  <a href="https://github.com/CosmWasm/ts-codegen/actions/workflows/run-tests.yaml">
+    <img height="20" src="https://github.com/CosmWasm/ts-codegen/actions/workflows/run-tests.yaml/badge.svg" />
   </a>
-   <a href="https://github.com/CosmWasm/cosmwasm-typescript-gen/blob/main/LICENSE-MIT"><img height="20" src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
-   <a href="https://github.com/CosmWasm/cosmwasm-typescript-gen/blob/main/LICENSE-Apache"><img height="20" src="https://img.shields.io/badge/license-Apache-blue.svg"></a>
-   <a href="https://www.npmjs.com/package/cosmwasm-typescript-gen"><img height="20" src="https://img.shields.io/github/package-json/v/CosmWasm/cosmwasm-typescript-gen?filename=packages%2Fcosmwasm-typescript-gen%2Fpackage.json"></a>
+   <a href="https://github.com/CosmWasm/ts-codegen/blob/main/LICENSE-MIT"><img height="20" src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
+   <a href="https://github.com/CosmWasm/ts-codegen/blob/main/LICENSE-Apache"><img height="20" src="https://img.shields.io/badge/license-Apache-blue.svg"></a>
+   <a href="https://www.npmjs.com/package/@cosmwasm/ts-codegen"><img height="20" src="https://img.shields.io/github/package-json/v/CosmWasm/ts-codegen?filename=packages%2Fcosmwasm-typescript-gen%2Fpackage.json"></a>
 </p>
 
+```
+npm install -g @cosmwasm/ts-codegen
+```
 
-```
-npm install -g cosmwasm-typescript-gen
-```
+CosmWasm Typescript codegen tooling to convert your CosmWasm smart contracts into clean es6 classes.
 
 ## usage
 
 ```
- cosmwasm-typescript-gen generate \
+ cosmwasm-ts-codegen generate \
     --schema ./schema \
     --out ./src \
     --name MyContractName
@@ -34,7 +35,7 @@ npm install -g cosmwasm-typescript-gen
 ```
 git clone git@github.com:public-awesome/stargaze-contracts.git
 cd stargaze-contracts/contracts/sg721/
-cosmwasm-typescript-gen generate --schema ./schema --out ./ts --name SG721
+cosmwasm-ts-codegen generate --schema ./schema --out ./ts --name SG721
 ```
 
 ### JSON Schema Generation
@@ -54,19 +55,19 @@ cargo schema
 
 ### Example Output
 
-- `cosmwasm-typescript-gen generate`
+- `cosmwasm-ts-codegen generate`
 
 https://gist.github.com/pyramation/ba67ec56e4e2a39cadea55430f9993e5
 
-- `cosmwasm-typescript-gen from-partial`
+- `cosmwasm-ts-codegen from-partial`
 
 https://gist.github.com/pyramation/f50869d1ecdb6d6ced2bc0a44c6ff492
 
-- `cosmwasm-typescript-gen react-query`
+- `cosmwasm-ts-codegen react-query`
 
 https://gist.github.com/pyramation/a3bf4aa7b60a31287d0720ca1bb5473b
 
-- `cosmwasm-typescript-gen recoil`
+- `cosmwasm-ts-codegen recoil`
 
 https://gist.github.com/pyramation/48b28a75def1a16b233b369297f05f0e
 

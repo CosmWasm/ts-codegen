@@ -1,6 +1,6 @@
 {
-  "name": "cosmwasm-typescript-gen",
-  "version": "0.3.9",
+  "name": "@cosmwasm/ts-codegen",
+  "version": "0.4.2",
   "description": "A TypeScript Transpiler for CosmWasm Smart Contracts",
   "author": "Dan Lynch <pyramation@gmail.com>",
   "homepage": "https://github.com/pyramation/cosmwasm-typescript-gen",
@@ -9,7 +9,7 @@
   "module": "module/index.js",
   "typings": "types/index.d.ts",
   "bin": {
-    "cosmwasm-typescript-gen": "main/cosmwasm-typescript-gen.js"
+    "cosmwasm-ts-codegen": "main/cosmwasm-typescript-gen.js"
   },
   "directories": {
     "lib": "src",
