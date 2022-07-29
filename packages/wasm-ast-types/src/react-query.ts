@@ -7,8 +7,18 @@ import {
     callExpression,
     getMessageProperties
 } from './utils'
-import { propertySignature } from './utils/babel';
+import { typeRefOrOptionalUnion, propertySignature, optionalConditionalExpression } from './utils/babel';
 import { getPropertyType } from './utils/types';
+
+
+export interface ReactQueryOptions {
+    optionalClient?: boolean
+}
+
+const DEFAULT_OPTIONS: ReactQueryOptions = {
+    optionalClient: false
+}
+
 interface ReactQueryHookQuery {
     hookName: string;
     hookParamsTypeName: string;
@@ -16,12 +26,14 @@ interface ReactQueryHookQuery {
     responseType: string;
     methodName: string;
     jsonschema: any;
+    options?: ReactQueryOptions
 }
 
 export const createReactQueryHooks = (
     queryMsg: QueryMsg,
     contractName: string,
-    QueryClient: string) => {
+    QueryClient: string,
+    options: ReactQueryOptions = DEFAULT_OPTIONS) => {
     return getMessageProperties(queryMsg)
         .reduce((m, schema) => {
             const underscoreName = Object.keys(schema.properties)[0];
@@ -36,7 +48,8 @@ export const createReactQueryHooks = (
                     hookParamsTypeName,
                     responseType,
                     QueryClient,
-                    jsonschema
+                    jsonschema,
+                    options
                 }),
                 createReactQueryHook(
                     {
@@ -45,7 +58,8 @@ export const createReactQueryHooks = (
                         hookParamsTypeName,
                         responseType,
                         hookKeyName: getterKey,
-                        jsonschema
+                        jsonschema,
+                        options
                     }
                 ),
                 ...m,
@@ -60,7 +74,8 @@ export const createReactQueryHook = ({
     responseType,
     hookKeyName,
     methodName,
-    jsonschema
+    jsonschema,
+    options = DEFAULT_OPTIONS,
 }: ReactQueryHookQuery) => {
 
     const keys = Object.keys(jsonschema.properties ?? {});
@@ -119,12 +134,12 @@ export const createReactQueryHook = ({
                                         t.identifier('client'),
                                         t.identifier('contractAddress'),
                                         false,
-                                        true
+                                        !!options?.optionalClient
                                     ),
                                 ]),
                                 t.arrowFunctionExpression(
                                     [],
-                                    t.conditionalExpression(
+                                    optionalConditionalExpression(
                                         t.identifier('client'),
                                         t.callExpression(
                                             t.memberExpression(
@@ -133,7 +148,8 @@ export const createReactQueryHook = ({
                                             ),
                                             args
                                         ),
-                                        t.identifier('undefined')
+                                        t.identifier('undefined'),
+                                        !!options?.optionalClient
                                     ),
                                     false
                                 ),
@@ -158,13 +174,9 @@ export const createReactQueryHook = ({
                             ],
                             t.tsTypeParameterInstantiation(
                                 [
-                                    t.tsUnionType(
-                                        [
-                                            t.tsTypeReference(
-                                                t.identifier(responseType)
-                                            ),
-                                            t.tsUndefinedKeyword()
-                                        ]
+                                    typeRefOrOptionalUnion(
+                                        t.identifier(responseType),
+                                        !!options?.optionalClient
                                     ),
                                     t.tsTypeReference(
                                         t.identifier('Error')
@@ -200,13 +212,15 @@ interface ReactQueryHookQueryInterface {
     hookParamsTypeName: string;
     responseType: string;
     jsonschema: any;
+    options?: ReactQueryOptions
 }
 
 export const createReactQueryHookInterface = ({
     QueryClient,
     hookParamsTypeName,
     responseType,
-    jsonschema
+    jsonschema,
+    options
 }: ReactQueryHookQueryInterface) => {
     const body = [
         tsPropertySignature(
@@ -216,7 +230,7 @@ export const createReactQueryHookInterface = ({
                     t.identifier(QueryClient)
                 )
             ),
-            true
+            !!options?.optionalClient
         ),
         tsPropertySignature(
             t.identifier('options'),
@@ -225,13 +239,10 @@ export const createReactQueryHookInterface = ({
                     t.identifier('UseQueryOptions'),
                     t.tsTypeParameterInstantiation(
                         [
-                            t.tsUnionType(
-                                [
-                                    t.tsTypeReference(
-                                        t.identifier(responseType)
-                                    ),
-                                    t.tsUndefinedKeyword()
-                                ]
+
+                            typeRefOrOptionalUnion(
+                                t.identifier(responseType),
+                                !!options?.optionalClient
                             ),
                             t.tsTypeReference(t.identifier('Error')),
                             t.tsTypeReference(

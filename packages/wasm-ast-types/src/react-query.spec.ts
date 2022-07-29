@@ -57,5 +57,12 @@ it('createReactQueryHooks', () => {
       'Sg721',
       'Sg721QueryClient'
     )))
+  expectCode(t.program(
+    createReactQueryHooks(
+      query_msg,
+      'Sg721',
+      'Sg721QueryClient',
+      { optionalClient: true }
+    )))
 });
 

@@ -7,8 +7,11 @@ import * as t from '@babel/types';
 import { writeFileSync } from 'fs';
 import generate from "@babel/generator";
 import { findAndParseTypes, findQueryMsg } from "./utils";
+import { ReactQueryOptions } from "wasm-ast-types";
 
-export default async (name: string, schemas: any[], outPath: string) => {
+
+
+export default async (name: string, schemas: any[], outPath: string, options?: ReactQueryOptions) => {
 
     const ReactQueryFile = pascal(`${name}Contract`) + '.react-query.ts';
     const Contract = pascal(`${name}Contract`)
@@ -43,7 +46,8 @@ export default async (name: string, schemas: any[], outPath: string) => {
             w.createReactQueryHooks(
                 QueryMsg,
                 name,
-                QueryClient
+                QueryClient,
+                options
             )
         );
 

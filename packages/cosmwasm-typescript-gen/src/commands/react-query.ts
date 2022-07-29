@@ -24,10 +24,16 @@ export default async (argv) => {
             type: 'string',
             name: 'name',
             message: 'contract name?'
+        },
+        {
+            type: 'confirm',
+            name: 'optionalClient',
+            message: 'optionalClient?',
+            default: false
         }
     ];
 
-    const { schema, out, name } = await prompt(questions, argv);
+    const { schema, out, name, ...options } = await prompt(questions, argv);
     const schemas = readSchemas({ schemaDir: schema, argv });
-    await reactQuery(name, schemas, out);
+    await reactQuery(name, schemas, out, options);
 };
