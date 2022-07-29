@@ -256,7 +256,7 @@ export const memberExpressionOrIdentifierSnake = (names) => {
 /**
  * If optional, return a conditional, otherwise just the expression
  */
-export const optionalConditionalExpression = (test: t.Expression, expression: t.Expression, alternate: t.Expression, optional: boolean): t.Expression => {
+export const optionalConditionalExpression = (test: t.Expression, expression: t.Expression, alternate: t.Expression, optional: boolean = false): t.Expression => {
     return optional
         ? t.conditionalExpression(
             test,
@@ -266,7 +266,7 @@ export const optionalConditionalExpression = (test: t.Expression, expression: t.
         : expression
 }
 
-export const typeRefOrOptionalUnion = (identifier: t.Identifier, optional: boolean): t.TSType => {
+export const typeRefOrOptionalUnion = (identifier: t.Identifier, optional: boolean = false): t.TSType => {
     const typeReference = t.tsTypeReference(identifier)
     return optional
         ? t.tsUnionType([
