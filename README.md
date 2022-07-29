@@ -1,4 +1,4 @@
-# cosmwasm-typescript-gen
+# @cosmwasm/ts-codegen
 
 A Transpiler for CosmWasm Smart Contracts
 
@@ -15,15 +15,16 @@ A Transpiler for CosmWasm Smart Contracts
    <a href="https://www.npmjs.com/package/cosmwasm-typescript-gen"><img height="20" src="https://img.shields.io/github/package-json/v/CosmWasm/cosmwasm-typescript-gen?filename=packages%2Fcosmwasm-typescript-gen%2Fpackage.json"></a>
 </p>
 
+```
+npm install -g @cosmwasm/ts-codegen
+```
 
-```
-npm install -g cosmwasm-typescript-gen
-```
+CosmWasm Typescript codegen tooling to convert your CosmWasm smart contracts into clean es6 classes.
 
 ## usage
 
 ```
- cosmwasm-typescript-gen generate \
+ cosmwasm-ts-codegen generate \
     --schema ./schema \
     --out ./src \
     --name MyContractName
