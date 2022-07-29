@@ -26,19 +26,11 @@ interface ReactQueryHookQuery {
     options?: ReactQueryOptions
 }
 
-interface ReactQueryHooks {
+export const createReactQueryHooks = (
     queryMsg: QueryMsg,
     contractName: string,
     QueryClient: string,
-    options?: ReactQueryOptions
-}
-
-export const createReactQueryHooks = ({
-    queryMsg,
-    contractName,
-    QueryClient,
-    options
-}: ReactQueryHooks) => {
+    options?: ReactQueryOptions) => {
     return getMessageProperties(queryMsg)
         .reduce((m, schema) => {
             const underscoreName = Object.keys(schema.properties)[0];
@@ -159,6 +151,7 @@ export const createReactQueryHook = ({
                                     false
                                 ),
                                 t.objectExpression([
+                                    t.spreadElement(t.identifier('options')),
                                     t.objectProperty(
                                         t.identifier('enabled'),
                                         t.logicalExpression(
@@ -174,7 +167,6 @@ export const createReactQueryHook = ({
                                                 true
                                             )
                                         )),
-                                    t.spreadElement(t.identifier('options'))
                                 ]),
                             ],
                             t.tsTypeParameterInstantiation(
