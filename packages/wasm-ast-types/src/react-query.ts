@@ -30,7 +30,7 @@ interface ReactQueryHooks {
     queryMsg: QueryMsg,
     contractName: string,
     QueryClient: string,
-    options: ReactQueryOptions
+    options?: ReactQueryOptions
 }
 
 export const createReactQueryHooks = ({
