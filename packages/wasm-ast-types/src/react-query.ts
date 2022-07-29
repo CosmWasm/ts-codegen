@@ -15,9 +15,6 @@ export interface ReactQueryOptions {
     optionalClient?: boolean
 }
 
-const DEFAULT_OPTIONS: ReactQueryOptions = {
-    optionalClient: false
-}
 
 interface ReactQueryHookQuery {
     hookName: string;
@@ -29,11 +26,19 @@ interface ReactQueryHookQuery {
     options?: ReactQueryOptions
 }
 
-export const createReactQueryHooks = (
+interface ReactQueryHooks {
     queryMsg: QueryMsg,
     contractName: string,
     QueryClient: string,
-    options: ReactQueryOptions = DEFAULT_OPTIONS) => {
+    options: ReactQueryOptions
+}
+
+export const createReactQueryHooks = ({
+    queryMsg,
+    contractName,
+    QueryClient,
+    options
+}: ReactQueryHooks) => {
     return getMessageProperties(queryMsg)
         .reduce((m, schema) => {
             const underscoreName = Object.keys(schema.properties)[0];
@@ -75,7 +80,7 @@ export const createReactQueryHook = ({
     hookKeyName,
     methodName,
     jsonschema,
-    options = DEFAULT_OPTIONS,
+    options,
 }: ReactQueryHookQuery) => {
 
     const keys = Object.keys(jsonschema.properties ?? {});
