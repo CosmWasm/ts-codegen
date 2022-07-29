@@ -15,6 +15,10 @@ export interface ReactQueryOptions {
     optionalClient?: boolean
 }
 
+const DEFAULT_OPTIONS: ReactQueryOptions = {
+    optionalClient: false
+}
+
 
 interface ReactQueryHookQuery {
     hookName: string;
@@ -26,11 +30,19 @@ interface ReactQueryHookQuery {
     options?: ReactQueryOptions
 }
 
-export const createReactQueryHooks = (
-    queryMsg: QueryMsg,
-    contractName: string,
-    QueryClient: string,
-    options?: ReactQueryOptions) => {
+interface ReactQueryHooks {
+    queryMsg: QueryMsg
+    contractName: string
+    QueryClient: string
+    options?: ReactQueryOptions
+}
+
+export const createReactQueryHooks = ({
+    queryMsg,
+    contractName,
+    QueryClient,
+    options = DEFAULT_OPTIONS
+}: ReactQueryHooks) => {
     return getMessageProperties(queryMsg)
         .reduce((m, schema) => {
             const underscoreName = Object.keys(schema.properties)[0];
@@ -72,7 +84,7 @@ export const createReactQueryHook = ({
     hookKeyName,
     methodName,
     jsonschema,
-    options,
+    options = DEFAULT_OPTIONS,
 }: ReactQueryHookQuery) => {
 
     const keys = Object.keys(jsonschema.properties ?? {});
@@ -131,7 +143,7 @@ export const createReactQueryHook = ({
                                         t.identifier('client'),
                                         t.identifier('contractAddress'),
                                         false,
-                                        !!options?.optionalClient
+                                        options.optionalClient
                                     ),
                                 ]),
                                 t.arrowFunctionExpression(
@@ -146,34 +158,36 @@ export const createReactQueryHook = ({
                                             args
                                         ),
                                         t.identifier('undefined'),
-                                        !!options?.optionalClient
+                                        options.optionalClient
                                     ),
                                     false
                                 ),
-                                t.objectExpression([
-                                    t.spreadElement(t.identifier('options')),
-                                    t.objectProperty(
-                                        t.identifier('enabled'),
-                                        t.logicalExpression(
-                                            '&&',
-                                            t.unaryExpression(
-                                                '!',
-                                                t.unaryExpression('!', t.identifier('client'))
-                                            ),
-                                            t.optionalMemberExpression(
-                                                t.identifier('options'),
-                                                t.identifier('enabled'),
-                                                false,
-                                                true
-                                            )
-                                        )),
-                                ]),
+                                options.optionalClient
+                                    ? t.objectExpression([
+                                        t.spreadElement(t.identifier('options')),
+                                        t.objectProperty(
+                                            t.identifier('enabled'),
+                                            t.logicalExpression(
+                                                '&&',
+                                                t.unaryExpression(
+                                                    '!',
+                                                    t.unaryExpression('!', t.identifier('client'))
+                                                ),
+                                                t.optionalMemberExpression(
+                                                    t.identifier('options'),
+                                                    t.identifier('enabled'),
+                                                    false,
+                                                    true
+                                                )
+                                            )),
+                                    ])
+                                    : t.identifier('options'),
                             ],
                             t.tsTypeParameterInstantiation(
                                 [
                                     typeRefOrOptionalUnion(
                                         t.identifier(responseType),
-                                        !!options?.optionalClient
+                                        options.optionalClient
                                     ),
                                     t.tsTypeReference(
                                         t.identifier('Error')
@@ -217,7 +231,7 @@ export const createReactQueryHookInterface = ({
     hookParamsTypeName,
     responseType,
     jsonschema,
-    options
+    options = DEFAULT_OPTIONS,
 }: ReactQueryHookQueryInterface) => {
     const body = [
         tsPropertySignature(
@@ -227,7 +241,7 @@ export const createReactQueryHookInterface = ({
                     t.identifier(QueryClient)
                 )
             ),
-            !!options?.optionalClient
+            options.optionalClient
         ),
         tsPropertySignature(
             t.identifier('options'),
@@ -239,7 +253,7 @@ export const createReactQueryHookInterface = ({
 
                             typeRefOrOptionalUnion(
                                 t.identifier(responseType),
-                                !!options?.optionalClient
+                                options.optionalClient
                             ),
                             t.tsTypeReference(t.identifier('Error')),
                             t.tsTypeReference(

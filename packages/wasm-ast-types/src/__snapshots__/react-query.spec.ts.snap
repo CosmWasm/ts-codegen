@@ -9,9 +9,7 @@ export function useSg721CollectionInfoQuery({
   client,
   options
 }: Sg721CollectionInfoQuery) {
-  return useQuery<CollectionInfoResponse, Error, CollectionInfoResponse, (string | undefined)[]>([\\"sg721CollectionInfo\\", client.contractAddress], () => client.collectionInfo(), { ...options,
-    enabled: !!client && options?.enabled
-  });
+  return useQuery<CollectionInfoResponse, Error, CollectionInfoResponse, (string | undefined)[]>([\\"sg721CollectionInfo\\", client.contractAddress], () => client.collectionInfo(), options);
 }
 export interface Sg721MinterQuery {
   client: Sg721QueryClient;
@@ -21,9 +19,7 @@ export function useSg721MinterQuery({
   client,
   options
 }: Sg721MinterQuery) {
-  return useQuery<MinterResponse, Error, MinterResponse, (string | undefined)[]>([\\"sg721Minter\\", client.contractAddress], () => client.minter(), { ...options,
-    enabled: !!client && options?.enabled
-  });
+  return useQuery<MinterResponse, Error, MinterResponse, (string | undefined)[]>([\\"sg721Minter\\", client.contractAddress], () => client.minter(), options);
 }
 export interface Sg721AllTokensQuery {
   client: Sg721QueryClient;
@@ -41,9 +37,7 @@ export function useSg721AllTokensQuery({
   return useQuery<AllTokensResponse, Error, AllTokensResponse, (string | undefined)[]>([\\"sg721AllTokens\\", client.contractAddress], () => client.allTokens({
     limit: args.limit,
     startAfter: args.startAfter
-  }), { ...options,
-    enabled: !!client && options?.enabled
-  });
+  }), options);
 }
 export interface Sg721TokensQuery {
   client: Sg721QueryClient;
@@ -63,9 +57,7 @@ export function useSg721TokensQuery({
     limit: args.limit,
     owner: args.owner,
     startAfter: args.startAfter
-  }), { ...options,
-    enabled: !!client && options?.enabled
-  });
+  }), options);
 }
 export interface Sg721AllNftInfoQuery {
   client: Sg721QueryClient;
@@ -83,9 +75,7 @@ export function useSg721AllNftInfoQuery({
   return useQuery<AllNftInfoResponse, Error, AllNftInfoResponse, (string | undefined)[]>([\\"sg721AllNftInfo\\", client.contractAddress], () => client.allNftInfo({
     includeExpired: args.includeExpired,
     tokenId: args.tokenId
-  }), { ...options,
-    enabled: !!client && options?.enabled
-  });
+  }), options);
 }
 export interface Sg721NftInfoQuery {
   client: Sg721QueryClient;
@@ -101,9 +91,7 @@ export function useSg721NftInfoQuery({
 }: Sg721NftInfoQuery) {
   return useQuery<NftInfoResponse, Error, NftInfoResponse, (string | undefined)[]>([\\"sg721NftInfo\\", client.contractAddress], () => client.nftInfo({
     tokenId: args.tokenId
-  }), { ...options,
-    enabled: !!client && options?.enabled
-  });
+  }), options);
 }
 export interface Sg721ContractInfoQuery {
   client: Sg721QueryClient;
@@ -113,9 +101,7 @@ export function useSg721ContractInfoQuery({
   client,
   options
 }: Sg721ContractInfoQuery) {
-  return useQuery<ContractInfoResponse, Error, ContractInfoResponse, (string | undefined)[]>([\\"sg721ContractInfo\\", client.contractAddress], () => client.contractInfo(), { ...options,
-    enabled: !!client && options?.enabled
-  });
+  return useQuery<ContractInfoResponse, Error, ContractInfoResponse, (string | undefined)[]>([\\"sg721ContractInfo\\", client.contractAddress], () => client.contractInfo(), options);
 }
 export interface Sg721NumTokensQuery {
   client: Sg721QueryClient;
@@ -125,9 +111,7 @@ export function useSg721NumTokensQuery({
   client,
   options
 }: Sg721NumTokensQuery) {
-  return useQuery<NumTokensResponse, Error, NumTokensResponse, (string | undefined)[]>([\\"sg721NumTokens\\", client.contractAddress], () => client.numTokens(), { ...options,
-    enabled: !!client && options?.enabled
-  });
+  return useQuery<NumTokensResponse, Error, NumTokensResponse, (string | undefined)[]>([\\"sg721NumTokens\\", client.contractAddress], () => client.numTokens(), options);
 }
 export interface Sg721AllOperatorsQuery {
   client: Sg721QueryClient;
@@ -149,9 +133,7 @@ export function useSg721AllOperatorsQuery({
     limit: args.limit,
     owner: args.owner,
     startAfter: args.startAfter
-  }), { ...options,
-    enabled: !!client && options?.enabled
-  });
+  }), options);
 }
 export interface Sg721ApprovalsQuery {
   client: Sg721QueryClient;
@@ -169,9 +151,7 @@ export function useSg721ApprovalsQuery({
   return useQuery<ApprovalsResponse, Error, ApprovalsResponse, (string | undefined)[]>([\\"sg721Approvals\\", client.contractAddress], () => client.approvals({
     includeExpired: args.includeExpired,
     tokenId: args.tokenId
-  }), { ...options,
-    enabled: !!client && options?.enabled
-  });
+  }), options);
 }
 export interface Sg721ApprovalQuery {
   client: Sg721QueryClient;
@@ -191,9 +171,7 @@ export function useSg721ApprovalQuery({
     includeExpired: args.includeExpired,
     spender: args.spender,
     tokenId: args.tokenId
-  }), { ...options,
-    enabled: !!client && options?.enabled
-  });
+  }), options);
 }
 export interface Sg721OwnerOfQuery {
   client: Sg721QueryClient;
@@ -211,9 +189,7 @@ export function useSg721OwnerOfQuery({
   return useQuery<OwnerOfResponse, Error, OwnerOfResponse, (string | undefined)[]>([\\"sg721OwnerOf\\", client.contractAddress], () => client.ownerOf({
     includeExpired: args.includeExpired,
     tokenId: args.tokenId
-  }), { ...options,
-    enabled: !!client && options?.enabled
-  });
+  }), options);
 }"
 `;
 
@@ -226,9 +202,7 @@ export function useSg721CollectionInfoQuery({
   client,
   options
 }: Sg721CollectionInfoQuery) {
-  return useQuery<CollectionInfoResponse, Error, CollectionInfoResponse, (string | undefined)[]>([\\"sg721CollectionInfo\\", client.contractAddress], () => client.collectionInfo(), { ...options,
-    enabled: !!client && options?.enabled
-  });
+  return useQuery<CollectionInfoResponse, Error, CollectionInfoResponse, (string | undefined)[]>([\\"sg721CollectionInfo\\", client.contractAddress], () => client.collectionInfo(), options);
 }
 export interface Sg721MinterQuery {
   client: Sg721QueryClient;
@@ -238,9 +212,7 @@ export function useSg721MinterQuery({
   client,
   options
 }: Sg721MinterQuery) {
-  return useQuery<MinterResponse, Error, MinterResponse, (string | undefined)[]>([\\"sg721Minter\\", client.contractAddress], () => client.minter(), { ...options,
-    enabled: !!client && options?.enabled
-  });
+  return useQuery<MinterResponse, Error, MinterResponse, (string | undefined)[]>([\\"sg721Minter\\", client.contractAddress], () => client.minter(), options);
 }
 export interface Sg721AllTokensQuery {
   client: Sg721QueryClient;
@@ -258,9 +230,7 @@ export function useSg721AllTokensQuery({
   return useQuery<AllTokensResponse, Error, AllTokensResponse, (string | undefined)[]>([\\"sg721AllTokens\\", client.contractAddress], () => client.allTokens({
     limit: args.limit,
     startAfter: args.startAfter
-  }), { ...options,
-    enabled: !!client && options?.enabled
-  });
+  }), options);
 }
 export interface Sg721TokensQuery {
   client: Sg721QueryClient;
@@ -280,9 +250,7 @@ export function useSg721TokensQuery({
     limit: args.limit,
     owner: args.owner,
     startAfter: args.startAfter
-  }), { ...options,
-    enabled: !!client && options?.enabled
-  });
+  }), options);
 }
 export interface Sg721AllNftInfoQuery {
   client: Sg721QueryClient;
@@ -300,9 +268,7 @@ export function useSg721AllNftInfoQuery({
   return useQuery<AllNftInfoResponse, Error, AllNftInfoResponse, (string | undefined)[]>([\\"sg721AllNftInfo\\", client.contractAddress], () => client.allNftInfo({
     includeExpired: args.includeExpired,
     tokenId: args.tokenId
-  }), { ...options,
-    enabled: !!client && options?.enabled
-  });
+  }), options);
 }
 export interface Sg721NftInfoQuery {
   client: Sg721QueryClient;
@@ -318,9 +284,7 @@ export function useSg721NftInfoQuery({
 }: Sg721NftInfoQuery) {
   return useQuery<NftInfoResponse, Error, NftInfoResponse, (string | undefined)[]>([\\"sg721NftInfo\\", client.contractAddress], () => client.nftInfo({
     tokenId: args.tokenId
-  }), { ...options,
-    enabled: !!client && options?.enabled
-  });
+  }), options);
 }
 export interface Sg721ContractInfoQuery {
   client: Sg721QueryClient;
@@ -330,9 +294,7 @@ export function useSg721ContractInfoQuery({
   client,
   options
 }: Sg721ContractInfoQuery) {
-  return useQuery<ContractInfoResponse, Error, ContractInfoResponse, (string | undefined)[]>([\\"sg721ContractInfo\\", client.contractAddress], () => client.contractInfo(), { ...options,
-    enabled: !!client && options?.enabled
-  });
+  return useQuery<ContractInfoResponse, Error, ContractInfoResponse, (string | undefined)[]>([\\"sg721ContractInfo\\", client.contractAddress], () => client.contractInfo(), options);
 }
 export interface Sg721NumTokensQuery {
   client: Sg721QueryClient;
@@ -342,9 +304,7 @@ export function useSg721NumTokensQuery({
   client,
   options
 }: Sg721NumTokensQuery) {
-  return useQuery<NumTokensResponse, Error, NumTokensResponse, (string | undefined)[]>([\\"sg721NumTokens\\", client.contractAddress], () => client.numTokens(), { ...options,
-    enabled: !!client && options?.enabled
-  });
+  return useQuery<NumTokensResponse, Error, NumTokensResponse, (string | undefined)[]>([\\"sg721NumTokens\\", client.contractAddress], () => client.numTokens(), options);
 }
 export interface Sg721AllOperatorsQuery {
   client: Sg721QueryClient;
@@ -366,9 +326,7 @@ export function useSg721AllOperatorsQuery({
     limit: args.limit,
     owner: args.owner,
     startAfter: args.startAfter
-  }), { ...options,
-    enabled: !!client && options?.enabled
-  });
+  }), options);
 }
 export interface Sg721ApprovalsQuery {
   client: Sg721QueryClient;
@@ -386,9 +344,7 @@ export function useSg721ApprovalsQuery({
   return useQuery<ApprovalsResponse, Error, ApprovalsResponse, (string | undefined)[]>([\\"sg721Approvals\\", client.contractAddress], () => client.approvals({
     includeExpired: args.includeExpired,
     tokenId: args.tokenId
-  }), { ...options,
-    enabled: !!client && options?.enabled
-  });
+  }), options);
 }
 export interface Sg721ApprovalQuery {
   client: Sg721QueryClient;
@@ -408,9 +364,7 @@ export function useSg721ApprovalQuery({
     includeExpired: args.includeExpired,
     spender: args.spender,
     tokenId: args.tokenId
-  }), { ...options,
-    enabled: !!client && options?.enabled
-  });
+  }), options);
 }
 export interface Sg721OwnerOfQuery {
   client: Sg721QueryClient;
@@ -428,9 +382,7 @@ export function useSg721OwnerOfQuery({
   return useQuery<OwnerOfResponse, Error, OwnerOfResponse, (string | undefined)[]>([\\"sg721OwnerOf\\", client.contractAddress], () => client.ownerOf({
     includeExpired: args.includeExpired,
     tokenId: args.tokenId
-  }), { ...options,
-    enabled: !!client && options?.enabled
-  });
+  }), options);
 }"
 `;
 
