@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.4.0 (2022-07-29)
+
+**Note:** Version bump only for package @cosmwasm/ts-codegen
+
+
+
+
+
 ## [0.3.9](https://github.com/pyramation/cosmwasm-typescript-gen/compare/cosmwasm-typescript-gen@0.3.8...cosmwasm-typescript-gen@0.3.9) (2022-07-15)
 
 **Note:** Version bump only for package cosmwasm-typescript-gen
