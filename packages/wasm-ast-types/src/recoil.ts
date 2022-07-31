@@ -105,13 +105,6 @@ export const createRecoilSelector = (
                                 )
                               )
                             ]),
-                          t.ifStatement(
-                            t.unaryExpression('!', t.identifier('client')),
-                            t.returnStatement(
-                              null
-                            ),
-                            null
-                          ),
                           t.returnStatement(
                             t.awaitExpression(
                               t.callExpression(
@@ -139,13 +132,8 @@ export const createRecoilSelector = (
           ],
           t.tsTypeParameterInstantiation(
             [
-              t.tsUnionType(
-                [
-                  t.tsTypeReference(
-                    t.identifier(responseType)
-                  ),
-                  t.tsUndefinedKeyword()
-                ]
+              t.tsTypeReference(
+                t.identifier(responseType)
               ),
               t.tsIntersectionType(
                 [
@@ -324,13 +312,8 @@ export const createRecoilQueryClient = (
           ],
           t.tsTypeParameterInstantiation(
             [
-              t.tsUnionType(
-                [
-                  t.tsTypeReference(
-                    t.identifier(QueryClient)
-                  ),
-                  t.tsUndefinedKeyword()
-                ]
+              t.tsTypeReference(
+                t.identifier(QueryClient)
               ),
               t.tsTypeReference(
                 t.identifier('QueryClientParams')
