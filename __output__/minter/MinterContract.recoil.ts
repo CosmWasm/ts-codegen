@@ -11,7 +11,7 @@ import { MinterQueryClient } from "./MinterContract.ts";
 type QueryClientParams = {
   contractAddress: string;
 };
-export const queryClient = selectorFamily<MinterQueryClient | undefined, QueryClientParams>({
+export const queryClient = selectorFamily<MinterQueryClient, QueryClientParams>({
   key: "minterQueryClient",
   get: ({
     contractAddress
@@ -19,11 +19,10 @@ export const queryClient = selectorFamily<MinterQueryClient | undefined, QueryCl
     get
   }) => {
     const client = get(cosmWasmClient);
-    if (!client) return;
     return new MinterQueryClient(client, contractAddress);
   }
 });
-export const configSelector = selectorFamily<ConfigResponse | undefined, QueryClientParams & {
+export const configSelector = selectorFamily<ConfigResponse, QueryClientParams & {
   params: Parameters<MinterQueryClient["config"]>;
 }>({
   key: "minterConfig",
@@ -34,11 +33,10 @@ export const configSelector = selectorFamily<ConfigResponse | undefined, QueryCl
     get
   }) => {
     const client = get(queryClient(queryClientParams));
-    if (!client) return;
     return await client.config(...params);
   }
 });
-export const mintableNumTokensSelector = selectorFamily<MintableNumTokensResponse | undefined, QueryClientParams & {
+export const mintableNumTokensSelector = selectorFamily<MintableNumTokensResponse, QueryClientParams & {
   params: Parameters<MinterQueryClient["mintableNumTokens"]>;
 }>({
   key: "minterMintableNumTokens",
@@ -49,11 +47,10 @@ export const mintableNumTokensSelector = selectorFamily<MintableNumTokensRespons
     get
   }) => {
     const client = get(queryClient(queryClientParams));
-    if (!client) return;
     return await client.mintableNumTokens(...params);
   }
 });
-export const startTimeSelector = selectorFamily<StartTimeResponse | undefined, QueryClientParams & {
+export const startTimeSelector = selectorFamily<StartTimeResponse, QueryClientParams & {
   params: Parameters<MinterQueryClient["startTime"]>;
 }>({
   key: "minterStartTime",
@@ -64,11 +61,10 @@ export const startTimeSelector = selectorFamily<StartTimeResponse | undefined, Q
     get
   }) => {
     const client = get(queryClient(queryClientParams));
-    if (!client) return;
     return await client.startTime(...params);
   }
 });
-export const mintPriceSelector = selectorFamily<MintPriceResponse | undefined, QueryClientParams & {
+export const mintPriceSelector = selectorFamily<MintPriceResponse, QueryClientParams & {
   params: Parameters<MinterQueryClient["mintPrice"]>;
 }>({
   key: "minterMintPrice",
@@ -79,11 +75,10 @@ export const mintPriceSelector = selectorFamily<MintPriceResponse | undefined, Q
     get
   }) => {
     const client = get(queryClient(queryClientParams));
-    if (!client) return;
     return await client.mintPrice(...params);
   }
 });
-export const mintCountSelector = selectorFamily<MintCountResponse | undefined, QueryClientParams & {
+export const mintCountSelector = selectorFamily<MintCountResponse, QueryClientParams & {
   params: Parameters<MinterQueryClient["mintCount"]>;
 }>({
   key: "minterMintCount",
@@ -94,7 +89,6 @@ export const mintCountSelector = selectorFamily<MintCountResponse | undefined, Q
     get
   }) => {
     const client = get(queryClient(queryClientParams));
-    if (!client) return;
     return await client.mintCount(...params);
   }
 });

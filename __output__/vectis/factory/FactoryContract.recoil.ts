@@ -11,7 +11,7 @@ import { FactoryQueryClient } from "./FactoryContract.ts";
 type QueryClientParams = {
   contractAddress: string;
 };
-export const queryClient = selectorFamily<FactoryQueryClient | undefined, QueryClientParams>({
+export const queryClient = selectorFamily<FactoryQueryClient, QueryClientParams>({
   key: "factoryQueryClient",
   get: ({
     contractAddress
@@ -19,11 +19,10 @@ export const queryClient = selectorFamily<FactoryQueryClient | undefined, QueryC
     get
   }) => {
     const client = get(cosmWasmClient);
-    if (!client) return;
     return new FactoryQueryClient(client, contractAddress);
   }
 });
-export const walletsSelector = selectorFamily<WalletsResponse | undefined, QueryClientParams & {
+export const walletsSelector = selectorFamily<WalletsResponse, QueryClientParams & {
   params: Parameters<FactoryQueryClient["wallets"]>;
 }>({
   key: "factoryWallets",
@@ -34,11 +33,10 @@ export const walletsSelector = selectorFamily<WalletsResponse | undefined, Query
     get
   }) => {
     const client = get(queryClient(queryClientParams));
-    if (!client) return;
     return await client.wallets(...params);
   }
 });
-export const walletsOfSelector = selectorFamily<WalletsOfResponse | undefined, QueryClientParams & {
+export const walletsOfSelector = selectorFamily<WalletsOfResponse, QueryClientParams & {
   params: Parameters<FactoryQueryClient["walletsOf"]>;
 }>({
   key: "factoryWalletsOf",
@@ -49,11 +47,10 @@ export const walletsOfSelector = selectorFamily<WalletsOfResponse | undefined, Q
     get
   }) => {
     const client = get(queryClient(queryClientParams));
-    if (!client) return;
     return await client.walletsOf(...params);
   }
 });
-export const codeIdSelector = selectorFamily<CodeIdResponse | undefined, QueryClientParams & {
+export const codeIdSelector = selectorFamily<CodeIdResponse, QueryClientParams & {
   params: Parameters<FactoryQueryClient["codeId"]>;
 }>({
   key: "factoryCodeId",
@@ -64,11 +61,10 @@ export const codeIdSelector = selectorFamily<CodeIdResponse | undefined, QueryCl
     get
   }) => {
     const client = get(queryClient(queryClientParams));
-    if (!client) return;
     return await client.codeId(...params);
   }
 });
-export const feeSelector = selectorFamily<FeeResponse | undefined, QueryClientParams & {
+export const feeSelector = selectorFamily<FeeResponse, QueryClientParams & {
   params: Parameters<FactoryQueryClient["fee"]>;
 }>({
   key: "factoryFee",
@@ -79,11 +75,10 @@ export const feeSelector = selectorFamily<FeeResponse | undefined, QueryClientPa
     get
   }) => {
     const client = get(queryClient(queryClientParams));
-    if (!client) return;
     return await client.fee(...params);
   }
 });
-export const govecAddrSelector = selectorFamily<GovecAddrResponse | undefined, QueryClientParams & {
+export const govecAddrSelector = selectorFamily<GovecAddrResponse, QueryClientParams & {
   params: Parameters<FactoryQueryClient["govecAddr"]>;
 }>({
   key: "factoryGovecAddr",
@@ -94,11 +89,10 @@ export const govecAddrSelector = selectorFamily<GovecAddrResponse | undefined, Q
     get
   }) => {
     const client = get(queryClient(queryClientParams));
-    if (!client) return;
     return await client.govecAddr(...params);
   }
 });
-export const adminAddrSelector = selectorFamily<AdminAddrResponse | undefined, QueryClientParams & {
+export const adminAddrSelector = selectorFamily<AdminAddrResponse, QueryClientParams & {
   params: Parameters<FactoryQueryClient["adminAddr"]>;
 }>({
   key: "factoryAdminAddr",
@@ -109,7 +103,6 @@ export const adminAddrSelector = selectorFamily<AdminAddrResponse | undefined, Q
     get
   }) => {
     const client = get(queryClient(queryClientParams));
-    if (!client) return;
     return await client.adminAddr(...params);
   }
 });

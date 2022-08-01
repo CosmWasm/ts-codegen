@@ -11,7 +11,7 @@ import { CwCodeIdRegistryQueryClient } from "./CwCodeIdRegistryContract.ts";
 type QueryClientParams = {
   contractAddress: string;
 };
-export const queryClient = selectorFamily<CwCodeIdRegistryQueryClient | undefined, QueryClientParams>({
+export const queryClient = selectorFamily<CwCodeIdRegistryQueryClient, QueryClientParams>({
   key: "cwCodeIdRegistryQueryClient",
   get: ({
     contractAddress
@@ -19,11 +19,10 @@ export const queryClient = selectorFamily<CwCodeIdRegistryQueryClient | undefine
     get
   }) => {
     const client = get(cosmWasmClient);
-    if (!client) return;
     return new CwCodeIdRegistryQueryClient(client, contractAddress);
   }
 });
-export const configSelector = selectorFamily<ConfigResponse | undefined, QueryClientParams & {
+export const configSelector = selectorFamily<ConfigResponse, QueryClientParams & {
   params: Parameters<CwCodeIdRegistryQueryClient["config"]>;
 }>({
   key: "cwCodeIdRegistryConfig",
@@ -34,11 +33,10 @@ export const configSelector = selectorFamily<ConfigResponse | undefined, QueryCl
     get
   }) => {
     const client = get(queryClient(queryClientParams));
-    if (!client) return;
     return await client.config(...params);
   }
 });
-export const getRegistrationSelector = selectorFamily<GetRegistrationResponse | undefined, QueryClientParams & {
+export const getRegistrationSelector = selectorFamily<GetRegistrationResponse, QueryClientParams & {
   params: Parameters<CwCodeIdRegistryQueryClient["getRegistration"]>;
 }>({
   key: "cwCodeIdRegistryGetRegistration",
@@ -49,11 +47,10 @@ export const getRegistrationSelector = selectorFamily<GetRegistrationResponse | 
     get
   }) => {
     const client = get(queryClient(queryClientParams));
-    if (!client) return;
     return await client.getRegistration(...params);
   }
 });
-export const infoForCodeIdSelector = selectorFamily<InfoForCodeIdResponse | undefined, QueryClientParams & {
+export const infoForCodeIdSelector = selectorFamily<InfoForCodeIdResponse, QueryClientParams & {
   params: Parameters<CwCodeIdRegistryQueryClient["infoForCodeId"]>;
 }>({
   key: "cwCodeIdRegistryInfoForCodeId",
@@ -64,11 +61,10 @@ export const infoForCodeIdSelector = selectorFamily<InfoForCodeIdResponse | unde
     get
   }) => {
     const client = get(queryClient(queryClientParams));
-    if (!client) return;
     return await client.infoForCodeId(...params);
   }
 });
-export const listRegistrationsSelector = selectorFamily<ListRegistrationsResponse | undefined, QueryClientParams & {
+export const listRegistrationsSelector = selectorFamily<ListRegistrationsResponse, QueryClientParams & {
   params: Parameters<CwCodeIdRegistryQueryClient["listRegistrations"]>;
 }>({
   key: "cwCodeIdRegistryListRegistrations",
@@ -79,7 +75,6 @@ export const listRegistrationsSelector = selectorFamily<ListRegistrationsRespons
     get
   }) => {
     const client = get(queryClient(queryClientParams));
-    if (!client) return;
     return await client.listRegistrations(...params);
   }
 });

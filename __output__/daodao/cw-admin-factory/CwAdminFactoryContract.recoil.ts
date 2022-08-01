@@ -11,7 +11,7 @@ import { CwAdminFactoryQueryClient } from "./CwAdminFactoryContract.ts";
 type QueryClientParams = {
   contractAddress: string;
 };
-export const queryClient = selectorFamily<CwAdminFactoryQueryClient | undefined, QueryClientParams>({
+export const queryClient = selectorFamily<CwAdminFactoryQueryClient, QueryClientParams>({
   key: "cwAdminFactoryQueryClient",
   get: ({
     contractAddress
@@ -19,7 +19,6 @@ export const queryClient = selectorFamily<CwAdminFactoryQueryClient | undefined,
     get
   }) => {
     const client = get(cosmWasmClient);
-    if (!client) return;
     return new CwAdminFactoryQueryClient(client, contractAddress);
   }
 });

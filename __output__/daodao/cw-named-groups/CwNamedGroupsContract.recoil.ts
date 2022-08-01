@@ -11,7 +11,7 @@ import { CwNamedGroupsQueryClient } from "./CwNamedGroupsContract.ts";
 type QueryClientParams = {
   contractAddress: string;
 };
-export const queryClient = selectorFamily<CwNamedGroupsQueryClient | undefined, QueryClientParams>({
+export const queryClient = selectorFamily<CwNamedGroupsQueryClient, QueryClientParams>({
   key: "cwNamedGroupsQueryClient",
   get: ({
     contractAddress
@@ -19,11 +19,10 @@ export const queryClient = selectorFamily<CwNamedGroupsQueryClient | undefined, 
     get
   }) => {
     const client = get(cosmWasmClient);
-    if (!client) return;
     return new CwNamedGroupsQueryClient(client, contractAddress);
   }
 });
-export const dumpSelector = selectorFamily<DumpResponse | undefined, QueryClientParams & {
+export const dumpSelector = selectorFamily<DumpResponse, QueryClientParams & {
   params: Parameters<CwNamedGroupsQueryClient["dump"]>;
 }>({
   key: "cwNamedGroupsDump",
@@ -34,11 +33,10 @@ export const dumpSelector = selectorFamily<DumpResponse | undefined, QueryClient
     get
   }) => {
     const client = get(queryClient(queryClientParams));
-    if (!client) return;
     return await client.dump(...params);
   }
 });
-export const listGroupsSelector = selectorFamily<ListGroupsResponse | undefined, QueryClientParams & {
+export const listGroupsSelector = selectorFamily<ListGroupsResponse, QueryClientParams & {
   params: Parameters<CwNamedGroupsQueryClient["listGroups"]>;
 }>({
   key: "cwNamedGroupsListGroups",
@@ -49,11 +47,10 @@ export const listGroupsSelector = selectorFamily<ListGroupsResponse | undefined,
     get
   }) => {
     const client = get(queryClient(queryClientParams));
-    if (!client) return;
     return await client.listGroups(...params);
   }
 });
-export const listAddressesSelector = selectorFamily<ListAddressesResponse | undefined, QueryClientParams & {
+export const listAddressesSelector = selectorFamily<ListAddressesResponse, QueryClientParams & {
   params: Parameters<CwNamedGroupsQueryClient["listAddresses"]>;
 }>({
   key: "cwNamedGroupsListAddresses",
@@ -64,11 +61,10 @@ export const listAddressesSelector = selectorFamily<ListAddressesResponse | unde
     get
   }) => {
     const client = get(queryClient(queryClientParams));
-    if (!client) return;
     return await client.listAddresses(...params);
   }
 });
-export const isAddressInGroupSelector = selectorFamily<IsAddressInGroupResponse | undefined, QueryClientParams & {
+export const isAddressInGroupSelector = selectorFamily<IsAddressInGroupResponse, QueryClientParams & {
   params: Parameters<CwNamedGroupsQueryClient["isAddressInGroup"]>;
 }>({
   key: "cwNamedGroupsIsAddressInGroup",
@@ -79,7 +75,6 @@ export const isAddressInGroupSelector = selectorFamily<IsAddressInGroupResponse 
     get
   }) => {
     const client = get(queryClient(queryClientParams));
-    if (!client) return;
     return await client.isAddressInGroup(...params);
   }
 });

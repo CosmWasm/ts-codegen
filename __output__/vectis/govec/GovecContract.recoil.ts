@@ -11,7 +11,7 @@ import { GovecQueryClient } from "./GovecContract.ts";
 type QueryClientParams = {
   contractAddress: string;
 };
-export const queryClient = selectorFamily<GovecQueryClient | undefined, QueryClientParams>({
+export const queryClient = selectorFamily<GovecQueryClient, QueryClientParams>({
   key: "govecQueryClient",
   get: ({
     contractAddress
@@ -19,11 +19,10 @@ export const queryClient = selectorFamily<GovecQueryClient | undefined, QueryCli
     get
   }) => {
     const client = get(cosmWasmClient);
-    if (!client) return;
     return new GovecQueryClient(client, contractAddress);
   }
 });
-export const infoSelector = selectorFamily<InfoResponse | undefined, QueryClientParams & {
+export const infoSelector = selectorFamily<InfoResponse, QueryClientParams & {
   params: Parameters<GovecQueryClient["info"]>;
 }>({
   key: "govecInfo",
@@ -34,11 +33,10 @@ export const infoSelector = selectorFamily<InfoResponse | undefined, QueryClient
     get
   }) => {
     const client = get(queryClient(queryClientParams));
-    if (!client) return;
     return await client.info(...params);
   }
 });
-export const canExecuteRelaySelector = selectorFamily<CanExecuteRelayResponse | undefined, QueryClientParams & {
+export const canExecuteRelaySelector = selectorFamily<CanExecuteRelayResponse, QueryClientParams & {
   params: Parameters<GovecQueryClient["canExecuteRelay"]>;
 }>({
   key: "govecCanExecuteRelay",
@@ -49,7 +47,6 @@ export const canExecuteRelaySelector = selectorFamily<CanExecuteRelayResponse | 
     get
   }) => {
     const client = get(queryClient(queryClientParams));
-    if (!client) return;
     return await client.canExecuteRelay(...params);
   }
 });

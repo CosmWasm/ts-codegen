@@ -11,7 +11,7 @@ import { ProxyQueryClient } from "./ProxyContract.ts";
 type QueryClientParams = {
   contractAddress: string;
 };
-export const queryClient = selectorFamily<ProxyQueryClient | undefined, QueryClientParams>({
+export const queryClient = selectorFamily<ProxyQueryClient, QueryClientParams>({
   key: "proxyQueryClient",
   get: ({
     contractAddress
@@ -19,11 +19,10 @@ export const queryClient = selectorFamily<ProxyQueryClient | undefined, QueryCli
     get
   }) => {
     const client = get(cosmWasmClient);
-    if (!client) return;
     return new ProxyQueryClient(client, contractAddress);
   }
 });
-export const infoSelector = selectorFamily<InfoResponse | undefined, QueryClientParams & {
+export const infoSelector = selectorFamily<InfoResponse, QueryClientParams & {
   params: Parameters<ProxyQueryClient["info"]>;
 }>({
   key: "proxyInfo",
@@ -34,11 +33,10 @@ export const infoSelector = selectorFamily<InfoResponse | undefined, QueryClient
     get
   }) => {
     const client = get(queryClient(queryClientParams));
-    if (!client) return;
     return await client.info(...params);
   }
 });
-export const canExecuteRelaySelector = selectorFamily<CanExecuteRelayResponse | undefined, QueryClientParams & {
+export const canExecuteRelaySelector = selectorFamily<CanExecuteRelayResponse, QueryClientParams & {
   params: Parameters<ProxyQueryClient["canExecuteRelay"]>;
 }>({
   key: "proxyCanExecuteRelay",
@@ -49,7 +47,6 @@ export const canExecuteRelaySelector = selectorFamily<CanExecuteRelayResponse | 
     get
   }) => {
     const client = get(queryClient(queryClientParams));
-    if (!client) return;
     return await client.canExecuteRelay(...params);
   }
 });
