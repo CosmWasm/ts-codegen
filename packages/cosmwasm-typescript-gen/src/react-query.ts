@@ -43,11 +43,12 @@ export default async (name: string, schemas: any[], outPath: string, options?: R
         );
 
         [].push.apply(body,
-            w.createReactQueryHooks(
-                QueryMsg,
-                name,
+            w.createReactQueryHooks({
+                queryMsg: QueryMsg,
+                contractName: name,
                 QueryClient,
                 options
+            }
             )
         );
 
