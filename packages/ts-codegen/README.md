@@ -1,6 +1,6 @@
 # @cosmwasm/ts-codegen
 
-A Transpiler for CosmWasm Smart Contracts
+TypeScript bindings for CosmWasm smart contracts
 
 <p align="center">
   <img width="120" src="https://user-images.githubusercontent.com/545047/163705368-bc899f6d-a2de-43ee-889b-dbf44e17f288.png">
@@ -12,14 +12,14 @@ A Transpiler for CosmWasm Smart Contracts
   </a>
    <a href="https://github.com/CosmWasm/ts-codegen/blob/main/LICENSE-MIT"><img height="20" src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
    <a href="https://github.com/CosmWasm/ts-codegen/blob/main/LICENSE-Apache"><img height="20" src="https://img.shields.io/badge/license-Apache-blue.svg"></a>
-   <a href="https://www.npmjs.com/package/@cosmwasm/ts-codegen"><img height="20" src="https://img.shields.io/github/package-json/v/CosmWasm/ts-codegen?filename=packages%2Fcosmwasm-typescript-gen%2Fpackage.json"></a>
+   <a href="https://www.npmjs.com/package/@cosmwasm/ts-codegen"><img height="20" src="https://img.shields.io/github/package-json/v/CosmWasm/ts-codegen?filename=packages%2Fts-codegen%2Fpackage.json"></a>
 </p>
 
 ```
 npm install -g @cosmwasm/ts-codegen
 ```
 
-CosmWasm Typescript codegen tooling to convert your CosmWasm smart contracts into clean es6 classes.
+`@cosmwasm/ts-codegen` converts your CosmWasm smart contracts into TypeScript classes and functions so you can focus on shipping features.
 
 ## usage
 
