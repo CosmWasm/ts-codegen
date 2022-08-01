@@ -285,13 +285,6 @@ export const createRecoilQueryClient = (
                                 )
                               )
                             ]),
-                          t.ifStatement(
-                            t.unaryExpression('!', t.identifier('client')),
-                            t.returnStatement(
-                              null
-                            ),
-                            null
-                          ),
                           t.returnStatement(
                             t.newExpression(
                               t.identifier(QueryClient),
