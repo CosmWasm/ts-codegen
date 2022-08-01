@@ -7,11 +7,14 @@ import * as t from '@babel/types';
 import { writeFileSync } from 'fs';
 import generate from "@babel/generator";
 import { findAndParseTypes, findQueryMsg } from "./utils";
+import { ReactQueryOptions } from "wasm-ast-types";
 
-export default async (name: string, schemas: any[], outPath: string) => {
 
-    const RecoilFile = pascal(`${name}Contract`) + '.react-query.ts';
-    const Contract = pascal(`${name}Contract`) + '.ts';
+
+export default async (name: string, schemas: any[], outPath: string, options?: ReactQueryOptions) => {
+
+    const ReactQueryFile = pascal(`${name}Contract`) + '.react-query.ts';
+    const Contract = pascal(`${name}Contract`)
 
     const QueryMsg = findQueryMsg(schemas);
     const typeHash = await findAndParseTypes(schemas);
@@ -26,7 +29,7 @@ export default async (name: string, schemas: any[], outPath: string) => {
     );
 
     body.push(
-        w.importStmt(Object.keys(typeHash), `./${Contract}`.replace(/\.ts$/, ''))
+        w.importStmt(Object.keys(typeHash), `./${Contract}`)
     );
 
     // query messages
@@ -40,10 +43,12 @@ export default async (name: string, schemas: any[], outPath: string) => {
         );
 
         [].push.apply(body,
-            w.createReactQueryHooks(
-                QueryMsg,
-                name,
-                QueryClient
+            w.createReactQueryHooks({
+                queryMsg: QueryMsg,
+                contractName: name,
+                QueryClient,
+                options
+            }
             )
         );
 
@@ -54,5 +59,5 @@ export default async (name: string, schemas: any[], outPath: string) => {
     ).code;
 
     mkdirp(outPath);
-    writeFileSync(join(outPath, RecoilFile), code);
+    writeFileSync(join(outPath, ReactQueryFile), code);
 };

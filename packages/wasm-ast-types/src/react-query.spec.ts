@@ -47,15 +47,28 @@ const printCode = (ast) => {
 it('createReactQueryHooks', () => {
   expectCode(t.program(
     createReactQueryHooks(
-      query_msg,
-      'Sg721',
-      'Sg721QueryClient'
+      {
+        queryMsg: query_msg,
+        contractName: 'Sg721',
+        QueryClient: 'Sg721QueryClient'
+      }
     )))
   expectCode(t.program(
     createReactQueryHooks(
-      query_msg,
-      'Sg721',
-      'Sg721QueryClient'
+      {
+        queryMsg: query_msg,
+        contractName: 'Sg721',
+        QueryClient: 'Sg721QueryClient'
+      }
+    )))
+  expectCode(t.program(
+    createReactQueryHooks(
+      {
+        queryMsg: query_msg,
+        contractName: 'Sg721',
+        QueryClient: 'Sg721QueryClient',
+        options: { optionalClient: true }
+      }
     )))
 });
 

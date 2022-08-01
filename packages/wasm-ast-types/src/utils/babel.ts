@@ -46,6 +46,8 @@ export const tsPropertySignature = (
     return obj
 };
 
+
+
 export const tsObjectPattern = (
     properties: (t.RestElement | t.ObjectProperty)[],
     typeAnnotation: t.TSTypeAnnotation
@@ -250,3 +252,27 @@ export const memberExpressionOrIdentifierSnake = (names) => {
         t.identifier(snake(name))
     )
 };
+
+/**
+ * If optional, return a conditional, otherwise just the expression
+ */
+export const optionalConditionalExpression = (test: t.Expression, expression: t.Expression, alternate: t.Expression, optional: boolean = false): t.Expression => {
+    return optional
+        ? t.conditionalExpression(
+            test,
+            expression,
+            alternate
+        )
+        : expression
+}
+
+export const typeRefOrOptionalUnion = (identifier: t.Identifier, optional: boolean = false): t.TSType => {
+    const typeReference = t.tsTypeReference(identifier)
+    return optional
+        ? t.tsUnionType([
+            typeReference,
+            t.tsUndefinedKeyword()
+        ])
+        : typeReference
+}
+
