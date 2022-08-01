@@ -1,6 +1,6 @@
 # @cosmwasm/ts-codegen
 
-TypeScript bindings for CosmWasm smart contracts
+Generate TypeScript SDKs for your CosmWasm smart contracts
 
 <p align="center">
   <img width="120" src="https://user-images.githubusercontent.com/545047/163705368-bc899f6d-a2de-43ee-889b-dbf44e17f288.png">
@@ -19,7 +19,7 @@ TypeScript bindings for CosmWasm smart contracts
 npm install -g @cosmwasm/ts-codegen
 ```
 
-`@cosmwasm/ts-codegen` converts your CosmWasm smart contracts into TypeScript classes and functions so you can focus on shipping code.
+The quickest and easiest way to interact with CosmWasm Contracts. `@cosmwasm/ts-codegen` converts your CosmWasm smart contracts into dev-friendly TypeScript classes so you can focus on shipping code.
 
 ## usage
 
