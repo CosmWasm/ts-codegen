@@ -24,7 +24,7 @@ jobs:
         run: yarn bootstrap
       - name: build
         run: yarn build
-      - name: cosmwasm-typescript-gen
-        run: cd ./packages/cosmwasm-typescript-gen && yarn test
+      - name: ts-codegen
+        run: cd ./packages/ts-codegen && yarn test
       - name: wasm-ast-types
         run: cd ./packages/wasm-ast-types && yarn test

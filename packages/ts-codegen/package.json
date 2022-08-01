@@ -3,13 +3,13 @@
   "version": "0.5.1",
   "description": "A TypeScript Transpiler for CosmWasm Smart Contracts",
   "author": "Dan Lynch <pyramation@gmail.com>",
-  "homepage": "https://github.com/pyramation/cosmwasm-typescript-gen",
+  "homepage": "https://github.com/cosmwasm/ts-codegen",
   "license": "SEE LICENSE IN LICENSE",
   "main": "main/index.js",
   "module": "module/index.js",
   "typings": "types/index.d.ts",
   "bin": {
-    "cosmwasm-ts-codegen": "main/cosmwasm-typescript-gen.js"
+    "cosmwasm-ts-codegen": "main/ts-codegen.js"
   },
   "directories": {
     "lib": "src",
@@ -26,8 +26,8 @@
     "build": "npm run build:module && npm run build:main",
     "build:ts": "tsc --project ./tsconfig.json",
     "prepare": "npm run build",
-    "dev": "cross-env NODE_ENV=development babel-node src/cosmwasm-typescript-gen --extensions \".tsx,.ts,.js\"",
-    "watch": "cross-env NODE_ENV=development babel-watch src/cosmwasm-typescript-gen --extensions \".tsx,.ts,.js\"",
+    "dev": "cross-env NODE_ENV=development babel-node src/ts-codegen --extensions \".tsx,.ts,.js\"",
+    "watch": "cross-env NODE_ENV=development babel-watch src/ts-codegen --extensions \".tsx,.ts,.js\"",
     "file": "cross-env NODE_ENV=development babel-watch src/file --extensions \".tsx,.ts,.js\"",
     "lint": "eslint .",
     "format": "eslint . --fix",
@@ -40,11 +40,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/pyramation/cosmwasm-typescript-gen"
+    "url": "https://github.com/cosmwasm/ts-codegen"
   },
   "keywords": [],
   "bugs": {
-    "url": "https://github.com/pyramation/cosmwasm-typescript-gen/issues"
+    "url": "https://github.com/cosmwasm/ts-codegen/issues"
   },
   "devDependencies": {
     "@babel/cli": "7.17.10",
