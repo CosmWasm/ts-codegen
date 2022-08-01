@@ -1,6 +1,6 @@
 {
   "name": "@cosmwasm/ts-codegen",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "A TypeScript Transpiler for CosmWasm Smart Contracts",
   "author": "Dan Lynch <pyramation@gmail.com>",
   "homepage": "https://github.com/pyramation/cosmwasm-typescript-gen",
@@ -90,6 +90,6 @@
     "minimist": "1.2.6",
     "mkdirp": "1.0.4",
     "shelljs": "0.8.5",
-    "wasm-ast-types": "^0.4.0"
+    "wasm-ast-types": "^0.4.1"
   }
 }
