@@ -1,6 +1,6 @@
 {
   "name": "@cosmwasm/ts-codegen",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "description": "A TypeScript Transpiler for CosmWasm Smart Contracts",
   "author": "Dan Lynch <pyramation@gmail.com>",
   "homepage": "https://github.com/cosmwasm/ts-codegen",
