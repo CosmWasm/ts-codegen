@@ -7,8 +7,16 @@ import recoil from '../src/recoil';
 const FIXTURE_DIR = __dirname + '/../../../__fixtures__';
 const OUTPUT_DIR = __dirname + '/../../../__output__';
 
+it('optionalClient', async () => {
+    const outopt = OUTPUT_DIR + '/vectis/factory-opt';
+    const schemaDir = FIXTURE_DIR + '/vectis/factory/';
+    const schemas = readSchemas({ schemaDir, argv: {} });
+    await reactQuery('Factory', schemas, outopt, { optionalClient: true });
+})
+
 it('vectis/factory', async () => {
     const out = OUTPUT_DIR + '/vectis/factory';
+    const outopt = OUTPUT_DIR + '/vectis/factory-opt';
     const schemaDir = FIXTURE_DIR + '/vectis/factory/';
 
     const schemas = readSchemas({ schemaDir, argv: {} });
@@ -16,7 +24,7 @@ it('vectis/factory', async () => {
     await fromPartial('Factory', schemas, out);
     await recoil('Factory', schemas, out);
     await reactQuery('Factory', schemas, out);
-    await reactQuery('Factory', schemas, out, { optionalClient: true });
+    await reactQuery('Factory', schemas, outopt, { optionalClient: true });
 })
 
 it('vectis/govec', async () => {
@@ -28,7 +36,6 @@ it('vectis/govec', async () => {
     await fromPartial('Govec', schemas, out);
     await recoil('Govec', schemas, out);
     await reactQuery('Govec', schemas, out);
-    await reactQuery('Govec', schemas, out, { optionalClient: true });
 })
 
 it('vectis/proxy', async () => {
@@ -40,7 +47,6 @@ it('vectis/proxy', async () => {
     await fromPartial('Proxy', schemas, out);
     await recoil('Proxy', schemas, out);
     await reactQuery('Proxy', schemas, out);
-    await reactQuery('Proxy', schemas, out, { optionalClient: true });
 })
 
 it('cosmwasm', async () => {
@@ -51,7 +57,6 @@ it('cosmwasm', async () => {
     await fromPartial('CW4Group', schemas, out);
     await recoil('CW4Group', schemas, out);
     await reactQuery('CW4Group', schemas, out);
-    await reactQuery('CW4Group', schemas, out, { optionalClient: true });
 })
 
 it('minter', async () => {
@@ -62,7 +67,6 @@ it('minter', async () => {
     await fromPartial('Minter', schemas, out);
     await recoil('Minter', schemas, out);
     await reactQuery('Minter', schemas, out);
-    await reactQuery('Minter', schemas, out, { optionalClient: true });
 })
 
 it('sg721', async () => {
@@ -74,7 +78,6 @@ it('sg721', async () => {
     await fromPartial('Sg721', schemas, out);
     await recoil('Sg721', schemas, out);
     await reactQuery('Sg721', schemas, out);
-    await reactQuery('Sg721', schemas, out, { optionalClient: true });
 })
 
 it('cw-named-groups', async () => {
@@ -86,7 +89,6 @@ it('cw-named-groups', async () => {
     await fromPartial('CwNamedGroups', schemas, out);
     await recoil('CwNamedGroups', schemas, out);
     await reactQuery('CwNamedGroups', schemas, out);
-    await reactQuery('CwNamedGroups', schemas, out, { optionalClient: true });
 })
 
 it('cw-proposal-single', async () => {
@@ -98,7 +100,6 @@ it('cw-proposal-single', async () => {
     await fromPartial('CwProposalSingle', schemas, out);
     await recoil('CwProposalSingle', schemas, out);
     await reactQuery('CwProposalSingle', schemas, out);
-    await reactQuery('CwProposalSingle', schemas, out, { optionalClient: true });
 })
 
 it('cw-admin-factory', async () => {
@@ -110,7 +111,6 @@ it('cw-admin-factory', async () => {
     await fromPartial('CwAdminFactory', schemas, out);
     await recoil('CwAdminFactory', schemas, out);
     await reactQuery('CwAdminFactory', schemas, out);
-    await reactQuery('CwAdminFactory', schemas, out, { optionalClient: true });
 })
 
 it('cw-code-id-registry', async () => {
@@ -122,5 +122,4 @@ it('cw-code-id-registry', async () => {
     await fromPartial('CwCodeIdRegistry', schemas, out);
     await recoil('CwCodeIdRegistry', schemas, out);
     await reactQuery('CwCodeIdRegistry', schemas, out);
-    await reactQuery('CwCodeIdRegistry', schemas, out, { optionalClient: true });
 })

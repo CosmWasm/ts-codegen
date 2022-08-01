@@ -48,8 +48,7 @@ export default async (name: string, schemas: any[], outPath: string, options?: R
                 contractName: name,
                 QueryClient,
                 options
-            }
-            )
+            })
         );
 
     }
