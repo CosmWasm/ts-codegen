@@ -13,10 +13,12 @@ import { getPropertyType } from './utils/types';
 
 export interface ReactQueryOptions {
     optionalClient?: boolean
+    v4?: boolean
 }
 
 const DEFAULT_OPTIONS: ReactQueryOptions = {
-    optionalClient: false
+    optionalClient: false,
+    v4: false
 }
 
 
