@@ -43,8 +43,10 @@ export const createReactQueryHooks = ({
     queryMsg,
     contractName,
     QueryClient,
-    options = DEFAULT_OPTIONS
+    options = {}
 }: ReactQueryHooks) => {
+    // merge the user options with the defaults
+    options = { ...DEFAULT_OPTIONS, ...options }
     return getMessageProperties(queryMsg)
         .reduce((m, schema) => {
             const underscoreName = Object.keys(schema.properties)[0];
@@ -275,9 +277,8 @@ export const createReactQueryHookInterface = ({
         tsPropertySignature(
             t.identifier('options'),
             t.tsTypeAnnotation(
-                !options?.v4
-                    ? typedUseQueryOptions
-                    : t.tSIntersectionType([
+                options.v4
+                    ? t.tSIntersectionType([
                         t.tsTypeReference(
                             t.identifier('Omit'),
                             t.tsTypeParameterInstantiation([
@@ -293,7 +294,8 @@ export const createReactQueryHookInterface = ({
                                 )
                             )
                         ])
-                    ]),
+                    ])
+                    : typedUseQueryOptions
             ),
             true
         )
