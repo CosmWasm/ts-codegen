@@ -34,7 +34,7 @@ export function useSg721AllTokensQuery({
   args,
   options
 }: Sg721AllTokensQuery) {
-  return useQuery<AllTokensResponse, Error, AllTokensResponse, (string | undefined)[]>([\\"sg721AllTokens\\", client.contractAddress], () => client.allTokens({
+  return useQuery<AllTokensResponse, Error, AllTokensResponse, (string | undefined)[]>([\\"sg721AllTokens\\", client.contractAddress, JSON.stringify(args)], () => client.allTokens({
     limit: args.limit,
     startAfter: args.startAfter
   }), options);
@@ -53,7 +53,7 @@ export function useSg721TokensQuery({
   args,
   options
 }: Sg721TokensQuery) {
-  return useQuery<TokensResponse, Error, TokensResponse, (string | undefined)[]>([\\"sg721Tokens\\", client.contractAddress], () => client.tokens({
+  return useQuery<TokensResponse, Error, TokensResponse, (string | undefined)[]>([\\"sg721Tokens\\", client.contractAddress, JSON.stringify(args)], () => client.tokens({
     limit: args.limit,
     owner: args.owner,
     startAfter: args.startAfter
@@ -72,7 +72,7 @@ export function useSg721AllNftInfoQuery({
   args,
   options
 }: Sg721AllNftInfoQuery) {
-  return useQuery<AllNftInfoResponse, Error, AllNftInfoResponse, (string | undefined)[]>([\\"sg721AllNftInfo\\", client.contractAddress], () => client.allNftInfo({
+  return useQuery<AllNftInfoResponse, Error, AllNftInfoResponse, (string | undefined)[]>([\\"sg721AllNftInfo\\", client.contractAddress, JSON.stringify(args)], () => client.allNftInfo({
     includeExpired: args.includeExpired,
     tokenId: args.tokenId
   }), options);
@@ -89,7 +89,7 @@ export function useSg721NftInfoQuery({
   args,
   options
 }: Sg721NftInfoQuery) {
-  return useQuery<NftInfoResponse, Error, NftInfoResponse, (string | undefined)[]>([\\"sg721NftInfo\\", client.contractAddress], () => client.nftInfo({
+  return useQuery<NftInfoResponse, Error, NftInfoResponse, (string | undefined)[]>([\\"sg721NftInfo\\", client.contractAddress, JSON.stringify(args)], () => client.nftInfo({
     tokenId: args.tokenId
   }), options);
 }
@@ -128,7 +128,7 @@ export function useSg721AllOperatorsQuery({
   args,
   options
 }: Sg721AllOperatorsQuery) {
-  return useQuery<AllOperatorsResponse, Error, AllOperatorsResponse, (string | undefined)[]>([\\"sg721AllOperators\\", client.contractAddress], () => client.allOperators({
+  return useQuery<AllOperatorsResponse, Error, AllOperatorsResponse, (string | undefined)[]>([\\"sg721AllOperators\\", client.contractAddress, JSON.stringify(args)], () => client.allOperators({
     includeExpired: args.includeExpired,
     limit: args.limit,
     owner: args.owner,
@@ -148,7 +148,7 @@ export function useSg721ApprovalsQuery({
   args,
   options
 }: Sg721ApprovalsQuery) {
-  return useQuery<ApprovalsResponse, Error, ApprovalsResponse, (string | undefined)[]>([\\"sg721Approvals\\", client.contractAddress], () => client.approvals({
+  return useQuery<ApprovalsResponse, Error, ApprovalsResponse, (string | undefined)[]>([\\"sg721Approvals\\", client.contractAddress, JSON.stringify(args)], () => client.approvals({
     includeExpired: args.includeExpired,
     tokenId: args.tokenId
   }), options);
@@ -167,7 +167,7 @@ export function useSg721ApprovalQuery({
   args,
   options
 }: Sg721ApprovalQuery) {
-  return useQuery<ApprovalResponse, Error, ApprovalResponse, (string | undefined)[]>([\\"sg721Approval\\", client.contractAddress], () => client.approval({
+  return useQuery<ApprovalResponse, Error, ApprovalResponse, (string | undefined)[]>([\\"sg721Approval\\", client.contractAddress, JSON.stringify(args)], () => client.approval({
     includeExpired: args.includeExpired,
     spender: args.spender,
     tokenId: args.tokenId
@@ -186,7 +186,7 @@ export function useSg721OwnerOfQuery({
   args,
   options
 }: Sg721OwnerOfQuery) {
-  return useQuery<OwnerOfResponse, Error, OwnerOfResponse, (string | undefined)[]>([\\"sg721OwnerOf\\", client.contractAddress], () => client.ownerOf({
+  return useQuery<OwnerOfResponse, Error, OwnerOfResponse, (string | undefined)[]>([\\"sg721OwnerOf\\", client.contractAddress, JSON.stringify(args)], () => client.ownerOf({
     includeExpired: args.includeExpired,
     tokenId: args.tokenId
   }), options);
@@ -227,7 +227,7 @@ export function useSg721AllTokensQuery({
   args,
   options
 }: Sg721AllTokensQuery) {
-  return useQuery<AllTokensResponse, Error, AllTokensResponse, (string | undefined)[]>([\\"sg721AllTokens\\", client.contractAddress], () => client.allTokens({
+  return useQuery<AllTokensResponse, Error, AllTokensResponse, (string | undefined)[]>([\\"sg721AllTokens\\", client.contractAddress, JSON.stringify(args)], () => client.allTokens({
     limit: args.limit,
     startAfter: args.startAfter
   }), options);
@@ -246,7 +246,7 @@ export function useSg721TokensQuery({
   args,
   options
 }: Sg721TokensQuery) {
-  return useQuery<TokensResponse, Error, TokensResponse, (string | undefined)[]>([\\"sg721Tokens\\", client.contractAddress], () => client.tokens({
+  return useQuery<TokensResponse, Error, TokensResponse, (string | undefined)[]>([\\"sg721Tokens\\", client.contractAddress, JSON.stringify(args)], () => client.tokens({
     limit: args.limit,
     owner: args.owner,
     startAfter: args.startAfter
@@ -265,7 +265,7 @@ export function useSg721AllNftInfoQuery({
   args,
   options
 }: Sg721AllNftInfoQuery) {
-  return useQuery<AllNftInfoResponse, Error, AllNftInfoResponse, (string | undefined)[]>([\\"sg721AllNftInfo\\", client.contractAddress], () => client.allNftInfo({
+  return useQuery<AllNftInfoResponse, Error, AllNftInfoResponse, (string | undefined)[]>([\\"sg721AllNftInfo\\", client.contractAddress, JSON.stringify(args)], () => client.allNftInfo({
     includeExpired: args.includeExpired,
     tokenId: args.tokenId
   }), options);
@@ -282,7 +282,7 @@ export function useSg721NftInfoQuery({
   args,
   options
 }: Sg721NftInfoQuery) {
-  return useQuery<NftInfoResponse, Error, NftInfoResponse, (string | undefined)[]>([\\"sg721NftInfo\\", client.contractAddress], () => client.nftInfo({
+  return useQuery<NftInfoResponse, Error, NftInfoResponse, (string | undefined)[]>([\\"sg721NftInfo\\", client.contractAddress, JSON.stringify(args)], () => client.nftInfo({
     tokenId: args.tokenId
   }), options);
 }
@@ -321,7 +321,7 @@ export function useSg721AllOperatorsQuery({
   args,
   options
 }: Sg721AllOperatorsQuery) {
-  return useQuery<AllOperatorsResponse, Error, AllOperatorsResponse, (string | undefined)[]>([\\"sg721AllOperators\\", client.contractAddress], () => client.allOperators({
+  return useQuery<AllOperatorsResponse, Error, AllOperatorsResponse, (string | undefined)[]>([\\"sg721AllOperators\\", client.contractAddress, JSON.stringify(args)], () => client.allOperators({
     includeExpired: args.includeExpired,
     limit: args.limit,
     owner: args.owner,
@@ -341,7 +341,7 @@ export function useSg721ApprovalsQuery({
   args,
   options
 }: Sg721ApprovalsQuery) {
-  return useQuery<ApprovalsResponse, Error, ApprovalsResponse, (string | undefined)[]>([\\"sg721Approvals\\", client.contractAddress], () => client.approvals({
+  return useQuery<ApprovalsResponse, Error, ApprovalsResponse, (string | undefined)[]>([\\"sg721Approvals\\", client.contractAddress, JSON.stringify(args)], () => client.approvals({
     includeExpired: args.includeExpired,
     tokenId: args.tokenId
   }), options);
@@ -360,7 +360,7 @@ export function useSg721ApprovalQuery({
   args,
   options
 }: Sg721ApprovalQuery) {
-  return useQuery<ApprovalResponse, Error, ApprovalResponse, (string | undefined)[]>([\\"sg721Approval\\", client.contractAddress], () => client.approval({
+  return useQuery<ApprovalResponse, Error, ApprovalResponse, (string | undefined)[]>([\\"sg721Approval\\", client.contractAddress, JSON.stringify(args)], () => client.approval({
     includeExpired: args.includeExpired,
     spender: args.spender,
     tokenId: args.tokenId
@@ -379,7 +379,7 @@ export function useSg721OwnerOfQuery({
   args,
   options
 }: Sg721OwnerOfQuery) {
-  return useQuery<OwnerOfResponse, Error, OwnerOfResponse, (string | undefined)[]>([\\"sg721OwnerOf\\", client.contractAddress], () => client.ownerOf({
+  return useQuery<OwnerOfResponse, Error, OwnerOfResponse, (string | undefined)[]>([\\"sg721OwnerOf\\", client.contractAddress, JSON.stringify(args)], () => client.ownerOf({
     includeExpired: args.includeExpired,
     tokenId: args.tokenId
   }), options);
@@ -424,7 +424,7 @@ export function useSg721AllTokensQuery({
   args,
   options
 }: Sg721AllTokensQuery) {
-  return useQuery<AllTokensResponse | undefined, Error, AllTokensResponse, (string | undefined)[]>([\\"sg721AllTokens\\", client?.contractAddress], () => client ? client.allTokens({
+  return useQuery<AllTokensResponse | undefined, Error, AllTokensResponse, (string | undefined)[]>([\\"sg721AllTokens\\", client?.contractAddress, JSON.stringify(args)], () => client ? client.allTokens({
     limit: args.limit,
     startAfter: args.startAfter
   }) : undefined, { ...options,
@@ -445,7 +445,7 @@ export function useSg721TokensQuery({
   args,
   options
 }: Sg721TokensQuery) {
-  return useQuery<TokensResponse | undefined, Error, TokensResponse, (string | undefined)[]>([\\"sg721Tokens\\", client?.contractAddress], () => client ? client.tokens({
+  return useQuery<TokensResponse | undefined, Error, TokensResponse, (string | undefined)[]>([\\"sg721Tokens\\", client?.contractAddress, JSON.stringify(args)], () => client ? client.tokens({
     limit: args.limit,
     owner: args.owner,
     startAfter: args.startAfter
@@ -466,7 +466,7 @@ export function useSg721AllNftInfoQuery({
   args,
   options
 }: Sg721AllNftInfoQuery) {
-  return useQuery<AllNftInfoResponse | undefined, Error, AllNftInfoResponse, (string | undefined)[]>([\\"sg721AllNftInfo\\", client?.contractAddress], () => client ? client.allNftInfo({
+  return useQuery<AllNftInfoResponse | undefined, Error, AllNftInfoResponse, (string | undefined)[]>([\\"sg721AllNftInfo\\", client?.contractAddress, JSON.stringify(args)], () => client ? client.allNftInfo({
     includeExpired: args.includeExpired,
     tokenId: args.tokenId
   }) : undefined, { ...options,
@@ -485,7 +485,7 @@ export function useSg721NftInfoQuery({
   args,
   options
 }: Sg721NftInfoQuery) {
-  return useQuery<NftInfoResponse | undefined, Error, NftInfoResponse, (string | undefined)[]>([\\"sg721NftInfo\\", client?.contractAddress], () => client ? client.nftInfo({
+  return useQuery<NftInfoResponse | undefined, Error, NftInfoResponse, (string | undefined)[]>([\\"sg721NftInfo\\", client?.contractAddress, JSON.stringify(args)], () => client ? client.nftInfo({
     tokenId: args.tokenId
   }) : undefined, { ...options,
     enabled: !!client && options?.enabled
@@ -530,7 +530,7 @@ export function useSg721AllOperatorsQuery({
   args,
   options
 }: Sg721AllOperatorsQuery) {
-  return useQuery<AllOperatorsResponse | undefined, Error, AllOperatorsResponse, (string | undefined)[]>([\\"sg721AllOperators\\", client?.contractAddress], () => client ? client.allOperators({
+  return useQuery<AllOperatorsResponse | undefined, Error, AllOperatorsResponse, (string | undefined)[]>([\\"sg721AllOperators\\", client?.contractAddress, JSON.stringify(args)], () => client ? client.allOperators({
     includeExpired: args.includeExpired,
     limit: args.limit,
     owner: args.owner,
@@ -552,7 +552,7 @@ export function useSg721ApprovalsQuery({
   args,
   options
 }: Sg721ApprovalsQuery) {
-  return useQuery<ApprovalsResponse | undefined, Error, ApprovalsResponse, (string | undefined)[]>([\\"sg721Approvals\\", client?.contractAddress], () => client ? client.approvals({
+  return useQuery<ApprovalsResponse | undefined, Error, ApprovalsResponse, (string | undefined)[]>([\\"sg721Approvals\\", client?.contractAddress, JSON.stringify(args)], () => client ? client.approvals({
     includeExpired: args.includeExpired,
     tokenId: args.tokenId
   }) : undefined, { ...options,
@@ -573,7 +573,7 @@ export function useSg721ApprovalQuery({
   args,
   options
 }: Sg721ApprovalQuery) {
-  return useQuery<ApprovalResponse | undefined, Error, ApprovalResponse, (string | undefined)[]>([\\"sg721Approval\\", client?.contractAddress], () => client ? client.approval({
+  return useQuery<ApprovalResponse | undefined, Error, ApprovalResponse, (string | undefined)[]>([\\"sg721Approval\\", client?.contractAddress, JSON.stringify(args)], () => client ? client.approval({
     includeExpired: args.includeExpired,
     spender: args.spender,
     tokenId: args.tokenId
@@ -594,7 +594,7 @@ export function useSg721OwnerOfQuery({
   args,
   options
 }: Sg721OwnerOfQuery) {
-  return useQuery<OwnerOfResponse | undefined, Error, OwnerOfResponse, (string | undefined)[]>([\\"sg721OwnerOf\\", client?.contractAddress], () => client ? client.ownerOf({
+  return useQuery<OwnerOfResponse | undefined, Error, OwnerOfResponse, (string | undefined)[]>([\\"sg721OwnerOf\\", client?.contractAddress, JSON.stringify(args)], () => client ? client.ownerOf({
     includeExpired: args.includeExpired,
     tokenId: args.tokenId
   }) : undefined, { ...options,
@@ -606,7 +606,7 @@ export function useSg721OwnerOfQuery({
 exports[`createReactQueryHooks 4`] = `
 "export interface Sg721CollectionInfoQuery {
   client: Sg721QueryClient;
-  options?: Omit<UseQueryOptions<CollectionInfoResponse | undefined, Error, CollectionInfoResponse, (string | undefined)[]>, \\"'queryKey' | 'queryFn' | 'initialData'\\"> & {
+  options?: Omit<UseQueryOptions<CollectionInfoResponse, Error, CollectionInfoResponse, (string | undefined)[]>, \\"'queryKey' | 'queryFn' | 'initialData'\\"> & {
     initialData?: undefined;
   };
 }
@@ -618,7 +618,7 @@ export function useSg721CollectionInfoQuery({
 }
 export interface Sg721MinterQuery {
   client: Sg721QueryClient;
-  options?: Omit<UseQueryOptions<MinterResponse | undefined, Error, MinterResponse, (string | undefined)[]>, \\"'queryKey' | 'queryFn' | 'initialData'\\"> & {
+  options?: Omit<UseQueryOptions<MinterResponse, Error, MinterResponse, (string | undefined)[]>, \\"'queryKey' | 'queryFn' | 'initialData'\\"> & {
     initialData?: undefined;
   };
 }
@@ -630,7 +630,7 @@ export function useSg721MinterQuery({
 }
 export interface Sg721AllTokensQuery {
   client: Sg721QueryClient;
-  options?: Omit<UseQueryOptions<AllTokensResponse | undefined, Error, AllTokensResponse, (string | undefined)[]>, \\"'queryKey' | 'queryFn' | 'initialData'\\"> & {
+  options?: Omit<UseQueryOptions<AllTokensResponse, Error, AllTokensResponse, (string | undefined)[]>, \\"'queryKey' | 'queryFn' | 'initialData'\\"> & {
     initialData?: undefined;
   };
   args: {
@@ -643,14 +643,14 @@ export function useSg721AllTokensQuery({
   args,
   options
 }: Sg721AllTokensQuery) {
-  return useQuery<AllTokensResponse, Error, AllTokensResponse, (string | undefined)[]>([\\"sg721AllTokens\\", client.contractAddress], () => client.allTokens({
+  return useQuery<AllTokensResponse, Error, AllTokensResponse, (string | undefined)[]>([\\"sg721AllTokens\\", client.contractAddress, JSON.stringify(args)], () => client.allTokens({
     limit: args.limit,
     startAfter: args.startAfter
   }), options);
 }
 export interface Sg721TokensQuery {
   client: Sg721QueryClient;
-  options?: Omit<UseQueryOptions<TokensResponse | undefined, Error, TokensResponse, (string | undefined)[]>, \\"'queryKey' | 'queryFn' | 'initialData'\\"> & {
+  options?: Omit<UseQueryOptions<TokensResponse, Error, TokensResponse, (string | undefined)[]>, \\"'queryKey' | 'queryFn' | 'initialData'\\"> & {
     initialData?: undefined;
   };
   args: {
@@ -664,7 +664,7 @@ export function useSg721TokensQuery({
   args,
   options
 }: Sg721TokensQuery) {
-  return useQuery<TokensResponse, Error, TokensResponse, (string | undefined)[]>([\\"sg721Tokens\\", client.contractAddress], () => client.tokens({
+  return useQuery<TokensResponse, Error, TokensResponse, (string | undefined)[]>([\\"sg721Tokens\\", client.contractAddress, JSON.stringify(args)], () => client.tokens({
     limit: args.limit,
     owner: args.owner,
     startAfter: args.startAfter
@@ -672,7 +672,7 @@ export function useSg721TokensQuery({
 }
 export interface Sg721AllNftInfoQuery {
   client: Sg721QueryClient;
-  options?: Omit<UseQueryOptions<AllNftInfoResponse | undefined, Error, AllNftInfoResponse, (string | undefined)[]>, \\"'queryKey' | 'queryFn' | 'initialData'\\"> & {
+  options?: Omit<UseQueryOptions<AllNftInfoResponse, Error, AllNftInfoResponse, (string | undefined)[]>, \\"'queryKey' | 'queryFn' | 'initialData'\\"> & {
     initialData?: undefined;
   };
   args: {
@@ -685,14 +685,14 @@ export function useSg721AllNftInfoQuery({
   args,
   options
 }: Sg721AllNftInfoQuery) {
-  return useQuery<AllNftInfoResponse, Error, AllNftInfoResponse, (string | undefined)[]>([\\"sg721AllNftInfo\\", client.contractAddress], () => client.allNftInfo({
+  return useQuery<AllNftInfoResponse, Error, AllNftInfoResponse, (string | undefined)[]>([\\"sg721AllNftInfo\\", client.contractAddress, JSON.stringify(args)], () => client.allNftInfo({
     includeExpired: args.includeExpired,
     tokenId: args.tokenId
   }), options);
 }
 export interface Sg721NftInfoQuery {
   client: Sg721QueryClient;
-  options?: Omit<UseQueryOptions<NftInfoResponse | undefined, Error, NftInfoResponse, (string | undefined)[]>, \\"'queryKey' | 'queryFn' | 'initialData'\\"> & {
+  options?: Omit<UseQueryOptions<NftInfoResponse, Error, NftInfoResponse, (string | undefined)[]>, \\"'queryKey' | 'queryFn' | 'initialData'\\"> & {
     initialData?: undefined;
   };
   args: {
@@ -704,13 +704,13 @@ export function useSg721NftInfoQuery({
   args,
   options
 }: Sg721NftInfoQuery) {
-  return useQuery<NftInfoResponse, Error, NftInfoResponse, (string | undefined)[]>([\\"sg721NftInfo\\", client.contractAddress], () => client.nftInfo({
+  return useQuery<NftInfoResponse, Error, NftInfoResponse, (string | undefined)[]>([\\"sg721NftInfo\\", client.contractAddress, JSON.stringify(args)], () => client.nftInfo({
     tokenId: args.tokenId
   }), options);
 }
 export interface Sg721ContractInfoQuery {
   client: Sg721QueryClient;
-  options?: Omit<UseQueryOptions<ContractInfoResponse | undefined, Error, ContractInfoResponse, (string | undefined)[]>, \\"'queryKey' | 'queryFn' | 'initialData'\\"> & {
+  options?: Omit<UseQueryOptions<ContractInfoResponse, Error, ContractInfoResponse, (string | undefined)[]>, \\"'queryKey' | 'queryFn' | 'initialData'\\"> & {
     initialData?: undefined;
   };
 }
@@ -722,7 +722,7 @@ export function useSg721ContractInfoQuery({
 }
 export interface Sg721NumTokensQuery {
   client: Sg721QueryClient;
-  options?: Omit<UseQueryOptions<NumTokensResponse | undefined, Error, NumTokensResponse, (string | undefined)[]>, \\"'queryKey' | 'queryFn' | 'initialData'\\"> & {
+  options?: Omit<UseQueryOptions<NumTokensResponse, Error, NumTokensResponse, (string | undefined)[]>, \\"'queryKey' | 'queryFn' | 'initialData'\\"> & {
     initialData?: undefined;
   };
 }
@@ -734,7 +734,7 @@ export function useSg721NumTokensQuery({
 }
 export interface Sg721AllOperatorsQuery {
   client: Sg721QueryClient;
-  options?: Omit<UseQueryOptions<AllOperatorsResponse | undefined, Error, AllOperatorsResponse, (string | undefined)[]>, \\"'queryKey' | 'queryFn' | 'initialData'\\"> & {
+  options?: Omit<UseQueryOptions<AllOperatorsResponse, Error, AllOperatorsResponse, (string | undefined)[]>, \\"'queryKey' | 'queryFn' | 'initialData'\\"> & {
     initialData?: undefined;
   };
   args: {
@@ -749,7 +749,7 @@ export function useSg721AllOperatorsQuery({
   args,
   options
 }: Sg721AllOperatorsQuery) {
-  return useQuery<AllOperatorsResponse, Error, AllOperatorsResponse, (string | undefined)[]>([\\"sg721AllOperators\\", client.contractAddress], () => client.allOperators({
+  return useQuery<AllOperatorsResponse, Error, AllOperatorsResponse, (string | undefined)[]>([\\"sg721AllOperators\\", client.contractAddress, JSON.stringify(args)], () => client.allOperators({
     includeExpired: args.includeExpired,
     limit: args.limit,
     owner: args.owner,
@@ -758,7 +758,7 @@ export function useSg721AllOperatorsQuery({
 }
 export interface Sg721ApprovalsQuery {
   client: Sg721QueryClient;
-  options?: Omit<UseQueryOptions<ApprovalsResponse | undefined, Error, ApprovalsResponse, (string | undefined)[]>, \\"'queryKey' | 'queryFn' | 'initialData'\\"> & {
+  options?: Omit<UseQueryOptions<ApprovalsResponse, Error, ApprovalsResponse, (string | undefined)[]>, \\"'queryKey' | 'queryFn' | 'initialData'\\"> & {
     initialData?: undefined;
   };
   args: {
@@ -771,14 +771,14 @@ export function useSg721ApprovalsQuery({
   args,
   options
 }: Sg721ApprovalsQuery) {
-  return useQuery<ApprovalsResponse, Error, ApprovalsResponse, (string | undefined)[]>([\\"sg721Approvals\\", client.contractAddress], () => client.approvals({
+  return useQuery<ApprovalsResponse, Error, ApprovalsResponse, (string | undefined)[]>([\\"sg721Approvals\\", client.contractAddress, JSON.stringify(args)], () => client.approvals({
     includeExpired: args.includeExpired,
     tokenId: args.tokenId
   }), options);
 }
 export interface Sg721ApprovalQuery {
   client: Sg721QueryClient;
-  options?: Omit<UseQueryOptions<ApprovalResponse | undefined, Error, ApprovalResponse, (string | undefined)[]>, \\"'queryKey' | 'queryFn' | 'initialData'\\"> & {
+  options?: Omit<UseQueryOptions<ApprovalResponse, Error, ApprovalResponse, (string | undefined)[]>, \\"'queryKey' | 'queryFn' | 'initialData'\\"> & {
     initialData?: undefined;
   };
   args: {
@@ -792,7 +792,7 @@ export function useSg721ApprovalQuery({
   args,
   options
 }: Sg721ApprovalQuery) {
-  return useQuery<ApprovalResponse, Error, ApprovalResponse, (string | undefined)[]>([\\"sg721Approval\\", client.contractAddress], () => client.approval({
+  return useQuery<ApprovalResponse, Error, ApprovalResponse, (string | undefined)[]>([\\"sg721Approval\\", client.contractAddress, JSON.stringify(args)], () => client.approval({
     includeExpired: args.includeExpired,
     spender: args.spender,
     tokenId: args.tokenId
@@ -800,7 +800,7 @@ export function useSg721ApprovalQuery({
 }
 export interface Sg721OwnerOfQuery {
   client: Sg721QueryClient;
-  options?: Omit<UseQueryOptions<OwnerOfResponse | undefined, Error, OwnerOfResponse, (string | undefined)[]>, \\"'queryKey' | 'queryFn' | 'initialData'\\"> & {
+  options?: Omit<UseQueryOptions<OwnerOfResponse, Error, OwnerOfResponse, (string | undefined)[]>, \\"'queryKey' | 'queryFn' | 'initialData'\\"> & {
     initialData?: undefined;
   };
   args: {
@@ -813,7 +813,7 @@ export function useSg721OwnerOfQuery({
   args,
   options
 }: Sg721OwnerOfQuery) {
-  return useQuery<OwnerOfResponse, Error, OwnerOfResponse, (string | undefined)[]>([\\"sg721OwnerOf\\", client.contractAddress], () => client.ownerOf({
+  return useQuery<OwnerOfResponse, Error, OwnerOfResponse, (string | undefined)[]>([\\"sg721OwnerOf\\", client.contractAddress, JSON.stringify(args)], () => client.ownerOf({
     includeExpired: args.includeExpired,
     tokenId: args.tokenId
   }), options);
@@ -864,7 +864,7 @@ export function useSg721AllTokensQuery({
   args,
   options
 }: Sg721AllTokensQuery) {
-  return useQuery<AllTokensResponse | undefined, Error, AllTokensResponse, (string | undefined)[]>([\\"sg721AllTokens\\", client?.contractAddress], () => client ? client.allTokens({
+  return useQuery<AllTokensResponse | undefined, Error, AllTokensResponse, (string | undefined)[]>([\\"sg721AllTokens\\", client?.contractAddress, JSON.stringify(args)], () => client ? client.allTokens({
     limit: args.limit,
     startAfter: args.startAfter
   }) : undefined, { ...options,
@@ -887,7 +887,7 @@ export function useSg721TokensQuery({
   args,
   options
 }: Sg721TokensQuery) {
-  return useQuery<TokensResponse | undefined, Error, TokensResponse, (string | undefined)[]>([\\"sg721Tokens\\", client?.contractAddress], () => client ? client.tokens({
+  return useQuery<TokensResponse | undefined, Error, TokensResponse, (string | undefined)[]>([\\"sg721Tokens\\", client?.contractAddress, JSON.stringify(args)], () => client ? client.tokens({
     limit: args.limit,
     owner: args.owner,
     startAfter: args.startAfter
@@ -910,7 +910,7 @@ export function useSg721AllNftInfoQuery({
   args,
   options
 }: Sg721AllNftInfoQuery) {
-  return useQuery<AllNftInfoResponse | undefined, Error, AllNftInfoResponse, (string | undefined)[]>([\\"sg721AllNftInfo\\", client?.contractAddress], () => client ? client.allNftInfo({
+  return useQuery<AllNftInfoResponse | undefined, Error, AllNftInfoResponse, (string | undefined)[]>([\\"sg721AllNftInfo\\", client?.contractAddress, JSON.stringify(args)], () => client ? client.allNftInfo({
     includeExpired: args.includeExpired,
     tokenId: args.tokenId
   }) : undefined, { ...options,
@@ -931,7 +931,7 @@ export function useSg721NftInfoQuery({
   args,
   options
 }: Sg721NftInfoQuery) {
-  return useQuery<NftInfoResponse | undefined, Error, NftInfoResponse, (string | undefined)[]>([\\"sg721NftInfo\\", client?.contractAddress], () => client ? client.nftInfo({
+  return useQuery<NftInfoResponse | undefined, Error, NftInfoResponse, (string | undefined)[]>([\\"sg721NftInfo\\", client?.contractAddress, JSON.stringify(args)], () => client ? client.nftInfo({
     tokenId: args.tokenId
   }) : undefined, { ...options,
     enabled: !!client && options?.enabled
@@ -982,7 +982,7 @@ export function useSg721AllOperatorsQuery({
   args,
   options
 }: Sg721AllOperatorsQuery) {
-  return useQuery<AllOperatorsResponse | undefined, Error, AllOperatorsResponse, (string | undefined)[]>([\\"sg721AllOperators\\", client?.contractAddress], () => client ? client.allOperators({
+  return useQuery<AllOperatorsResponse | undefined, Error, AllOperatorsResponse, (string | undefined)[]>([\\"sg721AllOperators\\", client?.contractAddress, JSON.stringify(args)], () => client ? client.allOperators({
     includeExpired: args.includeExpired,
     limit: args.limit,
     owner: args.owner,
@@ -1006,7 +1006,7 @@ export function useSg721ApprovalsQuery({
   args,
   options
 }: Sg721ApprovalsQuery) {
-  return useQuery<ApprovalsResponse | undefined, Error, ApprovalsResponse, (string | undefined)[]>([\\"sg721Approvals\\", client?.contractAddress], () => client ? client.approvals({
+  return useQuery<ApprovalsResponse | undefined, Error, ApprovalsResponse, (string | undefined)[]>([\\"sg721Approvals\\", client?.contractAddress, JSON.stringify(args)], () => client ? client.approvals({
     includeExpired: args.includeExpired,
     tokenId: args.tokenId
   }) : undefined, { ...options,
@@ -1029,7 +1029,7 @@ export function useSg721ApprovalQuery({
   args,
   options
 }: Sg721ApprovalQuery) {
-  return useQuery<ApprovalResponse | undefined, Error, ApprovalResponse, (string | undefined)[]>([\\"sg721Approval\\", client?.contractAddress], () => client ? client.approval({
+  return useQuery<ApprovalResponse | undefined, Error, ApprovalResponse, (string | undefined)[]>([\\"sg721Approval\\", client?.contractAddress, JSON.stringify(args)], () => client ? client.approval({
     includeExpired: args.includeExpired,
     spender: args.spender,
     tokenId: args.tokenId
@@ -1052,7 +1052,7 @@ export function useSg721OwnerOfQuery({
   args,
   options
 }: Sg721OwnerOfQuery) {
-  return useQuery<OwnerOfResponse | undefined, Error, OwnerOfResponse, (string | undefined)[]>([\\"sg721OwnerOf\\", client?.contractAddress], () => client ? client.ownerOf({
+  return useQuery<OwnerOfResponse | undefined, Error, OwnerOfResponse, (string | undefined)[]>([\\"sg721OwnerOf\\", client?.contractAddress, JSON.stringify(args)], () => client ? client.ownerOf({
     includeExpired: args.includeExpired,
     tokenId: args.tokenId
   }) : undefined, { ...options,

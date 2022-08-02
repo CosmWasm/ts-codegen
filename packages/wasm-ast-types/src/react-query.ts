@@ -9,7 +9,7 @@ import {
 } from './utils'
 import { typeRefOrOptionalUnion, propertySignature, optionalConditionalExpression } from './utils/babel';
 import { getPropertyType } from './utils/types';
-
+import type { Expression } from '@babel/types'
 
 export interface ReactQueryOptions {
     optionalClient?: boolean
@@ -143,15 +143,9 @@ export const createReactQueryHook = ({
                         callExpression(
                             t.identifier('useQuery'),
                             [
-                                t.arrayExpression([
-                                    t.stringLiteral(hookKeyName),
-                                    t.optionalMemberExpression(
-                                        t.identifier('client'),
-                                        t.identifier('contractAddress'),
-                                        false,
-                                        options.optionalClient
-                                    ),
-                                ]),
+                                t.arrayExpression(
+                                    generateUseQueryQueryKey(hookKeyName, props, options.optionalClient)
+                                ),
                                 t.arrowFunctionExpression(
                                     [],
                                     optionalConditionalExpression(
@@ -337,4 +331,29 @@ const getProps = (jsonschema, camelize) => {
             optional
         )
     });
+}
+
+function generateUseQueryQueryKey(hookKeyName: string, props: string[], optionalClient: boolean): Array<Expression> {
+    const queryKey: Array<Expression> = [
+        t.stringLiteral(hookKeyName),
+        t.optionalMemberExpression(
+            t.identifier('client'),
+            t.identifier('contractAddress'),
+            false,
+            optionalClient
+        )
+    ];
+
+    if (props.includes('args')) {
+        queryKey.push(t.callExpression(
+            t.memberExpression(
+                t.identifier('JSON'),
+                t.identifier('stringify')
+            ),
+            [
+                t.identifier('args')
+            ]
+        ))
+    }
+    return queryKey
 }
