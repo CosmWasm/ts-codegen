@@ -86,8 +86,10 @@ export const createReactQueryHook = ({
     hookKeyName,
     methodName,
     jsonschema,
-    options = DEFAULT_OPTIONS,
+    options = {},
 }: ReactQueryHookQuery) => {
+    // merge the user options with the defaults
+    options = { ...DEFAULT_OPTIONS, ...options }
 
     const keys = Object.keys(jsonschema.properties ?? {});
     let args = [];
@@ -233,8 +235,33 @@ export const createReactQueryHookInterface = ({
     hookParamsTypeName,
     responseType,
     jsonschema,
-    options = DEFAULT_OPTIONS,
+    options = {},
 }: ReactQueryHookQueryInterface) => {
+    // merge the user options with the defaults
+    options = { ...DEFAULT_OPTIONS, ...options }
+
+    const typedUseQueryOptions = t.tsTypeReference(
+        t.identifier('UseQueryOptions'),
+        t.tsTypeParameterInstantiation([
+            typeRefOrOptionalUnion(
+                t.identifier(responseType),
+                options.optionalClient
+            ),
+            t.tsTypeReference(t.identifier('Error')),
+            t.tsTypeReference(
+                t.identifier(responseType)
+            ),
+            t.tsArrayType(
+                t.tsParenthesizedType(
+                    t.tsUnionType([
+                        t.tsStringKeyword(),
+                        t.tsUndefinedKeyword()
+                    ])
+                )
+            ),
+        ])
+    )
+
     const body = [
         tsPropertySignature(
             t.identifier('client'),
@@ -248,32 +275,25 @@ export const createReactQueryHookInterface = ({
         tsPropertySignature(
             t.identifier('options'),
             t.tsTypeAnnotation(
-                t.tsTypeReference(
-                    t.identifier('UseQueryOptions'),
-                    t.tsTypeParameterInstantiation(
-                        [
-
-                            typeRefOrOptionalUnion(
-                                t.identifier(responseType),
-                                options.optionalClient
-                            ),
-                            t.tsTypeReference(t.identifier('Error')),
-                            t.tsTypeReference(
-                                t.identifier(responseType)
-                            ),
-                            t.tsArrayType(
-                                t.tsParenthesizedType(
-                                    t.tsUnionType(
-                                        [
-                                            t.tsStringKeyword(),
-                                            t.tsUndefinedKeyword()
-                                        ]
-                                    )
+                !options?.v4
+                    ? typedUseQueryOptions
+                    : t.tSIntersectionType([
+                        t.tsTypeReference(
+                            t.identifier('Omit'),
+                            t.tsTypeParameterInstantiation([
+                                typedUseQueryOptions,
+                                t.tsLiteralType(t.stringLiteral("'queryKey' | 'queryFn' | 'initialData'"))
+                            ])
+                        ),
+                        t.tSTypeLiteral([
+                            t.tsPropertySignature(
+                                t.identifier('initialData?'),
+                                t.tsTypeAnnotation(
+                                    t.tsUndefinedKeyword()
                                 )
                             )
-                        ]
-                    )
-                )
+                        ])
+                    ]),
             ),
             true
         )
