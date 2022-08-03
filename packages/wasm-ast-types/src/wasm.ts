@@ -163,6 +163,43 @@ export const createQueryClass = (
   );
 }
 
+export const CONSTANT_EXEC_PARAMS = [
+  t.assignmentPattern(
+    identifier(
+      'fee',
+      t.tsTypeAnnotation(
+        t.tsUnionType(
+          [
+            t.tSNumberKeyword(),
+            t.tsTypeReference(
+              t.identifier('StdFee')
+            ),
+            t.tsLiteralType(
+              t.stringLiteral('auto')
+            )
+          ]
+        )
+      ),
+      false
+    ),
+    t.stringLiteral('auto')
+  ),
+  identifier('memo', t.tsTypeAnnotation(
+    t.tsStringKeyword()
+  ), true),
+  identifier('funds', t.tsTypeAnnotation(
+    tsTypeOperator(
+      t.tsArrayType(
+        t.tsTypeReference(
+          t.identifier('Coin')
+        )
+      ),
+      'readonly'
+    )
+  ), true)
+];
+
+
 export const createWasmExecMethod = (
   jsonschema: any
 ) => {
@@ -180,41 +217,7 @@ export const createWasmExecMethod = (
     );
   });
 
-  const constantParams = [
-    t.assignmentPattern(
-      identifier(
-        'fee',
-        t.tsTypeAnnotation(
-          t.tsUnionType(
-            [
-              t.tSNumberKeyword(),
-              t.tsTypeReference(
-                t.identifier('StdFee')
-              ),
-              t.tsLiteralType(
-                t.stringLiteral('auto')
-              )
-            ]
-          )
-        ),
-        false
-      ),
-      t.stringLiteral('auto')
-    ),
-    identifier('memo', t.tsTypeAnnotation(
-      t.tsStringKeyword()
-    ), true),
-    identifier('funds', t.tsTypeAnnotation(
-      tsTypeOperator(
-        t.tsArrayType(
-          t.tsTypeReference(
-            t.identifier('Coin')
-          )
-        ),
-        'readonly'
-      )
-    ), true)
-  ];
+
 
   return t.classProperty(
     t.identifier(methodName),
@@ -222,8 +225,8 @@ export const createWasmExecMethod = (
       obj ? [
         // props
         obj,
-        ...constantParams
-      ] : constantParams,
+        ...CONSTANT_EXEC_PARAMS
+      ] : CONSTANT_EXEC_PARAMS,
       t.blockStatement(
         [
           t.returnStatement(
@@ -465,44 +468,46 @@ export const createPropertyFunctionWithObjectParams = (methodName: string, respo
   );
 };
 
+export const FIXED_EXECUTE_PARAMS = [
+  identifier('fee', t.tsTypeAnnotation(
+    t.tsUnionType(
+      [
+        t.tsNumberKeyword(),
+        t.tsTypeReference(
+          t.identifier('StdFee')
+        ),
+        t.tsLiteralType(
+          t.stringLiteral('auto')
+        )
+      ]
+    )
+  ), true),
+  identifier('memo', t.tsTypeAnnotation(
+    t.tsStringKeyword()
+  ), true),
+  identifier('funds', t.tsTypeAnnotation(
+    tsTypeOperator(
+      t.tsArrayType(
+        t.tsTypeReference(
+          t.identifier('Coin')
+        )
+      ),
+      'readonly'
+    )
+  ), true)
+];
+
 export const createPropertyFunctionWithObjectParamsForExec = (methodName: string, responseType: string, jsonschema: any) => {
   const obj = createTypedObjectParams(jsonschema);
-  const fixedParams = [
-    identifier('fee', t.tsTypeAnnotation(
-      t.tsUnionType(
-        [
-          t.tsNumberKeyword(),
-          t.tsTypeReference(
-            t.identifier('StdFee')
-          ),
-          t.tsLiteralType(
-            t.stringLiteral('auto')
-          )
-        ]
-      )
-    ), true),
-    identifier('memo', t.tsTypeAnnotation(
-      t.tsStringKeyword()
-    ), true),
-    identifier('funds', t.tsTypeAnnotation(
-      tsTypeOperator(
-        t.tsArrayType(
-          t.tsTypeReference(
-            t.identifier('Coin')
-          )
-        ),
-        'readonly'
-      )
-    ), true)
-  ];
+
   const func = {
     type: 'TSFunctionType',
     typeAnnotation: promiseTypeAnnotation(responseType),
     parameters: obj ? [
       obj,
-      ...fixedParams
+      ...FIXED_EXECUTE_PARAMS
 
-    ] : fixedParams
+    ] : FIXED_EXECUTE_PARAMS
   }
 
   return t.tSPropertySignature(

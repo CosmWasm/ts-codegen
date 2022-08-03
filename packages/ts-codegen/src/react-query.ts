@@ -35,6 +35,7 @@ export default async (contractName: string, schemas: any[], outPath: string, opt
 
     if (shouldGenerateMutationHooks) {
         body.push(w.importStmt(['ExecuteResult'], '@cosmjs/cosmwasm-stargate'));
+        body.push(w.importStmt(['Coin', 'StdFee'], '@cosmjs/amino'))
         reactQueryImports.push(...['UseMutationOptions', 'useMutation'])
         clientImports.push(ExecuteClient)
     }

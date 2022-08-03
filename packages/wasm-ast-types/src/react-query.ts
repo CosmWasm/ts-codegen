@@ -1,16 +1,17 @@
+import type { Expression } from '@babel/types';
 import * as t from '@babel/types';
 import { camel, pascal } from 'case';
 import { ExecuteMsg, QueryMsg } from './types';
+import { callExpression, getMessageProperties, identifier, tsObjectPattern, tsPropertySignature } from './utils';
 import {
-  tsPropertySignature,
-  tsObjectPattern,
-  callExpression,
-  getMessageProperties, identifier
-} from './utils';
-import { typeRefOrOptionalUnion, propertySignature, optionalConditionalExpression, shorthandProperty, typedIdentifier, omitTypeReference, pickTypeReference } from './utils/babel';
-import { getParamsTypeAnnotation, getPropertySignatureFromProp, getPropertyType, getTypeFromRef } from './utils/types';
-import type { Expression } from '@babel/types'
-import { Decorator, Noop, TSTypeAnnotation, TypeAnnotation } from '@babel/types';
+  omitTypeReference,
+  optionalConditionalExpression,
+  propertySignature,
+  shorthandProperty,
+  typeRefOrOptionalUnion
+} from './utils/babel';
+import { getParamsTypeAnnotation, getPropertyType, getTypeFromRef } from './utils/types';
+import { FIXED_EXECUTE_PARAMS } from './wasm';
 
 // TODO: this mutations boolean is not actually used here and only at a higher level
 export interface ReactQueryOptions {
@@ -283,25 +284,39 @@ export const createReactQueryMutationArgsInterface = ({
         ),
     ]
 
-  let argsType: t.TSTypeAnnotation = getParamsTypeAnnotation(jsonschema)
+  let msgType: t.TSTypeAnnotation = getParamsTypeAnnotation(jsonschema)
   // TODO: this should not have to be done manually.
-  if (!argsType && jsonschema?.$ref?.startsWith('#/definitions/')) {
+  if (!msgType && jsonschema?.$ref?.startsWith('#/definitions/')) {
     let refName = jsonschema?.$ref
 
     if (/_for_[A-Z]/.test(refName)) {
       refName = refName.replace(/_for_/, 'For');
     }
 
-    argsType = t.tsTypeAnnotation(getTypeFromRef(refName))
+    msgType = t.tsTypeAnnotation(getTypeFromRef(refName))
   }
 
-  if (argsType) {
+  if (msgType) {
     body.push(
       t.tsPropertySignature(
-        t.identifier('args'),
-        argsType
+        t.identifier('msg'),
+        msgType
     ))
   }
+
+  //  fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]
+
+  body.push(
+    t.tsPropertySignature(
+      t.identifier('args'),
+      t.tsTypeAnnotation(
+        t.tsTypeLiteral(FIXED_EXECUTE_PARAMS.map(param => propertySignature(
+          param.name,
+          param.typeAnnotation,
+          param.optional
+        )))
+      )
+  ))
 
 
     return t.exportNamedDeclaration(t.tsInterfaceDeclaration(
@@ -345,10 +360,10 @@ export const createReactQueryMutationHooks = ({
             const properties = jsonschema.properties ?? {};
 
             // TODO: there should be a better way to do this
-            const hasArgs = !!(Object.keys(properties)?.length || jsonschema?.$ref)
+            const hasMsg = !!(Object.keys(properties)?.length || jsonschema?.$ref)
 
           // <ExecuteResult, Error, Cw4UpdateMembersMutation>
-            const useMutationTypeParameter = generateMutationTypeParameter(mutationHookParamsTypeName, hasArgs)
+            const useMutationTypeParameter = generateMutationTypeParameter(mutationHookParamsTypeName, hasMsg)
 
 
             return [
@@ -362,7 +377,7 @@ export const createReactQueryMutationHooks = ({
                     execMethodName,
                     mutationHookName,
                     mutationHookParamsTypeName,
-                    hasArgs,
+                    hasMsg,
                     useMutationTypeParameter,
                 }),
                 ...m,
@@ -374,9 +389,6 @@ export const createReactQueryMutationHooks = ({
  * Generates the mutation type parameter. If args exist, we use a pick. If not, we just return the params type.
  */
 function generateMutationTypeParameter(mutationHookParamsTypeName: string, hasArgs: boolean) {
-  const paramsTypeReference = t.tsTypeReference(
-    t.identifier(mutationHookParamsTypeName)
-  );
   return t.tsTypeParameterInstantiation([
     // Data
     t.tSTypeReference(
@@ -387,13 +399,9 @@ function generateMutationTypeParameter(mutationHookParamsTypeName: string, hasAr
       t.identifier('Error')
     ),
     // Variables
-    // hasArgs
-    //   ? pickTypeReference(
-    //     paramsTypeReference,
-    //     'args'
-    //   )
-    //   : paramsTypeReference
-    paramsTypeReference
+    t.tsTypeReference(
+      t.identifier(mutationHookParamsTypeName)
+    )
   ]);
 }
 
@@ -403,7 +411,7 @@ interface ReactQueryMutationHook {
     mutationHookParamsTypeName: string;
     execMethodName: string;
     useMutationTypeParameter: t.TSTypeParameterInstantiation
-    hasArgs: boolean
+    hasMsg: boolean
 }
 
 /**
@@ -422,12 +430,15 @@ export const createReactQueryMutationHook = ({
     mutationHookParamsTypeName,
     execMethodName,
     useMutationTypeParameter,
-    hasArgs,
+    hasMsg,
 }: ReactQueryMutationHook) => {
 
-
   const useMutationFunctionArgs = [ shorthandProperty('client') ]
-  if (hasArgs) useMutationFunctionArgs.push(shorthandProperty('args'))
+  if (hasMsg) useMutationFunctionArgs.push(shorthandProperty('msg'))
+  useMutationFunctionArgs.push(
+    t.objectProperty(
+      t.identifier('args'),
+      t.objectPattern(FIXED_EXECUTE_PARAMS.map(param => shorthandProperty(param.name)))))
 
     return t.exportNamedDeclaration(
         t.functionDeclaration(
@@ -456,9 +467,11 @@ export const createReactQueryMutationHook = ({
                                             t.identifier('client'),
                                             t.identifier(execMethodName)
                                         ),
-                                        hasArgs
-                                          ? [ t.identifier('args') ]
+                                        (hasMsg
+                                          ? [ t.identifier('msg') ]
                                           : []
+                                        )
+                                          .concat(FIXED_EXECUTE_PARAMS.map(param => t.identifier(param.name)))
                                     ),
                                     false // not async
                                 ),
