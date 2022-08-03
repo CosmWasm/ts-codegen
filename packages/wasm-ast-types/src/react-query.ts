@@ -2,14 +2,15 @@ import * as t from '@babel/types';
 import { camel, pascal } from 'case';
 import { ExecuteMsg, QueryMsg } from './types';
 import {
-    tsPropertySignature,
-    tsObjectPattern,
-    callExpression,
-    getMessageProperties
-} from './utils'
+  tsPropertySignature,
+  tsObjectPattern,
+  callExpression,
+  getMessageProperties, identifier
+} from './utils';
 import { typeRefOrOptionalUnion, propertySignature, optionalConditionalExpression, shorthandProperty, typedIdentifier, omitTypeReference, pickTypeReference } from './utils/babel';
 import { getParamsTypeAnnotation, getPropertySignatureFromProp, getPropertyType, getTypeFromRef } from './utils/types';
 import type { Expression } from '@babel/types'
+import { Decorator, Noop, TSTypeAnnotation, TypeAnnotation } from '@babel/types';
 
 // TODO: this mutations boolean is not actually used here and only at a higher level
 export interface ReactQueryOptions {
@@ -280,24 +281,6 @@ export const createReactQueryMutationArgsInterface = ({
             ),
             false
         ),
-        /*   options?: Omit<
-         *     UseMutationOptions<ExecuteResult, Error, Pick<Cw4UpdateMembersMutation, 'args'>>,
-         *     'mutationFn'
-         *   >
-         */
-        tsPropertySignature(
-            t.identifier('options'),
-            t.tsTypeAnnotation(
-                t.tsTypeReference(
-                    t.identifier('Omit'),
-                    t.tsTypeParameterInstantiation([
-                        typedUseMutationOptions,
-                        t.tsLiteralType(t.stringLiteral('mutationFn'))
-                    ])
-                )
-            ),
-            true
-        )
     ]
 
   let argsType: t.TSTypeAnnotation = getParamsTypeAnnotation(jsonschema)
@@ -364,8 +347,7 @@ export const createReactQueryMutationHooks = ({
             // TODO: there should be a better way to do this
             const hasArgs = !!(Object.keys(properties)?.length || jsonschema?.$ref)
 
-          // <ExecuteResult, Error, Pick<Cw4UpdateMembersMutation, 'args'>>
-
+          // <ExecuteResult, Error, Cw4UpdateMembersMutation>
             const useMutationTypeParameter = generateMutationTypeParameter(mutationHookParamsTypeName, hasArgs)
 
 
@@ -405,12 +387,13 @@ function generateMutationTypeParameter(mutationHookParamsTypeName: string, hasAr
       t.identifier('Error')
     ),
     // Variables
-    hasArgs
-      ? pickTypeReference(
-        paramsTypeReference,
-        'args'
-      )
-      : paramsTypeReference
+    // hasArgs
+    //   ? pickTypeReference(
+    //     paramsTypeReference,
+    //     'args'
+    //   )
+    //   : paramsTypeReference
+    paramsTypeReference
   ]);
 }
 
@@ -441,29 +424,24 @@ export const createReactQueryMutationHook = ({
     useMutationTypeParameter,
     hasArgs,
 }: ReactQueryMutationHook) => {
+
+
+  const useMutationFunctionArgs = [ shorthandProperty('client') ]
+  if (hasArgs) useMutationFunctionArgs.push(shorthandProperty('args'))
+
     return t.exportNamedDeclaration(
         t.functionDeclaration(
             t.identifier(mutationHookName),
             [
-                tsObjectPattern(
-                    [
-                        shorthandProperty('client'),
-                        shorthandProperty('options')
-                    ],
-                    t.tsTypeAnnotation(
-                      hasArgs
-                        // we omit the args here because we provide them in .mutate(args)
-                        ? omitTypeReference(
-                            t.tsTypeReference(
-                                t.identifier(mutationHookParamsTypeName),
-                            ),
-                            'args'
-                        )
-                        : t.tsTypeReference(
-                          t.identifier(mutationHookParamsTypeName),
-                        )
-                    )
+              identifier('options', t.tsTypeAnnotation(
+                omitTypeReference(
+                  t.tsTypeReference(
+                    t.identifier('UseMutationOptions'),
+                    useMutationTypeParameter
+                  ),
+                  'mutationFn'
                 )
+              ), true)
             ],
             t.blockStatement(
                 [
@@ -472,14 +450,7 @@ export const createReactQueryMutationHook = ({
                             t.identifier('useMutation'),
                             [
                                 t.arrowFunctionExpression(
-                                  // params
-                                  hasArgs
-                                    ? [
-                                        t.objectPattern(
-                                          [ shorthandProperty('args') ]
-                                        )
-                                    ]
-                                  : [],
+                            [ t.objectPattern(useMutationFunctionArgs) ],
                                     t.callExpression(
                                         t.memberExpression(
                                             t.identifier('client'),
