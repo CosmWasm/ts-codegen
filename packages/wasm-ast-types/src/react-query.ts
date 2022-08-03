@@ -8,7 +8,7 @@ import {
     getMessageProperties
 } from './utils'
 import { typeRefOrOptionalUnion, propertySignature, optionalConditionalExpression, shorthandProperty, typedIdentifier, omitTypeReference, pickTypeReference } from './utils/babel';
-import { getPropertyType } from './utils/types';
+import { getParamsTypeAnnotation, getPropertySignatureFromProp, getPropertyType, getTypeFromRef } from './utils/types';
 import type { Expression } from '@babel/types'
 
 // TODO: this mutations boolean is not actually used here and only at a higher level
@@ -238,6 +238,7 @@ interface ReactQueryMutationHookInterface {
     ExecuteClient: string
     mutationHookParamsTypeName: string;
     jsonschema: any
+    properties: any
     useMutationTypeParameter: t.TSTypeParameterInstantiation
 }
 
@@ -261,6 +262,7 @@ export const createReactQueryMutationArgsInterface = ({
     ExecuteClient,
     mutationHookParamsTypeName,
     jsonschema,
+    properties,
     useMutationTypeParameter
 }: ReactQueryMutationHookInterface) => {
 
@@ -269,7 +271,6 @@ export const createReactQueryMutationArgsInterface = ({
         useMutationTypeParameter
     )
 
-    const props = getProps(jsonschema, true);
     const body = [
         tsPropertySignature(
             t.identifier('client'),
@@ -297,14 +298,26 @@ export const createReactQueryMutationArgsInterface = ({
                 )
             ),
             true
-        ),
-        t.tsPropertySignature(
-            t.identifier('args'),
-            t.tsTypeAnnotation(
-                t.tsTypeLiteral(props)
-            )
         )
     ]
+
+  let argsType: t.TSTypeAnnotation = getParamsTypeAnnotation(jsonschema)
+  // TODO: this should not have to be done manually.
+  if (!argsType && jsonschema?.$ref?.startsWith('#/definitions/')) {
+    let refName = jsonschema?.$ref
+    if (/_for_[A-Z]/.test(refName)) {
+      refName = refName.replace(/_for_/, 'For');
+    }
+    argsType = t.tsTypeAnnotation(getTypeFromRef(refName))
+  }
+
+  if (argsType) {
+    body.push(
+      t.tsPropertySignature(
+        t.identifier('args'),
+        argsType
+    ))
+  }
 
 
     return t.exportNamedDeclaration(t.tsInterfaceDeclaration(
@@ -381,6 +394,7 @@ export const createReactQueryMutationHooks = ({
                     mutationHookParamsTypeName,
                     ExecuteClient,
                     jsonschema,
+                    properties,
                     useMutationTypeParameter
                 }),
                 createReactQueryMutationHook({
