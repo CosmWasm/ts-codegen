@@ -16,7 +16,7 @@ export function useFactoryAdminAddrQuery({
   options
 }: FactoryAdminAddrQuery) {
   return useQuery<AdminAddrResponse | undefined, Error, AdminAddrResponse, (string | undefined)[]>(["factoryAdminAddr", client?.contractAddress], () => client ? client.adminAddr() : undefined, { ...options,
-    enabled: !!client && options?.enabled
+    enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
 export interface FactoryGovecAddrQuery {
@@ -28,7 +28,7 @@ export function useFactoryGovecAddrQuery({
   options
 }: FactoryGovecAddrQuery) {
   return useQuery<GovecAddrResponse | undefined, Error, GovecAddrResponse, (string | undefined)[]>(["factoryGovecAddr", client?.contractAddress], () => client ? client.govecAddr() : undefined, { ...options,
-    enabled: !!client && options?.enabled
+    enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
 export interface FactoryFeeQuery {
@@ -40,7 +40,7 @@ export function useFactoryFeeQuery({
   options
 }: FactoryFeeQuery) {
   return useQuery<FeeResponse | undefined, Error, FeeResponse, (string | undefined)[]>(["factoryFee", client?.contractAddress], () => client ? client.fee() : undefined, { ...options,
-    enabled: !!client && options?.enabled
+    enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
 export interface FactoryCodeIdQuery {
@@ -55,10 +55,10 @@ export function useFactoryCodeIdQuery({
   args,
   options
 }: FactoryCodeIdQuery) {
-  return useQuery<CodeIdResponse | undefined, Error, CodeIdResponse, (string | undefined)[]>(["factoryCodeId", client?.contractAddress], () => client ? client.codeId({
+  return useQuery<CodeIdResponse | undefined, Error, CodeIdResponse, (string | undefined)[]>(["factoryCodeId", client?.contractAddress, JSON.stringify(args)], () => client ? client.codeId({
     ty: args.ty
   }) : undefined, { ...options,
-    enabled: !!client && options?.enabled
+    enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
 export interface FactoryWalletsOfQuery {
@@ -75,12 +75,12 @@ export function useFactoryWalletsOfQuery({
   args,
   options
 }: FactoryWalletsOfQuery) {
-  return useQuery<WalletsOfResponse | undefined, Error, WalletsOfResponse, (string | undefined)[]>(["factoryWalletsOf", client?.contractAddress], () => client ? client.walletsOf({
+  return useQuery<WalletsOfResponse | undefined, Error, WalletsOfResponse, (string | undefined)[]>(["factoryWalletsOf", client?.contractAddress, JSON.stringify(args)], () => client ? client.walletsOf({
     limit: args.limit,
     startAfter: args.startAfter,
     user: args.user
   }) : undefined, { ...options,
-    enabled: !!client && options?.enabled
+    enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
 export interface FactoryWalletsQuery {
@@ -96,10 +96,10 @@ export function useFactoryWalletsQuery({
   args,
   options
 }: FactoryWalletsQuery) {
-  return useQuery<WalletsResponse | undefined, Error, WalletsResponse, (string | undefined)[]>(["factoryWallets", client?.contractAddress], () => client ? client.wallets({
+  return useQuery<WalletsResponse | undefined, Error, WalletsResponse, (string | undefined)[]>(["factoryWallets", client?.contractAddress, JSON.stringify(args)], () => client ? client.wallets({
     limit: args.limit,
     startAfter: args.startAfter
   }) : undefined, { ...options,
-    enabled: !!client && options?.enabled
+    enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }

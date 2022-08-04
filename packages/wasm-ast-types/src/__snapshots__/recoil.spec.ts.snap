@@ -1,5 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`client 1`] = `
+"export const queryClient = selectorFamily<SG721QueryClient, QueryClientParams>({
+  key: \\"sG721QueryClient\\",
+  get: ({
+    contractAddress
+  }) => ({
+    get
+  }) => {
+    const client = get(cosmWasmClient);
+    return new SG721QueryClient(client, contractAddress);
+  }
+});"
+`;
+
 exports[`selector 1`] = `
 "export const governanceModulesSelector = selectorFamily<GovernanceModulesResponse, QueryClientParams & {
   params: Parameters<SG721QueryClient[\\"governanceModules\\"]>;

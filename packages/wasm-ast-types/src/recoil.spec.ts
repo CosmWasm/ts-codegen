@@ -39,7 +39,7 @@ it('selectors', () => {
 });
 
 it('client', () => {
-    printCode(createRecoilQueryClient(
+    expectCode(createRecoilQueryClient(
         'SG721',
         'SG721QueryClient'
     ))
