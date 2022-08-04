@@ -32,9 +32,25 @@ const getArrayTypeFromRef = ($ref) => {
         getTypeFromRef($ref)
     );
 }
-const getArrayTypeFromType = (type) => {
+
+const getArrayTypeFromItems = (items) => {
+    if (items.type === 'array') {
+        if (Array.isArray(items.items)) {
+            return t.tsArrayType(
+                t.tsArrayType(
+                    getType(items.items[0].type)
+                )
+            );
+        } else {
+            return t.tsArrayType(
+                getArrayTypeFromItems(
+                    items.items
+                )
+            );
+        }
+    }
     return t.tsArrayType(
-        getType(type)
+        getType(items.type)
     );
 }
 
@@ -47,8 +63,6 @@ export const getType = (type) => {
             return t.tSBooleanKeyword();
         case 'integer':
             return t.tsNumberKeyword();
-        // case 'object':
-        // return t.tsObjectKeyword();
         default:
             throw new Error('contact maintainers [unknown type]: ' + type);
     }
@@ -102,7 +116,7 @@ export const getPropertyType = (schema, prop) => {
                     )
                 );
             } else if (info.items.type) {
-                type = getArrayTypeFromType(info.items.type);
+                type = getArrayTypeFromItems(info.items);
             } else {
                 throw new Error('[info.items] case not handled by transpiler. contact maintainers.')
             }
