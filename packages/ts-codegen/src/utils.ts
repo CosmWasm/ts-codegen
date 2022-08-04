@@ -2,7 +2,7 @@ import { sync as glob } from 'glob';
 import { readFileSync } from 'fs';
 import { cleanse } from './cleanse';
 import { compile } from 'json-schema-to-typescript';
-import { parser } from "./parse";
+import { parser } from './parse';
 
 export const readSchemas = ({
     schemaDir, argv, clean = true
@@ -49,3 +49,4 @@ export const findAndParseTypes = async (schemas) => {
     const typeHash = parser(allTypes);
     return typeHash;
 }
+

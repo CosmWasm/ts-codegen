@@ -6,8 +6,9 @@ import * as w from 'wasm-ast-types';
 import * as t from '@babel/types';
 import { writeFileSync } from 'fs';
 import generate from "@babel/generator";
-import { findAndParseTypes, findExecuteMsg, findQueryMsg } from "./utils";
+import { findAndParseTypes, findExecuteMsg, findQueryMsg } from './utils';
 import { getMessageProperties, ReactQueryOptions } from "wasm-ast-types";
+import { cosmjsAminoImportStatements } from './imports';
 
 
 
@@ -31,12 +32,12 @@ export default async (contractName: string, schemas: any[], outPath: string, opt
     QueryMsg && clientImports.push(QueryClient)
 
     // check that there are commands within the exec msg
-    const shouldGenerateMutationHooks = ExecuteMsg && options?.mutations && options?.v4 && getMessageProperties(ExecuteMsg).length > 0
+    const shouldGenerateMutationHooks = ExecuteMsg && options?.v4 && options?.mutations && getMessageProperties(ExecuteMsg).length > 0
 
     if (shouldGenerateMutationHooks) {
         body.push(w.importStmt(['ExecuteResult'], '@cosmjs/cosmwasm-stargate'));
-        body.push(w.importStmt(['Coin', 'StdFee'], '@cosmjs/amino'))
-        reactQueryImports.push(...['UseMutationOptions', 'useMutation'])
+        body.push(cosmjsAminoImportStatements(typeHash))
+        reactQueryImports.push('useMutation', 'UseMutationOptions')
         clientImports.push(ExecuteClient)
     }
 
