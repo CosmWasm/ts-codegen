@@ -306,17 +306,20 @@ export const createReactQueryMutationArgsInterface = ({
 
   //  fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]
 
-  body.push(
-    t.tsPropertySignature(
-      t.identifier('args'),
-      t.tsTypeAnnotation(
-        t.tsTypeLiteral(FIXED_EXECUTE_PARAMS.map(param => propertySignature(
-          param.name,
-          param.typeAnnotation,
-          param.optional
-        )))
-      )
-  ))
+  const optionalArgs = t.tsPropertySignature(
+    t.identifier('args'),
+    t.tsTypeAnnotation(
+      t.tsTypeLiteral(FIXED_EXECUTE_PARAMS.map(param => propertySignature(
+        param.name,
+        param.typeAnnotation,
+        param.optional
+      )))
+    )
+  )
+
+  optionalArgs.optional = true
+
+  body.push(optionalArgs)
 
 
     return t.exportNamedDeclaration(t.tsInterfaceDeclaration(
@@ -438,7 +441,12 @@ export const createReactQueryMutationHook = ({
   useMutationFunctionArgs.push(
     t.objectProperty(
       t.identifier('args'),
-      t.objectPattern(FIXED_EXECUTE_PARAMS.map(param => shorthandProperty(param.name)))))
+      t.assignmentPattern(
+        t.objectPattern(FIXED_EXECUTE_PARAMS.map(param => shorthandProperty(param.name))),
+        t.objectExpression([])
+      )
+    )
+  )
 
     return t.exportNamedDeclaration(
         t.functionDeclaration(

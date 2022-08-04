@@ -1067,7 +1067,7 @@ exports[`createReactQueryHooks 6`] = `
   msg: {
     tokenId: string;
   };
-  args: {
+  args?: {
     fee?: number | StdFee | \\"auto\\";
     memo?: string;
     funds?: readonly Coin[];
@@ -1081,13 +1081,13 @@ export function useSg721BurnMutation(options?: Omit<UseMutationOptions<ExecuteRe
       fee,
       memo,
       funds
-    }
+    } = {}
   }) => client.burn(msg, fee, memo, funds), options);
 }
 export interface Sg721MintMutation {
   client: Sg721Client;
   msg: MintMsgForEmpty;
-  args: {
+  args?: {
     fee?: number | StdFee | \\"auto\\";
     memo?: string;
     funds?: readonly Coin[];
@@ -1101,7 +1101,7 @@ export function useSg721MintMutation(options?: Omit<UseMutationOptions<ExecuteRe
       fee,
       memo,
       funds
-    }
+    } = {}
   }) => client.mint(msg, fee, memo, funds), options);
 }
 export interface Sg721RevokeAllMutation {
@@ -1109,7 +1109,7 @@ export interface Sg721RevokeAllMutation {
   msg: {
     operator: string;
   };
-  args: {
+  args?: {
     fee?: number | StdFee | \\"auto\\";
     memo?: string;
     funds?: readonly Coin[];
@@ -1123,7 +1123,7 @@ export function useSg721RevokeAllMutation(options?: Omit<UseMutationOptions<Exec
       fee,
       memo,
       funds
-    }
+    } = {}
   }) => client.revokeAll(msg, fee, memo, funds), options);
 }
 export interface Sg721ApproveAllMutation {
@@ -1132,7 +1132,7 @@ export interface Sg721ApproveAllMutation {
     expires?: Expiration;
     operator: string;
   };
-  args: {
+  args?: {
     fee?: number | StdFee | \\"auto\\";
     memo?: string;
     funds?: readonly Coin[];
@@ -1146,7 +1146,7 @@ export function useSg721ApproveAllMutation(options?: Omit<UseMutationOptions<Exe
       fee,
       memo,
       funds
-    }
+    } = {}
   }) => client.approveAll(msg, fee, memo, funds), options);
 }
 export interface Sg721RevokeMutation {
@@ -1155,7 +1155,7 @@ export interface Sg721RevokeMutation {
     spender: string;
     tokenId: string;
   };
-  args: {
+  args?: {
     fee?: number | StdFee | \\"auto\\";
     memo?: string;
     funds?: readonly Coin[];
@@ -1169,7 +1169,7 @@ export function useSg721RevokeMutation(options?: Omit<UseMutationOptions<Execute
       fee,
       memo,
       funds
-    }
+    } = {}
   }) => client.revoke(msg, fee, memo, funds), options);
 }
 export interface Sg721ApproveMutation {
@@ -1179,7 +1179,7 @@ export interface Sg721ApproveMutation {
     spender: string;
     tokenId: string;
   };
-  args: {
+  args?: {
     fee?: number | StdFee | \\"auto\\";
     memo?: string;
     funds?: readonly Coin[];
@@ -1193,7 +1193,7 @@ export function useSg721ApproveMutation(options?: Omit<UseMutationOptions<Execut
       fee,
       memo,
       funds
-    }
+    } = {}
   }) => client.approve(msg, fee, memo, funds), options);
 }
 export interface Sg721SendNftMutation {
@@ -1203,7 +1203,7 @@ export interface Sg721SendNftMutation {
     msg: Binary;
     tokenId: string;
   };
-  args: {
+  args?: {
     fee?: number | StdFee | \\"auto\\";
     memo?: string;
     funds?: readonly Coin[];
@@ -1217,7 +1217,7 @@ export function useSg721SendNftMutation(options?: Omit<UseMutationOptions<Execut
       fee,
       memo,
       funds
-    }
+    } = {}
   }) => client.sendNft(msg, fee, memo, funds), options);
 }
 export interface Sg721TransferNftMutation {
@@ -1226,7 +1226,7 @@ export interface Sg721TransferNftMutation {
     recipient: string;
     tokenId: string;
   };
-  args: {
+  args?: {
     fee?: number | StdFee | \\"auto\\";
     memo?: string;
     funds?: readonly Coin[];
@@ -1240,7 +1240,7 @@ export function useSg721TransferNftMutation(options?: Omit<UseMutationOptions<Ex
       fee,
       memo,
       funds
-    }
+    } = {}
   }) => client.transferNft(msg, fee, memo, funds), options);
 }"
 `;
