@@ -109,6 +109,7 @@ export type ReceiveMsg = {
     version: string;
   };
 };
+export type CwCodeIdRegistryExecuteMsg = ExecuteMsg;
 export interface CwCodeIdRegistryReadOnlyInterface {
   contractAddress: string;
   config: () => Promise<ConfigResponse>;

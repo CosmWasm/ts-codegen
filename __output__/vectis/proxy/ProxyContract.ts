@@ -212,6 +212,7 @@ export type QueryMsg = {
   };
 };
 export type Uint64 = number;
+export type ProxyExecuteMsg = ExecuteMsg;
 export interface ProxyReadOnlyInterface {
   contractAddress: string;
   info: () => Promise<InfoResponse>;

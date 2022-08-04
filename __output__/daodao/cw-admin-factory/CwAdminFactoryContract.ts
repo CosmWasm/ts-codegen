@@ -19,6 +19,7 @@ export interface InstantiateMsg {
   [k: string]: unknown;
 }
 export type QueryMsg = string;
+export type CwAdminFactoryExecuteMsg = ExecuteMsg;
 export interface CwAdminFactoryReadOnlyInterface {
   contractAddress: string;
 }

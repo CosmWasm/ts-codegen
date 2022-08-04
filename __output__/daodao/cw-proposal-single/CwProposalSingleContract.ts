@@ -416,6 +416,7 @@ export interface VoteResponse {
   vote?: VoteInfo | null;
   [k: string]: unknown;
 }
+export type CwProposalSingleExecuteMsg = ExecuteMsg;
 export interface CwProposalSingleReadOnlyInterface {
   contractAddress: string;
   config: () => Promise<ConfigResponse>;
