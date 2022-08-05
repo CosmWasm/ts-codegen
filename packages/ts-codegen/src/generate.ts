@@ -40,11 +40,22 @@ export default async (name: string, schemas: any[], outPath: string) => {
 
 
   // TYPES
-  Object.values(typeHash).forEach(type => {
+  Object.values(typeHash).forEach((type: t.Node) => {
     body.push(
       clean(type)
     )
   });
+
+  // alias the ExecuteMsg
+  ExecuteMsg && body.push(
+    t.exportNamedDeclaration(
+      t.tsTypeAliasDeclaration(
+        t.identifier(`${name}ExecuteMsg`),
+        null,
+        t.tsTypeReference(t.identifier('ExecuteMsg'))
+      )
+    )
+  )
 
 
   // query messages

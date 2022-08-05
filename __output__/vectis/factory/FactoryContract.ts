@@ -183,6 +183,7 @@ export interface WalletsResponse {
   wallets: Addr[];
   [k: string]: unknown;
 }
+export type FactoryExecuteMsg = ExecuteMsg;
 export interface FactoryReadOnlyInterface {
   contractAddress: string;
   wallets: ({
