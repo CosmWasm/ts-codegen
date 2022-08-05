@@ -1,6 +1,7 @@
 import * as t from '@babel/types';
 import { identifier, tsPropertySignature } from './utils';
 export interface JsonSchemaObject {
+    $ref?: string;
     type: string;
     required?: string[];
     properties?: object;
@@ -11,6 +12,7 @@ export interface JsonSchemaDefnObject {
     oneOf?: JsonSchemaObject[];
     anyOf?: JsonSchemaObject[];
     allOf?: JsonSchemaObject[];
+    definitions?: Record<string, JsonSchemaDefnObject>;
 }
 export interface RenderType {
     type: string;
@@ -34,26 +36,6 @@ const schemaPropertyKeys = (schema: JsonSchemaObject) => {
     return Object.keys(schema.properties ?? {});
 }
 
-export const createInterface = (
-    context: RenderContext,
-    schema: JsonSchemaObject,
-    name: string
-) => {
-    return t.exportNamedDeclaration(
-        t.tsInterfaceDeclaration(
-            t.identifier(name),
-            null,
-            [],
-            t.tsInterfaceBody(
-                renderSchema(
-                    context,
-                    schema
-                )
-            )
-        )
-    );
-};
-
 export const createType = (
     context: RenderContext,
     schema: JsonSchemaDefnObject,
@@ -71,19 +53,17 @@ export const createType = (
         );
     });
 
-    return t.exportNamedDeclaration(
-        t.tsTypeAliasDeclaration(
-            t.identifier(name),
-            null,
-            key === 'allOf' ?
-                t.tsIntersectionType(members.map(m => {
-                    return t.tsTypeLiteral(m)
-                })) :
-                t.tsUnionType(members.map(m => {
-                    return t.tsTypeLiteral(m)
-                }))
-        )
-    );
+    if (key) {
+        return t.exportNamedDeclaration(
+            t.tsTypeAliasDeclaration(
+                t.identifier(name),
+                null,
+                key === 'allOf' ?
+                    t.tsIntersectionType(members) :
+                    t.tsUnionType(members)
+            )
+        );
+    }
 
     throw new Error('createType() schema')
 };
@@ -155,14 +135,19 @@ export const renderObjectType = (
 export const renderSchema = (
     context: RenderContext,
     schema: JsonSchemaObject
-): t.TSTypeElement[] => {
-    return schemaPropertyKeys(schema).map(key => {
+): t.TSTypeLiteral | t.TSTypeReference => {
+
+    if (schema.$ref) {
+        return getTypeFromRef(schema.$ref);
+    }
+
+    return t.tsTypeLiteral(schemaPropertyKeys(schema).map(key => {
         return renderProperty(
             context,
             schema,
             key
         );
-    });
+    }));
 }
 
 const renderItemsTuple = (items: { type: string }[]) => {

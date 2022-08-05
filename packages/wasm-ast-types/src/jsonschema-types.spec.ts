@@ -24,7 +24,6 @@ const printCode = (ast) => {
     );
 }
 
-
 const context: RenderContext = {
     options: {
         optionalArrays: true
@@ -40,6 +39,18 @@ it('createType', () => {
     printCode(createType(
         context,
         execute_msg,
+        'HelloInterface'
+    ))
+    printCode(createType(
+        context,
+        {
+            "description": "A point in time in nanosecond precision.\n\nThis type can represent times from 1970-01-01T00:00:00Z to 2554-07-21T23:34:33Z.\n\n## Examples\n\n``` # use cosmwasm_std::Timestamp; let ts = Timestamp::from_nanos(1_000_000_202); assert_eq!(ts.nanos(), 1_000_000_202); assert_eq!(ts.seconds(), 1); assert_eq!(ts.subsec_nanos(), 202);\n\nlet ts = ts.plus_seconds(2); assert_eq!(ts.nanos(), 3_000_000_202); assert_eq!(ts.seconds(), 3); assert_eq!(ts.subsec_nanos(), 202); ```",
+            "allOf": [
+                {
+                    "$ref": "#/definitions/Uint64"
+                }
+            ]
+        },
         'HelloInterface'
     ))
 });
