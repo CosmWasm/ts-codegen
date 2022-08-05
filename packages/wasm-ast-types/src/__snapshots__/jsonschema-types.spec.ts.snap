@@ -1,3 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`createInterface 1`] = `"export interface InstantiateMsg {}"`;
+exports[`nested 1`] = `"nested: [] | ([] | [number, number][]);"`;
+
+exports[`renderProperty 1`] = `"edges: [] | [number, number];"`;
+
+exports[`renderProperty 2`] = `
+"update_edges: {
+  edges: [] | ([] | [number, number][]);
+  nested: [] | ([] | [number, number][]);
+  supernested: [] | ([] | ([] | ([] | [string, string][])[])[]);
+};"
+`;
+
+exports[`renderProperty 3`] = `"mint: object;"`;
+
+exports[`renderProperty 4`] = `"whitelist: string;"`;
+
+exports[`renderProperty 5`] = `
+"set_whitelist: {
+  whitelist: string;
+};"
+`;
+
+exports[`supernested 1`] = `"supernested: [] | ([] | ([] | ([] | [string, string][])[])[]);"`;

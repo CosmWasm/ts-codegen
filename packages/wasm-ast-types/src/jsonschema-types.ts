@@ -1,48 +1,95 @@
 import * as t from '@babel/types';
 import { identifier, tsPropertySignature } from './utils';
-
-interface JsonSchemaObject {
+export interface JsonSchemaObject {
     type: string;
     required?: string[];
     properties?: object;
     additionalProperties?: boolean;
 }
+export interface JsonSchemaDefnObject {
+    $schema: string;
+    oneOf?: JsonSchemaObject[];
+    anyOf?: JsonSchemaObject[];
+    allOf?: JsonSchemaObject[];
+}
+export interface RenderType {
+    type: string;
+}
+export interface JsonArrayObj {
+    type: 'array',
+    items: { type: string, format: string }[] | { type: string, [k: string]: any };
+    maxItems?: number;
+    minItems?: number;
+}
 
+export interface RenderOptions {
+    optionalArrays: boolean;
+}
+export interface RenderContext {
+    definitions?: any;
+    options: RenderOptions;
+}
 
-export const createInterface = () => {
+const schemaPropertyKeys = (schema: JsonSchemaObject) => {
+    return Object.keys(schema.properties ?? {});
+}
+
+export const createInterface = (
+    context: RenderContext,
+    schema: JsonSchemaObject,
+    name: string
+) => {
     return t.exportNamedDeclaration(
         t.tsInterfaceDeclaration(
-            t.identifier('InstantiateMsg'),
+            t.identifier(name),
             null,
             [],
-            t.tsInterfaceBody([
-                t.tsPropertySignature(
-                    t.identifier('admin'),
-                    t.tsTypeAnnotation(
-                        t.tsUnionType(
-                            [
-                                t.tsStringKeyword(),
-                                t.tsNullKeyword()
-                            ]
-                        )
-                    )
-                ),
-                t.tsPropertySignature(
-                    t.identifier('members'),
-                    t.tsTypeAnnotation(
-                        t.tsArrayType(
-                            t.tsTypeReference(
-                                t.identifier('Member')
-                            )
-                        )
-                    )
+            t.tsInterfaceBody(
+                renderSchema(
+                    context,
+                    schema
                 )
-            ])
+            )
         )
     );
 };
 
+export const createType = (
+    context: RenderContext,
+    schema: JsonSchemaDefnObject,
+    name: string
+) => {
+    let key = null;
+    if (schema.anyOf) key = 'anyOf';
+    if (schema.oneOf) key = 'oneOf';
+    if (schema.allOf) key = 'allOf';
+
+    const members = schema[key].map(childSchema => {
+        return renderSchema(
+            context,
+            childSchema
+        );
+    });
+
+    return t.exportNamedDeclaration(
+        t.tsTypeAliasDeclaration(
+            t.identifier(name),
+            null,
+            key === 'allOf' ?
+                t.tsIntersectionType(members.map(m => {
+                    return t.tsTypeLiteral(m)
+                })) :
+                t.tsUnionType(members.map(m => {
+                    return t.tsTypeLiteral(m)
+                }))
+        )
+    );
+
+    throw new Error('createType() schema')
+};
+
 export const additionalPropertiesUnknownType = (
+    context: RenderContext,
     schema: JsonSchemaObject,
     prop: string
 ) => {
@@ -70,35 +117,6 @@ export const additionalPropertiesUnknownType = (
     );
 };
 
-const renderArrayType1 = (schema, items) => {
-    if (items.type === 'array') {
-        if (Array.isArray(items.items)) {
-            return t.tsArrayType(
-                t.tsArrayType(
-                    renderType(
-                        items.items[0]
-                    )
-                )
-            );
-        } else {
-            return t.tsArrayType(
-                renderArrayType(
-                    schema,
-                    items.items
-                )
-            );
-        }
-    }
-    return t.tsArrayType(
-        renderType(items)
-    );
-}
-
-
-interface RenderType {
-    type: string;
-}
-
 export const renderType = (obj: RenderType) => {
     switch (obj.type) {
         case 'string':
@@ -121,23 +139,30 @@ export const renderObjectType = (
     if (properties[name].properties) {
         const childSchema: JsonSchemaObject = properties[name];
         return t.tsTypeLiteral(
-            Object.keys(childSchema.properties).map(property => {
-                return renderProperty(
-                    context,
-                    childSchema,
-                    property
-                );
-            })
+            schemaPropertyKeys(childSchema)
+                .map(property => {
+                    return renderProperty(
+                        context,
+                        childSchema,
+                        property
+                    );
+                })
         );
     }
     return t.tsObjectKeyword();
 }
 
-interface JsonArrayObj {
-    type: 'array',
-    items: { type: string, format: string }[] | { type: string, [k: string]: any };
-    maxItems?: number;
-    minItems?: number;
+export const renderSchema = (
+    context: RenderContext,
+    schema: JsonSchemaObject
+): t.TSTypeElement[] => {
+    return schemaPropertyKeys(schema).map(key => {
+        return renderProperty(
+            context,
+            schema,
+            key
+        );
+    });
 }
 
 const renderItemsTuple = (items: { type: string }[]) => {
@@ -194,6 +219,15 @@ const renderArrayType = (
     throw new Error('renderArrayType() contact maintainer: unknown type')
 }
 
+
+const getTypeFromRef = ($ref) => {
+    if ($ref?.startsWith('#/definitions/')) {
+        return t.tsTypeReference(t.identifier($ref.replace('#/definitions/', '')))
+    }
+    throw new Error('what is $ref: ' + $ref);
+}
+
+
 export const renderTypeObjectProperty = (
     context: RenderContext,
     schema: JsonSchemaObject,
@@ -222,17 +256,13 @@ export const renderTypeObjectProperty = (
                 ]);
             }
             return renderArrayType(context, prop);
-        default:
-            throw new Error('renderTypeObjectProperty() contact maintainers [unknown type]: ' + type);
     }
-}
 
-export interface RenderOptions {
-    optionalArrays: boolean;
-}
-export interface RenderContext {
-    definitions?: any;
-    options: RenderOptions;
+    if (prop.$ref) {
+        return getTypeFromRef(prop.$ref);
+    }
+
+    throw new Error('renderTypeObjectProperty() contact maintainers [unknown type]: ' + type);
 }
 
 export const renderProperty = (
