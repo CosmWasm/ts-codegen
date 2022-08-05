@@ -1,5 +1,5 @@
 import * as t from '@babel/types';
-import { identifier, tsPropertySignature } from './utils';
+import { identifier, tsPropertySignature } from '../utils';
 export interface JsonSchemaObject {
     $ref?: string;
     type?: string;

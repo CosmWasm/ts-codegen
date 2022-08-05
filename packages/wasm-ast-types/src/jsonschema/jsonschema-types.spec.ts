@@ -1,6 +1,6 @@
 import generate from '@babel/generator';
-import execute_msg from './../../../__fixtures__/minter/execute_msg.json';
-import arrays from './../../../__fixtures__/arrays/schema/schema.json';
+import execute_msg from '../../../../__fixtures__/minter/execute_msg.json';
+import arrays from '../../../../__fixtures__/arrays/schema/schema.json';
 
 import {
     createType,
