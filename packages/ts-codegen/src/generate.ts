@@ -8,7 +8,8 @@ import { writeFileSync } from 'fs';
 import generate from "@babel/generator";
 import { clean } from "./clean";
 import { getMessageProperties } from "wasm-ast-types";
-import { findAndParseTypes, findExecuteMsg, findQueryMsg } from "./utils";
+import { findAndParseTypes, findExecuteMsg, findQueryMsg } from './utils';
+import { cosmjsAminoImportStatements } from './imports';
 
 export default async (name: string, schemas: any[], outPath: string) => {
 
@@ -28,16 +29,7 @@ export default async (name: string, schemas: any[], outPath: string) => {
     w.importStmt(['CosmWasmClient', 'ExecuteResult', 'SigningCosmWasmClient'], '@cosmjs/cosmwasm-stargate')
   );
 
-  if (typeHash.hasOwnProperty('Coin')) {
-    body.push(
-      w.importStmt(['StdFee'], '@cosmjs/amino')
-    );
-  } else {
-    body.push(
-      w.importStmt(['Coin', 'StdFee'], '@cosmjs/amino')
-    );
-  }
-
+  body.push(cosmjsAminoImportStatements(typeHash));
 
   // TYPES
   Object.values(typeHash).forEach((type: t.Node) => {
