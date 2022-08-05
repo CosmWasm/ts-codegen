@@ -2,13 +2,17 @@ import * as t from '@babel/types';
 import { identifier, tsPropertySignature } from './utils';
 export interface JsonSchemaObject {
     $ref?: string;
-    type: string;
+    type?: string;
+    description?: string;
     required?: string[];
     properties?: object;
     additionalProperties?: boolean;
 }
 export interface JsonSchemaDefnObject {
-    $schema: string;
+    $schema?: string;
+    title?: string;
+    type?: string;
+    description?: string;
     oneOf?: JsonSchemaObject[];
     anyOf?: JsonSchemaObject[];
     allOf?: JsonSchemaObject[];
@@ -46,6 +50,17 @@ export const createType = (
     if (schema.oneOf) key = 'oneOf';
     if (schema.allOf) key = 'allOf';
 
+    if (!key) {
+        if (schema.type) {
+            return t.exportNamedDeclaration(
+                t.tsTypeAliasDeclaration(
+                    t.identifier(name),
+                    null,
+                    renderType(schema)
+                )
+            )
+        }
+    }
     const members = schema[key].map(childSchema => {
         return renderSchema(
             context,
@@ -161,7 +176,7 @@ const renderArrayType = (
     schema: JsonArrayObj
 ) => {
     if (Array.isArray(schema.items)) {
-        if (schema.maxItems === schema.minItems) {
+        if ((schema.minItems || schema.maxItems) && schema.maxItems === schema.minItems) {
             return renderItemsTuple(schema.items);
         }
         return t.tsArrayType(
@@ -171,7 +186,7 @@ const renderArrayType = (
         );
     }
     if (Array.isArray(schema)) {
-        if (schema.maxItems === schema.minItems) {
+        if ((schema.minItems || schema.maxItems) && schema.maxItems === schema.minItems) {
             return renderItemsTuple(schema);
         }
         return t.tsArrayType(
@@ -266,4 +281,29 @@ export const renderProperty = (
         ),
         !schema.required?.includes?.(prop)
     );
+};
+
+export const processTypes = (
+    context: RenderContext,
+    schema: JsonSchemaDefnObject
+) => {
+    const definitions = schema.definitions ?? {};
+    const defns = Object.keys(definitions).map(name => {
+        return createType(
+            context,
+            definitions[name],
+            name
+        );
+    });
+
+    const main = createType(
+        context,
+        schema,
+        schema.title
+    );
+
+    return [
+        main,
+        ...defns
+    ];
 };

@@ -1,15 +1,12 @@
-import { importStmt } from './utils'
 import generate from '@babel/generator';
-import * as t from '@babel/types';
-
 import execute_msg from './../../../__fixtures__/minter/execute_msg.json';
 import arrays from './../../../__fixtures__/arrays/schema/schema.json';
 
 import {
-    createInterface,
     createType,
     RenderContext,
-    renderProperty
+    processTypes,
+    renderProperty,
 } from './jsonschema-types'
 
 const expectCode = (ast) => {
@@ -31,17 +28,17 @@ const context: RenderContext = {
 }
 
 it('createType', () => {
-    printCode(createType(
+    expectCode(createType(
         context,
         arrays,
         'HelloInterface'
     ))
-    printCode(createType(
+    expectCode(createType(
         context,
         execute_msg,
         'HelloInterface'
     ))
-    printCode(createType(
+    expectCode(createType(
         context,
         {
             "description": "A point in time in nanosecond precision.\n\nThis type can represent times from 1970-01-01T00:00:00Z to 2554-07-21T23:34:33Z.\n\n## Examples\n\n``` # use cosmwasm_std::Timestamp; let ts = Timestamp::from_nanos(1_000_000_202); assert_eq!(ts.nanos(), 1_000_000_202); assert_eq!(ts.seconds(), 1); assert_eq!(ts.subsec_nanos(), 202);\n\nlet ts = ts.plus_seconds(2); assert_eq!(ts.nanos(), 3_000_000_202); assert_eq!(ts.seconds(), 3); assert_eq!(ts.subsec_nanos(), 202); ```",
@@ -55,7 +52,7 @@ it('createType', () => {
     ))
 });
 
-it('renderProperty', () => {
+it('min max items', () => {
     expectCode(renderProperty(
         context,
         {
@@ -78,6 +75,34 @@ it('renderProperty', () => {
                     ],
                     "maxItems": 2,
                     "minItems": 2
+                }
+            }
+        },
+        'edges'
+    ))
+});
+
+it('arrays', () => {
+    expectCode(renderProperty(
+        context,
+        {
+            "type": "object",
+            "required": [
+                "edges"
+            ],
+            "properties": {
+                "edges": {
+                    "type": "array",
+                    "items": [
+                        {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    ]
                 }
             }
         },
@@ -173,7 +198,7 @@ it('supernested', () => {
 });
 
 
-it('renderProperty', () => {
+it('update_edges', () => {
     expectCode(renderProperty(
         context,
         arrays.oneOf[0],
@@ -181,7 +206,7 @@ it('renderProperty', () => {
     ))
 });
 
-it('renderProperty', () => {
+it('mint', () => {
     expectCode(renderProperty(
         context,
         {
@@ -200,7 +225,7 @@ it('renderProperty', () => {
     ))
 });
 
-it('renderProperty', () => {
+it('whitelist', () => {
     expectCode(renderProperty(
         context,
         {
@@ -218,7 +243,7 @@ it('renderProperty', () => {
     ))
 });
 
-it('renderProperty', () => {
+it('set_whitelist', () => {
     expectCode(renderProperty(
         context,
         {
@@ -243,4 +268,15 @@ it('renderProperty', () => {
         },
         'set_whitelist'
     ))
+});
+
+
+
+it('processTypes', () => {
+    processTypes(
+        context,
+        execute_msg
+    ).map(ast => {
+        expectCode(ast);
+    })
 });
