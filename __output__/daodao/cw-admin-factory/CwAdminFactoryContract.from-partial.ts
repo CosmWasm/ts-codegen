@@ -18,7 +18,7 @@ export interface CwAdminFactoryMessage {
     label
   }: {
     codeId: number;
-    instantiateMsg: string;
+    instantiateMsg: Binary;
     label: string;
   }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
 }
@@ -38,7 +38,7 @@ export class CwAdminFactoryMessageComposer implements CwAdminFactoryMessage {
     label
   }: {
     codeId: number;
-    instantiateMsg: string;
+    instantiateMsg: Binary;
     label: string;
   }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
     return {

@@ -14,25 +14,22 @@ import {
     QueryMsg,
     ExecuteMsg
 } from './types';
-import { getPropertyType, createTypedObjectParams } from './utils/types';
+import { RenderContext, RenderOptions, createTypedObjectParams, JSONSchema } from './utils/types';
 import { identifier, tsTypeOperator, propertySignature } from './utils/babel';
+import { getWasmMethodArgs } from './wasm';
 
 const createWasmExecMethodPartial = (
+    context: RenderContext,
     jsonschema: any
 ) => {
 
     const underscoreName = Object.keys(jsonschema.properties)[0];
     const methodName = camel(underscoreName);
-    const properties = jsonschema.properties[underscoreName].properties ?? {};
-    const obj = createTypedObjectParams(jsonschema.properties[underscoreName]);
-    const args = Object.keys(properties).map(prop => {
-        return t.objectProperty(
-            t.identifier(prop),
-            t.identifier(camel(prop)),
-            false,
-            prop === camel(prop)
-        );
-    });
+    const obj = createTypedObjectParams(context, jsonschema.properties[underscoreName]);
+    const args = getWasmMethodArgs(
+        context,
+        jsonschema.properties[underscoreName]
+    );
 
     const constantParams = [
         // t.assignmentPattern(
@@ -162,6 +159,7 @@ const createWasmExecMethodPartial = (
 }
 
 export const createFromPartialClass = (
+    context: RenderContext,
     className: string,
     implementsClassName: string,
     execMsg: ExecuteMsg
@@ -177,7 +175,7 @@ export const createFromPartialClass = (
 
     const methods = getMessageProperties(execMsg)
         .map(schema => {
-            return createWasmExecMethodPartial(schema)
+            return createWasmExecMethodPartial(context, schema)
         });
 
     const blockStmt = [];
@@ -242,6 +240,7 @@ export const createFromPartialClass = (
 }
 
 export const createFromPartialInterface = (
+    context: RenderContext,
     className: string,
     execMsg: ExecuteMsg
 ) => {
@@ -251,6 +250,7 @@ export const createFromPartialInterface = (
             const underscoreName = Object.keys(jsonschema.properties)[0];
             const methodName = camel(underscoreName);
             return createPropertyFunctionWithObjectParamsForPartial(
+                context,
                 methodName,
                 'MsgExecuteContractEncodeObject',
                 jsonschema.properties[underscoreName]
@@ -292,8 +292,13 @@ export const createFromPartialInterface = (
 
 // MARKED AS NOT DRY 
 
-const createPropertyFunctionWithObjectParamsForPartial = (methodName: string, responseType: string, jsonschema: any) => {
-    const obj = createTypedObjectParams(jsonschema);
+const createPropertyFunctionWithObjectParamsForPartial = (
+    context: RenderContext,
+    methodName: string,
+    responseType: string,
+    jsonschema: JSONSchema
+) => {
+    const obj = createTypedObjectParams(context, jsonschema);
     const fixedParams = [
         // identifier('fee', t.tsTypeAnnotation(
         //     t.tsUnionType(

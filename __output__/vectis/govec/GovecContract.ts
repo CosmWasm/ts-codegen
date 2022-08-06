@@ -272,12 +272,12 @@ export interface GovecInterface extends GovecReadOnlyInterface {
   addRelayer: ({
     newRelayerAddress
   }: {
-    newRelayerAddress: string;
+    newRelayerAddress: Addr;
   }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
   removeRelayer: ({
     relayerAddress
   }: {
-    relayerAddress: string;
+    relayerAddress: Addr;
   }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
   updateGuardians: ({
     guardians,
@@ -353,7 +353,7 @@ export class GovecClient extends GovecQueryClient implements GovecInterface {
   addRelayer = async ({
     newRelayerAddress
   }: {
-    newRelayerAddress: string;
+    newRelayerAddress: Addr;
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       add_relayer: {
@@ -364,7 +364,7 @@ export class GovecClient extends GovecQueryClient implements GovecInterface {
   removeRelayer = async ({
     relayerAddress
   }: {
-    relayerAddress: string;
+    relayerAddress: Addr;
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       remove_relayer: {

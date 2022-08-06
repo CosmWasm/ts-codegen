@@ -4,12 +4,14 @@ import { cleanse } from './cleanse';
 import { compile } from 'json-schema-to-typescript';
 import { parser } from './parse';
 
-export const readSchemas = ({
+export const readSchemas = async ({
     schemaDir, argv, clean = true
 }) => {
     const fn = clean ? cleanse : (str) => str;
     const files = glob(schemaDir + '/**/*.json');
-    const schemas = files.map(file => JSON.parse(readFileSync(file, 'utf-8')));
+    const schemas = files
+        .map(file => JSON.parse(readFileSync(file, 'utf-8')));
+
     if (argv.packed) {
         if (schemas.length !== 1) {
             throw new Error('packed option only supports one file');

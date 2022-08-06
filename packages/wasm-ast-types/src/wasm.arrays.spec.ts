@@ -11,6 +11,7 @@ import {
     createExecuteInterface,
     createTypeInterface
 } from './wasm'
+import { RenderContext } from './utils/types';
 
 const expectCode = (ast) => {
     expect(
@@ -23,9 +24,11 @@ const printCode = (ast) => {
         generate(ast).code
     );
 }
+const ctx = new RenderContext(message);
 
 it('execute_msg_for__empty', () => {
     expectCode(createTypeInterface(
+        ctx,
         message
     ))
 })
@@ -33,6 +36,7 @@ it('execute_msg_for__empty', () => {
 
 it('query classes', () => {
     expectCode(createQueryClass(
+        ctx,
         'SG721QueryClient',
         'SG721ReadOnlyInstance',
         message
@@ -41,6 +45,7 @@ it('query classes', () => {
 
 it('execute classes array types', () => {
     expectCode(createExecuteClass(
+        ctx,
         'SG721Client',
         'SG721Instance',
         null,
@@ -50,6 +55,7 @@ it('execute classes array types', () => {
 
 it('execute interfaces no extends', () => {
     expectCode(createExecuteInterface(
+        ctx,
         'SG721Instance',
         null,
         message

@@ -4,13 +4,13 @@ import { camel, pascal } from 'case';
 import { ExecuteMsg, QueryMsg } from './types';
 import { callExpression, getMessageProperties, identifier, tsObjectPattern, tsPropertySignature } from './utils';
 import {
-  omitTypeReference,
-  optionalConditionalExpression,
-  propertySignature,
-  shorthandProperty,
-  typeRefOrOptionalUnion
+    omitTypeReference,
+    optionalConditionalExpression,
+    propertySignature,
+    shorthandProperty,
+    typeRefOrOptionalUnion
 } from './utils/babel';
-import { getParamsTypeAnnotation, getPropertyType, getTypeFromRef } from './utils/types';
+import { getParamsTypeAnnotation, getPropertyType, getTypeFromRef, JSONSchema, RenderContext } from './utils/types';
 import { FIXED_EXECUTE_PARAMS } from './wasm';
 
 // TODO: this mutations boolean is not actually used here and only at a higher level
@@ -26,25 +26,27 @@ const DEFAULT_OPTIONS: ReactQueryOptions = {
     mutations: false
 }
 
-
 interface ReactQueryHookQuery {
+    context: RenderContext,
     hookName: string;
     hookParamsTypeName: string;
     hookKeyName: string;
     responseType: string;
     methodName: string;
     jsonschema: any;
-    options?: ReactQueryOptions
+    options?: ReactQueryOptions;
 }
 
 interface ReactQueryHooks {
-    queryMsg: QueryMsg
-    contractName: string
-    QueryClient: string
-    options?: ReactQueryOptions
+    context: RenderContext;
+    queryMsg: QueryMsg;
+    contractName: string;
+    QueryClient: string;
+    options?: ReactQueryOptions;
 }
 
 export const createReactQueryHooks = ({
+    context,
     queryMsg,
     contractName,
     QueryClient,
@@ -63,23 +65,23 @@ export const createReactQueryHooks = ({
             const jsonschema = schema.properties[underscoreName];
             return [
                 createReactQueryHookInterface({
+                    context,
                     hookParamsTypeName,
                     responseType,
                     QueryClient,
                     jsonschema,
                     options
                 }),
-                createReactQueryHook(
-                    {
-                        methodName,
-                        hookName,
-                        hookParamsTypeName,
-                        responseType,
-                        hookKeyName: getterKey,
-                        jsonschema,
-                        options
-                    }
-                ),
+                createReactQueryHook({
+                    context,
+                    methodName,
+                    hookName,
+                    hookParamsTypeName,
+                    responseType,
+                    hookKeyName: getterKey,
+                    jsonschema,
+                    options
+                }),
                 ...m,
             ]
         }, []);
@@ -87,6 +89,7 @@ export const createReactQueryHooks = ({
 
 
 export const createReactQueryHook = ({
+    context,
     hookName,
     hookParamsTypeName,
     responseType,
@@ -237,10 +240,11 @@ export const createReactQueryHook = ({
 };
 
 interface ReactQueryMutationHookInterface {
-    ExecuteClient: string
+    context: RenderContext;
+    ExecuteClient: string;
     mutationHookParamsTypeName: string;
-    jsonschema: any
-    useMutationTypeParameter: t.TSTypeParameterInstantiation
+    jsonschema: JSONSchema;
+    useMutationTypeParameter: t.TSTypeParameterInstantiation;
 }
 
 
@@ -262,12 +266,13 @@ export interface Cw4UpdateMembersMutation {
 ```
  */
 export const createReactQueryMutationArgsInterface = ({
+    context,
     ExecuteClient,
     mutationHookParamsTypeName,
     useMutationTypeParameter,
     jsonschema,
 }: ReactQueryMutationHookInterface) => {
-  const typedUseMutationOptions = t.tsTypeReference(
+    const typedUseMutationOptions = t.tsTypeReference(
         t.identifier('UseMutationOptions'),
         useMutationTypeParameter
     )
@@ -284,42 +289,42 @@ export const createReactQueryMutationArgsInterface = ({
         ),
     ]
 
-  let msgType: t.TSTypeAnnotation = getParamsTypeAnnotation(jsonschema)
-  // TODO: this should not have to be done manually.
-  if (!msgType && jsonschema?.$ref?.startsWith('#/definitions/')) {
-    let refName = jsonschema?.$ref
+    let msgType: t.TSTypeAnnotation = getParamsTypeAnnotation(context, jsonschema)
+    // TODO: this should not have to be done manually.
+    if (!msgType && jsonschema?.$ref?.startsWith('#/definitions/')) {
+        let refName = jsonschema?.$ref
 
-    if (/_for_[A-Z]/.test(refName)) {
-      refName = refName.replace(/_for_/, 'For');
+        if (/_for_[A-Z]/.test(refName)) {
+            refName = refName.replace(/_for_/, 'For');
+        }
+
+        msgType = t.tsTypeAnnotation(getTypeFromRef(refName))
     }
 
-    msgType = t.tsTypeAnnotation(getTypeFromRef(refName))
-  }
+    if (msgType) {
+        body.push(
+            t.tsPropertySignature(
+                t.identifier('msg'),
+                msgType
+            ))
+    }
 
-  if (msgType) {
-    body.push(
-      t.tsPropertySignature(
-        t.identifier('msg'),
-        msgType
-    ))
-  }
+    //  fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]
 
-  //  fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]
-
-  const optionalArgs = t.tsPropertySignature(
-    t.identifier('args'),
-    t.tsTypeAnnotation(
-      t.tsTypeLiteral(FIXED_EXECUTE_PARAMS.map(param => propertySignature(
-        param.name,
-        param.typeAnnotation,
-        param.optional
-      )))
+    const optionalArgs = t.tsPropertySignature(
+        t.identifier('args'),
+        t.tsTypeAnnotation(
+            t.tsTypeLiteral(FIXED_EXECUTE_PARAMS.map(param => propertySignature(
+                param.name,
+                param.typeAnnotation,
+                param.optional
+            )))
+        )
     )
-  )
 
-  optionalArgs.optional = true
+    optionalArgs.optional = true
 
-  body.push(optionalArgs)
+    body.push(optionalArgs)
 
 
     return t.exportNamedDeclaration(t.tsInterfaceDeclaration(
@@ -334,13 +339,15 @@ export const createReactQueryMutationArgsInterface = ({
 
 
 interface ReactQueryMutationHooks {
-    execMsg: ExecuteMsg
-    contractName: string
-    ExecuteClient: string
-    options?: ReactQueryOptions
+    context: RenderContext;
+    execMsg: ExecuteMsg;
+    contractName: string;
+    ExecuteClient: string;
+    options?: ReactQueryOptions;
 }
 
 export const createReactQueryMutationHooks = ({
+    context,
     execMsg,
     contractName,
     ExecuteClient,
@@ -365,18 +372,20 @@ export const createReactQueryMutationHooks = ({
             // TODO: there should be a better way to do this
             const hasMsg = !!(Object.keys(properties)?.length || jsonschema?.$ref)
 
-          // <ExecuteResult, Error, Cw4UpdateMembersMutation>
+            // <ExecuteResult, Error, Cw4UpdateMembersMutation>
             const useMutationTypeParameter = generateMutationTypeParameter(mutationHookParamsTypeName, hasMsg)
 
 
             return [
                 createReactQueryMutationArgsInterface({
+                    context,
                     mutationHookParamsTypeName,
                     ExecuteClient,
                     jsonschema,
                     useMutationTypeParameter
                 }),
                 createReactQueryMutationHook({
+                    context,
                     execMethodName,
                     mutationHookName,
                     mutationHookParamsTypeName,
@@ -392,29 +401,30 @@ export const createReactQueryMutationHooks = ({
  * Generates the mutation type parameter. If args exist, we use a pick. If not, we just return the params type.
  */
 function generateMutationTypeParameter(mutationHookParamsTypeName: string, hasArgs: boolean) {
-  return t.tsTypeParameterInstantiation([
-    // Data
-    t.tSTypeReference(
-      t.identifier('ExecuteResult')
-    ),
-    // Error
-    t.tsTypeReference(
-      t.identifier('Error')
-    ),
-    // Variables
-    t.tsTypeReference(
-      t.identifier(mutationHookParamsTypeName)
-    )
-  ]);
+    return t.tsTypeParameterInstantiation([
+        // Data
+        t.tSTypeReference(
+            t.identifier('ExecuteResult')
+        ),
+        // Error
+        t.tsTypeReference(
+            t.identifier('Error')
+        ),
+        // Variables
+        t.tsTypeReference(
+            t.identifier(mutationHookParamsTypeName)
+        )
+    ]);
 }
 
 
 interface ReactQueryMutationHook {
+    context: RenderContext;
     mutationHookName: string;
     mutationHookParamsTypeName: string;
     execMethodName: string;
-    useMutationTypeParameter: t.TSTypeParameterInstantiation
-    hasMsg: boolean
+    useMutationTypeParameter: t.TSTypeParameterInstantiation;
+    hasMsg: boolean;
 }
 
 /**
@@ -429,6 +439,7 @@ export const useCw4UpdateMembersMutation = ({ client, options }: Omit<Cw4UpdateM
 ```
  */
 export const createReactQueryMutationHook = ({
+    context,
     mutationHookName,
     mutationHookParamsTypeName,
     execMethodName,
@@ -436,31 +447,31 @@ export const createReactQueryMutationHook = ({
     hasMsg,
 }: ReactQueryMutationHook) => {
 
-  const useMutationFunctionArgs = [ shorthandProperty('client') ]
-  if (hasMsg) useMutationFunctionArgs.push(shorthandProperty('msg'))
-  useMutationFunctionArgs.push(
-    t.objectProperty(
-      t.identifier('args'),
-      t.assignmentPattern(
-        t.objectPattern(FIXED_EXECUTE_PARAMS.map(param => shorthandProperty(param.name))),
-        t.objectExpression([])
-      )
+    const useMutationFunctionArgs = [shorthandProperty('client')]
+    if (hasMsg) useMutationFunctionArgs.push(shorthandProperty('msg'))
+    useMutationFunctionArgs.push(
+        t.objectProperty(
+            t.identifier('args'),
+            t.assignmentPattern(
+                t.objectPattern(FIXED_EXECUTE_PARAMS.map(param => shorthandProperty(param.name))),
+                t.objectExpression([])
+            )
+        )
     )
-  )
 
     return t.exportNamedDeclaration(
         t.functionDeclaration(
             t.identifier(mutationHookName),
             [
-              identifier('options', t.tsTypeAnnotation(
-                omitTypeReference(
-                  t.tsTypeReference(
-                    t.identifier('UseMutationOptions'),
-                    useMutationTypeParameter
-                  ),
-                  'mutationFn'
-                )
-              ), true)
+                identifier('options', t.tsTypeAnnotation(
+                    omitTypeReference(
+                        t.tsTypeReference(
+                            t.identifier('UseMutationOptions'),
+                            useMutationTypeParameter
+                        ),
+                        'mutationFn'
+                    )
+                ), true)
             ],
             t.blockStatement(
                 [
@@ -469,17 +480,17 @@ export const createReactQueryMutationHook = ({
                             t.identifier('useMutation'),
                             [
                                 t.arrowFunctionExpression(
-                            [ t.objectPattern(useMutationFunctionArgs) ],
+                                    [t.objectPattern(useMutationFunctionArgs)],
                                     t.callExpression(
                                         t.memberExpression(
                                             t.identifier('client'),
                                             t.identifier(execMethodName)
                                         ),
                                         (hasMsg
-                                          ? [ t.identifier('msg') ]
-                                          : []
+                                            ? [t.identifier('msg')]
+                                            : []
                                         )
-                                          .concat(FIXED_EXECUTE_PARAMS.map(param => t.identifier(param.name)))
+                                            .concat(FIXED_EXECUTE_PARAMS.map(param => t.identifier(param.name)))
                                     ),
                                     false // not async
                                 ),
@@ -496,8 +507,8 @@ export const createReactQueryMutationHook = ({
 
 };
 
-
 interface ReactQueryHookQueryInterface {
+    context: RenderContext,
     QueryClient: string;
     hookParamsTypeName: string;
     responseType: string;
@@ -506,6 +517,7 @@ interface ReactQueryHookQueryInterface {
 }
 
 export const createReactQueryHookInterface = ({
+    context,
     QueryClient,
     hookParamsTypeName,
     responseType,
@@ -568,7 +580,7 @@ export const createReactQueryHookInterface = ({
         )
     ];
 
-    const props = getProps(jsonschema, true);
+    const props = getProps(context, jsonschema, true);
     if (props.length) {
         body.push(t.tsPropertySignature(
             t.identifier('args'),
@@ -589,12 +601,16 @@ export const createReactQueryHookInterface = ({
     ))
 };
 
-const getProps = (jsonschema, camelize) => {
+const getProps = (
+    context: RenderContext,
+    jsonschema: JSONSchema,
+    camelize: boolean
+) => {
     const keys = Object.keys(jsonschema.properties ?? {});
     if (!keys.length) return [];
 
     return keys.map(prop => {
-        const { type, optional } = getPropertyType(jsonschema, prop);
+        const { type, optional } = getPropertyType(context, jsonschema, prop);
         return propertySignature(
             camelize ? camel(prop) : prop,
             t.tsTypeAnnotation(

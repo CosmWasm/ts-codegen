@@ -205,7 +205,7 @@ export interface FactoryReadOnlyInterface {
   codeId: ({
     ty
   }: {
-    ty: string;
+    ty: CodeIdType;
   }) => Promise<CodeIdResponse>;
   fee: () => Promise<FeeResponse>;
   govecAddr: () => Promise<GovecAddrResponse>;
@@ -260,7 +260,7 @@ export class FactoryQueryClient implements FactoryReadOnlyInterface {
   codeId = async ({
     ty
   }: {
-    ty: string;
+    ty: CodeIdType;
   }): Promise<CodeIdResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
       code_id: {
@@ -296,22 +296,22 @@ export interface FactoryInterface extends FactoryReadOnlyInterface {
     newUser,
     oldUser
   }: {
-    newUser: string;
-    oldUser: string;
+    newUser: Addr;
+    oldUser: Addr;
   }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
   migrateWallet: ({
     migrationMsg,
     walletAddress
   }: {
-    migrationMsg: object;
-    walletAddress: object;
+    migrationMsg: ProxyMigrationTxMsg;
+    walletAddress: WalletAddr;
   }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
   updateCodeId: ({
     newCodeId,
     ty
   }: {
     newCodeId: number;
-    ty: string;
+    ty: CodeIdType;
   }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
   updateWalletFee: ({
     newFee
@@ -363,8 +363,8 @@ export class FactoryClient extends FactoryQueryClient implements FactoryInterfac
     newUser,
     oldUser
   }: {
-    newUser: string;
-    oldUser: string;
+    newUser: Addr;
+    oldUser: Addr;
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_proxy_user: {
@@ -377,8 +377,8 @@ export class FactoryClient extends FactoryQueryClient implements FactoryInterfac
     migrationMsg,
     walletAddress
   }: {
-    migrationMsg: object;
-    walletAddress: object;
+    migrationMsg: ProxyMigrationTxMsg;
+    walletAddress: WalletAddr;
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       migrate_wallet: {
@@ -392,7 +392,7 @@ export class FactoryClient extends FactoryQueryClient implements FactoryInterfac
     ty
   }: {
     newCodeId: number;
-    ty: string;
+    ty: CodeIdType;
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_code_id: {

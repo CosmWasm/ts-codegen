@@ -272,12 +272,12 @@ export interface ProxyInterface extends ProxyReadOnlyInterface {
   addRelayer: ({
     newRelayerAddress
   }: {
-    newRelayerAddress: string;
+    newRelayerAddress: Addr;
   }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
   removeRelayer: ({
     relayerAddress
   }: {
-    relayerAddress: string;
+    relayerAddress: Addr;
   }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
   updateGuardians: ({
     guardians,
@@ -353,7 +353,7 @@ export class ProxyClient extends ProxyQueryClient implements ProxyInterface {
   addRelayer = async ({
     newRelayerAddress
   }: {
-    newRelayerAddress: string;
+    newRelayerAddress: Addr;
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       add_relayer: {
@@ -364,7 +364,7 @@ export class ProxyClient extends ProxyQueryClient implements ProxyInterface {
   removeRelayer = async ({
     relayerAddress
   }: {
-    relayerAddress: string;
+    relayerAddress: Addr;
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       remove_relayer: {

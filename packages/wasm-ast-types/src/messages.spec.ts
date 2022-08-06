@@ -20,6 +20,7 @@ import {
     createFromPartialClass,
     createFromPartialInterface
 } from './messages'
+import { RenderContext } from './utils/types';
 
 const expectCode = (ast) => {
     expect(
@@ -33,9 +34,10 @@ const printCode = (ast) => {
     );
 }
 
-
 it('execute classes', () => {
+    const ctx = new RenderContext(execute_msg);
     expectCode(createFromPartialClass(
+        ctx,
         'SG721MessageComposer',
         'SG721Message',
         execute_msg
@@ -43,7 +45,9 @@ it('execute classes', () => {
 });
 
 it('createFromPartialInterface', () => {
+    const ctx = new RenderContext(execute_msg);
     expectCode(createFromPartialInterface(
+        ctx,
         'SG721Message',
         execute_msg
     ))

@@ -12,15 +12,7 @@ import { Addr, PaymentInfo, Uint128, ConfigResponse, ExecuteMsg, Binary, Cw20Rec
 export interface CwCodeIdRegistryMessage {
   contractAddress: string;
   sender: string;
-  receive: ({
-    amount,
-    msg,
-    sender
-  }: {
-    amount: string;
-    msg: string;
-    sender: string;
-  }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
+  receive: (funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
   register: ({
     chainId,
     checksum,
@@ -72,26 +64,14 @@ export class CwCodeIdRegistryMessageComposer implements CwCodeIdRegistryMessage 
     this.updateConfig = this.updateConfig.bind(this);
   }
 
-  receive = ({
-    amount,
-    msg,
-    sender
-  }: {
-    amount: string;
-    msg: string;
-    sender: string;
-  }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
+  receive = (funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify({
-          receive: {
-            amount,
-            msg,
-            sender
-          }
+          receive: {}
         })),
         funds
       })

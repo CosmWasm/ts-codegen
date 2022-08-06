@@ -8,6 +8,7 @@ import {
 import {
   QueryMsg
 } from './types';
+import { RenderContext } from './utils/types';
 
 export const createWasmRecoilMethod = (jsonschema: any) => {
 
@@ -25,6 +26,7 @@ export const createWasmRecoilMethod = (jsonschema: any) => {
 };
 
 export const createRecoilSelector = (
+  context: RenderContext,
   keyPrefix: string,
   QueryClient: string,
   methodName: string
@@ -176,6 +178,7 @@ export const createRecoilSelector = (
 };
 
 export const createRecoilSelectors = (
+  context: RenderContext,
   keyPrefix: string,
   QueryClient: string,
   queryMsg: QueryMsg
@@ -187,6 +190,7 @@ export const createRecoilSelectors = (
       const methodName = camel(underscoreName);
 
       return createRecoilSelector(
+        context,
         keyPrefix,
         QueryClient,
         methodName
@@ -223,6 +227,7 @@ export const createRecoilQueryClientType = () => ({
 });
 
 export const createRecoilQueryClient = (
+  context: RenderContext,
   keyPrefix: string,
   QueryClient: string
 ) => {

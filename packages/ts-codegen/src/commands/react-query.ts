@@ -46,6 +46,6 @@ export default async (argv) => {
     ];
 
     const { schema, out, name, ...options } = await prompt(questions, argv);
-    const schemas = readSchemas({ schemaDir: schema, argv });
+    const schemas = await readSchemas({ schemaDir: schema, argv });
     await reactQuery(name, schemas, out, options);
 };

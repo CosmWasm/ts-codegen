@@ -8,6 +8,7 @@ import {
     createQueryClass,
     createQueryInterface
 } from './wasm'
+import { RenderContext } from './utils/types';
 
 const expectCode = (ast) => {
     expect(
@@ -21,9 +22,11 @@ const printCode = (ast) => {
     );
 }
 
+const ctx = new RenderContext(query_msg);
 
 it('query classes', () => {
     expectCode(createQueryClass(
+        ctx,
         'SG721QueryClient',
         'SG721ReadOnlyInstance',
         query_msg
@@ -32,6 +35,10 @@ it('query classes', () => {
 
 it('query interface', () => {
     expectCode(
-        createQueryInterface('ReadOnlyInstance', query_msg)
+        createQueryInterface(
+            ctx,
+            'ReadOnlyInstance',
+            query_msg
+        )
     )
 });

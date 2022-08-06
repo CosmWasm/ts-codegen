@@ -30,12 +30,12 @@ export interface GovecMessage {
   addRelayer: ({
     newRelayerAddress
   }: {
-    newRelayerAddress: string;
+    newRelayerAddress: Addr;
   }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
   removeRelayer: ({
     relayerAddress
   }: {
-    relayerAddress: string;
+    relayerAddress: Addr;
   }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
   updateGuardians: ({
     guardians,
@@ -140,7 +140,7 @@ export class GovecMessageComposer implements GovecMessage {
   addRelayer = ({
     newRelayerAddress
   }: {
-    newRelayerAddress: string;
+    newRelayerAddress: Addr;
   }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
@@ -159,7 +159,7 @@ export class GovecMessageComposer implements GovecMessage {
   removeRelayer = ({
     relayerAddress
   }: {
-    relayerAddress: string;
+    relayerAddress: Addr;
   }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",

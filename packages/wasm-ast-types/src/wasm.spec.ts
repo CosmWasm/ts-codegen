@@ -25,6 +25,7 @@ import {
   createExecuteInterface,
   createTypeInterface
 } from './wasm'
+import { RenderContext } from './utils/types';
 
 const expectCode = (ast) => {
   expect(
@@ -39,64 +40,88 @@ const printCode = (ast) => {
 }
 
 it('approval_response', () => {
+  const ctx = new RenderContext(approval_response);
   expectCode(createTypeInterface(
+    ctx,
     approval_response
   ))
 });
 
 it('all_nft_info_response', () => {
+  const ctx = new RenderContext(all_nft_info_response);
   expectCode(createTypeInterface(
+    ctx,
     all_nft_info_response
   ))
 })
 it('approvals_response', () => {
+  const ctx = new RenderContext(approvals_response);
   expectCode(createTypeInterface(
+    ctx,
     approvals_response
   ))
 })
 it('collection_info_response', () => {
+  const ctx = new RenderContext(collection_info_response);
   expectCode(createTypeInterface(
+    ctx,
     collection_info_response
   ))
 })
 it('contract_info_response', () => {
+  const ctx = new RenderContext(contract_info_response);
   expectCode(createTypeInterface(
+    ctx,
     contract_info_response
   ))
 })
 it('instantiate_msg', () => {
+  const ctx = new RenderContext(instantiate_msg);
   expectCode(createTypeInterface(
+    ctx,
     instantiate_msg
   ))
 })
 it('nft_info_response', () => {
+  const ctx = new RenderContext(nft_info_response);
   expectCode(createTypeInterface(
+    ctx,
     nft_info_response
   ))
 })
 it('num_tokens_response', () => {
+  const ctx = new RenderContext(num_tokens_response);
   expectCode(createTypeInterface(
+    ctx,
     num_tokens_response
   ))
 })
 it('operators_response', () => {
+  const ctx = new RenderContext(operators_response);
   expectCode(createTypeInterface(
+    ctx,
     operators_response
   ))
 })
 it('owner_of_response', () => {
+  const ctx = new RenderContext(owner_of_response);
   expectCode(createTypeInterface(
+    ctx,
     owner_of_response
   ))
 })
 it('tokens_response', () => {
+  const ctx = new RenderContext(tokens_response);
   expectCode(createTypeInterface(
+    ctx,
     tokens_response
   ))
 })
 
 it('query classes', () => {
+  const ctx = new RenderContext(query_msg);
   expectCode(createQueryClass(
+    ctx,
     'SG721QueryClient',
     'SG721ReadOnlyInstance',
     query_msg
@@ -104,7 +129,9 @@ it('query classes', () => {
 });
 
 it('execute classes', () => {
+  const ctx = new RenderContext(execute_msg);
   expectCode(createExecuteClass(
+    ctx,
     'SG721Client',
     'SG721Instance',
     'SG721QueryClient',
@@ -113,7 +140,9 @@ it('execute classes', () => {
 });
 
 it('execute classes no extends', () => {
+  const ctx = new RenderContext(execute_msg);
   expectCode(createExecuteClass(
+    ctx,
     'SG721Client',
     'SG721Instance',
     null,
@@ -122,7 +151,9 @@ it('execute classes no extends', () => {
 });
 
 it('execute classes array types', () => {
+  const ctx = new RenderContext(execute_msg_named_groups);
   expectCode(createExecuteClass(
+    ctx,
     'SG721Client',
     'SG721Instance',
     null,
@@ -131,7 +162,9 @@ it('execute classes array types', () => {
 });
 
 it('execute interfaces no extends', () => {
+  const ctx = new RenderContext(execute_msg);
   expectCode(createExecuteInterface(
+    ctx,
     'SG721Instance',
     null,
     execute_msg
@@ -139,7 +172,9 @@ it('execute interfaces no extends', () => {
 });
 
 it('query interfaces', () => {
+  const ctx = new RenderContext(query_msg);
   expectCode(createQueryInterface(
+    ctx,
     'SG721ReadOnlyInstance',
     query_msg
   ))

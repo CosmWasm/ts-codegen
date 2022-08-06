@@ -9,6 +9,7 @@ import {
     createRecoilSelectors,
     createRecoilQueryClient,
 } from './recoil';
+import { RenderContext } from './utils/types';
 
 const expectCode = (ast) => {
     expect(
@@ -22,8 +23,11 @@ const printCode = (ast) => {
     );
 }
 
+const ctx = new RenderContext(query_msg);
+
 it('selector', () => {
     expectCode(createRecoilSelector(
+        ctx,
         'SG721',
         'SG721QueryClient',
         'governanceModules'
@@ -32,6 +36,7 @@ it('selector', () => {
 
 it('selectors', () => {
     expectCode(t.program(createRecoilSelectors(
+        ctx,
         'SG721',
         'SG721QueryClient',
         query_msg
@@ -40,6 +45,7 @@ it('selectors', () => {
 
 it('client', () => {
     expectCode(createRecoilQueryClient(
+        ctx,
         'SG721',
         'SG721QueryClient'
     ))

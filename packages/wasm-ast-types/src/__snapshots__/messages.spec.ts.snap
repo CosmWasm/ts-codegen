@@ -48,7 +48,17 @@ exports[`createFromPartialInterface 1`] = `
   }: {
     operator: string;
   }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
-  mint: (funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
+  mint: ({
+    extension,
+    owner,
+    tokenId,
+    tokenUri
+  }: {
+    extension: Empty;
+    owner: string;
+    tokenId: string;
+    tokenUri?: string;
+  }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
   burn: ({
     tokenId
   }: {
@@ -210,14 +220,29 @@ exports[`execute classes 1`] = `
       })
     };
   };
-  mint = (funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
+  mint = ({
+    extension,
+    owner,
+    tokenId,
+    tokenUri
+  }: {
+    extension: Empty;
+    owner: string;
+    tokenId: string;
+    tokenUri?: string;
+  }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: \\"/cosmwasm.wasm.v1.MsgExecuteContract\\",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify({
-          mint: {}
+          mint: {
+            extension,
+            owner,
+            token_id: tokenId,
+            token_uri: tokenUri
+          }
         })),
         funds
       })

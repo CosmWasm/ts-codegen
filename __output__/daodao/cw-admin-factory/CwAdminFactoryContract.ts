@@ -42,7 +42,7 @@ export interface CwAdminFactoryInterface extends CwAdminFactoryReadOnlyInterface
     label
   }: {
     codeId: number;
-    instantiateMsg: string;
+    instantiateMsg: Binary;
     label: string;
   }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
 }
@@ -65,7 +65,7 @@ export class CwAdminFactoryClient extends CwAdminFactoryQueryClient implements C
     label
   }: {
     codeId: number;
-    instantiateMsg: string;
+    instantiateMsg: Binary;
     label: string;
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {

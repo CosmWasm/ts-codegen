@@ -20,22 +20,22 @@ export interface FactoryMessage {
     newUser,
     oldUser
   }: {
-    newUser: string;
-    oldUser: string;
+    newUser: Addr;
+    oldUser: Addr;
   }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
   migrateWallet: ({
     migrationMsg,
     walletAddress
   }: {
-    migrationMsg: object;
-    walletAddress: object;
+    migrationMsg: ProxyMigrationTxMsg;
+    walletAddress: WalletAddr;
   }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
   updateCodeId: ({
     newCodeId,
     ty
   }: {
     newCodeId: number;
-    ty: string;
+    ty: CodeIdType;
   }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
   updateWalletFee: ({
     newFee
@@ -92,8 +92,8 @@ export class FactoryMessageComposer implements FactoryMessage {
     newUser,
     oldUser
   }: {
-    newUser: string;
-    oldUser: string;
+    newUser: Addr;
+    oldUser: Addr;
   }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
@@ -114,8 +114,8 @@ export class FactoryMessageComposer implements FactoryMessage {
     migrationMsg,
     walletAddress
   }: {
-    migrationMsg: object;
-    walletAddress: object;
+    migrationMsg: ProxyMigrationTxMsg;
+    walletAddress: WalletAddr;
   }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
@@ -137,7 +137,7 @@ export class FactoryMessageComposer implements FactoryMessage {
     ty
   }: {
     newCodeId: number;
-    ty: string;
+    ty: CodeIdType;
   }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",

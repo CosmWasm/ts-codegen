@@ -15,27 +15,27 @@ import {
   ExecuteMsg
 } from './types';
 
-import { getPropertyType, getType, createTypedObjectParams } from './utils/types';
+import { getPropertyType, getType, createTypedObjectParams, JSONSchema, RenderContext } from './utils/types';
 import { identifier, tsTypeOperator, propertySignature } from './utils/babel';
 
 export const createWasmQueryMethod = (
+  context: RenderContext,
   jsonschema: any
 ) => {
 
   const underscoreName = Object.keys(jsonschema.properties)[0];
   const methodName = camel(underscoreName);
   const responseType = pascal(`${methodName}Response`);
-  const properties = jsonschema.properties[underscoreName].properties ?? {};
 
-  const obj = createTypedObjectParams(jsonschema.properties[underscoreName]);
-  const args = Object.keys(properties).map(prop => {
-    return t.objectProperty(
-      t.identifier(prop),
-      t.identifier(camel(prop)),
-      false,
-      true
-    )
-  });
+  const obj = createTypedObjectParams(
+    context,
+    jsonschema.properties[underscoreName]
+  );
+
+  const args = getWasmMethodArgs(
+    context,
+    jsonschema.properties[underscoreName]
+  );
 
   const actionArg =
     t.objectProperty(t.identifier(underscoreName), t.objectExpression(args));
@@ -83,6 +83,7 @@ export const createWasmQueryMethod = (
 }
 
 export const createQueryClass = (
+  context: RenderContext,
   className: string,
   implementsClassName: string,
   queryMsg: QueryMsg
@@ -98,7 +99,7 @@ export const createQueryClass = (
 
   const methods = getMessageProperties(queryMsg)
     .map(schema => {
-      return createWasmQueryMethod(schema)
+      return createWasmQueryMethod(context, schema)
     });
 
   return t.exportNamedDeclaration(
@@ -199,16 +200,21 @@ export const CONSTANT_EXEC_PARAMS = [
   ), true)
 ];
 
-
-export const createWasmExecMethod = (
-  jsonschema: any
+export const getWasmMethodArgs = (
+  context: RenderContext,
+  jsonschema: JSONSchema
 ) => {
+  let keys = Object.keys(jsonschema.properties ?? {});
 
-  const underscoreName = Object.keys(jsonschema.properties)[0];
-  const methodName = camel(underscoreName);
-  const properties = jsonschema.properties[underscoreName].properties ?? {};
-  const obj = createTypedObjectParams(jsonschema.properties[underscoreName]);
-  const args = Object.keys(properties).map(prop => {
+  // only 1 degree $ref-lookup
+  if (!keys.length && jsonschema.$ref) {
+    const obj = context.refLookup(jsonschema.$ref);
+    if (obj) {
+      keys = Object.keys(obj.properties ?? {})
+    }
+  }
+
+  const args = keys.map(prop => {
     return t.objectProperty(
       t.identifier(prop),
       t.identifier(camel(prop)),
@@ -217,7 +223,24 @@ export const createWasmExecMethod = (
     );
   });
 
+  return args;
+};
 
+export const createWasmExecMethod = (
+  context: RenderContext,
+  jsonschema: JSONSchema
+) => {
+
+  const underscoreName = Object.keys(jsonschema.properties)[0];
+  const methodName = camel(underscoreName);
+  const obj = createTypedObjectParams(
+    context,
+    jsonschema.properties[underscoreName]
+  );
+  const args = getWasmMethodArgs(
+    context,
+    jsonschema.properties[underscoreName]
+  );
 
   return t.classProperty(
     t.identifier(methodName),
@@ -288,6 +311,7 @@ export const createWasmExecMethod = (
 }
 
 export const createExecuteClass = (
+  context: RenderContext,
   className: string,
   implementsClassName: string,
   extendsClassName: string,
@@ -304,7 +328,7 @@ export const createExecuteClass = (
 
   const methods = getMessageProperties(execMsg)
     .map(schema => {
-      return createWasmExecMethod(schema)
+      return createWasmExecMethod(context, schema)
     });
 
   const blockStmt = [];
@@ -398,6 +422,7 @@ export const createExecuteClass = (
 }
 
 export const createExecuteInterface = (
+  context: RenderContext,
   className: string,
   extendsClassName: string | null,
   execMsg: ExecuteMsg
@@ -408,6 +433,7 @@ export const createExecuteInterface = (
       const underscoreName = Object.keys(jsonschema.properties)[0];
       const methodName = camel(underscoreName);
       return createPropertyFunctionWithObjectParamsForExec(
+        context,
         methodName,
         'ExecuteResult',
         jsonschema.properties[underscoreName]
@@ -449,8 +475,13 @@ export const createExecuteInterface = (
   );
 };
 
-export const createPropertyFunctionWithObjectParams = (methodName: string, responseType: string, jsonschema: any) => {
-  const obj = createTypedObjectParams(jsonschema);
+export const createPropertyFunctionWithObjectParams = (
+  context: RenderContext,
+  methodName: string,
+  responseType: string,
+  jsonschema: JSONSchema
+) => {
+  const obj = createTypedObjectParams(context, jsonschema);
 
   const func = {
     type: 'TSFunctionType',
@@ -497,8 +528,13 @@ export const FIXED_EXECUTE_PARAMS = [
   ), true)
 ];
 
-export const createPropertyFunctionWithObjectParamsForExec = (methodName: string, responseType: string, jsonschema: any) => {
-  const obj = createTypedObjectParams(jsonschema);
+export const createPropertyFunctionWithObjectParamsForExec = (
+  context: RenderContext,
+  methodName: string,
+  responseType: string,
+  jsonschema: JSONSchema
+) => {
+  const obj = createTypedObjectParams(context, jsonschema);
 
   const func = {
     type: 'TSFunctionType',
@@ -518,13 +554,18 @@ export const createPropertyFunctionWithObjectParamsForExec = (methodName: string
   );
 };
 
-export const createQueryInterface = (className: string, queryMsg: QueryMsg) => {
+export const createQueryInterface = (
+  context: RenderContext,
+  className: string,
+  queryMsg: QueryMsg
+) => {
   const methods = getMessageProperties(queryMsg)
     .map(jsonschema => {
       const underscoreName = Object.keys(jsonschema.properties)[0];
       const methodName = camel(underscoreName);
       const responseType = pascal(`${methodName}Response`);
       return createPropertyFunctionWithObjectParams(
+        context,
         methodName,
         responseType,
         jsonschema.properties[underscoreName]
@@ -552,7 +593,11 @@ export const createQueryInterface = (className: string, queryMsg: QueryMsg) => {
 };
 
 
-export const createTypeOrInterface = (Type: string, jsonschema: any) => {
+export const createTypeOrInterface = (
+  context: RenderContext,
+  Type: string,
+  jsonschema: JSONSchema
+) => {
   if (jsonschema.type !== 'object') {
 
     if (!jsonschema.type) {
@@ -575,7 +620,7 @@ export const createTypeOrInterface = (Type: string, jsonschema: any) => {
   }
   const props = Object.keys(jsonschema.properties ?? {})
     .map(prop => {
-      const { type, optional } = getPropertyType(jsonschema, prop);
+      const { type, optional } = getPropertyType(context, jsonschema, prop);
       return propertySignature(camel(prop), t.tsTypeAnnotation(
         type
       ), optional);
@@ -596,7 +641,14 @@ export const createTypeOrInterface = (Type: string, jsonschema: any) => {
   )
 };
 
-export const createTypeInterface = (jsonschema: any) => {
+export const createTypeInterface = (
+  context: RenderContext,
+  jsonschema: JSONSchema
+) => {
   const Type = jsonschema.title;
-  return createTypeOrInterface(Type, jsonschema);
+  return createTypeOrInterface(
+    context,
+    Type,
+    jsonschema
+  );
 };
