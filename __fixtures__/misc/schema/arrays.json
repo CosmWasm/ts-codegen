@@ -1,0 +1,101 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "ExecuteMsg",
+    "description": "...",
+    "oneOf": [
+        {
+            "type": "object",
+            "required": [
+                "update_edges"
+            ],
+            "properties": {
+                "update_edges": {
+                    "type": "object",
+                    "required": [
+                        "edges",
+                        "nested",
+                        "supernested"
+                    ],
+                    "properties": {
+                        "edges": {
+                            "type": "array",
+                            "items": {
+                                "type": "array",
+                                "items": [
+                                    {
+                                        "type": "integer",
+                                        "format": "int32"
+                                    },
+                                    {
+                                        "type": "integer",
+                                        "format": "int32"
+                                    }
+                                ],
+                                "maxItems": 2,
+                                "minItems": 2
+                            }
+                        },
+                        "nested": {
+                            "type": "array",
+                            "items": {
+                                "type": "array",
+                                "items": {
+                                    "type": "array",
+                                    "items": [
+                                        {
+                                            "type": "integer",
+                                            "format": "int32"
+                                        },
+                                        {
+                                            "type": "integer",
+                                            "format": "int32"
+                                        }
+                                    ],
+                                    "maxItems": 2,
+                                    "minItems": 2
+                                },
+                                "maxItems": 2,
+                                "minItems": 2
+                            }
+                        },
+                        "supernested": {
+                            "type": "array",
+                            "items": {
+                                "type": "array",
+                                "items": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "array",
+                                                "items": [
+                                                    {
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "type": "string"
+                                                    }
+                                                ],
+                                                "maxItems": 2,
+                                                "minItems": 2
+                                            },
+                                            "maxItems": 2,
+                                            "minItems": 2
+                                        }
+                                    },
+                                    "maxItems": 2,
+                                    "minItems": 2
+                                },
+                                "maxItems": 2,
+                                "minItems": 2
+                            }
+                        }
+                    }
+                }
+            },
+            "additionalProperties": false
+        }
+    ]
+}
