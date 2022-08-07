@@ -3,7 +3,6 @@ import { snake } from "case";
 import { Field, QueryMsg, ExecuteMsg } from '../types';
 import { TSTypeAnnotation, TSExpressionWithTypeArguments } from '@babel/types';
 
-
 // t.TSPropertySignature - kind?
 export const propertySignature = (
     name: string,

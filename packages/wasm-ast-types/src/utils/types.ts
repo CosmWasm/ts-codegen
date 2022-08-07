@@ -2,72 +2,18 @@ import * as t from '@babel/types';
 import { camel } from 'case';
 import { propertySignature } from './babel';
 import { TSTypeAnnotation } from '@babel/types';
-export interface RenderOptions {
-}
-export interface RenderContext {
-  schema: JSONSchema;
-  options: RenderOptions;
-}
-
-const defaultOptions = {
-
-}
-export class RenderContext implements RenderContext {
-  schema: JSONSchema;
-  constructor(
-    schema: JSONSchema,
-    options?: RenderOptions
-  ) {
-    this.schema = schema;
-    if (options) this.options = options;
-    else this.options = defaultOptions;
-  }
-  refLookup($ref: string) {
-    const refName = $ref.replace('#/definitions/', '')
-    return this.schema.definitions?.[refName];
-  }
-}
-export interface JSONSchema {
-  $ref?: string;
-  $schema?: string;
-  additionalProperties?: boolean;
-  allOf?: JSONSchema[];
-  anyOf?: JSONSchema[];
-  definitions?: Record<string, JSONSchema>;
-  description?: string;
-  oneOf?: JSONSchema[];
-  properties?: Record<string, JSONSchema>;
-  patternProperties?: Record<string, JSONSchema>;
-  items?: JSONSchema[] | JSONSchema;
-  additionalItems?: JSONSchema;
-  required?: string[];
-  title?: string;
-  type?: string;
-}
-
+import { RenderContext } from '../context';
+import { JSONSchema } from '../types';
 
 const getTypeStrFromRef = ($ref) => {
-  switch ($ref) {
-    case '#/definitions/Binary':
-      return 'Binary';
-    default:
-      if ($ref?.startsWith('#/definitions/')) {
-        return $ref.replace('#/definitions/', '');
-      }
-      throw new Error('what is $ref: ' + $ref);
+  if ($ref?.startsWith('#/definitions/')) {
+    return $ref.replace('#/definitions/', '');
   }
+  throw new Error('what is $ref: ' + $ref);
 }
 
 export const getTypeFromRef = ($ref) => {
-  switch ($ref) {
-    case '#/definitions/Binary':
-      return t.tsTypeReference(t.identifier('Binary'))
-    default:
-      if ($ref?.startsWith('#/definitions/')) {
-        return t.tsTypeReference(t.identifier($ref.replace('#/definitions/', '')))
-      }
-      throw new Error('what is $ref: ' + $ref);
-  }
+  return t.tsTypeReference(t.identifier(getTypeStrFromRef($ref)))
 }
 
 const getArrayTypeFromRef = ($ref) => {
@@ -361,8 +307,6 @@ export const createTypedObjectParams = (
     // no results...
     return;
   }
-
-  // const typedParams = keys.map(prop => getPropertySignatureFromProp(jsonschema, prop, camelize));
 
   const params = keys.map(prop => {
     return t.objectProperty(

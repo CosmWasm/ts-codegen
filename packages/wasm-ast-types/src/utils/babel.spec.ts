@@ -1,5 +1,4 @@
 import { importStmt } from './babel'
-import generate from '@babel/generator';
 import * as t from '@babel/types';
 
 import {
@@ -10,20 +9,7 @@ import {
     classProperty,
     arrowFunctionExpression
 } from './babel'
-
-const expectCode = (ast) => {
-    expect(
-        generate(ast).code
-    ).toMatchSnapshot();
-}
-
-const printCode = (ast) => {
-    console.log(
-        generate(ast).code
-    );
-}
-
-
+import { expectCode } from '../../test-utils';
 
 it('top import', async () => {
     expectCode(
