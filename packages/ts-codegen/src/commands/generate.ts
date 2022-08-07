@@ -1,5 +1,5 @@
 import { prompt } from '../utils/prompt';
-import cosmscript from '../generators/ts-client';
+import tsClient from '../generators/ts-client';
 import { readSchemas } from '../utils';
 
 export default async (argv) => {
@@ -29,5 +29,5 @@ export default async (argv) => {
 
     const { schema, out, name } = await prompt(questions, argv);
     const schemas = await readSchemas({ schemaDir: schema, argv });
-    await cosmscript(name, schemas, out);
+    await tsClient(name, schemas, out);
 };
