@@ -18,9 +18,9 @@ export interface CwAdminFactoryMessage {
     label
   }: {
     codeId: number;
-    instantiateMsg: string;
+    instantiateMsg: Binary;
     label: string;
-  }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
 }
 export class CwAdminFactoryMessageComposer implements CwAdminFactoryMessage {
   sender: string;
@@ -38,9 +38,9 @@ export class CwAdminFactoryMessageComposer implements CwAdminFactoryMessage {
     label
   }: {
     codeId: number;
-    instantiateMsg: string;
+    instantiateMsg: Binary;
     label: string;
-  }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({

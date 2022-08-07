@@ -1,5 +1,5 @@
-import { prompt } from '../prompt';
-import reactQuery from '../react-query';
+import { prompt } from '../utils/prompt';
+import reactQuery from '../generators/react-query';
 import { readSchemas } from '../utils';
 
 export default async (argv) => {
@@ -46,6 +46,6 @@ export default async (argv) => {
     ];
 
     const { schema, out, name, ...options } = await prompt(questions, argv);
-    const schemas = readSchemas({ schemaDir: schema, argv });
+    const schemas = await readSchemas({ schemaDir: schema, argv });
     await reactQuery(name, schemas, out, options);
 };

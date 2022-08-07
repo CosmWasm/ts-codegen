@@ -15,43 +15,43 @@ export interface FactoryMessage {
     createWalletMsg
   }: {
     createWalletMsg: CreateWalletMsg;
-  }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
   updateProxyUser: ({
     newUser,
     oldUser
   }: {
-    newUser: string;
-    oldUser: string;
-  }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
+    newUser: Addr;
+    oldUser: Addr;
+  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
   migrateWallet: ({
     migrationMsg,
     walletAddress
   }: {
-    migrationMsg: object;
-    walletAddress: object;
-  }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
+    migrationMsg: ProxyMigrationTxMsg;
+    walletAddress: WalletAddr;
+  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
   updateCodeId: ({
     newCodeId,
     ty
   }: {
     newCodeId: number;
-    ty: string;
-  }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
+    ty: CodeIdType;
+  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
   updateWalletFee: ({
     newFee
   }: {
     newFee: Coin;
-  }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
   updateGovecAddr: ({
     addr
   }: {
     addr: string;
-  }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
   updateAdmin: ({
     addr
   }: {
     addr: string;
-  }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
 }
 export class FactoryMessageComposer implements FactoryMessage {
   sender: string;
@@ -73,7 +73,7 @@ export class FactoryMessageComposer implements FactoryMessage {
     createWalletMsg
   }: {
     createWalletMsg: CreateWalletMsg;
-  }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -92,9 +92,9 @@ export class FactoryMessageComposer implements FactoryMessage {
     newUser,
     oldUser
   }: {
-    newUser: string;
-    oldUser: string;
-  }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
+    newUser: Addr;
+    oldUser: Addr;
+  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -114,9 +114,9 @@ export class FactoryMessageComposer implements FactoryMessage {
     migrationMsg,
     walletAddress
   }: {
-    migrationMsg: object;
-    walletAddress: object;
-  }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
+    migrationMsg: ProxyMigrationTxMsg;
+    walletAddress: WalletAddr;
+  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -137,8 +137,8 @@ export class FactoryMessageComposer implements FactoryMessage {
     ty
   }: {
     newCodeId: number;
-    ty: string;
-  }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
+    ty: CodeIdType;
+  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -158,7 +158,7 @@ export class FactoryMessageComposer implements FactoryMessage {
     newFee
   }: {
     newFee: Coin;
-  }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -177,7 +177,7 @@ export class FactoryMessageComposer implements FactoryMessage {
     addr
   }: {
     addr: string;
-  }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -196,7 +196,7 @@ export class FactoryMessageComposer implements FactoryMessage {
     addr
   }: {
     addr: string;
-  }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({

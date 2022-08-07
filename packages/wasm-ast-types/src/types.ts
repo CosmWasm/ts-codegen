@@ -25,3 +25,22 @@ export interface ExecuteMsg {
     allOf?: any;
     anyOf?: any;
 }
+
+export interface JSONSchema {
+    $ref?: string;
+    $schema?: string;
+    additionalProperties?: boolean;
+    allOf?: JSONSchema[];
+    anyOf?: JSONSchema[];
+    definitions?: Record<string, JSONSchema>;
+    description?: string;
+    oneOf?: JSONSchema[];
+    properties?: Record<string, JSONSchema>;
+    patternProperties?: Record<string, JSONSchema>;
+    items?: JSONSchema[] | JSONSchema;
+    additionalItems?: JSONSchema;
+    required?: string[];
+    title?: string;
+    type?: string;
+}
+

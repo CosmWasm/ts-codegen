@@ -205,7 +205,7 @@ export interface FactoryReadOnlyInterface {
   codeId: ({
     ty
   }: {
-    ty: string;
+    ty: CodeIdType;
   }) => Promise<CodeIdResponse>;
   fee: () => Promise<FeeResponse>;
   govecAddr: () => Promise<GovecAddrResponse>;
@@ -260,7 +260,7 @@ export class FactoryQueryClient implements FactoryReadOnlyInterface {
   codeId = async ({
     ty
   }: {
-    ty: string;
+    ty: CodeIdType;
   }): Promise<CodeIdResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
       code_id: {
@@ -291,43 +291,43 @@ export interface FactoryInterface extends FactoryReadOnlyInterface {
     createWalletMsg
   }: {
     createWalletMsg: CreateWalletMsg;
-  }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
   updateProxyUser: ({
     newUser,
     oldUser
   }: {
-    newUser: string;
-    oldUser: string;
-  }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
+    newUser: Addr;
+    oldUser: Addr;
+  }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
   migrateWallet: ({
     migrationMsg,
     walletAddress
   }: {
-    migrationMsg: object;
-    walletAddress: object;
-  }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
+    migrationMsg: ProxyMigrationTxMsg;
+    walletAddress: WalletAddr;
+  }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
   updateCodeId: ({
     newCodeId,
     ty
   }: {
     newCodeId: number;
-    ty: string;
-  }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
+    ty: CodeIdType;
+  }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
   updateWalletFee: ({
     newFee
   }: {
     newFee: Coin;
-  }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
   updateGovecAddr: ({
     addr
   }: {
     addr: string;
-  }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
   updateAdmin: ({
     addr
   }: {
     addr: string;
-  }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
 }
 export class FactoryClient extends FactoryQueryClient implements FactoryInterface {
   client: SigningCosmWasmClient;
@@ -352,7 +352,7 @@ export class FactoryClient extends FactoryQueryClient implements FactoryInterfac
     createWalletMsg
   }: {
     createWalletMsg: CreateWalletMsg;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       create_wallet: {
         create_wallet_msg: createWalletMsg
@@ -363,9 +363,9 @@ export class FactoryClient extends FactoryQueryClient implements FactoryInterfac
     newUser,
     oldUser
   }: {
-    newUser: string;
-    oldUser: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
+    newUser: Addr;
+    oldUser: Addr;
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_proxy_user: {
         new_user: newUser,
@@ -377,9 +377,9 @@ export class FactoryClient extends FactoryQueryClient implements FactoryInterfac
     migrationMsg,
     walletAddress
   }: {
-    migrationMsg: object;
-    walletAddress: object;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
+    migrationMsg: ProxyMigrationTxMsg;
+    walletAddress: WalletAddr;
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       migrate_wallet: {
         migration_msg: migrationMsg,
@@ -392,8 +392,8 @@ export class FactoryClient extends FactoryQueryClient implements FactoryInterfac
     ty
   }: {
     newCodeId: number;
-    ty: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
+    ty: CodeIdType;
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_code_id: {
         new_code_id: newCodeId,
@@ -405,7 +405,7 @@ export class FactoryClient extends FactoryQueryClient implements FactoryInterfac
     newFee
   }: {
     newFee: Coin;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_wallet_fee: {
         new_fee: newFee
@@ -416,7 +416,7 @@ export class FactoryClient extends FactoryQueryClient implements FactoryInterfac
     addr
   }: {
     addr: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_govec_addr: {
         addr
@@ -427,7 +427,7 @@ export class FactoryClient extends FactoryQueryClient implements FactoryInterfac
     addr
   }: {
     addr: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_admin: {
         addr

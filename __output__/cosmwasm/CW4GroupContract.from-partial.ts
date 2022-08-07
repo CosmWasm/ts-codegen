@@ -16,24 +16,24 @@ export interface CW4GroupMessage {
     admin
   }: {
     admin?: string;
-  }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
   updateMembers: ({
     add,
     remove
   }: {
     add: Member[];
     remove: string[];
-  }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
   addHook: ({
     addr
   }: {
     addr: string;
-  }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
   removeHook: ({
     addr
   }: {
     addr: string;
-  }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
 }
 export class CW4GroupMessageComposer implements CW4GroupMessage {
   sender: string;
@@ -52,7 +52,7 @@ export class CW4GroupMessageComposer implements CW4GroupMessage {
     admin
   }: {
     admin?: string;
-  }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -73,7 +73,7 @@ export class CW4GroupMessageComposer implements CW4GroupMessage {
   }: {
     add: Member[];
     remove: string[];
-  }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -93,7 +93,7 @@ export class CW4GroupMessageComposer implements CW4GroupMessage {
     addr
   }: {
     addr: string;
-  }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -112,7 +112,7 @@ export class CW4GroupMessageComposer implements CW4GroupMessage {
     addr
   }: {
     addr: string;
-  }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({

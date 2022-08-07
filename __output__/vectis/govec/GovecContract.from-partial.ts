@@ -15,40 +15,40 @@ export interface GovecMessage {
     msgs
   }: {
     msgs: CosmosMsgForEmpty[];
-  }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
-  revertFreezeStatus: (funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  revertFreezeStatus: (funds?: Coin[]) => MsgExecuteContractEncodeObject;
   relay: ({
     transaction
   }: {
     transaction: RelayTransaction;
-  }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
   rotateUserKey: ({
     newUserAddress
   }: {
     newUserAddress: string;
-  }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
   addRelayer: ({
     newRelayerAddress
   }: {
-    newRelayerAddress: string;
-  }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
+    newRelayerAddress: Addr;
+  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
   removeRelayer: ({
     relayerAddress
   }: {
-    relayerAddress: string;
-  }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
+    relayerAddress: Addr;
+  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
   updateGuardians: ({
     guardians,
     newMultisigCodeId
   }: {
     guardians: Guardians;
     newMultisigCodeId?: number;
-  }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
   updateLabel: ({
     newLabel
   }: {
     newLabel: string;
-  }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
 }
 export class GovecMessageComposer implements GovecMessage {
   sender: string;
@@ -71,7 +71,7 @@ export class GovecMessageComposer implements GovecMessage {
     msgs
   }: {
     msgs: CosmosMsgForEmpty[];
-  }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -86,7 +86,7 @@ export class GovecMessageComposer implements GovecMessage {
       })
     };
   };
-  revertFreezeStatus = (funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
+  revertFreezeStatus = (funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -103,7 +103,7 @@ export class GovecMessageComposer implements GovecMessage {
     transaction
   }: {
     transaction: RelayTransaction;
-  }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -122,7 +122,7 @@ export class GovecMessageComposer implements GovecMessage {
     newUserAddress
   }: {
     newUserAddress: string;
-  }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -140,8 +140,8 @@ export class GovecMessageComposer implements GovecMessage {
   addRelayer = ({
     newRelayerAddress
   }: {
-    newRelayerAddress: string;
-  }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
+    newRelayerAddress: Addr;
+  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -159,8 +159,8 @@ export class GovecMessageComposer implements GovecMessage {
   removeRelayer = ({
     relayerAddress
   }: {
-    relayerAddress: string;
-  }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
+    relayerAddress: Addr;
+  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -181,7 +181,7 @@ export class GovecMessageComposer implements GovecMessage {
   }: {
     guardians: Guardians;
     newMultisigCodeId?: number;
-  }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -201,7 +201,7 @@ export class GovecMessageComposer implements GovecMessage {
     newLabel
   }: {
     newLabel: string;
-  }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({

@@ -586,24 +586,24 @@ export interface CwProposalSingleInterface extends CwProposalSingleReadOnlyInter
     description: string;
     msgs: CosmosMsgForEmpty[];
     title: string;
-  }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
   vote: ({
     proposalId,
     vote
   }: {
     proposalId: number;
     vote: Vote;
-  }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
   execute: ({
     proposalId
   }: {
     proposalId: number;
-  }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
   close: ({
     proposalId
   }: {
     proposalId: number;
-  }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
   updateConfig: ({
     allowRevoting,
     dao,
@@ -620,27 +620,27 @@ export interface CwProposalSingleInterface extends CwProposalSingleReadOnlyInter
     minVotingPeriod?: Duration;
     onlyMembersExecute: boolean;
     threshold: Threshold;
-  }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
   addProposalHook: ({
     address
   }: {
     address: string;
-  }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
   removeProposalHook: ({
     address
   }: {
     address: string;
-  }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
   addVoteHook: ({
     address
   }: {
     address: string;
-  }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
   removeVoteHook: ({
     address
   }: {
     address: string;
-  }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
 }
 export class CwProposalSingleClient extends CwProposalSingleQueryClient implements CwProposalSingleInterface {
   client: SigningCosmWasmClient;
@@ -671,7 +671,7 @@ export class CwProposalSingleClient extends CwProposalSingleQueryClient implemen
     description: string;
     msgs: CosmosMsgForEmpty[];
     title: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       propose: {
         description,
@@ -686,7 +686,7 @@ export class CwProposalSingleClient extends CwProposalSingleQueryClient implemen
   }: {
     proposalId: number;
     vote: Vote;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       vote: {
         proposal_id: proposalId,
@@ -698,7 +698,7 @@ export class CwProposalSingleClient extends CwProposalSingleQueryClient implemen
     proposalId
   }: {
     proposalId: number;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       execute: {
         proposal_id: proposalId
@@ -709,7 +709,7 @@ export class CwProposalSingleClient extends CwProposalSingleQueryClient implemen
     proposalId
   }: {
     proposalId: number;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       close: {
         proposal_id: proposalId
@@ -732,7 +732,7 @@ export class CwProposalSingleClient extends CwProposalSingleQueryClient implemen
     minVotingPeriod?: Duration;
     onlyMembersExecute: boolean;
     threshold: Threshold;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_config: {
         allow_revoting: allowRevoting,
@@ -749,7 +749,7 @@ export class CwProposalSingleClient extends CwProposalSingleQueryClient implemen
     address
   }: {
     address: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       add_proposal_hook: {
         address
@@ -760,7 +760,7 @@ export class CwProposalSingleClient extends CwProposalSingleQueryClient implemen
     address
   }: {
     address: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       remove_proposal_hook: {
         address
@@ -771,7 +771,7 @@ export class CwProposalSingleClient extends CwProposalSingleQueryClient implemen
     address
   }: {
     address: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       add_vote_hook: {
         address
@@ -782,7 +782,7 @@ export class CwProposalSingleClient extends CwProposalSingleQueryClient implemen
     address
   }: {
     address: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       remove_vote_hook: {
         address

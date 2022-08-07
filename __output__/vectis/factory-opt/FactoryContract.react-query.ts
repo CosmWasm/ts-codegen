@@ -47,7 +47,7 @@ export interface FactoryCodeIdQuery {
   client?: FactoryQueryClient;
   options?: UseQueryOptions<CodeIdResponse | undefined, Error, CodeIdResponse, (string | undefined)[]>;
   args: {
-    ty: string;
+    ty: CodeIdType;
   };
 }
 export function useFactoryCodeIdQuery({
