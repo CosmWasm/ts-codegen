@@ -1,5 +1,5 @@
 import { prompt } from '../utils/prompt';
-import recoil from '../recoil';
+import recoil from '../generators/recoil';
 import { readSchemas } from '../utils';
 
 export default async (argv) => {
