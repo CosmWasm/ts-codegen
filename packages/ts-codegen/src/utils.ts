@@ -3,6 +3,7 @@ import { readFileSync } from 'fs';
 import { cleanse } from './cleanse';
 import { compile } from 'json-schema-to-typescript';
 import { parser } from './parse';
+import { JSONSchema } from 'wasm-ast-types';
 
 export const readSchemas = async ({
     schemaDir, argv, clean = true
@@ -50,5 +51,22 @@ export const findAndParseTypes = async (schemas) => {
     }
     const typeHash = parser(allTypes);
     return typeHash;
-}
+};
 
+export const getDefinitionSchema = (schemas: JSONSchema[]): JSONSchema => {
+    const aggregateSchema = {
+        definitions: {
+            //
+        }
+    };
+
+    schemas.forEach(schema => {
+        schema.definitions = schema.definitions || {};
+        aggregateSchema.definitions = {
+            ...aggregateSchema.definitions,
+            ...schema.definitions
+        };
+    });
+
+    return aggregateSchema;
+};

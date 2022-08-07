@@ -8,8 +8,9 @@ import { writeFileSync } from 'fs';
 import generate from "@babel/generator";
 import { clean } from "./clean";
 import { getMessageProperties } from "wasm-ast-types";
-import { findAndParseTypes, findExecuteMsg, findQueryMsg } from './utils';
+import { findAndParseTypes, findExecuteMsg, findQueryMsg, getDefinitionSchema } from './utils';
 import { cosmjsAminoImportStatements } from './imports';
+import { RenderContext, JSONSchema } from "wasm-ast-types";
 
 export default async (name: string, schemas: any[], outPath: string) => {
 
@@ -47,8 +48,9 @@ export default async (name: string, schemas: any[], outPath: string) => {
         t.tsTypeReference(t.identifier('ExecuteMsg'))
       )
     )
-  )
+  );
 
+  const context = new RenderContext(getDefinitionSchema(schemas));
 
   // query messages
   if (QueryMsg) {
@@ -57,10 +59,10 @@ export default async (name: string, schemas: any[], outPath: string) => {
     ReadOnlyInstance = pascal(`${name}ReadOnlyInterface`);
 
     body.push(
-      w.createQueryInterface(ReadOnlyInstance, QueryMsg)
+      w.createQueryInterface(context, ReadOnlyInstance, QueryMsg)
     );
     body.push(
-      w.createQueryClass(QueryClient, ReadOnlyInstance, QueryMsg)
+      w.createQueryClass(context, QueryClient, ReadOnlyInstance, QueryMsg)
     );
   }
 
@@ -73,6 +75,7 @@ export default async (name: string, schemas: any[], outPath: string) => {
 
       body.push(
         w.createExecuteInterface(
+          context,
           Instance,
           ReadOnlyInstance,
           ExecuteMsg
@@ -80,6 +83,7 @@ export default async (name: string, schemas: any[], outPath: string) => {
       );
       body.push(
         w.createExecuteClass(
+          context,
           Client,
           Instance,
           QueryClient,

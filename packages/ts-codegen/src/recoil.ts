@@ -6,7 +6,8 @@ import * as w from 'wasm-ast-types';
 import * as t from '@babel/types';
 import { writeFileSync } from 'fs';
 import generate from "@babel/generator";
-import { findAndParseTypes, findQueryMsg } from "./utils";
+import { findAndParseTypes, findQueryMsg, getDefinitionSchema } from "./utils";
+import { RenderContext, JSONSchema } from "wasm-ast-types";
 
 export default async (name: string, schemas: any[], outPath: string) => {
 
@@ -33,6 +34,9 @@ export default async (name: string, schemas: any[], outPath: string) => {
     w.importStmt(Object.keys(typeHash), `./${Contract}`.replace(/\.ts$/, ''))
   );
 
+  const context = new RenderContext(getDefinitionSchema(schemas));
+
+
   // query messages
   if (QueryMsg) {
 
@@ -45,12 +49,13 @@ export default async (name: string, schemas: any[], outPath: string) => {
 
     body.push(w.createRecoilQueryClientType());
     body.push(w.createRecoilQueryClient(
+      context,
       name,
       QueryClient
     ));
 
     [].push.apply(body,
-      w.createRecoilSelectors(name, QueryClient, QueryMsg)
+      w.createRecoilSelectors(context, name, QueryClient, QueryMsg)
     );
 
   }

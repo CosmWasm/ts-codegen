@@ -7,7 +7,8 @@ import * as t from '@babel/types';
 import { writeFileSync } from 'fs';
 import generate from "@babel/generator";
 import { getMessageProperties } from "wasm-ast-types";
-import { findAndParseTypes, findExecuteMsg } from "./utils";
+import { findAndParseTypes, findExecuteMsg, getDefinitionSchema } from "./utils";
+import { RenderContext, JSONSchema } from "wasm-ast-types";
 
 export default async (name: string, schemas: any[], outPath: string) => {
 
@@ -38,6 +39,7 @@ export default async (name: string, schemas: any[], outPath: string) => {
         w.importStmt(Object.keys(typeHash), `./${Contract}`.replace(/\.ts$/, ''))
     );
 
+    const context = new RenderContext(getDefinitionSchema(schemas));
 
     // execute messages
     if (ExecuteMsg) {
@@ -48,12 +50,14 @@ export default async (name: string, schemas: any[], outPath: string) => {
 
             body.push(
                 w.createFromPartialInterface(
+                    context,
                     Interface,
                     ExecuteMsg
                 )
             );
             body.push(
                 w.createFromPartialClass(
+                    context,
                     TheClass,
                     Interface,
                     ExecuteMsg

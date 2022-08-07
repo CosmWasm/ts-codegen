@@ -3,14 +3,13 @@ import { header } from './header';
 import { join } from "path";
 import { sync as mkdirp } from "mkdirp";
 import * as w from 'wasm-ast-types';
+import { RenderContext } from 'wasm-ast-types';
 import * as t from '@babel/types';
 import { writeFileSync } from 'fs';
 import generate from "@babel/generator";
-import { findAndParseTypes, findExecuteMsg, findQueryMsg } from './utils';
+import { findAndParseTypes, findExecuteMsg, findQueryMsg, getDefinitionSchema } from './utils';
 import { getMessageProperties, ReactQueryOptions } from "wasm-ast-types";
 import { cosmjsAminoImportStatements } from './imports';
-
-
 
 export default async (contractName: string, schemas: any[], outPath: string, options?: ReactQueryOptions) => {
 
@@ -53,10 +52,14 @@ export default async (contractName: string, schemas: any[], outPath: string, opt
     body.push(w.importStmt(clientImports, `./${Contract}`));
 
 
+
+    const context = new RenderContext(getDefinitionSchema(schemas));
+
     // query messages
     if (QueryMsg) {
         [].push.apply(body,
             w.createReactQueryHooks({
+                context,
                 queryMsg: QueryMsg,
                 contractName: contractName,
                 QueryClient,
@@ -68,6 +71,7 @@ export default async (contractName: string, schemas: any[], outPath: string, opt
     if (shouldGenerateMutationHooks) {
         [].push.apply(body,
             w.createReactQueryMutationHooks({
+                context,
                 execMsg: ExecuteMsg,
                 contractName: contractName,
                 ExecuteClient,
