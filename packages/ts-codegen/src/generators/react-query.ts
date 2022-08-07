@@ -1,5 +1,5 @@
 import { pascal } from "case";
-import { header } from './header';
+import { header } from '../utils/header';
 import { join } from "path";
 import { sync as mkdirp } from "mkdirp";
 import * as w from 'wasm-ast-types';
@@ -7,9 +7,9 @@ import { RenderContext } from 'wasm-ast-types';
 import * as t from '@babel/types';
 import { writeFileSync } from 'fs';
 import generate from "@babel/generator";
-import { findAndParseTypes, findExecuteMsg, findQueryMsg, getDefinitionSchema } from './utils';
+import { findAndParseTypes, findExecuteMsg, findQueryMsg, getDefinitionSchema } from '../utils';
 import { getMessageProperties, ReactQueryOptions } from "wasm-ast-types";
-import { cosmjsAminoImportStatements } from './imports';
+import { cosmjsAminoImportStatements } from '../utils/imports';
 
 export default async (
     contractName: string,

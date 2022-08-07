@@ -1,5 +1,5 @@
-import { prompt } from '../prompt';
-import reactQuery from '../react-query';
+import { prompt } from '../utils/prompt';
+import reactQuery from '../generators/react-query';
 import { readSchemas } from '../utils';
 
 export default async (argv) => {

@@ -1,13 +1,13 @@
 import { pascal } from "case";
-import { header } from './header';
+import { header } from '../utils/header';
 import { join } from "path";
 import { sync as mkdirp } from "mkdirp";
 import * as w from 'wasm-ast-types';
 import * as t from '@babel/types';
 import { writeFileSync } from 'fs';
 import generate from "@babel/generator";
-import { findAndParseTypes, findQueryMsg, getDefinitionSchema } from "./utils";
-import { RenderContext, JSONSchema } from "wasm-ast-types";
+import { findAndParseTypes, findQueryMsg, getDefinitionSchema } from "../utils";
+import { RenderContext } from "wasm-ast-types";
 
 export default async (name: string, schemas: any[], outPath: string) => {
 

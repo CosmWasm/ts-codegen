@@ -1,5 +1,5 @@
-import { prompt } from '../prompt';
-import fromPartial from '../from-partial';
+import { prompt } from '../utils/prompt';
+import fromPartial from '../generators/from-partial';
 import { readSchemas } from '../utils';
 
 export default async (argv) => {

@@ -1,4 +1,4 @@
-import { prompt } from '../prompt';
+import { prompt } from '../utils/prompt';
 import recoil from '../recoil';
 import { readSchemas } from '../utils';
 

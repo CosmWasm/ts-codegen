@@ -1,4 +1,4 @@
-import { prompt } from './prompt';
+import { prompt } from './utils/prompt';
 import { Commands as commands } from './cmds';
 
 const question = [

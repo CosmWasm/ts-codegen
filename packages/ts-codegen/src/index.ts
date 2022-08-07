@@ -1,6 +1,6 @@
-export { default as generate } from './generate';
-export { default as fromPartial } from './from-partial';
-export { default as reactQuery } from './react-query';
-export { default as recoil } from './recoil';
+export { default as tsClient } from './generators/ts-client';
+export { default as fromPartial } from './generators/from-partial';
+export { default as reactQuery } from './generators/react-query';
+export { default as recoil } from './generators/recoil';
 export * from './utils';
-export * from './imports';
+export * from './utils/imports';

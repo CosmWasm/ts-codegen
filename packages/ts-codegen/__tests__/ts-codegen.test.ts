@@ -1,8 +1,8 @@
 import { readSchemas } from '../src/utils';
-import generate from '../src/generate';
-import fromPartial from '../src/from-partial';
-import reactQuery from '../src/react-query';
-import recoil from '../src/recoil';
+import generate from '../src/generators/ts-client';
+import fromPartial from '../src/generators/from-partial';
+import reactQuery from '../src/generators/react-query';
+import recoil from '../src/generators/recoil';
 
 const FIXTURE_DIR = __dirname + '/../../../__fixtures__';
 const OUTPUT_DIR = __dirname + '/../../../__output__';

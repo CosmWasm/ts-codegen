@@ -1,16 +1,16 @@
 import { pascal } from "case";
-import { header } from './header';
+import { header } from '../utils/header';
 import { join } from "path";
 import { sync as mkdirp } from "mkdirp";
 import * as w from 'wasm-ast-types';
 import * as t from '@babel/types';
 import { writeFileSync } from 'fs';
 import generate from "@babel/generator";
-import { clean } from "./clean";
+import { clean } from "../utils/clean";
 import { getMessageProperties } from "wasm-ast-types";
-import { findAndParseTypes, findExecuteMsg, findQueryMsg, getDefinitionSchema } from './utils';
-import { cosmjsAminoImportStatements } from './imports';
-import { RenderContext, JSONSchema } from "wasm-ast-types";
+import { findAndParseTypes, findExecuteMsg, findQueryMsg, getDefinitionSchema } from '../utils';
+import { cosmjsAminoImportStatements } from '../utils/imports';
+import { RenderContext } from "wasm-ast-types";
 
 export default async (name: string, schemas: any[], outPath: string) => {
 
