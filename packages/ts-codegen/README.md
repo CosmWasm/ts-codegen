@@ -30,7 +30,7 @@ The quickest and easiest way to interact with CosmWasm Contracts. `@cosmwasm/ts-
     - [Generate TS Clients](#generate)
     - [React Query](#react-query)
     - [Recoil](#recoil)
-    - [From Partial](#from-partial)
+    - [Message Composer](#message-composer)
 - [Example Output](#example-output)
 - [JSON Schema](#json-schema)
     - [JSON Schema Generation](#json-schema-generation)
@@ -160,7 +160,7 @@ declare const recoil = (
   outPath: string
 ) => Promise<void>;
 ```
-### from-partial
+### Message Composer
 
 Generate pure message objects with the proper `utf8` encoding and `typeUrl` configured that you can broadcast yourself via `cosmjs` with the `from-partial` command.
 
