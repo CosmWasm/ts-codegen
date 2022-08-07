@@ -56,7 +56,17 @@ export interface Sg721Message {
   }: {
     operator: string;
   }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
-  mint: (funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
+  mint: ({
+    extension,
+    owner,
+    tokenId,
+    tokenUri
+  }: {
+    extension: Empty;
+    owner: string;
+    tokenId: string;
+    tokenUri?: string;
+  }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
   burn: ({
     tokenId
   }: {
@@ -215,14 +225,29 @@ export class Sg721MessageComposer implements Sg721Message {
       })
     };
   };
-  mint = (funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
+  mint = ({
+    extension,
+    owner,
+    tokenId,
+    tokenUri
+  }: {
+    extension: Empty;
+    owner: string;
+    tokenId: string;
+    tokenUri?: string;
+  }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify({
-          mint: {}
+          mint: {
+            extension,
+            owner,
+            token_id: tokenId,
+            token_uri: tokenUri
+          }
         })),
         funds
       })

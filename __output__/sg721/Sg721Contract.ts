@@ -512,7 +512,17 @@ export interface Sg721Interface extends Sg721ReadOnlyInterface {
   }: {
     operator: string;
   }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
-  mint: (fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
+  mint: ({
+    extension,
+    owner,
+    tokenId,
+    tokenUri
+  }: {
+    extension: Empty;
+    owner: string;
+    tokenId: string;
+    tokenUri?: string;
+  }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
   burn: ({
     tokenId
   }: {
@@ -626,9 +636,24 @@ export class Sg721Client extends Sg721QueryClient implements Sg721Interface {
       }
     }, fee, memo, funds);
   };
-  mint = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
+  mint = async ({
+    extension,
+    owner,
+    tokenId,
+    tokenUri
+  }: {
+    extension: Empty;
+    owner: string;
+    tokenId: string;
+    tokenUri?: string;
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
-      mint: {}
+      mint: {
+        extension,
+        owner,
+        token_id: tokenId,
+        token_uri: tokenUri
+      }
     }, fee, memo, funds);
   };
   burn = async ({

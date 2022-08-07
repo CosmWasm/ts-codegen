@@ -204,7 +204,15 @@ export class CwCodeIdRegistryQueryClient implements CwCodeIdRegistryReadOnlyInte
 export interface CwCodeIdRegistryInterface extends CwCodeIdRegistryReadOnlyInterface {
   contractAddress: string;
   sender: string;
-  receive: (fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
+  receive: ({
+    amount,
+    msg,
+    sender
+  }: {
+    amount: Uint128;
+    msg: Binary;
+    sender: string;
+  }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
   register: ({
     chainId,
     checksum,
@@ -259,9 +267,21 @@ export class CwCodeIdRegistryClient extends CwCodeIdRegistryQueryClient implemen
     this.updateConfig = this.updateConfig.bind(this);
   }
 
-  receive = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
+  receive = async ({
+    amount,
+    msg,
+    sender
+  }: {
+    amount: Uint128;
+    msg: Binary;
+    sender: string;
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
-      receive: {}
+      receive: {
+        amount,
+        msg,
+        sender
+      }
     }, fee, memo, funds);
   };
   register = async ({
