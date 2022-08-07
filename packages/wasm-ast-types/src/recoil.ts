@@ -10,34 +10,12 @@ import {
 } from './types';
 import { RenderContext } from './utils/types';
 
-export const createWasmRecoilMethod = (jsonschema: any) => {
-
-  const underscoreName = Object.keys(jsonschema.properties)[0];
-  const methodName = camel(underscoreName);
-  const responseType = pascal(`${methodName}Response`);
-  const properties = jsonschema.properties[underscoreName].properties ?? {};
-
-  if (Object.keys(properties).length > 0) {
-
-  } else {
-
-  }
-
-};
-
 export const createRecoilSelector = (
   context: RenderContext,
   keyPrefix: string,
   QueryClient: string,
   methodName: string
 ) => {
-
-  // const propertyNames = getMessageProperties(queryMsg)
-  //   .map(method => Object.keys(method.properties)?.[0])
-  //   .filter(Boolean);
-
-  // const methods = getMessageProperties(queryMsg)
-  //   .map(schema => createWasmRecoilMethod(schema))
 
   const selectorName = camel(`${methodName}Selector`);
   const responseType = pascal(`${methodName}Response`);
@@ -115,7 +93,6 @@ export const createRecoilSelector = (
                                   t.identifier(methodName)
                                 ),
                                 [
-                                  // t.identifier('params')
                                   t.spreadElement(
                                     t.identifier('params')
                                   )

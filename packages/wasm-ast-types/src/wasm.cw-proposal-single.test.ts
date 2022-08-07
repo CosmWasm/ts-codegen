@@ -1,7 +1,4 @@
-import { importStmt } from './utils'
 import generate from '@babel/generator';
-import * as t from '@babel/types';
-
 import execute_msg from './../../../__fixtures__/daodao/cw-proposal-single/execute_msg.json';
 import query_msg from './../../../__fixtures__/daodao/cw-proposal-single/query_msg.json';
 

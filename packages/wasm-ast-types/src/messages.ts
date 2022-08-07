@@ -1,21 +1,16 @@
 import * as t from '@babel/types';
-import { camel, pascal } from 'case';
+import { camel } from 'case';
 import {
     bindMethod,
     typedIdentifier,
-    promiseTypeAnnotation,
     classDeclaration,
     classProperty,
     arrowFunctionExpression,
     getMessageProperties
 } from './utils'
-
-import {
-    QueryMsg,
-    ExecuteMsg
-} from './types';
-import { RenderContext, RenderOptions, createTypedObjectParams, JSONSchema } from './utils/types';
-import { identifier, tsTypeOperator, propertySignature } from './utils/babel';
+import { ExecuteMsg } from './types';
+import { RenderContext, createTypedObjectParams, JSONSchema } from './utils/types';
+import { identifier } from './utils/babel';
 import { getWasmMethodArgs } from './wasm';
 
 const createWasmExecMethodPartial = (
@@ -32,37 +27,11 @@ const createWasmExecMethodPartial = (
     );
 
     const constantParams = [
-        // t.assignmentPattern(
-        //     identifier(
-        //         'fee',
-        //         t.tsTypeAnnotation(
-        //             t.tsUnionType(
-        //                 [
-        //                     t.tSNumberKeyword(),
-        //                     t.tsTypeReference(
-        //                         t.identifier('StdFee')
-        //                     ),
-        //                     t.tsLiteralType(
-        //                         t.stringLiteral('auto')
-        //                     )
-        //                 ]
-        //             )
-        //         ),
-        //         false
-        //     ),
-        //     t.stringLiteral('auto')
-        // ),
-        // identifier('memo', t.tsTypeAnnotation(
-        //     t.tsStringKeyword()
-        // ), true),
         identifier('funds', t.tsTypeAnnotation(
-            tsTypeOperator(
-                t.tsArrayType(
-                    t.tsTypeReference(
-                        t.identifier('Coin')
-                    )
-                ),
-                'readonly'
+            t.tsArrayType(
+                t.tsTypeReference(
+                    t.identifier('Coin')
+                )
             )
         ), true)
     ];
@@ -300,30 +269,11 @@ const createPropertyFunctionWithObjectParamsForPartial = (
 ) => {
     const obj = createTypedObjectParams(context, jsonschema);
     const fixedParams = [
-        // identifier('fee', t.tsTypeAnnotation(
-        //     t.tsUnionType(
-        //         [
-        //             t.tsNumberKeyword(),
-        //             t.tsTypeReference(
-        //                 t.identifier('StdFee')
-        //             ),
-        //             t.tsLiteralType(
-        //                 t.stringLiteral('auto')
-        //             )
-        //         ]
-        //     )
-        // ), true),
-        // identifier('memo', t.tsTypeAnnotation(
-        //     t.tsStringKeyword()
-        // ), true),
         identifier('funds', t.tsTypeAnnotation(
-            tsTypeOperator(
-                t.tsArrayType(
-                    t.tsTypeReference(
-                        t.identifier('Coin')
-                    )
-                ),
-                'readonly'
+            t.tsArrayType(
+                t.tsTypeReference(
+                    t.identifier('Coin')
+                )
             )
         ), true)
     ];

@@ -15,7 +15,7 @@ export interface FactoryMessage {
     createWalletMsg
   }: {
     createWalletMsg: CreateWalletMsg;
-  }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
   updateProxyUser: ({
     newUser,
     oldUser
@@ -73,7 +73,7 @@ export class FactoryMessageComposer implements FactoryMessage {
     createWalletMsg
   }: {
     createWalletMsg: CreateWalletMsg;
-  }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({

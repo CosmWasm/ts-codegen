@@ -1,12 +1,8 @@
-import { importStmt } from './utils'
 import generate from '@babel/generator';
-import * as t from '@babel/types';
-
 import execute_msg_for__empty from './../../../__fixtures__/sg721/execute_msg_for__empty.json';
 
 import {
     createQueryClass,
-    createQueryInterface,
     createExecuteClass,
     createExecuteInterface,
     createTypeInterface

@@ -16,7 +16,67 @@ import {
 } from './types';
 
 import { getPropertyType, getType, createTypedObjectParams, JSONSchema, RenderContext } from './utils/types';
-import { identifier, tsTypeOperator, propertySignature } from './utils/babel';
+import { identifier, propertySignature } from './utils/babel';
+
+export const CONSTANT_EXEC_PARAMS = [
+  t.assignmentPattern(
+    identifier(
+      'fee',
+      t.tsTypeAnnotation(
+        t.tsUnionType(
+          [
+            t.tSNumberKeyword(),
+            t.tsTypeReference(
+              t.identifier('StdFee')
+            ),
+            t.tsLiteralType(
+              t.stringLiteral('auto')
+            )
+          ]
+        )
+      ),
+      false
+    ),
+    t.stringLiteral('auto')
+  ),
+  identifier('memo', t.tsTypeAnnotation(
+    t.tsStringKeyword()
+  ), true),
+  identifier('funds', t.tsTypeAnnotation(
+    t.tsArrayType(
+      t.tsTypeReference(
+        t.identifier('Coin')
+      )
+    )
+  ), true)
+];
+
+export const FIXED_EXECUTE_PARAMS = [
+  identifier('fee', t.tsTypeAnnotation(
+    t.tsUnionType(
+      [
+        t.tsNumberKeyword(),
+        t.tsTypeReference(
+          t.identifier('StdFee')
+        ),
+        t.tsLiteralType(
+          t.stringLiteral('auto')
+        )
+      ]
+    )
+  ), true),
+  identifier('memo', t.tsTypeAnnotation(
+    t.tsStringKeyword()
+  ), true),
+  identifier('funds', t.tsTypeAnnotation(
+    t.tsArrayType(
+      t.tsTypeReference(
+        t.identifier('Coin')
+      )
+    )
+  ), true)
+];
+
 
 export const createWasmQueryMethod = (
   context: RenderContext,
@@ -162,43 +222,7 @@ export const createQueryClass = (
         )
       ])
   );
-}
-
-export const CONSTANT_EXEC_PARAMS = [
-  t.assignmentPattern(
-    identifier(
-      'fee',
-      t.tsTypeAnnotation(
-        t.tsUnionType(
-          [
-            t.tSNumberKeyword(),
-            t.tsTypeReference(
-              t.identifier('StdFee')
-            ),
-            t.tsLiteralType(
-              t.stringLiteral('auto')
-            )
-          ]
-        )
-      ),
-      false
-    ),
-    t.stringLiteral('auto')
-  ),
-  identifier('memo', t.tsTypeAnnotation(
-    t.tsStringKeyword()
-  ), true),
-  identifier('funds', t.tsTypeAnnotation(
-    tsTypeOperator(
-      t.tsArrayType(
-        t.tsTypeReference(
-          t.identifier('Coin')
-        )
-      ),
-      'readonly'
-    )
-  ), true)
-];
+};
 
 export const getWasmMethodArgs = (
   context: RenderContext,
@@ -498,35 +522,6 @@ export const createPropertyFunctionWithObjectParams = (
     )
   );
 };
-
-export const FIXED_EXECUTE_PARAMS = [
-  identifier('fee', t.tsTypeAnnotation(
-    t.tsUnionType(
-      [
-        t.tsNumberKeyword(),
-        t.tsTypeReference(
-          t.identifier('StdFee')
-        ),
-        t.tsLiteralType(
-          t.stringLiteral('auto')
-        )
-      ]
-    )
-  ), true),
-  identifier('memo', t.tsTypeAnnotation(
-    t.tsStringKeyword()
-  ), true),
-  identifier('funds', t.tsTypeAnnotation(
-    tsTypeOperator(
-      t.tsArrayType(
-        t.tsTypeReference(
-          t.identifier('Coin')
-        )
-      ),
-      'readonly'
-    )
-  ), true)
-];
 
 export const createPropertyFunctionWithObjectParamsForExec = (
   context: RenderContext,

@@ -1,12 +1,8 @@
-import { importStmt } from './utils'
 import generate from '@babel/generator';
-import * as t from '@babel/types';
-
 import message from './../../../__fixtures__/misc/schema/arrays.json';
 
 import {
     createQueryClass,
-    createQueryInterface,
     createExecuteClass,
     createExecuteInterface,
     createTypeInterface
