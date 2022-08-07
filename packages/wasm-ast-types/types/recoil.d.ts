@@ -1,8 +1,9 @@
 import * as t from '@babel/types';
 import { QueryMsg } from './types';
+import { RenderContext } from './utils/types';
 export declare const createWasmRecoilMethod: (jsonschema: any) => void;
-export declare const createRecoilSelector: (keyPrefix: string, QueryClient: string, methodName: string) => t.ExportNamedDeclaration;
-export declare const createRecoilSelectors: (keyPrefix: string, QueryClient: string, queryMsg: QueryMsg) => any;
+export declare const createRecoilSelector: (context: RenderContext, keyPrefix: string, QueryClient: string, methodName: string) => t.ExportNamedDeclaration;
+export declare const createRecoilSelectors: (context: RenderContext, keyPrefix: string, QueryClient: string, queryMsg: QueryMsg) => any;
 export declare const createRecoilQueryClientType: () => {
     type: string;
     id: {
@@ -27,4 +28,4 @@ export declare const createRecoilQueryClientType: () => {
         }[];
     };
 };
-export declare const createRecoilQueryClient: (keyPrefix: string, QueryClient: string) => t.ExportNamedDeclaration;
+export declare const createRecoilQueryClient: (context: RenderContext, keyPrefix: string, QueryClient: string) => t.ExportNamedDeclaration;
