@@ -9,7 +9,9 @@ import {
     getMessageProperties
 } from '../utils'
 import { ExecuteMsg } from '../types';
-import { RenderContext, createTypedObjectParams, JSONSchema } from '../utils/types';
+import { createTypedObjectParams } from '../utils/types';
+import { JSONSchema } from '../types';
+import { RenderContext } from '../context';
 import { identifier } from '../utils/babel';
 import { getWasmMethodArgs } from '../client/client';
 

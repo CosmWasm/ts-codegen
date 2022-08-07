@@ -163,7 +163,7 @@ export function getPropertySignatureFromProp(
         )
       );
     } else {
-      throw new Error('createTypedObjectParams() contact maintainer');
+      throw new Error('getPropertySignatureFromProp() contact maintainer');
     }
   }
 
