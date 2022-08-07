@@ -11,7 +11,16 @@ import { findAndParseTypes, findExecuteMsg, findQueryMsg, getDefinitionSchema } 
 import { getMessageProperties, ReactQueryOptions } from "wasm-ast-types";
 import { cosmjsAminoImportStatements } from './imports';
 
-export default async (contractName: string, schemas: any[], outPath: string, options?: ReactQueryOptions) => {
+export default async (
+    contractName: string,
+    schemas: any[],
+    outPath: string,
+    reactQueryOptions?: ReactQueryOptions
+) => {
+    const context = new RenderContext(getDefinitionSchema(schemas), {
+        reactQuery: reactQueryOptions ?? {}
+    });
+    const options = context.options.reactQuery;
 
     const ReactQueryFile = pascal(`${contractName}Contract`) + '.react-query.ts';
     const Contract = pascal(`${contractName}Contract`)
@@ -51,10 +60,6 @@ export default async (contractName: string, schemas: any[], outPath: string, opt
     // client imports
     body.push(w.importStmt(clientImports, `./${Contract}`));
 
-
-
-    const context = new RenderContext(getDefinitionSchema(schemas));
-
     // query messages
     if (QueryMsg) {
         [].push.apply(body,
@@ -62,8 +67,7 @@ export default async (contractName: string, schemas: any[], outPath: string, opt
                 context,
                 queryMsg: QueryMsg,
                 contractName: contractName,
-                QueryClient,
-                options
+                QueryClient
             })
         );
     }
@@ -74,8 +78,7 @@ export default async (contractName: string, schemas: any[], outPath: string, opt
                 context,
                 execMsg: ExecuteMsg,
                 contractName: contractName,
-                ExecuteClient,
-                options
+                ExecuteClient
             })
         );
     }

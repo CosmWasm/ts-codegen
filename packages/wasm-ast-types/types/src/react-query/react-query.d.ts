@@ -1,11 +1,7 @@
 import * as t from '@babel/types';
 import { ExecuteMsg, QueryMsg } from '../types';
-import { JSONSchema, RenderContext } from '../utils/types';
-export interface ReactQueryOptions {
-    optionalClient?: boolean;
-    v4?: boolean;
-    mutations?: boolean;
-}
+import { RenderContext } from '../context';
+import { JSONSchema } from '../types';
 interface ReactQueryHookQuery {
     context: RenderContext;
     hookName: string;
@@ -14,17 +10,15 @@ interface ReactQueryHookQuery {
     responseType: string;
     methodName: string;
     jsonschema: any;
-    options?: ReactQueryOptions;
 }
 interface ReactQueryHooks {
     context: RenderContext;
     queryMsg: QueryMsg;
     contractName: string;
     QueryClient: string;
-    options?: ReactQueryOptions;
 }
-export declare const createReactQueryHooks: ({ context, queryMsg, contractName, QueryClient, options }: ReactQueryHooks) => any;
-export declare const createReactQueryHook: ({ context, hookName, hookParamsTypeName, responseType, hookKeyName, methodName, jsonschema, options, }: ReactQueryHookQuery) => t.ExportNamedDeclaration;
+export declare const createReactQueryHooks: ({ context, queryMsg, contractName, QueryClient }: ReactQueryHooks) => any;
+export declare const createReactQueryHook: ({ context, hookName, hookParamsTypeName, responseType, hookKeyName, methodName, jsonschema }: ReactQueryHookQuery) => t.ExportNamedDeclaration;
 interface ReactQueryMutationHookInterface {
     context: RenderContext;
     ExecuteClient: string;
@@ -54,9 +48,8 @@ interface ReactQueryMutationHooks {
     execMsg: ExecuteMsg;
     contractName: string;
     ExecuteClient: string;
-    options?: ReactQueryOptions;
 }
-export declare const createReactQueryMutationHooks: ({ context, execMsg, contractName, ExecuteClient, options }: ReactQueryMutationHooks) => any;
+export declare const createReactQueryMutationHooks: ({ context, execMsg, contractName, ExecuteClient }: ReactQueryMutationHooks) => any;
 interface ReactQueryMutationHook {
     context: RenderContext;
     mutationHookName: string;
@@ -83,7 +76,6 @@ interface ReactQueryHookQueryInterface {
     hookParamsTypeName: string;
     responseType: string;
     jsonschema: any;
-    options?: ReactQueryOptions;
 }
-export declare const createReactQueryHookInterface: ({ context, QueryClient, hookParamsTypeName, responseType, jsonschema, options, }: ReactQueryHookQueryInterface) => t.ExportNamedDeclaration;
+export declare const createReactQueryHookInterface: ({ context, QueryClient, hookParamsTypeName, responseType, jsonschema }: ReactQueryHookQueryInterface) => t.ExportNamedDeclaration;
 export {};

@@ -10,21 +10,10 @@ import {
     shorthandProperty,
     typeRefOrOptionalUnion
 } from '../utils/babel';
-import { getParamsTypeAnnotation, getPropertyType, getTypeFromRef, JSONSchema, RenderContext } from '../utils/types';
+import { getParamsTypeAnnotation, getPropertyType } from '../utils/types';
+import { RenderContext } from '../context';
+import { JSONSchema } from '../types';
 import { FIXED_EXECUTE_PARAMS } from '../client';
-
-// TODO: this mutations boolean is not actually used here and only at a higher level
-export interface ReactQueryOptions {
-    optionalClient?: boolean
-    v4?: boolean
-    mutations?: boolean
-}
-
-const DEFAULT_OPTIONS: ReactQueryOptions = {
-    optionalClient: false,
-    v4: false,
-    mutations: false
-}
 
 interface ReactQueryHookQuery {
     context: RenderContext,
@@ -34,7 +23,6 @@ interface ReactQueryHookQuery {
     responseType: string;
     methodName: string;
     jsonschema: any;
-    options?: ReactQueryOptions;
 }
 
 interface ReactQueryHooks {
@@ -42,18 +30,16 @@ interface ReactQueryHooks {
     queryMsg: QueryMsg;
     contractName: string;
     QueryClient: string;
-    options?: ReactQueryOptions;
 }
 
 export const createReactQueryHooks = ({
     context,
     queryMsg,
     contractName,
-    QueryClient,
-    options = {}
+    QueryClient
 }: ReactQueryHooks) => {
-    // merge the user options with the defaults
-    options = { ...DEFAULT_OPTIONS, ...options }
+    const options = context.options.reactQuery;
+
     return getMessageProperties(queryMsg)
         .reduce((m, schema) => {
             const underscoreName = Object.keys(schema.properties)[0];
@@ -79,8 +65,7 @@ export const createReactQueryHooks = ({
                     hookParamsTypeName,
                     responseType,
                     hookKeyName: getterKey,
-                    jsonschema,
-                    options
+                    jsonschema
                 }),
                 ...m,
             ]
@@ -95,12 +80,9 @@ export const createReactQueryHook = ({
     responseType,
     hookKeyName,
     methodName,
-    jsonschema,
-    options = {},
+    jsonschema
 }: ReactQueryHookQuery) => {
-    // merge the user options with the defaults
-    options = { ...DEFAULT_OPTIONS, ...options }
-
+    const options = context.options.reactQuery;
     const keys = Object.keys(jsonschema.properties ?? {});
     let args = [];
     if (keys.length) {
@@ -287,17 +269,7 @@ export const createReactQueryMutationArgsInterface = ({
         ),
     ]
 
-    let msgType: t.TSTypeAnnotation = getParamsTypeAnnotation(context, jsonschema)
-    // TODO: this should not have to be done manually.
-    if (!msgType && jsonschema?.$ref?.startsWith('#/definitions/')) {
-        let refName = jsonschema?.$ref
-
-        if (/_for_[A-Z]/.test(refName)) {
-            refName = refName.replace(/_for_/, 'For');
-        }
-
-        msgType = t.tsTypeAnnotation(getTypeFromRef(refName))
-    }
+    const msgType: t.TSTypeAnnotation = getParamsTypeAnnotation(context, jsonschema)
 
     if (msgType) {
         body.push(
@@ -341,15 +313,13 @@ interface ReactQueryMutationHooks {
     execMsg: ExecuteMsg;
     contractName: string;
     ExecuteClient: string;
-    options?: ReactQueryOptions;
 }
 
 export const createReactQueryMutationHooks = ({
     context,
     execMsg,
     contractName,
-    ExecuteClient,
-    options = {}
+    ExecuteClient
 }: ReactQueryMutationHooks) => {
     // merge the user options with the defaults
     return getMessageProperties(execMsg)
@@ -511,7 +481,6 @@ interface ReactQueryHookQueryInterface {
     hookParamsTypeName: string;
     responseType: string;
     jsonschema: any;
-    options?: ReactQueryOptions
 }
 
 export const createReactQueryHookInterface = ({
@@ -519,11 +488,10 @@ export const createReactQueryHookInterface = ({
     QueryClient,
     hookParamsTypeName,
     responseType,
-    jsonschema,
-    options = {},
+    jsonschema
 }: ReactQueryHookQueryInterface) => {
     // merge the user options with the defaults
-    options = { ...DEFAULT_OPTIONS, ...options }
+    const options = context.options.reactQuery;
 
     const typedUseQueryOptions = t.tsTypeReference(
         t.identifier('UseQueryOptions'),
@@ -578,7 +546,7 @@ export const createReactQueryHookInterface = ({
         )
     ];
 
-    const props = getProps(context, jsonschema, true);
+    const props = getProps(context, jsonschema);
     if (props.length) {
         body.push(t.tsPropertySignature(
             t.identifier('args'),
@@ -601,8 +569,7 @@ export const createReactQueryHookInterface = ({
 
 const getProps = (
     context: RenderContext,
-    jsonschema: JSONSchema,
-    camelize: boolean
+    jsonschema: JSONSchema
 ) => {
     const keys = Object.keys(jsonschema.properties ?? {});
     if (!keys.length) return [];
@@ -610,7 +577,7 @@ const getProps = (
     return keys.map(prop => {
         const { type, optional } = getPropertyType(context, jsonschema, prop);
         return propertySignature(
-            camelize ? camel(prop) : prop,
+            context.options.reactQuery.camelize ? camel(prop) : prop,
             t.tsTypeAnnotation(
                 type
             ),
@@ -619,7 +586,11 @@ const getProps = (
     });
 }
 
-function generateUseQueryQueryKey(hookKeyName: string, props: string[], optionalClient: boolean): Array<Expression> {
+const generateUseQueryQueryKey = (
+    hookKeyName: string,
+    props: string[],
+    optionalClient: boolean
+): Array<Expression> => {
     const queryKey: Array<Expression> = [
         t.stringLiteral(hookKeyName),
         t.optionalMemberExpression(

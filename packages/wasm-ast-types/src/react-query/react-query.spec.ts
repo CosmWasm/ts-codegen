@@ -25,31 +25,41 @@ it('createReactQueryHooks', () => {
   expectCode(t.program(
     createReactQueryHooks(
       {
-        context: queryCtx,
+        context: new RenderContext(query_msg, {
+          reactQuery: {
+            optionalClient: true
+          }
+        }),
         queryMsg: query_msg,
         contractName: 'Sg721',
-        QueryClient: 'Sg721QueryClient',
-        options: { optionalClient: true }
+        QueryClient: 'Sg721QueryClient'
       }
     )))
   expectCode(t.program(
     createReactQueryHooks(
       {
-        context: queryCtx,
+        context: new RenderContext(query_msg, {
+          reactQuery: {
+            v4: true
+          }
+        }),
         queryMsg: query_msg,
         contractName: 'Sg721',
-        QueryClient: 'Sg721QueryClient',
-        options: { v4: true }
+        QueryClient: 'Sg721QueryClient'
       }
     )))
   expectCode(t.program(
     createReactQueryHooks(
       {
-        context: queryCtx,
+        context: new RenderContext(query_msg, {
+          reactQuery: {
+            optionalClient: true,
+            v4: true
+          }
+        }),
         queryMsg: query_msg,
         contractName: 'Sg721',
-        QueryClient: 'Sg721QueryClient',
-        options: { optionalClient: true, v4: true }
+        QueryClient: 'Sg721QueryClient'
       }
     )))
   expectCode(t.program(

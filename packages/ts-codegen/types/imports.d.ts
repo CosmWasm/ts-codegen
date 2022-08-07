@@ -1,1 +1,1 @@
-export declare const cosmjsAminoImportStatements: (typeHash: any) => import("@babel/types").ImportDeclaration;
+export declare const cosmjsAminoImportStatements: (typeHash: any) => any;

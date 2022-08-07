@@ -5,7 +5,7 @@ import {
   getMessageProperties
 } from '../utils';
 import { QueryMsg } from '../types';
-import { RenderContext } from '../utils/types';
+import { RenderContext } from '../context';
 
 export const createRecoilSelector = (
   context: RenderContext,

@@ -1,5 +1,6 @@
 import * as t from '@babel/types';
 import { QueryMsg } from '../types';
+import { RenderContext } from '../context';
 export declare const createRecoilSelector: (context: RenderContext, keyPrefix: string, QueryClient: string, methodName: string) => t.ExportNamedDeclaration;
 export declare const createRecoilSelectors: (context: RenderContext, keyPrefix: string, QueryClient: string, queryMsg: QueryMsg) => any;
 export declare const createRecoilQueryClientType: () => {
