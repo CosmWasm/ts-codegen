@@ -161,24 +161,24 @@ export interface CW4GroupInterface extends CW4GroupReadOnlyInterface {
     admin
   }: {
     admin?: string;
-  }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
   updateMembers: ({
     add,
     remove
   }: {
     add: Member[];
     remove: string[];
-  }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
   addHook: ({
     addr
   }: {
     addr: string;
-  }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
   removeHook: ({
     addr
   }: {
     addr: string;
-  }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
 }
 export class CW4GroupClient extends CW4GroupQueryClient implements CW4GroupInterface {
   client: SigningCosmWasmClient;
@@ -200,7 +200,7 @@ export class CW4GroupClient extends CW4GroupQueryClient implements CW4GroupInter
     admin
   }: {
     admin?: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_admin: {
         admin
@@ -213,7 +213,7 @@ export class CW4GroupClient extends CW4GroupQueryClient implements CW4GroupInter
   }: {
     add: Member[];
     remove: string[];
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_members: {
         add,
@@ -225,7 +225,7 @@ export class CW4GroupClient extends CW4GroupQueryClient implements CW4GroupInter
     addr
   }: {
     addr: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       add_hook: {
         addr
@@ -236,7 +236,7 @@ export class CW4GroupClient extends CW4GroupQueryClient implements CW4GroupInter
     addr
   }: {
     addr: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       remove_hook: {
         addr

@@ -179,17 +179,17 @@ export interface CwNamedGroupsInterface extends CwNamedGroupsReadOnlyInterface {
     addressesToAdd?: string[];
     addressesToRemove?: string[];
     group: string;
-  }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
   removeGroup: ({
     group
   }: {
     group: string;
-  }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
   updateOwner: ({
     owner
   }: {
     owner: string;
-  }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
 }
 export class CwNamedGroupsClient extends CwNamedGroupsQueryClient implements CwNamedGroupsInterface {
   client: SigningCosmWasmClient;
@@ -214,7 +214,7 @@ export class CwNamedGroupsClient extends CwNamedGroupsQueryClient implements CwN
     addressesToAdd?: string[];
     addressesToRemove?: string[];
     group: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update: {
         addresses_to_add: addressesToAdd,
@@ -227,7 +227,7 @@ export class CwNamedGroupsClient extends CwNamedGroupsQueryClient implements CwN
     group
   }: {
     group: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       remove_group: {
         group
@@ -238,7 +238,7 @@ export class CwNamedGroupsClient extends CwNamedGroupsQueryClient implements CwN
     owner
   }: {
     owner: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_owner: {
         owner

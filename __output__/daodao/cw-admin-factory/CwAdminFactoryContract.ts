@@ -44,7 +44,7 @@ export interface CwAdminFactoryInterface extends CwAdminFactoryReadOnlyInterface
     codeId: number;
     instantiateMsg: Binary;
     label: string;
-  }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
 }
 export class CwAdminFactoryClient extends CwAdminFactoryQueryClient implements CwAdminFactoryInterface {
   client: SigningCosmWasmClient;
@@ -67,7 +67,7 @@ export class CwAdminFactoryClient extends CwAdminFactoryQueryClient implements C
     codeId: number;
     instantiateMsg: Binary;
     label: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       instantiate_contract_with_self_admin: {
         code_id: codeId,

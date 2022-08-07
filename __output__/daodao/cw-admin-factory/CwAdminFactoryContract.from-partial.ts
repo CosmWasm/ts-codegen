@@ -20,7 +20,7 @@ export interface CwAdminFactoryMessage {
     codeId: number;
     instantiateMsg: Binary;
     label: string;
-  }, funds?: readonly Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
 }
 export class CwAdminFactoryMessageComposer implements CwAdminFactoryMessage {
   sender: string;
@@ -40,7 +40,7 @@ export class CwAdminFactoryMessageComposer implements CwAdminFactoryMessage {
     codeId: number;
     instantiateMsg: Binary;
     label: string;
-  }, funds?: readonly Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
