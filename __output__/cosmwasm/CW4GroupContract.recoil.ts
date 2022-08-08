@@ -7,7 +7,7 @@
 import { selectorFamily } from "recoil";
 import { cosmWasmClient } from "./chain";
 import { InstantiateMsg, Member, ExecuteMsg, QueryMsg, QueryResponse, AdminResponse, TotalWeightResponse, MemberListResponse, MemberResponse, HooksResponse } from "./CW4GroupContract";
-import { CW4GroupQueryClient } from "./CW4GroupContract.ts";
+import { CW4GroupQueryClient } from "./CW4GroupContract";
 type QueryClientParams = {
   contractAddress: string;
 };

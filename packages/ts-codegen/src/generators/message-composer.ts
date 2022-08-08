@@ -8,12 +8,22 @@ import { writeFileSync } from 'fs';
 import generate from "@babel/generator";
 import { getMessageProperties } from "wasm-ast-types";
 import { findAndParseTypes, findExecuteMsg, getDefinitionSchema } from "../utils";
-import { RenderContext } from "wasm-ast-types";
+import { RenderContext, MessageComposerOptions } from "wasm-ast-types";
 
-export default async (name: string, schemas: any[], outPath: string) => {
+export default async (
+    name: string,
+    schemas: any[],
+    outPath: string,
+    messageComposerOptions?: MessageComposerOptions
+) => {
 
-    const FromPartialFile = pascal(`${name}Contract`) + '.from-partial.ts';
-    const Contract = pascal(`${name}Contract`) + '.ts';
+    const context = new RenderContext(getDefinitionSchema(schemas), {
+        messageComposer: messageComposerOptions ?? {}
+    });
+    const options = context.options.messageComposer;
+
+    const FromPartialFile = pascal(`${name}Contract`) + '.message-composer.ts';
+    const Contract = pascal(`${name}Contract`);
 
     const ExecuteMsg = findExecuteMsg(schemas);
     const typeHash = await findAndParseTypes(schemas);
@@ -39,8 +49,6 @@ export default async (name: string, schemas: any[], outPath: string) => {
         w.importStmt(Object.keys(typeHash), `./${Contract}`.replace(/\.ts$/, ''))
     );
 
-    const context = new RenderContext(getDefinitionSchema(schemas));
-
     // execute messages
     if (ExecuteMsg) {
         const children = getMessageProperties(ExecuteMsg);
@@ -49,14 +57,14 @@ export default async (name: string, schemas: any[], outPath: string) => {
             const Interface = pascal(`${name}Message`);
 
             body.push(
-                w.createFromPartialInterface(
+                w.createMessageComposerInterface(
                     context,
                     Interface,
                     ExecuteMsg
                 )
             );
             body.push(
-                w.createFromPartialClass(
+                w.createMessageComposerClass(
                     context,
                     TheClass,
                     Interface,

@@ -167,22 +167,22 @@ declare const recoil = (
 ```
 ### Message Composer
 
-Generate pure message objects with the proper `utf8` encoding and `typeUrl` configured that you can broadcast yourself via `cosmjs` with the `from-partial` command.
+Generate pure message objects with the proper `utf8` encoding and `typeUrl` configured that you can broadcast yourself via `cosmjs` with the `message-composer` command.
 
 [see example output code](https://gist.github.com/pyramation/f50869d1ecdb6d6ced2bc0a44c6ff492)
 
 ```sh
-cosmwasm-ts-codegen from-partial \
+cosmwasm-ts-codegen message-composer \
     --schema ./schema \
     --out ./ts \
     --name MyContractName 
 ```
 
-for programmatic usage, you can use the `fromPartial` function:
+for programmatic usage, you can use the `messageComposer` function:
 
 ```ts
-import { fromPartial } from '@cosmwasm/ts-codegen';
-declare const fromPartial = (name: string, schemas: any[], outPath: string) => Promise<void>;
+import { messageComposer } from '@cosmwasm/ts-codegen';
+declare const messageComposer = (name: string, schemas: any[], outPath: string) => Promise<void>;
 ```
 
 ### Example Output
@@ -191,7 +191,7 @@ declare const fromPartial = (name: string, schemas: any[], outPath: string) => P
 
 https://gist.github.com/pyramation/ba67ec56e4e2a39cadea55430f9993e5
 
-- `cosmwasm-ts-codegen from-partial`
+- `cosmwasm-ts-codegen message-composer`
 
 https://gist.github.com/pyramation/f50869d1ecdb6d6ced2bc0a44c6ff492
 

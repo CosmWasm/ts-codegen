@@ -7,7 +7,7 @@
 import { selectorFamily } from "recoil";
 import { cosmWasmClient } from "./chain";
 import { Addr, PaymentInfo, Uint128, ConfigResponse, ExecuteMsg, Binary, Cw20ReceiveMsg, GetRegistrationResponse, Registration, InfoForCodeIdResponse, InstantiateMsg, ListRegistrationsResponse, QueryMsg, ReceiveMsg } from "./CwCodeIdRegistryContract";
-import { CwCodeIdRegistryQueryClient } from "./CwCodeIdRegistryContract.ts";
+import { CwCodeIdRegistryQueryClient } from "./CwCodeIdRegistryContract";
 type QueryClientParams = {
   contractAddress: string;
 };

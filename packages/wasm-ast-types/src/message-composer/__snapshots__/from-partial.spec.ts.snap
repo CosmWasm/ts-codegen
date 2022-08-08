@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`createFromPartialInterface 1`] = `
+exports[`createMessageComposerInterface 1`] = `
 "export interface SG721Message {
   contractAddress: string;
   sender: string;

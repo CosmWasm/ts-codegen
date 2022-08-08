@@ -7,7 +7,7 @@
 import { selectorFamily } from "recoil";
 import { cosmWasmClient } from "./chain";
 import { ExecuteMsg, Binary, InstantiateMsg, QueryMsg } from "./CwAdminFactoryContract";
-import { CwAdminFactoryQueryClient } from "./CwAdminFactoryContract.ts";
+import { CwAdminFactoryQueryClient } from "./CwAdminFactoryContract";
 type QueryClientParams = {
   contractAddress: string;
 };

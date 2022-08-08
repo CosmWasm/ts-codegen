@@ -1,6 +1,6 @@
 import { readSchemas } from '../src/utils';
 import generate from '../src/generators/ts-client';
-import fromPartial from '../src/generators/from-partial';
+import fromPartial from '../src/generators/message-composer';
 import reactQuery from '../src/generators/react-query';
 import recoil from '../src/generators/recoil';
 

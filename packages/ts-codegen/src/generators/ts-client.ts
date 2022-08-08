@@ -16,7 +16,7 @@ export default async (
   name: string,
   schemas: any[],
   outPath: string,
-  tsClientOptions: TsClientOptions
+  tsClientOptions?: TsClientOptions
 ) => {
 
   const context = new RenderContext(getDefinitionSchema(schemas), {
@@ -24,9 +24,7 @@ export default async (
   });
   const options = context.options.reactQuery;
 
-
-  const Contract = pascal(`${name}Contract`) + '.ts';
-
+  const Contract = pascal(`${name}Contract`);
   const QueryMsg = findQueryMsg(schemas);
   const ExecuteMsg = findExecuteMsg(schemas);
   const typeHash = await findAndParseTypes(schemas);

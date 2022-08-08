@@ -7,12 +7,22 @@ import * as t from '@babel/types';
 import { writeFileSync } from 'fs';
 import generate from "@babel/generator";
 import { findAndParseTypes, findQueryMsg, getDefinitionSchema } from "../utils";
-import { RenderContext } from "wasm-ast-types";
+import { RenderContext, RecoilOptions } from "wasm-ast-types";
 
-export default async (name: string, schemas: any[], outPath: string) => {
+export default async (
+  name: string,
+  schemas: any[],
+  outPath: string,
+  recoilOptions?: RecoilOptions
+) => {
+
+  const context = new RenderContext(getDefinitionSchema(schemas), {
+    recoil: recoilOptions ?? {}
+  });
+  const options = context.options.recoil;
 
   const RecoilFile = pascal(`${name}Contract`) + '.recoil.ts';
-  const Contract = pascal(`${name}Contract`) + '.ts';
+  const Contract = pascal(`${name}Contract`);
 
   const QueryMsg = findQueryMsg(schemas);
   const typeHash = await findAndParseTypes(schemas);
@@ -33,8 +43,6 @@ export default async (name: string, schemas: any[], outPath: string) => {
   body.push(
     w.importStmt(Object.keys(typeHash), `./${Contract}`.replace(/\.ts$/, ''))
   );
-
-  const context = new RenderContext(getDefinitionSchema(schemas));
 
 
   // query messages

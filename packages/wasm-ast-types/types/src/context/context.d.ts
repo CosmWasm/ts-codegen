@@ -8,6 +8,10 @@ export interface ReactQueryOptions {
 export interface TSClientOptions {
     aliasExecuteMsg?: boolean;
 }
+export interface MessageComposerOptions {
+}
+export interface RecoilOptions {
+}
 export interface RenderOptions {
     tsClient: TSClientOptions;
     reactQuery: ReactQueryOptions;

@@ -1,6 +1,6 @@
 import { TSClientOptions, ReactQueryOptions, defaultOptions } from "wasm-ast-types";
 
-import fromPartial from '../generators/from-partial';
+import messageComposer from '../generators/message-composer';
 import reactQuery from '../generators/react-query';
 import recoil from '../generators/recoil';
 import tsClient from '../generators/ts-client';
@@ -116,7 +116,7 @@ export class TSBuilder {
         const { enabled, ...options } = this.options.messageComposer;
         if (!enabled) return;
         const schemas = await readSchemas({ schemaDir: contract.dir });
-        await fromPartial(contract.name, schemas, this.outPath, options);
+        await messageComposer(contract.name, schemas, this.outPath, options);
     }
 
     async build() {

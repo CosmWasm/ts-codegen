@@ -15,7 +15,7 @@ import { RenderContext } from '../context';
 import { identifier } from '../utils/babel';
 import { getWasmMethodArgs } from '../client/client';
 
-const createWasmExecMethodPartial = (
+const createWasmExecMethodMessageComposer = (
     context: RenderContext,
     jsonschema: any
 ) => {
@@ -129,7 +129,7 @@ const createWasmExecMethodPartial = (
 
 }
 
-export const createFromPartialClass = (
+export const createMessageComposerClass = (
     context: RenderContext,
     className: string,
     implementsClassName: string,
@@ -146,7 +146,7 @@ export const createFromPartialClass = (
 
     const methods = getMessageProperties(execMsg)
         .map(schema => {
-            return createWasmExecMethodPartial(context, schema)
+            return createWasmExecMethodMessageComposer(context, schema)
         });
 
     const blockStmt = [];
@@ -210,7 +210,7 @@ export const createFromPartialClass = (
     );
 }
 
-export const createFromPartialInterface = (
+export const createMessageComposerInterface = (
     context: RenderContext,
     className: string,
     execMsg: ExecuteMsg
@@ -220,7 +220,7 @@ export const createFromPartialInterface = (
         .map(jsonschema => {
             const underscoreName = Object.keys(jsonschema.properties)[0];
             const methodName = camel(underscoreName);
-            return createPropertyFunctionWithObjectParamsForPartial(
+            return createPropertyFunctionWithObjectParamsForMessageComposer(
                 context,
                 methodName,
                 'MsgExecuteContractEncodeObject',
@@ -261,7 +261,7 @@ export const createFromPartialInterface = (
     );
 };
 
-const createPropertyFunctionWithObjectParamsForPartial = (
+const createPropertyFunctionWithObjectParamsForMessageComposer = (
     context: RenderContext,
     methodName: string,
     responseType: string,

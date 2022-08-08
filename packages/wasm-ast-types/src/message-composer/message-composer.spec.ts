@@ -1,14 +1,14 @@
 import execute_msg from '../../../../__fixtures__/basic/execute_msg_for__empty.json';
 import {
-    createFromPartialClass,
-    createFromPartialInterface
-} from './from-partial'
+    createMessageComposerClass,
+    createMessageComposerInterface
+} from './message-composer'
 import { RenderContext } from '../context';
 import { expectCode } from '../../test-utils';
 
 it('execute classes', () => {
     const ctx = new RenderContext(execute_msg);
-    expectCode(createFromPartialClass(
+    expectCode(createMessageComposerClass(
         ctx,
         'SG721MessageComposer',
         'SG721Message',
@@ -16,9 +16,9 @@ it('execute classes', () => {
     ))
 });
 
-it('createFromPartialInterface', () => {
+it('createMessageComposerInterface', () => {
     const ctx = new RenderContext(execute_msg);
-    expectCode(createFromPartialInterface(
+    expectCode(createMessageComposerInterface(
         ctx,
         'SG721Message',
         execute_msg

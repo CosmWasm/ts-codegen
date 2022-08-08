@@ -7,7 +7,7 @@
 import { selectorFamily } from "recoil";
 import { cosmWasmClient } from "./chain";
 import { Timestamp, Uint64, Uint128, ConfigResponse, Coin, Addr, Config, ExecuteMsg, Decimal, InstantiateMsg, InstantiateMsg1, CollectionInfoForRoyaltyInfoResponse, RoyaltyInfoResponse, QueryMsg } from "./MinterContract";
-import { MinterQueryClient } from "./MinterContract.ts";
+import { MinterQueryClient } from "./MinterContract";
 type QueryClientParams = {
   contractAddress: string;
 };

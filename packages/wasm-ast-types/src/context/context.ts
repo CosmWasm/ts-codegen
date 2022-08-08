@@ -12,6 +12,12 @@ export interface ReactQueryOptions {
 export interface TSClientOptions {
     aliasExecuteMsg?: boolean;
 }
+export interface MessageComposerOptions {
+
+}
+export interface RecoilOptions {
+
+}
 /// END Plugin Types
 
 export interface RenderOptions {
