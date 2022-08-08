@@ -31,13 +31,21 @@ const defaultOpts: TSBuilderOptions = {
     messageComposer: {
         enabled: false
     },
-    bundle: true
+    bundle: {
+        enabled: true,
+        scope: 'contracts'
+    }
 }
 
 export interface TSBuilderInput {
     contracts: Array<ContractFile | string>;
     outPath: string;
     options?: TSBuilderOptions;
+};
+
+export interface BundleOptions {
+    enabled?: boolean;
+    scope?: string;
 };
 
 export interface TSBuilderOptions {
@@ -47,7 +55,7 @@ export interface TSBuilderOptions {
     messageComposer?: { enabled: boolean };
     ///// END PLUGINS
 
-    bundle?: boolean;
+    bundle?: BundleOptions;
 };
 
 export interface BuilderFile {
@@ -143,6 +151,9 @@ export class TSBuilder {
             await this.renderReactQuery(contract);
             await this.renderRecoil(contract);
         }
+        if (this.options.bundle.enabled) {
+            this.bundle();
+        }
     }
 
     async bundle() {
@@ -160,7 +171,7 @@ export class TSBuilder {
 
         allFiles.forEach(file => {
             createFileBundle(
-                `contracts.${file.contract}`,
+                `${this.options.bundle.scope}.${file.contract}`,
                 file.localname,
                 bundleFile,
                 importPaths,

@@ -62,7 +62,6 @@ it('builder invoke', async () => {
         }
     });
     await builder.build();
-    await builder.bundle();
 });
 
 it('builder default', async () => {
@@ -81,10 +80,19 @@ it('builder default', async () => {
         ],
         outPath,
         options: {
+            bundle: {
+                scope: 'smart.contracts'
+            },
             tsClient: {
                 enabled: true
             },
             reactQuery: {
+                enabled: true
+            },
+            recoil: {
+                enabled: true
+            },
+            messageComposer: {
                 enabled: true
             }
         }
