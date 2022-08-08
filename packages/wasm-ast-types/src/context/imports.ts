@@ -1,5 +1,6 @@
 import * as t from '@babel/types';
 import { importAs, importStmt } from "../utils";
+import { RenderContext } from './context';
 
 export interface ImportObj {
   type: 'import' | 'default' | 'namespace';
@@ -8,14 +9,48 @@ export interface ImportObj {
   importAs?: string;
 }
 
+const makeReactQuerySwitch = (varName) => {
+  return (context: RenderContext) => {
+    switch (context.options.reactQuery.version) {
+      case 'v4':
+        return {
+          type: 'import',
+          path: '@tanstack/react-query',
+          name: varName
+        }
+      case 'v3':
+      default:
+        return {
+          type: 'import',
+          path: 'react-query',
+          name: varName
+        }
+    }
+  };
+}
+
 export const UTILS = {
   MsgExecuteContract: 'cosmjs-types/cosmwasm/wasm/v1/tx',
   MsgExecuteContractEncodeObject: 'cosmwasm',
   Coin: '@cosmjs/amino',
   toUtf8: '@cosmjs/encoding',
+  StdFee: '@cosmjs/amino',
+  CosmWasmClient: '@cosmjs/cosmwasm-stargate',
+  ExecuteResult: '@cosmjs/cosmwasm-stargate',
+  SigningCosmWasmClient: '@cosmjs/cosmwasm-stargate',
+
+  // react-query
+  useQuery: makeReactQuerySwitch('useQuery'),
+  UseQueryOptions: makeReactQuerySwitch('UseQueryOptions'),
+  useMutation: makeReactQuerySwitch('useMutation'),
+  UseMutationOptions: makeReactQuerySwitch('UseMutationOptions')
+
 };
 
-export const convertUtilsToImportList = (utils: string[]): ImportObj[] => {
+export const convertUtilsToImportList = (
+  context: RenderContext,
+  utils: string[]
+): ImportObj[] => {
   return utils.map(util => {
     if (!UTILS.hasOwnProperty(util)) throw new Error('missing Util! ::' + util);
     if (typeof UTILS[util] === 'string') {
@@ -24,6 +59,8 @@ export const convertUtilsToImportList = (utils: string[]): ImportObj[] => {
         path: UTILS[util],
         name: util
       };
+    } else if (typeof UTILS[util] === 'function') {
+      return UTILS[util](context),
     } else {
       UTILS[util];
     }

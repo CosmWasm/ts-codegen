@@ -82,6 +82,7 @@ export class RenderContext implements RenderContext {
     getImports() {
         return getImportStatements(
             convertUtilsToImportList(
+                this,
                 Object.keys(this.utils)
             )
         );

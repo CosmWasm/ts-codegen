@@ -7,7 +7,6 @@ import { writeFileSync } from 'fs';
 import generate from "@babel/generator";
 import { clean } from "../utils/clean";
 import { findAndParseTypes, findExecuteMsg, getDefinitionSchema } from '../utils';
-import { cosmjsAminoImportStatements } from '../utils/imports';
 import { RenderContext, TSTypesOptions } from "wasm-ast-types";
 import { BuilderFile } from "../builder";
 
@@ -29,8 +28,6 @@ export default async (
 
   const body = [];
 
-  body.push(cosmjsAminoImportStatements(typeHash));
-
   // TYPES
   Object.values(typeHash).forEach((type: t.Node) => {
     body.push(
@@ -51,8 +48,12 @@ export default async (
     );
   }
 
+  const imports = context.getImports();
   const code = header + generate(
-    t.program(body)
+    t.program([
+      ...imports,
+      ...body
+    ])
   ).code;
 
   mkdirp(outPath);

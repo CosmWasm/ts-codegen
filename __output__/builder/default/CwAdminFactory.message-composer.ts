@@ -4,11 +4,11 @@
 * and run the @cosmwasm/ts-codegen generate command to regenerate this file.
 */
 
-import { ExecuteMsg, Binary, InstantiateMsg, QueryMsg } from "./CwAdminFactory.types";
 import { Coin } from "@cosmjs/amino";
 import { MsgExecuteContractEncodeObject } from "cosmwasm";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
+import { ExecuteMsg, Binary, InstantiateMsg, QueryMsg } from "./CwAdminFactory.types";
 export interface CwAdminFactoryMessage {
   contractAddress: string;
   sender: string;
