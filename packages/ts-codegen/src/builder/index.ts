@@ -1,5 +1,15 @@
 import { TSClientOptions, ReactQueryOptions, defaultOptions } from "wasm-ast-types";
+
+import fromPartial from '../generators/from-partial';
+import reactQuery from '../generators/react-query';
+import recoil from '../generators/recoil';
+import tsClient from '../generators/ts-client';
+
+import { dirname, basename } from 'path';
+import { readSchemas } from '../utils';
+
 import deepmerge from 'deepmerge';
+import { pascal } from "case";
 
 const defaultOpts = {
     tsClient: {
@@ -23,8 +33,10 @@ export interface TSBuilderInput {
 };
 
 export interface TSBuilderOptions {
-    reactQuery?: ReactQueryOptions & { enabled: true };
     tsClient?: TSClientOptions & { enabled: true };
+    reactQuery?: ReactQueryOptions & { enabled: true };
+    recoil?: { enabled: true };
+    messageComposer?: { enabled: true };
 };
 
 export interface BuilderFile {
@@ -56,5 +68,16 @@ export class TSBuilder {
             ),
             options ?? {}
         );
+    }
+
+    build() {
+        this.contractDirs.forEach(schemaDir => {
+            const schemas = readSchemas({ schemaDir });
+            const name = basename(schemaDir);
+            const contractName = pascal(name);
+            console.log({
+                contractName
+            })
+        });
     }
 }
