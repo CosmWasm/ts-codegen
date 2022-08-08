@@ -7,12 +7,24 @@ import * as t from '@babel/types';
 import { writeFileSync } from 'fs';
 import generate from "@babel/generator";
 import { findAndParseTypes, findQueryMsg, getDefinitionSchema } from "../utils";
-import { RenderContext } from "wasm-ast-types";
+import { RenderContext, RecoilOptions } from "wasm-ast-types";
+import { BuilderFile } from "../builder";
 
-export default async (name: string, schemas: any[], outPath: string) => {
+export default async (
+  name: string,
+  schemas: any[],
+  outPath: string,
+  recoilOptions?: RecoilOptions
+): Promise<BuilderFile[]> => {
 
-  const RecoilFile = pascal(`${name}Contract`) + '.recoil.ts';
-  const Contract = pascal(`${name}Contract`) + '.ts';
+  const context = new RenderContext(getDefinitionSchema(schemas), {
+    recoil: recoilOptions ?? {}
+  });
+  const options = context.options.recoil;
+
+  const localname = pascal(name) + '.recoil.ts';
+  const ContractFile = pascal(name) + '.client';
+  const TypesFile = pascal(name) + '.types';
 
   const QueryMsg = findQueryMsg(schemas);
   const typeHash = await findAndParseTypes(schemas);
@@ -31,10 +43,8 @@ export default async (name: string, schemas: any[], outPath: string) => {
   );
 
   body.push(
-    w.importStmt(Object.keys(typeHash), `./${Contract}`.replace(/\.ts$/, ''))
+    w.importStmt(Object.keys(typeHash), `./${TypesFile}`)
   );
-
-  const context = new RenderContext(getDefinitionSchema(schemas));
 
 
   // query messages
@@ -44,7 +54,7 @@ export default async (name: string, schemas: any[], outPath: string) => {
     ReadOnlyInstance = pascal(`${name}ReadOnlyInterface`);
 
     body.push(
-      w.importStmt([QueryClient], `./${Contract}`)
+      w.importStmt([QueryClient], `./${ContractFile}`)
     );
 
     body.push(w.createRecoilQueryClientType());
@@ -65,5 +75,14 @@ export default async (name: string, schemas: any[], outPath: string) => {
   ).code;
 
   mkdirp(outPath);
-  writeFileSync(join(outPath, RecoilFile), code);
+  writeFileSync(join(outPath, localname), code);
+
+  return [
+    {
+      type: 'recoil',
+      contract: name,
+      localname,
+      filename: join(outPath, localname),
+    }
+  ]
 };

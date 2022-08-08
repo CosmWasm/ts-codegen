@@ -3,20 +3,34 @@ import deepmerge from "deepmerge";
 
 /// Plugin Types
 export interface ReactQueryOptions {
+    enabled?: boolean;
     optionalClient?: boolean;
-    v4?: boolean;
+    version?: 'v3' | 'v4';
     mutations?: boolean;
     camelize?: boolean;
 }
 
 export interface TSClientOptions {
+    enabled?: boolean;
+}
+export interface MessageComposerOptions {
+    enabled?: boolean;
+}
+export interface RecoilOptions {
+    enabled?: boolean;
+}
+export interface TSTypesOptions {
+    enabled?: boolean;
     aliasExecuteMsg?: boolean;
 }
-/// END Plugin Types
 
+/// END Plugin Types
 export interface RenderOptions {
-    tsClient: TSClientOptions;
-    reactQuery: ReactQueryOptions;
+    types?: TSTypesOptions;
+    recoil?: RecoilOptions;
+    messageComposer?: MessageComposerOptions;
+    client?: TSClientOptions;
+    reactQuery?: ReactQueryOptions;
 }
 
 export interface RenderContext {
@@ -25,12 +39,23 @@ export interface RenderContext {
 }
 
 export const defaultOptions: RenderOptions = {
-    tsClient: {
+    types: {
+        enabled: true,
         aliasExecuteMsg: false
     },
+    client: {
+        enabled: true
+    },
+    recoil: {
+        enabled: false
+    },
+    messageComposer: {
+        enabled: false
+    },
     reactQuery: {
+        enabled: false,
         optionalClient: false,
-        v4: false,
+        version: 'v3',
         mutations: false,
         camelize: true
     }

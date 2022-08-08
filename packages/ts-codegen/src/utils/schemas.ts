@@ -5,15 +5,23 @@ import { compile } from 'json-schema-to-typescript';
 import { parser } from './parse';
 import { JSONSchema } from 'wasm-ast-types';
 
+interface ReadSchemaOpts {
+    schemaDir: string;
+    schemaOptions?: {
+        packed?: boolean
+    };
+    clean?: boolean;
+};
+
 export const readSchemas = async ({
-    schemaDir, argv, clean = true
-}) => {
+    schemaDir, schemaOptions, clean = true
+}: ReadSchemaOpts) => {
     const fn = clean ? cleanse : (str) => str;
     const files = glob(schemaDir + '/**/*.json');
     const schemas = files
         .map(file => JSON.parse(readFileSync(file, 'utf-8')));
 
-    if (argv.packed) {
+    if (schemaOptions?.packed) {
         if (schemas.length !== 1) {
             throw new Error('packed option only supports one file');
         }

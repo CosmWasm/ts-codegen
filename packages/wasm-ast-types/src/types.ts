@@ -1,5 +1,4 @@
 export declare type fieldType = 'Long' | 'Coin' | 'Duration' | 'Height' | string;
-
 export interface Field {
     name: string;
     type: fieldType;
@@ -43,4 +42,3 @@ export interface JSONSchema {
     title?: string;
     type?: string;
 }
-

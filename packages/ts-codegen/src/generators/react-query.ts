@@ -10,20 +10,23 @@ import generate from "@babel/generator";
 import { findAndParseTypes, findExecuteMsg, findQueryMsg, getDefinitionSchema } from '../utils';
 import { getMessageProperties, ReactQueryOptions } from "wasm-ast-types";
 import { cosmjsAminoImportStatements } from '../utils/imports';
+import { BuilderFile } from "../builder";
 
 export default async (
     contractName: string,
     schemas: any[],
     outPath: string,
     reactQueryOptions?: ReactQueryOptions
-) => {
+): Promise<BuilderFile[]> => {
     const context = new RenderContext(getDefinitionSchema(schemas), {
         reactQuery: reactQueryOptions ?? {}
     });
     const options = context.options.reactQuery;
 
-    const ReactQueryFile = pascal(`${contractName}Contract`) + '.react-query.ts';
-    const Contract = pascal(`${contractName}Contract`)
+    const localname = pascal(`${contractName}`) + '.react-query.ts';
+    const ContractFile = pascal(`${contractName}`) + '.client';
+    const TypesFile = pascal(`${contractName}`) + '.types';
+
 
     const QueryMsg = findQueryMsg(schemas);
     const ExecuteMsg = findExecuteMsg(schemas);
@@ -40,7 +43,7 @@ export default async (
     QueryMsg && clientImports.push(QueryClient)
 
     // check that there are commands within the exec msg
-    const shouldGenerateMutationHooks = ExecuteMsg && options?.v4 && options?.mutations && getMessageProperties(ExecuteMsg).length > 0
+    const shouldGenerateMutationHooks = ExecuteMsg && options?.version === 'v4' && options?.mutations && getMessageProperties(ExecuteMsg).length > 0
 
     if (shouldGenerateMutationHooks) {
         body.push(w.importStmt(['ExecuteResult'], '@cosmjs/cosmwasm-stargate'));
@@ -55,10 +58,10 @@ export default async (
     );
 
     // general contract imports
-    body.push(w.importStmt(Object.keys(typeHash), `./${Contract}`));
+    body.push(w.importStmt(Object.keys(typeHash), `./${TypesFile}`));
 
     // client imports
-    body.push(w.importStmt(clientImports, `./${Contract}`));
+    body.push(w.importStmt(clientImports, `./${ContractFile}`));
 
     // query messages
     if (QueryMsg) {
@@ -90,5 +93,14 @@ export default async (
     ).code;
 
     mkdirp(outPath);
-    writeFileSync(join(outPath, ReactQueryFile), code);
+    writeFileSync(join(outPath, localname), code);
+
+    return [
+        {
+            type: 'react-query',
+            contract: contractName,
+            localname,
+            filename: join(outPath, localname),
+        }
+    ]
 };

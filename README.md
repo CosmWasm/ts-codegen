@@ -27,7 +27,8 @@ The quickest and easiest way to interact with CosmWasm Contracts. `@cosmwasm/ts-
   - [Table of contents](#table-of-contents)
 - [QuickStart](#quickstart)
 - [Usage](#usage)
-    - [Generate TS Clients](#generate)
+    - [TS Types](#types)
+    - [TS Clients](#client)
     - [React Query](#react-query)
     - [Recoil](#recoil)
     - [Message Composer](#message-composer)
@@ -49,7 +50,7 @@ cd stargaze-contracts/contracts/sg721/
 Run `cosmwasm-ts-codegen` to generate your code.
 
 ```sh
-cosmwasm-ts-codegen generate --schema ./schema --out ./ts --name SG721
+cosmwasm-ts-codegen client --schema ./schema --out ./ts --name SG721
 ```
 
 The output will be in the folder specified by `--out`, enjoy!
@@ -61,35 +62,52 @@ Get started quickly using our `cli` by globally installing via npm:
 ```
 npm install -g @cosmwasm/ts-codegen
 ```
-### generate
+### types
 
-Generate a basic TS client for your contracts. The `generate` command will make types which will be essential for your bindings.
-
-This command also generates a `QueryClient` for queries as well as a `Client` for queries and mutations. 
-
-[see example output code](https://gist.github.com/pyramation/ba67ec56e4e2a39cadea55430f9993e5)
-
+Generate the essential TS types for your contracts with the `types` command.
 
 ```sh
-cosmwasm-ts-codegen generate \
+cosmwasm-ts-codegen types \
     --schema ./schema \
     --out ./ts \
     --name MyContractName
  ```
 
-for programmatic usage, you can use the `tsClient` function:
+for programmatic usage, you can use the `tsTypes` function:
 
 ```ts
-import { tsClient } from '@cosmwasm/ts-codegen';
-declare const tsClient = (name: string, schemas: any[], outPath: string, tsClientOptions: TSClientOptions) => Promise<void>;
+import { generateTypes } from '@cosmwasm/ts-codegen';
+declare const generateTypes = (name: string, schemas: any[], outPath: string, tsTypesOptions: TSTypesOptions) => Promise<void>;
 ```
-#### TS Client Options
+#### TS types Options
 
   | option                        | description                                          |
   | ----------------------------- | ---------------------------------------------------  |
-  | `tsClient.aliasExecuteMsg`    | generate a type alias based on the contract name     |
+  | `types.aliasExecuteMsg`     | generate a type alias based on the contract name     |
 
-### react query
+### TS Client
+
+Generate a basic TS client for your contracts. The `client` command will make types which will be essential for your bindings.
+
+This command also generates a `QueryClient` for queries as well as a `Client` for queries and mutations. 
+
+[see example output code](https://gist.github.com/pyramation/ba67ec56e4e2a39cadea55430f9993e5)
+
+```sh
+cosmwasm-ts-codegen client \
+    --schema ./schema \
+    --out ./ts \
+    --name MyContractName
+ ```
+
+for programmatic usage, you can use the `generateClient` function:
+
+```ts
+import { generateClient } from '@cosmwasm/ts-codegen';
+declare const generateClient = (name: string, schemas: any[], outPath: string, tsClientOptions: TSClientOptions) => Promise<void>;
+```
+
+### React Query
 
 Generate [react-query v3](https://react-query-v3.tanstack.com/) or [react-query v4](https://tanstack.com/query/v4/) bindings for your contracts with the `react-query` command.
 
@@ -103,8 +121,8 @@ cosmwasm-ts-codegen react-query \
     --schema ./schema \
     --out ./ts \
     --name MyContractName \
+    --version v3 \
     --no-optionalClient \
-    --no-v4 \
     --no-mutations
 ```
 
@@ -116,15 +134,15 @@ cosmwasm-ts-codegen react-query \
     --out ./ts \
     --name MyContractName \
     --optionalClient \
-    --v4 \
+    --version v4 \
     --mutations
 ```
 
 For programmatic usage, you can use the `reactQuery` function:
 
 ```ts
-import { reactQuery } from '@cosmwasm/ts-codegen';
-declare const reactQuery = (
+import { generateReactQuery } from '@cosmwasm/ts-codegen';
+declare const generateReactQuery = (
   contractName: string,
   schemas: any[],
   outPath: string,
@@ -137,11 +155,11 @@ declare const reactQuery = (
   | option                         | description                                                         |
   | ------------------------------ | ------------------------------------------------------------------- |
   | `reactQuery.optionalClient`    | allows contract client to be undefined as the component renders     |
-  | `reactQuery.v4`                | uses `@tanstack/react-query` and syntax instead of v3 `react-query` |
+  | `reactQuery.version`           | `v4` uses `@tanstack/react-query` and `v3` uses `react-query`       |
   | `reactQuery.mutations`         | also generate mutations                                             |
-  | `reactQuery.camelize`          | use camelCase style for property names                            |
+  | `reactQuery.camelize`          | use camelCase style for property names                              |
 
-### recoil
+### Recoil
 
 Generate [recoil](https://recoiljs.org/) bindings for your contracts with the `recoil` command.
 
@@ -158,8 +176,8 @@ cosmwasm-ts-codegen recoil \
 for programmatic usage, you can use the `recoil` function:
 
 ```ts
-import { recoil } from '@cosmwasm/ts-codegen';
-declare const recoil = (
+import { generateRecoil } from '@cosmwasm/ts-codegen';
+declare const generateRecoil = (
   name: string,
   schemas: any[],
   outPath: string
@@ -167,31 +185,35 @@ declare const recoil = (
 ```
 ### Message Composer
 
-Generate pure message objects with the proper `utf8` encoding and `typeUrl` configured that you can broadcast yourself via `cosmjs` with the `from-partial` command.
+Generate pure message objects with the proper `utf8` encoding and `typeUrl` configured that you can broadcast yourself via `cosmjs` with the `message-composer` command.
 
 [see example output code](https://gist.github.com/pyramation/f50869d1ecdb6d6ced2bc0a44c6ff492)
 
 ```sh
-cosmwasm-ts-codegen from-partial \
+cosmwasm-ts-codegen message-composer \
     --schema ./schema \
     --out ./ts \
     --name MyContractName 
 ```
 
-for programmatic usage, you can use the `fromPartial` function:
+for programmatic usage, you can use the `messageComposer` function:
 
 ```ts
-import { fromPartial } from '@cosmwasm/ts-codegen';
-declare const fromPartial = (name: string, schemas: any[], outPath: string) => Promise<void>;
+import { generateMessageComposer } from '@cosmwasm/ts-codegen';
+declare const generateMessageComposer = (name: string, schemas: any[], outPath: string) => Promise<void>;
 ```
 
 ### Example Output
 
-- `cosmwasm-ts-codegen generate`
+- `cosmwasm-ts-codegen types`
+
+(TODO)
+
+- `cosmwasm-ts-codegen client`
 
 https://gist.github.com/pyramation/ba67ec56e4e2a39cadea55430f9993e5
 
-- `cosmwasm-ts-codegen from-partial`
+- `cosmwasm-ts-codegen message-composer`
 
 https://gist.github.com/pyramation/f50869d1ecdb6d6ced2bc0a44c6ff492
 

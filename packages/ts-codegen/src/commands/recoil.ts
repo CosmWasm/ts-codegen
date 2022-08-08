@@ -1,5 +1,5 @@
 import { prompt } from '../utils/prompt';
-import recoil from '../generators/recoil';
+import generateRecoil from '../generators/recoil';
 import { readSchemas } from '../utils';
 
 export default async (argv) => {
@@ -28,6 +28,6 @@ export default async (argv) => {
     ];
 
     const { schema, out, name } = await prompt(questions, argv);
-    const schemas = await readSchemas({ schemaDir: schema, argv });
-    await recoil(name, schemas, out);
+    const schemas = await readSchemas({ schemaDir: schema, schemaOptions: argv });
+    await generateRecoil(name, schemas, out);
 };

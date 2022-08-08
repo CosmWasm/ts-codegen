@@ -1,12 +1,16 @@
 import { JSONSchema } from "../types";
 export interface ReactQueryOptions {
     optionalClient?: boolean;
-    v4?: boolean;
+    version?: 'v3' | 'v4';
     mutations?: boolean;
     camelize?: boolean;
 }
 export interface TSClientOptions {
     aliasExecuteMsg?: boolean;
+}
+export interface MessageComposerOptions {
+}
+export interface RecoilOptions {
 }
 export interface RenderOptions {
     tsClient: TSClientOptions;
