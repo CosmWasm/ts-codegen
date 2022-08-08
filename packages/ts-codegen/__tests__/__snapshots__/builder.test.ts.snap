@@ -2,9 +2,6 @@
 
 exports[`options tsClient.enabled 1`] = `
 TSBuilder {
-  "contracts": Array [
-    "/Users/pyramation/code/cosmwasm/ts-codegen/packages/ts-codegen/__tests__/../../../__fixtures__/vectis/factory/",
-  ],
   "files": Array [],
   "options": Object {
     "bundle": Object {
@@ -39,9 +36,6 @@ TSBuilder {
 
 exports[`options undefined 1`] = `
 TSBuilder {
-  "contracts": Array [
-    "/Users/pyramation/code/cosmwasm/ts-codegen/packages/ts-codegen/__tests__/../../../__fixtures__/vectis/factory/",
-  ],
   "files": Array [],
   "options": Object {
     "bundle": Object {

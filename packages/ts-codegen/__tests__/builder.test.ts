@@ -14,6 +14,7 @@ it('options undefined', async () => {
         outPath,
         options: undefined
     });
+    delete builder.contracts;
     expect(builder).toMatchSnapshot();
 });
 
@@ -37,6 +38,7 @@ it('options tsClient.enabled', async () => {
             }
         }
     });
+    delete builder.contracts;
     expect(builder).toMatchSnapshot();
 });
 
