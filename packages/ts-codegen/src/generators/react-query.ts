@@ -23,8 +23,10 @@ export default async (
     });
     const options = context.options.reactQuery;
 
-    const ReactQueryFile = pascal(`${contractName}Contract`) + '.react-query.ts';
-    const Contract = pascal(`${contractName}Contract`)
+    const localname = pascal(`${contractName}`) + '.react-query.ts';
+    const ContractFile = pascal(`${contractName}`) + '.client';
+    const TypesFile = pascal(`${contractName}`) + '.types';
+
 
     const QueryMsg = findQueryMsg(schemas);
     const ExecuteMsg = findExecuteMsg(schemas);
@@ -56,10 +58,10 @@ export default async (
     );
 
     // general contract imports
-    body.push(w.importStmt(Object.keys(typeHash), `./${Contract}`));
+    body.push(w.importStmt(Object.keys(typeHash), `./${TypesFile}`));
 
     // client imports
-    body.push(w.importStmt(clientImports, `./${Contract}`));
+    body.push(w.importStmt(clientImports, `./${ContractFile}`));
 
     // query messages
     if (QueryMsg) {
@@ -91,13 +93,14 @@ export default async (
     ).code;
 
     mkdirp(outPath);
-    writeFileSync(join(outPath, ReactQueryFile), code);
+    writeFileSync(join(outPath, localname), code);
 
     return [
         {
+            type: 'react-query',
             contract: contractName,
-            localname: ReactQueryFile,
-            filename: join(outPath, ReactQueryFile),
+            localname,
+            filename: join(outPath, localname),
         }
     ]
 };

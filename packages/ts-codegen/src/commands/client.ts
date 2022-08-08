@@ -1,5 +1,5 @@
 import { prompt } from '../utils/prompt';
-import generateRecoil from '../generators/recoil';
+import generateClient from '../generators/client';
 import { readSchemas } from '../utils';
 
 export default async (argv) => {
@@ -29,5 +29,5 @@ export default async (argv) => {
 
     const { schema, out, name } = await prompt(questions, argv);
     const schemas = await readSchemas({ schemaDir: schema, schemaOptions: argv });
-    await generateRecoil(name, schemas, out);
+    await generateClient(name, schemas, out);
 };

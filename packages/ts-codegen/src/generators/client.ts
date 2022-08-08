@@ -6,7 +6,6 @@ import * as w from 'wasm-ast-types';
 import * as t from '@babel/types';
 import { writeFileSync } from 'fs';
 import generate from "@babel/generator";
-import { clean } from "../utils/clean";
 import { getMessageProperties } from "wasm-ast-types";
 import { findAndParseTypes, findExecuteMsg, findQueryMsg, getDefinitionSchema } from '../utils';
 import { cosmjsAminoImportStatements } from '../utils/imports';
@@ -23,9 +22,10 @@ export default async (
   const context = new RenderContext(getDefinitionSchema(schemas), {
     tsClient: tsClientOptions ?? {}
   });
-  const options = context.options.reactQuery;
+  const options = context.options.tsClient;
 
-  const Contract = pascal(`${name}Contract`) + '.ts';
+  const localname = pascal(name) + '.client.ts';
+  const TypesFile = pascal(name) + '.types'
   const QueryMsg = findQueryMsg(schemas);
   const ExecuteMsg = findExecuteMsg(schemas);
   const typeHash = await findAndParseTypes(schemas);
@@ -42,25 +42,9 @@ export default async (
 
   body.push(cosmjsAminoImportStatements(typeHash));
 
-  // TYPES
-  Object.values(typeHash).forEach((type: t.Node) => {
-    body.push(
-      clean(type)
-    )
-  });
-
-  // alias the ExecuteMsg
-  if (options.aliasExecuteMsg && ExecuteMsg) {
-    body.push(
-      t.exportNamedDeclaration(
-        t.tsTypeAliasDeclaration(
-          t.identifier(`${name}ExecuteMsg`),
-          null,
-          t.tsTypeReference(t.identifier('ExecuteMsg'))
-        )
-      )
-    );
-  }
+  body.push(
+    w.importStmt(Object.keys(typeHash), `./${TypesFile}`)
+  );
 
   // query messages
   if (QueryMsg) {
@@ -108,13 +92,14 @@ export default async (
   ).code;
 
   mkdirp(outPath);
-  writeFileSync(join(outPath, Contract), code);
+  writeFileSync(join(outPath, localname), code);
 
   return [
     {
+      type: 'client',
       contract: name,
-      localname: Contract,
-      filename: join(outPath, Contract),
+      localname,
+      filename: join(outPath, localname),
     }
   ]
 };

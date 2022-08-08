@@ -5,12 +5,15 @@ TSBuilder {
   "contracts": Array [
     "/Users/pyramation/code/cosmwasm/ts-codegen/packages/ts-codegen/__tests__/../../../__fixtures__/vectis/factory/",
   ],
-  "messageComposerFiles": Array [],
+  "files": Array [],
   "options": Object {
     "bundle": Object {
       "bundleFile": "bundle.ts",
       "enabled": true,
       "scope": "contracts",
+    },
+    "client": Object {
+      "enabled": true,
     },
     "messageComposer": Object {
       "enabled": false,
@@ -26,15 +29,14 @@ TSBuilder {
       "enabled": false,
     },
     "tsClient": Object {
+      "enabled": true,
+    },
+    "types": Object {
       "aliasExecuteMsg": false,
       "enabled": true,
     },
   },
   "outPath": "/Users/pyramation/code/cosmwasm/ts-codegen/packages/ts-codegen/__tests__/../../../__output__/builder/vectis/factory-opt",
-  "reactQueryFiles": Array [],
-  "recoilFiles": Array [],
-  "tsClientFiles": Array [],
-  "typesOnly": undefined,
 }
 `;
 
@@ -43,12 +45,15 @@ TSBuilder {
   "contracts": Array [
     "/Users/pyramation/code/cosmwasm/ts-codegen/packages/ts-codegen/__tests__/../../../__fixtures__/vectis/factory/",
   ],
-  "messageComposerFiles": Array [],
+  "files": Array [],
   "options": Object {
     "bundle": Object {
       "bundleFile": "bundle.ts",
       "enabled": true,
       "scope": "contracts",
+    },
+    "client": Object {
+      "enabled": true,
     },
     "messageComposer": Object {
       "enabled": false,
@@ -63,15 +68,11 @@ TSBuilder {
     "recoil": Object {
       "enabled": false,
     },
-    "tsClient": Object {
+    "types": Object {
       "aliasExecuteMsg": false,
       "enabled": true,
     },
   },
   "outPath": "/Users/pyramation/code/cosmwasm/ts-codegen/packages/ts-codegen/__tests__/../../../__output__/builder/vectis/factory-opt",
-  "reactQueryFiles": Array [],
-  "recoilFiles": Array [],
-  "tsClientFiles": Array [],
-  "typesOnly": undefined,
 }
 `;

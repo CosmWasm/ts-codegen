@@ -1,12 +1,15 @@
-import { TSClientOptions, ReactQueryOptions, defaultOptions } from "wasm-ast-types";
+import { RenderOptions, defaultOptions } from "wasm-ast-types";
+
 import { header } from '../utils/header';
 import { join } from "path";
 import { writeFileSync } from 'fs';
 import { sync as mkdirp } from "mkdirp";
-import messageComposer from '../generators/message-composer';
-import reactQuery from '../generators/react-query';
-import recoil from '../generators/recoil';
-import tsClient from '../generators/ts-client';
+
+import generateMessageComposer from '../generators/message-composer';
+import generateTypes from '../generators/types';
+import generateReactQuery from '../generators/react-query';
+import generateRecoil from '../generators/recoil';
+import generateClient from '../generators/client';
 
 import { basename } from 'path';
 import { readSchemas } from '../utils';
@@ -19,18 +22,6 @@ import generate from '@babel/generator';
 import * as t from '@babel/types';
 
 const defaultOpts: TSBuilderOptions = {
-    tsClient: {
-        enabled: true
-    },
-    recoil: {
-        enabled: false
-    },
-    reactQuery: {
-        enabled: false
-    },
-    messageComposer: {
-        enabled: false
-    },
     bundle: {
         enabled: true,
         scope: 'contracts',
@@ -50,17 +41,12 @@ export interface BundleOptions {
     bundleFile?: string;
 };
 
-export interface TSBuilderOptions {
-    tsClient?: TSClientOptions & { enabled: boolean };
-    reactQuery?: ReactQueryOptions & { enabled: boolean };
-    recoil?: { enabled: boolean };
-    messageComposer?: { enabled: boolean };
-    ///// END PLUGINS
-
+export type TSBuilderOptions = {
     bundle?: BundleOptions;
-};
+} & RenderOptions;
 
 export interface BuilderFile {
+    type: 'type' | 'client' | 'recoil' | 'react-query' | 'message-composer';
     contract: string;
     localname: string;
     filename: string;
@@ -75,13 +61,7 @@ export class TSBuilder {
     outPath: string;
     options?: TSBuilderOptions;
 
-    // TODO: separate types
-    typesOnly?: boolean;
-
-    protected tsClientFiles: BuilderFile[] = [];
-    protected recoilFiles: BuilderFile[] = [];
-    protected reactQueryFiles: BuilderFile[] = [];
-    protected messageComposerFiles: BuilderFile[] = [];
+    protected files: BuilderFile[] = [];
 
     constructor({ contracts, outPath, options }: TSBuilderInput) {
         this.contracts = contracts;
@@ -112,43 +92,52 @@ export class TSBuilder {
         });
     }
 
-    async renderTsClient(contract: ContractFile) {
-        const { enabled, ...options } = this.options.tsClient;
+    async renderTypes(contract: ContractFile) {
+        const { enabled, ...options } = this.options.types;
         if (!enabled) return;
         const schemas = await readSchemas({ schemaDir: contract.dir });
-        const files = await tsClient(contract.name, schemas, this.outPath, options);
-        [].push.apply(this.tsClientFiles, files);
+        const files = await generateTypes(contract.name, schemas, this.outPath, options);
+        [].push.apply(this.files, files);
+    }
+
+    async renderClient(contract: ContractFile) {
+        const { enabled, ...options } = this.options.client;
+        if (!enabled) return;
+        const schemas = await readSchemas({ schemaDir: contract.dir });
+        const files = await generateClient(contract.name, schemas, this.outPath, options);
+        [].push.apply(this.files, files);
     }
 
     async renderRecoil(contract: ContractFile) {
         const { enabled, ...options } = this.options.recoil;
         if (!enabled) return;
         const schemas = await readSchemas({ schemaDir: contract.dir });
-        const files = await recoil(contract.name, schemas, this.outPath, options);
-        [].push.apply(this.recoilFiles, files);
+        const files = await generateRecoil(contract.name, schemas, this.outPath, options);
+        [].push.apply(this.files, files);
     }
 
     async renderReactQuery(contract: ContractFile) {
         const { enabled, ...options } = this.options.reactQuery;
         if (!enabled) return;
         const schemas = await readSchemas({ schemaDir: contract.dir });
-        const files = await reactQuery(contract.name, schemas, this.outPath, options);
-        [].push.apply(this.reactQueryFiles, files);
+        const files = await generateReactQuery(contract.name, schemas, this.outPath, options);
+        [].push.apply(this.files, files);
     }
 
     async renderMessageComposer(contract: ContractFile) {
         const { enabled, ...options } = this.options.messageComposer;
         if (!enabled) return;
         const schemas = await readSchemas({ schemaDir: contract.dir });
-        const files = await messageComposer(contract.name, schemas, this.outPath, options);
-        [].push.apply(this.messageComposerFiles, files);
+        const files = await generateMessageComposer(contract.name, schemas, this.outPath, options);
+        [].push.apply(this.files, files);
     }
 
     async build() {
         const contracts = this.getContracts();
         for (let c = 0; c < contracts.length; c++) {
             const contract = contracts[c];
-            await this.renderTsClient(contract);
+            await this.renderTypes(contract);
+            await this.renderClient(contract);
             await this.renderMessageComposer(contract);
             await this.renderReactQuery(contract);
             await this.renderRecoil(contract);
@@ -160,12 +149,7 @@ export class TSBuilder {
 
     async bundle() {
 
-        const allFiles = [
-            ...this.reactQueryFiles,
-            ...this.recoilFiles,
-            ...this.tsClientFiles,
-            ...this.messageComposerFiles
-        ];
+        const allFiles = this.files;
 
         const bundleFile = this.options.bundle.bundleFile;
         const bundleVariables = {};

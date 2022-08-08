@@ -23,8 +23,9 @@ export default async (
     });
     const options = context.options.messageComposer;
 
-    const MessageComposerFile = pascal(`${name}Contract`) + '.message-composer.ts';
-    const Contract = pascal(`${name}Contract`);
+    const localname = pascal(name) + '.message-composer.ts';
+    const ContractFile = pascal(name) + '.client';
+    const TypesFile = pascal(name) + '.types';
 
     const ExecuteMsg = findExecuteMsg(schemas);
     const typeHash = await findAndParseTypes(schemas);
@@ -47,7 +48,7 @@ export default async (
         );
     }
     body.push(
-        w.importStmt(Object.keys(typeHash), `./${Contract}`.replace(/\.ts$/, ''))
+        w.importStmt(Object.keys(typeHash), `./${TypesFile}`)
     );
 
     // execute messages
@@ -80,13 +81,14 @@ export default async (
     ).code;
 
     mkdirp(outPath);
-    writeFileSync(join(outPath, MessageComposerFile), code);
+    writeFileSync(join(outPath, localname), code);
 
     return [
         {
+            type: 'message-composer',
             contract: name,
-            localname: MessageComposerFile,
-            filename: join(outPath, MessageComposerFile),
+            localname,
+            filename: join(outPath, localname),
         }
     ]
 };

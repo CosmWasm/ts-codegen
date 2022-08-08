@@ -22,8 +22,9 @@ export default async (
   });
   const options = context.options.recoil;
 
-  const RecoilFile = pascal(`${name}Contract`) + '.recoil.ts';
-  const Contract = pascal(`${name}Contract`);
+  const localname = pascal(name) + '.recoil.ts';
+  const ContractFile = pascal(name) + '.client';
+  const TypesFile = pascal(name) + '.types';
 
   const QueryMsg = findQueryMsg(schemas);
   const typeHash = await findAndParseTypes(schemas);
@@ -42,7 +43,7 @@ export default async (
   );
 
   body.push(
-    w.importStmt(Object.keys(typeHash), `./${Contract}`.replace(/\.ts$/, ''))
+    w.importStmt(Object.keys(typeHash), `./${TypesFile}`)
   );
 
 
@@ -53,7 +54,7 @@ export default async (
     ReadOnlyInstance = pascal(`${name}ReadOnlyInterface`);
 
     body.push(
-      w.importStmt([QueryClient], `./${Contract}`)
+      w.importStmt([QueryClient], `./${ContractFile}`)
     );
 
     body.push(w.createRecoilQueryClientType());
@@ -74,13 +75,14 @@ export default async (
   ).code;
 
   mkdirp(outPath);
-  writeFileSync(join(outPath, RecoilFile), code);
+  writeFileSync(join(outPath, localname), code);
 
   return [
     {
+      type: 'recoil',
       contract: name,
-      localname: RecoilFile,
-      filename: join(outPath, RecoilFile),
+      localname,
+      filename: join(outPath, localname),
     }
   ]
 };

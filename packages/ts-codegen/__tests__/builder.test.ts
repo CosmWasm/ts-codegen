@@ -26,6 +26,9 @@ it('options tsClient.enabled', async () => {
         ],
         outPath,
         options: {
+            types: {
+                enabled: true
+            },
             tsClient: {
                 enabled: true
             },
@@ -53,6 +56,9 @@ it('builder invoke', async () => {
         ],
         outPath,
         options: {
+            types: {
+                enabled: true
+            },
             tsClient: {
                 enabled: true
             },
@@ -83,6 +89,9 @@ it('builder default', async () => {
             bundle: {
                 bundleFile: 'index.ts',
                 scope: 'smart.contracts'
+            },
+            types: {
+                enabled: true
             },
             tsClient: {
                 enabled: true

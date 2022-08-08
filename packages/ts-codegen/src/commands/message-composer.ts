@@ -1,5 +1,5 @@
 import { prompt } from '../utils/prompt';
-import messageComposer from '../generators/message-composer';
+import generateMessageComposer from '../generators/message-composer';
 import { readSchemas } from '../utils';
 
 export default async (argv) => {
@@ -29,5 +29,5 @@ export default async (argv) => {
 
     const { schema, out, name } = await prompt(questions, argv);
     const schemas = await readSchemas({ schemaDir: schema, schemaOptions: argv });
-    await messageComposer(name, schemas, out);
+    await generateMessageComposer(name, schemas, out);
 };
