@@ -81,8 +81,13 @@ for programmatic usage, you can use the `tsClient` function:
 
 ```ts
 import { tsClient } from '@cosmwasm/ts-codegen';
-declare const tsClient = (name: string, schemas: any[], outPath: string) => Promise<void>;
+declare const tsClient = (name: string, schemas: any[], outPath: string, tsClientOptions: TSClientOptions) => Promise<void>;
 ```
+#### TS Client Options
+
+  | option                        | description                                          |
+  | ----------------------------- | ---------------------------------------------------  |
+  | `tsClient.aliasExecuteMsg`    | generate a type alias based on the contract name     |
 
 ### react query
 

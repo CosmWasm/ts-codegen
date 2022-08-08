@@ -5,7 +5,11 @@ export interface ReactQueryOptions {
     mutations?: boolean;
     camelize?: boolean;
 }
+export interface TSClientOptions {
+    aliasExecuteMsg?: boolean;
+}
 export interface RenderOptions {
+    tsClient: TSClientOptions;
     reactQuery: ReactQueryOptions;
 }
 export interface RenderContext {
