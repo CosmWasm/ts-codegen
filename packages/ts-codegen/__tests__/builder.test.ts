@@ -29,7 +29,7 @@ it('options tsClient.enabled', async () => {
             types: {
                 enabled: true
             },
-            tsClient: {
+            client: {
                 enabled: true
             },
             reactQuery: {
@@ -59,7 +59,7 @@ it('builder invoke', async () => {
             types: {
                 enabled: true
             },
-            tsClient: {
+            client: {
                 enabled: true
             },
             reactQuery: {
@@ -93,7 +93,7 @@ it('builder default', async () => {
             types: {
                 enabled: true
             },
-            tsClient: {
+            client: {
                 enabled: true
             },
             reactQuery: {

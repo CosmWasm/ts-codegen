@@ -28,9 +28,6 @@ TSBuilder {
     "recoil": Object {
       "enabled": false,
     },
-    "tsClient": Object {
-      "enabled": true,
-    },
     "types": Object {
       "aliasExecuteMsg": false,
       "enabled": true,
