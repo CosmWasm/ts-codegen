@@ -42,6 +42,7 @@ it('builder invoke', async () => {
     const builder = new TSBuilder({
         contracts: [
             s('/vectis/factory'),
+            s('/minter'),
             s('/daodao/cw-admin-factory'),
             s('/daodao/cw-code-id-registry'),
             {
@@ -60,4 +61,5 @@ it('builder invoke', async () => {
         }
     });
     await builder.build();
+    await builder.bundle();
 });
