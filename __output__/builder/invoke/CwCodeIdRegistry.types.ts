@@ -4,7 +4,6 @@
 * and run the @cosmwasm/ts-codegen generate command to regenerate this file.
 */
 
-import { Coin, StdFee } from "@cosmjs/amino";
 export type Addr = string;
 export type PaymentInfo = {
   none: {};

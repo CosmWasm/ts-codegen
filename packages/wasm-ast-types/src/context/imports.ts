@@ -34,6 +34,7 @@ export const UTILS = {
   MsgExecuteContractEncodeObject: 'cosmwasm',
   Coin: '@cosmjs/amino',
   toUtf8: '@cosmjs/encoding',
+  selectorFamily: 'recoil',
   StdFee: '@cosmjs/amino',
   CosmWasmClient: '@cosmjs/cosmwasm-stargate',
   ExecuteResult: '@cosmjs/cosmwasm-stargate',
@@ -52,7 +53,7 @@ export const convertUtilsToImportList = (
   utils: string[]
 ): ImportObj[] => {
   return utils.map(util => {
-    if (!UTILS.hasOwnProperty(util)) throw new Error('missing Util! ::' + util);
+    if (!UTILS.hasOwnProperty(util)) throw new Error(`missing Util! ::[${util}]`);
     if (typeof UTILS[util] === 'string') {
       return {
         type: 'import',
@@ -60,7 +61,7 @@ export const convertUtilsToImportList = (
         name: util
       };
     } else if (typeof UTILS[util] === 'function') {
-      return UTILS[util](context),
+      return UTILS[util](context);
     } else {
       UTILS[util];
     }

@@ -75,6 +75,9 @@ export default async (
     );
   }
 
+  if (typeHash.hasOwnProperty('Coin')) {
+    delete context.utils.Coin;
+  }
   const imports = context.getImports();
   const code = header + generate(
     t.program([

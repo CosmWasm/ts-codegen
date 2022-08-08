@@ -37,4 +37,5 @@ export declare class RenderContext implements RenderContext {
     constructor(schema: JSONSchema, options?: RenderOptions);
     refLookup($ref: string): JSONSchema;
     addUtil(util: string): void;
+    getImports(): any[];
 }

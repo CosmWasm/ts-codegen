@@ -1,7 +1,11 @@
-export { default as tsClient } from './generators/ts-client';
-export { default as messageComposer } from './generators/message-composer';
-export { default as reactQuery } from './generators/react-query';
-export { default as recoil } from './generators/recoil';
+import { TSBuilderInput } from './builder';
+export { default as generateTypes } from './generators/types';
+export { default as generateClient } from './generators/client';
+export { default as generateMessageComposer } from './generators/message-composer';
+export { default as generateReactQuery } from './generators/react-query';
+export { default as generateRecoil } from './generators/recoil';
 export * from './utils';
-export * from './utils/imports';
 export * from './builder';
+export * from './bundler';
+declare const _default: (input: TSBuilderInput) => Promise<void>;
+export default _default;

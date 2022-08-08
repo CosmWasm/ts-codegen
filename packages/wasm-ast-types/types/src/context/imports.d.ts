@@ -1,3 +1,4 @@
+import { RenderContext } from './context';
 export interface ImportObj {
     type: 'import' | 'default' | 'namespace';
     name: string;
@@ -5,14 +6,34 @@ export interface ImportObj {
     importAs?: string;
 }
 export declare const UTILS: {
-    Registry: string;
-    SigningStargateClient: string;
+    MsgExecuteContract: string;
+    MsgExecuteContractEncodeObject: string;
+    Coin: string;
     toUtf8: string;
-    _m0: {
+    StdFee: string;
+    CosmWasmClient: string;
+    ExecuteResult: string;
+    SigningCosmWasmClient: string;
+    useQuery: (context: RenderContext) => {
         type: string;
         path: string;
-        name: string;
+        name: any;
+    };
+    UseQueryOptions: (context: RenderContext) => {
+        type: string;
+        path: string;
+        name: any;
+    };
+    useMutation: (context: RenderContext) => {
+        type: string;
+        path: string;
+        name: any;
+    };
+    UseMutationOptions: (context: RenderContext) => {
+        type: string;
+        path: string;
+        name: any;
     };
 };
-export declare const convertUtilsToImportList: (utils: any) => ImportObj[];
+export declare const convertUtilsToImportList: (context: RenderContext, utils: string[]) => ImportObj[];
 export declare const getImportStatements: (list: ImportObj[]) => any[];
