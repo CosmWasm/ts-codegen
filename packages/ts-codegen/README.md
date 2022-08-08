@@ -113,7 +113,7 @@ await codgen({
     messageComposer: {
         enabled: false
     }
-}
+  }
 });
 ```
 #### Types 
