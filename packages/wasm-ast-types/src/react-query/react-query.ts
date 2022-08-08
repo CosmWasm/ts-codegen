@@ -82,6 +82,10 @@ export const createReactQueryHook = ({
     methodName,
     jsonschema
 }: ReactQueryHookQuery) => {
+
+    context.addUtil('useQuery');
+    context.addUtil('UseQueryOptions');
+
     const options = context.options.reactQuery;
     const keys = Object.keys(jsonschema.properties ?? {});
     let args = [];
@@ -341,7 +345,10 @@ export const createReactQueryMutationHooks = ({
             const hasMsg = !!(Object.keys(properties)?.length || jsonschema?.$ref)
 
             // <ExecuteResult, Error, Cw4UpdateMembersMutation>
-            const useMutationTypeParameter = generateMutationTypeParameter(mutationHookParamsTypeName, hasMsg)
+            const useMutationTypeParameter = generateMutationTypeParameter(
+                context,
+                mutationHookParamsTypeName
+            );
 
 
             return [
@@ -368,7 +375,13 @@ export const createReactQueryMutationHooks = ({
 /**
  * Generates the mutation type parameter. If args exist, we use a pick. If not, we just return the params type.
  */
-function generateMutationTypeParameter(mutationHookParamsTypeName: string, hasArgs: boolean) {
+const generateMutationTypeParameter = (
+    context: RenderContext,
+    mutationHookParamsTypeName: string
+) => {
+
+    context.addUtil('ExecuteResult');
+
     return t.tsTypeParameterInstantiation([
         // Data
         t.tSTypeReference(
@@ -414,6 +427,9 @@ export const createReactQueryMutationHook = ({
     useMutationTypeParameter,
     hasMsg,
 }: ReactQueryMutationHook) => {
+
+    context.addUtil('useMutation');
+    context.addUtil('UseMutationOptions');
 
     const useMutationFunctionArgs = [shorthandProperty('client')]
     if (hasMsg) useMutationFunctionArgs.push(shorthandProperty('msg'))
@@ -492,6 +508,8 @@ export const createReactQueryHookInterface = ({
 }: ReactQueryHookQueryInterface) => {
     // merge the user options with the defaults
     const options = context.options.reactQuery;
+
+    context.addUtil('UseQueryOptions');
 
     const typedUseQueryOptions = t.tsTypeReference(
         t.identifier('UseQueryOptions'),

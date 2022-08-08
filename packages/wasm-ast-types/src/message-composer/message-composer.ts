@@ -20,6 +20,11 @@ const createWasmExecMethodMessageComposer = (
     jsonschema: any
 ) => {
 
+    context.addUtil('Coin');
+    context.addUtil('MsgExecuteContractEncodeObject');
+    context.addUtil('MsgExecuteContract');
+    context.addUtil('toUtf8');
+
     const underscoreName = Object.keys(jsonschema.properties)[0];
     const methodName = camel(underscoreName);
     const obj = createTypedObjectParams(context, jsonschema.properties[underscoreName]);

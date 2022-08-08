@@ -1,4 +1,5 @@
 import { JSONSchema } from "../types";
+import { convertUtilsToImportList, getImportStatements } from "./imports";
 import deepmerge from "deepmerge";
 
 /// Plugin Types
@@ -63,6 +64,7 @@ export const defaultOptions: RenderOptions = {
 
 export class RenderContext implements RenderContext {
     schema: JSONSchema;
+    utils: string[] = [];
     constructor(
         schema: JSONSchema,
         options?: RenderOptions
@@ -73,5 +75,15 @@ export class RenderContext implements RenderContext {
     refLookup($ref: string) {
         const refName = $ref.replace('#/definitions/', '')
         return this.schema.definitions?.[refName];
+    }
+    addUtil(util: string) {
+        this.utils[util] = true;
+    }
+    getImports() {
+        return getImportStatements(
+            convertUtilsToImportList(
+                Object.keys(this.utils)
+            )
+        );
     }
 }

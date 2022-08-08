@@ -31,6 +31,7 @@ export declare const FieldTypeAsts: {
 };
 export declare const shorthandProperty: (prop: string) => t.ObjectProperty;
 export declare const importStmt: (names: string[], path: string) => t.ImportDeclaration;
+export declare const importAs: (name: string, importAs: string, importPath: string) => t.ImportDeclaration;
 export declare const importAminoMsg: () => t.ImportDeclaration;
 export declare const getFieldDimensionality: (field: Field) => {
     typeName: string;

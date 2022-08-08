@@ -197,6 +197,18 @@ export const importStmt = (names: string[], path: string) => {
         t.stringLiteral(path));
 };
 
+export const importAs = (name: string, importAs: string, importPath: string) => {
+    return t.importDeclaration(
+        [
+            t.importSpecifier(
+                t.identifier(importAs),
+                t.identifier(name)
+            )
+        ],
+        t.stringLiteral(importPath)
+    )
+};
+
 export const importAminoMsg = () => {
     return importStmt(['AminoMsg'], '@cosmjs/amino');
 };

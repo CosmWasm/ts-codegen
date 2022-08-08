@@ -30,24 +30,10 @@ export default async (
     const ExecuteMsg = findExecuteMsg(schemas);
     const typeHash = await findAndParseTypes(schemas);
 
+    const imports = [];
     const body = [];
 
-    body.push(
-        w.importStmt(['MsgExecuteContractEncodeObject'], 'cosmwasm')
-    );
-    body.push(
-        w.importStmt(['MsgExecuteContract'], 'cosmjs-types/cosmwasm/wasm/v1/tx')
-    );
-    body.push(
-        w.importStmt(['toUtf8'], '@cosmjs/encoding')
-    );
-
-    if (!typeHash.hasOwnProperty('Coin')) {
-        body.push(
-            w.importStmt(['Coin'], '@cosmjs/amino')
-        );
-    }
-    body.push(
+    imports.push(
         w.importStmt(Object.keys(typeHash), `./${TypesFile}`)
     );
 
@@ -76,8 +62,16 @@ export default async (
         }
     }
 
+    if (typeHash.hasOwnProperty('Coin')) {
+        delete context.utils.Coin;
+    }
+    const ctxImports = context.getImports();
     const code = header + generate(
-        t.program(body)
+        t.program([
+            ...imports,
+            ...ctxImports,
+            ...body
+        ])
     ).code;
 
     mkdirp(outPath);
