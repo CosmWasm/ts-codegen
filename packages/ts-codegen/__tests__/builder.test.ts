@@ -8,7 +8,7 @@ it('options undefined', async () => {
     const outPath = OUTPUT_DIR + '/vectis/factory-opt';
     const schemaDir = FIXTURE_DIR + '/vectis/factory/';
     const builder = new TSBuilder({
-        contractDirs: [
+        contracts: [
             schemaDir
         ],
         outPath,
@@ -21,7 +21,7 @@ it('options tsClient.enabled', async () => {
     const outPath = OUTPUT_DIR + '/vectis/factory-opt';
     const schemaDir = FIXTURE_DIR + '/vectis/factory/';
     const builder = new TSBuilder({
-        contractDirs: [
+        contracts: [
             schemaDir
         ],
         outPath,
@@ -38,11 +38,17 @@ it('options tsClient.enabled', async () => {
 });
 
 it('builder invoke', async () => {
-    const outPath = OUTPUT_DIR + '/vectis/factory-opt';
-    const schemaDir = FIXTURE_DIR + '/vectis/factory/';
+    const outPath = OUTPUT_DIR + '/invoke/';
+    const s = (str) => FIXTURE_DIR + str;
     const builder = new TSBuilder({
-        contractDirs: [
-            schemaDir
+        contracts: [
+            s('/vectis/factory'),
+            s('/daodao/cw-admin-factory'),
+            s('/daodao/cw-code-id-registry'),
+            {
+                name: 'CwSingle',
+                dir: s('/daodao/cw-proposal-single')
+            }
         ],
         outPath,
         options: {
@@ -54,5 +60,5 @@ it('builder invoke', async () => {
             }
         }
     });
-    builder.build();
+    await builder.build();
 });

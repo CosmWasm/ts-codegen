@@ -31,6 +31,13 @@ export default async (argv) => {
             message: 'optionalClient?',
             default: false
         },
+        // {
+        //     type: 'list',
+        //     name: 'reactQueryVersion',
+        //     message: 'which react-query version?',
+        //     default: 'v3',
+        //     choices: ['v3', 'v4']
+        // },
         {
             type: 'confirm',
             name: 'v4',
@@ -40,7 +47,7 @@ export default async (argv) => {
         {
             type: 'confirm',
             name: 'mutations',
-            message: 'Geneate useMutation hooks? Must be used with v4.',
+            message: 'Generate useMutation hooks? Must be used with v4.',
             default: false
         }
     ];

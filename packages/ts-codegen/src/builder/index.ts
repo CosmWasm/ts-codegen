@@ -5,7 +5,7 @@ import reactQuery from '../generators/react-query';
 import recoil from '../generators/recoil';
 import tsClient from '../generators/ts-client';
 
-import { dirname, basename } from 'path';
+import { basename } from 'path';
 import { readSchemas } from '../utils';
 
 import deepmerge from 'deepmerge';
@@ -27,7 +27,7 @@ const defaultOpts = {
 }
 
 export interface TSBuilderInput {
-    contractDirs: string[];
+    contracts: Array<ContractFile | string>;
     outPath: string;
     options?: TSBuilderOptions;
 };
@@ -45,8 +45,12 @@ export interface BuilderFile {
     filename: string;
 };
 
+export interface ContractFile {
+    name: string;
+    dir: string;
+}
 export class TSBuilder {
-    contractDirs: string[];
+    contracts: Array<ContractFile | string>;
     outPath: string;
     options?: TSBuilderOptions;
 
@@ -58,8 +62,8 @@ export class TSBuilder {
     readonly recoilFiles: BuilderFile[] = [];
     readonly reactQueryFiles: BuilderFile[] = [];
 
-    constructor({ contractDirs, outPath, options }: TSBuilderInput) {
-        this.contractDirs = contractDirs;
+    constructor({ contracts, outPath, options }: TSBuilderInput) {
+        this.contracts = contracts;
         this.outPath = outPath;
         this.options = deepmerge(
             deepmerge(
@@ -70,14 +74,59 @@ export class TSBuilder {
         );
     }
 
-    build() {
-        this.contractDirs.forEach(schemaDir => {
-            const schemas = readSchemas({ schemaDir });
-            const name = basename(schemaDir);
-            const contractName = pascal(name);
-            console.log({
-                contractName
-            })
+    getContracts(): ContractFile[] {
+        return this.contracts.map(contractOpt => {
+            if (typeof contractOpt === 'string') {
+                const name = basename(contractOpt);
+                const contractName = pascal(name);
+                return {
+                    name: contractName,
+                    dir: contractOpt
+                }
+            }
+            return {
+                name: pascal(contractOpt.name),
+                dir: contractOpt.dir
+            };
         });
+    }
+
+    async renderTsClient(contract: ContractFile) {
+        const { enabled, ...options } = this.options.tsClient;
+        if (!enabled) return;
+        const schemas = await readSchemas({ schemaDir: contract.dir });
+        await tsClient(contract.name, schemas, this.outPath, options);
+    }
+
+    async renderRecoil(contract: ContractFile) {
+        const { enabled, ...options } = this.options.recoil;
+        if (!enabled) return;
+        const schemas = await readSchemas({ schemaDir: contract.dir });
+        await recoil(contract.name, schemas, this.outPath, options);
+    }
+
+    async renderReactQuery(contract: ContractFile) {
+        const { enabled, ...options } = this.options.reactQuery;
+        if (!enabled) return;
+        const schemas = await readSchemas({ schemaDir: contract.dir });
+        await reactQuery(contract.name, schemas, this.outPath, options);
+    }
+
+    async renderMessageComposer(contract: ContractFile) {
+        const { enabled, ...options } = this.options.messageComposer;
+        if (!enabled) return;
+        const schemas = await readSchemas({ schemaDir: contract.dir });
+        await fromPartial(contract.name, schemas, this.outPath, options);
+    }
+
+    async build() {
+        const contracts = this.getContracts();
+        for (let c = 0; c < contracts.length; c++) {
+            const contract = contracts[c];
+            await this.renderTsClient(contract);
+            await this.renderMessageComposer(contract);
+            await this.renderReactQuery(contract);
+            await this.renderRecoil(contract);
+        }
     }
 }
