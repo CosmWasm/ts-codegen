@@ -65,7 +65,7 @@ The output will be in the folder specified by `--out`, enjoy!
 
 ## Usage
 
-Get started quickly using our `cli` by globally installing via npm:
+You can get started quickly using our `cli` by globally installing via npm:
 
 ```
 npm install -g @cosmwasm/ts-codegen
@@ -77,43 +77,48 @@ For production usage, we recommend setting up a build script that uses the main 
 ```ts
 import codegen from '@cosmwasm/ts-codegen';
 
-// needs to be in async ()
-await codgen({
-  contracts: [
+export const main = async () => {
+  await codegen({
+    contracts: [
       {
-          name: 'SG721', 
-          dir: './path/to/sg721/schema'
+        name: 'SG721',
+        dir: './path/to/sg721/schema'
       },
       {
-          name: 'Minter', 
-          dir: './path/to/Minter/schema'
+        name: 'Minter',
+        dir: './path/to/Minter/schema'
       }
-  ],
-  outPath: './path/to/code/src/',
-  options: {
-    bundle: {
+    ],
+    outPath: './path/to/code/src/',
+    options: {
+      bundle: {
         bundleFile: 'index.ts',
         scope: 'contracts'
-    },
-    types: {
+      },
+      types: {
         enabled: true
-    },
-    client: {
+      },
+      client: {
         enabled: true
-    },
-    reactQuery: {
+      },
+      reactQuery: {
         enabled: true,
         optionalClient: true,
         version: 'v4',
         mutations: true
-    },
-    recoil: {
+      },
+      recoil: {
         enabled: false
-    },
-    messageComposer: {
+      },
+      messageComposer: {
         enabled: false
+      }
     }
-  }
+  });
+};
+
+main().then(() => {
+  console.log('✨ all done!);
 });
 ```
 #### Types 

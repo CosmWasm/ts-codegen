@@ -14,4 +14,3 @@ export default async (input: TSBuilderInput) => {
     const builder = new TSBuilder(input);
     await builder.build()
 };
-
