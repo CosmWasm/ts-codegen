@@ -30,7 +30,6 @@ TSBuilder {
       "enabled": true,
     },
   },
-  "outPath": "/Users/pyramation/code/cosmwasm/ts-codegen/packages/ts-codegen/__tests__/../../../__output__/builder/vectis/factory-opt",
 }
 `;
 
@@ -64,6 +63,5 @@ TSBuilder {
       "enabled": true,
     },
   },
-  "outPath": "/Users/pyramation/code/cosmwasm/ts-codegen/packages/ts-codegen/__tests__/../../../__output__/builder/vectis/factory-opt",
 }
 `;
