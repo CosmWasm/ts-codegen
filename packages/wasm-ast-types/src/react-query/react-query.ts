@@ -528,7 +528,7 @@ export const createReactQueryHookInterface = ({
         tsPropertySignature(
             t.identifier('options'),
             t.tsTypeAnnotation(
-                options.v4
+                options.version === 'v4'
                     ? t.tSIntersectionType([
                         omitTypeReference(typedUseQueryOptions, "'queryKey' | 'queryFn' | 'initialData'"),
                         t.tSTypeLiteral([

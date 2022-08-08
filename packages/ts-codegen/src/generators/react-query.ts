@@ -41,7 +41,7 @@ export default async (
     QueryMsg && clientImports.push(QueryClient)
 
     // check that there are commands within the exec msg
-    const shouldGenerateMutationHooks = ExecuteMsg && options?.v4 && options?.mutations && getMessageProperties(ExecuteMsg).length > 0
+    const shouldGenerateMutationHooks = ExecuteMsg && options?.version === 'v4' && options?.mutations && getMessageProperties(ExecuteMsg).length > 0
 
     if (shouldGenerateMutationHooks) {
         body.push(w.importStmt(['ExecuteResult'], '@cosmjs/cosmwasm-stargate'));

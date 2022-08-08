@@ -4,7 +4,7 @@ import deepmerge from "deepmerge";
 /// Plugin Types
 export interface ReactQueryOptions {
     optionalClient?: boolean;
-    v4?: boolean;
+    version?: 'v3' | 'v4';
     mutations?: boolean;
     camelize?: boolean;
 }
@@ -36,7 +36,7 @@ export const defaultOptions: RenderOptions = {
     },
     reactQuery: {
         optionalClient: false,
-        v4: false,
+        version: 'v3',
         mutations: false,
         camelize: true
     }

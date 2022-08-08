@@ -103,8 +103,8 @@ cosmwasm-ts-codegen react-query \
     --schema ./schema \
     --out ./ts \
     --name MyContractName \
+    --version v3 \
     --no-optionalClient \
-    --no-v4 \
     --no-mutations
 ```
 
@@ -116,7 +116,7 @@ cosmwasm-ts-codegen react-query \
     --out ./ts \
     --name MyContractName \
     --optionalClient \
-    --v4 \
+    --version v4 \
     --mutations
 ```
 
@@ -137,9 +137,9 @@ declare const reactQuery = (
   | option                         | description                                                         |
   | ------------------------------ | ------------------------------------------------------------------- |
   | `reactQuery.optionalClient`    | allows contract client to be undefined as the component renders     |
-  | `reactQuery.v4`                | uses `@tanstack/react-query` and syntax instead of v3 `react-query` |
+  | `reactQuery.version`           | `v4` uses `@tanstack/react-query` and `v3` uses `react-query`       |
   | `reactQuery.mutations`         | also generate mutations                                             |
-  | `reactQuery.camelize`          | use camelCase style for property names                            |
+  | `reactQuery.camelize`          | use camelCase style for property names                              |
 
 ### recoil
 

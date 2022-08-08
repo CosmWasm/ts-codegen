@@ -1,7 +1,7 @@
 import { JSONSchema } from "../types";
 export interface ReactQueryOptions {
     optionalClient?: boolean;
-    v4?: boolean;
+    version?: 'v3' | 'v4';
     mutations?: boolean;
     camelize?: boolean;
 }

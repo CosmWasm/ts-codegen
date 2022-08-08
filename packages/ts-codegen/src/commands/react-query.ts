@@ -31,18 +31,12 @@ export default async (argv) => {
             message: 'optionalClient?',
             default: false
         },
-        // {
-        //     type: 'list',
-        //     name: 'reactQueryVersion',
-        //     message: 'which react-query version?',
-        //     default: 'v3',
-        //     choices: ['v3', 'v4']
-        // },
         {
-            type: 'confirm',
-            name: 'v4',
-            message: 'Use react-query v4?',
-            default: false
+            type: 'list',
+            name: 'version',
+            message: 'which react-query version?',
+            default: 'v3',
+            choices: ['v3', 'v4']
         },
         {
             type: 'confirm',

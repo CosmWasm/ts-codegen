@@ -40,7 +40,7 @@ it('createReactQueryHooks', () => {
       {
         context: new RenderContext(query_msg, {
           reactQuery: {
-            v4: true
+            version: 'v4'
           }
         }),
         queryMsg: query_msg,
@@ -54,7 +54,7 @@ it('createReactQueryHooks', () => {
         context: new RenderContext(query_msg, {
           reactQuery: {
             optionalClient: true,
-            v4: true
+            version: 'v4'
           }
         }),
         queryMsg: query_msg,
