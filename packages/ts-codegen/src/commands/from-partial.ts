@@ -28,6 +28,6 @@ export default async (argv) => {
     ];
 
     const { schema, out, name } = await prompt(questions, argv);
-    const schemas = await readSchemas({ schemaDir: schema, argv });
+    const schemas = await readSchemas({ schemaDir: schema, schemaOptions: argv });
     await fromPartial(name, schemas, out);
 };

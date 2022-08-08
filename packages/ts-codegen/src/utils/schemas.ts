@@ -7,21 +7,21 @@ import { JSONSchema } from 'wasm-ast-types';
 
 interface ReadSchemaOpts {
     schemaDir: string;
-    opts?: {
-        packed: boolean
+    schemaOptions?: {
+        packed?: boolean
     };
     clean?: boolean;
 };
 
 export const readSchemas = async ({
-    schemaDir, opts, clean = true
+    schemaDir, schemaOptions, clean = true
 }: ReadSchemaOpts) => {
     const fn = clean ? cleanse : (str) => str;
     const files = glob(schemaDir + '/**/*.json');
     const schemas = files
         .map(file => JSON.parse(readFileSync(file, 'utf-8')));
 
-    if (opts?.packed) {
+    if (schemaOptions?.packed) {
         if (schemas.length !== 1) {
             throw new Error('packed option only supports one file');
         }
