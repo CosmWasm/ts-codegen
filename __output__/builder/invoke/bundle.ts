@@ -4,30 +4,40 @@
 * and run the @cosmwasm/ts-codegen generate command to regenerate this file.
 */
 
-import * as _0 from "./FactoryContract.react-query";
-import * as _1 from "./MinterContract.react-query";
-import * as _2 from "./CwAdminFactoryContract.react-query";
-import * as _3 from "./CwCodeIdRegistryContract.react-query";
-import * as _4 from "./CwSingleContract.react-query";
-import * as _5 from "./FactoryContract";
-import * as _6 from "./MinterContract";
-import * as _7 from "./CwAdminFactoryContract";
-import * as _8 from "./CwCodeIdRegistryContract";
-import * as _9 from "./CwSingleContract";
+import * as _0 from "./Factory.types";
+import * as _1 from "./Factory.client";
+import * as _2 from "./Factory.react-query";
+import * as _3 from "./Minter.types";
+import * as _4 from "./Minter.client";
+import * as _5 from "./Minter.react-query";
+import * as _6 from "./CwAdminFactory.types";
+import * as _7 from "./CwAdminFactory.client";
+import * as _8 from "./CwAdminFactory.react-query";
+import * as _9 from "./CwCodeIdRegistry.types";
+import * as _10 from "./CwCodeIdRegistry.client";
+import * as _11 from "./CwCodeIdRegistry.react-query";
+import * as _12 from "./CwSingle.types";
+import * as _13 from "./CwSingle.client";
+import * as _14 from "./CwSingle.react-query";
 export namespace contracts {
   export const Factory = { ..._0,
+    ..._1,
+    ..._2
+  };
+  export const Minter = { ..._3,
+    ..._4,
     ..._5
   };
-  export const Minter = { ..._1,
-    ..._6
-  };
-  export const CwAdminFactory = { ..._2,
-    ..._7
-  };
-  export const CwCodeIdRegistry = { ..._3,
+  export const CwAdminFactory = { ..._6,
+    ..._7,
     ..._8
   };
-  export const CwSingle = { ..._4,
-    ..._9
+  export const CwCodeIdRegistry = { ..._9,
+    ..._10,
+    ..._11
+  };
+  export const CwSingle = { ..._12,
+    ..._13,
+    ..._14
   };
 }
