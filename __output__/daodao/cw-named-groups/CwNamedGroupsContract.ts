@@ -71,7 +71,6 @@ export type QueryMsg = {
     [k: string]: unknown;
   };
 };
-export type CwNamedGroupsExecuteMsg = ExecuteMsg;
 export interface CwNamedGroupsReadOnlyInterface {
   contractAddress: string;
   dump: () => Promise<DumpResponse>;

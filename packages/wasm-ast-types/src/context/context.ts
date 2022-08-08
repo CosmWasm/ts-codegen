@@ -8,9 +8,14 @@ export interface ReactQueryOptions {
     mutations?: boolean;
     camelize?: boolean;
 }
+
+export interface TSClientOptions {
+    aliasExecuteMsg?: boolean;
+}
 /// END Plugin Types
 
 export interface RenderOptions {
+    tsClient: TSClientOptions;
     reactQuery: ReactQueryOptions;
 }
 
@@ -20,6 +25,9 @@ export interface RenderContext {
 }
 
 export const defaultOptions: RenderOptions = {
+    tsClient: {
+        aliasExecuteMsg: false
+    },
     reactQuery: {
         optionalClient: false,
         v4: false,

@@ -232,7 +232,6 @@ export interface TokensResponse {
   tokens: string[];
   [k: string]: unknown;
 }
-export type Sg721ExecuteMsg = ExecuteMsg;
 export interface Sg721ReadOnlyInterface {
   contractAddress: string;
   ownerOf: ({

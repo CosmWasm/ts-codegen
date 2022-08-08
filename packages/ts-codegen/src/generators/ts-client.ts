@@ -10,9 +10,20 @@ import { clean } from "../utils/clean";
 import { getMessageProperties } from "wasm-ast-types";
 import { findAndParseTypes, findExecuteMsg, findQueryMsg, getDefinitionSchema } from '../utils';
 import { cosmjsAminoImportStatements } from '../utils/imports';
-import { RenderContext } from "wasm-ast-types";
+import { RenderContext, TSClientOptions } from "wasm-ast-types";
 
-export default async (name: string, schemas: any[], outPath: string) => {
+export default async (
+  name: string,
+  schemas: any[],
+  outPath: string,
+  tsClientOptions: TsClientOptions
+) => {
+
+  const context = new RenderContext(getDefinitionSchema(schemas), {
+    tsClient: tsClientOptions ?? {}
+  });
+  const options = context.options.reactQuery;
+
 
   const Contract = pascal(`${name}Contract`) + '.ts';
 
@@ -40,17 +51,17 @@ export default async (name: string, schemas: any[], outPath: string) => {
   });
 
   // alias the ExecuteMsg
-  ExecuteMsg && body.push(
-    t.exportNamedDeclaration(
-      t.tsTypeAliasDeclaration(
-        t.identifier(`${name}ExecuteMsg`),
-        null,
-        t.tsTypeReference(t.identifier('ExecuteMsg'))
+  if (options.aliasExecuteMsg && ExecuteMsg) {
+    body.push(
+      t.exportNamedDeclaration(
+        t.tsTypeAliasDeclaration(
+          t.identifier(`${name}ExecuteMsg`),
+          null,
+          t.tsTypeReference(t.identifier('ExecuteMsg'))
+        )
       )
-    )
-  );
-
-  const context = new RenderContext(getDefinitionSchema(schemas));
+    );
+  }
 
   // query messages
   if (QueryMsg) {

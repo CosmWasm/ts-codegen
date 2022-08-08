@@ -212,7 +212,6 @@ export type QueryMsg = {
   };
 };
 export type Uint64 = number;
-export type GovecExecuteMsg = ExecuteMsg;
 export interface GovecReadOnlyInterface {
   contractAddress: string;
   info: () => Promise<InfoResponse>;

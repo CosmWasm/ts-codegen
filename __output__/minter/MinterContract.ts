@@ -124,7 +124,6 @@ export type QueryMsg = {
     [k: string]: unknown;
   };
 };
-export type MinterExecuteMsg = ExecuteMsg;
 export interface MinterReadOnlyInterface {
   contractAddress: string;
   config: () => Promise<ConfigResponse>;

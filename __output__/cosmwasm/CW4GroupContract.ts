@@ -75,7 +75,6 @@ export interface MemberResponse {
 export interface HooksResponse {
   hooks: string[];
 }
-export type CW4GroupExecuteMsg = ExecuteMsg;
 export interface CW4GroupReadOnlyInterface {
   contractAddress: string;
   admin: () => Promise<AdminResponse>;
