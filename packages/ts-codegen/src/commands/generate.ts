@@ -37,9 +37,11 @@ export default async (argv) => {
         }
     ];
 
+    if (argv.typesOnly) {
+        argv.plugin = 'types';
+    }
     let { schema, out, name, plugin } = await prompt(questions, argv);
     if (!Array.isArray(plugin)) plugin = [plugin];
-
 
     ///////// REACT QUERY
     const questions2 = [];
