@@ -179,7 +179,7 @@ export class TSBuilder {
         )).code;
 
         mkdirp(this.outPath);
-        writeFileSync(join(this.outPath, bundleFile), code);
+        writeFileSync(join(this.outPath, bundleFile), header + code);
 
     }
 }

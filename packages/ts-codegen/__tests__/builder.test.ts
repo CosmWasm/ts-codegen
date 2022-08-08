@@ -1,3 +1,4 @@
+import codegen from '../src/index';
 import { TSBuilder } from '../src/builder';
 
 const FIXTURE_DIR = __dirname + '/../../../__fixtures__';
@@ -62,4 +63,30 @@ it('builder invoke', async () => {
     });
     await builder.build();
     await builder.bundle();
+});
+
+it('builder default', async () => {
+    const outPath = OUTPUT_DIR + '/default/';
+    const s = (str) => FIXTURE_DIR + str;
+    await codegen({
+        contracts: [
+            s('/vectis/factory'),
+            s('/minter'),
+            s('/daodao/cw-admin-factory'),
+            s('/daodao/cw-code-id-registry'),
+            {
+                name: 'CwSingle',
+                dir: s('/daodao/cw-proposal-single')
+            }
+        ],
+        outPath,
+        options: {
+            tsClient: {
+                enabled: true
+            },
+            reactQuery: {
+                enabled: true
+            }
+        }
+    });
 });
