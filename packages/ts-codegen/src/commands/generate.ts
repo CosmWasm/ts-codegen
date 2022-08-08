@@ -42,9 +42,9 @@ export default async (argv) => {
 
 
     ///////// REACT QUERY
-    const newQuestions = [];
+    const questions2 = [];
     if (plugin.includes('react-query')) {
-        [].push.apply(newQuestions, [
+        [].push.apply(questions2, [
             {
                 type: 'confirm',
                 name: 'optionalClient',
@@ -57,18 +57,24 @@ export default async (argv) => {
                 message: 'which react-query version?',
                 default: 'v3',
                 choices: ['v3', 'v4']
-            },
+            }
+        ])
+    };
+    const { optionalClient, version } = await prompt(questions2, argv);
+    const questions3 = [];
+    if (version === 'v4') {
+        [].push.apply(questions3, [
+            // currently we only support v4 for useMutation
             {
                 type: 'confirm',
                 name: 'mutations',
-                message: 'Generate useMutation hooks? Must be used with v4.',
+                message: 'Generate useMutation hooks?',
                 default: false
             }
 
         ])
     };
-
-    const { optionalClient, version, mutations } = await prompt(newQuestions, argv);
+    const { mutations } = await prompt(questions3, argv);
     ///////// END REACT QUERY
 
 
