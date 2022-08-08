@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`options tsClient.enabled 1`] = `
+TSBuilder {
+  "contractDirs": Array [
+    "/Users/pyramation/code/cosmwasm/ts-codegen/packages/ts-codegen/__tests__/../../../__fixtures__/vectis/factory/",
+  ],
+  "options": Object {
+    "messageComposer": Object {
+      "enabled": false,
+    },
+    "reactQuery": Object {
+      "camelize": true,
+      "enabled": true,
+      "mutations": false,
+      "optionalClient": false,
+      "v4": false,
+    },
+    "recoil": Object {
+      "enabled": false,
+    },
+    "tsClient": Object {
+      "aliasExecuteMsg": false,
+      "enabled": true,
+    },
+  },
+  "outPath": "/Users/pyramation/code/cosmwasm/ts-codegen/packages/ts-codegen/__tests__/../../../__output__/builder/vectis/factory-opt",
+  "reactQueryFiles": Array [],
+  "recoilFiles": Array [],
+  "tsClientFiles": Array [],
+  "typeFiles": Array [],
+  "typesOnly": undefined,
+}
+`;
+
+exports[`options undefined 1`] = `
+TSBuilder {
+  "contractDirs": Array [
+    "/Users/pyramation/code/cosmwasm/ts-codegen/packages/ts-codegen/__tests__/../../../__fixtures__/vectis/factory/",
+  ],
+  "options": Object {
+    "messageComposer": Object {
+      "enabled": false,
+    },
+    "reactQuery": Object {
+      "camelize": true,
+      "enabled": false,
+      "mutations": false,
+      "optionalClient": false,
+      "v4": false,
+    },
+    "recoil": Object {
+      "enabled": false,
+    },
+    "tsClient": Object {
+      "aliasExecuteMsg": false,
+      "enabled": true,
+    },
+  },
+  "outPath": "/Users/pyramation/code/cosmwasm/ts-codegen/packages/ts-codegen/__tests__/../../../__output__/builder/vectis/factory-opt",
+  "reactQueryFiles": Array [],
+  "recoilFiles": Array [],
+  "tsClientFiles": Array [],
+  "typeFiles": Array [],
+  "typesOnly": undefined,
+}
+`;
