@@ -10,14 +10,15 @@ import { clean } from "../utils/clean";
 import { getMessageProperties } from "wasm-ast-types";
 import { findAndParseTypes, findExecuteMsg, findQueryMsg, getDefinitionSchema } from '../utils';
 import { cosmjsAminoImportStatements } from '../utils/imports';
-import { RenderContext, TSClientOptions } from "wasm-ast-types";
+import { RenderContext, TsClientOptions } from "wasm-ast-types";
+import { BuilderFile } from "../builder";
 
 export default async (
   name: string,
   schemas: any[],
   outPath: string,
   tsClientOptions?: TsClientOptions
-) => {
+): Promise<BuilderFile[]> => {
 
   const context = new RenderContext(getDefinitionSchema(schemas), {
     tsClient: tsClientOptions ?? {}
@@ -108,4 +109,12 @@ export default async (
 
   mkdirp(outPath);
   writeFileSync(join(outPath, Contract), code);
+
+  return [
+    {
+      contract: name,
+      localname: Contract,
+      filename: join(outPath, Contract),
+    }
+  ]
 };

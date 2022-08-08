@@ -1,4 +1,3 @@
-import { readSchemas } from '../src/utils';
 import { TSBuilder } from '../src/builder';
 
 const FIXTURE_DIR = __dirname + '/../../../__fixtures__';

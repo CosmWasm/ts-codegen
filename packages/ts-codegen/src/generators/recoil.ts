@@ -8,13 +8,14 @@ import { writeFileSync } from 'fs';
 import generate from "@babel/generator";
 import { findAndParseTypes, findQueryMsg, getDefinitionSchema } from "../utils";
 import { RenderContext, RecoilOptions } from "wasm-ast-types";
+import { BuilderFile } from "../builder";
 
 export default async (
   name: string,
   schemas: any[],
   outPath: string,
   recoilOptions?: RecoilOptions
-) => {
+): Promise<BuilderFile[]> => {
 
   const context = new RenderContext(getDefinitionSchema(schemas), {
     recoil: recoilOptions ?? {}
@@ -74,4 +75,12 @@ export default async (
 
   mkdirp(outPath);
   writeFileSync(join(outPath, RecoilFile), code);
+
+  return [
+    {
+      contract: name,
+      localname: RecoilFile,
+      filename: join(outPath, RecoilFile),
+    }
+  ]
 };

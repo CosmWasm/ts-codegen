@@ -11,7 +11,7 @@ import { readSchemas } from '../utils';
 import deepmerge from 'deepmerge';
 import { pascal } from "case";
 
-const defaultOpts = {
+const defaultOpts: TSBuilderOptions = {
     tsClient: {
         enabled: true
     },
@@ -23,7 +23,8 @@ const defaultOpts = {
     },
     messageComposer: {
         enabled: false
-    }
+    },
+    bundle: true
 }
 
 export interface TSBuilderInput {
@@ -33,10 +34,13 @@ export interface TSBuilderInput {
 };
 
 export interface TSBuilderOptions {
-    tsClient?: TSClientOptions & { enabled: true };
-    reactQuery?: ReactQueryOptions & { enabled: true };
-    recoil?: { enabled: true };
-    messageComposer?: { enabled: true };
+    tsClient?: TSClientOptions & { enabled: boolean };
+    reactQuery?: ReactQueryOptions & { enabled: boolean };
+    recoil?: { enabled: boolean };
+    messageComposer?: { enabled: boolean };
+    ///// END PLUGINS
+
+    bundle?: boolean;
 };
 
 export interface BuilderFile {
@@ -57,10 +61,10 @@ export class TSBuilder {
     // TODO: separate types
     typesOnly?: boolean;
 
-    readonly typeFiles: BuilderFile[] = [];
-    readonly tsClientFiles: BuilderFile[] = [];
-    readonly recoilFiles: BuilderFile[] = [];
-    readonly reactQueryFiles: BuilderFile[] = [];
+    protected tsClientFiles: BuilderFile[] = [];
+    protected recoilFiles: BuilderFile[] = [];
+    protected reactQueryFiles: BuilderFile[] = [];
+    protected messageComposerFiles: BuilderFile[] = [];
 
     constructor({ contracts, outPath, options }: TSBuilderInput) {
         this.contracts = contracts;
@@ -95,28 +99,28 @@ export class TSBuilder {
         const { enabled, ...options } = this.options.tsClient;
         if (!enabled) return;
         const schemas = await readSchemas({ schemaDir: contract.dir });
-        await tsClient(contract.name, schemas, this.outPath, options);
+        this.tsClientFiles = await tsClient(contract.name, schemas, this.outPath, options);
     }
 
     async renderRecoil(contract: ContractFile) {
         const { enabled, ...options } = this.options.recoil;
         if (!enabled) return;
         const schemas = await readSchemas({ schemaDir: contract.dir });
-        await recoil(contract.name, schemas, this.outPath, options);
+        this.recoilFiles = await recoil(contract.name, schemas, this.outPath, options);
     }
 
     async renderReactQuery(contract: ContractFile) {
         const { enabled, ...options } = this.options.reactQuery;
         if (!enabled) return;
         const schemas = await readSchemas({ schemaDir: contract.dir });
-        await reactQuery(contract.name, schemas, this.outPath, options);
+        this.reactQueryFiles = await reactQuery(contract.name, schemas, this.outPath, options);
     }
 
     async renderMessageComposer(contract: ContractFile) {
         const { enabled, ...options } = this.options.messageComposer;
         if (!enabled) return;
         const schemas = await readSchemas({ schemaDir: contract.dir });
-        await messageComposer(contract.name, schemas, this.outPath, options);
+        this.messageComposerFiles = await messageComposer(contract.name, schemas, this.outPath, options);
     }
 
     async build() {

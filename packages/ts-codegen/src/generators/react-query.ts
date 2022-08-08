@@ -10,13 +10,14 @@ import generate from "@babel/generator";
 import { findAndParseTypes, findExecuteMsg, findQueryMsg, getDefinitionSchema } from '../utils';
 import { getMessageProperties, ReactQueryOptions } from "wasm-ast-types";
 import { cosmjsAminoImportStatements } from '../utils/imports';
+import { BuilderFile } from "../builder";
 
 export default async (
     contractName: string,
     schemas: any[],
     outPath: string,
     reactQueryOptions?: ReactQueryOptions
-) => {
+): Promise<BuilderFile[]> => {
     const context = new RenderContext(getDefinitionSchema(schemas), {
         reactQuery: reactQueryOptions ?? {}
     });
@@ -91,4 +92,12 @@ export default async (
 
     mkdirp(outPath);
     writeFileSync(join(outPath, ReactQueryFile), code);
+
+    return [
+        {
+            contract: contractName,
+            localname: ReactQueryFile,
+            filename: join(outPath, ReactQueryFile),
+        }
+    ]
 };

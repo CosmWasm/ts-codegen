@@ -9,20 +9,21 @@ import generate from "@babel/generator";
 import { getMessageProperties } from "wasm-ast-types";
 import { findAndParseTypes, findExecuteMsg, getDefinitionSchema } from "../utils";
 import { RenderContext, MessageComposerOptions } from "wasm-ast-types";
+import { BuilderFile } from "../builder";
 
 export default async (
     name: string,
     schemas: any[],
     outPath: string,
     messageComposerOptions?: MessageComposerOptions
-) => {
+): Promise<BuilderFile[]> => {
 
     const context = new RenderContext(getDefinitionSchema(schemas), {
         messageComposer: messageComposerOptions ?? {}
     });
     const options = context.options.messageComposer;
 
-    const FromPartialFile = pascal(`${name}Contract`) + '.message-composer.ts';
+    const MessageComposerFile = pascal(`${name}Contract`) + '.message-composer.ts';
     const Contract = pascal(`${name}Contract`);
 
     const ExecuteMsg = findExecuteMsg(schemas);
@@ -79,5 +80,13 @@ export default async (
     ).code;
 
     mkdirp(outPath);
-    writeFileSync(join(outPath, FromPartialFile), code);
+    writeFileSync(join(outPath, MessageComposerFile), code);
+
+    return [
+        {
+            contract: name,
+            localname: MessageComposerFile,
+            filename: join(outPath, MessageComposerFile),
+        }
+    ]
 };

@@ -5,7 +5,9 @@ TSBuilder {
   "contracts": Array [
     "/Users/pyramation/code/cosmwasm/ts-codegen/packages/ts-codegen/__tests__/../../../__fixtures__/vectis/factory/",
   ],
+  "messageComposerFiles": Array [],
   "options": Object {
+    "bundle": true,
     "messageComposer": Object {
       "enabled": false,
     },
@@ -28,7 +30,6 @@ TSBuilder {
   "reactQueryFiles": Array [],
   "recoilFiles": Array [],
   "tsClientFiles": Array [],
-  "typeFiles": Array [],
   "typesOnly": undefined,
 }
 `;
@@ -38,7 +39,9 @@ TSBuilder {
   "contracts": Array [
     "/Users/pyramation/code/cosmwasm/ts-codegen/packages/ts-codegen/__tests__/../../../__fixtures__/vectis/factory/",
   ],
+  "messageComposerFiles": Array [],
   "options": Object {
+    "bundle": true,
     "messageComposer": Object {
       "enabled": false,
     },
@@ -61,7 +64,6 @@ TSBuilder {
   "reactQueryFiles": Array [],
   "recoilFiles": Array [],
   "tsClientFiles": Array [],
-  "typeFiles": Array [],
   "typesOnly": undefined,
 }
 `;
