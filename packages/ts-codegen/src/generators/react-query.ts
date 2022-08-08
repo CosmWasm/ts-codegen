@@ -9,98 +9,92 @@ import { writeFileSync } from 'fs';
 import generate from "@babel/generator";
 import { findAndParseTypes, findExecuteMsg, findQueryMsg, getDefinitionSchema } from '../utils';
 import { getMessageProperties, ReactQueryOptions } from "wasm-ast-types";
-import { cosmjsAminoImportStatements } from '../utils/imports';
 import { BuilderFile } from "../builder";
 
 export default async (
-    contractName: string,
-    schemas: any[],
-    outPath: string,
-    reactQueryOptions?: ReactQueryOptions
+  contractName: string,
+  schemas: any[],
+  outPath: string,
+  reactQueryOptions?: ReactQueryOptions
 ): Promise<BuilderFile[]> => {
-    const context = new RenderContext(getDefinitionSchema(schemas), {
-        reactQuery: reactQueryOptions ?? {}
-    });
-    const options = context.options.reactQuery;
+  const context = new RenderContext(getDefinitionSchema(schemas), {
+    reactQuery: reactQueryOptions ?? {}
+  });
+  const options = context.options.reactQuery;
 
-    const localname = pascal(`${contractName}`) + '.react-query.ts';
-    const ContractFile = pascal(`${contractName}`) + '.client';
-    const TypesFile = pascal(`${contractName}`) + '.types';
+  const localname = pascal(`${contractName}`) + '.react-query.ts';
+  const ContractFile = pascal(`${contractName}`) + '.client';
+  const TypesFile = pascal(`${contractName}`) + '.types';
 
+  const QueryMsg = findQueryMsg(schemas);
+  const ExecuteMsg = findExecuteMsg(schemas);
+  const typeHash = await findAndParseTypes(schemas);
 
-    const QueryMsg = findQueryMsg(schemas);
-    const ExecuteMsg = findExecuteMsg(schemas);
-    const typeHash = await findAndParseTypes(schemas);
+  const ExecuteClient = pascal(`${contractName}Client`);
+  const QueryClient = pascal(`${contractName}QueryClient`);
 
-    const ExecuteClient = pascal(`${contractName}Client`);
-    const QueryClient = pascal(`${contractName}QueryClient`);
+  const body = [];
 
-    const body = [];
+  const clientImports = []
 
-    const reactQueryImports = ['useQuery', 'UseQueryOptions']
-    const clientImports = []
+  QueryMsg && clientImports.push(QueryClient)
 
-    QueryMsg && clientImports.push(QueryClient)
+  // check that there are commands within the exec msg
+  const shouldGenerateMutationHooks = ExecuteMsg && options?.version === 'v4' && options?.mutations && getMessageProperties(ExecuteMsg).length > 0
 
-    // check that there are commands within the exec msg
-    const shouldGenerateMutationHooks = ExecuteMsg && options?.version === 'v4' && options?.mutations && getMessageProperties(ExecuteMsg).length > 0
+  if (shouldGenerateMutationHooks) {
+    clientImports.push(ExecuteClient)
+  }
 
-    if (shouldGenerateMutationHooks) {
-        body.push(w.importStmt(['ExecuteResult'], '@cosmjs/cosmwasm-stargate'));
-        body.push(cosmjsAminoImportStatements(typeHash))
-        reactQueryImports.push('useMutation', 'UseMutationOptions')
-        clientImports.push(ExecuteClient)
-    }
+  // general contract imports
+  body.push(w.importStmt(Object.keys(typeHash), `./${TypesFile}`));
 
-    // react-query imports
-    body.push(
-        w.importStmt(reactQueryImports, options?.v4 ? '@tanstack/react-query' : 'react-query')
+  // client imports
+  body.push(w.importStmt(clientImports, `./${ContractFile}`));
+
+  // query messages
+  if (QueryMsg) {
+    [].push.apply(body,
+      w.createReactQueryHooks({
+        context,
+        queryMsg: QueryMsg,
+        contractName: contractName,
+        QueryClient
+      })
     );
+  }
 
-    // general contract imports
-    body.push(w.importStmt(Object.keys(typeHash), `./${TypesFile}`));
+  if (shouldGenerateMutationHooks) {
+    [].push.apply(body,
+      w.createReactQueryMutationHooks({
+        context,
+        execMsg: ExecuteMsg,
+        contractName: contractName,
+        ExecuteClient
+      })
+    );
+  }
 
-    // client imports
-    body.push(w.importStmt(clientImports, `./${ContractFile}`));
+  if (typeHash.hasOwnProperty('Coin')) {
+    delete context.utils.Coin;
+  }
+  const imports = context.getImports();
+  const code = header + generate(
+    t.program([
+      ...imports,
+      ...body
+    ])
+  ).code;
 
-    // query messages
-    if (QueryMsg) {
-        [].push.apply(body,
-            w.createReactQueryHooks({
-                context,
-                queryMsg: QueryMsg,
-                contractName: contractName,
-                QueryClient
-            })
-        );
+  mkdirp(outPath);
+  writeFileSync(join(outPath, localname), code);
+
+  return [
+    {
+      type: 'react-query',
+      contract: contractName,
+      localname,
+      filename: join(outPath, localname),
     }
-
-    if (shouldGenerateMutationHooks) {
-        [].push.apply(body,
-            w.createReactQueryMutationHooks({
-                context,
-                execMsg: ExecuteMsg,
-                contractName: contractName,
-                ExecuteClient
-            })
-        );
-    }
-
-
-
-    const code = header + generate(
-        t.program(body)
-    ).code;
-
-    mkdirp(outPath);
-    writeFileSync(join(outPath, localname), code);
-
-    return [
-        {
-            type: 'react-query',
-            contract: contractName,
-            localname,
-            filename: join(outPath, localname),
-        }
-    ]
+  ]
 };

@@ -4,6 +4,5 @@
 * and run the @cosmwasm/ts-codegen generate command to regenerate this file.
 */
 
-import { useQuery, UseQueryOptions } from "react-query";
 import { ExecuteMsg, Binary, InstantiateMsg, QueryMsg } from "./CwAdminFactory.types";
 import { CwAdminFactoryQueryClient } from "./CwAdminFactory.client";

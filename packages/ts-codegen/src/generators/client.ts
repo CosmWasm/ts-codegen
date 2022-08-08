@@ -8,7 +8,6 @@ import { writeFileSync } from 'fs';
 import generate from "@babel/generator";
 import { getMessageProperties } from "wasm-ast-types";
 import { findAndParseTypes, findExecuteMsg, findQueryMsg, getDefinitionSchema } from '../utils';
-import { cosmjsAminoImportStatements } from '../utils/imports';
 import { RenderContext, TsClientOptions } from "wasm-ast-types";
 import { BuilderFile } from "../builder";
 
@@ -36,11 +35,6 @@ export default async (
   let ReadOnlyInstance = null;
 
   const body = [];
-  body.push(
-    w.importStmt(['CosmWasmClient', 'ExecuteResult', 'SigningCosmWasmClient'], '@cosmjs/cosmwasm-stargate')
-  );
-
-  body.push(cosmjsAminoImportStatements(typeHash));
 
   body.push(
     w.importStmt(Object.keys(typeHash), `./${TypesFile}`)
@@ -87,8 +81,15 @@ export default async (
     }
   }
 
+  if (typeHash.hasOwnProperty('Coin')) {
+    delete context.utils.Coin;
+  }
+  const imports = context.getImports();
   const code = header + generate(
-    t.program(body)
+    t.program([
+      ...imports,
+      ...body
+    ])
   ).code;
 
   mkdirp(outPath);

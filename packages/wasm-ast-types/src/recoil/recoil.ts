@@ -14,6 +14,8 @@ export const createRecoilSelector = (
   methodName: string
 ) => {
 
+  context.addUtil('selectorFamily');
+
   const selectorName = camel(`${methodName}Selector`);
   const responseType = pascal(`${methodName}Response`);
   const getterKey = camel(`${keyPrefix}${pascal(methodName)}`);
@@ -205,6 +207,8 @@ export const createRecoilQueryClient = (
   keyPrefix: string,
   QueryClient: string
 ) => {
+
+  context.addUtil('selectorFamily');
 
   const getterKey = camel(`${keyPrefix}${'QueryClient'}`);
 

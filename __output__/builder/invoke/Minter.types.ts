@@ -4,7 +4,6 @@
 * and run the @cosmwasm/ts-codegen generate command to regenerate this file.
 */
 
-import { StdFee } from "@cosmjs/amino";
 export type Timestamp = Uint64;
 export type Uint64 = string;
 export type Uint128 = string;

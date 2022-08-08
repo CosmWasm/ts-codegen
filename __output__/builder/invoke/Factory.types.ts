@@ -4,7 +4,6 @@
 * and run the @cosmwasm/ts-codegen generate command to regenerate this file.
 */
 
-import { StdFee } from "@cosmjs/amino";
 export type AdminAddrResponse = string;
 export type CodeIdResponse = number;
 export type CodeIdType = "Proxy" | "Multisig";

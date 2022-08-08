@@ -9,29 +9,28 @@ const FIXTURE_DIR = __dirname + '/../../../__fixtures__';
 const OUTPUT_DIR = __dirname + '/../../../__output__';
 
 it('optionalClient', async () => {
-    const outopt = OUTPUT_DIR + '/vectis/factory-opt';
+    const outopt = OUTPUT_DIR + '/vectis/factory-optional-client';
     const schemaDir = FIXTURE_DIR + '/vectis/factory/';
     const schemas = await readSchemas({ schemaDir, schemaOptions: {} });
     await generateReactQuery('Factory', schemas, outopt, { optionalClient: true });
 })
 
 it('v4Query', async () => {
-    const outopt = OUTPUT_DIR + '/vectis/factory-opt';
+    const outopt = OUTPUT_DIR + '/vectis/factory-v4-query';
     const schemaDir = FIXTURE_DIR + '/vectis/factory/';
     const schemas = await readSchemas({ schemaDir, schemaOptions: {} });
-    await generateReactQuery('Factory', schemas, outopt, { v4: true });
+    await generateReactQuery('Factory', schemas, outopt, { version: 'v4' });
 })
 
 it('useMutations', async () => {
-    const outopt = OUTPUT_DIR + '/vectis/factory-opt';
+    const outopt = OUTPUT_DIR + '/vectis/factory-w-mutations';
     const schemaDir = FIXTURE_DIR + '/vectis/factory/';
     const schemas = await readSchemas({ schemaDir, schemaOptions: {} });
-    await generateReactQuery('Factory', schemas, outopt, { v4: true, mutations: true });
+    await generateReactQuery('Factory', schemas, outopt, { version: 'v4', mutations: true });
 })
 
 it('vectis/factory', async () => {
     const out = OUTPUT_DIR + '/vectis/factory';
-    const outopt = OUTPUT_DIR + '/vectis/factory-opt';
     const schemaDir = FIXTURE_DIR + '/vectis/factory/';
 
     const schemas = await readSchemas({ schemaDir, schemaOptions: {} });
@@ -40,7 +39,6 @@ it('vectis/factory', async () => {
     await generateMessageComposer('Factory', schemas, out);
     await generateRecoil('Factory', schemas, out);
     await generateReactQuery('Factory', schemas, out);
-    await generateReactQuery('Factory', schemas, outopt, { optionalClient: true });
 })
 
 it('vectis/govec', async () => {

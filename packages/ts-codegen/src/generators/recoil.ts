@@ -35,17 +35,12 @@ export default async (
   const body = [];
 
   body.push(
-    w.importStmt(['selectorFamily'], 'recoil')
-  );
-
-  body.push(
     w.importStmt(['cosmWasmClient'], './chain')
   );
 
   body.push(
     w.importStmt(Object.keys(typeHash), `./${TypesFile}`)
   );
-
 
   // query messages
   if (QueryMsg) {
@@ -70,8 +65,15 @@ export default async (
 
   }
 
+  if (typeHash.hasOwnProperty('Coin')) {
+    delete context.utils.Coin;
+  }
+  const imports = context.getImports();
   const code = header + generate(
-    t.program(body)
+    t.program([
+      ...imports,
+      ...body
+    ])
   ).code;
 
   mkdirp(outPath);

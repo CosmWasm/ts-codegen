@@ -151,6 +151,8 @@ export const createQueryClass = (
   queryMsg: QueryMsg
 ) => {
 
+  context.addUtil('CosmWasmClient');
+
   const propertyNames = getMessageProperties(queryMsg)
     .map(method => Object.keys(method.properties)?.[0])
     .filter(Boolean);
@@ -257,6 +259,10 @@ export const createWasmExecMethod = (
   jsonschema: JSONSchema
 ) => {
 
+  context.addUtil('ExecuteResult');
+  context.addUtil('StdFee');
+  context.addUtil('Coin');
+
   const underscoreName = Object.keys(jsonschema.properties)[0];
   const methodName = camel(underscoreName);
   const obj = createTypedObjectParams(
@@ -343,6 +349,8 @@ export const createExecuteClass = (
   extendsClassName: string,
   execMsg: ExecuteMsg
 ) => {
+
+  context.addUtil('SigningCosmWasmClient');
 
   const propertyNames = getMessageProperties(execMsg)
     .map(method => Object.keys(method.properties)?.[0])
@@ -531,6 +539,9 @@ export const createPropertyFunctionWithObjectParamsForExec = (
   responseType: string,
   jsonschema: JSONSchema
 ) => {
+
+  context.addUtil('Coin');
+
   const obj = createTypedObjectParams(context, jsonschema);
 
   const func = {
