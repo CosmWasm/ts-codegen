@@ -34,7 +34,7 @@ The quickest and easiest way to interact with CosmWasm Contracts. `@cosmwasm/ts-
     - [Recoil](#recoil)
     - [Message Composer](#message-composer)
     - [Bundles](#bundles)
-    - [CLI Examples](#cli-examples)
+    - [CLI Usage and Examples](#cli-usage-and-examples)
     - [Advanced Usage](#advanced-usage)
 - [Example Output](#example-output)
 - [JSON Schema](#json-schema)
@@ -259,7 +259,9 @@ const { CwAdminFactoryClient } = contracts.CwAdminFactory;
   | `bundle.scope`        | name of the scope, defaults to `contracts` (you can use `.` to make more scopes) |
   | `bundle.bundleFile`   | name of the bundle file                                                          |
 
-### CLI Examples
+### CLI Usage and Examples
+
+#### Interactive prompt
 
 The CLI is interactive, and if you don't specify an option, it will interactively prompt you. 
 
@@ -273,6 +275,7 @@ cosmwasm-ts-codegen generate
  ```
 
 In this example, you can press space bar to select a number of plugins you wish you enable.
+#### Specifying Plugins
 
 Additionally, it will also show you the name of the field (in this case `plugin`) so you can specify the parameter (for example when using CI/CD) on the comand line. Here is an exampl with `--plugin` set to `client` via CLI:
 
@@ -294,6 +297,8 @@ cosmwasm-ts-codegen generate \
           --out ./ts \
           --name SG721
 ```
+
+#### Bypassing the Prompt
 
 All options can be provided so you can bypass the prompt.
 
@@ -322,6 +327,18 @@ cosmwasm-ts-codegen generate \
     --optionalClient \
     --version v4 \
     --mutations
+```
+
+#### Types Only Option
+
+If needed, you can generate only the types with the `typesOnly` option;
+
+```sh
+cosmwasm-ts-codegen generate \
+          --typesOnly \
+          --schema ./schema \
+          --out ./ts \
+          --name SG721
 ```
 
 ### Advanced Usage
