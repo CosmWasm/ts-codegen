@@ -125,7 +125,7 @@ main().then(() => {
 
 Typescript types and interfaces are generated in separate files so they can be imported into various generated plugins.
 
-[see example output code](https://gist.github.com/pyramation/ba67ec56e4e2a39cadea55430f9993e5)
+[see example output code](https://gist.github.com/pyramation/107d4e8e30dc5eb3ffc07bc3000f4dd0)
 
 #### Types Options
 
@@ -138,7 +138,7 @@ Typescript types and interfaces are generated in separate files so they can be i
 
 The `client` plugin will generate TS client classes for your contracts. This option generates a `QueryClient` for queries as well as a `Client` for queries and mutations. 
 
-[see example output code](https://gist.github.com/pyramation/ba67ec56e4e2a39cadea55430f9993e5)
+[see example output code](https://gist.github.com/pyramation/30508678b7563e286f06ccc5ac384817)
 
 #### Client Options
 
@@ -159,7 +159,7 @@ cosmwasm-ts-codegen generate \
 
 Generate [react-query v3](https://react-query-v3.tanstack.com/) or [react-query v4](https://tanstack.com/query/v4/) bindings for your contracts with the `react-query` command.
 
-[see example output code](https://gist.github.com/pyramation/a3bf4aa7b60a31287d0720ca1bb5473b)
+[see example output code](https://gist.github.com/pyramation/70aef28fd3af0ee164f7711704d3dfc0)
 
 #### React Query Options
 
@@ -205,7 +205,7 @@ cosmwasm-ts-codegen generate \
 
 Generate [recoil](https://recoiljs.org/) bindings for your contracts with the `recoil` command.
 
-[see example output code](https://gist.github.com/pyramation/48b28a75def1a16b233b369297f05f0e)
+[see example output code](https://gist.github.com/pyramation/a9520ccf131177b1841e02a97d7d3731)
 
 #### Recoil via CLI
 
@@ -227,7 +227,7 @@ cosmwasm-ts-codegen generate \
 
 Generate pure message objects with the proper `utf8` encoding and `typeUrl` configured that you can broadcast yourself via `cosmjs` with the `message-composer` command.
 
-[see example output code](https://gist.github.com/pyramation/f50869d1ecdb6d6ced2bc0a44c6ff492)
+[see example output code](https://gist.github.com/pyramation/43320e8b952751a0bd5a77dbc5b601f4)
 
 #### Message Composer via CLI
 
@@ -361,21 +361,25 @@ import {
 ```
 ### Example Output
 
+- `cosmwasm-ts-codegen generate --typesOnly`
+
+https://gist.github.com/pyramation/107d4e8e30dc5eb3ffc07bc3000f4dd0
+
 - `cosmwasm-ts-codegen generate --plugin client`
 
-https://gist.github.com/pyramation/ba67ec56e4e2a39cadea55430f9993e5
-
-- `cosmwasm-ts-codegen generate --plugin message-composer`
-
-https://gist.github.com/pyramation/f50869d1ecdb6d6ced2bc0a44c6ff492
+https://gist.github.com/pyramation/30508678b7563e286f06ccc5ac384817
 
 - `cosmwasm-ts-codegen generate --plugin react-query`
 
-https://gist.github.com/pyramation/a3bf4aa7b60a31287d0720ca1bb5473b
+https://gist.github.com/pyramation/70aef28fd3af0ee164f7711704d3dfc0
 
 - `cosmwasm-ts-codegen generate --plugin recoil`
 
-https://gist.github.com/pyramation/48b28a75def1a16b233b369297f05f0e
+https://gist.github.com/pyramation/a9520ccf131177b1841e02a97d7d3731
+
+- `cosmwasm-ts-codegen generate --plugin message-composer`
+
+https://gist.github.com/pyramation/43320e8b952751a0bd5a77dbc5b601f4
 
 
 ### JSON Schema
