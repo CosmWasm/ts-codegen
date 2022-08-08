@@ -6,17 +6,18 @@ export interface TSBuilderInput {
 }
 export interface TSBuilderOptions {
     tsClient?: TSClientOptions & {
-        enabled: true;
+        enabled: boolean;
     };
     reactQuery?: ReactQueryOptions & {
-        enabled: true;
+        enabled: boolean;
     };
     recoil?: {
-        enabled: true;
+        enabled: boolean;
     };
     messageComposer?: {
-        enabled: true;
+        enabled: boolean;
     };
+    bundle?: boolean;
 }
 export interface BuilderFile {
     contract: string;
@@ -32,10 +33,10 @@ export declare class TSBuilder {
     outPath: string;
     options?: TSBuilderOptions;
     typesOnly?: boolean;
-    readonly typeFiles: BuilderFile[];
-    readonly tsClientFiles: BuilderFile[];
-    readonly recoilFiles: BuilderFile[];
-    readonly reactQueryFiles: BuilderFile[];
+    protected tsClientFiles: BuilderFile[];
+    protected recoilFiles: BuilderFile[];
+    protected reactQueryFiles: BuilderFile[];
+    protected messageComposerFiles: BuilderFile[];
     constructor({ contracts, outPath, options }: TSBuilderInput);
     getContracts(): ContractFile[];
     renderTsClient(contract: ContractFile): Promise<void>;
