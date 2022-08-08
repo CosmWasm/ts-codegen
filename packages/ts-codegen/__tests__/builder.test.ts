@@ -81,6 +81,7 @@ it('builder default', async () => {
         outPath,
         options: {
             bundle: {
+                bundleFile: 'index.ts',
                 scope: 'smart.contracts'
             },
             tsClient: {

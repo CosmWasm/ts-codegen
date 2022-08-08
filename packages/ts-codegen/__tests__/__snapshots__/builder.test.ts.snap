@@ -8,6 +8,7 @@ TSBuilder {
   "messageComposerFiles": Array [],
   "options": Object {
     "bundle": Object {
+      "bundleFile": "bundle.ts",
       "enabled": true,
       "scope": "contracts",
     },
@@ -45,6 +46,7 @@ TSBuilder {
   "messageComposerFiles": Array [],
   "options": Object {
     "bundle": Object {
+      "bundleFile": "bundle.ts",
       "enabled": true,
       "scope": "contracts",
     },

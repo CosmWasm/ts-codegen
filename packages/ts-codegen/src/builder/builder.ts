@@ -33,7 +33,8 @@ const defaultOpts: TSBuilderOptions = {
     },
     bundle: {
         enabled: true,
-        scope: 'contracts'
+        scope: 'contracts',
+        bundleFile: 'bundle.ts'
     }
 }
 
@@ -46,6 +47,7 @@ export interface TSBuilderInput {
 export interface BundleOptions {
     enabled?: boolean;
     scope?: string;
+    bundleFile?: string;
 };
 
 export interface TSBuilderOptions {
@@ -165,7 +167,7 @@ export class TSBuilder {
             ...this.messageComposerFiles
         ];
 
-        const bundleFile = 'bundle.ts';
+        const bundleFile = this.options.bundle.bundleFile;
         const bundleVariables = {};
         const importPaths = [];
 
