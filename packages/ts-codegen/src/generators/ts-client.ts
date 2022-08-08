@@ -24,7 +24,7 @@ export default async (
   });
   const options = context.options.reactQuery;
 
-  const Contract = pascal(`${name}Contract`);
+  const Contract = pascal(`${name}Contract`) + '.ts';
   const QueryMsg = findQueryMsg(schemas);
   const ExecuteMsg = findExecuteMsg(schemas);
   const typeHash = await findAndParseTypes(schemas);
