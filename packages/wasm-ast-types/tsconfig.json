@@ -1,18 +1,19 @@
 {
     "compilerOptions": {
-        "esModuleInterop": true,
+        "allowJs": true,
         "declaration": true,
         "declarationDir": "./types",
         "emitDeclarationOnly": true,
-        "isolatedModules": true,
-        "allowJs": true
+        "esModuleInterop": true,
+        "isolatedModules": true
     },
     "include": [
         "src/**/*"
     ],
     "exclude": [
         "node_modules",
+        "test-utils",
         "src/**/*.spec.ts",
-        "src/__fixtures__/**/*"
+        "src/**/*.test.ts"
     ]
 }

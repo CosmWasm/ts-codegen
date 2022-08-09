@@ -10,6 +10,7 @@ export declare const UTILS: {
     MsgExecuteContractEncodeObject: string;
     Coin: string;
     toUtf8: string;
+    selectorFamily: string;
     StdFee: string;
     CosmWasmClient: string;
     ExecuteResult: string;
