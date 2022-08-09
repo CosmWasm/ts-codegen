@@ -7,9 +7,11 @@
 import { UseQueryOptions, useQuery } from "react-query";
 import { CanExecuteRelayResponse, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, WasmMsg, Binary, Coin, Empty, ExecuteMsgForEmpty, Addr, RelayTransaction, Guardians, MultiSig, InfoResponse, ContractVersion, InstantiateMsg, CreateWalletMsg, QueryMsg, Uint64 } from "./Proxy.types";
 import { ProxyQueryClient } from "./Proxy.client";
-export interface ProxyCanExecuteRelayQuery {
+export interface ProxyReactQuery<TResponse> {
   client: ProxyQueryClient;
-  options?: UseQueryOptions<CanExecuteRelayResponse, Error, CanExecuteRelayResponse, (string | undefined)[]>;
+  options?: UseQueryOptions<TResponse, Error, TResponse, (string | undefined)[]>;
+}
+export interface ProxyCanExecuteRelayQuery extends ProxyReactQuery<CanExecuteRelayResponse> {
   args: {
     sender: string;
   };
@@ -23,10 +25,7 @@ export function useProxyCanExecuteRelayQuery({
     sender: args.sender
   }), options);
 }
-export interface ProxyInfoQuery {
-  client: ProxyQueryClient;
-  options?: UseQueryOptions<InfoResponse, Error, InfoResponse, (string | undefined)[]>;
-}
+export interface ProxyInfoQuery extends ProxyReactQuery<InfoResponse> {}
 export function useProxyInfoQuery({
   client,
   options

@@ -7,45 +7,38 @@
 import { UseQueryOptions, useQuery } from "react-query";
 import { AdminAddrResponse, CodeIdResponse, CodeIdType, Uint128, Binary, CreateWalletMsg, Guardians, MultiSig, Coin, Cw20Coin, ExecuteMsg, Addr, ProxyMigrationTxMsg, WalletAddr, CanonicalAddr, RelayTransaction, FeeResponse, GovecAddrResponse, InstantiateMsg, QueryMsg, WalletQueryPrefix, Duration, StakingOptions, WalletInfo, ContractVersion, WalletsOfResponse, WalletsResponse } from "./Factory.types";
 import { FactoryQueryClient } from "./Factory.client";
-export interface FactoryAdminAddrQuery {
-  client?: FactoryQueryClient;
-  options?: UseQueryOptions<AdminAddrResponse | undefined, Error, AdminAddrResponse, (string | undefined)[]>;
+export interface FactoryReactQuery<TResponse> {
+  client: FactoryQueryClient | undefined;
+  options?: UseQueryOptions<TResponse, Error, TResponse, (string | undefined)[]>;
 }
+export interface FactoryAdminAddrQuery extends FactoryReactQuery<AdminAddrResponse> {}
 export function useFactoryAdminAddrQuery({
   client,
   options
 }: FactoryAdminAddrQuery) {
-  return useQuery<AdminAddrResponse | undefined, Error, AdminAddrResponse, (string | undefined)[]>(["factoryAdminAddr", client?.contractAddress], () => client ? client.adminAddr() : undefined, { ...options,
+  return useQuery<AdminAddrResponse, Error, AdminAddrResponse, (string | undefined)[]>(["factoryAdminAddr", client?.contractAddress], () => client ? client.adminAddr() : Promise.reject(new Error("Invalid client")), { ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
-export interface FactoryGovecAddrQuery {
-  client?: FactoryQueryClient;
-  options?: UseQueryOptions<GovecAddrResponse | undefined, Error, GovecAddrResponse, (string | undefined)[]>;
-}
+export interface FactoryGovecAddrQuery extends FactoryReactQuery<GovecAddrResponse> {}
 export function useFactoryGovecAddrQuery({
   client,
   options
 }: FactoryGovecAddrQuery) {
-  return useQuery<GovecAddrResponse | undefined, Error, GovecAddrResponse, (string | undefined)[]>(["factoryGovecAddr", client?.contractAddress], () => client ? client.govecAddr() : undefined, { ...options,
+  return useQuery<GovecAddrResponse, Error, GovecAddrResponse, (string | undefined)[]>(["factoryGovecAddr", client?.contractAddress], () => client ? client.govecAddr() : Promise.reject(new Error("Invalid client")), { ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
-export interface FactoryFeeQuery {
-  client?: FactoryQueryClient;
-  options?: UseQueryOptions<FeeResponse | undefined, Error, FeeResponse, (string | undefined)[]>;
-}
+export interface FactoryFeeQuery extends FactoryReactQuery<FeeResponse> {}
 export function useFactoryFeeQuery({
   client,
   options
 }: FactoryFeeQuery) {
-  return useQuery<FeeResponse | undefined, Error, FeeResponse, (string | undefined)[]>(["factoryFee", client?.contractAddress], () => client ? client.fee() : undefined, { ...options,
+  return useQuery<FeeResponse, Error, FeeResponse, (string | undefined)[]>(["factoryFee", client?.contractAddress], () => client ? client.fee() : Promise.reject(new Error("Invalid client")), { ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
-export interface FactoryCodeIdQuery {
-  client?: FactoryQueryClient;
-  options?: UseQueryOptions<CodeIdResponse | undefined, Error, CodeIdResponse, (string | undefined)[]>;
+export interface FactoryCodeIdQuery extends FactoryReactQuery<CodeIdResponse> {
   args: {
     ty: CodeIdType;
   };
@@ -55,15 +48,13 @@ export function useFactoryCodeIdQuery({
   args,
   options
 }: FactoryCodeIdQuery) {
-  return useQuery<CodeIdResponse | undefined, Error, CodeIdResponse, (string | undefined)[]>(["factoryCodeId", client?.contractAddress, JSON.stringify(args)], () => client ? client.codeId({
+  return useQuery<CodeIdResponse, Error, CodeIdResponse, (string | undefined)[]>(["factoryCodeId", client?.contractAddress, JSON.stringify(args)], () => client ? client.codeId({
     ty: args.ty
-  }) : undefined, { ...options,
+  }) : Promise.reject(new Error("Invalid client")), { ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
-export interface FactoryWalletsOfQuery {
-  client?: FactoryQueryClient;
-  options?: UseQueryOptions<WalletsOfResponse | undefined, Error, WalletsOfResponse, (string | undefined)[]>;
+export interface FactoryWalletsOfQuery extends FactoryReactQuery<WalletsOfResponse> {
   args: {
     limit?: number;
     startAfter?: string;
@@ -75,17 +66,15 @@ export function useFactoryWalletsOfQuery({
   args,
   options
 }: FactoryWalletsOfQuery) {
-  return useQuery<WalletsOfResponse | undefined, Error, WalletsOfResponse, (string | undefined)[]>(["factoryWalletsOf", client?.contractAddress, JSON.stringify(args)], () => client ? client.walletsOf({
+  return useQuery<WalletsOfResponse, Error, WalletsOfResponse, (string | undefined)[]>(["factoryWalletsOf", client?.contractAddress, JSON.stringify(args)], () => client ? client.walletsOf({
     limit: args.limit,
     startAfter: args.startAfter,
     user: args.user
-  }) : undefined, { ...options,
+  }) : Promise.reject(new Error("Invalid client")), { ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
-export interface FactoryWalletsQuery {
-  client?: FactoryQueryClient;
-  options?: UseQueryOptions<WalletsResponse | undefined, Error, WalletsResponse, (string | undefined)[]>;
+export interface FactoryWalletsQuery extends FactoryReactQuery<WalletsResponse> {
   args: {
     limit?: number;
     startAfter?: WalletQueryPrefix;
@@ -96,10 +85,10 @@ export function useFactoryWalletsQuery({
   args,
   options
 }: FactoryWalletsQuery) {
-  return useQuery<WalletsResponse | undefined, Error, WalletsResponse, (string | undefined)[]>(["factoryWallets", client?.contractAddress, JSON.stringify(args)], () => client ? client.wallets({
+  return useQuery<WalletsResponse, Error, WalletsResponse, (string | undefined)[]>(["factoryWallets", client?.contractAddress, JSON.stringify(args)], () => client ? client.wallets({
     limit: args.limit,
     startAfter: args.startAfter
-  }) : undefined, { ...options,
+  }) : Promise.reject(new Error("Invalid client")), { ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }

@@ -7,19 +7,18 @@
 import { UseQueryOptions, useQuery } from "react-query";
 import { InstantiateMsg, Member, ExecuteMsg, QueryMsg, QueryResponse, AdminResponse, TotalWeightResponse, MemberListResponse, MemberResponse, HooksResponse } from "./CW4Group.types";
 import { CW4GroupQueryClient } from "./CW4Group.client";
-export interface CW4GroupHooksQuery {
+export interface CW4GroupReactQuery<TResponse> {
   client: CW4GroupQueryClient;
-  options?: UseQueryOptions<HooksResponse, Error, HooksResponse, (string | undefined)[]>;
+  options?: UseQueryOptions<TResponse, Error, TResponse, (string | undefined)[]>;
 }
+export interface CW4GroupHooksQuery extends CW4GroupReactQuery<HooksResponse> {}
 export function useCW4GroupHooksQuery({
   client,
   options
 }: CW4GroupHooksQuery) {
   return useQuery<HooksResponse, Error, HooksResponse, (string | undefined)[]>(["cW4GroupHooks", client.contractAddress], () => client.hooks(), options);
 }
-export interface CW4GroupMemberQuery {
-  client: CW4GroupQueryClient;
-  options?: UseQueryOptions<MemberResponse, Error, MemberResponse, (string | undefined)[]>;
+export interface CW4GroupMemberQuery extends CW4GroupReactQuery<MemberResponse> {
   args: {
     addr: string;
     atHeight?: number;
@@ -35,9 +34,7 @@ export function useCW4GroupMemberQuery({
     atHeight: args.atHeight
   }), options);
 }
-export interface CW4GroupListMembersQuery {
-  client: CW4GroupQueryClient;
-  options?: UseQueryOptions<ListMembersResponse, Error, ListMembersResponse, (string | undefined)[]>;
+export interface CW4GroupListMembersQuery extends CW4GroupReactQuery<ListMembersResponse> {
   args: {
     limit?: number;
     startAfter?: string;
@@ -53,20 +50,14 @@ export function useCW4GroupListMembersQuery({
     startAfter: args.startAfter
   }), options);
 }
-export interface CW4GroupTotalWeightQuery {
-  client: CW4GroupQueryClient;
-  options?: UseQueryOptions<TotalWeightResponse, Error, TotalWeightResponse, (string | undefined)[]>;
-}
+export interface CW4GroupTotalWeightQuery extends CW4GroupReactQuery<TotalWeightResponse> {}
 export function useCW4GroupTotalWeightQuery({
   client,
   options
 }: CW4GroupTotalWeightQuery) {
   return useQuery<TotalWeightResponse, Error, TotalWeightResponse, (string | undefined)[]>(["cW4GroupTotalWeight", client.contractAddress], () => client.totalWeight(), options);
 }
-export interface CW4GroupAdminQuery {
-  client: CW4GroupQueryClient;
-  options?: UseQueryOptions<AdminResponse, Error, AdminResponse, (string | undefined)[]>;
-}
+export interface CW4GroupAdminQuery extends CW4GroupReactQuery<AdminResponse> {}
 export function useCW4GroupAdminQuery({
   client,
   options

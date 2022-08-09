@@ -279,7 +279,7 @@ export const optionalConditionalExpression = (test: t.Expression, expression: t.
         : expression
 }
 
-export const typeRefOrOptionalUnion = (identifier: t.Identifier, optional: boolean = false): t.TSType => {
+export const typeRefOrUnionWithUndefined = (identifier: t.Identifier, optional: boolean = false): t.TSType => {
     const typeReference = t.tsTypeReference(identifier)
     return optional
         ? t.tsUnionType([

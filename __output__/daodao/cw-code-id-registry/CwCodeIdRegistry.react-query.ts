@@ -7,9 +7,11 @@
 import { UseQueryOptions, useQuery } from "react-query";
 import { Addr, PaymentInfo, Uint128, ConfigResponse, ExecuteMsg, Binary, Cw20ReceiveMsg, GetRegistrationResponse, Registration, InfoForCodeIdResponse, InstantiateMsg, ListRegistrationsResponse, QueryMsg, ReceiveMsg } from "./CwCodeIdRegistry.types";
 import { CwCodeIdRegistryQueryClient } from "./CwCodeIdRegistry.client";
-export interface CwCodeIdRegistryListRegistrationsQuery {
+export interface CwCodeIdRegistryReactQuery<TResponse> {
   client: CwCodeIdRegistryQueryClient;
-  options?: UseQueryOptions<ListRegistrationsResponse, Error, ListRegistrationsResponse, (string | undefined)[]>;
+  options?: UseQueryOptions<TResponse, Error, TResponse, (string | undefined)[]>;
+}
+export interface CwCodeIdRegistryListRegistrationsQuery extends CwCodeIdRegistryReactQuery<ListRegistrationsResponse> {
   args: {
     chainId: string;
     name: string;
@@ -25,9 +27,7 @@ export function useCwCodeIdRegistryListRegistrationsQuery({
     name: args.name
   }), options);
 }
-export interface CwCodeIdRegistryInfoForCodeIdQuery {
-  client: CwCodeIdRegistryQueryClient;
-  options?: UseQueryOptions<InfoForCodeIdResponse, Error, InfoForCodeIdResponse, (string | undefined)[]>;
+export interface CwCodeIdRegistryInfoForCodeIdQuery extends CwCodeIdRegistryReactQuery<InfoForCodeIdResponse> {
   args: {
     chainId: string;
     codeId: number;
@@ -43,9 +43,7 @@ export function useCwCodeIdRegistryInfoForCodeIdQuery({
     codeId: args.codeId
   }), options);
 }
-export interface CwCodeIdRegistryGetRegistrationQuery {
-  client: CwCodeIdRegistryQueryClient;
-  options?: UseQueryOptions<GetRegistrationResponse, Error, GetRegistrationResponse, (string | undefined)[]>;
+export interface CwCodeIdRegistryGetRegistrationQuery extends CwCodeIdRegistryReactQuery<GetRegistrationResponse> {
   args: {
     chainId: string;
     name: string;
@@ -63,10 +61,7 @@ export function useCwCodeIdRegistryGetRegistrationQuery({
     version: args.version
   }), options);
 }
-export interface CwCodeIdRegistryConfigQuery {
-  client: CwCodeIdRegistryQueryClient;
-  options?: UseQueryOptions<ConfigResponse, Error, ConfigResponse, (string | undefined)[]>;
-}
+export interface CwCodeIdRegistryConfigQuery extends CwCodeIdRegistryReactQuery<ConfigResponse> {}
 export function useCwCodeIdRegistryConfigQuery({
   client,
   options

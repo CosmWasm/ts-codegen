@@ -7,9 +7,11 @@
 import { UseQueryOptions, useQuery } from "react-query";
 import { CanExecuteRelayResponse, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, WasmMsg, Binary, Coin, Empty, ExecuteMsgForEmpty, Addr, RelayTransaction, Guardians, MultiSig, InfoResponse, ContractVersion, InstantiateMsg, CreateWalletMsg, QueryMsg, Uint64 } from "./Govec.types";
 import { GovecQueryClient } from "./Govec.client";
-export interface GovecCanExecuteRelayQuery {
+export interface GovecReactQuery<TResponse> {
   client: GovecQueryClient;
-  options?: UseQueryOptions<CanExecuteRelayResponse, Error, CanExecuteRelayResponse, (string | undefined)[]>;
+  options?: UseQueryOptions<TResponse, Error, TResponse, (string | undefined)[]>;
+}
+export interface GovecCanExecuteRelayQuery extends GovecReactQuery<CanExecuteRelayResponse> {
   args: {
     sender: string;
   };
@@ -23,10 +25,7 @@ export function useGovecCanExecuteRelayQuery({
     sender: args.sender
   }), options);
 }
-export interface GovecInfoQuery {
-  client: GovecQueryClient;
-  options?: UseQueryOptions<InfoResponse, Error, InfoResponse, (string | undefined)[]>;
-}
+export interface GovecInfoQuery extends GovecReactQuery<InfoResponse> {}
 export function useGovecInfoQuery({
   client,
   options

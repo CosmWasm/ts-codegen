@@ -7,39 +7,32 @@
 import { UseQueryOptions, useQuery } from "react-query";
 import { Addr, Uint128, Duration, Threshold, PercentageThreshold, Decimal, ConfigResponse, CheckedDepositInfo, ExecuteMsg, CosmosMsgForEmpty, BankMsg, StakingMsg, DistributionMsg, Binary, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Vote, DepositToken, Coin, Empty, IbcTimeout, IbcTimeoutBlock, DepositInfo, GovernanceModulesResponse, InfoResponse, ContractVersion, InstantiateMsg, Expiration, Status, ListProposalsResponse, ProposalResponse, Proposal, Votes, ListVotesResponse, VoteInfo, MigrateMsg, ProposalCountResponse, ProposalHooksResponse, QueryMsg, ReverseProposalsResponse, VoteHooksResponse, VoteResponse } from "./CwSingle.types";
 import { CwSingleQueryClient } from "./CwSingle.client";
-export interface CwSingleInfoQuery {
+export interface CwSingleReactQuery<TResponse> {
   client: CwSingleQueryClient;
-  options?: UseQueryOptions<InfoResponse, Error, InfoResponse, (string | undefined)[]>;
+  options?: UseQueryOptions<TResponse, Error, TResponse, (string | undefined)[]>;
 }
+export interface CwSingleInfoQuery extends CwSingleReactQuery<InfoResponse> {}
 export function useCwSingleInfoQuery({
   client,
   options
 }: CwSingleInfoQuery) {
   return useQuery<InfoResponse, Error, InfoResponse, (string | undefined)[]>(["cwSingleInfo", client.contractAddress], () => client.info(), options);
 }
-export interface CwSingleVoteHooksQuery {
-  client: CwSingleQueryClient;
-  options?: UseQueryOptions<VoteHooksResponse, Error, VoteHooksResponse, (string | undefined)[]>;
-}
+export interface CwSingleVoteHooksQuery extends CwSingleReactQuery<VoteHooksResponse> {}
 export function useCwSingleVoteHooksQuery({
   client,
   options
 }: CwSingleVoteHooksQuery) {
   return useQuery<VoteHooksResponse, Error, VoteHooksResponse, (string | undefined)[]>(["cwSingleVoteHooks", client.contractAddress], () => client.voteHooks(), options);
 }
-export interface CwSingleProposalHooksQuery {
-  client: CwSingleQueryClient;
-  options?: UseQueryOptions<ProposalHooksResponse, Error, ProposalHooksResponse, (string | undefined)[]>;
-}
+export interface CwSingleProposalHooksQuery extends CwSingleReactQuery<ProposalHooksResponse> {}
 export function useCwSingleProposalHooksQuery({
   client,
   options
 }: CwSingleProposalHooksQuery) {
   return useQuery<ProposalHooksResponse, Error, ProposalHooksResponse, (string | undefined)[]>(["cwSingleProposalHooks", client.contractAddress], () => client.proposalHooks(), options);
 }
-export interface CwSingleListVotesQuery {
-  client: CwSingleQueryClient;
-  options?: UseQueryOptions<ListVotesResponse, Error, ListVotesResponse, (string | undefined)[]>;
+export interface CwSingleListVotesQuery extends CwSingleReactQuery<ListVotesResponse> {
   args: {
     limit?: number;
     proposalId: number;
@@ -57,9 +50,7 @@ export function useCwSingleListVotesQuery({
     startAfter: args.startAfter
   }), options);
 }
-export interface CwSingleVoteQuery {
-  client: CwSingleQueryClient;
-  options?: UseQueryOptions<VoteResponse, Error, VoteResponse, (string | undefined)[]>;
+export interface CwSingleVoteQuery extends CwSingleReactQuery<VoteResponse> {
   args: {
     proposalId: number;
     voter: string;
@@ -75,19 +66,14 @@ export function useCwSingleVoteQuery({
     voter: args.voter
   }), options);
 }
-export interface CwSingleProposalCountQuery {
-  client: CwSingleQueryClient;
-  options?: UseQueryOptions<ProposalCountResponse, Error, ProposalCountResponse, (string | undefined)[]>;
-}
+export interface CwSingleProposalCountQuery extends CwSingleReactQuery<ProposalCountResponse> {}
 export function useCwSingleProposalCountQuery({
   client,
   options
 }: CwSingleProposalCountQuery) {
   return useQuery<ProposalCountResponse, Error, ProposalCountResponse, (string | undefined)[]>(["cwSingleProposalCount", client.contractAddress], () => client.proposalCount(), options);
 }
-export interface CwSingleReverseProposalsQuery {
-  client: CwSingleQueryClient;
-  options?: UseQueryOptions<ReverseProposalsResponse, Error, ReverseProposalsResponse, (string | undefined)[]>;
+export interface CwSingleReverseProposalsQuery extends CwSingleReactQuery<ReverseProposalsResponse> {
   args: {
     limit?: number;
     startBefore?: number;
@@ -103,9 +89,7 @@ export function useCwSingleReverseProposalsQuery({
     startBefore: args.startBefore
   }), options);
 }
-export interface CwSingleListProposalsQuery {
-  client: CwSingleQueryClient;
-  options?: UseQueryOptions<ListProposalsResponse, Error, ListProposalsResponse, (string | undefined)[]>;
+export interface CwSingleListProposalsQuery extends CwSingleReactQuery<ListProposalsResponse> {
   args: {
     limit?: number;
     startAfter?: number;
@@ -121,9 +105,7 @@ export function useCwSingleListProposalsQuery({
     startAfter: args.startAfter
   }), options);
 }
-export interface CwSingleProposalQuery {
-  client: CwSingleQueryClient;
-  options?: UseQueryOptions<ProposalResponse, Error, ProposalResponse, (string | undefined)[]>;
+export interface CwSingleProposalQuery extends CwSingleReactQuery<ProposalResponse> {
   args: {
     proposalId: number;
   };
@@ -137,10 +119,7 @@ export function useCwSingleProposalQuery({
     proposalId: args.proposalId
   }), options);
 }
-export interface CwSingleConfigQuery {
-  client: CwSingleQueryClient;
-  options?: UseQueryOptions<ConfigResponse, Error, ConfigResponse, (string | undefined)[]>;
-}
+export interface CwSingleConfigQuery extends CwSingleReactQuery<ConfigResponse> {}
 export function useCwSingleConfigQuery({
   client,
   options

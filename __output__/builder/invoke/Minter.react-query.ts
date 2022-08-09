@@ -7,9 +7,11 @@
 import { UseQueryOptions, useQuery } from "react-query";
 import { Timestamp, Uint64, Uint128, ConfigResponse, Coin, Addr, Config, ExecuteMsg, Decimal, InstantiateMsg, InstantiateMsg1, CollectionInfoForRoyaltyInfoResponse, RoyaltyInfoResponse, QueryMsg } from "./Minter.types";
 import { MinterQueryClient } from "./Minter.client";
-export interface MinterMintCountQuery {
+export interface MinterReactQuery<TResponse> {
   client: MinterQueryClient;
-  options?: UseQueryOptions<MintCountResponse, Error, MintCountResponse, (string | undefined)[]>;
+  options?: UseQueryOptions<TResponse, Error, TResponse, (string | undefined)[]>;
+}
+export interface MinterMintCountQuery extends MinterReactQuery<MintCountResponse> {
   args: {
     address: string;
   };
@@ -23,40 +25,28 @@ export function useMinterMintCountQuery({
     address: args.address
   }), options);
 }
-export interface MinterMintPriceQuery {
-  client: MinterQueryClient;
-  options?: UseQueryOptions<MintPriceResponse, Error, MintPriceResponse, (string | undefined)[]>;
-}
+export interface MinterMintPriceQuery extends MinterReactQuery<MintPriceResponse> {}
 export function useMinterMintPriceQuery({
   client,
   options
 }: MinterMintPriceQuery) {
   return useQuery<MintPriceResponse, Error, MintPriceResponse, (string | undefined)[]>(["minterMintPrice", client.contractAddress], () => client.mintPrice(), options);
 }
-export interface MinterStartTimeQuery {
-  client: MinterQueryClient;
-  options?: UseQueryOptions<StartTimeResponse, Error, StartTimeResponse, (string | undefined)[]>;
-}
+export interface MinterStartTimeQuery extends MinterReactQuery<StartTimeResponse> {}
 export function useMinterStartTimeQuery({
   client,
   options
 }: MinterStartTimeQuery) {
   return useQuery<StartTimeResponse, Error, StartTimeResponse, (string | undefined)[]>(["minterStartTime", client.contractAddress], () => client.startTime(), options);
 }
-export interface MinterMintableNumTokensQuery {
-  client: MinterQueryClient;
-  options?: UseQueryOptions<MintableNumTokensResponse, Error, MintableNumTokensResponse, (string | undefined)[]>;
-}
+export interface MinterMintableNumTokensQuery extends MinterReactQuery<MintableNumTokensResponse> {}
 export function useMinterMintableNumTokensQuery({
   client,
   options
 }: MinterMintableNumTokensQuery) {
   return useQuery<MintableNumTokensResponse, Error, MintableNumTokensResponse, (string | undefined)[]>(["minterMintableNumTokens", client.contractAddress], () => client.mintableNumTokens(), options);
 }
-export interface MinterConfigQuery {
-  client: MinterQueryClient;
-  options?: UseQueryOptions<ConfigResponse, Error, ConfigResponse, (string | undefined)[]>;
-}
+export interface MinterConfigQuery extends MinterReactQuery<ConfigResponse> {}
 export function useMinterConfigQuery({
   client,
   options
