@@ -537,11 +537,18 @@ export const createReactQueryHookInterface = ({
         tsPropertySignature(
             t.identifier('client'),
             t.tsTypeAnnotation(
-                t.tsTypeReference(
+          options.optionalClient
+            ? t.tsUnionType([
+              t.tsTypeReference(
+                t.identifier(QueryClient)
+              ),
+              t.tsUndefinedKeyword()
+            ])
+            : t.tsTypeReference(
                     t.identifier(QueryClient)
                 )
             ),
-            options.optionalClient
+            false
         ),
         tsPropertySignature(
             t.identifier('options'),

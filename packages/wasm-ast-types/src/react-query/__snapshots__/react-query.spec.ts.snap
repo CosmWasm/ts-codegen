@@ -195,7 +195,7 @@ export function useSg721OwnerOfQuery({
 
 exports[`createReactQueryHooks 2`] = `
 "export interface Sg721CollectionInfoQuery {
-  client?: Sg721QueryClient;
+  client: Sg721QueryClient | undefined;
   options?: UseQueryOptions<CollectionInfoResponse | undefined, Error, CollectionInfoResponse, (string | undefined)[]>;
 }
 export function useSg721CollectionInfoQuery({
@@ -207,7 +207,7 @@ export function useSg721CollectionInfoQuery({
   });
 }
 export interface Sg721MinterQuery {
-  client?: Sg721QueryClient;
+  client: Sg721QueryClient | undefined;
   options?: UseQueryOptions<MinterResponse | undefined, Error, MinterResponse, (string | undefined)[]>;
 }
 export function useSg721MinterQuery({
@@ -219,7 +219,7 @@ export function useSg721MinterQuery({
   });
 }
 export interface Sg721AllTokensQuery {
-  client?: Sg721QueryClient;
+  client: Sg721QueryClient | undefined;
   options?: UseQueryOptions<AllTokensResponse | undefined, Error, AllTokensResponse, (string | undefined)[]>;
   args: {
     limit?: number;
@@ -239,7 +239,7 @@ export function useSg721AllTokensQuery({
   });
 }
 export interface Sg721TokensQuery {
-  client?: Sg721QueryClient;
+  client: Sg721QueryClient | undefined;
   options?: UseQueryOptions<TokensResponse | undefined, Error, TokensResponse, (string | undefined)[]>;
   args: {
     limit?: number;
@@ -261,7 +261,7 @@ export function useSg721TokensQuery({
   });
 }
 export interface Sg721AllNftInfoQuery {
-  client?: Sg721QueryClient;
+  client: Sg721QueryClient | undefined;
   options?: UseQueryOptions<AllNftInfoResponse | undefined, Error, AllNftInfoResponse, (string | undefined)[]>;
   args: {
     includeExpired?: boolean;
@@ -281,7 +281,7 @@ export function useSg721AllNftInfoQuery({
   });
 }
 export interface Sg721NftInfoQuery {
-  client?: Sg721QueryClient;
+  client: Sg721QueryClient | undefined;
   options?: UseQueryOptions<NftInfoResponse | undefined, Error, NftInfoResponse, (string | undefined)[]>;
   args: {
     tokenId: string;
@@ -299,7 +299,7 @@ export function useSg721NftInfoQuery({
   });
 }
 export interface Sg721ContractInfoQuery {
-  client?: Sg721QueryClient;
+  client: Sg721QueryClient | undefined;
   options?: UseQueryOptions<ContractInfoResponse | undefined, Error, ContractInfoResponse, (string | undefined)[]>;
 }
 export function useSg721ContractInfoQuery({
@@ -311,7 +311,7 @@ export function useSg721ContractInfoQuery({
   });
 }
 export interface Sg721NumTokensQuery {
-  client?: Sg721QueryClient;
+  client: Sg721QueryClient | undefined;
   options?: UseQueryOptions<NumTokensResponse | undefined, Error, NumTokensResponse, (string | undefined)[]>;
 }
 export function useSg721NumTokensQuery({
@@ -323,7 +323,7 @@ export function useSg721NumTokensQuery({
   });
 }
 export interface Sg721AllOperatorsQuery {
-  client?: Sg721QueryClient;
+  client: Sg721QueryClient | undefined;
   options?: UseQueryOptions<AllOperatorsResponse | undefined, Error, AllOperatorsResponse, (string | undefined)[]>;
   args: {
     includeExpired?: boolean;
@@ -347,7 +347,7 @@ export function useSg721AllOperatorsQuery({
   });
 }
 export interface Sg721ApprovalsQuery {
-  client?: Sg721QueryClient;
+  client: Sg721QueryClient | undefined;
   options?: UseQueryOptions<ApprovalsResponse | undefined, Error, ApprovalsResponse, (string | undefined)[]>;
   args: {
     includeExpired?: boolean;
@@ -367,7 +367,7 @@ export function useSg721ApprovalsQuery({
   });
 }
 export interface Sg721ApprovalQuery {
-  client?: Sg721QueryClient;
+  client: Sg721QueryClient | undefined;
   options?: UseQueryOptions<ApprovalResponse | undefined, Error, ApprovalResponse, (string | undefined)[]>;
   args: {
     includeExpired?: boolean;
@@ -389,7 +389,7 @@ export function useSg721ApprovalQuery({
   });
 }
 export interface Sg721OwnerOfQuery {
-  client?: Sg721QueryClient;
+  client: Sg721QueryClient | undefined;
   options?: UseQueryOptions<OwnerOfResponse | undefined, Error, OwnerOfResponse, (string | undefined)[]>;
   args: {
     includeExpired?: boolean;
@@ -629,7 +629,7 @@ export function useSg721OwnerOfQuery({
 
 exports[`createReactQueryHooks 4`] = `
 "export interface Sg721CollectionInfoQuery {
-  client?: Sg721QueryClient;
+  client: Sg721QueryClient | undefined;
   options?: Omit<UseQueryOptions<CollectionInfoResponse | undefined, Error, CollectionInfoResponse, (string | undefined)[]>, \\"'queryKey' | 'queryFn' | 'initialData'\\"> & {
     initialData?: undefined;
   };
@@ -643,7 +643,7 @@ export function useSg721CollectionInfoQuery({
   });
 }
 export interface Sg721MinterQuery {
-  client?: Sg721QueryClient;
+  client: Sg721QueryClient | undefined;
   options?: Omit<UseQueryOptions<MinterResponse | undefined, Error, MinterResponse, (string | undefined)[]>, \\"'queryKey' | 'queryFn' | 'initialData'\\"> & {
     initialData?: undefined;
   };
@@ -657,7 +657,7 @@ export function useSg721MinterQuery({
   });
 }
 export interface Sg721AllTokensQuery {
-  client?: Sg721QueryClient;
+  client: Sg721QueryClient | undefined;
   options?: Omit<UseQueryOptions<AllTokensResponse | undefined, Error, AllTokensResponse, (string | undefined)[]>, \\"'queryKey' | 'queryFn' | 'initialData'\\"> & {
     initialData?: undefined;
   };
@@ -679,7 +679,7 @@ export function useSg721AllTokensQuery({
   });
 }
 export interface Sg721TokensQuery {
-  client?: Sg721QueryClient;
+  client: Sg721QueryClient | undefined;
   options?: Omit<UseQueryOptions<TokensResponse | undefined, Error, TokensResponse, (string | undefined)[]>, \\"'queryKey' | 'queryFn' | 'initialData'\\"> & {
     initialData?: undefined;
   };
@@ -703,7 +703,7 @@ export function useSg721TokensQuery({
   });
 }
 export interface Sg721AllNftInfoQuery {
-  client?: Sg721QueryClient;
+  client: Sg721QueryClient | undefined;
   options?: Omit<UseQueryOptions<AllNftInfoResponse | undefined, Error, AllNftInfoResponse, (string | undefined)[]>, \\"'queryKey' | 'queryFn' | 'initialData'\\"> & {
     initialData?: undefined;
   };
@@ -725,7 +725,7 @@ export function useSg721AllNftInfoQuery({
   });
 }
 export interface Sg721NftInfoQuery {
-  client?: Sg721QueryClient;
+  client: Sg721QueryClient | undefined;
   options?: Omit<UseQueryOptions<NftInfoResponse | undefined, Error, NftInfoResponse, (string | undefined)[]>, \\"'queryKey' | 'queryFn' | 'initialData'\\"> & {
     initialData?: undefined;
   };
@@ -745,7 +745,7 @@ export function useSg721NftInfoQuery({
   });
 }
 export interface Sg721ContractInfoQuery {
-  client?: Sg721QueryClient;
+  client: Sg721QueryClient | undefined;
   options?: Omit<UseQueryOptions<ContractInfoResponse | undefined, Error, ContractInfoResponse, (string | undefined)[]>, \\"'queryKey' | 'queryFn' | 'initialData'\\"> & {
     initialData?: undefined;
   };
@@ -759,7 +759,7 @@ export function useSg721ContractInfoQuery({
   });
 }
 export interface Sg721NumTokensQuery {
-  client?: Sg721QueryClient;
+  client: Sg721QueryClient | undefined;
   options?: Omit<UseQueryOptions<NumTokensResponse | undefined, Error, NumTokensResponse, (string | undefined)[]>, \\"'queryKey' | 'queryFn' | 'initialData'\\"> & {
     initialData?: undefined;
   };
@@ -773,7 +773,7 @@ export function useSg721NumTokensQuery({
   });
 }
 export interface Sg721AllOperatorsQuery {
-  client?: Sg721QueryClient;
+  client: Sg721QueryClient | undefined;
   options?: Omit<UseQueryOptions<AllOperatorsResponse | undefined, Error, AllOperatorsResponse, (string | undefined)[]>, \\"'queryKey' | 'queryFn' | 'initialData'\\"> & {
     initialData?: undefined;
   };
@@ -799,7 +799,7 @@ export function useSg721AllOperatorsQuery({
   });
 }
 export interface Sg721ApprovalsQuery {
-  client?: Sg721QueryClient;
+  client: Sg721QueryClient | undefined;
   options?: Omit<UseQueryOptions<ApprovalsResponse | undefined, Error, ApprovalsResponse, (string | undefined)[]>, \\"'queryKey' | 'queryFn' | 'initialData'\\"> & {
     initialData?: undefined;
   };
@@ -821,7 +821,7 @@ export function useSg721ApprovalsQuery({
   });
 }
 export interface Sg721ApprovalQuery {
-  client?: Sg721QueryClient;
+  client: Sg721QueryClient | undefined;
   options?: Omit<UseQueryOptions<ApprovalResponse | undefined, Error, ApprovalResponse, (string | undefined)[]>, \\"'queryKey' | 'queryFn' | 'initialData'\\"> & {
     initialData?: undefined;
   };
@@ -845,7 +845,7 @@ export function useSg721ApprovalQuery({
   });
 }
 export interface Sg721OwnerOfQuery {
-  client?: Sg721QueryClient;
+  client: Sg721QueryClient | undefined;
   options?: Omit<UseQueryOptions<OwnerOfResponse | undefined, Error, OwnerOfResponse, (string | undefined)[]>, \\"'queryKey' | 'queryFn' | 'initialData'\\"> & {
     initialData?: undefined;
   };
