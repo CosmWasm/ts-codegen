@@ -99,16 +99,20 @@ export const getPropertyType = (
 
   if (typeof info.type === 'string') {
     if (info.type === 'array') {
-      if (info.items.$ref) {
-        type = getArrayTypeFromRef(info.items.$ref);
-      } else if (info.items.title) {
-        type = t.tsArrayType(
-          t.tsTypeReference(
-            t.identifier(info.items.title)
-          )
-        );
-      } else if (info.items.type) {
-        type = getArrayTypeFromItems(info.items);
+      if (typeof info.items === 'object' && !Array.isArray(info.items)) {
+        if (info.items.$ref) {
+          type = getArrayTypeFromRef(info.items.$ref);
+        } else if (info.items.title) {
+          type = t.tsArrayType(
+            t.tsTypeReference(
+              t.identifier(info.items.title)
+            )
+          );
+        } else if (info.items.type) {
+          type = getArrayTypeFromItems(info.items);
+        } else {
+          throw new Error('[info.items] case not handled by transpiler. contact maintainers.')
+        }
       } else {
         throw new Error('[info.items] case not handled by transpiler. contact maintainers.')
       }
@@ -127,7 +131,7 @@ export const getPropertyType = (
       throw new Error('please report this to maintainers (field type): ' + JSON.stringify(info, null, 2))
     }
 
-    if (nullableType === 'array') {
+    if (nullableType === 'array' && typeof info.items === 'object' && !Array.isArray(info.items)) {
       type = t.tsArrayType(
         getType(info.items.type)
       );
@@ -174,6 +178,7 @@ export function getPropertySignatureFromProp(
       if (el.$ref) return getTypeStrFromRef(el.$ref);
       return el.type;
     });
+    // @ts-ignore:next-line
     const uniqUnionTypes = [...new Set(unionTypes)];
 
     if (uniqUnionTypes.length === 1) {
@@ -208,6 +213,7 @@ export function getPropertySignatureFromProp(
       if (el.$ref) return getTypeStrFromRef(el.$ref);
       return el.type;
     });
+    // @ts-ignore:next-line
     const uniqUnionTypes = [...new Set(unionTypes)];
     if (uniqUnionTypes.length === 1) {
       return propertySignature(
@@ -276,6 +282,7 @@ export const getParamsTypeAnnotation = (
 
   return t.tsTypeAnnotation(
     t.tsTypeLiteral(
+      // @ts-ignore:next-line
       [
         ...typedParams
       ]

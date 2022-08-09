@@ -17,7 +17,7 @@ interface ReactQueryHooks {
     contractName: string;
     QueryClient: string;
 }
-export declare const createReactQueryHooks: ({ context, queryMsg, contractName, QueryClient }: ReactQueryHooks) => any;
+export declare const createReactQueryHooks: ({ context, queryMsg, contractName, QueryClient }: ReactQueryHooks) => t.ExportNamedDeclaration[];
 export declare const createReactQueryHook: ({ context, hookName, hookParamsTypeName, responseType, hookKeyName, methodName, jsonschema }: ReactQueryHookQuery) => t.ExportNamedDeclaration;
 interface ReactQueryMutationHookInterface {
     context: RenderContext;
@@ -74,8 +74,9 @@ interface ReactQueryHookQueryInterface {
     context: RenderContext;
     QueryClient: string;
     hookParamsTypeName: string;
+    queryInterfaceName: string;
     responseType: string;
     jsonschema: any;
 }
-export declare const createReactQueryHookInterface: ({ context, QueryClient, hookParamsTypeName, responseType, jsonschema }: ReactQueryHookQueryInterface) => t.ExportNamedDeclaration;
+export declare const createReactQueryHookInterface: ({ context, QueryClient, hookParamsTypeName, queryInterfaceName, responseType, jsonschema }: ReactQueryHookQueryInterface) => t.ExportNamedDeclaration;
 export {};

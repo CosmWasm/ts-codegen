@@ -528,6 +528,7 @@ export const createPropertyFunctionWithObjectParams = (
   return t.tSPropertySignature(
     t.identifier(methodName),
     t.tsTypeAnnotation(
+      // @ts-ignore:next-line
       func
     )
   );
@@ -557,6 +558,7 @@ export const createPropertyFunctionWithObjectParamsForExec = (
   return t.tSPropertySignature(
     t.identifier(methodName),
     t.tsTypeAnnotation(
+      // @ts-ignore:next-line
       func
     )
   );
@@ -641,6 +643,7 @@ export const createTypeOrInterface = (
       null,
       [],
       t.tsInterfaceBody(
+        // @ts-ignore:next-line
         [
           ...props
         ]

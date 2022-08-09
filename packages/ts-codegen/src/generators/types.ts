@@ -18,7 +18,7 @@ export default async (
 ): Promise<BuilderFile[]> => {
 
   const context = new RenderContext(getDefinitionSchema(schemas), {
-    tsClient: tsTypesOptions ?? {}
+    types: tsTypesOptions ?? {}
   });
   const options = context.options.types;
 

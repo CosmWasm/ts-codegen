@@ -297,6 +297,7 @@ const createPropertyFunctionWithObjectParamsForMessageComposer = (
     return t.tSPropertySignature(
         t.identifier(methodName),
         t.tsTypeAnnotation(
+            // @ts-ignore:next-line
             func
         )
     );

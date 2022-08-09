@@ -44,7 +44,7 @@ export declare const memberExpressionOrIdentifierSnake: (names: any) => any;
  * If optional, return a conditional, otherwise just the expression
  */
 export declare const optionalConditionalExpression: (test: t.Expression, expression: t.Expression, alternate: t.Expression, optional?: boolean) => t.Expression;
-export declare const typeRefOrOptionalUnion: (identifier: t.Identifier, optional?: boolean) => t.TSType;
+export declare const typeRefOrUnionWithUndefined: (identifier: t.Identifier, optional?: boolean) => t.TSType;
 export declare const parameterizedTypeReference: (identifier: string, from: t.TSType, omit: string | Array<string>) => t.TSTypeReference;
 /**
  * omitTypeReference(t.tsTypeReference(t.identifier('Cw4UpdateMembersMutation'),),'args').....

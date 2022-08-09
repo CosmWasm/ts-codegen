@@ -33,7 +33,7 @@ export interface JSONSchema {
     oneOf?: JSONSchema[];
     properties?: Record<string, JSONSchema>;
     patternProperties?: Record<string, JSONSchema>;
-    items?: JSONSchema[] | JSONSchema;
+    items?: JSONSchema | JSONSchema[];
     additionalItems?: JSONSchema;
     required?: string[];
     title?: string;

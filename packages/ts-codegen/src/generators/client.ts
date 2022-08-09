@@ -8,20 +8,20 @@ import { writeFileSync } from 'fs';
 import generate from "@babel/generator";
 import { getMessageProperties } from "wasm-ast-types";
 import { findAndParseTypes, findExecuteMsg, findQueryMsg, getDefinitionSchema } from '../utils';
-import { RenderContext, TsClientOptions } from "wasm-ast-types";
+import { RenderContext, TSClientOptions } from "wasm-ast-types";
 import { BuilderFile } from "../builder";
 
 export default async (
   name: string,
   schemas: any[],
   outPath: string,
-  tsClientOptions?: TsClientOptions
+  tsClientOptions?: TSClientOptions
 ): Promise<BuilderFile[]> => {
 
   const context = new RenderContext(getDefinitionSchema(schemas), {
-    tsClient: tsClientOptions ?? {}
+    client: tsClientOptions ?? {}
   });
-  const options = context.options.tsClient;
+  const options = context.options.client;
 
   const localname = pascal(name) + '.client.ts';
   const TypesFile = pascal(name) + '.types'
