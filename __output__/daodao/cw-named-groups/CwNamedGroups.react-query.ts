@@ -7,9 +7,11 @@
 import { UseQueryOptions, useQuery } from "react-query";
 import { DumpResponse, Group, ExecuteMsg, InstantiateMsg, Addr, ListAddressesResponse, ListGroupsResponse, QueryMsg } from "./CwNamedGroups.types";
 import { CwNamedGroupsQueryClient } from "./CwNamedGroups.client";
-export interface CwNamedGroupsIsAddressInGroupQuery {
+export interface CwNamedGroupsReactQuery<TResponse> {
   client: CwNamedGroupsQueryClient;
-  options?: UseQueryOptions<IsAddressInGroupResponse, Error, IsAddressInGroupResponse, (string | undefined)[]>;
+  options?: UseQueryOptions<TResponse, Error, TResponse, (string | undefined)[]>;
+}
+export interface CwNamedGroupsIsAddressInGroupQuery extends CwNamedGroupsReactQuery<IsAddressInGroupResponse> {
   args: {
     address: string;
     group: string;
@@ -25,9 +27,7 @@ export function useCwNamedGroupsIsAddressInGroupQuery({
     group: args.group
   }), options);
 }
-export interface CwNamedGroupsListAddressesQuery {
-  client: CwNamedGroupsQueryClient;
-  options?: UseQueryOptions<ListAddressesResponse, Error, ListAddressesResponse, (string | undefined)[]>;
+export interface CwNamedGroupsListAddressesQuery extends CwNamedGroupsReactQuery<ListAddressesResponse> {
   args: {
     group: string;
     limit?: number;
@@ -45,9 +45,7 @@ export function useCwNamedGroupsListAddressesQuery({
     offset: args.offset
   }), options);
 }
-export interface CwNamedGroupsListGroupsQuery {
-  client: CwNamedGroupsQueryClient;
-  options?: UseQueryOptions<ListGroupsResponse, Error, ListGroupsResponse, (string | undefined)[]>;
+export interface CwNamedGroupsListGroupsQuery extends CwNamedGroupsReactQuery<ListGroupsResponse> {
   args: {
     address: string;
     limit?: number;
@@ -65,10 +63,7 @@ export function useCwNamedGroupsListGroupsQuery({
     offset: args.offset
   }), options);
 }
-export interface CwNamedGroupsDumpQuery {
-  client: CwNamedGroupsQueryClient;
-  options?: UseQueryOptions<DumpResponse, Error, DumpResponse, (string | undefined)[]>;
-}
+export interface CwNamedGroupsDumpQuery extends CwNamedGroupsReactQuery<DumpResponse> {}
 export function useCwNamedGroupsDumpQuery({
   client,
   options

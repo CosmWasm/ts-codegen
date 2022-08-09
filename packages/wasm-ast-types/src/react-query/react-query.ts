@@ -40,12 +40,22 @@ export const createReactQueryHooks = ({
 }: ReactQueryHooks) => {
     const options = context.options.reactQuery;
 
-    return getMessageProperties(queryMsg)
+    const genericQueryInterfaceName = `${pascal(contractName)}ReactQuery`;
+
+    const body = [
+      createReactQueryHookGenericInterface({
+        context,
+        QueryClient,
+        genericQueryInterfaceName,
+      })
+    ]
+
+    body.push(...getMessageProperties(queryMsg)
         .reduce((m, schema) => {
             const underscoreName = Object.keys(schema.properties)[0];
             const methodName = camel(underscoreName);
-            const hookName = `use${pascal(contractName)}${pascal(methodName)}Query`;
             const hookParamsTypeName = `${pascal(contractName)}${pascal(methodName)}Query`;
+            const hookName = `use${hookParamsTypeName}`;
             const responseType = pascal(`${methodName}Response`);
             const getterKey = camel(`${contractName}${pascal(methodName)}`);
             const jsonschema = schema.properties[underscoreName];
@@ -54,9 +64,9 @@ export const createReactQueryHooks = ({
                     context,
                     hookParamsTypeName,
                     responseType,
+                    queryInterfaceName: genericQueryInterfaceName,
                     QueryClient,
                     jsonschema,
-                    options
                 }),
                 createReactQueryHook({
                     context,
@@ -69,7 +79,10 @@ export const createReactQueryHooks = ({
                 }),
                 ...m,
             ]
-        }, []);
+        }, [])
+    );
+
+    return body
 };
 
 
@@ -491,10 +504,101 @@ export const createReactQueryMutationHook = ({
 
 };
 
+interface ReactQueryHookGenericInterface{
+  context: RenderContext,
+  QueryClient: string,
+  genericQueryInterfaceName: string
+}
+
+function createReactQueryHookGenericInterface({
+  context,
+  QueryClient,
+  genericQueryInterfaceName
+}: ReactQueryHookGenericInterface) {
+
+  const options = context.options.reactQuery;
+
+  const genericTypeName = 'TResponse'
+
+  context.addUtil('UseQueryOptions');
+
+  const typedUseQueryOptions = t.tsTypeReference(
+    t.identifier('UseQueryOptions'),
+    t.tsTypeParameterInstantiation([
+      typeRefOrOptionalUnion(
+        t.identifier(genericTypeName),
+        options.optionalClient
+      ),
+      t.tsTypeReference(t.identifier('Error')),
+      t.tsTypeReference(
+        t.identifier(genericTypeName)
+      ),
+      t.tsArrayType(
+        t.tsParenthesizedType(
+          t.tsUnionType([
+            t.tsStringKeyword(),
+            t.tsUndefinedKeyword()
+          ])
+        )
+      ),
+    ])
+  )
+
+  const body = [
+    tsPropertySignature(
+      t.identifier('client'),
+      t.tsTypeAnnotation(
+        options.optionalClient
+          ? t.tsUnionType([
+            t.tsTypeReference(
+              t.identifier(QueryClient)
+            ),
+            t.tsUndefinedKeyword()
+          ])
+          : t.tsTypeReference(
+            t.identifier(QueryClient)
+          )
+      ),
+      false
+    ),
+    tsPropertySignature(
+      t.identifier('options'),
+      t.tsTypeAnnotation(
+        options.version === 'v4'
+          ? t.tSIntersectionType([
+            omitTypeReference(typedUseQueryOptions, "'queryKey' | 'queryFn' | 'initialData'"),
+            t.tSTypeLiteral([
+              t.tsPropertySignature(
+                t.identifier('initialData?'),
+                t.tsTypeAnnotation(
+                  t.tsUndefinedKeyword()
+                )
+              )
+            ])
+          ])
+          : typedUseQueryOptions
+      ),
+      true
+    )
+  ];
+
+  return t.exportNamedDeclaration(
+    t.tsInterfaceDeclaration(
+      t.identifier(genericQueryInterfaceName),
+      t.tsTypeParameterDeclaration([
+        t.tsTypeParameter(undefined, undefined, genericTypeName)
+      ]),
+      [],
+      t.tSInterfaceBody(body)
+    )
+  )
+}
+
 interface ReactQueryHookQueryInterface {
     context: RenderContext,
     QueryClient: string;
     hookParamsTypeName: string;
+    queryInterfaceName: string
     responseType: string;
     jsonschema: any;
 }
@@ -503,73 +607,14 @@ export const createReactQueryHookInterface = ({
     context,
     QueryClient,
     hookParamsTypeName,
+    queryInterfaceName,
     responseType,
     jsonschema
 }: ReactQueryHookQueryInterface) => {
     // merge the user options with the defaults
     const options = context.options.reactQuery;
 
-    context.addUtil('UseQueryOptions');
-
-    const typedUseQueryOptions = t.tsTypeReference(
-        t.identifier('UseQueryOptions'),
-        t.tsTypeParameterInstantiation([
-            typeRefOrOptionalUnion(
-                t.identifier(responseType),
-                options.optionalClient
-            ),
-            t.tsTypeReference(t.identifier('Error')),
-            t.tsTypeReference(
-                t.identifier(responseType)
-            ),
-            t.tsArrayType(
-                t.tsParenthesizedType(
-                    t.tsUnionType([
-                        t.tsStringKeyword(),
-                        t.tsUndefinedKeyword()
-                    ])
-                )
-            ),
-        ])
-    )
-
-    const body = [
-        tsPropertySignature(
-            t.identifier('client'),
-            t.tsTypeAnnotation(
-          options.optionalClient
-            ? t.tsUnionType([
-              t.tsTypeReference(
-                t.identifier(QueryClient)
-              ),
-              t.tsUndefinedKeyword()
-            ])
-            : t.tsTypeReference(
-                    t.identifier(QueryClient)
-                )
-            ),
-            false
-        ),
-        tsPropertySignature(
-            t.identifier('options'),
-            t.tsTypeAnnotation(
-                options.version === 'v4'
-                    ? t.tSIntersectionType([
-                        omitTypeReference(typedUseQueryOptions, "'queryKey' | 'queryFn' | 'initialData'"),
-                        t.tSTypeLiteral([
-                            t.tsPropertySignature(
-                                t.identifier('initialData?'),
-                                t.tsTypeAnnotation(
-                                    t.tsUndefinedKeyword()
-                                )
-                            )
-                        ])
-                    ])
-                    : typedUseQueryOptions
-            ),
-            true
-        )
-    ];
+    const body = []
 
     const props = getProps(context, jsonschema);
     if (props.length) {
@@ -582,14 +627,23 @@ export const createReactQueryHookInterface = ({
     }
 
 
-    return t.exportNamedDeclaration(t.tsInterfaceDeclaration(
+    return t.exportNamedDeclaration(
+      t.tsInterfaceDeclaration(
         t.identifier(hookParamsTypeName),
         null,
-        [],
+      [
+          t.tSExpressionWithTypeArguments(
+            t.identifier(queryInterfaceName),
+            t.tsTypeParameterInstantiation([
+              t.tsTypeReference(t.identifier(responseType))
+            ])
+          )
+        ],
         t.tsInterfaceBody(
             body
         )
-    ))
+      )
+    )
 };
 
 const getProps = (

@@ -7,10 +7,11 @@
 import { UseQueryOptions, useQuery } from "react-query";
 import { AdminAddrResponse, CodeIdResponse, CodeIdType, Uint128, Binary, CreateWalletMsg, Guardians, MultiSig, Coin, Cw20Coin, ExecuteMsg, Addr, ProxyMigrationTxMsg, WalletAddr, CanonicalAddr, RelayTransaction, FeeResponse, GovecAddrResponse, InstantiateMsg, QueryMsg, WalletQueryPrefix, Duration, StakingOptions, WalletInfo, ContractVersion, WalletsOfResponse, WalletsResponse } from "./Factory.types";
 import { FactoryQueryClient } from "./Factory.client";
-export interface FactoryAdminAddrQuery {
-  client?: FactoryQueryClient;
-  options?: UseQueryOptions<AdminAddrResponse | undefined, Error, AdminAddrResponse, (string | undefined)[]>;
+export interface FactoryReactQuery<TResponse> {
+  client: FactoryQueryClient | undefined;
+  options?: UseQueryOptions<TResponse | undefined, Error, TResponse, (string | undefined)[]>;
 }
+export interface FactoryAdminAddrQuery extends FactoryReactQuery<AdminAddrResponse> {}
 export function useFactoryAdminAddrQuery({
   client,
   options
@@ -19,10 +20,7 @@ export function useFactoryAdminAddrQuery({
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
-export interface FactoryGovecAddrQuery {
-  client?: FactoryQueryClient;
-  options?: UseQueryOptions<GovecAddrResponse | undefined, Error, GovecAddrResponse, (string | undefined)[]>;
-}
+export interface FactoryGovecAddrQuery extends FactoryReactQuery<GovecAddrResponse> {}
 export function useFactoryGovecAddrQuery({
   client,
   options
@@ -31,10 +29,7 @@ export function useFactoryGovecAddrQuery({
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
-export interface FactoryFeeQuery {
-  client?: FactoryQueryClient;
-  options?: UseQueryOptions<FeeResponse | undefined, Error, FeeResponse, (string | undefined)[]>;
-}
+export interface FactoryFeeQuery extends FactoryReactQuery<FeeResponse> {}
 export function useFactoryFeeQuery({
   client,
   options
@@ -43,9 +38,7 @@ export function useFactoryFeeQuery({
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
-export interface FactoryCodeIdQuery {
-  client?: FactoryQueryClient;
-  options?: UseQueryOptions<CodeIdResponse | undefined, Error, CodeIdResponse, (string | undefined)[]>;
+export interface FactoryCodeIdQuery extends FactoryReactQuery<CodeIdResponse> {
   args: {
     ty: CodeIdType;
   };
@@ -61,9 +54,7 @@ export function useFactoryCodeIdQuery({
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
-export interface FactoryWalletsOfQuery {
-  client?: FactoryQueryClient;
-  options?: UseQueryOptions<WalletsOfResponse | undefined, Error, WalletsOfResponse, (string | undefined)[]>;
+export interface FactoryWalletsOfQuery extends FactoryReactQuery<WalletsOfResponse> {
   args: {
     limit?: number;
     startAfter?: string;
@@ -83,9 +74,7 @@ export function useFactoryWalletsOfQuery({
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
-export interface FactoryWalletsQuery {
-  client?: FactoryQueryClient;
-  options?: UseQueryOptions<WalletsResponse | undefined, Error, WalletsResponse, (string | undefined)[]>;
+export interface FactoryWalletsQuery extends FactoryReactQuery<WalletsResponse> {
   args: {
     limit?: number;
     startAfter?: WalletQueryPrefix;

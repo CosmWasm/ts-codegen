@@ -7,29 +7,25 @@
 import { UseQueryOptions, useQuery } from "react-query";
 import { Expiration, Timestamp, Uint64, AllNftInfoResponse, OwnerOfResponse, Approval, NftInfoResponseForEmpty, Empty, AllOperatorsResponse, AllTokensResponse, ApprovalResponse, ApprovalsResponse, Decimal, CollectionInfoResponse, RoyaltyInfoResponse, ContractInfoResponse, ExecuteMsgForEmpty, Binary, MintMsgForEmpty, InstantiateMsg, CollectionInfoForRoyaltyInfoResponse, MinterResponse, NftInfoResponse, NumTokensResponse, OperatorsResponse, QueryMsg, TokensResponse } from "./Sg721.types";
 import { Sg721QueryClient } from "./Sg721.client";
-export interface Sg721CollectionInfoQuery {
+export interface Sg721ReactQuery<TResponse> {
   client: Sg721QueryClient;
-  options?: UseQueryOptions<CollectionInfoResponse, Error, CollectionInfoResponse, (string | undefined)[]>;
+  options?: UseQueryOptions<TResponse, Error, TResponse, (string | undefined)[]>;
 }
+export interface Sg721CollectionInfoQuery extends Sg721ReactQuery<CollectionInfoResponse> {}
 export function useSg721CollectionInfoQuery({
   client,
   options
 }: Sg721CollectionInfoQuery) {
   return useQuery<CollectionInfoResponse, Error, CollectionInfoResponse, (string | undefined)[]>(["sg721CollectionInfo", client.contractAddress], () => client.collectionInfo(), options);
 }
-export interface Sg721MinterQuery {
-  client: Sg721QueryClient;
-  options?: UseQueryOptions<MinterResponse, Error, MinterResponse, (string | undefined)[]>;
-}
+export interface Sg721MinterQuery extends Sg721ReactQuery<MinterResponse> {}
 export function useSg721MinterQuery({
   client,
   options
 }: Sg721MinterQuery) {
   return useQuery<MinterResponse, Error, MinterResponse, (string | undefined)[]>(["sg721Minter", client.contractAddress], () => client.minter(), options);
 }
-export interface Sg721AllTokensQuery {
-  client: Sg721QueryClient;
-  options?: UseQueryOptions<AllTokensResponse, Error, AllTokensResponse, (string | undefined)[]>;
+export interface Sg721AllTokensQuery extends Sg721ReactQuery<AllTokensResponse> {
   args: {
     limit?: number;
     startAfter?: string;
@@ -45,9 +41,7 @@ export function useSg721AllTokensQuery({
     startAfter: args.startAfter
   }), options);
 }
-export interface Sg721TokensQuery {
-  client: Sg721QueryClient;
-  options?: UseQueryOptions<TokensResponse, Error, TokensResponse, (string | undefined)[]>;
+export interface Sg721TokensQuery extends Sg721ReactQuery<TokensResponse> {
   args: {
     limit?: number;
     owner: string;
@@ -65,9 +59,7 @@ export function useSg721TokensQuery({
     startAfter: args.startAfter
   }), options);
 }
-export interface Sg721AllNftInfoQuery {
-  client: Sg721QueryClient;
-  options?: UseQueryOptions<AllNftInfoResponse, Error, AllNftInfoResponse, (string | undefined)[]>;
+export interface Sg721AllNftInfoQuery extends Sg721ReactQuery<AllNftInfoResponse> {
   args: {
     includeExpired?: boolean;
     tokenId: string;
@@ -83,9 +75,7 @@ export function useSg721AllNftInfoQuery({
     tokenId: args.tokenId
   }), options);
 }
-export interface Sg721NftInfoQuery {
-  client: Sg721QueryClient;
-  options?: UseQueryOptions<NftInfoResponse, Error, NftInfoResponse, (string | undefined)[]>;
+export interface Sg721NftInfoQuery extends Sg721ReactQuery<NftInfoResponse> {
   args: {
     tokenId: string;
   };
@@ -99,29 +89,21 @@ export function useSg721NftInfoQuery({
     tokenId: args.tokenId
   }), options);
 }
-export interface Sg721ContractInfoQuery {
-  client: Sg721QueryClient;
-  options?: UseQueryOptions<ContractInfoResponse, Error, ContractInfoResponse, (string | undefined)[]>;
-}
+export interface Sg721ContractInfoQuery extends Sg721ReactQuery<ContractInfoResponse> {}
 export function useSg721ContractInfoQuery({
   client,
   options
 }: Sg721ContractInfoQuery) {
   return useQuery<ContractInfoResponse, Error, ContractInfoResponse, (string | undefined)[]>(["sg721ContractInfo", client.contractAddress], () => client.contractInfo(), options);
 }
-export interface Sg721NumTokensQuery {
-  client: Sg721QueryClient;
-  options?: UseQueryOptions<NumTokensResponse, Error, NumTokensResponse, (string | undefined)[]>;
-}
+export interface Sg721NumTokensQuery extends Sg721ReactQuery<NumTokensResponse> {}
 export function useSg721NumTokensQuery({
   client,
   options
 }: Sg721NumTokensQuery) {
   return useQuery<NumTokensResponse, Error, NumTokensResponse, (string | undefined)[]>(["sg721NumTokens", client.contractAddress], () => client.numTokens(), options);
 }
-export interface Sg721AllOperatorsQuery {
-  client: Sg721QueryClient;
-  options?: UseQueryOptions<AllOperatorsResponse, Error, AllOperatorsResponse, (string | undefined)[]>;
+export interface Sg721AllOperatorsQuery extends Sg721ReactQuery<AllOperatorsResponse> {
   args: {
     includeExpired?: boolean;
     limit?: number;
@@ -141,9 +123,7 @@ export function useSg721AllOperatorsQuery({
     startAfter: args.startAfter
   }), options);
 }
-export interface Sg721ApprovalsQuery {
-  client: Sg721QueryClient;
-  options?: UseQueryOptions<ApprovalsResponse, Error, ApprovalsResponse, (string | undefined)[]>;
+export interface Sg721ApprovalsQuery extends Sg721ReactQuery<ApprovalsResponse> {
   args: {
     includeExpired?: boolean;
     tokenId: string;
@@ -159,9 +139,7 @@ export function useSg721ApprovalsQuery({
     tokenId: args.tokenId
   }), options);
 }
-export interface Sg721ApprovalQuery {
-  client: Sg721QueryClient;
-  options?: UseQueryOptions<ApprovalResponse, Error, ApprovalResponse, (string | undefined)[]>;
+export interface Sg721ApprovalQuery extends Sg721ReactQuery<ApprovalResponse> {
   args: {
     includeExpired?: boolean;
     spender: string;
@@ -179,9 +157,7 @@ export function useSg721ApprovalQuery({
     tokenId: args.tokenId
   }), options);
 }
-export interface Sg721OwnerOfQuery {
-  client: Sg721QueryClient;
-  options?: UseQueryOptions<OwnerOfResponse, Error, OwnerOfResponse, (string | undefined)[]>;
+export interface Sg721OwnerOfQuery extends Sg721ReactQuery<OwnerOfResponse> {
   args: {
     includeExpired?: boolean;
     tokenId: string;
