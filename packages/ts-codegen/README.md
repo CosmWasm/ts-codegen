@@ -89,6 +89,8 @@ codegen({
     }
   ],
   outPath: './path/to/code/src/',
+
+  // options are completely optional ;)
   options: {
     bundle: {
       bundleFile: 'index.ts',
