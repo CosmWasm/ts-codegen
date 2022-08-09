@@ -8,7 +8,7 @@ import {
     optionalConditionalExpression,
     propertySignature,
     shorthandProperty,
-    typeRefOrOptionalUnion
+    typeRefOrUnionWithUndefined
 } from '../utils/babel';
 import { getParamsTypeAnnotation, getPropertyType } from '../utils/types';
 import { RenderContext } from '../context';
@@ -164,7 +164,20 @@ export const createReactQueryHook = ({
                                             ),
                                             args
                                         ),
-                                        t.identifier('undefined'),
+                                        t.callExpression(
+                                          t.memberExpression(
+                                            t.identifier('Promise'),
+                                            t.identifier('reject'),
+                                          ),
+                                          [
+                                            t.newExpression(
+                                              t.identifier('Error'),
+                                              [
+                                                t.stringLiteral('Invalid client')
+                                              ]
+                                            )
+                                          ]
+                                        ),
                                         options.optionalClient
                                     ),
                                     false
@@ -205,9 +218,8 @@ export const createReactQueryHook = ({
                             ],
                             t.tsTypeParameterInstantiation(
                                 [
-                                    typeRefOrOptionalUnion(
-                                        t.identifier(responseType),
-                                        options.optionalClient
+                                  t.tsTypeReference(
+                                        t.identifier(responseType)
                                     ),
                                     t.tsTypeReference(
                                         t.identifier('Error')
@@ -269,6 +281,7 @@ export const createReactQueryMutationArgsInterface = ({
     useMutationTypeParameter,
     jsonschema,
 }: ReactQueryMutationHookInterface) => {
+
     const typedUseMutationOptions = t.tsTypeReference(
         t.identifier('UseMutationOptions'),
         useMutationTypeParameter
@@ -296,9 +309,11 @@ export const createReactQueryMutationArgsInterface = ({
             ))
     }
 
-    //  fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]
+  context.addUtil('StdFee')
+  context.addUtil('Coin');
+  //  fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]
 
-    const optionalArgs = t.tsPropertySignature(
+  const optionalArgs = t.tsPropertySignature(
         t.identifier('args'),
         t.tsTypeAnnotation(
             t.tsTypeLiteral(FIXED_EXECUTE_PARAMS.map(param => propertySignature(
@@ -525,9 +540,8 @@ function createReactQueryHookGenericInterface({
   const typedUseQueryOptions = t.tsTypeReference(
     t.identifier('UseQueryOptions'),
     t.tsTypeParameterInstantiation([
-      typeRefOrOptionalUnion(
-        t.identifier(genericTypeName),
-        options.optionalClient
+      t.tsTypeReference(
+        t.identifier(genericTypeName)
       ),
       t.tsTypeReference(t.identifier('Error')),
       t.tsTypeReference(
