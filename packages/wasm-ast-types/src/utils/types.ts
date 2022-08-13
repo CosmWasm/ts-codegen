@@ -22,12 +22,22 @@ const getArrayTypeFromRef = ($ref) => {
   );
 }
 
+const getTypeOrRef = (obj) => {
+  if (obj.type) {
+    return getType(obj.type)
+  }
+  if (obj.$ref) {
+    return getTypeFromRef(obj.$ref);
+  }
+  throw new Error('contact maintainers cannot find type for ' + obj)
+}
+
 const getArrayTypeFromItems = (items) => {
   if (items.type === 'array') {
     if (Array.isArray(items.items)) {
       return t.tsArrayType(
         t.tsArrayType(
-          getType(items.items[0].type)
+          getTypeOrRef(items.items[0])
         )
       );
     } else {
