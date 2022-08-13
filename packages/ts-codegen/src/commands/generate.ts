@@ -34,13 +34,19 @@ export default async (argv) => {
                 'react-query',
                 'message-composer'
             ]
+        },
+        {
+            type: 'confirm',
+            name: 'bundle',
+            message: 'enable bundle?',
+            default: true
         }
     ];
 
     if (argv.typesOnly) {
         argv.plugin = 'types';
     }
-    let { schema, out, name, plugin } = await prompt(questions, argv);
+    let { schema, out, name, plugin, bundle } = await prompt(questions, argv);
     if (!Array.isArray(plugin)) plugin = [plugin];
 
     ///////// REACT QUERY
@@ -79,6 +85,27 @@ export default async (argv) => {
     const { mutations } = await prompt(questions3, argv);
     ///////// END REACT QUERY
 
+    ///////// BUNDLE
+    const questions4 = [];
+    if (bundle) {
+        [].push.apply(questions4, [
+            {
+                type: 'string',
+                name: 'bundleFile',
+                message: 'bundleFile?',
+                default: 'bundle.ts'
+            },
+            {
+                type: 'string',
+                name: 'bundleScope',
+                message: 'bundleScope?',
+                default: 'contracts'
+            }
+        ])
+    };
+    const { bundleFile, bundleScope } = await prompt(questions4, argv);
+    ///////// END BUNDLE
+
 
     const options: TSBuilderOptions = {
         types: {
@@ -101,6 +128,11 @@ export default async (argv) => {
         },
         messageComposer: {
             enabled: plugin.includes('message-composer')
+        },
+        bundle: {
+            enabled: bundle,
+            scope: bundleScope,
+            bundleFile
         }
     };
 
