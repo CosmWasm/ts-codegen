@@ -450,3 +450,8 @@ See the [docs](https://github.com/CosmWasm/ts-codegen/blob/main/packages/wasm-as
 Checkout these related projects:
 
 * [@osmonauts/telescope](https://github.com/osmosis-labs/telescope) a "babel for the Cosmos", Telescope is a TypeScript Transpiler for Cosmos Protobufs.
+
+## Credits
+
+Built by Cosmology — if you like our tools, please consider delegating to [our validator](https://www.mintscan.io/juno/validators/junovaloper1pr5qgj4jg47lvsnejtfvk78090shvuctgdwdm5)
+
