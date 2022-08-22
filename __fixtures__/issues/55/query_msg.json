@@ -1,0 +1,225 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "QueryMsg",
+  "description": "Queries can be used to perform read-only operation on the state of the contract. GetDenom returns the denomination of choice for the contract GetOwner returns the address of the contract owner AllEdges returns the list of all edges stored in the contract OneEdge takes the edge_id as input and returns the specific info pertaining the given edge",
+  "oneOf": [
+    {
+      "type": "object",
+      "required": [
+        "get_denom"
+      ],
+      "properties": {
+        "get_denom": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "get_owner"
+      ],
+      "properties": {
+        "get_owner": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "all_edges"
+      ],
+      "properties": {
+        "all_edges": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "one_edge"
+      ],
+      "properties": {
+        "one_edge": {
+          "type": "object",
+          "required": [
+            "edge_id"
+          ],
+          "properties": {
+            "edge_id": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "one_batch"
+      ],
+      "properties": {
+        "one_batch": {
+          "type": "object",
+          "required": [
+            "batch_id"
+          ],
+          "properties": {
+            "batch_id": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "one_graph"
+      ],
+      "properties": {
+        "one_graph": {
+          "type": "object",
+          "required": [
+            "graph_id"
+          ],
+          "properties": {
+            "graph_id": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "get_edges_by_address"
+      ],
+      "properties": {
+        "get_edges_by_address": {
+          "type": "object",
+          "required": [
+            "address"
+          ],
+          "properties": {
+            "address": {
+              "$ref": "#/definitions/Addr"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "get_edges_as_counterparty"
+      ],
+      "properties": {
+        "get_edges_as_counterparty": {
+          "type": "object",
+          "required": [
+            "address"
+          ],
+          "properties": {
+            "address": {
+              "$ref": "#/definitions/Addr"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "get_total_debt_per_address"
+      ],
+      "properties": {
+        "get_total_debt_per_address": {
+          "type": "object",
+          "required": [
+            "address"
+          ],
+          "properties": {
+            "address": {
+              "$ref": "#/definitions/Addr"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "get_total_credit_per_address"
+      ],
+      "properties": {
+        "get_total_credit_per_address": {
+          "type": "object",
+          "required": [
+            "address"
+          ],
+          "properties": {
+            "address": {
+              "$ref": "#/definitions/Addr"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "get_total_debt_by_graph"
+      ],
+      "properties": {
+        "get_total_debt_by_graph": {
+          "type": "object",
+          "required": [
+            "graph_id"
+          ],
+          "properties": {
+            "graph_id": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "get_total_debt"
+      ],
+      "properties": {
+        "get_total_debt": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": false
+    }
+  ],
+  "definitions": {
+    "Addr": {
+      "description": "A human readable address.\n\nIn Cosmos, this is typically bech32 encoded. But for multi-chain smart contracts no assumptions should be made other than being UTF-8 encoded and of reasonable length.\n\nThis type represents a validated address. It can be created in the following ways 1. Use `Addr::unchecked(input)` 2. Use `let checked: Addr = deps.api.addr_validate(input)?` 3. Use `let checked: Addr = deps.api.addr_humanize(canonical_addr)?` 4. Deserialize from JSON. This must only be done from JSON that was validated before such as a contract's state. `Addr` must not be used in messages sent by the user because this would result in unvalidated instances.\n\nThis type is immutable. If you really need to mutate it (Really? Are you sure?), create a mutable copy using `let mut mutable = Addr::to_string()` and operate on that `String` instance.",
+      "type": "string"
+    }
+  }
+}

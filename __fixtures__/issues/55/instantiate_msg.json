@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "InstantiateMsg",
+  "description": "The instantiate message needs only the denomination as it will take the message sender as the owner addr.",
+  "type": "object",
+  "required": [
+    "denom"
+  ],
+  "properties": {
+    "denom": {
+      "type": "string"
+    }
+  }
+}
