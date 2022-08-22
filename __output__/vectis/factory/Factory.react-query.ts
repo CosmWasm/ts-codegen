@@ -11,28 +11,28 @@ export interface FactoryReactQuery<TResponse, TData = TResponse> {
   client: FactoryQueryClient;
   options?: UseQueryOptions<TResponse, Error, TData>;
 }
-export interface FactoryAdminAddrQuery extends FactoryReactQuery<AdminAddrResponse, TData> {}
+export interface FactoryAdminAddrQuery<TData> extends FactoryReactQuery<AdminAddrResponse, TData> {}
 export function useFactoryAdminAddrQuery<TData = AdminAddrResponse>({
   client,
   options
 }: FactoryAdminAddrQuery<TData>) {
   return useQuery<AdminAddrResponse, Error, TData>(["factoryAdminAddr", client.contractAddress], () => client.adminAddr(), options);
 }
-export interface FactoryGovecAddrQuery extends FactoryReactQuery<GovecAddrResponse, TData> {}
+export interface FactoryGovecAddrQuery<TData> extends FactoryReactQuery<GovecAddrResponse, TData> {}
 export function useFactoryGovecAddrQuery<TData = GovecAddrResponse>({
   client,
   options
 }: FactoryGovecAddrQuery<TData>) {
   return useQuery<GovecAddrResponse, Error, TData>(["factoryGovecAddr", client.contractAddress], () => client.govecAddr(), options);
 }
-export interface FactoryFeeQuery extends FactoryReactQuery<FeeResponse, TData> {}
+export interface FactoryFeeQuery<TData> extends FactoryReactQuery<FeeResponse, TData> {}
 export function useFactoryFeeQuery<TData = FeeResponse>({
   client,
   options
 }: FactoryFeeQuery<TData>) {
   return useQuery<FeeResponse, Error, TData>(["factoryFee", client.contractAddress], () => client.fee(), options);
 }
-export interface FactoryCodeIdQuery extends FactoryReactQuery<CodeIdResponse, TData> {
+export interface FactoryCodeIdQuery<TData> extends FactoryReactQuery<CodeIdResponse, TData> {
   args: {
     ty: CodeIdType;
   };
@@ -46,7 +46,7 @@ export function useFactoryCodeIdQuery<TData = CodeIdResponse>({
     ty: args.ty
   }), options);
 }
-export interface FactoryWalletsOfQuery extends FactoryReactQuery<WalletsOfResponse, TData> {
+export interface FactoryWalletsOfQuery<TData> extends FactoryReactQuery<WalletsOfResponse, TData> {
   args: {
     limit?: number;
     startAfter?: string;
@@ -64,7 +64,7 @@ export function useFactoryWalletsOfQuery<TData = WalletsOfResponse>({
     user: args.user
   }), options);
 }
-export interface FactoryWalletsQuery extends FactoryReactQuery<WalletsResponse, TData> {
+export interface FactoryWalletsQuery<TData> extends FactoryReactQuery<WalletsResponse, TData> {
   args: {
     limit?: number;
     startAfter?: WalletQueryPrefix;

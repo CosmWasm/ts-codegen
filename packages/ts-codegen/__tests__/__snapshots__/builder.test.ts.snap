@@ -20,6 +20,7 @@ TSBuilder {
       "enabled": true,
       "mutations": false,
       "optionalClient": false,
+      "queryKeys": false,
       "version": "v3",
     },
     "recoil": Object {
@@ -53,6 +54,7 @@ TSBuilder {
       "enabled": false,
       "mutations": false,
       "optionalClient": false,
+      "queryKeys": false,
       "version": "v3",
     },
     "recoil": Object {

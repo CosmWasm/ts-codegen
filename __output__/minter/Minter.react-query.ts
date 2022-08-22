@@ -11,7 +11,7 @@ export interface MinterReactQuery<TResponse, TData = TResponse> {
   client: MinterQueryClient;
   options?: UseQueryOptions<TResponse, Error, TData>;
 }
-export interface MinterMintCountQuery extends MinterReactQuery<MintCountResponse, TData> {
+export interface MinterMintCountQuery<TData> extends MinterReactQuery<MintCountResponse, TData> {
   args: {
     address: string;
   };
@@ -25,28 +25,28 @@ export function useMinterMintCountQuery<TData = MintCountResponse>({
     address: args.address
   }), options);
 }
-export interface MinterMintPriceQuery extends MinterReactQuery<MintPriceResponse, TData> {}
+export interface MinterMintPriceQuery<TData> extends MinterReactQuery<MintPriceResponse, TData> {}
 export function useMinterMintPriceQuery<TData = MintPriceResponse>({
   client,
   options
 }: MinterMintPriceQuery<TData>) {
   return useQuery<MintPriceResponse, Error, TData>(["minterMintPrice", client.contractAddress], () => client.mintPrice(), options);
 }
-export interface MinterStartTimeQuery extends MinterReactQuery<StartTimeResponse, TData> {}
+export interface MinterStartTimeQuery<TData> extends MinterReactQuery<StartTimeResponse, TData> {}
 export function useMinterStartTimeQuery<TData = StartTimeResponse>({
   client,
   options
 }: MinterStartTimeQuery<TData>) {
   return useQuery<StartTimeResponse, Error, TData>(["minterStartTime", client.contractAddress], () => client.startTime(), options);
 }
-export interface MinterMintableNumTokensQuery extends MinterReactQuery<MintableNumTokensResponse, TData> {}
+export interface MinterMintableNumTokensQuery<TData> extends MinterReactQuery<MintableNumTokensResponse, TData> {}
 export function useMinterMintableNumTokensQuery<TData = MintableNumTokensResponse>({
   client,
   options
 }: MinterMintableNumTokensQuery<TData>) {
   return useQuery<MintableNumTokensResponse, Error, TData>(["minterMintableNumTokens", client.contractAddress], () => client.mintableNumTokens(), options);
 }
-export interface MinterConfigQuery extends MinterReactQuery<ConfigResponse, TData> {}
+export interface MinterConfigQuery<TData> extends MinterReactQuery<ConfigResponse, TData> {}
 export function useMinterConfigQuery<TData = ConfigResponse>({
   client,
   options

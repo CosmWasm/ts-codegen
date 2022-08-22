@@ -11,21 +11,21 @@ export interface Sg721ReactQuery<TResponse, TData = TResponse> {
   client: Sg721QueryClient;
   options?: UseQueryOptions<TResponse, Error, TData>;
 }
-export interface Sg721CollectionInfoQuery extends Sg721ReactQuery<CollectionInfoResponse, TData> {}
+export interface Sg721CollectionInfoQuery<TData> extends Sg721ReactQuery<CollectionInfoResponse, TData> {}
 export function useSg721CollectionInfoQuery<TData = CollectionInfoResponse>({
   client,
   options
 }: Sg721CollectionInfoQuery<TData>) {
   return useQuery<CollectionInfoResponse, Error, TData>(["sg721CollectionInfo", client.contractAddress], () => client.collectionInfo(), options);
 }
-export interface Sg721MinterQuery extends Sg721ReactQuery<MinterResponse, TData> {}
+export interface Sg721MinterQuery<TData> extends Sg721ReactQuery<MinterResponse, TData> {}
 export function useSg721MinterQuery<TData = MinterResponse>({
   client,
   options
 }: Sg721MinterQuery<TData>) {
   return useQuery<MinterResponse, Error, TData>(["sg721Minter", client.contractAddress], () => client.minter(), options);
 }
-export interface Sg721AllTokensQuery extends Sg721ReactQuery<AllTokensResponse, TData> {
+export interface Sg721AllTokensQuery<TData> extends Sg721ReactQuery<AllTokensResponse, TData> {
   args: {
     limit?: number;
     startAfter?: string;
@@ -41,7 +41,7 @@ export function useSg721AllTokensQuery<TData = AllTokensResponse>({
     startAfter: args.startAfter
   }), options);
 }
-export interface Sg721TokensQuery extends Sg721ReactQuery<TokensResponse, TData> {
+export interface Sg721TokensQuery<TData> extends Sg721ReactQuery<TokensResponse, TData> {
   args: {
     limit?: number;
     owner: string;
@@ -59,7 +59,7 @@ export function useSg721TokensQuery<TData = TokensResponse>({
     startAfter: args.startAfter
   }), options);
 }
-export interface Sg721AllNftInfoQuery extends Sg721ReactQuery<AllNftInfoResponse, TData> {
+export interface Sg721AllNftInfoQuery<TData> extends Sg721ReactQuery<AllNftInfoResponse, TData> {
   args: {
     includeExpired?: boolean;
     tokenId: string;
@@ -75,7 +75,7 @@ export function useSg721AllNftInfoQuery<TData = AllNftInfoResponse>({
     tokenId: args.tokenId
   }), options);
 }
-export interface Sg721NftInfoQuery extends Sg721ReactQuery<NftInfoResponse, TData> {
+export interface Sg721NftInfoQuery<TData> extends Sg721ReactQuery<NftInfoResponse, TData> {
   args: {
     tokenId: string;
   };
@@ -89,21 +89,21 @@ export function useSg721NftInfoQuery<TData = NftInfoResponse>({
     tokenId: args.tokenId
   }), options);
 }
-export interface Sg721ContractInfoQuery extends Sg721ReactQuery<ContractInfoResponse, TData> {}
+export interface Sg721ContractInfoQuery<TData> extends Sg721ReactQuery<ContractInfoResponse, TData> {}
 export function useSg721ContractInfoQuery<TData = ContractInfoResponse>({
   client,
   options
 }: Sg721ContractInfoQuery<TData>) {
   return useQuery<ContractInfoResponse, Error, TData>(["sg721ContractInfo", client.contractAddress], () => client.contractInfo(), options);
 }
-export interface Sg721NumTokensQuery extends Sg721ReactQuery<NumTokensResponse, TData> {}
+export interface Sg721NumTokensQuery<TData> extends Sg721ReactQuery<NumTokensResponse, TData> {}
 export function useSg721NumTokensQuery<TData = NumTokensResponse>({
   client,
   options
 }: Sg721NumTokensQuery<TData>) {
   return useQuery<NumTokensResponse, Error, TData>(["sg721NumTokens", client.contractAddress], () => client.numTokens(), options);
 }
-export interface Sg721AllOperatorsQuery extends Sg721ReactQuery<AllOperatorsResponse, TData> {
+export interface Sg721AllOperatorsQuery<TData> extends Sg721ReactQuery<AllOperatorsResponse, TData> {
   args: {
     includeExpired?: boolean;
     limit?: number;
@@ -123,7 +123,7 @@ export function useSg721AllOperatorsQuery<TData = AllOperatorsResponse>({
     startAfter: args.startAfter
   }), options);
 }
-export interface Sg721ApprovalsQuery extends Sg721ReactQuery<ApprovalsResponse, TData> {
+export interface Sg721ApprovalsQuery<TData> extends Sg721ReactQuery<ApprovalsResponse, TData> {
   args: {
     includeExpired?: boolean;
     tokenId: string;
@@ -139,7 +139,7 @@ export function useSg721ApprovalsQuery<TData = ApprovalsResponse>({
     tokenId: args.tokenId
   }), options);
 }
-export interface Sg721ApprovalQuery extends Sg721ReactQuery<ApprovalResponse, TData> {
+export interface Sg721ApprovalQuery<TData> extends Sg721ReactQuery<ApprovalResponse, TData> {
   args: {
     includeExpired?: boolean;
     spender: string;
@@ -157,7 +157,7 @@ export function useSg721ApprovalQuery<TData = ApprovalResponse>({
     tokenId: args.tokenId
   }), options);
 }
-export interface Sg721OwnerOfQuery extends Sg721ReactQuery<OwnerOfResponse, TData> {
+export interface Sg721OwnerOfQuery<TData> extends Sg721ReactQuery<OwnerOfResponse, TData> {
   args: {
     includeExpired?: boolean;
     tokenId: string;

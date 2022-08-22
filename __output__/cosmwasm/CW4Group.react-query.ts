@@ -11,14 +11,14 @@ export interface CW4GroupReactQuery<TResponse, TData = TResponse> {
   client: CW4GroupQueryClient;
   options?: UseQueryOptions<TResponse, Error, TData>;
 }
-export interface CW4GroupHooksQuery extends CW4GroupReactQuery<HooksResponse, TData> {}
+export interface CW4GroupHooksQuery<TData> extends CW4GroupReactQuery<HooksResponse, TData> {}
 export function useCW4GroupHooksQuery<TData = HooksResponse>({
   client,
   options
 }: CW4GroupHooksQuery<TData>) {
   return useQuery<HooksResponse, Error, TData>(["cW4GroupHooks", client.contractAddress], () => client.hooks(), options);
 }
-export interface CW4GroupMemberQuery extends CW4GroupReactQuery<MemberResponse, TData> {
+export interface CW4GroupMemberQuery<TData> extends CW4GroupReactQuery<MemberResponse, TData> {
   args: {
     addr: string;
     atHeight?: number;
@@ -34,7 +34,7 @@ export function useCW4GroupMemberQuery<TData = MemberResponse>({
     atHeight: args.atHeight
   }), options);
 }
-export interface CW4GroupListMembersQuery extends CW4GroupReactQuery<ListMembersResponse, TData> {
+export interface CW4GroupListMembersQuery<TData> extends CW4GroupReactQuery<ListMembersResponse, TData> {
   args: {
     limit?: number;
     startAfter?: string;
@@ -50,14 +50,14 @@ export function useCW4GroupListMembersQuery<TData = ListMembersResponse>({
     startAfter: args.startAfter
   }), options);
 }
-export interface CW4GroupTotalWeightQuery extends CW4GroupReactQuery<TotalWeightResponse, TData> {}
+export interface CW4GroupTotalWeightQuery<TData> extends CW4GroupReactQuery<TotalWeightResponse, TData> {}
 export function useCW4GroupTotalWeightQuery<TData = TotalWeightResponse>({
   client,
   options
 }: CW4GroupTotalWeightQuery<TData>) {
   return useQuery<TotalWeightResponse, Error, TData>(["cW4GroupTotalWeight", client.contractAddress], () => client.totalWeight(), options);
 }
-export interface CW4GroupAdminQuery extends CW4GroupReactQuery<AdminResponse, TData> {}
+export interface CW4GroupAdminQuery<TData> extends CW4GroupReactQuery<AdminResponse, TData> {}
 export function useCW4GroupAdminQuery<TData = AdminResponse>({
   client,
   options

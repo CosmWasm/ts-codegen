@@ -11,28 +11,28 @@ export interface CwSingleReactQuery<TResponse, TData = TResponse> {
   client: CwSingleQueryClient;
   options?: UseQueryOptions<TResponse, Error, TData>;
 }
-export interface CwSingleInfoQuery extends CwSingleReactQuery<InfoResponse, TData> {}
+export interface CwSingleInfoQuery<TData> extends CwSingleReactQuery<InfoResponse, TData> {}
 export function useCwSingleInfoQuery<TData = InfoResponse>({
   client,
   options
 }: CwSingleInfoQuery<TData>) {
   return useQuery<InfoResponse, Error, TData>(["cwSingleInfo", client.contractAddress], () => client.info(), options);
 }
-export interface CwSingleVoteHooksQuery extends CwSingleReactQuery<VoteHooksResponse, TData> {}
+export interface CwSingleVoteHooksQuery<TData> extends CwSingleReactQuery<VoteHooksResponse, TData> {}
 export function useCwSingleVoteHooksQuery<TData = VoteHooksResponse>({
   client,
   options
 }: CwSingleVoteHooksQuery<TData>) {
   return useQuery<VoteHooksResponse, Error, TData>(["cwSingleVoteHooks", client.contractAddress], () => client.voteHooks(), options);
 }
-export interface CwSingleProposalHooksQuery extends CwSingleReactQuery<ProposalHooksResponse, TData> {}
+export interface CwSingleProposalHooksQuery<TData> extends CwSingleReactQuery<ProposalHooksResponse, TData> {}
 export function useCwSingleProposalHooksQuery<TData = ProposalHooksResponse>({
   client,
   options
 }: CwSingleProposalHooksQuery<TData>) {
   return useQuery<ProposalHooksResponse, Error, TData>(["cwSingleProposalHooks", client.contractAddress], () => client.proposalHooks(), options);
 }
-export interface CwSingleListVotesQuery extends CwSingleReactQuery<ListVotesResponse, TData> {
+export interface CwSingleListVotesQuery<TData> extends CwSingleReactQuery<ListVotesResponse, TData> {
   args: {
     limit?: number;
     proposalId: number;
@@ -50,7 +50,7 @@ export function useCwSingleListVotesQuery<TData = ListVotesResponse>({
     startAfter: args.startAfter
   }), options);
 }
-export interface CwSingleVoteQuery extends CwSingleReactQuery<VoteResponse, TData> {
+export interface CwSingleVoteQuery<TData> extends CwSingleReactQuery<VoteResponse, TData> {
   args: {
     proposalId: number;
     voter: string;
@@ -66,14 +66,14 @@ export function useCwSingleVoteQuery<TData = VoteResponse>({
     voter: args.voter
   }), options);
 }
-export interface CwSingleProposalCountQuery extends CwSingleReactQuery<ProposalCountResponse, TData> {}
+export interface CwSingleProposalCountQuery<TData> extends CwSingleReactQuery<ProposalCountResponse, TData> {}
 export function useCwSingleProposalCountQuery<TData = ProposalCountResponse>({
   client,
   options
 }: CwSingleProposalCountQuery<TData>) {
   return useQuery<ProposalCountResponse, Error, TData>(["cwSingleProposalCount", client.contractAddress], () => client.proposalCount(), options);
 }
-export interface CwSingleReverseProposalsQuery extends CwSingleReactQuery<ReverseProposalsResponse, TData> {
+export interface CwSingleReverseProposalsQuery<TData> extends CwSingleReactQuery<ReverseProposalsResponse, TData> {
   args: {
     limit?: number;
     startBefore?: number;
@@ -89,7 +89,7 @@ export function useCwSingleReverseProposalsQuery<TData = ReverseProposalsRespons
     startBefore: args.startBefore
   }), options);
 }
-export interface CwSingleListProposalsQuery extends CwSingleReactQuery<ListProposalsResponse, TData> {
+export interface CwSingleListProposalsQuery<TData> extends CwSingleReactQuery<ListProposalsResponse, TData> {
   args: {
     limit?: number;
     startAfter?: number;
@@ -105,7 +105,7 @@ export function useCwSingleListProposalsQuery<TData = ListProposalsResponse>({
     startAfter: args.startAfter
   }), options);
 }
-export interface CwSingleProposalQuery extends CwSingleReactQuery<ProposalResponse, TData> {
+export interface CwSingleProposalQuery<TData> extends CwSingleReactQuery<ProposalResponse, TData> {
   args: {
     proposalId: number;
   };
@@ -119,7 +119,7 @@ export function useCwSingleProposalQuery<TData = ProposalResponse>({
     proposalId: args.proposalId
   }), options);
 }
-export interface CwSingleConfigQuery extends CwSingleReactQuery<ConfigResponse, TData> {}
+export interface CwSingleConfigQuery<TData> extends CwSingleReactQuery<ConfigResponse, TData> {}
 export function useCwSingleConfigQuery<TData = ConfigResponse>({
   client,
   options

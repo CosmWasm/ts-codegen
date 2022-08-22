@@ -11,7 +11,7 @@ export interface GovecReactQuery<TResponse, TData = TResponse> {
   client: GovecQueryClient;
   options?: UseQueryOptions<TResponse, Error, TData>;
 }
-export interface GovecCanExecuteRelayQuery extends GovecReactQuery<CanExecuteRelayResponse, TData> {
+export interface GovecCanExecuteRelayQuery<TData> extends GovecReactQuery<CanExecuteRelayResponse, TData> {
   args: {
     sender: string;
   };
@@ -25,7 +25,7 @@ export function useGovecCanExecuteRelayQuery<TData = CanExecuteRelayResponse>({
     sender: args.sender
   }), options);
 }
-export interface GovecInfoQuery extends GovecReactQuery<InfoResponse, TData> {}
+export interface GovecInfoQuery<TData> extends GovecReactQuery<InfoResponse, TData> {}
 export function useGovecInfoQuery<TData = InfoResponse>({
   client,
   options

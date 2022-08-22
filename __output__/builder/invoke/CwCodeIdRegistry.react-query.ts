@@ -11,7 +11,7 @@ export interface CwCodeIdRegistryReactQuery<TResponse, TData = TResponse> {
   client: CwCodeIdRegistryQueryClient;
   options?: UseQueryOptions<TResponse, Error, TData>;
 }
-export interface CwCodeIdRegistryListRegistrationsQuery extends CwCodeIdRegistryReactQuery<ListRegistrationsResponse, TData> {
+export interface CwCodeIdRegistryListRegistrationsQuery<TData> extends CwCodeIdRegistryReactQuery<ListRegistrationsResponse, TData> {
   args: {
     chainId: string;
     name: string;
@@ -27,7 +27,7 @@ export function useCwCodeIdRegistryListRegistrationsQuery<TData = ListRegistrati
     name: args.name
   }), options);
 }
-export interface CwCodeIdRegistryInfoForCodeIdQuery extends CwCodeIdRegistryReactQuery<InfoForCodeIdResponse, TData> {
+export interface CwCodeIdRegistryInfoForCodeIdQuery<TData> extends CwCodeIdRegistryReactQuery<InfoForCodeIdResponse, TData> {
   args: {
     chainId: string;
     codeId: number;
@@ -43,7 +43,7 @@ export function useCwCodeIdRegistryInfoForCodeIdQuery<TData = InfoForCodeIdRespo
     codeId: args.codeId
   }), options);
 }
-export interface CwCodeIdRegistryGetRegistrationQuery extends CwCodeIdRegistryReactQuery<GetRegistrationResponse, TData> {
+export interface CwCodeIdRegistryGetRegistrationQuery<TData> extends CwCodeIdRegistryReactQuery<GetRegistrationResponse, TData> {
   args: {
     chainId: string;
     name: string;
@@ -61,7 +61,7 @@ export function useCwCodeIdRegistryGetRegistrationQuery<TData = GetRegistrationR
     version: args.version
   }), options);
 }
-export interface CwCodeIdRegistryConfigQuery extends CwCodeIdRegistryReactQuery<ConfigResponse, TData> {}
+export interface CwCodeIdRegistryConfigQuery<TData> extends CwCodeIdRegistryReactQuery<ConfigResponse, TData> {}
 export function useCwCodeIdRegistryConfigQuery<TData = ConfigResponse>({
   client,
   options

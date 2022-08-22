@@ -11,7 +11,7 @@ export interface CwNamedGroupsReactQuery<TResponse, TData = TResponse> {
   client: CwNamedGroupsQueryClient;
   options?: UseQueryOptions<TResponse, Error, TData>;
 }
-export interface CwNamedGroupsIsAddressInGroupQuery extends CwNamedGroupsReactQuery<IsAddressInGroupResponse, TData> {
+export interface CwNamedGroupsIsAddressInGroupQuery<TData> extends CwNamedGroupsReactQuery<IsAddressInGroupResponse, TData> {
   args: {
     address: string;
     group: string;
@@ -27,7 +27,7 @@ export function useCwNamedGroupsIsAddressInGroupQuery<TData = IsAddressInGroupRe
     group: args.group
   }), options);
 }
-export interface CwNamedGroupsListAddressesQuery extends CwNamedGroupsReactQuery<ListAddressesResponse, TData> {
+export interface CwNamedGroupsListAddressesQuery<TData> extends CwNamedGroupsReactQuery<ListAddressesResponse, TData> {
   args: {
     group: string;
     limit?: number;
@@ -45,7 +45,7 @@ export function useCwNamedGroupsListAddressesQuery<TData = ListAddressesResponse
     offset: args.offset
   }), options);
 }
-export interface CwNamedGroupsListGroupsQuery extends CwNamedGroupsReactQuery<ListGroupsResponse, TData> {
+export interface CwNamedGroupsListGroupsQuery<TData> extends CwNamedGroupsReactQuery<ListGroupsResponse, TData> {
   args: {
     address: string;
     limit?: number;
@@ -63,7 +63,7 @@ export function useCwNamedGroupsListGroupsQuery<TData = ListGroupsResponse>({
     offset: args.offset
   }), options);
 }
-export interface CwNamedGroupsDumpQuery extends CwNamedGroupsReactQuery<DumpResponse, TData> {}
+export interface CwNamedGroupsDumpQuery<TData> extends CwNamedGroupsReactQuery<DumpResponse, TData> {}
 export function useCwNamedGroupsDumpQuery<TData = DumpResponse>({
   client,
   options

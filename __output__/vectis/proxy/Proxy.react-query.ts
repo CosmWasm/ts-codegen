@@ -11,7 +11,7 @@ export interface ProxyReactQuery<TResponse, TData = TResponse> {
   client: ProxyQueryClient;
   options?: UseQueryOptions<TResponse, Error, TData>;
 }
-export interface ProxyCanExecuteRelayQuery extends ProxyReactQuery<CanExecuteRelayResponse, TData> {
+export interface ProxyCanExecuteRelayQuery<TData> extends ProxyReactQuery<CanExecuteRelayResponse, TData> {
   args: {
     sender: string;
   };
@@ -25,7 +25,7 @@ export function useProxyCanExecuteRelayQuery<TData = CanExecuteRelayResponse>({
     sender: args.sender
   }), options);
 }
-export interface ProxyInfoQuery extends ProxyReactQuery<InfoResponse, TData> {}
+export interface ProxyInfoQuery<TData> extends ProxyReactQuery<InfoResponse, TData> {}
 export function useProxyInfoQuery<TData = InfoResponse>({
   client,
   options
