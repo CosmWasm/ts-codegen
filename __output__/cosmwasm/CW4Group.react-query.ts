@@ -7,60 +7,60 @@
 import { UseQueryOptions, useQuery } from "react-query";
 import { InstantiateMsg, Member, ExecuteMsg, QueryMsg, QueryResponse, AdminResponse, TotalWeightResponse, MemberListResponse, MemberResponse, HooksResponse } from "./CW4Group.types";
 import { CW4GroupQueryClient } from "./CW4Group.client";
-export interface CW4GroupReactQuery<TResponse> {
+export interface CW4GroupReactQuery<TResponse, TData = TResponse> {
   client: CW4GroupQueryClient;
-  options?: UseQueryOptions<TResponse, Error, TResponse, (string | undefined)[]>;
+  options?: UseQueryOptions<TResponse, Error, TData>;
 }
-export interface CW4GroupHooksQuery extends CW4GroupReactQuery<HooksResponse> {}
-export function useCW4GroupHooksQuery({
+export interface CW4GroupHooksQuery extends CW4GroupReactQuery<HooksResponse, TData> {}
+export function useCW4GroupHooksQuery<TData = HooksResponse>({
   client,
   options
-}: CW4GroupHooksQuery) {
-  return useQuery<HooksResponse, Error, HooksResponse, (string | undefined)[]>(["cW4GroupHooks", client.contractAddress], () => client.hooks(), options);
+}: CW4GroupHooksQuery<TData>) {
+  return useQuery<HooksResponse, Error, TData>(["cW4GroupHooks", client.contractAddress], () => client.hooks(), options);
 }
-export interface CW4GroupMemberQuery extends CW4GroupReactQuery<MemberResponse> {
+export interface CW4GroupMemberQuery extends CW4GroupReactQuery<MemberResponse, TData> {
   args: {
     addr: string;
     atHeight?: number;
   };
 }
-export function useCW4GroupMemberQuery({
+export function useCW4GroupMemberQuery<TData = MemberResponse>({
   client,
   args,
   options
-}: CW4GroupMemberQuery) {
-  return useQuery<MemberResponse, Error, MemberResponse, (string | undefined)[]>(["cW4GroupMember", client.contractAddress, JSON.stringify(args)], () => client.member({
+}: CW4GroupMemberQuery<TData>) {
+  return useQuery<MemberResponse, Error, TData>(["cW4GroupMember", client.contractAddress, JSON.stringify(args)], () => client.member({
     addr: args.addr,
     atHeight: args.atHeight
   }), options);
 }
-export interface CW4GroupListMembersQuery extends CW4GroupReactQuery<ListMembersResponse> {
+export interface CW4GroupListMembersQuery extends CW4GroupReactQuery<ListMembersResponse, TData> {
   args: {
     limit?: number;
     startAfter?: string;
   };
 }
-export function useCW4GroupListMembersQuery({
+export function useCW4GroupListMembersQuery<TData = ListMembersResponse>({
   client,
   args,
   options
-}: CW4GroupListMembersQuery) {
-  return useQuery<ListMembersResponse, Error, ListMembersResponse, (string | undefined)[]>(["cW4GroupListMembers", client.contractAddress, JSON.stringify(args)], () => client.listMembers({
+}: CW4GroupListMembersQuery<TData>) {
+  return useQuery<ListMembersResponse, Error, TData>(["cW4GroupListMembers", client.contractAddress, JSON.stringify(args)], () => client.listMembers({
     limit: args.limit,
     startAfter: args.startAfter
   }), options);
 }
-export interface CW4GroupTotalWeightQuery extends CW4GroupReactQuery<TotalWeightResponse> {}
-export function useCW4GroupTotalWeightQuery({
+export interface CW4GroupTotalWeightQuery extends CW4GroupReactQuery<TotalWeightResponse, TData> {}
+export function useCW4GroupTotalWeightQuery<TData = TotalWeightResponse>({
   client,
   options
-}: CW4GroupTotalWeightQuery) {
-  return useQuery<TotalWeightResponse, Error, TotalWeightResponse, (string | undefined)[]>(["cW4GroupTotalWeight", client.contractAddress], () => client.totalWeight(), options);
+}: CW4GroupTotalWeightQuery<TData>) {
+  return useQuery<TotalWeightResponse, Error, TData>(["cW4GroupTotalWeight", client.contractAddress], () => client.totalWeight(), options);
 }
-export interface CW4GroupAdminQuery extends CW4GroupReactQuery<AdminResponse> {}
-export function useCW4GroupAdminQuery({
+export interface CW4GroupAdminQuery extends CW4GroupReactQuery<AdminResponse, TData> {}
+export function useCW4GroupAdminQuery<TData = AdminResponse>({
   client,
   options
-}: CW4GroupAdminQuery) {
-  return useQuery<AdminResponse, Error, AdminResponse, (string | undefined)[]>(["cW4GroupAdmin", client.contractAddress], () => client.admin(), options);
+}: CW4GroupAdminQuery<TData>) {
+  return useQuery<AdminResponse, Error, TData>(["cW4GroupAdmin", client.contractAddress], () => client.admin(), options);
 }

@@ -7,66 +7,66 @@
 import { UseQueryOptions, useQuery } from "react-query";
 import { DumpResponse, Group, ExecuteMsg, InstantiateMsg, Addr, ListAddressesResponse, ListGroupsResponse, QueryMsg } from "./CwNamedGroups.types";
 import { CwNamedGroupsQueryClient } from "./CwNamedGroups.client";
-export interface CwNamedGroupsReactQuery<TResponse> {
+export interface CwNamedGroupsReactQuery<TResponse, TData = TResponse> {
   client: CwNamedGroupsQueryClient;
-  options?: UseQueryOptions<TResponse, Error, TResponse, (string | undefined)[]>;
+  options?: UseQueryOptions<TResponse, Error, TData>;
 }
-export interface CwNamedGroupsIsAddressInGroupQuery extends CwNamedGroupsReactQuery<IsAddressInGroupResponse> {
+export interface CwNamedGroupsIsAddressInGroupQuery extends CwNamedGroupsReactQuery<IsAddressInGroupResponse, TData> {
   args: {
     address: string;
     group: string;
   };
 }
-export function useCwNamedGroupsIsAddressInGroupQuery({
+export function useCwNamedGroupsIsAddressInGroupQuery<TData = IsAddressInGroupResponse>({
   client,
   args,
   options
-}: CwNamedGroupsIsAddressInGroupQuery) {
-  return useQuery<IsAddressInGroupResponse, Error, IsAddressInGroupResponse, (string | undefined)[]>(["cwNamedGroupsIsAddressInGroup", client.contractAddress, JSON.stringify(args)], () => client.isAddressInGroup({
+}: CwNamedGroupsIsAddressInGroupQuery<TData>) {
+  return useQuery<IsAddressInGroupResponse, Error, TData>(["cwNamedGroupsIsAddressInGroup", client.contractAddress, JSON.stringify(args)], () => client.isAddressInGroup({
     address: args.address,
     group: args.group
   }), options);
 }
-export interface CwNamedGroupsListAddressesQuery extends CwNamedGroupsReactQuery<ListAddressesResponse> {
+export interface CwNamedGroupsListAddressesQuery extends CwNamedGroupsReactQuery<ListAddressesResponse, TData> {
   args: {
     group: string;
     limit?: number;
     offset?: number;
   };
 }
-export function useCwNamedGroupsListAddressesQuery({
+export function useCwNamedGroupsListAddressesQuery<TData = ListAddressesResponse>({
   client,
   args,
   options
-}: CwNamedGroupsListAddressesQuery) {
-  return useQuery<ListAddressesResponse, Error, ListAddressesResponse, (string | undefined)[]>(["cwNamedGroupsListAddresses", client.contractAddress, JSON.stringify(args)], () => client.listAddresses({
+}: CwNamedGroupsListAddressesQuery<TData>) {
+  return useQuery<ListAddressesResponse, Error, TData>(["cwNamedGroupsListAddresses", client.contractAddress, JSON.stringify(args)], () => client.listAddresses({
     group: args.group,
     limit: args.limit,
     offset: args.offset
   }), options);
 }
-export interface CwNamedGroupsListGroupsQuery extends CwNamedGroupsReactQuery<ListGroupsResponse> {
+export interface CwNamedGroupsListGroupsQuery extends CwNamedGroupsReactQuery<ListGroupsResponse, TData> {
   args: {
     address: string;
     limit?: number;
     offset?: number;
   };
 }
-export function useCwNamedGroupsListGroupsQuery({
+export function useCwNamedGroupsListGroupsQuery<TData = ListGroupsResponse>({
   client,
   args,
   options
-}: CwNamedGroupsListGroupsQuery) {
-  return useQuery<ListGroupsResponse, Error, ListGroupsResponse, (string | undefined)[]>(["cwNamedGroupsListGroups", client.contractAddress, JSON.stringify(args)], () => client.listGroups({
+}: CwNamedGroupsListGroupsQuery<TData>) {
+  return useQuery<ListGroupsResponse, Error, TData>(["cwNamedGroupsListGroups", client.contractAddress, JSON.stringify(args)], () => client.listGroups({
     address: args.address,
     limit: args.limit,
     offset: args.offset
   }), options);
 }
-export interface CwNamedGroupsDumpQuery extends CwNamedGroupsReactQuery<DumpResponse> {}
-export function useCwNamedGroupsDumpQuery({
+export interface CwNamedGroupsDumpQuery extends CwNamedGroupsReactQuery<DumpResponse, TData> {}
+export function useCwNamedGroupsDumpQuery<TData = DumpResponse>({
   client,
   options
-}: CwNamedGroupsDumpQuery) {
-  return useQuery<DumpResponse, Error, DumpResponse, (string | undefined)[]>(["cwNamedGroupsDump", client.contractAddress], () => client.dump(), options);
+}: CwNamedGroupsDumpQuery<TData>) {
+  return useQuery<DumpResponse, Error, TData>(["cwNamedGroupsDump", client.contractAddress], () => client.dump(), options);
 }

@@ -146,7 +146,9 @@ export const createReactQueryHook = ({
         props = ['client', 'args', 'options'];
     }
 
-    return t.exportNamedDeclaration(
+  const selectResponseGenericTypeName = 'TData';
+
+  const queryFunctionDeclaration =
         t.functionDeclaration(
             t.identifier(hookName),
             [
@@ -162,7 +164,10 @@ export const createReactQueryHook = ({
                         })
                     ],
                     t.tsTypeAnnotation(t.tsTypeReference(
-                        t.identifier(hookParamsTypeName)
+                        t.identifier(hookParamsTypeName),
+                        t.tsTypeParameterInstantiation([
+                          t.tsTypeReference(t.identifier(selectResponseGenericTypeName))
+                        ])
                     ))
                 )
             ],
@@ -246,7 +251,7 @@ export const createReactQueryHook = ({
                                         t.identifier('Error')
                                     ),
                                     t.tsTypeReference(
-                                        t.identifier(responseType)
+                                        t.identifier(selectResponseGenericTypeName)
                                     )
                                 ]
                             )
@@ -255,9 +260,18 @@ export const createReactQueryHook = ({
 
                 ]
             ),
+      )
 
-        )
-    )
+  // Add the TData type parameters
+  queryFunctionDeclaration.typeParameters = t.tsTypeParameterDeclaration([
+      t.tsTypeParameter(
+        undefined,
+        t.tSTypeReference(t.identifier(responseType)),
+        selectResponseGenericTypeName
+      )
+    ])
+
+  return  t.exportNamedDeclaration(queryFunctionDeclaration)
 
 };
 
@@ -685,19 +699,22 @@ function createReactQueryHookGenericInterface({
 
     const options = context.options.reactQuery;
 
-    const genericTypeName = 'TResponse'
+    const genericResponseTypeName = 'TResponse'
+    const genericSelectResponseTypeName = 'TData'
 
     context.addUtil('UseQueryOptions');
 
+    // UseQueryOptions<TResponse, Error, TData>,
     const typedUseQueryOptions = t.tsTypeReference(
         t.identifier('UseQueryOptions'),
-        t.tsTypeParameterInstantiation([
+        t.tsTypeParameterInstantiation(
+          [
             t.tsTypeReference(
-                t.identifier(genericTypeName)
+                t.identifier(genericResponseTypeName)
             ),
             t.tsTypeReference(t.identifier('Error')),
             t.tsTypeReference(
-                t.identifier(genericTypeName)
+                t.identifier(genericSelectResponseTypeName)
             )
         ])
     )
@@ -744,7 +761,14 @@ function createReactQueryHookGenericInterface({
         t.tsInterfaceDeclaration(
             t.identifier(genericQueryInterfaceName),
             t.tsTypeParameterDeclaration([
-                t.tsTypeParameter(undefined, undefined, genericTypeName)
+              // 1: TResponse
+              t.tsTypeParameter(undefined, undefined, genericResponseTypeName),
+              // 2: TData
+              t.tsTypeParameter(
+                undefined,
+                t.tSTypeReference(t.identifier(genericResponseTypeName)),
+                genericSelectResponseTypeName
+              )
             ]),
             [],
             t.tSInterfaceBody(body)
@@ -789,12 +813,17 @@ export const createReactQueryHookInterface = ({
     return t.exportNamedDeclaration(
         t.tsInterfaceDeclaration(
             t.identifier(hookParamsTypeName),
-            null,
+            t.tsTypeParameterDeclaration([
+              t.tSTypeParameter(undefined, undefined, 'TData')
+            ]),
             [
                 t.tSExpressionWithTypeArguments(
                     t.identifier(queryInterfaceName),
                     t.tsTypeParameterInstantiation([
-                        t.tsTypeReference(t.identifier(responseType))
+                        // 1: response
+                        t.tsTypeReference(t.identifier(responseType)),
+                        // 2: select generic
+                        t.tSTypeReference(t.identifier('TData'))
                     ])
                 )
             ],

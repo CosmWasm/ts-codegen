@@ -7,64 +7,64 @@
 import { UseQueryOptions, useQuery } from "react-query";
 import { Addr, PaymentInfo, Uint128, ConfigResponse, ExecuteMsg, Binary, Cw20ReceiveMsg, GetRegistrationResponse, Registration, InfoForCodeIdResponse, InstantiateMsg, ListRegistrationsResponse, QueryMsg, ReceiveMsg } from "./CwCodeIdRegistry.types";
 import { CwCodeIdRegistryQueryClient } from "./CwCodeIdRegistry.client";
-export interface CwCodeIdRegistryReactQuery<TResponse> {
+export interface CwCodeIdRegistryReactQuery<TResponse, TData = TResponse> {
   client: CwCodeIdRegistryQueryClient;
-  options?: UseQueryOptions<TResponse, Error, TResponse, (string | undefined)[]>;
+  options?: UseQueryOptions<TResponse, Error, TData>;
 }
-export interface CwCodeIdRegistryListRegistrationsQuery extends CwCodeIdRegistryReactQuery<ListRegistrationsResponse> {
+export interface CwCodeIdRegistryListRegistrationsQuery extends CwCodeIdRegistryReactQuery<ListRegistrationsResponse, TData> {
   args: {
     chainId: string;
     name: string;
   };
 }
-export function useCwCodeIdRegistryListRegistrationsQuery({
+export function useCwCodeIdRegistryListRegistrationsQuery<TData = ListRegistrationsResponse>({
   client,
   args,
   options
-}: CwCodeIdRegistryListRegistrationsQuery) {
-  return useQuery<ListRegistrationsResponse, Error, ListRegistrationsResponse, (string | undefined)[]>(["cwCodeIdRegistryListRegistrations", client.contractAddress, JSON.stringify(args)], () => client.listRegistrations({
+}: CwCodeIdRegistryListRegistrationsQuery<TData>) {
+  return useQuery<ListRegistrationsResponse, Error, TData>(["cwCodeIdRegistryListRegistrations", client.contractAddress, JSON.stringify(args)], () => client.listRegistrations({
     chainId: args.chainId,
     name: args.name
   }), options);
 }
-export interface CwCodeIdRegistryInfoForCodeIdQuery extends CwCodeIdRegistryReactQuery<InfoForCodeIdResponse> {
+export interface CwCodeIdRegistryInfoForCodeIdQuery extends CwCodeIdRegistryReactQuery<InfoForCodeIdResponse, TData> {
   args: {
     chainId: string;
     codeId: number;
   };
 }
-export function useCwCodeIdRegistryInfoForCodeIdQuery({
+export function useCwCodeIdRegistryInfoForCodeIdQuery<TData = InfoForCodeIdResponse>({
   client,
   args,
   options
-}: CwCodeIdRegistryInfoForCodeIdQuery) {
-  return useQuery<InfoForCodeIdResponse, Error, InfoForCodeIdResponse, (string | undefined)[]>(["cwCodeIdRegistryInfoForCodeId", client.contractAddress, JSON.stringify(args)], () => client.infoForCodeId({
+}: CwCodeIdRegistryInfoForCodeIdQuery<TData>) {
+  return useQuery<InfoForCodeIdResponse, Error, TData>(["cwCodeIdRegistryInfoForCodeId", client.contractAddress, JSON.stringify(args)], () => client.infoForCodeId({
     chainId: args.chainId,
     codeId: args.codeId
   }), options);
 }
-export interface CwCodeIdRegistryGetRegistrationQuery extends CwCodeIdRegistryReactQuery<GetRegistrationResponse> {
+export interface CwCodeIdRegistryGetRegistrationQuery extends CwCodeIdRegistryReactQuery<GetRegistrationResponse, TData> {
   args: {
     chainId: string;
     name: string;
     version?: string;
   };
 }
-export function useCwCodeIdRegistryGetRegistrationQuery({
+export function useCwCodeIdRegistryGetRegistrationQuery<TData = GetRegistrationResponse>({
   client,
   args,
   options
-}: CwCodeIdRegistryGetRegistrationQuery) {
-  return useQuery<GetRegistrationResponse, Error, GetRegistrationResponse, (string | undefined)[]>(["cwCodeIdRegistryGetRegistration", client.contractAddress, JSON.stringify(args)], () => client.getRegistration({
+}: CwCodeIdRegistryGetRegistrationQuery<TData>) {
+  return useQuery<GetRegistrationResponse, Error, TData>(["cwCodeIdRegistryGetRegistration", client.contractAddress, JSON.stringify(args)], () => client.getRegistration({
     chainId: args.chainId,
     name: args.name,
     version: args.version
   }), options);
 }
-export interface CwCodeIdRegistryConfigQuery extends CwCodeIdRegistryReactQuery<ConfigResponse> {}
-export function useCwCodeIdRegistryConfigQuery({
+export interface CwCodeIdRegistryConfigQuery extends CwCodeIdRegistryReactQuery<ConfigResponse, TData> {}
+export function useCwCodeIdRegistryConfigQuery<TData = ConfigResponse>({
   client,
   options
-}: CwCodeIdRegistryConfigQuery) {
-  return useQuery<ConfigResponse, Error, ConfigResponse, (string | undefined)[]>(["cwCodeIdRegistryConfig", client.contractAddress], () => client.config(), options);
+}: CwCodeIdRegistryConfigQuery<TData>) {
+  return useQuery<ConfigResponse, Error, TData>(["cwCodeIdRegistryConfig", client.contractAddress], () => client.config(), options);
 }
