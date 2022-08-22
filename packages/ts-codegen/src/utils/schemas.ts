@@ -1,7 +1,7 @@
 import { sync as glob } from 'glob';
 import { readFileSync } from 'fs';
 import { cleanse } from './cleanse';
-import { compile } from 'json-schema-to-typescript';
+import { compile } from '@pyramation/json-schema-to-typescript';
 import { parser } from './parse';
 import { JSONSchema } from 'wasm-ast-types';
 
