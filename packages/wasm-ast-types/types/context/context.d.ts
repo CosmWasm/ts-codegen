@@ -5,6 +5,7 @@ export interface ReactQueryOptions {
     version?: 'v3' | 'v4';
     mutations?: boolean;
     camelize?: boolean;
+    queryKeys?: boolean;
 }
 export interface TSClientOptions {
     enabled?: boolean;

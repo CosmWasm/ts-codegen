@@ -9,6 +9,7 @@ export interface ReactQueryOptions {
     version?: 'v3' | 'v4';
     mutations?: boolean;
     camelize?: boolean;
+    queryKeys?: boolean
 }
 
 export interface TSClientOptions {
@@ -58,7 +59,8 @@ export const defaultOptions: RenderOptions = {
         optionalClient: false,
         version: 'v3',
         mutations: false,
-        camelize: true
+        camelize: true,
+        queryKeys: false
     }
 };
 

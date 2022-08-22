@@ -11,15 +11,17 @@ import {
     typeRefOrUnionWithUndefined
 } from '../utils/babel';
 import { getParamsTypeAnnotation, getPropertyType } from '../utils/types';
-import { RenderContext } from '../context';
+import { ReactQueryOptions, RenderContext } from '../context';
 import { JSONSchema } from '../types';
 import { FIXED_EXECUTE_PARAMS } from '../client';
+import { ArgumentPlaceholder, JSXNamespacedName, SpreadElement } from '@babel/types';
 
 interface ReactQueryHookQuery {
     context: RenderContext,
     hookName: string;
     hookParamsTypeName: string;
     hookKeyName: string;
+    queryKeysName: string
     responseType: string;
     methodName: string;
     jsonschema: any;
@@ -40,23 +42,42 @@ export const createReactQueryHooks = ({
 }: ReactQueryHooks) => {
     const options = context.options.reactQuery;
 
-    const genericQueryInterfaceName = `${pascal(contractName)}ReactQuery`;
+  const genericQueryInterfaceName = `${pascal(contractName)}ReactQuery`;
+  const underscoreNames: string[] = getMessageProperties(queryMsg).map((schema) => (Object.keys(schema.properties)[0]))
 
-    const body = [
-        createReactQueryHookGenericInterface({
-            context,
-            QueryClient,
-            genericQueryInterfaceName,
-        })
-    ]
+  const body = []
+
+  const queryKeysName = `${camel(contractName)}QueryKeys`
+  if (options.queryKeys) {
+    body.push(
+      createReactQueryKeys({
+        context,
+        queryKeysName,
+        camelContractName: camel(contractName),
+        underscoreNames,
+      }))
+  }
+
+  body.push(
+      createReactQueryHookGenericInterface({
+        context,
+        QueryClient,
+        genericQueryInterfaceName,
+      }))
 
     body.push(...getMessageProperties(queryMsg)
         .reduce((m, schema) => {
+            // list_voters
             const underscoreName = Object.keys(schema.properties)[0];
+            // listVoters
             const methodName = camel(underscoreName);
+            // Cw3FlexMultisigListVotersQuery
             const hookParamsTypeName = `${pascal(contractName)}${pascal(methodName)}Query`;
+            // useCw3FlexMultisigListVotersQuery
             const hookName = `use${hookParamsTypeName}`;
+            // listVotersResponse
             const responseType = pascal(`${methodName}Response`);
+            // cw3FlexMultisigListVoters
             const getterKey = camel(`${contractName}${pascal(methodName)}`);
             const jsonschema = schema.properties[underscoreName];
             return [
@@ -73,6 +94,7 @@ export const createReactQueryHooks = ({
                     methodName,
                     hookName,
                     hookParamsTypeName,
+                    queryKeysName,
                     responseType,
                     hookKeyName: getterKey,
                     jsonschema
@@ -92,6 +114,7 @@ export const createReactQueryHook = ({
     hookParamsTypeName,
     responseType,
     hookKeyName,
+    queryKeysName,
     methodName,
     jsonschema
 }: ReactQueryHookQuery) => {
@@ -150,9 +173,7 @@ export const createReactQueryHook = ({
                         callExpression(
                             t.identifier('useQuery'),
                             [
-                                t.arrayExpression(
-                                    generateUseQueryQueryKey(hookKeyName, props, options.optionalClient)
-                                ),
+                                    generateUseQueryQueryKey({hookKeyName, queryKeysName, methodName, props, options }),
                                 t.arrowFunctionExpression(
                                     [],
                                     optionalConditionalExpression(
@@ -226,16 +247,6 @@ export const createReactQueryHook = ({
                                     ),
                                     t.tsTypeReference(
                                         t.identifier(responseType)
-                                    ),
-                                    t.tsArrayType(
-                                        t.tsParenthesizedType(
-                                            t.tsUnionType(
-                                                [
-                                                    t.tsStringKeyword(),
-                                                    t.tsUndefinedKeyword()
-                                                ]
-                                            )
-                                        )
                                     )
                                 ]
                             )
@@ -521,6 +532,145 @@ export const createReactQueryMutationHook = ({
 
 };
 
+function createReactQueryKeys({
+  context,
+  queryKeysName,
+  camelContractName,
+  underscoreNames
+}: {
+  context: RenderContext;
+  queryKeysName: string,
+  camelContractName: string;
+  underscoreNames: string[];
+}) {
+  const options = context.options.reactQuery
+
+  const contractAddressTypeAnnotation = t.tsTypeAnnotation(
+    options.optionalClient
+      ? t.tsUnionType([
+        t.tsStringKeyword(),
+        t.tsUndefinedKeyword()
+      ])
+      : t.tSStringKeyword()
+  )
+
+  return t.exportNamedDeclaration(
+    t.variableDeclaration('const', [
+      t.variableDeclarator(
+        t.identifier(queryKeysName),
+        t.objectExpression([
+          // 1: contract
+          t.objectProperty(
+            t.identifier('contract'),
+            t.tSAsExpression(
+              t.arrayExpression([
+                t.objectExpression([
+                  t.objectProperty(
+                    t.identifier('contract'),
+                    t.stringLiteral(camelContractName)
+                  )
+                ])
+              ]),
+              t.tSTypeReference(t.identifier('const'))
+            )
+          ),
+          // 2: address
+          t.objectProperty(
+            t.identifier('address'),
+            t.arrowFunctionExpression(
+              [
+                identifier(
+                  'contractAddress',
+                  contractAddressTypeAnnotation
+                )
+              ],
+              t.tSAsExpression(
+                t.arrayExpression([
+                  t.objectExpression([
+                    // 1
+                    t.spreadElement(
+                      t.memberExpression(
+                        t.memberExpression(
+                          t.identifier(queryKeysName),
+                          t.identifier('contract')
+                        ),
+                        t.numericLiteral(0),
+                        true // computed
+                      )
+                    ),
+                    t.objectProperty(
+                      t.identifier('address'),
+                      t.identifier('contractAddress')
+                    )
+                  ])
+                ]),
+                t.tSTypeReference(t.identifier('const'))
+              )
+            )
+          ),
+          // 3: methods
+          ...underscoreNames.map((underscoreMethodName) =>
+            t.objectProperty(
+              // key id is the camel method name
+              t.identifier(camel(underscoreMethodName)),
+              t.arrowFunctionExpression(
+                [
+                  identifier(
+                    'contractAddress',
+                    contractAddressTypeAnnotation
+                  ),
+                  identifier(
+                    'args',
+                    // Record<string, unknown>
+                    t.tSTypeAnnotation(
+                      t.tsTypeReference(
+                        t.identifier('Record'),
+                        t.tsTypeParameterInstantiation([
+                          t.tsStringKeyword(),
+                          t.tsUnknownKeyword()
+                        ])
+                      )
+                    ),
+                    true // optional
+                  )
+                ],
+                t.tSAsExpression(
+                  t.arrayExpression([
+                    t.objectExpression([
+                      //...cw3FlexMultisigQueryKeys.address(contractAddress)[0]
+                      t.spreadElement(
+                        t.memberExpression(
+                          t.callExpression(
+                            t.memberExpression(
+                              t.identifier(queryKeysName),
+                              t.identifier('address')
+                            ),
+                            [t.identifier('contractAddress')]
+                          ),
+                          t.numericLiteral(0),
+                          true // computed
+                        )
+                      ),
+                      // method: list_voters
+                      t.objectProperty(
+                        t.identifier('method'),
+                        t.stringLiteral(underscoreMethodName)
+                      ),
+                      // args
+                      shorthandProperty('args')
+                    ])
+                  ]),
+                  t.tSTypeReference(t.identifier('const'))
+                )
+              )
+            )
+          )
+        ])
+      )
+    ])
+  )
+}
+
 interface ReactQueryHookGenericInterface {
     context: RenderContext,
     QueryClient: string,
@@ -548,15 +698,7 @@ function createReactQueryHookGenericInterface({
             t.tsTypeReference(t.identifier('Error')),
             t.tsTypeReference(
                 t.identifier(genericTypeName)
-            ),
-            t.tsArrayType(
-                t.tsParenthesizedType(
-                    t.tsUnionType([
-                        t.tsStringKeyword(),
-                        t.tsUndefinedKeyword()
-                    ])
-                )
-            ),
+            )
         ])
     )
 
@@ -682,22 +824,54 @@ const getProps = (
     });
 }
 
-const generateUseQueryQueryKey = (
-    hookKeyName: string,
-    props: string[],
-    optionalClient: boolean
-): Array<Expression> => {
+interface GenerateUseQueryQueryKeyParams {
+  hookKeyName: string;
+  queryKeysName: string;
+  methodName: string;
+  props: string[];
+  options: ReactQueryOptions;
+}
+
+const generateUseQueryQueryKey = ({
+    hookKeyName,
+    queryKeysName,
+    methodName,
+    props,
+    options,
+  }: GenerateUseQueryQueryKeyParams): t.ArrayExpression | t.CallExpression => {
+  const { optionalClient, queryKeys } = options
+
+  const hasArgs = props.includes('args')
+
+  const contractAddressExpression =
+    t.optionalMemberExpression(
+      t.identifier('client'),
+      t.identifier('contractAddress'),
+      false,
+      optionalClient
+    )
+
+  if (queryKeys) {
+
+    const callArgs: Array<Expression> = [contractAddressExpression]
+
+    if (hasArgs) callArgs.push(t.identifier('args'))
+
+    return t.callExpression(
+      t.memberExpression(
+        t.identifier(queryKeysName),
+        t.identifier(camel(methodName))
+      ),
+      callArgs
+    )
+  }
+
     const queryKey: Array<Expression> = [
-        t.stringLiteral(hookKeyName),
-        t.optionalMemberExpression(
-            t.identifier('client'),
-            t.identifier('contractAddress'),
-            false,
-            optionalClient
-        )
+      t.stringLiteral(hookKeyName),
+      contractAddressExpression
     ];
 
-    if (props.includes('args')) {
+    if (hasArgs) {
         queryKey.push(t.callExpression(
             t.memberExpression(
                 t.identifier('JSON'),
@@ -708,5 +882,5 @@ const generateUseQueryQueryKey = (
             ]
         ))
     }
-    return queryKey
+    return t.arrayExpression(queryKey)
 }

@@ -65,10 +65,16 @@ export default async (argv) => {
                 message: 'which react-query version?',
                 default: 'v3',
                 choices: ['v3', 'v4']
-            }
+            },
+            {
+              type: 'confirm',
+              name: 'queryKeys',
+              message: 'queryKeys?',
+              default: false
+            },
         ])
     };
-    const { optionalClient, version } = await prompt(questions2, argv);
+    const { optionalClient, version, queryKeys } = await prompt(questions2, argv);
     const questions3 = [];
     if (version === 'v4') {
         [].push.apply(questions3, [
@@ -120,6 +126,7 @@ export default async (argv) => {
         reactQuery: {
             enabled: plugin.includes('react-query'),
             optionalClient,
+            queryKeys,
             version,
             mutations
         },
