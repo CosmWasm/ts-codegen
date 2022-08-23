@@ -7,28 +7,28 @@
 import { UseQueryOptions, useQuery } from "react-query";
 import { CanExecuteRelayResponse, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, WasmMsg, Binary, Coin, Empty, ExecuteMsgForEmpty, Addr, RelayTransaction, Guardians, MultiSig, InfoResponse, ContractVersion, InstantiateMsg, CreateWalletMsg, QueryMsg, Uint64 } from "./Proxy.types";
 import { ProxyQueryClient } from "./Proxy.client";
-export interface ProxyReactQuery<TResponse> {
+export interface ProxyReactQuery<TResponse, TData = TResponse> {
   client: ProxyQueryClient;
-  options?: UseQueryOptions<TResponse, Error, TResponse, (string | undefined)[]>;
+  options?: UseQueryOptions<TResponse, Error, TData>;
 }
-export interface ProxyCanExecuteRelayQuery extends ProxyReactQuery<CanExecuteRelayResponse> {
+export interface ProxyCanExecuteRelayQuery<TData> extends ProxyReactQuery<CanExecuteRelayResponse, TData> {
   args: {
     sender: string;
   };
 }
-export function useProxyCanExecuteRelayQuery({
+export function useProxyCanExecuteRelayQuery<TData = CanExecuteRelayResponse>({
   client,
   args,
   options
-}: ProxyCanExecuteRelayQuery) {
-  return useQuery<CanExecuteRelayResponse, Error, CanExecuteRelayResponse, (string | undefined)[]>(["proxyCanExecuteRelay", client.contractAddress, JSON.stringify(args)], () => client.canExecuteRelay({
+}: ProxyCanExecuteRelayQuery<TData>) {
+  return useQuery<CanExecuteRelayResponse, Error, TData>(["proxyCanExecuteRelay", client.contractAddress, JSON.stringify(args)], () => client.canExecuteRelay({
     sender: args.sender
   }), options);
 }
-export interface ProxyInfoQuery extends ProxyReactQuery<InfoResponse> {}
-export function useProxyInfoQuery({
+export interface ProxyInfoQuery<TData> extends ProxyReactQuery<InfoResponse, TData> {}
+export function useProxyInfoQuery<TData = InfoResponse>({
   client,
   options
-}: ProxyInfoQuery) {
-  return useQuery<InfoResponse, Error, InfoResponse, (string | undefined)[]>(["proxyInfo", client.contractAddress], () => client.info(), options);
+}: ProxyInfoQuery<TData>) {
+  return useQuery<InfoResponse, Error, TData>(["proxyInfo", client.contractAddress], () => client.info(), options);
 }

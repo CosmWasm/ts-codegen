@@ -7,28 +7,28 @@
 import { UseQueryOptions, useQuery } from "react-query";
 import { CanExecuteRelayResponse, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, WasmMsg, Binary, Coin, Empty, ExecuteMsgForEmpty, Addr, RelayTransaction, Guardians, MultiSig, InfoResponse, ContractVersion, InstantiateMsg, CreateWalletMsg, QueryMsg, Uint64 } from "./Govec.types";
 import { GovecQueryClient } from "./Govec.client";
-export interface GovecReactQuery<TResponse> {
+export interface GovecReactQuery<TResponse, TData = TResponse> {
   client: GovecQueryClient;
-  options?: UseQueryOptions<TResponse, Error, TResponse, (string | undefined)[]>;
+  options?: UseQueryOptions<TResponse, Error, TData>;
 }
-export interface GovecCanExecuteRelayQuery extends GovecReactQuery<CanExecuteRelayResponse> {
+export interface GovecCanExecuteRelayQuery<TData> extends GovecReactQuery<CanExecuteRelayResponse, TData> {
   args: {
     sender: string;
   };
 }
-export function useGovecCanExecuteRelayQuery({
+export function useGovecCanExecuteRelayQuery<TData = CanExecuteRelayResponse>({
   client,
   args,
   options
-}: GovecCanExecuteRelayQuery) {
-  return useQuery<CanExecuteRelayResponse, Error, CanExecuteRelayResponse, (string | undefined)[]>(["govecCanExecuteRelay", client.contractAddress, JSON.stringify(args)], () => client.canExecuteRelay({
+}: GovecCanExecuteRelayQuery<TData>) {
+  return useQuery<CanExecuteRelayResponse, Error, TData>(["govecCanExecuteRelay", client.contractAddress, JSON.stringify(args)], () => client.canExecuteRelay({
     sender: args.sender
   }), options);
 }
-export interface GovecInfoQuery extends GovecReactQuery<InfoResponse> {}
-export function useGovecInfoQuery({
+export interface GovecInfoQuery<TData> extends GovecReactQuery<InfoResponse, TData> {}
+export function useGovecInfoQuery<TData = InfoResponse>({
   client,
   options
-}: GovecInfoQuery) {
-  return useQuery<InfoResponse, Error, InfoResponse, (string | undefined)[]>(["govecInfo", client.contractAddress], () => client.info(), options);
+}: GovecInfoQuery<TData>) {
+  return useQuery<InfoResponse, Error, TData>(["govecInfo", client.contractAddress], () => client.info(), options);
 }

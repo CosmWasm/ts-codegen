@@ -22,6 +22,21 @@ it('v4Query', async () => {
     await generateReactQuery('Factory', schemas, outopt, { version: 'v4' });
 })
 
+it('queryKeys', async () => {
+  const outopt = OUTPUT_DIR + '/vectis/factory-query-keys';
+  const schemaDir = FIXTURE_DIR + '/vectis/factory/';
+  const schemas = await readSchemas({ schemaDir, schemaOptions: {} });
+  await generateReactQuery('Factory', schemas, outopt, { queryKeys: true });
+})
+
+
+it('queryKeysOptionalClient', async () => {
+  const outopt = OUTPUT_DIR + '/vectis/factory-query-keys-optional-client';
+  const schemaDir = FIXTURE_DIR + '/vectis/factory/';
+  const schemas = await readSchemas({ schemaDir, schemaOptions: {} });
+  await generateReactQuery('Factory', schemas, outopt, { queryKeys: true, optionalClient: true });
+})
+
 it('useMutations', async () => {
     const outopt = OUTPUT_DIR + '/vectis/factory-w-mutations';
     const schemaDir = FIXTURE_DIR + '/vectis/factory/';

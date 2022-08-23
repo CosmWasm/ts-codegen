@@ -7,6 +7,38 @@
 import { UseQueryOptions, useQuery } from "react-query";
 import { AdminAddrResponse, CodeIdResponse, CodeIdType, Uint128, Binary, CreateWalletMsg, Guardians, MultiSig, Coin, Cw20Coin, ExecuteMsg, Addr, ProxyMigrationTxMsg, WalletAddr, CanonicalAddr, RelayTransaction, FeeResponse, GovecAddrResponse, InstantiateMsg, QueryMsg, WalletQueryPrefix, Duration, StakingOptions, WalletInfo, ContractVersion, WalletsOfResponse, WalletsResponse } from "./Factory.types";
 import { FactoryQueryClient } from "./Factory.client";
+export const factoryQueryKeys = {
+  contract: ([{
+    contract: "factory"
+  }] as const),
+  address: (contractAddress: string | undefined) => ([{ ...factoryQueryKeys.contract[0],
+    address: contractAddress
+  }] as const),
+  wallets: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{ ...factoryQueryKeys.address(contractAddress)[0],
+    method: "wallets",
+    args
+  }] as const),
+  walletsOf: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{ ...factoryQueryKeys.address(contractAddress)[0],
+    method: "wallets_of",
+    args
+  }] as const),
+  codeId: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{ ...factoryQueryKeys.address(contractAddress)[0],
+    method: "code_id",
+    args
+  }] as const),
+  fee: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{ ...factoryQueryKeys.address(contractAddress)[0],
+    method: "fee",
+    args
+  }] as const),
+  govecAddr: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{ ...factoryQueryKeys.address(contractAddress)[0],
+    method: "govec_addr",
+    args
+  }] as const),
+  adminAddr: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{ ...factoryQueryKeys.address(contractAddress)[0],
+    method: "admin_addr",
+    args
+  }] as const)
+};
 export interface FactoryReactQuery<TResponse, TData = TResponse> {
   client: FactoryQueryClient | undefined;
   options?: UseQueryOptions<TResponse, Error, TData>;
@@ -16,7 +48,7 @@ export function useFactoryAdminAddrQuery<TData = AdminAddrResponse>({
   client,
   options
 }: FactoryAdminAddrQuery<TData>) {
-  return useQuery<AdminAddrResponse, Error, TData>(["factoryAdminAddr", client?.contractAddress], () => client ? client.adminAddr() : Promise.reject(new Error("Invalid client")), { ...options,
+  return useQuery<AdminAddrResponse, Error, TData>(factoryQueryKeys.adminAddr(client?.contractAddress), () => client ? client.adminAddr() : Promise.reject(new Error("Invalid client")), { ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -25,7 +57,7 @@ export function useFactoryGovecAddrQuery<TData = GovecAddrResponse>({
   client,
   options
 }: FactoryGovecAddrQuery<TData>) {
-  return useQuery<GovecAddrResponse, Error, TData>(["factoryGovecAddr", client?.contractAddress], () => client ? client.govecAddr() : Promise.reject(new Error("Invalid client")), { ...options,
+  return useQuery<GovecAddrResponse, Error, TData>(factoryQueryKeys.govecAddr(client?.contractAddress), () => client ? client.govecAddr() : Promise.reject(new Error("Invalid client")), { ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -34,7 +66,7 @@ export function useFactoryFeeQuery<TData = FeeResponse>({
   client,
   options
 }: FactoryFeeQuery<TData>) {
-  return useQuery<FeeResponse, Error, TData>(["factoryFee", client?.contractAddress], () => client ? client.fee() : Promise.reject(new Error("Invalid client")), { ...options,
+  return useQuery<FeeResponse, Error, TData>(factoryQueryKeys.fee(client?.contractAddress), () => client ? client.fee() : Promise.reject(new Error("Invalid client")), { ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -48,7 +80,7 @@ export function useFactoryCodeIdQuery<TData = CodeIdResponse>({
   args,
   options
 }: FactoryCodeIdQuery<TData>) {
-  return useQuery<CodeIdResponse, Error, TData>(["factoryCodeId", client?.contractAddress, JSON.stringify(args)], () => client ? client.codeId({
+  return useQuery<CodeIdResponse, Error, TData>(factoryQueryKeys.codeId(client?.contractAddress, args), () => client ? client.codeId({
     ty: args.ty
   }) : Promise.reject(new Error("Invalid client")), { ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
@@ -66,7 +98,7 @@ export function useFactoryWalletsOfQuery<TData = WalletsOfResponse>({
   args,
   options
 }: FactoryWalletsOfQuery<TData>) {
-  return useQuery<WalletsOfResponse, Error, TData>(["factoryWalletsOf", client?.contractAddress, JSON.stringify(args)], () => client ? client.walletsOf({
+  return useQuery<WalletsOfResponse, Error, TData>(factoryQueryKeys.walletsOf(client?.contractAddress, args), () => client ? client.walletsOf({
     limit: args.limit,
     startAfter: args.startAfter,
     user: args.user
@@ -85,7 +117,7 @@ export function useFactoryWalletsQuery<TData = WalletsResponse>({
   args,
   options
 }: FactoryWalletsQuery<TData>) {
-  return useQuery<WalletsResponse, Error, TData>(["factoryWallets", client?.contractAddress, JSON.stringify(args)], () => client ? client.wallets({
+  return useQuery<WalletsResponse, Error, TData>(factoryQueryKeys.wallets(client?.contractAddress, args), () => client ? client.wallets({
     limit: args.limit,
     startAfter: args.startAfter
   }) : Promise.reject(new Error("Invalid client")), { ...options,
