@@ -167,8 +167,7 @@ export class TSBuilder {
         });
 
         const ast = recursiveModuleBundle(bundleVariables);
-
-        const code = generate(t.program(
+        let code = generate(t.program(
             [
                 ...importPaths,
                 ...ast
@@ -176,6 +175,9 @@ export class TSBuilder {
         )).code;
 
         mkdirp(this.outPath);
+
+        if (code.trim() === '') code = 'export {};'
+
         writeFileSync(join(this.outPath, bundleFile), header + code);
 
     }
