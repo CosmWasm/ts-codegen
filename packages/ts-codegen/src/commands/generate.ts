@@ -67,10 +67,10 @@ export default async (argv) => {
                 choices: ['v3', 'v4']
             },
             {
-              type: 'confirm',
-              name: 'queryKeys',
-              message: 'queryKeys?',
-              default: false
+                type: 'confirm',
+                name: 'queryKeys',
+                message: 'queryKeys?',
+                default: false
             },
         ])
     };
@@ -99,7 +99,7 @@ export default async (argv) => {
                 type: 'string',
                 name: 'bundleFile',
                 message: 'bundleFile?',
-                default: 'bundle.ts'
+                default: 'index.ts'
             },
             {
                 type: 'string',
