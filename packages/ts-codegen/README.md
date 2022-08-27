@@ -106,7 +106,8 @@ codegen({
       enabled: true,
       optionalClient: true,
       version: 'v4',
-      mutations: true
+      mutations: true,
+      queryKeys: true,
     },
     recoil: {
       enabled: false
@@ -161,13 +162,14 @@ Generate [react-query v3](https://react-query-v3.tanstack.com/) or [react-query 
 
 #### React Query Options
 
-  | option                         | description                                                         |
-  | ------------------------------ | ------------------------------------------------------------------- |
-  | `reactQuery.enabled`           | enable the react-query plugin                                       |
-  | `reactQuery.optionalClient`    | allows contract client to be undefined as the component renders     |
-  | `reactQuery.version`           | `v4` uses `@tanstack/react-query` and `v3` uses `react-query`       |
-  | `reactQuery.mutations`         | also generate mutations                                             |
-  | `reactQuery.camelize`          | use camelCase style for property names                              |
+  | option                      | description                                                                  |
+  | ----------------------------| ---------------------------------------------------------------------------- |
+  | `reactQuery.enabled`        | enable the react-query plugin                                                |
+  | `reactQuery.optionalClient` | allows contract client to be undefined as the component renders              |
+  | `reactQuery.queryKeys`      | generates a const queryKeys object for use with invalidations and set values |
+  | `reactQuery.version`        | `v4` uses `@tanstack/react-query` and `v3` uses `react-query`                |
+  | `reactQuery.mutations`      | also generate mutations                                                      |
+  | `reactQuery.camelize`       | use camelCase style for property names                                       |
 
 
 #### React Query via CLI 
