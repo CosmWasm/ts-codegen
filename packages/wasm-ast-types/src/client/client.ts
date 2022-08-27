@@ -350,7 +350,7 @@ export const createExecuteClass = (
   execMsg: ExecuteMsg
 ) => {
 
-  context.addUtil('SigningCosmWasmClient');
+  context.addUtil('CosmWasmSigner');
 
   const propertyNames = getMessageProperties(execMsg)
     .map(method => Object.keys(method.properties)?.[0])
@@ -419,7 +419,7 @@ export const createExecuteClass = (
       [
         // client
         classProperty('client', t.tsTypeAnnotation(
-          t.tsTypeReference(t.identifier('SigningCosmWasmClient'))
+          t.tsTypeReference(t.identifier('CosmWasmSigner'))
         )),
 
         // sender
@@ -436,7 +436,7 @@ export const createExecuteClass = (
         t.classMethod('constructor',
           t.identifier('constructor'),
           [
-            typedIdentifier('client', t.tsTypeAnnotation(t.tsTypeReference(t.identifier('SigningCosmWasmClient')))),
+            typedIdentifier('client', t.tsTypeAnnotation(t.tsTypeReference(t.identifier('CosmWasmSigner')))),
             typedIdentifier('sender', t.tsTypeAnnotation(t.tsStringKeyword())),
             typedIdentifier('contractAddress', t.tsTypeAnnotation(t.tsStringKeyword()))
           ],

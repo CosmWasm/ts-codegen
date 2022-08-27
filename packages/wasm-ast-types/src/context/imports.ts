@@ -38,7 +38,7 @@ export const UTILS = {
   StdFee: '@cosmjs/amino',
   CosmWasmClient: '@cosmjs/cosmwasm-stargate',
   ExecuteResult: '@cosmjs/cosmwasm-stargate',
-  SigningCosmWasmClient: '@cosmjs/cosmwasm-stargate',
+  CosmWasmSigner: '@confio/relayer',
 
   // react-query
   useQuery: makeReactQuerySwitch('useQuery'),

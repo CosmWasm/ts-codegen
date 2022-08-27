@@ -14,7 +14,7 @@ export declare const UTILS: {
     StdFee: string;
     CosmWasmClient: string;
     ExecuteResult: string;
-    SigningCosmWasmClient: string;
+    CosmWasmSigner: string;
     useQuery: (context: RenderContext) => {
         type: string;
         path: string;
