@@ -46,6 +46,7 @@ export default async (argv) => {
     if (argv.typesOnly) {
         argv.plugin = 'types';
     }
+
     let { schema, out, name, plugin, bundle } = await prompt(questions, argv);
     if (!Array.isArray(plugin)) plugin = [plugin];
 
@@ -111,7 +112,6 @@ export default async (argv) => {
     };
     const { bundleFile, bundleScope } = await prompt(questions4, argv);
     ///////// END BUNDLE
-
 
     const options: TSBuilderOptions = {
         types: {
