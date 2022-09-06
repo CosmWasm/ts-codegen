@@ -1,12 +1,14 @@
 import { JSONSchema } from 'wasm-ast-types';
+import { IDLObject } from '../types';
 interface ReadSchemaOpts {
     schemaDir: string;
-    schemaOptions?: {
-        packed?: boolean;
-    };
     clean?: boolean;
 }
-export declare const readSchemas: ({ schemaDir, schemaOptions, clean }: ReadSchemaOpts) => Promise<any>;
+interface ReadSchemasValue {
+    schemas: JSONSchema[];
+    idlObject?: IDLObject;
+}
+export declare const readSchemas: ({ schemaDir, clean }: ReadSchemaOpts) => Promise<ReadSchemasValue>;
 export declare const findQueryMsg: (schemas: any) => any;
 export declare const findExecuteMsg: (schemas: any) => any;
 export declare const findAndParseTypes: (schemas: any) => Promise<{}>;
