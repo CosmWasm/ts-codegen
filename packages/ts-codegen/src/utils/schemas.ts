@@ -4,30 +4,72 @@ import { cleanse } from './cleanse';
 import { compile } from '@pyramation/json-schema-to-typescript';
 import { parser } from './parse';
 import { JSONSchema } from 'wasm-ast-types';
+import { IDLObject } from '../types';
 
 interface ReadSchemaOpts {
     schemaDir: string;
-    schemaOptions?: {
-        packed?: boolean
-    };
     clean?: boolean;
+};
+interface ReadSchemasValue {
+    schemas: JSONSchema[];
+    idlObject?: IDLObject
 };
 
 export const readSchemas = async ({
-    schemaDir, schemaOptions, clean = true
-}: ReadSchemaOpts) => {
+    schemaDir, clean = true
+}: ReadSchemaOpts): Promise<ReadSchemasValue> => {
     const fn = clean ? cleanse : (str) => str;
     const files = glob(schemaDir + '/**/*.json');
     const schemas = files
         .map(file => JSON.parse(readFileSync(file, 'utf-8')));
 
-    if (schemaOptions?.packed) {
-        if (schemas.length !== 1) {
-            throw new Error('packed option only supports one file');
-        }
-        return Object.values(fn(schemas[0]));
+    if (schemas.length > 1) {
+        // legacy
+        // TODO add console.warn here
+        return {
+            schemas: fn(schemas)
+        };
     }
-    return fn(schemas);
+
+    if (schemas.length === 0) {
+        throw new Error('Error [too few files]: requires one schema file per contract');
+    }
+
+    if (schemas.length !== 1) {
+        throw new Error('Error [too many files]: CosmWasm v1.1 schemas supports one file');
+    }
+
+    const idlObject = schemas[0];
+    const {
+        contract_name,
+        contract_version,
+        idl_version,
+        responses,
+        instantiate,
+        execute,
+        query,
+        migrate,
+        sudo
+    } = idlObject;
+
+    if (typeof idl_version !== 'string') {
+        // legacy
+        return {
+            schemas: fn(schemas)
+        };
+    }
+
+    // TODO use contract_name, etc.
+    return {
+        schemas: Object.values(fn({
+            instantiate,
+            execute,
+            query,
+            migrate,
+            sudo
+        })).filter(Boolean),
+        idlObject
+    };
 };
 
 export const findQueryMsg = (schemas) => {

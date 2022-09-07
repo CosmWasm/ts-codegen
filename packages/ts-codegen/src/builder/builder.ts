@@ -95,7 +95,9 @@ export class TSBuilder {
     async renderTypes(contract: ContractFile) {
         const { enabled, ...options } = this.options.types;
         if (!enabled) return;
-        const schemas = await readSchemas({ schemaDir: contract.dir });
+        const { schemas } = await readSchemas({
+            schemaDir: contract.dir
+        });
         const files = await generateTypes(contract.name, schemas, this.outPath, options);
         [].push.apply(this.files, files);
     }
@@ -103,7 +105,9 @@ export class TSBuilder {
     async renderClient(contract: ContractFile) {
         const { enabled, ...options } = this.options.client;
         if (!enabled) return;
-        const schemas = await readSchemas({ schemaDir: contract.dir });
+        const { schemas } = await readSchemas({
+            schemaDir: contract.dir
+        });
         const files = await generateClient(contract.name, schemas, this.outPath, options);
         [].push.apply(this.files, files);
     }
@@ -111,7 +115,9 @@ export class TSBuilder {
     async renderRecoil(contract: ContractFile) {
         const { enabled, ...options } = this.options.recoil;
         if (!enabled) return;
-        const schemas = await readSchemas({ schemaDir: contract.dir });
+        const { schemas } = await readSchemas({
+            schemaDir: contract.dir
+        });
         const files = await generateRecoil(contract.name, schemas, this.outPath, options);
         [].push.apply(this.files, files);
     }
@@ -119,7 +125,9 @@ export class TSBuilder {
     async renderReactQuery(contract: ContractFile) {
         const { enabled, ...options } = this.options.reactQuery;
         if (!enabled) return;
-        const schemas = await readSchemas({ schemaDir: contract.dir });
+        const { schemas } = await readSchemas({
+            schemaDir: contract.dir
+        });
         const files = await generateReactQuery(contract.name, schemas, this.outPath, options);
         [].push.apply(this.files, files);
     }
@@ -127,7 +135,9 @@ export class TSBuilder {
     async renderMessageComposer(contract: ContractFile) {
         const { enabled, ...options } = this.options.messageComposer;
         if (!enabled) return;
-        const schemas = await readSchemas({ schemaDir: contract.dir });
+        const { schemas } = await readSchemas({
+            schemaDir: contract.dir
+        });
         const files = await generateMessageComposer(contract.name, schemas, this.outPath, options);
         [].push.apply(this.files, files);
     }
