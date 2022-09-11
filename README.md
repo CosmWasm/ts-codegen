@@ -47,8 +47,8 @@ The quickest and easiest way to interact with CosmWasm Contracts. `@cosmwasm/ts-
 Clone your project and `cd` into your contracts folder
 
 ```sh
-git clone git@github.com:public-awesome/stargaze-contracts.git
-cd stargaze-contracts/contracts/sg721/
+git clone https://github.com/public-awesome/launchpad.git
+cd launchpad/contracts/sg721-base/
 ```
 
 Run `cosmwasm-ts-codegen` to generate your code.
@@ -58,7 +58,8 @@ cosmwasm-ts-codegen generate \
           --plugin client \
           --schema ./schema \
           --out ./ts \
-          --name SG721
+          --name SG721 \
+          --no-bundle
 ```
 
 The output will be in the folder specified by `--out`, enjoy!

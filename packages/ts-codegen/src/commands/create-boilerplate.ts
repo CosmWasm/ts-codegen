@@ -5,7 +5,7 @@ const glob = require('glob').sync;
 const fs = require('fs');
 const path = require('path');
 
-const repo = 'git@github.com:pyramation/tmpl-cosmwasm-module.git';
+const repo = 'https://github.com/pyramation/tmpl-cosmwasm-module.git';
 export default async argv => {
     if (!shell.which('git')) {
         shell.echo('Sorry, this script requires git');
