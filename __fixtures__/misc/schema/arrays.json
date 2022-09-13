@@ -13,10 +13,56 @@
                     "type": "object",
                     "required": [
                         "edges",
+                        "edges2",
                         "nested",
                         "supernested"
                     ],
                     "properties": {
+                        "edges3": {
+                            "type": [
+                                "array",
+                                "null"
+                            ],
+                            "items": {
+                                "type": [
+                                    "array",
+                                    "null"
+                                ],
+                                "items": [
+                                    {
+                                        "type": "integer",
+                                        "format": "int32"
+                                    },
+                                    {
+                                        "type": "integer",
+                                        "format": "int32"
+                                    }
+                                ],
+                                "maxItems": 2,
+                                "minItems": 2
+                            }
+                        },
+                        "edges2": {
+                            "type": [
+                                "array",
+                                "null"
+                            ],
+                            "items": {
+                                "type": "array",
+                                "items": [
+                                    {
+                                        "type": "integer",
+                                        "format": "int32"
+                                    },
+                                    {
+                                        "type": "integer",
+                                        "format": "int32"
+                                    }
+                                ],
+                                "maxItems": 2,
+                                "minItems": 2
+                            }
+                        },
                         "edges": {
                             "type": "array",
                             "items": {
