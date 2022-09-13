@@ -6,7 +6,7 @@
 
 import { selectorFamily } from "recoil";
 import { cosmWasmClient } from "./chain";
-import { InstantiateMsg, ExecuteMsg, QueryMsg } from "./CyberPunk.types";
+import { InstantiateMsg, ExecuteMsg, QueryMsg, Timestamp, Uint64, Addr, Env, BlockInfo, ContractInfo, TransactionInfo } from "./CyberPunk.types";
 import { CyberPunkQueryClient } from "./CyberPunk.client";
 type QueryClientParams = {
   contractAddress: string;
@@ -22,7 +22,7 @@ export const queryClient = selectorFamily<CyberPunkQueryClient, QueryClientParam
     return new CyberPunkQueryClient(client, contractAddress);
   }
 });
-export const mirrorEnvSelector = selectorFamily<MirrorEnvResponse, QueryClientParams & {
+export const mirrorEnvSelector = selectorFamily<Env, QueryClientParams & {
   params: Parameters<CyberPunkQueryClient["mirrorEnv"]>;
 }>({
   key: "cyberPunkMirrorEnv",

@@ -5,16 +5,16 @@
 */
 
 import { UseQueryOptions, useQuery } from "react-query";
-import { InstantiateMsg, ExecuteMsg, QueryMsg } from "./CyberPunk.types";
+import { InstantiateMsg, ExecuteMsg, QueryMsg, Timestamp, Uint64, Addr, Env, BlockInfo, ContractInfo, TransactionInfo } from "./CyberPunk.types";
 import { CyberPunkQueryClient } from "./CyberPunk.client";
 export interface CyberPunkReactQuery<TResponse, TData = TResponse> {
   client: CyberPunkQueryClient;
   options?: UseQueryOptions<TResponse, Error, TData>;
 }
-export interface CyberPunkMirrorEnvQuery<TData> extends CyberPunkReactQuery<MirrorEnvResponse, TData> {}
-export function useCyberPunkMirrorEnvQuery<TData = MirrorEnvResponse>({
+export interface CyberPunkMirrorEnvQuery<TData> extends CyberPunkReactQuery<Env, TData> {}
+export function useCyberPunkMirrorEnvQuery<TData = Env>({
   client,
   options
 }: CyberPunkMirrorEnvQuery<TData>) {
-  return useQuery<MirrorEnvResponse, Error, TData>(["cyberPunkMirrorEnv", client.contractAddress], () => client.mirrorEnv(), options);
+  return useQuery<Env, Error, TData>(["cyberPunkMirrorEnv", client.contractAddress], () => client.mirrorEnv(), options);
 }

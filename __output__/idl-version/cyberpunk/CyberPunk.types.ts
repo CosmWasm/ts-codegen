@@ -18,3 +18,26 @@ export type ExecuteMsg = {
 export type QueryMsg = {
   mirror_env: {};
 };
+export type Timestamp = Uint64;
+export type Uint64 = string;
+export type Addr = string;
+export interface Env {
+  block: BlockInfo;
+  contract: ContractInfo;
+  transaction?: TransactionInfo | null;
+  [k: string]: unknown;
+}
+export interface BlockInfo {
+  chain_id: string;
+  height: number;
+  time: Timestamp;
+  [k: string]: unknown;
+}
+export interface ContractInfo {
+  address: Addr;
+  [k: string]: unknown;
+}
+export interface TransactionInfo {
+  index: number;
+  [k: string]: unknown;
+}
