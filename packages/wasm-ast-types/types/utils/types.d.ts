@@ -4,7 +4,15 @@ import { RenderContext } from '../context';
 import { JSONSchema } from '../types';
 export declare function getResponseType(context: RenderContext, underscoreName: string): string;
 export declare const getTypeFromRef: ($ref: any) => t.TSTypeReference;
-export declare const getType: (type: any) => t.TSBooleanKeyword | t.TSNumberKeyword | t.TSStringKeyword;
+export declare const detectType: (type: string | string[]) => {
+    type: string;
+    optional: boolean;
+};
+export declare const getTypeInfo: (info: JSONSchema) => {
+    type: any;
+    optional: any;
+};
+export declare const getType: (type: string) => t.TSBooleanKeyword | t.TSNumberKeyword | t.TSStringKeyword;
 export declare const getPropertyType: (context: RenderContext, schema: JSONSchema, prop: string) => {
     type: any;
     optional: boolean;
