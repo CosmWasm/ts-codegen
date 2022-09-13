@@ -4,10 +4,9 @@ import {
     createQueryClass,
     createQueryInterface
 } from '../client'
-import { RenderContext } from '../../context';
-import { expectCode } from '../../../test-utils';
+import { expectCode, makeContext } from '../../../test-utils';
 
-const ctx = new RenderContext(query_msg);
+const ctx = makeContext(query_msg);
 
 it('query classes', () => {
     expectCode(createQueryClass(

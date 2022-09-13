@@ -20,6 +20,25 @@ export interface TSTypesOptions {
     enabled?: boolean;
     aliasExecuteMsg?: boolean;
 }
+interface KeyedSchema {
+    [key: string]: JSONSchema;
+}
+export interface IDLObject {
+    contract_name: string;
+    contract_version: string;
+    idl_version: string;
+    instantiate: JSONSchema;
+    execute: JSONSchema;
+    query: JSONSchema;
+    migrate: JSONSchema;
+    sudo: JSONSchema;
+    responses: KeyedSchema;
+}
+export interface ContractInfo {
+    schemas: JSONSchema[];
+    responses?: Record<string, JSONSchema>;
+    idlObject?: IDLObject;
+}
 export interface RenderOptions {
     types?: TSTypesOptions;
     recoil?: RecoilOptions;
@@ -28,15 +47,18 @@ export interface RenderOptions {
     reactQuery?: ReactQueryOptions;
 }
 export interface RenderContext {
-    schema: JSONSchema;
+    contract: ContractInfo;
     options: RenderOptions;
 }
 export declare const defaultOptions: RenderOptions;
+export declare const getDefinitionSchema: (schemas: JSONSchema[]) => JSONSchema;
 export declare class RenderContext implements RenderContext {
-    schema: JSONSchema;
+    contract: ContractInfo;
     utils: string[];
-    constructor(schema: JSONSchema, options?: RenderOptions);
+    schema: JSONSchema;
+    constructor(contract: ContractInfo, options?: RenderOptions);
     refLookup($ref: string): JSONSchema;
     addUtil(util: string): void;
     getImports(): any[];
 }
+export {};

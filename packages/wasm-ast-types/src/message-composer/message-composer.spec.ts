@@ -3,11 +3,10 @@ import {
     createMessageComposerClass,
     createMessageComposerInterface
 } from './message-composer'
-import { RenderContext } from '../context';
-import { expectCode } from '../../test-utils';
+import { expectCode, makeContext } from '../../test-utils';
 
 it('execute classes', () => {
-    const ctx = new RenderContext(execute_msg);
+    const ctx = makeContext(execute_msg);
     expectCode(createMessageComposerClass(
         ctx,
         'SG721MessageComposer',
@@ -17,7 +16,7 @@ it('execute classes', () => {
 });
 
 it('createMessageComposerInterface', () => {
-    const ctx = new RenderContext(execute_msg);
+    const ctx = makeContext(execute_msg);
     expectCode(createMessageComposerInterface(
         ctx,
         'SG721Message',

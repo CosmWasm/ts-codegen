@@ -7,14 +7,12 @@ import {
     omitTypeReference,
     optionalConditionalExpression,
     propertySignature,
-    shorthandProperty,
-    typeRefOrUnionWithUndefined
+    shorthandProperty
 } from '../utils/babel';
-import { getParamsTypeAnnotation, getPropertyType } from '../utils/types';
+import { getParamsTypeAnnotation, getPropertyType, getResponseType } from '../utils/types';
 import { ReactQueryOptions, RenderContext } from '../context';
 import { JSONSchema } from '../types';
 import { FIXED_EXECUTE_PARAMS } from '../client';
-import { ArgumentPlaceholder, JSXNamespacedName, SpreadElement } from '@babel/types';
 
 interface ReactQueryHookQuery {
     context: RenderContext,
@@ -42,28 +40,28 @@ export const createReactQueryHooks = ({
 }: ReactQueryHooks) => {
     const options = context.options.reactQuery;
 
-  const genericQueryInterfaceName = `${pascal(contractName)}ReactQuery`;
-  const underscoreNames: string[] = getMessageProperties(queryMsg).map((schema) => (Object.keys(schema.properties)[0]))
+    const genericQueryInterfaceName = `${pascal(contractName)}ReactQuery`;
+    const underscoreNames: string[] = getMessageProperties(queryMsg).map((schema) => (Object.keys(schema.properties)[0]))
 
-  const body = []
+    const body = []
 
-  const queryKeysName = `${camel(contractName)}QueryKeys`
-  if (options.queryKeys) {
+    const queryKeysName = `${camel(contractName)}QueryKeys`
+    if (options.queryKeys) {
+        body.push(
+            createReactQueryKeys({
+                context,
+                queryKeysName,
+                camelContractName: camel(contractName),
+                underscoreNames,
+            }))
+    }
+
     body.push(
-      createReactQueryKeys({
-        context,
-        queryKeysName,
-        camelContractName: camel(contractName),
-        underscoreNames,
-      }))
-  }
-
-  body.push(
-      createReactQueryHookGenericInterface({
-        context,
-        QueryClient,
-        genericQueryInterfaceName,
-      }))
+        createReactQueryHookGenericInterface({
+            context,
+            QueryClient,
+            genericQueryInterfaceName,
+        }))
 
     body.push(...getMessageProperties(queryMsg)
         .reduce((m, schema) => {
@@ -76,7 +74,7 @@ export const createReactQueryHooks = ({
             // useCw3FlexMultisigListVotersQuery
             const hookName = `use${hookParamsTypeName}`;
             // listVotersResponse
-            const responseType = pascal(`${methodName}Response`);
+            const responseType = getResponseType(context, underscoreName);
             // cw3FlexMultisigListVoters
             const getterKey = camel(`${contractName}${pascal(methodName)}`);
             const jsonschema = schema.properties[underscoreName];
@@ -146,9 +144,9 @@ export const createReactQueryHook = ({
         props = ['client', 'args', 'options'];
     }
 
-  const selectResponseGenericTypeName = 'TData';
+    const selectResponseGenericTypeName = 'TData';
 
-  const queryFunctionDeclaration =
+    const queryFunctionDeclaration =
         t.functionDeclaration(
             t.identifier(hookName),
             [
@@ -166,7 +164,7 @@ export const createReactQueryHook = ({
                     t.tsTypeAnnotation(t.tsTypeReference(
                         t.identifier(hookParamsTypeName),
                         t.tsTypeParameterInstantiation([
-                          t.tsTypeReference(t.identifier(selectResponseGenericTypeName))
+                            t.tsTypeReference(t.identifier(selectResponseGenericTypeName))
                         ])
                     ))
                 )
@@ -178,7 +176,7 @@ export const createReactQueryHook = ({
                         callExpression(
                             t.identifier('useQuery'),
                             [
-                                    generateUseQueryQueryKey({hookKeyName, queryKeysName, methodName, props, options }),
+                                generateUseQueryQueryKey({ hookKeyName, queryKeysName, methodName, props, options }),
                                 t.arrowFunctionExpression(
                                     [],
                                     optionalConditionalExpression(
@@ -260,18 +258,18 @@ export const createReactQueryHook = ({
 
                 ]
             ),
-      )
+        )
 
-  // Add the TData type parameters
-  queryFunctionDeclaration.typeParameters = t.tsTypeParameterDeclaration([
-      t.tsTypeParameter(
-        undefined,
-        t.tSTypeReference(t.identifier(responseType)),
-        selectResponseGenericTypeName
-      )
+    // Add the TData type parameters
+    queryFunctionDeclaration.typeParameters = t.tsTypeParameterDeclaration([
+        t.tsTypeParameter(
+            undefined,
+            t.tSTypeReference(t.identifier(responseType)),
+            selectResponseGenericTypeName
+        )
     ])
 
-  return  t.exportNamedDeclaration(queryFunctionDeclaration)
+    return t.exportNamedDeclaration(queryFunctionDeclaration)
 
 };
 
@@ -547,142 +545,142 @@ export const createReactQueryMutationHook = ({
 };
 
 function createReactQueryKeys({
-  context,
-  queryKeysName,
-  camelContractName,
-  underscoreNames
+    context,
+    queryKeysName,
+    camelContractName,
+    underscoreNames
 }: {
-  context: RenderContext;
-  queryKeysName: string,
-  camelContractName: string;
-  underscoreNames: string[];
+    context: RenderContext;
+    queryKeysName: string,
+    camelContractName: string;
+    underscoreNames: string[];
 }) {
-  const options = context.options.reactQuery
+    const options = context.options.reactQuery
 
-  const contractAddressTypeAnnotation = t.tsTypeAnnotation(
-    options.optionalClient
-      ? t.tsUnionType([
-        t.tsStringKeyword(),
-        t.tsUndefinedKeyword()
-      ])
-      : t.tSStringKeyword()
-  )
+    const contractAddressTypeAnnotation = t.tsTypeAnnotation(
+        options.optionalClient
+            ? t.tsUnionType([
+                t.tsStringKeyword(),
+                t.tsUndefinedKeyword()
+            ])
+            : t.tSStringKeyword()
+    )
 
-  return t.exportNamedDeclaration(
-    t.variableDeclaration('const', [
-      t.variableDeclarator(
-        t.identifier(queryKeysName),
-        t.objectExpression([
-          // 1: contract
-          t.objectProperty(
-            t.identifier('contract'),
-            t.tSAsExpression(
-              t.arrayExpression([
+    return t.exportNamedDeclaration(
+        t.variableDeclaration('const', [
+            t.variableDeclarator(
+                t.identifier(queryKeysName),
                 t.objectExpression([
-                  t.objectProperty(
-                    t.identifier('contract'),
-                    t.stringLiteral(camelContractName)
-                  )
-                ])
-              ]),
-              t.tSTypeReference(t.identifier('const'))
-            )
-          ),
-          // 2: address
-          t.objectProperty(
-            t.identifier('address'),
-            t.arrowFunctionExpression(
-              [
-                identifier(
-                  'contractAddress',
-                  contractAddressTypeAnnotation
-                )
-              ],
-              t.tSAsExpression(
-                t.arrayExpression([
-                  t.objectExpression([
-                    // 1
-                    t.spreadElement(
-                      t.memberExpression(
-                        t.memberExpression(
-                          t.identifier(queryKeysName),
-                          t.identifier('contract')
-                        ),
-                        t.numericLiteral(0),
-                        true // computed
-                      )
-                    ),
+                    // 1: contract
                     t.objectProperty(
-                      t.identifier('address'),
-                      t.identifier('contractAddress')
-                    )
-                  ])
-                ]),
-                t.tSTypeReference(t.identifier('const'))
-              )
-            )
-          ),
-          // 3: methods
-          ...underscoreNames.map((underscoreMethodName) =>
-            t.objectProperty(
-              // key id is the camel method name
-              t.identifier(camel(underscoreMethodName)),
-              t.arrowFunctionExpression(
-                [
-                  identifier(
-                    'contractAddress',
-                    contractAddressTypeAnnotation
-                  ),
-                  identifier(
-                    'args',
-                    // Record<string, unknown>
-                    t.tSTypeAnnotation(
-                      t.tsTypeReference(
-                        t.identifier('Record'),
-                        t.tsTypeParameterInstantiation([
-                          t.tsStringKeyword(),
-                          t.tsUnknownKeyword()
-                        ])
-                      )
-                    ),
-                    true // optional
-                  )
-                ],
-                t.tSAsExpression(
-                  t.arrayExpression([
-                    t.objectExpression([
-                      //...cw3FlexMultisigQueryKeys.address(contractAddress)[0]
-                      t.spreadElement(
-                        t.memberExpression(
-                          t.callExpression(
-                            t.memberExpression(
-                              t.identifier(queryKeysName),
-                              t.identifier('address')
-                            ),
-                            [t.identifier('contractAddress')]
-                          ),
-                          t.numericLiteral(0),
-                          true // computed
+                        t.identifier('contract'),
+                        t.tSAsExpression(
+                            t.arrayExpression([
+                                t.objectExpression([
+                                    t.objectProperty(
+                                        t.identifier('contract'),
+                                        t.stringLiteral(camelContractName)
+                                    )
+                                ])
+                            ]),
+                            t.tSTypeReference(t.identifier('const'))
                         )
-                      ),
-                      // method: list_voters
-                      t.objectProperty(
-                        t.identifier('method'),
-                        t.stringLiteral(underscoreMethodName)
-                      ),
-                      // args
-                      shorthandProperty('args')
-                    ])
-                  ]),
-                  t.tSTypeReference(t.identifier('const'))
-                )
-              )
+                    ),
+                    // 2: address
+                    t.objectProperty(
+                        t.identifier('address'),
+                        t.arrowFunctionExpression(
+                            [
+                                identifier(
+                                    'contractAddress',
+                                    contractAddressTypeAnnotation
+                                )
+                            ],
+                            t.tSAsExpression(
+                                t.arrayExpression([
+                                    t.objectExpression([
+                                        // 1
+                                        t.spreadElement(
+                                            t.memberExpression(
+                                                t.memberExpression(
+                                                    t.identifier(queryKeysName),
+                                                    t.identifier('contract')
+                                                ),
+                                                t.numericLiteral(0),
+                                                true // computed
+                                            )
+                                        ),
+                                        t.objectProperty(
+                                            t.identifier('address'),
+                                            t.identifier('contractAddress')
+                                        )
+                                    ])
+                                ]),
+                                t.tSTypeReference(t.identifier('const'))
+                            )
+                        )
+                    ),
+                    // 3: methods
+                    ...underscoreNames.map((underscoreMethodName) =>
+                        t.objectProperty(
+                            // key id is the camel method name
+                            t.identifier(camel(underscoreMethodName)),
+                            t.arrowFunctionExpression(
+                                [
+                                    identifier(
+                                        'contractAddress',
+                                        contractAddressTypeAnnotation
+                                    ),
+                                    identifier(
+                                        'args',
+                                        // Record<string, unknown>
+                                        t.tSTypeAnnotation(
+                                            t.tsTypeReference(
+                                                t.identifier('Record'),
+                                                t.tsTypeParameterInstantiation([
+                                                    t.tsStringKeyword(),
+                                                    t.tsUnknownKeyword()
+                                                ])
+                                            )
+                                        ),
+                                        true // optional
+                                    )
+                                ],
+                                t.tSAsExpression(
+                                    t.arrayExpression([
+                                        t.objectExpression([
+                                            //...cw3FlexMultisigQueryKeys.address(contractAddress)[0]
+                                            t.spreadElement(
+                                                t.memberExpression(
+                                                    t.callExpression(
+                                                        t.memberExpression(
+                                                            t.identifier(queryKeysName),
+                                                            t.identifier('address')
+                                                        ),
+                                                        [t.identifier('contractAddress')]
+                                                    ),
+                                                    t.numericLiteral(0),
+                                                    true // computed
+                                                )
+                                            ),
+                                            // method: list_voters
+                                            t.objectProperty(
+                                                t.identifier('method'),
+                                                t.stringLiteral(underscoreMethodName)
+                                            ),
+                                            // args
+                                            shorthandProperty('args')
+                                        ])
+                                    ]),
+                                    t.tSTypeReference(t.identifier('const'))
+                                )
+                            )
+                        )
+                    )
+                ])
             )
-          )
         ])
-      )
-    ])
-  )
+    )
 }
 
 interface ReactQueryHookGenericInterface {
@@ -708,15 +706,15 @@ function createReactQueryHookGenericInterface({
     const typedUseQueryOptions = t.tsTypeReference(
         t.identifier('UseQueryOptions'),
         t.tsTypeParameterInstantiation(
-          [
-            t.tsTypeReference(
-                t.identifier(genericResponseTypeName)
-            ),
-            t.tsTypeReference(t.identifier('Error')),
-            t.tsTypeReference(
-                t.identifier(genericSelectResponseTypeName)
-            )
-        ])
+            [
+                t.tsTypeReference(
+                    t.identifier(genericResponseTypeName)
+                ),
+                t.tsTypeReference(t.identifier('Error')),
+                t.tsTypeReference(
+                    t.identifier(genericSelectResponseTypeName)
+                )
+            ])
     )
 
     const body = [
@@ -761,14 +759,14 @@ function createReactQueryHookGenericInterface({
         t.tsInterfaceDeclaration(
             t.identifier(genericQueryInterfaceName),
             t.tsTypeParameterDeclaration([
-              // 1: TResponse
-              t.tsTypeParameter(undefined, undefined, genericResponseTypeName),
-              // 2: TData
-              t.tsTypeParameter(
-                undefined,
-                t.tSTypeReference(t.identifier(genericResponseTypeName)),
-                genericSelectResponseTypeName
-              )
+                // 1: TResponse
+                t.tsTypeParameter(undefined, undefined, genericResponseTypeName),
+                // 2: TData
+                t.tsTypeParameter(
+                    undefined,
+                    t.tSTypeReference(t.identifier(genericResponseTypeName)),
+                    genericSelectResponseTypeName
+                )
             ]),
             [],
             t.tSInterfaceBody(body)
@@ -814,7 +812,7 @@ export const createReactQueryHookInterface = ({
         t.tsInterfaceDeclaration(
             t.identifier(hookParamsTypeName),
             t.tsTypeParameterDeclaration([
-              t.tSTypeParameter(undefined, undefined, 'TData')
+                t.tSTypeParameter(undefined, undefined, 'TData')
             ]),
             [
                 t.tSExpressionWithTypeArguments(
@@ -854,11 +852,11 @@ const getProps = (
 }
 
 interface GenerateUseQueryQueryKeyParams {
-  hookKeyName: string;
-  queryKeysName: string;
-  methodName: string;
-  props: string[];
-  options: ReactQueryOptions;
+    hookKeyName: string;
+    queryKeysName: string;
+    methodName: string;
+    props: string[];
+    options: ReactQueryOptions;
 }
 
 const generateUseQueryQueryKey = ({
@@ -867,37 +865,37 @@ const generateUseQueryQueryKey = ({
     methodName,
     props,
     options,
-  }: GenerateUseQueryQueryKeyParams): t.ArrayExpression | t.CallExpression => {
-  const { optionalClient, queryKeys } = options
+}: GenerateUseQueryQueryKeyParams): t.ArrayExpression | t.CallExpression => {
+    const { optionalClient, queryKeys } = options
 
-  const hasArgs = props.includes('args')
+    const hasArgs = props.includes('args')
 
-  const contractAddressExpression =
-    t.optionalMemberExpression(
-      t.identifier('client'),
-      t.identifier('contractAddress'),
-      false,
-      optionalClient
-    )
+    const contractAddressExpression =
+        t.optionalMemberExpression(
+            t.identifier('client'),
+            t.identifier('contractAddress'),
+            false,
+            optionalClient
+        )
 
-  if (queryKeys) {
+    if (queryKeys) {
 
-    const callArgs: Array<Expression> = [contractAddressExpression]
+        const callArgs: Array<Expression> = [contractAddressExpression]
 
-    if (hasArgs) callArgs.push(t.identifier('args'))
+        if (hasArgs) callArgs.push(t.identifier('args'))
 
-    return t.callExpression(
-      t.memberExpression(
-        t.identifier(queryKeysName),
-        t.identifier(camel(methodName))
-      ),
-      callArgs
-    )
-  }
+        return t.callExpression(
+            t.memberExpression(
+                t.identifier(queryKeysName),
+                t.identifier(camel(methodName))
+            ),
+            callArgs
+        )
+    }
 
     const queryKey: Array<Expression> = [
-      t.stringLiteral(hookKeyName),
-      contractAddressExpression
+        t.stringLiteral(hookKeyName),
+        contractAddressExpression
     ];
 
     if (hasArgs) {

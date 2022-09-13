@@ -3,6 +3,7 @@ import { sync as glob } from 'glob';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 import { JSONSchema } from '../src/types';
+import { RenderContext, RenderOptions } from '../src/context';
 
 export const expectCode = (ast) => {
     expect(
@@ -15,6 +16,17 @@ export const printCode = (ast) => {
         generate(ast).code
     );
 }
+
+export const makeContext = (
+    schema: JSONSchema,
+    options?: RenderOptions,
+    responses?: Record<string, JSONSchema>
+) => {
+    return new RenderContext({
+        schemas: [schema],
+        responses
+    }, options)
+};
 
 interface GlobContract {
     name: `/${string}.json`;

@@ -1,9 +1,22 @@
 import * as t from '@babel/types';
-import { camel } from 'case';
+import { camel, pascal } from 'case';
 import { propertySignature } from './babel';
 import { TSTypeAnnotation } from '@babel/types';
 import { RenderContext } from '../context';
 import { JSONSchema } from '../types';
+
+export function getResponseType(
+  context: RenderContext,
+  underscoreName: string
+) {
+  const methodName = camel(underscoreName);
+  return pascal(
+    context.contract?.responses?.[underscoreName]?.title
+    ??
+    // after v1.1 is adopted, we can deprecate this and require the above response
+    `${methodName}Response`
+  );
+};
 
 const getTypeStrFromRef = ($ref) => {
   if ($ref?.startsWith('#/definitions/')) {
@@ -161,6 +174,7 @@ export const getPropertyType = (
 
   return { type, optional };
 };
+
 
 export function getPropertySignatureFromProp(
   context: RenderContext,

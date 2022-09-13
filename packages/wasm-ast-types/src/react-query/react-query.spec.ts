@@ -7,10 +7,10 @@ import {
   createReactQueryHooks,
   createReactQueryMutationHooks,
 } from './react-query'
-import { expectCode } from '../../test-utils';
+import { expectCode, makeContext } from '../../test-utils';
 
-const execCtx = new RenderContext(execute_msg);
-const queryCtx = new RenderContext(query_msg);
+const execCtx = makeContext(execute_msg);
+const queryCtx = makeContext(query_msg);
 
 it('createReactQueryHooks', () => {
   expectCode(t.program(
@@ -25,7 +25,7 @@ it('createReactQueryHooks', () => {
   expectCode(t.program(
     createReactQueryHooks(
       {
-        context: new RenderContext(query_msg, {
+        context: makeContext(query_msg, {
           reactQuery: {
             optionalClient: true
           }
@@ -38,7 +38,7 @@ it('createReactQueryHooks', () => {
   expectCode(t.program(
     createReactQueryHooks(
       {
-        context: new RenderContext(query_msg, {
+        context: makeContext(query_msg, {
           reactQuery: {
             version: 'v4'
           }
@@ -51,7 +51,7 @@ it('createReactQueryHooks', () => {
   expectCode(t.program(
     createReactQueryHooks(
       {
-        context: new RenderContext(query_msg, {
+        context: makeContext(query_msg, {
           reactQuery: {
             optionalClient: true,
             version: 'v4'

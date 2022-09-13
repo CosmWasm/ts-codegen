@@ -22,11 +22,10 @@ import {
   createTypeInterface
 } from '../client';
 
-import { RenderContext } from '../../context';
-import { expectCode } from '../../../test-utils';
+import { expectCode, makeContext } from '../../../test-utils';
 
 it('approval_response', () => {
-  const ctx = new RenderContext(approval_response);
+  const ctx = makeContext(approval_response);
   expectCode(createTypeInterface(
     ctx,
     approval_response
@@ -34,70 +33,70 @@ it('approval_response', () => {
 });
 
 it('all_nft_info_response', () => {
-  const ctx = new RenderContext(all_nft_info_response);
+  const ctx = makeContext(all_nft_info_response);
   expectCode(createTypeInterface(
     ctx,
     all_nft_info_response
   ))
 })
 it('approvals_response', () => {
-  const ctx = new RenderContext(approvals_response);
+  const ctx = makeContext(approvals_response);
   expectCode(createTypeInterface(
     ctx,
     approvals_response
   ))
 })
 it('collection_info_response', () => {
-  const ctx = new RenderContext(collection_info_response);
+  const ctx = makeContext(collection_info_response);
   expectCode(createTypeInterface(
     ctx,
     collection_info_response
   ))
 })
 it('contract_info_response', () => {
-  const ctx = new RenderContext(contract_info_response);
+  const ctx = makeContext(contract_info_response);
   expectCode(createTypeInterface(
     ctx,
     contract_info_response
   ))
 })
 it('instantiate_msg', () => {
-  const ctx = new RenderContext(instantiate_msg);
+  const ctx = makeContext(instantiate_msg);
   expectCode(createTypeInterface(
     ctx,
     instantiate_msg
   ))
 })
 it('nft_info_response', () => {
-  const ctx = new RenderContext(nft_info_response);
+  const ctx = makeContext(nft_info_response);
   expectCode(createTypeInterface(
     ctx,
     nft_info_response
   ))
 })
 it('num_tokens_response', () => {
-  const ctx = new RenderContext(num_tokens_response);
+  const ctx = makeContext(num_tokens_response);
   expectCode(createTypeInterface(
     ctx,
     num_tokens_response
   ))
 })
 it('operators_response', () => {
-  const ctx = new RenderContext(operators_response);
+  const ctx = makeContext(operators_response);
   expectCode(createTypeInterface(
     ctx,
     operators_response
   ))
 })
 it('owner_of_response', () => {
-  const ctx = new RenderContext(owner_of_response);
+  const ctx = makeContext(owner_of_response);
   expectCode(createTypeInterface(
     ctx,
     owner_of_response
   ))
 })
 it('tokens_response', () => {
-  const ctx = new RenderContext(tokens_response);
+  const ctx = makeContext(tokens_response);
   expectCode(createTypeInterface(
     ctx,
     tokens_response
@@ -105,7 +104,7 @@ it('tokens_response', () => {
 })
 
 it('query classes', () => {
-  const ctx = new RenderContext(query_msg);
+  const ctx = makeContext(query_msg);
   expectCode(createQueryClass(
     ctx,
     'SG721QueryClient',
@@ -115,7 +114,7 @@ it('query classes', () => {
 });
 
 it('execute classes', () => {
-  const ctx = new RenderContext(execute_msg);
+  const ctx = makeContext(execute_msg);
   expectCode(createExecuteClass(
     ctx,
     'SG721Client',
@@ -126,7 +125,7 @@ it('execute classes', () => {
 });
 
 it('execute classes no extends', () => {
-  const ctx = new RenderContext(execute_msg);
+  const ctx = makeContext(execute_msg);
   expectCode(createExecuteClass(
     ctx,
     'SG721Client',
@@ -137,7 +136,7 @@ it('execute classes no extends', () => {
 });
 
 it('execute classes array types', () => {
-  const ctx = new RenderContext(execute_msg_named_groups);
+  const ctx = makeContext(execute_msg_named_groups);
   expectCode(createExecuteClass(
     ctx,
     'SG721Client',
@@ -148,7 +147,7 @@ it('execute classes array types', () => {
 });
 
 it('execute interfaces no extends', () => {
-  const ctx = new RenderContext(execute_msg);
+  const ctx = makeContext(execute_msg);
   expectCode(createExecuteInterface(
     ctx,
     'SG721Instance',
@@ -158,7 +157,7 @@ it('execute interfaces no extends', () => {
 });
 
 it('query interfaces', () => {
-  const ctx = new RenderContext(query_msg);
+  const ctx = makeContext(query_msg);
   expectCode(createQueryInterface(
     ctx,
     'SG721ReadOnlyInstance',

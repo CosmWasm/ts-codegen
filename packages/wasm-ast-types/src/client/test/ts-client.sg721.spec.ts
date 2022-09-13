@@ -5,10 +5,9 @@ import {
     createExecuteInterface,
     createTypeInterface
 } from '../client'
-import { RenderContext } from '../../context';
-import { expectCode } from '../../../test-utils';
+import { expectCode, makeContext } from '../../../test-utils';
 
-const ctx = new RenderContext(execute_msg_for__empty);
+const ctx = makeContext(execute_msg_for__empty);
 
 it('execute_msg_for__empty', () => {
     expectCode(createTypeInterface(

@@ -7,11 +7,10 @@ import {
     createExecuteInterface,
     createTypeInterface
 } from '../client'
-import { RenderContext } from '../../context';
-import { expectCode } from '../../../test-utils';
+import { expectCode, makeContext } from '../../../test-utils';
 
 it('execute_msg_for', () => {
-    const ctx = new RenderContext(execute_msg);
+    const ctx = makeContext(execute_msg);
     expectCode(createTypeInterface(
         ctx,
         execute_msg
@@ -20,7 +19,7 @@ it('execute_msg_for', () => {
 
 
 it('query classes', () => {
-    const ctx = new RenderContext(query_msg);
+    const ctx = makeContext(query_msg);
     expectCode(createQueryClass(
         ctx,
         'SG721QueryClient',
@@ -30,7 +29,7 @@ it('query classes', () => {
 });
 
 it('execute classes array types', () => {
-    const ctx = new RenderContext(execute_msg);
+    const ctx = makeContext(execute_msg);
     expectCode(createExecuteClass(
         ctx,
         'SG721Client',
@@ -41,7 +40,7 @@ it('execute classes array types', () => {
 });
 
 it('execute interfaces no extends', () => {
-    const ctx = new RenderContext(execute_msg);
+    const ctx = makeContext(execute_msg);
     expectCode(createExecuteInterface(
         ctx,
         'SG721Instance',
