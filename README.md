@@ -412,8 +412,7 @@ Using the new `write_api` method, you can export schemas:
 ```rs
 use cosmwasm_schema::write_api;
 
-pub use cw4::{AdminResponse, MemberListResponse, MemberResponse, TotalWeightResponse};
-pub use cw4_group::msg::{ExecuteMsg, InstantiateMsg, QueryMsg};
+use cw4_group::msg::{ExecuteMsg, InstantiateMsg, QueryMsg};
 
 fn main() {
     write_api! {
@@ -477,5 +476,5 @@ Checkout these related projects:
 
 ## Credits
 
-Built by Cosmology — if you like our tools, please consider delegating to [our validator](https://www.mintscan.io/juno/validators/junovaloper1pr5qgj4jg47lvsnejtfvk78090shvuctgdwdm5)
+🛠 Built by Cosmology — if you like our tools, please consider delegating to [our validator ⚛️](https://cosmology.tech/validator)
 
