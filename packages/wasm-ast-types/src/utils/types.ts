@@ -46,7 +46,9 @@ const getTypeOrRef = (obj) => {
 }
 
 const getArrayTypeFromItems = (items) => {
-  if (items.type === 'array') {
+  const detect = detectType(items.type);
+
+  if (detect.type === 'array') {
     if (Array.isArray(items.items)) {
       return t.tsArrayType(
         t.tsArrayType(
@@ -61,13 +63,129 @@ const getArrayTypeFromItems = (items) => {
       );
     }
   }
+
+
   return t.tsArrayType(
-    getType(items.type)
+    getType(detect.type)
   );
 }
 
 
-export const getType = (type) => {
+export const detectType = (type: string | string[]) => {
+  let optional = false;
+  let theType = '';
+  if (Array.isArray(type)) {
+    if (type.length !== 2) {
+      throw new Error('[getType(array length)] case not handled by transpiler. contact maintainers.')
+    }
+    const [nullableType, nullType] = type;
+    if (nullType !== 'null') {
+      throw new Error('[getType(null)] case not handled by transpiler. contact maintainers.')
+    }
+    theType = nullableType;
+    optional = true;
+  } else {
+    theType = type;
+  }
+
+  return {
+    type: theType,
+    optional
+  };
+}
+
+export const getTypeInfo = (info: JSONSchema) => {
+  let type = undefined;
+  let optional = undefined;
+
+  if (Array.isArray(info.anyOf)) {
+    // assuming 2nd is null, but let's check to ensure
+    if (info.anyOf.length !== 2) {
+      throw new Error('case not handled by transpiler. contact maintainers.')
+    }
+    const [nullableType, nullType] = info.anyOf;
+    if (nullType?.type !== 'null') {
+      throw new Error('[nullableType.type]: case not handled by transpiler. contact maintainers.')
+    }
+    if (!nullableType?.$ref) {
+      if (nullableType.title) {
+        type = t.tsTypeReference(t.identifier(nullableType.title));
+      } else {
+        throw new Error('[nullableType.title] case not handled by transpiler. contact maintainers.')
+      }
+    } else {
+      type = getTypeFromRef(nullableType?.$ref);
+    }
+    optional = true;
+  }
+
+
+  if (typeof info.type === 'string') {
+    if (info.type === 'array') {
+      if (typeof info.items === 'object' && !Array.isArray(info.items)) {
+        if (info.items.$ref) {
+          type = getArrayTypeFromRef(info.items.$ref);
+        } else if (info.items.title) {
+          type = t.tsArrayType(
+            t.tsTypeReference(
+              t.identifier(info.items.title)
+            )
+          );
+        } else if (info.items.type) {
+          type = getArrayTypeFromItems(info.items);
+        } else {
+          throw new Error('[info.items] case not handled by transpiler. contact maintainers.')
+        }
+      } else {
+        throw new Error('[info.items] case not handled by transpiler. contact maintainers.')
+      }
+    } else {
+      const detect = detectType(info.type);
+      type = getType(detect.type);
+      optional = detect.optional;
+    }
+  }
+
+  if (Array.isArray(info.type)) {
+    // assuming 2nd is null, but let's check to ensure
+    if (info.type.length !== 2) {
+      throw new Error('please report this to maintainers (field type): ' + JSON.stringify(info, null, 2))
+    }
+    const [nullableType, nullType] = info.type;
+    if (nullType !== 'null') {
+      throw new Error('please report this to maintainers (field type): ' + JSON.stringify(info, null, 2))
+    }
+
+    if (nullableType === 'array' && typeof info.items === 'object' && !Array.isArray(info.items)) {
+      const detect = detectType(info.items.type);
+      if (detect.type === 'array') {
+        // wen recursion?
+        type = t.tsArrayType(
+          getArrayTypeFromItems(info.items)
+        );
+      } else {
+        type = t.tsArrayType(
+          getType(detect.type)
+        );
+      }
+      optional = detect.optional;
+
+    } else {
+      type = getType(nullableType);
+    }
+
+    optional = true;
+  }
+
+  return {
+    type,
+    optional
+  };
+
+}
+
+
+export const getType = (type: string) => {
   switch (type) {
     case 'string':
       return t.tsStringKeyword();
@@ -99,71 +217,14 @@ export const getPropertyType = (
     type = getTypeFromRef(info.$ref)
   }
 
-  if (Array.isArray(info.anyOf)) {
-    // assuming 2nd is null, but let's check to ensure
-    if (info.anyOf.length !== 2) {
-      throw new Error('case not handled by transpiler. contact maintainers.')
-    }
-    const [nullableType, nullType] = info.anyOf;
-    if (nullType?.type !== 'null') {
-      throw new Error('[nullableType.type]: case not handled by transpiler. contact maintainers.')
-    }
-    if (!nullableType?.$ref) {
-      if (nullableType.title) {
-        type = t.tsTypeReference(t.identifier(nullableType.title));
-      } else {
-        throw new Error('[nullableType.title] case not handled by transpiler. contact maintainers.')
-      }
-    } else {
-      type = getTypeFromRef(nullableType?.$ref);
-    }
-    optional = true;
+  const typeInfo = getTypeInfo(info);
+  if (typeof typeInfo.optional !== 'undefined') {
+    optional = typeInfo.optional;
+  }
+  if (typeof typeInfo.type !== 'undefined') {
+    type = typeInfo.type;
   }
 
-  if (typeof info.type === 'string') {
-    if (info.type === 'array') {
-      if (typeof info.items === 'object' && !Array.isArray(info.items)) {
-        if (info.items.$ref) {
-          type = getArrayTypeFromRef(info.items.$ref);
-        } else if (info.items.title) {
-          type = t.tsArrayType(
-            t.tsTypeReference(
-              t.identifier(info.items.title)
-            )
-          );
-        } else if (info.items.type) {
-          type = getArrayTypeFromItems(info.items);
-        } else {
-          throw new Error('[info.items] case not handled by transpiler. contact maintainers.')
-        }
-      } else {
-        throw new Error('[info.items] case not handled by transpiler. contact maintainers.')
-      }
-    } else {
-      type = getType(info.type);
-    }
-  }
-
-  if (Array.isArray(info.type)) {
-    // assuming 2nd is null, but let's check to ensure
-    if (info.type.length !== 2) {
-      throw new Error('please report this to maintainers (field type): ' + JSON.stringify(info, null, 2))
-    }
-    const [nullableType, nullType] = info.type;
-    if (nullType !== 'null') {
-      throw new Error('please report this to maintainers (field type): ' + JSON.stringify(info, null, 2))
-    }
-
-    if (nullableType === 'array' && typeof info.items === 'object' && !Array.isArray(info.items)) {
-      type = t.tsArrayType(
-        getType(info.items.type)
-      );
-    } else {
-      type = getType(nullableType);
-    }
-
-    optional = true;
-  }
   if (!type) {
     throw new Error('cannot find type for ' + JSON.stringify(info))
   }

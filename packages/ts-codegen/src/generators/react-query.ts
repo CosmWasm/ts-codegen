@@ -77,6 +77,7 @@ export default async (
   }
 
   if (typeHash.hasOwnProperty('Coin')) {
+    // @ts-ignore
     delete context.utils.Coin;
   }
   const imports = context.getImports();

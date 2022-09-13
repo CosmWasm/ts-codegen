@@ -6,10 +6,20 @@ import {
     createExecuteInterface,
     createTypeInterface
 } from '../client'
-import { RenderContext } from '../../context';
-import { expectCode, makeContext } from '../../../test-utils';
+import { expectCode, printCode, makeContext } from '../../../test-utils';
+import { getPropertyType } from '../../utils';
 
 const ctx = makeContext(message);
+
+it('getPropertyType', () => {
+    const ast = getPropertyType(
+        ctx,
+        message.oneOf[0].properties.update_edges,
+        'edges3'
+    );
+    expectCode(ast.type)
+    // printCode(ast.type)
+})
 
 it('execute_msg_for__empty', () => {
     expectCode(createTypeInterface(
