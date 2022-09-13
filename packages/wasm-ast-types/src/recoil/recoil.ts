@@ -2,7 +2,8 @@ import * as t from '@babel/types';
 import { camel, pascal } from 'case';
 import {
   callExpression,
-  getMessageProperties
+  getMessageProperties,
+  getResponseType
 } from '../utils';
 import { QueryMsg } from '../types';
 import { RenderContext } from '../context';
@@ -11,13 +12,13 @@ export const createRecoilSelector = (
   context: RenderContext,
   keyPrefix: string,
   QueryClient: string,
-  methodName: string
+  methodName: string,
+  responseType: string
 ) => {
 
   context.addUtil('selectorFamily');
 
   const selectorName = camel(`${methodName}Selector`);
-  const responseType = pascal(`${methodName}Response`);
   const getterKey = camel(`${keyPrefix}${pascal(methodName)}`);
 
   return t.exportNamedDeclaration(
@@ -164,12 +165,14 @@ export const createRecoilSelectors = (
 
       const underscoreName = Object.keys(schema.properties)[0];
       const methodName = camel(underscoreName);
+      const responseType = getResponseType(context, underscoreName);
 
       return createRecoilSelector(
         context,
         keyPrefix,
         QueryClient,
-        methodName
+        methodName,
+        responseType
       );
 
     });

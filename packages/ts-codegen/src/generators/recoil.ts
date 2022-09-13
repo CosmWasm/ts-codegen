@@ -6,18 +6,19 @@ import * as w from 'wasm-ast-types';
 import * as t from '@babel/types';
 import { writeFileSync } from 'fs';
 import generate from "@babel/generator";
-import { findAndParseTypes, findQueryMsg, getDefinitionSchema } from "../utils";
-import { RenderContext, RecoilOptions } from "wasm-ast-types";
+import { findAndParseTypes, findQueryMsg } from "../utils";
+import { ContractInfo, RenderContext, RecoilOptions } from "wasm-ast-types";
 import { BuilderFile } from "../builder";
 
 export default async (
   name: string,
-  schemas: any[],
+  contractInfo: ContractInfo,
   outPath: string,
   recoilOptions?: RecoilOptions
 ): Promise<BuilderFile[]> => {
 
-  const context = new RenderContext(getDefinitionSchema(schemas), {
+  const { schemas } = contractInfo;
+  const context = new RenderContext(contractInfo, {
     recoil: recoilOptions ?? {}
   });
   const options = context.options.recoil;

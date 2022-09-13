@@ -5,18 +5,18 @@
 */
 
 import { UseQueryOptions, useQuery } from "react-query";
-import { InstantiateMsg, ExecuteMsg, QueryMsg, MigrateMsg, SudoMsg, Uint128, Coin } from "./HackAtom.types";
+import { InstantiateMsg, ExecuteMsg, QueryMsg, MigrateMsg, SudoMsg, Uint128, Coin, IntResponse, AllBalanceResponse, Binary, RecurseResponse, VerifierResponse } from "./HackAtom.types";
 import { HackAtomQueryClient } from "./HackAtom.client";
 export interface HackAtomReactQuery<TResponse, TData = TResponse> {
   client: HackAtomQueryClient;
   options?: UseQueryOptions<TResponse, Error, TData>;
 }
-export interface HackAtomGetIntQuery<TData> extends HackAtomReactQuery<GetIntResponse, TData> {}
-export function useHackAtomGetIntQuery<TData = GetIntResponse>({
+export interface HackAtomGetIntQuery<TData> extends HackAtomReactQuery<IntResponse, TData> {}
+export function useHackAtomGetIntQuery<TData = IntResponse>({
   client,
   options
 }: HackAtomGetIntQuery<TData>) {
-  return useQuery<GetIntResponse, Error, TData>(["hackAtomGetInt", client.contractAddress], () => client.getInt(), options);
+  return useQuery<IntResponse, Error, TData>(["hackAtomGetInt", client.contractAddress], () => client.getInt(), options);
 }
 export interface HackAtomRecurseQuery<TData> extends HackAtomReactQuery<RecurseResponse, TData> {
   args: {
@@ -34,17 +34,17 @@ export function useHackAtomRecurseQuery<TData = RecurseResponse>({
     work: args.work
   }), options);
 }
-export interface HackAtomOtherBalanceQuery<TData> extends HackAtomReactQuery<OtherBalanceResponse, TData> {
+export interface HackAtomOtherBalanceQuery<TData> extends HackAtomReactQuery<AllBalanceResponse, TData> {
   args: {
     address: string;
   };
 }
-export function useHackAtomOtherBalanceQuery<TData = OtherBalanceResponse>({
+export function useHackAtomOtherBalanceQuery<TData = AllBalanceResponse>({
   client,
   args,
   options
 }: HackAtomOtherBalanceQuery<TData>) {
-  return useQuery<OtherBalanceResponse, Error, TData>(["hackAtomOtherBalance", client.contractAddress, JSON.stringify(args)], () => client.otherBalance({
+  return useQuery<AllBalanceResponse, Error, TData>(["hackAtomOtherBalance", client.contractAddress, JSON.stringify(args)], () => client.otherBalance({
     address: args.address
   }), options);
 }

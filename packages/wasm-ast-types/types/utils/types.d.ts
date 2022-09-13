@@ -2,6 +2,7 @@ import * as t from '@babel/types';
 import { TSTypeAnnotation } from '@babel/types';
 import { RenderContext } from '../context';
 import { JSONSchema } from '../types';
+export declare function getResponseType(context: RenderContext, underscoreName: string): string;
 export declare const getTypeFromRef: ($ref: any) => t.TSTypeReference;
 export declare const getType: (type: any) => t.TSBooleanKeyword | t.TSNumberKeyword | t.TSStringKeyword;
 export declare const getPropertyType: (context: RenderContext, schema: JSONSchema, prop: string) => {

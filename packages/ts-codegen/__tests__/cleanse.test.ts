@@ -10,8 +10,8 @@ it('sg721', async () => {
     const out = OUTPUT_DIR + '/sg721';
     const schemaDir = FIXTURE_DIR + '/sg721/';
 
-    const clean = await readSchemas({ schemaDir, argv: {}, clean: true });
-    const orig = await readSchemas({ schemaDir, argv: {}, clean: false });
+    const clean = await readSchemas({ schemaDir, clean: true });
+    const orig = await readSchemas({ schemaDir, clean: false });
 
     mkdirp(out);
     writeFileSync(out + '/orig.json', JSON.stringify(orig, null, 2));
@@ -23,8 +23,8 @@ it('daodao/cw-code-id-registry', async () => {
     const out = OUTPUT_DIR + '/daodao/cw-code-id-registry';
     const schemaDir = FIXTURE_DIR + '/daodao/cw-code-id-registry/';
 
-    const clean = await readSchemas({ schemaDir, argv: {}, clean: true });
-    const orig = await readSchemas({ schemaDir, argv: {}, clean: false });
+    const clean = await readSchemas({ schemaDir, clean: true });
+    const orig = await readSchemas({ schemaDir, clean: false });
 
     mkdirp(out);
     writeFileSync(out + '/orig.json', JSON.stringify(orig, null, 2));

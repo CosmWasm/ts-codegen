@@ -56,3 +56,17 @@ export interface Coin {
   denom: string;
   [k: string]: unknown;
 }
+export interface IntResponse {
+  int: number;
+}
+export interface AllBalanceResponse {
+  amount: Coin[];
+  [k: string]: unknown;
+}
+export type Binary = string;
+export interface RecurseResponse {
+  hashed: Binary;
+}
+export interface VerifierResponse {
+  verifier: string;
+}

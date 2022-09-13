@@ -6,22 +6,23 @@ import * as w from 'wasm-ast-types';
 import * as t from '@babel/types';
 import { writeFileSync } from 'fs';
 import generate from "@babel/generator";
-import { getMessageProperties } from "wasm-ast-types";
-import { findAndParseTypes, findExecuteMsg, findQueryMsg, getDefinitionSchema } from '../utils';
+import { ContractInfo, getMessageProperties } from "wasm-ast-types";
+import { findAndParseTypes, findExecuteMsg, findQueryMsg } from '../utils';
 import { RenderContext, TSClientOptions } from "wasm-ast-types";
 import { BuilderFile } from "../builder";
 
 export default async (
   name: string,
-  schemas: any[],
+  contractInfo: ContractInfo,
   outPath: string,
   tsClientOptions?: TSClientOptions
 ): Promise<BuilderFile[]> => {
 
-  const context = new RenderContext(getDefinitionSchema(schemas), {
+  const { schemas } = contractInfo;
+  const context = new RenderContext(contractInfo, {
     client: tsClientOptions ?? {}
   });
-  const options = context.options.client;
+  // const options = context.options.client;
 
   const localname = pascal(name) + '.client.ts';
   const TypesFile = pascal(name) + '.types'

@@ -27,6 +27,27 @@ export interface TSTypesOptions {
 }
 
 /// END Plugin Types
+
+interface KeyedSchema {
+    [key: string]: JSONSchema;
+}
+export interface IDLObject {
+    contract_name: string;
+    contract_version: string;
+    idl_version: string;
+    instantiate: JSONSchema;
+    execute: JSONSchema;
+    query: JSONSchema;
+    migrate: JSONSchema;
+    sudo: JSONSchema;
+    responses: KeyedSchema;
+}
+
+export interface ContractInfo {
+    schemas: JSONSchema[];
+    responses?: Record<string, JSONSchema>;
+    idlObject?: IDLObject;
+};
 export interface RenderOptions {
     types?: TSTypesOptions;
     recoil?: RecoilOptions;
@@ -36,7 +57,7 @@ export interface RenderOptions {
 }
 
 export interface RenderContext {
-    schema: JSONSchema;
+    contract: ContractInfo;
     options: RenderOptions;
 }
 
@@ -64,14 +85,33 @@ export const defaultOptions: RenderOptions = {
     }
 };
 
+export const getDefinitionSchema = (schemas: JSONSchema[]): JSONSchema => {
+    const aggregateSchema = {
+        definitions: {
+            //
+        }
+    };
+
+    schemas.forEach(schema => {
+        schema.definitions = schema.definitions || {};
+        aggregateSchema.definitions = {
+            ...aggregateSchema.definitions,
+            ...schema.definitions
+        };
+    });
+
+    return aggregateSchema;
+};
 export class RenderContext implements RenderContext {
-    schema: JSONSchema;
+    contract: ContractInfo;
     utils: string[] = [];
+    schema: JSONSchema;
     constructor(
-        schema: JSONSchema,
+        contract: ContractInfo,
         options?: RenderOptions
     ) {
-        this.schema = schema;
+        this.contract = contract;
+        this.schema = getDefinitionSchema(contract.schemas);
         this.options = deepmerge(defaultOptions, options ?? {});
     }
     refLookup($ref: string) {

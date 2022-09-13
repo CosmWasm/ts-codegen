@@ -6,7 +6,7 @@
 
 import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { StdFee } from "@cosmjs/amino";
-import { InstantiateMsg, ExecuteMsg, QueryMsg, MigrateMsg, SudoMsg, Uint128, Coin } from "./HackAtom.types";
+import { InstantiateMsg, ExecuteMsg, QueryMsg, MigrateMsg, SudoMsg, Uint128, Coin, IntResponse, AllBalanceResponse, Binary, RecurseResponse, VerifierResponse } from "./HackAtom.types";
 export interface HackAtomReadOnlyInterface {
   contractAddress: string;
   verifier: () => Promise<VerifierResponse>;
@@ -14,7 +14,7 @@ export interface HackAtomReadOnlyInterface {
     address
   }: {
     address: string;
-  }) => Promise<OtherBalanceResponse>;
+  }) => Promise<AllBalanceResponse>;
   recurse: ({
     depth,
     work
@@ -22,7 +22,7 @@ export interface HackAtomReadOnlyInterface {
     depth: number;
     work: number;
   }) => Promise<RecurseResponse>;
-  getInt: () => Promise<GetIntResponse>;
+  getInt: () => Promise<IntResponse>;
 }
 export class HackAtomQueryClient implements HackAtomReadOnlyInterface {
   client: CosmWasmClient;
@@ -46,7 +46,7 @@ export class HackAtomQueryClient implements HackAtomReadOnlyInterface {
     address
   }: {
     address: string;
-  }): Promise<OtherBalanceResponse> => {
+  }): Promise<AllBalanceResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
       other_balance: {
         address
@@ -67,7 +67,7 @@ export class HackAtomQueryClient implements HackAtomReadOnlyInterface {
       }
     });
   };
-  getInt = async (): Promise<GetIntResponse> => {
+  getInt = async (): Promise<IntResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
       get_int: {}
     });

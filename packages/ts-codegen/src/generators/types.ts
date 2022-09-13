@@ -6,18 +6,19 @@ import * as t from '@babel/types';
 import { writeFileSync } from 'fs';
 import generate from "@babel/generator";
 import { clean } from "../utils/clean";
-import { findAndParseTypes, findExecuteMsg, getDefinitionSchema } from '../utils';
-import { RenderContext, TSTypesOptions } from "wasm-ast-types";
+import { findAndParseTypes, findExecuteMsg } from '../utils';
+import { ContractInfo, RenderContext, TSTypesOptions } from "wasm-ast-types";
 import { BuilderFile } from "../builder";
 
 export default async (
   name: string,
-  schemas: any[],
+  contractInfo: ContractInfo,
   outPath: string,
   tsTypesOptions?: TSTypesOptions
 ): Promise<BuilderFile[]> => {
 
-  const context = new RenderContext(getDefinitionSchema(schemas), {
+  const { schemas } = contractInfo;
+  const context = new RenderContext(contractInfo, {
     types: tsTypesOptions ?? {}
   });
   const options = context.options.types;

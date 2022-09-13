@@ -12,10 +12,10 @@ import {
 } from '../client';
 
 import { RenderContext } from '../../context';
-import { expectCode } from '../../../test-utils';
+import { expectCode, makeContext } from '../../../test-utils';
 
 it('cosmos_msg_for__empty', () => {
-    const ctx = new RenderContext(cosmos_msg_for__empty);
+    const ctx = makeContext(cosmos_msg_for__empty);
     expectCode(createTypeInterface(
         ctx,
         cosmos_msg_for__empty
@@ -23,7 +23,7 @@ it('cosmos_msg_for__empty', () => {
 });
 
 it('execute_msg_for__empty', () => {
-    const ctx = new RenderContext(execute_msg_for__empty);
+    const ctx = makeContext(execute_msg_for__empty);
     expectCode(createTypeInterface(
         ctx,
         execute_msg_for__empty
@@ -31,7 +31,7 @@ it('execute_msg_for__empty', () => {
 })
 
 it('can_execute_relay_response', () => {
-    const ctx = new RenderContext(can_execute_relay_response);
+    const ctx = makeContext(can_execute_relay_response);
     expectCode(createTypeInterface(
         ctx,
         can_execute_relay_response
@@ -39,7 +39,7 @@ it('can_execute_relay_response', () => {
 })
 
 it('info_response', () => {
-    const ctx = new RenderContext(info_response);
+    const ctx = makeContext(info_response);
     expectCode(createTypeInterface(
         ctx,
         info_response
@@ -47,7 +47,7 @@ it('info_response', () => {
 })
 
 it('relay_transaction', () => {
-    const ctx = new RenderContext(relay_transaction);
+    const ctx = makeContext(relay_transaction);
     expectCode(createTypeInterface(
         ctx,
         relay_transaction
@@ -56,7 +56,7 @@ it('relay_transaction', () => {
 
 
 it('query classes', () => {
-    const ctx = new RenderContext(cosmos_msg_for__empty);
+    const ctx = makeContext(cosmos_msg_for__empty);
     expectCode(createQueryClass(
         ctx,
         'SG721QueryClient',
@@ -66,7 +66,7 @@ it('query classes', () => {
 });
 
 it('query classes', () => {
-    const ctx = new RenderContext(execute_msg_for__empty);
+    const ctx = makeContext(execute_msg_for__empty);
     expectCode(createQueryClass(
         ctx,
         'SG721QueryClient',
@@ -76,7 +76,7 @@ it('query classes', () => {
 });
 
 it('execute classes array types', () => {
-    const ctx = new RenderContext(execute_msg_for__empty);
+    const ctx = makeContext(execute_msg_for__empty);
     expectCode(createExecuteClass(
         ctx,
         'SG721Client',
@@ -87,7 +87,7 @@ it('execute classes array types', () => {
 });
 
 it('execute interfaces no extends', () => {
-    const ctx = new RenderContext(execute_msg_for__empty);
+    const ctx = makeContext(execute_msg_for__empty);
     expectCode(createExecuteInterface(
         ctx,
         'SG721Instance',

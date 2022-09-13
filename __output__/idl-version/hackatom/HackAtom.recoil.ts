@@ -6,7 +6,7 @@
 
 import { selectorFamily } from "recoil";
 import { cosmWasmClient } from "./chain";
-import { InstantiateMsg, ExecuteMsg, QueryMsg, MigrateMsg, SudoMsg, Uint128, Coin } from "./HackAtom.types";
+import { InstantiateMsg, ExecuteMsg, QueryMsg, MigrateMsg, SudoMsg, Uint128, Coin, IntResponse, AllBalanceResponse, Binary, RecurseResponse, VerifierResponse } from "./HackAtom.types";
 import { HackAtomQueryClient } from "./HackAtom.client";
 type QueryClientParams = {
   contractAddress: string;
@@ -36,7 +36,7 @@ export const verifierSelector = selectorFamily<VerifierResponse, QueryClientPara
     return await client.verifier(...params);
   }
 });
-export const otherBalanceSelector = selectorFamily<OtherBalanceResponse, QueryClientParams & {
+export const otherBalanceSelector = selectorFamily<AllBalanceResponse, QueryClientParams & {
   params: Parameters<HackAtomQueryClient["otherBalance"]>;
 }>({
   key: "hackAtomOtherBalance",
@@ -64,7 +64,7 @@ export const recurseSelector = selectorFamily<RecurseResponse, QueryClientParams
     return await client.recurse(...params);
   }
 });
-export const getIntSelector = selectorFamily<GetIntResponse, QueryClientParams & {
+export const getIntSelector = selectorFamily<IntResponse, QueryClientParams & {
   params: Parameters<HackAtomQueryClient["getInt"]>;
 }>({
   key: "hackAtomGetInt",

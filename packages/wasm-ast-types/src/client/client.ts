@@ -15,7 +15,7 @@ import {
   ExecuteMsg
 } from '../types';
 
-import { getPropertyType, getType, createTypedObjectParams } from '../utils/types';
+import { getPropertyType, getType, createTypedObjectParams, getResponseType } from '../utils/types';
 import { RenderContext } from '../context';
 import { JSONSchema } from '../types';
 import { identifier, propertySignature } from '../utils/babel';
@@ -87,7 +87,7 @@ export const createWasmQueryMethod = (
 
   const underscoreName = Object.keys(jsonschema.properties)[0];
   const methodName = camel(underscoreName);
-  const responseType = pascal(`${methodName}Response`);
+  const responseType = getResponseType(context, underscoreName);
 
   const obj = createTypedObjectParams(
     context,
@@ -573,7 +573,7 @@ export const createQueryInterface = (
     .map(jsonschema => {
       const underscoreName = Object.keys(jsonschema.properties)[0];
       const methodName = camel(underscoreName);
-      const responseType = pascal(`${methodName}Response`);
+      const responseType = getResponseType(context, underscoreName);
       return createPropertyFunctionWithObjectParams(
         context,
         methodName,

@@ -6,10 +6,10 @@
 
 import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { Coin, StdFee } from "@cosmjs/amino";
-import { InstantiateMsg, ExecuteMsg, QueryMsg } from "./CyberPunk.types";
+import { InstantiateMsg, ExecuteMsg, QueryMsg, Timestamp, Uint64, Addr, Env, BlockInfo, ContractInfo, TransactionInfo } from "./CyberPunk.types";
 export interface CyberPunkReadOnlyInterface {
   contractAddress: string;
-  mirrorEnv: () => Promise<MirrorEnvResponse>;
+  mirrorEnv: () => Promise<Env>;
 }
 export class CyberPunkQueryClient implements CyberPunkReadOnlyInterface {
   client: CosmWasmClient;
@@ -21,7 +21,7 @@ export class CyberPunkQueryClient implements CyberPunkReadOnlyInterface {
     this.mirrorEnv = this.mirrorEnv.bind(this);
   }
 
-  mirrorEnv = async (): Promise<MirrorEnvResponse> => {
+  mirrorEnv = async (): Promise<Env> => {
     return this.client.queryContractSmart(this.contractAddress, {
       mirror_env: {}
     });

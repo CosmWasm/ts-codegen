@@ -1,11 +1,10 @@
-import { globContracts } from '../../../test-utils'
+import { globContracts, makeContext } from '../../../test-utils'
 import {
     createQueryClass,
     createExecuteClass,
     createExecuteInterface,
     createTypeInterface
 } from '../client'
-import { RenderContext } from '../../context';
 import { expectCode } from '../../../test-utils';
 import cases from 'jest-in-case';
 
@@ -13,7 +12,7 @@ const contracts = globContracts('issues/55');
 
 
 cases('execute_msg_for__empty', async opts => {
-    const ctx = new RenderContext(opts.content);
+    const ctx = makeContext(opts.content);
     expectCode(createTypeInterface(
         ctx,
         opts.content
@@ -21,7 +20,7 @@ cases('execute_msg_for__empty', async opts => {
 }, contracts);
 
 cases('query classes', async opts => {
-    const ctx = new RenderContext(opts.content);
+    const ctx = makeContext(opts.content);
     expectCode(createQueryClass(
         ctx,
         'SG721QueryClient',
@@ -31,7 +30,7 @@ cases('query classes', async opts => {
 }, contracts);
 
 cases('execute class', async opts => {
-    const ctx = new RenderContext(opts.content);
+    const ctx = makeContext(opts.content);
     expectCode(createExecuteClass(
         ctx,
         'SG721Client',
@@ -42,7 +41,7 @@ cases('execute class', async opts => {
 }, contracts);
 
 cases('execute interface', async opts => {
-    const ctx = new RenderContext(opts.content);
+    const ctx = makeContext(opts.content);
     expectCode(createExecuteInterface(
         ctx,
         'SG721Instance',
