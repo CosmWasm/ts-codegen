@@ -7,17 +7,18 @@ import { RenderContext } from 'wasm-ast-types';
 import * as t from '@babel/types';
 import { writeFileSync } from 'fs';
 import generate from "@babel/generator";
-import { findAndParseTypes, findExecuteMsg, findQueryMsg, getDefinitionSchema } from '../utils';
-import { getMessageProperties, ReactQueryOptions } from "wasm-ast-types";
+import { findAndParseTypes, findExecuteMsg, findQueryMsg } from '../utils';
+import { getMessageProperties, ReactQueryOptions, ContractInfo } from "wasm-ast-types";
 import { BuilderFile } from "../builder";
 
 export default async (
   contractName: string,
-  schemas: any[],
+  contractInfo: ContractInfo,
   outPath: string,
   reactQueryOptions?: ReactQueryOptions
 ): Promise<BuilderFile[]> => {
-  const context = new RenderContext(getDefinitionSchema(schemas), {
+  const { schemas } = contractInfo;
+  const context = new RenderContext(contractInfo, {
     reactQuery: reactQueryOptions ?? {}
   });
   const options = context.options.reactQuery;

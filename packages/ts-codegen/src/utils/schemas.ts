@@ -3,21 +3,15 @@ import { readFileSync } from 'fs';
 import { cleanse } from './cleanse';
 import { compile } from '@pyramation/json-schema-to-typescript';
 import { parser } from './parse';
-import { JSONSchema } from 'wasm-ast-types';
-import { IDLObject } from '../types';
-
+import { ContractInfo, JSONSchema } from 'wasm-ast-types';
 interface ReadSchemaOpts {
     schemaDir: string;
     clean?: boolean;
 };
-interface ReadSchemasValue {
-    schemas: JSONSchema[];
-    idlObject?: IDLObject
-};
 
 export const readSchemas = async ({
     schemaDir, clean = true
-}: ReadSchemaOpts): Promise<ReadSchemasValue> => {
+}: ReadSchemaOpts): Promise<ContractInfo> => {
     const fn = clean ? cleanse : (str) => str;
     const files = glob(schemaDir + '/**/*.json');
     const schemas = files
@@ -61,13 +55,17 @@ export const readSchemas = async ({
 
     // TODO use contract_name, etc.
     return {
-        schemas: Object.values(fn({
-            instantiate,
-            execute,
-            query,
-            migrate,
-            sudo
-        })).filter(Boolean),
+        schemas: [
+            ...Object.values(fn({
+                instantiate,
+                execute,
+                query,
+                migrate,
+                sudo
+            })).filter(Boolean),
+            ...Object.values(fn({ ...responses })).filter(Boolean)
+        ],
+        responses,
         idlObject
     };
 };
@@ -101,22 +99,4 @@ export const findAndParseTypes = async (schemas) => {
     }
     const typeHash = parser(allTypes);
     return typeHash;
-};
-
-export const getDefinitionSchema = (schemas: JSONSchema[]): JSONSchema => {
-    const aggregateSchema = {
-        definitions: {
-            //
-        }
-    };
-
-    schemas.forEach(schema => {
-        schema.definitions = schema.definitions || {};
-        aggregateSchema.definitions = {
-            ...aggregateSchema.definitions,
-            ...schema.definitions
-        };
-    });
-
-    return aggregateSchema;
 };

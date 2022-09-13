@@ -95,50 +95,50 @@ export class TSBuilder {
     async renderTypes(contract: ContractFile) {
         const { enabled, ...options } = this.options.types;
         if (!enabled) return;
-        const { schemas } = await readSchemas({
+        const contractInfo = await readSchemas({
             schemaDir: contract.dir
         });
-        const files = await generateTypes(contract.name, schemas, this.outPath, options);
+        const files = await generateTypes(contract.name, contractInfo, this.outPath, options);
         [].push.apply(this.files, files);
     }
 
     async renderClient(contract: ContractFile) {
         const { enabled, ...options } = this.options.client;
         if (!enabled) return;
-        const { schemas } = await readSchemas({
+        const contractInfo = await readSchemas({
             schemaDir: contract.dir
         });
-        const files = await generateClient(contract.name, schemas, this.outPath, options);
+        const files = await generateClient(contract.name, contractInfo, this.outPath, options);
         [].push.apply(this.files, files);
     }
 
     async renderRecoil(contract: ContractFile) {
         const { enabled, ...options } = this.options.recoil;
         if (!enabled) return;
-        const { schemas } = await readSchemas({
+        const contractInfo = await readSchemas({
             schemaDir: contract.dir
         });
-        const files = await generateRecoil(contract.name, schemas, this.outPath, options);
+        const files = await generateRecoil(contract.name, contractInfo, this.outPath, options);
         [].push.apply(this.files, files);
     }
 
     async renderReactQuery(contract: ContractFile) {
         const { enabled, ...options } = this.options.reactQuery;
         if (!enabled) return;
-        const { schemas } = await readSchemas({
+        const contractInfo = await readSchemas({
             schemaDir: contract.dir
         });
-        const files = await generateReactQuery(contract.name, schemas, this.outPath, options);
+        const files = await generateReactQuery(contract.name, contractInfo, this.outPath, options);
         [].push.apply(this.files, files);
     }
 
     async renderMessageComposer(contract: ContractFile) {
         const { enabled, ...options } = this.options.messageComposer;
         if (!enabled) return;
-        const { schemas } = await readSchemas({
+        const contractInfo = await readSchemas({
             schemaDir: contract.dir
         });
-        const files = await generateMessageComposer(contract.name, schemas, this.outPath, options);
+        const files = await generateMessageComposer(contract.name, contractInfo, this.outPath, options);
         [].push.apply(this.files, files);
     }
 
