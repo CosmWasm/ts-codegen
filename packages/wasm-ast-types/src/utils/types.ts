@@ -46,6 +46,16 @@ const getTypeOrRef = (obj) => {
 }
 
 const getArrayTypeFromItems = (items) => {
+  // passing in [{"type":"string"}]
+  if (Array.isArray(items)) {
+    return t.tsArrayType(
+      t.tsArrayType(
+        getTypeOrRef(items[0])
+      )
+    );
+  }
+
+  // passing in {"items": [{"type":"string"}]}
   const detect = detectType(items.type);
 
   if (detect.type === 'array') {
@@ -171,7 +181,16 @@ export const getTypeInfo = (info: JSONSchema) => {
       optional = detect.optional;
 
     } else {
-      type = getType(nullableType);
+      const detect = detectType(nullableType);
+      optional = detect.optional;
+      if (detect.type === 'array') {
+        type = getArrayTypeFromItems(
+          info.items
+        );
+      } else {
+        type = getType(detect.type);
+      }
+
     }
 
     optional = true;
@@ -332,7 +351,7 @@ export function getPropertySignatureFromProp(
     getPropertyType(context, jsonschema, prop);
   } catch (e) {
     console.log(e);
-    console.log(jsonschema, prop);
+    console.log(JSON.stringify(jsonschema, null, 2), prop);
   }
 
   const { type, optional } = getPropertyType(context, jsonschema, prop);
