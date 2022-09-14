@@ -6,6 +6,9 @@ const cleanFor = (str) => {
     if (/_for_[A-Z]/.test(str)) {
         return str.replace(/_for_/, 'For');
     }
+    if (/_of_[A-Z]/.test(str)) {
+        return str.replace(/_of_/, 'Of');
+    }
     return str;
 };
 

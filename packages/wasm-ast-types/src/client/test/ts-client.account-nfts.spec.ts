@@ -28,6 +28,13 @@ it('query classes', () => {
     ))
 });
 
+// it('query classes response', () => {
+//     expectCode(createTypeInterface(
+//         ctx,
+//         contract.responses.all_debt_shares
+//     ))
+// });
+
 it('execute classes array types', () => {
     expectCode(createExecuteClass(
         ctx,

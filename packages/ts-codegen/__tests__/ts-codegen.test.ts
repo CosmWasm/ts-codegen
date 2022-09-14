@@ -237,3 +237,18 @@ it('idl-version/cw3-fixed-multisig', async () => {
     await generateRecoil('Cw3FixedMultiSig', contractInfo, out);
     await generateReactQuery('Cw3FixedMultiSig', contractInfo, out);
 })
+
+it('idl-version/accounts-nft', async () => {
+    const out = OUTPUT_DIR + '/idl-version/accounts-nft';
+    const schemaDir = FIXTURE_DIR + '/idl-version/accounts-nft/';
+
+    const contractInfo = await readSchemas({
+        schemaDir
+    });
+
+    await generateTypes('AccountsNft', contractInfo, out);
+    await generateClient('AccountsNft', contractInfo, out);
+    await generateMessageComposer('AccountsNft', contractInfo, out);
+    await generateRecoil('AccountsNft', contractInfo, out);
+    await generateReactQuery('AccountsNft', contractInfo, out);
+})
