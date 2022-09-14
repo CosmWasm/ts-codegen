@@ -12,6 +12,7 @@ exports[`execute classes array types 1`] = `
     this.contractAddress = contractAddress;
     this.proposedNewOwner = this.proposedNewOwner.bind(this);
     this.allDebtShares = this.allDebtShares.bind(this);
+    this.allPreviousOwners = this.allPreviousOwners.bind(this);
     this.ownerOf = this.ownerOf.bind(this);
     this.approval = this.approval.bind(this);
     this.approvals = this.approvals.bind(this);
@@ -42,6 +43,11 @@ exports[`execute classes array types 1`] = `
         limit,
         start_after: startAfter
       }
+    }, fee, memo, funds);
+  };
+  allPreviousOwners = async (fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
+    return await this.client.execute(this.sender, this.contractAddress, {
+      all_previous_owners: {}
     }, fee, memo, funds);
   };
   ownerOf = async ({
@@ -195,6 +201,7 @@ exports[`execute interfaces no extends 1`] = `
     limit?: number;
     startAfter?: string[][];
   }, fee?: number | StdFee | \\"auto\\", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
+  allPreviousOwners: (fee?: number | StdFee | \\"auto\\", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
   ownerOf: ({
     includeExpired,
     tokenId
@@ -275,6 +282,7 @@ exports[`query classes 1`] = `
     this.contractAddress = contractAddress;
     this.proposedNewOwner = this.proposedNewOwner.bind(this);
     this.allDebtShares = this.allDebtShares.bind(this);
+    this.allPreviousOwners = this.allPreviousOwners.bind(this);
     this.ownerOf = this.ownerOf.bind(this);
     this.approval = this.approval.bind(this);
     this.approvals = this.approvals.bind(this);
@@ -305,6 +313,11 @@ exports[`query classes 1`] = `
         limit,
         start_after: startAfter
       }
+    });
+  };
+  allPreviousOwners = async (): Promise<AllPreviousOwnersResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      all_previous_owners: {}
     });
   };
   ownerOf = async ({

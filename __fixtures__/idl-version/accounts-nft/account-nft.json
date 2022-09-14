@@ -396,6 +396,18 @@
         "additionalProperties": false
       },
       {
+        "type": "object",
+        "required": [
+          "all_previous_owners"
+        ],
+        "properties": {
+          "all_previous_owners": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      {
         "description": "Return the owner of the given token, error if token does not exist",
         "type": "object",
         "required": [
@@ -975,6 +987,11 @@
           "type": "string"
         }
       }
+    },
+    "all_previous_owners": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "String",
+      "type": "string"
     },
     "all_tokens": {
       "$schema": "http://json-schema.org/draft-07/schema#",

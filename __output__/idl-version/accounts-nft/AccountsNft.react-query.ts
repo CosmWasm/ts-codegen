@@ -5,7 +5,7 @@
 */
 
 import { UseQueryOptions, useQuery } from "react-query";
-import { InstantiateMsg, ExecuteMsg, Binary, Expiration, Timestamp, Uint64, QueryMsg, Uint128, ArrayOfSharesResponseItem, SharesResponseItem, AllNftInfoResponseForEmpty, OwnerOfResponse, Approval, NftInfoResponseForEmpty, Empty, OperatorsResponse, TokensResponse, ApprovalResponse, ApprovalsResponse, ContractInfoResponse, MinterResponse, NumTokensResponse, String } from "./AccountsNft.types";
+import { InstantiateMsg, ExecuteMsg, Binary, Expiration, Timestamp, Uint64, QueryMsg, Uint128, ArrayOfSharesResponseItem, SharesResponseItem, AllNftInfoResponseForEmpty, OwnerOfResponse, Approval, NftInfoResponseForEmpty, Empty, OperatorsResponse, String, TokensResponse, ApprovalResponse, ApprovalsResponse, ContractInfoResponse, MinterResponse, NumTokensResponse } from "./AccountsNft.types";
 import { AccountsNftQueryClient } from "./AccountsNft.client";
 export interface AccountsNftReactQuery<TResponse, TData = TResponse> {
   client: AccountsNftQueryClient;
@@ -165,6 +165,13 @@ export function useAccountsNftOwnerOfQuery<TData = OwnerOfResponse>({
     includeExpired: args.includeExpired,
     tokenId: args.tokenId
   }), options);
+}
+export interface AccountsNftAllPreviousOwnersQuery<TData> extends AccountsNftReactQuery<String, TData> {}
+export function useAccountsNftAllPreviousOwnersQuery<TData = String>({
+  client,
+  options
+}: AccountsNftAllPreviousOwnersQuery<TData>) {
+  return useQuery<String, Error, TData>(["accountsNftAllPreviousOwners", client.contractAddress], () => client.allPreviousOwners(), options);
 }
 export interface AccountsNftAllDebtSharesQuery<TData> extends AccountsNftReactQuery<ArrayOfSharesResponseItem, TData> {
   args: {

@@ -6,7 +6,7 @@
 
 import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { Coin, StdFee } from "@cosmjs/amino";
-import { InstantiateMsg, ExecuteMsg, Binary, Expiration, Timestamp, Uint64, QueryMsg, Uint128, ArrayOfSharesResponseItem, SharesResponseItem, AllNftInfoResponseForEmpty, OwnerOfResponse, Approval, NftInfoResponseForEmpty, Empty, OperatorsResponse, TokensResponse, ApprovalResponse, ApprovalsResponse, ContractInfoResponse, MinterResponse, NumTokensResponse, String } from "./AccountsNft.types";
+import { InstantiateMsg, ExecuteMsg, Binary, Expiration, Timestamp, Uint64, QueryMsg, Uint128, ArrayOfSharesResponseItem, SharesResponseItem, AllNftInfoResponseForEmpty, OwnerOfResponse, Approval, NftInfoResponseForEmpty, Empty, OperatorsResponse, String, TokensResponse, ApprovalResponse, ApprovalsResponse, ContractInfoResponse, MinterResponse, NumTokensResponse } from "./AccountsNft.types";
 export interface AccountsNftReadOnlyInterface {
   contractAddress: string;
   proposedNewOwner: () => Promise<String>;
@@ -17,6 +17,7 @@ export interface AccountsNftReadOnlyInterface {
     limit?: number;
     startAfter?: string[][];
   }) => Promise<ArrayOfSharesResponseItem>;
+  allPreviousOwners: () => Promise<String>;
   ownerOf: ({
     includeExpired,
     tokenId
@@ -92,6 +93,7 @@ export class AccountsNftQueryClient implements AccountsNftReadOnlyInterface {
     this.contractAddress = contractAddress;
     this.proposedNewOwner = this.proposedNewOwner.bind(this);
     this.allDebtShares = this.allDebtShares.bind(this);
+    this.allPreviousOwners = this.allPreviousOwners.bind(this);
     this.ownerOf = this.ownerOf.bind(this);
     this.approval = this.approval.bind(this);
     this.approvals = this.approvals.bind(this);
@@ -122,6 +124,11 @@ export class AccountsNftQueryClient implements AccountsNftReadOnlyInterface {
         limit,
         start_after: startAfter
       }
+    });
+  };
+  allPreviousOwners = async (): Promise<String> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      all_previous_owners: {}
     });
   };
   ownerOf = async ({
