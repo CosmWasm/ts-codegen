@@ -1,14 +1,15 @@
+import { pascal } from "case";
+
 const cleanFor = (str) => {
     /*
         1. look at first char after _for_
         2. ONLY if you find capitals after, modify it
     */
-    if (/_for_[A-Z]/.test(str)) {
-        return str.replace(/_for_/, 'For');
+    while (/_[a-z]+_[A-Z]/.test(str)) {
+        const m = str.match(/(_[a-z]+_)[A-Z]/);
+        str = str.replace(m[1], pascal(m[1]));
     }
-    if (/_of_[A-Z]/.test(str)) {
-        return str.replace(/_of_/, 'Of');
-    }
+
     return str;
 };
 

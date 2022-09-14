@@ -6,7 +6,7 @@
 
 import { selectorFamily } from "recoil";
 import { cosmWasmClient } from "./chain";
-import { InstantiateMsg, ExecuteMsg, Binary, Expiration, Timestamp, Uint64, QueryMsg, Uint128, ArrayOfSharesResponseItem, SharesResponseItem, AllNftInfoResponseForEmpty, OwnerOfResponse, Approval, NftInfoResponseForEmpty, Empty, OperatorsResponse, String, TokensResponse, ApprovalResponse, ApprovalsResponse, ContractInfoResponse, MinterResponse, NumTokensResponse } from "./AccountsNft.types";
+import { InstantiateMsg, ExecuteMsg, Binary, Expiration, Timestamp, Uint64, QueryMsg, VaultBaseForString, Uint128, ArrayOfSharesResponseItem, SharesResponseItem, AllNftInfoResponseForEmpty, OwnerOfResponse, Approval, NftInfoResponseForEmpty, Empty, OperatorsResponse, String, TokensResponse, ArrayOfVaultBaseForString, ApprovalResponse, ApprovalsResponse, ContractInfoResponse, MinterResponse, NumTokensResponse } from "./AccountsNft.types";
 import { AccountsNftQueryClient } from "./AccountsNft.client";
 type QueryClientParams = {
   contractAddress: string;
@@ -34,6 +34,20 @@ export const proposedNewOwnerSelector = selectorFamily<String, QueryClientParams
   }) => {
     const client = get(queryClient(queryClientParams));
     return await client.proposedNewOwner(...params);
+  }
+});
+export const allowedVaultsSelector = selectorFamily<ArrayOfVaultBaseForString, QueryClientParams & {
+  params: Parameters<AccountsNftQueryClient["allowedVaults"]>;
+}>({
+  key: "accountsNftAllowedVaults",
+  get: ({
+    params,
+    ...queryClientParams
+  }) => async ({
+    get
+  }) => {
+    const client = get(queryClient(queryClientParams));
+    return await client.allowedVaults(...params);
   }
 });
 export const allDebtSharesSelector = selectorFamily<ArrayOfSharesResponseItem, QueryClientParams & {

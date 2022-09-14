@@ -11,6 +11,7 @@ exports[`execute classes array types 1`] = `
     this.sender = sender;
     this.contractAddress = contractAddress;
     this.proposedNewOwner = this.proposedNewOwner.bind(this);
+    this.allowedVaults = this.allowedVaults.bind(this);
     this.allDebtShares = this.allDebtShares.bind(this);
     this.allPreviousOwners = this.allPreviousOwners.bind(this);
     this.ownerOf = this.ownerOf.bind(this);
@@ -29,6 +30,20 @@ exports[`execute classes array types 1`] = `
   proposedNewOwner = async (fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       proposed_new_owner: {}
+    }, fee, memo, funds);
+  };
+  allowedVaults = async ({
+    limit,
+    startAfter
+  }: {
+    limit?: number;
+    startAfter?: VaultBase_for_String;
+  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
+    return await this.client.execute(this.sender, this.contractAddress, {
+      allowed_vaults: {
+        limit,
+        start_after: startAfter
+      }
     }, fee, memo, funds);
   };
   allDebtShares = async ({
@@ -194,6 +209,13 @@ exports[`execute interfaces no extends 1`] = `
   contractAddress: string;
   sender: string;
   proposedNewOwner: (fee?: number | StdFee | \\"auto\\", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
+  allowedVaults: ({
+    limit,
+    startAfter
+  }: {
+    limit?: number;
+    startAfter?: VaultBase_for_String;
+  }, fee?: number | StdFee | \\"auto\\", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
   allDebtShares: ({
     limit,
     startAfter
@@ -281,6 +303,7 @@ exports[`query classes 1`] = `
     this.client = client;
     this.contractAddress = contractAddress;
     this.proposedNewOwner = this.proposedNewOwner.bind(this);
+    this.allowedVaults = this.allowedVaults.bind(this);
     this.allDebtShares = this.allDebtShares.bind(this);
     this.allPreviousOwners = this.allPreviousOwners.bind(this);
     this.ownerOf = this.ownerOf.bind(this);
@@ -299,6 +322,20 @@ exports[`query classes 1`] = `
   proposedNewOwner = async (): Promise<ProposedNewOwnerResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
       proposed_new_owner: {}
+    });
+  };
+  allowedVaults = async ({
+    limit,
+    startAfter
+  }: {
+    limit?: number;
+    startAfter?: VaultBase_for_String;
+  }): Promise<AllowedVaultsResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      allowed_vaults: {
+        limit,
+        start_after: startAfter
+      }
     });
   };
   allDebtShares = async ({

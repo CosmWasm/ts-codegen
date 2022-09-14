@@ -5,7 +5,7 @@
 */
 
 import { UseQueryOptions, useQuery } from "react-query";
-import { InstantiateMsg, ExecuteMsg, Binary, Expiration, Timestamp, Uint64, QueryMsg, Uint128, ArrayOfSharesResponseItem, SharesResponseItem, AllNftInfoResponseForEmpty, OwnerOfResponse, Approval, NftInfoResponseForEmpty, Empty, OperatorsResponse, String, TokensResponse, ApprovalResponse, ApprovalsResponse, ContractInfoResponse, MinterResponse, NumTokensResponse } from "./AccountsNft.types";
+import { InstantiateMsg, ExecuteMsg, Binary, Expiration, Timestamp, Uint64, QueryMsg, VaultBaseForString, Uint128, ArrayOfSharesResponseItem, SharesResponseItem, AllNftInfoResponseForEmpty, OwnerOfResponse, Approval, NftInfoResponseForEmpty, Empty, OperatorsResponse, String, TokensResponse, ArrayOfVaultBaseForString, ApprovalResponse, ApprovalsResponse, ContractInfoResponse, MinterResponse, NumTokensResponse } from "./AccountsNft.types";
 import { AccountsNftQueryClient } from "./AccountsNft.client";
 export interface AccountsNftReactQuery<TResponse, TData = TResponse> {
   client: AccountsNftQueryClient;
@@ -185,6 +185,22 @@ export function useAccountsNftAllDebtSharesQuery<TData = ArrayOfSharesResponseIt
   options
 }: AccountsNftAllDebtSharesQuery<TData>) {
   return useQuery<ArrayOfSharesResponseItem, Error, TData>(["accountsNftAllDebtShares", client.contractAddress, JSON.stringify(args)], () => client.allDebtShares({
+    limit: args.limit,
+    startAfter: args.startAfter
+  }), options);
+}
+export interface AccountsNftAllowedVaultsQuery<TData> extends AccountsNftReactQuery<ArrayOfVaultBaseForString, TData> {
+  args: {
+    limit?: number;
+    startAfter?: VaultBaseForString;
+  };
+}
+export function useAccountsNftAllowedVaultsQuery<TData = ArrayOfVaultBaseForString>({
+  client,
+  args,
+  options
+}: AccountsNftAllowedVaultsQuery<TData>) {
+  return useQuery<ArrayOfVaultBaseForString, Error, TData>(["accountsNftAllowedVaults", client.contractAddress, JSON.stringify(args)], () => client.allowedVaults({
     limit: args.limit,
     startAfter: args.startAfter
   }), options);

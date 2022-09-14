@@ -356,6 +356,39 @@
         "additionalProperties": false
       },
       {
+        "type": "object",
+        "required": [
+          "allowed_vaults"
+        ],
+        "properties": {
+          "allowed_vaults": {
+            "type": "object",
+            "properties": {
+              "limit": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "format": "uint32",
+                "minimum": 0.0
+              },
+              "start_after": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/VaultBase_for_String"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
         "description": "Enumerate debt shares for all token positions; start_after accepts (token_id, denom)",
         "type": "object",
         "required": [
@@ -698,7 +731,12 @@
         },
         "additionalProperties": false
       }
-    ]
+    ],
+    "definitions": {
+      "VaultBase_for_String": {
+        "type": "string"
+      }
+    }
   },
   "migrate": null,
   "sudo": null,
@@ -1007,6 +1045,19 @@
           "items": {
             "type": "string"
           }
+        }
+      }
+    },
+    "allowed_vaults": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Array_of_VaultBase_for_String",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/VaultBase_for_String"
+      },
+      "definitions": {
+        "VaultBase_for_String": {
+          "type": "string"
         }
       }
     },
