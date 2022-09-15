@@ -1,6 +1,6 @@
 {
   "name": "@cosmwasm/ts-codegen",
-  "version": "0.16.3",
+  "version": "0.16.4",
   "description": "@cosmwasm/ts-codegen converts your CosmWasm smart contracts into dev-friendly TypeScript classes so you can focus on shipping code.",
   "author": "Dan Lynch <pyramation@gmail.com>",
   "homepage": "https://github.com/cosmwasm/ts-codegen",
