@@ -3,7 +3,7 @@
 Generate TypeScript SDKs for your CosmWasm smart contracts
 
 <p align="center">
-  <img width="120" src="https://user-images.githubusercontent.com/545047/163705368-bc899f6d-a2de-43ee-889b-dbf44e17f288.png">
+  <img width="120" src="https://user-images.githubusercontent.com/545047/191621556-6f1baa40-15ff-4465-8d80-63b3ff9bc23a.svg">
 </p>
 
 <p align="center" width="100%">
