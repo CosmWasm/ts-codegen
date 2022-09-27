@@ -23,6 +23,7 @@ import {
 import { ReactQueryOptions, RenderContext } from '../context';
 import { JSONSchema } from '../types';
 import { FIXED_EXECUTE_PARAMS } from '../client';
+import { ArrowFunctionExpression, objectExpression } from '@babel/types';
 
 interface ReactQueryHookQuery {
   context: RenderContext;
@@ -33,6 +34,17 @@ interface ReactQueryHookQuery {
   responseType: string;
   methodName: string;
   jsonschema: any;
+}
+
+interface ParsedQueryMsg {
+  underscoreName: string;
+  methodName: string;
+  hookParamsTypeName: string;
+  hookName: string;
+  responseType: string;
+  getterKey: string;
+  jsonschema: any;
+  // jsonschema: JSONSchema;
 }
 
 interface ReactQueryHooks {
@@ -69,16 +81,8 @@ export const createReactQueryHooks = ({
     );
   }
 
-  body.push(
-    createReactQueryHookGenericInterface({
-      context,
-      QueryClient,
-      genericQueryInterfaceName
-    })
-  );
-
-  body.push(
-    ...getMessageProperties(queryMsg).reduce((m, schema) => {
+  const queryMsgs: ParsedQueryMsg[] = getMessageProperties(queryMsg).map(
+    (schema) => {
       // list_voters
       const underscoreName = Object.keys(schema.properties)[0];
       // listVoters
@@ -94,32 +98,183 @@ export const createReactQueryHooks = ({
       // cw3FlexMultisigListVoters
       const getterKey = camel(`${contractName}${pascal(methodName)}`);
       const jsonschema = schema.properties[underscoreName];
-      return [
-        createReactQueryHookInterface({
-          context,
-          hookParamsTypeName,
-          responseType,
-          queryInterfaceName: genericQueryInterfaceName,
-          QueryClient,
-          jsonschema
-        }),
-        createReactQueryHook({
-          context,
+
+      return {
+        underscoreName,
+        methodName,
+        hookParamsTypeName,
+        hookName,
+        responseType,
+        getterKey,
+        jsonschema
+      };
+    }
+  );
+
+  const queryFactoryName = `${camel(contractName)}Queries`;
+  if (options.queryFactory) {
+    body.push(
+      createReactQueryFactory({
+        context,
+        queryFactoryName,
+        queryKeysName,
+        queryMsgs,
+      })
+    );
+  }
+
+  body.push(
+    createReactQueryHookGenericInterface({
+      context,
+      QueryClient,
+      genericQueryInterfaceName
+    })
+  );
+
+  body.push(
+    ...queryMsgs.reduce(
+      (
+        m,
+        {
           methodName,
-          hookName,
           hookParamsTypeName,
-          queryKeysName,
+          hookName,
           responseType,
-          hookKeyName: getterKey,
+          getterKey,
           jsonschema
-        }),
-        ...m
-      ];
-    }, [])
+        }
+      ) => {
+        return [
+          createReactQueryHookInterface({
+            context,
+            hookParamsTypeName,
+            responseType,
+            queryInterfaceName: genericQueryInterfaceName,
+            QueryClient,
+            jsonschema
+          }),
+          createReactQueryHook({
+            context,
+            methodName,
+            hookName,
+            hookParamsTypeName,
+            queryKeysName,
+            responseType,
+            hookKeyName: getterKey,
+            jsonschema
+          }),
+          ...m
+        ];
+      },
+      []
+    )
   );
 
   return body;
 };
+
+function buildQueryFn(
+  methodName: string,
+  jsonschema: any,
+  options: ReactQueryOptions
+): ArrowFunctionExpression {
+  const keys = Object.keys(jsonschema.properties ?? {});
+  let args = [];
+  if (keys.length) {
+    args = [
+      t.objectExpression([
+        ...keys.map((prop) => {
+          return t.objectProperty(
+            t.identifier(camel(prop)),
+            t.memberExpression(t.identifier('args'), t.identifier(camel(prop)))
+          );
+        })
+      ])
+    ];
+  }
+
+  const rejectInvalidClient = t.callExpression(
+    t.memberExpression(t.identifier('Promise'), t.identifier('reject')),
+    [
+      t.newExpression(t.identifier('Error'), [
+        t.stringLiteral('Invalid client')
+      ])
+    ]
+  );
+
+  return t.arrowFunctionExpression(
+    [],
+    optionalConditionalExpression(
+      t.identifier('client'),
+      t.callExpression(
+        t.memberExpression(t.identifier('client'), t.identifier(methodName)),
+        args
+      ),
+      rejectInvalidClient,
+      options.optionalClient
+    ),
+    false
+  );
+}
+
+const ENABLED_QUERY_OPTION = t.objectProperty(
+  t.identifier('enabled'),
+  t.logicalExpression(
+    '&&',
+    t.unaryExpression('!', t.unaryExpression('!', t.identifier('client'))),
+    t.conditionalExpression(
+      // explicitly check for undefined
+      t.binaryExpression(
+        '!=',
+        t.optionalMemberExpression(
+          t.identifier('options'),
+          t.identifier('enabled'),
+          false,
+          true
+        ),
+        t.identifier('undefined')
+      ),
+      t.memberExpression(t.identifier('options'), t.identifier('enabled')),
+      t.booleanLiteral(true)
+    )
+  )
+);
+
+function buildQueryOptions(options: ReactQueryOptions) {
+  return options.optionalClient
+    ? t.objectExpression([
+        t.spreadElement(t.identifier('options')),
+        t.objectProperty(
+          t.identifier('enabled'),
+          t.logicalExpression(
+            '&&',
+            t.unaryExpression(
+              '!',
+              t.unaryExpression('!', t.identifier('client'))
+            ),
+            t.conditionalExpression(
+              // explicitly check for undefined
+              t.binaryExpression(
+                '!=',
+                t.optionalMemberExpression(
+                  t.identifier('options'),
+                  t.identifier('enabled'),
+                  false,
+                  true
+                ),
+                t.identifier('undefined')
+              ),
+              t.memberExpression(
+                t.identifier('options'),
+                t.identifier('enabled')
+              ),
+              t.booleanLiteral(true)
+            )
+          )
+        )
+      ])
+    : t.identifier('options');
+}
 
 export const createReactQueryHook = ({
   context,
@@ -136,26 +291,13 @@ export const createReactQueryHook = ({
 
   const options = context.options.reactQuery;
   const keys = Object.keys(jsonschema.properties ?? {});
-  let args = [];
-  if (keys.length) {
-    args = [
-      t.objectExpression([
-        ...keys.map((prop) => {
-          return t.objectProperty(
-            t.identifier(camel(prop)),
-            t.memberExpression(t.identifier('args'), t.identifier(camel(prop)))
-          );
-        })
-      ])
-    ];
-  }
 
   let props = ['client', 'options'];
   if (keys.length) {
     props = ['client', 'args', 'options'];
   }
 
-  const selectResponseGenericTypeName = 'TData';
+  const selectResponseGenericTypeName = GENERIC_SELECT_RESPONSE_NAME;
 
   const queryFunctionDeclaration = t.functionDeclaration(
     t.identifier(hookName),
@@ -193,65 +335,8 @@ export const createReactQueryHook = ({
               props,
               options
             }),
-            t.arrowFunctionExpression(
-              [],
-              optionalConditionalExpression(
-                t.identifier('client'),
-                t.callExpression(
-                  t.memberExpression(
-                    t.identifier('client'),
-                    t.identifier(methodName)
-                  ),
-                  args
-                ),
-                t.callExpression(
-                  t.memberExpression(
-                    t.identifier('Promise'),
-                    t.identifier('reject')
-                  ),
-                  [
-                    t.newExpression(t.identifier('Error'), [
-                      t.stringLiteral('Invalid client')
-                    ])
-                  ]
-                ),
-                options.optionalClient
-              ),
-              false
-            ),
-            options.optionalClient
-              ? t.objectExpression([
-                  t.spreadElement(t.identifier('options')),
-                  t.objectProperty(
-                    t.identifier('enabled'),
-                    t.logicalExpression(
-                      '&&',
-                      t.unaryExpression(
-                        '!',
-                        t.unaryExpression('!', t.identifier('client'))
-                      ),
-                      t.conditionalExpression(
-                        // explicitly check for undefined
-                        t.binaryExpression(
-                          '!=',
-                          t.optionalMemberExpression(
-                            t.identifier('options'),
-                            t.identifier('enabled'),
-                            false,
-                            true
-                          ),
-                          t.identifier('undefined')
-                        ),
-                        t.memberExpression(
-                          t.identifier('options'),
-                          t.identifier('enabled')
-                        ),
-                        t.booleanLiteral(true)
-                      )
-                    )
-                  )
-                ])
-              : t.identifier('options')
+            buildQueryFn(methodName, jsonschema, options),
+            buildQueryOptions(options)
           ],
           t.tsTypeParameterInstantiation([
             t.tsTypeReference(t.identifier(responseType)),
@@ -663,21 +748,128 @@ function createReactQueryKeys({
   );
 }
 
+function createReactQueryFactory({
+  context,
+  queryFactoryName,
+  queryKeysName,
+  queryMsgs
+}: {
+  context: RenderContext;
+  queryFactoryName: string;
+  queryKeysName: string;
+  queryMsgs: ParsedQueryMsg[];
+}) {
+  const options = context.options.reactQuery;
+
+  return t.exportNamedDeclaration(
+    t.variableDeclaration('const', [
+      t.variableDeclarator(
+        t.identifier(queryFactoryName),
+        t.objectExpression([
+          ...queryMsgs.map(
+            ({ methodName, hookParamsTypeName, responseType, jsonschema }) => {
+              const hasArgs =
+                Object.keys(jsonschema.properties ?? {}).length > 0;
+
+              const methodQueryOptionsFn = t.arrowFunctionExpression(
+                [
+                  tsObjectPattern(
+                    [
+                      shorthandProperty('client'),
+                      ...(hasArgs ? [shorthandProperty('args')] : []),
+                      shorthandProperty('options')
+                    ],
+                    t.tsTypeAnnotation(
+                      t.tsTypeReference(
+                        t.identifier(hookParamsTypeName),
+                        t.tsTypeParameterInstantiation([
+                          t.tsTypeReference(t.identifier(GENERIC_SELECT_RESPONSE_NAME))
+                        ])
+                      )
+                    )
+                  )
+                ],
+                t.objectExpression([
+                  // 1: queryKey
+                  t.objectProperty(
+                    t.identifier('queryKey'),
+                    t.callExpression(
+                      t.memberExpression(
+                        t.identifier(queryKeysName),
+                        t.identifier(methodName)
+                      ),
+                      [
+                        t.optionalMemberExpression(
+                          t.identifier('client'),
+                          t.identifier('contractAddress'),
+                          false,
+                          true
+                        ),
+                        ...(hasArgs ? [t.identifier('args')] : [])
+                      ]
+                    )
+                  ),
+                  // 2: queryFn
+                  t.objectProperty(
+                    t.identifier('queryFn'),
+                    buildQueryFn(methodName, jsonschema, options)
+                  ),
+                  // 3: spread options
+                  t.spreadElement(t.identifier('options')),
+                  // 4. enabled
+                  ENABLED_QUERY_OPTION
+                ])
+              );
+
+              methodQueryOptionsFn.typeParameters =
+                t.tsTypeParameterDeclaration([
+                  t.tsTypeParameter(
+                    undefined,
+                    t.tsTypeReference(t.identifier(responseType)),
+                    GENERIC_SELECT_RESPONSE_NAME
+                  )
+                ]);
+
+              methodQueryOptionsFn.returnType = t.tsTypeAnnotation(
+                t.tsTypeReference(
+                  t.identifier('UseQueryOptions'),
+                  t.tsTypeParameterInstantiation([
+                    t.tsTypeReference(t.identifier(responseType)),
+                    t.tsTypeReference(t.identifier('Error')),
+                    t.tsTypeReference(t.identifier(GENERIC_SELECT_RESPONSE_NAME))
+                  ])
+                )
+              );
+
+              return t.objectProperty(
+                // key id is the camel method name
+                t.identifier(camel(methodName)),
+                methodQueryOptionsFn
+              );
+            }
+          )
+        ])
+      )
+    ])
+  );
+}
+
 interface ReactQueryHookGenericInterface {
   context: RenderContext;
   QueryClient: string;
   genericQueryInterfaceName: string;
 }
 
+const GENERIC_SELECT_RESPONSE_NAME = 'TData';
+
 function createReactQueryHookGenericInterface({
   context,
   QueryClient,
   genericQueryInterfaceName
 }: ReactQueryHookGenericInterface) {
-  const options = context.options.reactQuery;
 
+  const options = context.options.reactQuery;
   const genericResponseTypeName = 'TResponse';
-  const genericSelectResponseTypeName = 'TData';
 
   context.addUtil('UseQueryOptions');
 
@@ -687,7 +879,7 @@ function createReactQueryHookGenericInterface({
     t.tsTypeParameterInstantiation([
       t.tsTypeReference(t.identifier(genericResponseTypeName)),
       t.tsTypeReference(t.identifier('Error')),
-      t.tsTypeReference(t.identifier(genericSelectResponseTypeName))
+      t.tsTypeReference(t.identifier(GENERIC_SELECT_RESPONSE_NAME))
     ])
   );
 
@@ -736,7 +928,7 @@ function createReactQueryHookGenericInterface({
         t.tsTypeParameter(
           undefined,
           t.tSTypeReference(t.identifier(genericResponseTypeName)),
-          genericSelectResponseTypeName
+          GENERIC_SELECT_RESPONSE_NAME
         )
       ]),
       [],
@@ -784,7 +976,7 @@ export const createReactQueryHookInterface = ({
     t.tsInterfaceDeclaration(
       t.identifier(hookParamsTypeName),
       t.tsTypeParameterDeclaration([
-        t.tSTypeParameter(undefined, undefined, 'TData')
+        t.tSTypeParameter(undefined, undefined, GENERIC_SELECT_RESPONSE_NAME)
       ]),
       [
         t.tSExpressionWithTypeArguments(
@@ -793,7 +985,7 @@ export const createReactQueryHookInterface = ({
             // 1: response
             t.tsTypeReference(t.identifier(responseType)),
             // 2: select generic
-            t.tSTypeReference(t.identifier('TData'))
+            t.tSTypeReference(t.identifier(GENERIC_SELECT_RESPONSE_NAME))
           ])
         )
       ],
