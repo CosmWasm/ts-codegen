@@ -146,6 +146,7 @@ The `client` plugin will generate TS client classes for your contracts. This opt
   | option                        | description                                          |
   | ----------------------------- | ---------------------------------------------------  |
   | `client.enabled`              | generate TS client classes for your contracts        |
+  | `client.execExtendsQuery`     | execute should extend query message clients          |
 
 #### Client via CLI
 
