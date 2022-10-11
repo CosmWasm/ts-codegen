@@ -167,18 +167,33 @@ export const getTypeInfo = (info: JSONSchema) => {
     }
 
     if (nullableType === 'array' && typeof info.items === 'object' && !Array.isArray(info.items)) {
-      const detect = detectType(info.items.type);
-      if (detect.type === 'array') {
-        // wen recursion?
-        type = t.tsArrayType(
-          getArrayTypeFromItems(info.items)
-        );
+
+      if (info.items.type) {
+        const detect = detectType(info.items.type);
+        if (detect.type === 'array') {
+          // wen recursion?
+          type = t.tsArrayType(
+            getArrayTypeFromItems(info.items)
+          );
+        } else {
+          type = t.tsArrayType(
+            getType(detect.type)
+          );
+        }
+        optional = detect.optional;
+      } else if (info.items.$ref) {
+        type = getArrayTypeFromRef(info.items.$ref);
+        // } else if (info.items.title) {
+        //   type = t.tsArrayType(
+        //     t.tsTypeReference(
+        //       t.identifier(info.items.title)
+        //     )
+        //   );
+      } else if (info.items.type) {
+        type = getArrayTypeFromItems(info.items);
       } else {
-        type = t.tsArrayType(
-          getType(detect.type)
-        );
+        throw new Error('[info.items] case not handled by transpiler. contact maintainers.')
       }
-      optional = detect.optional;
 
     } else {
       const detect = detectType(nullableType);
