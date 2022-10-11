@@ -14,6 +14,7 @@ export interface ReactQueryOptions {
 
 export interface TSClientOptions {
     enabled?: boolean;
+    execExtendsQuery?: boolean;
 }
 export interface MessageComposerOptions {
     enabled?: boolean;
@@ -67,7 +68,8 @@ export const defaultOptions: RenderOptions = {
         aliasExecuteMsg: false
     },
     client: {
-        enabled: true
+        enabled: true,
+        execExtendsQuery: true
     },
     recoil: {
         enabled: false

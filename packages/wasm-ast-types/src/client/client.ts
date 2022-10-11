@@ -346,7 +346,7 @@ export const createExecuteClass = (
   context: RenderContext,
   className: string,
   implementsClassName: string,
-  extendsClassName: string,
+  extendsClassName: string | null,
   execMsg: ExecuteMsg
 ) => {
 

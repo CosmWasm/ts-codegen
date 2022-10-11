@@ -98,7 +98,48 @@ it('builder default', async () => {
                 enabled: true
             },
             client: {
+                enabled: true,
+                execExtendsQuery: true
+            },
+            reactQuery: {
                 enabled: true
+            },
+            recoil: {
+                enabled: true
+            },
+            messageComposer: {
+                enabled: true
+            }
+        }
+    });
+});
+
+it('builder no extends', async () => {
+    const outPath = OUTPUT_DIR + '/no-extends/';
+    const s = (str) => FIXTURE_DIR + str;
+    await codegen({
+        contracts: [
+            s('/vectis/factory'),
+            s('/minter'),
+            s('/daodao/cw-admin-factory'),
+            s('/daodao/cw-code-id-registry'),
+            {
+                name: 'CwSingle',
+                dir: s('/daodao/cw-proposal-single')
+            }
+        ],
+        outPath,
+        options: {
+            bundle: {
+                bundleFile: 'index.ts',
+                scope: 'smart.contracts'
+            },
+            types: {
+                enabled: true
+            },
+            client: {
+                enabled: true,
+                execExtendsQuery: false
             },
             reactQuery: {
                 enabled: true

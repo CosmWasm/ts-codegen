@@ -66,16 +66,17 @@ export default async (
         w.createExecuteInterface(
           context,
           Instance,
-          ReadOnlyInstance,
+          context.options.client.execExtendsQuery ? ReadOnlyInstance : null,
           ExecuteMsg
         )
       );
+
       body.push(
         w.createExecuteClass(
           context,
           Client,
           Instance,
-          QueryClient,
+          context.options.client.execExtendsQuery ? QueryClient : null,
           ExecuteMsg
         )
       );
