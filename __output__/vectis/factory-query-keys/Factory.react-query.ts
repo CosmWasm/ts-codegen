@@ -42,8 +42,8 @@ export const factoryQueryKeys = {
 export const factoryQueries = {
   wallets: <TData = WalletsResponse,>({
     client,
-    options,
-    args
+    args,
+    options
   }: FactoryWalletsQuery<TData>): UseQueryOptions<WalletsResponse, Error, TData> => ({
     queryKey: factoryQueryKeys.wallets(client?.contractAddress, args),
     queryFn: () => client.wallets({
@@ -55,8 +55,8 @@ export const factoryQueries = {
   }),
   walletsOf: <TData = WalletsOfResponse,>({
     client,
-    options,
-    args
+    args,
+    options
   }: FactoryWalletsOfQuery<TData>): UseQueryOptions<WalletsOfResponse, Error, TData> => ({
     queryKey: factoryQueryKeys.walletsOf(client?.contractAddress, args),
     queryFn: () => client.walletsOf({
@@ -69,8 +69,8 @@ export const factoryQueries = {
   }),
   codeId: <TData = CodeIdResponse,>({
     client,
-    options,
-    args
+    args,
+    options
   }: FactoryCodeIdQuery<TData>): UseQueryOptions<CodeIdResponse, Error, TData> => ({
     queryKey: factoryQueryKeys.codeId(client?.contractAddress, args),
     queryFn: () => client.codeId({
