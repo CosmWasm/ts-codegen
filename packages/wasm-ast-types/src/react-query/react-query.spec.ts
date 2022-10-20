@@ -62,6 +62,23 @@ it('createReactQueryHooks', () => {
         QueryClient: 'Sg721QueryClient'
       }
     )))
+  expectCode(
+    t.program(
+      createReactQueryHooks({
+        context: makeContext(query_msg, {
+          reactQuery: {
+            optionalClient: true,
+            version: 'v4',
+            queryKeys: true,
+            queryFactory: true
+          }
+        }),
+        queryMsg: query_msg,
+        contractName: 'Sg721',
+        QueryClient: 'Sg721QueryClient'
+      })
+    )
+  );
   expectCode(t.program(
     createReactQueryMutationHooks(
       {
