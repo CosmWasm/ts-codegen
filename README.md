@@ -110,6 +110,7 @@ codegen({
       version: 'v4',
       mutations: true,
       queryKeys: true,
+      queryFactory: true,
     },
     recoil: {
       enabled: false
@@ -166,10 +167,11 @@ Generate [react-query v3](https://react-query-v3.tanstack.com/) or [react-query 
 #### React Query Options
 
   | option                      | description                                                                  |
-  | ----------------------------| ---------------------------------------------------------------------------- |
+-----------------------------| ----------------------------| ---------------------------------------------------------------------------- |
   | `reactQuery.enabled`        | enable the react-query plugin                                                |
   | `reactQuery.optionalClient` | allows contract client to be undefined as the component renders              |
   | `reactQuery.queryKeys`      | generates a const queryKeys object for use with invalidations and set values |
+  | `reactQuery.queryFactory`   | generates a const queryFactory object for useQueries and prefetchQueries use |
   | `reactQuery.version`        | `v4` uses `@tanstack/react-query` and `v3` uses `react-query`                |
   | `reactQuery.mutations`      | also generate mutations                                                      |
   | `reactQuery.camelize`       | use camelCase style for property names                                       |
