@@ -10,6 +10,7 @@ export interface ReactQueryOptions {
     mutations?: boolean;
     camelize?: boolean;
     queryKeys?: boolean
+    queryFactory?: boolean
 }
 
 export interface TSClientOptions {

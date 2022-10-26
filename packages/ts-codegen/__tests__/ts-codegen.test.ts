@@ -35,6 +35,16 @@ it('queryKeys', async () => {
     await generateReactQuery('Factory', contractInfo, outopt, { queryKeys: true });
 })
 
+it('queryFactory', async () => {
+  const outopt = OUTPUT_DIR + '/vectis/factory-query-keys';
+  const schemaDir = FIXTURE_DIR + '/vectis/factory/';
+  const contractInfo = await readSchemas({
+    schemaDir
+  });
+  await generateReactQuery('Factory', contractInfo, outopt, { queryKeys: true, queryFactory: true });
+})
+
+
 
 it('queryKeysOptionalClient', async () => {
     const outopt = OUTPUT_DIR + '/vectis/factory-query-keys-optional-client';

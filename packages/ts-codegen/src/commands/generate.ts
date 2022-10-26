@@ -90,6 +90,20 @@ export default async (argv) => {
         ])
     };
     const { mutations } = await prompt(questions3, argv);
+
+    const queryFactoryQuestions  = [];
+    if (queryKeys) {
+      [].push.apply(queryFactoryQuestions, [
+        // Only can use queryFactory if queryKeys is enabled
+        {
+          type: 'confirm',
+          name: 'queryFactory',
+          message: 'queryFactory? ',
+          default: false
+        }
+      ])
+    };
+    const { queryFactory } = await prompt(queryFactoryQuestions, argv);
     ///////// END REACT QUERY
 
     ///////// BUNDLE
@@ -128,7 +142,8 @@ export default async (argv) => {
             optionalClient,
             queryKeys,
             version,
-            mutations
+            mutations,
+            queryFactory
         },
         recoil: {
             enabled: plugin.includes('recoil'),
