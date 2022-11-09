@@ -12,6 +12,7 @@ TSBuilder {
     "client": Object {
       "enabled": true,
       "execExtendsQuery": true,
+      "noImplicitOverride": false,
     },
     "messageComposer": Object {
       "enabled": false,
@@ -47,6 +48,7 @@ TSBuilder {
     "client": Object {
       "enabled": true,
       "execExtendsQuery": true,
+      "noImplicitOverride": false,
     },
     "messageComposer": Object {
       "enabled": false,

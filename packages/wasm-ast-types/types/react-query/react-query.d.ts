@@ -43,7 +43,7 @@ export interface Cw4UpdateMembersMutation {
 }
 ```
  */
-export declare const createReactQueryMutationArgsInterface: ({ context, ExecuteClient, mutationHookParamsTypeName, useMutationTypeParameter, jsonschema, }: ReactQueryMutationHookInterface) => t.ExportNamedDeclaration;
+export declare const createReactQueryMutationArgsInterface: ({ context, ExecuteClient, mutationHookParamsTypeName, useMutationTypeParameter, jsonschema }: ReactQueryMutationHookInterface) => t.ExportNamedDeclaration;
 interface ReactQueryMutationHooks {
     context: RenderContext;
     execMsg: ExecuteMsg;
@@ -70,7 +70,7 @@ export const useCw4UpdateMembersMutation = ({ client, options }: Omit<Cw4UpdateM
   )
 ```
  */
-export declare const createReactQueryMutationHook: ({ context, mutationHookName, mutationHookParamsTypeName, execMethodName, useMutationTypeParameter, hasMsg, }: ReactQueryMutationHook) => t.ExportNamedDeclaration;
+export declare const createReactQueryMutationHook: ({ context, mutationHookName, mutationHookParamsTypeName, execMethodName, useMutationTypeParameter, hasMsg }: ReactQueryMutationHook) => t.ExportNamedDeclaration;
 interface ReactQueryHookQueryInterface {
     context: RenderContext;
     QueryClient: string;
