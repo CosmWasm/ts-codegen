@@ -170,7 +170,7 @@ Generate [react-query v3](https://react-query-v3.tanstack.com/) or [react-query 
 #### React Query Options
 
   | option                      | description                                                                  |
------------------------------| ----------------------------| ---------------------------------------------------------------------------- |
+  | ---------------------------- | ---------------------------------------------------------------------------- |
   | `reactQuery.enabled`        | enable the react-query plugin                                                |
   | `reactQuery.optionalClient` | allows contract client to be undefined as the component renders              |
   | `reactQuery.queryKeys`      | generates a const queryKeys object for use with invalidations and set values |
