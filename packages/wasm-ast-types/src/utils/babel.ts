@@ -125,11 +125,18 @@ export const classDeclaration = (name: string, body: any[], implementsExressions
 };
 
 
-export const classProperty = (name: string, typeAnnotation: TSTypeAnnotation = null, isReadonly: boolean = false, isStatic: boolean = false) => {
+export const classProperty = (
+    name: string,
+    typeAnnotation: TSTypeAnnotation = null,
+    isReadonly: boolean = false,
+    isStatic: boolean = false,
+    noImplicitOverride: boolean = false
+) => {
     const prop = t.classProperty(t.identifier(name));
     if (isReadonly) prop.readonly = true;
     if (isStatic) prop.static = true;
     if (typeAnnotation) prop.typeAnnotation = typeAnnotation;
+    if (noImplicitOverride) prop.override = true;
     return prop;
 };
 

@@ -11,6 +11,7 @@ export interface ReactQueryOptions {
 export interface TSClientOptions {
     enabled?: boolean;
     execExtendsQuery?: boolean;
+    noImplicitOverride?: boolean;
 }
 export interface MessageComposerOptions {
     enabled?: boolean;
