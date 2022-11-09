@@ -146,10 +146,11 @@ The `client` plugin will generate TS client classes for your contracts. This opt
 
 #### Client Options
 
-  | option                        | description                                          |
-  | ----------------------------- | ---------------------------------------------------  |
-  | `client.enabled`              | generate TS client classes for your contracts        |
-  | `client.execExtendsQuery`     | execute should extend query message clients          |
+  | option                                  | description                                          |
+  | --------------------------------------- | ---------------------------------------------------  |
+  | `client.enabled`                        | generate TS client classes for your contracts        |
+  | `client.execExtendsQuery`               | execute should extend query message clients          |
+  | `client.noImplicit.noImplicitOverride`  | should match your tsconfig noImplicitOverride option |
 
 #### Client via CLI
 
@@ -479,7 +480,8 @@ See the [docs](https://github.com/CosmWasm/ts-codegen/blob/main/packages/wasm-as
 Checkout these related projects:
 
 * [@osmonauts/telescope](https://github.com/osmosis-labs/telescope) a "babel for the Cosmos", Telescope is a TypeScript Transpiler for Cosmos Protobufs.
-
+* [chain-registry](https://github.com/cosmology-tech/chain-registry) Cosmos chain registry and chain info.
+* [cosmos-kit](https://github.com/cosmology-tech/cosmos-kit) A wallet connector for the Cosmos.
 ## Credits
 
 🛠 Built by Cosmology — if you like our tools, please consider delegating to [our validator ⚛️](https://cosmology.tech/validator)
