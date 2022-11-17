@@ -150,7 +150,7 @@ The `client` plugin will generate TS client classes for your contracts. This opt
   | --------------------------------------- | ---------------------------------------------------  |
   | `client.enabled`                        | generate TS client classes for your contracts        |
   | `client.execExtendsQuery`               | execute should extend query message clients          |
-  | `client.noImplicit.noImplicitOverride`  | should match your tsconfig noImplicitOverride option |
+  | `client.noImplicitOverride`             | should match your tsconfig noImplicitOverride option |
 
 #### Client via CLI
 
