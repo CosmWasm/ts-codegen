@@ -13,6 +13,14 @@ const cleanFor = (str) => {
     return str;
 };
 
+const cleanNullable = (str) => {
+    if (/^Nullable_/.test(str)) {
+        str = str.replace(/^Nullable_/, 'Nullable');
+    }
+
+    return str;
+};
+
 export const cleanse = (obj) => {
     var copy;
     // Handle the 3 simple types, and null or undefined
@@ -51,12 +59,16 @@ export const cleanse = (obj) => {
 
                 if (/_for_/.test(attr)) {
                     copy[cleanFor(attr)] = cleanse(obj[attr]);
+                } else if (/^Nullable_/.test(attr)) {
+                    copy[cleanNullable(attr)] = cleanse(obj[attr]);
                 } else {
                     switch (attr) {
                         case 'title':
                         case '$ref':
                             if (typeof obj[attr] === 'string') {
-                                copy[attr] = cleanse(cleanFor(obj[attr]));
+                                copy[attr] = cleanse(
+                                    cleanNullable(cleanFor(obj[attr]))
+                                );
                             } else {
                                 copy[attr] = cleanse(obj[attr]);
                             }
