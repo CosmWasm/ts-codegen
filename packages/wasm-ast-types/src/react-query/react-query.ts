@@ -4,11 +4,13 @@ import { camel, pascal } from 'case';
 import { ExecuteMsg, QueryMsg } from '../types';
 import {
   callExpression,
+  createTypedObjectParams,
   getMessageProperties,
   identifier,
   tsObjectPattern,
   tsPropertySignature
 } from '../utils';
+
 import {
   omitTypeReference,
   optionalConditionalExpression,
@@ -371,16 +373,17 @@ interface ReactQueryMutationHookInterface {
 /**
  * Example:
 ```
-export interface Cw4UpdateMembersMutation {
-  client: Cw4GroupClient
-  args: {
-    tokenId: string
-    remove: string[]
-  }
-  options?: Omit<
-    UseMutationOptions<ExecuteResult, Error, Pick<Cw4UpdateMembersMutation, 'args'>>,
-    'mutationFn'
-  >
+ export interface Cw721RevokeMutation {
+  client: Cw721Client;
+  msg: {
+    spender: string;
+    tokenId: string;
+  };
+  args?: {
+    fee?: number | StdFee | "auto";
+    memo?: string;
+    funds?: Coin[];
+  };
 }
 ```
  */
@@ -404,18 +407,15 @@ export const createReactQueryMutationArgsInterface = ({
     )
   ];
 
-  const msgType: t.TSTypeAnnotation = getParamsTypeAnnotation(
-    context,
-    jsonschema
-  );
+  const msgType = createTypedObjectParams(context, jsonschema).typeAnnotation as unknown as t.TSTypeAnnotation
 
   if (msgType) {
-    body.push(t.tsPropertySignature(t.identifier('msg'), msgType));
+    body.push(
+      t.tsPropertySignature(
+        t.identifier('msg'),
+        msgType
+      ));
   }
-
-  context.addUtil('StdFee');
-  context.addUtil('Coin');
-  //  fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]
 
   const optionalArgs = t.tsPropertySignature(
     t.identifier('args'),
