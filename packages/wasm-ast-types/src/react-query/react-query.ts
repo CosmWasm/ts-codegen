@@ -413,7 +413,6 @@ export const createReactQueryMutationArgsInterface = ({
     body.push(
       t.tsPropertySignature(
         t.identifier('msg'),
-        // @ts-ignore
         msgType
       ));
   }
