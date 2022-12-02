@@ -407,15 +407,19 @@ export const createReactQueryMutationArgsInterface = ({
     )
   ];
 
-  const msgType = createTypedObjectParams(context, jsonschema).typeAnnotation as unknown as t.TSTypeAnnotation
+  const msgType = createTypedObjectParams(context, jsonschema)?.typeAnnotation
 
   if (msgType) {
     body.push(
       t.tsPropertySignature(
         t.identifier('msg'),
+        // @ts-ignore
         msgType
       ));
   }
+
+  context.addUtil('StdFee');
+  context.addUtil('Coin');
 
   const optionalArgs = t.tsPropertySignature(
     t.identifier('args'),
