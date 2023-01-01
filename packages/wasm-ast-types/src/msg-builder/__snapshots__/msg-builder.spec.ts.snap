@@ -1,0 +1,270 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute class 1`] = `
+"export abstract class SG721MsgBuilder {
+  static transferNft = ({
+    recipient,
+    tokenId
+  }: {
+    recipient: string;
+    tokenId: string;
+  }): ExecuteMsg_for_Empty => {
+    return {
+      transfer_nft: ({
+        recipient,
+        token_id: tokenId
+      } as const)
+    };
+  };
+  static sendNft = ({
+    contract,
+    msg,
+    tokenId
+  }: {
+    contract: string;
+    msg: Binary;
+    tokenId: string;
+  }): ExecuteMsg_for_Empty => {
+    return {
+      send_nft: ({
+        contract,
+        msg,
+        token_id: tokenId
+      } as const)
+    };
+  };
+  static approve = ({
+    expires,
+    spender,
+    tokenId
+  }: {
+    expires?: Expiration;
+    spender: string;
+    tokenId: string;
+  }): ExecuteMsg_for_Empty => {
+    return {
+      approve: ({
+        expires,
+        spender,
+        token_id: tokenId
+      } as const)
+    };
+  };
+  static revoke = ({
+    spender,
+    tokenId
+  }: {
+    spender: string;
+    tokenId: string;
+  }): ExecuteMsg_for_Empty => {
+    return {
+      revoke: ({
+        spender,
+        token_id: tokenId
+      } as const)
+    };
+  };
+  static approveAll = ({
+    expires,
+    operator
+  }: {
+    expires?: Expiration;
+    operator: string;
+  }): ExecuteMsg_for_Empty => {
+    return {
+      approve_all: ({
+        expires,
+        operator
+      } as const)
+    };
+  };
+  static revokeAll = ({
+    operator
+  }: {
+    operator: string;
+  }): ExecuteMsg_for_Empty => {
+    return {
+      revoke_all: ({
+        operator
+      } as const)
+    };
+  };
+  static mint = ({
+    extension,
+    owner,
+    tokenId,
+    tokenUri
+  }: {
+    extension: Empty;
+    owner: string;
+    tokenId: string;
+    tokenUri?: string;
+  }): ExecuteMsg_for_Empty => {
+    return {
+      mint: ({
+        extension,
+        owner,
+        token_id: tokenId,
+        token_uri: tokenUri
+      } as const)
+    };
+  };
+  static burn = ({
+    tokenId
+  }: {
+    tokenId: string;
+  }): ExecuteMsg_for_Empty => {
+    return {
+      burn: ({
+        token_id: tokenId
+      } as const)
+    };
+  };
+}"
+`;
+
+exports[`query class 1`] = `
+"export abstract class SG721MsgBuilder {
+  static ownerOf = ({
+    includeExpired,
+    tokenId
+  }: {
+    includeExpired?: boolean;
+    tokenId: string;
+  }): QueryMsg => {
+    return {
+      owner_of: ({
+        include_expired: includeExpired,
+        token_id: tokenId
+      } as const)
+    };
+  };
+  static approval = ({
+    includeExpired,
+    spender,
+    tokenId
+  }: {
+    includeExpired?: boolean;
+    spender: string;
+    tokenId: string;
+  }): QueryMsg => {
+    return {
+      approval: ({
+        include_expired: includeExpired,
+        spender,
+        token_id: tokenId
+      } as const)
+    };
+  };
+  static approvals = ({
+    includeExpired,
+    tokenId
+  }: {
+    includeExpired?: boolean;
+    tokenId: string;
+  }): QueryMsg => {
+    return {
+      approvals: ({
+        include_expired: includeExpired,
+        token_id: tokenId
+      } as const)
+    };
+  };
+  static allOperators = ({
+    includeExpired,
+    limit,
+    owner,
+    startAfter
+  }: {
+    includeExpired?: boolean;
+    limit?: number;
+    owner: string;
+    startAfter?: string;
+  }): QueryMsg => {
+    return {
+      all_operators: ({
+        include_expired: includeExpired,
+        limit,
+        owner,
+        start_after: startAfter
+      } as const)
+    };
+  };
+  static numTokens = (): QueryMsg => {
+    return {
+      num_tokens: ({} as const)
+    };
+  };
+  static contractInfo = (): QueryMsg => {
+    return {
+      contract_info: ({} as const)
+    };
+  };
+  static nftInfo = ({
+    tokenId
+  }: {
+    tokenId: string;
+  }): QueryMsg => {
+    return {
+      nft_info: ({
+        token_id: tokenId
+      } as const)
+    };
+  };
+  static allNftInfo = ({
+    includeExpired,
+    tokenId
+  }: {
+    includeExpired?: boolean;
+    tokenId: string;
+  }): QueryMsg => {
+    return {
+      all_nft_info: ({
+        include_expired: includeExpired,
+        token_id: tokenId
+      } as const)
+    };
+  };
+  static tokens = ({
+    limit,
+    owner,
+    startAfter
+  }: {
+    limit?: number;
+    owner: string;
+    startAfter?: string;
+  }): QueryMsg => {
+    return {
+      tokens: ({
+        limit,
+        owner,
+        start_after: startAfter
+      } as const)
+    };
+  };
+  static allTokens = ({
+    limit,
+    startAfter
+  }: {
+    limit?: number;
+    startAfter?: string;
+  }): QueryMsg => {
+    return {
+      all_tokens: ({
+        limit,
+        start_after: startAfter
+      } as const)
+    };
+  };
+  static minter = (): QueryMsg => {
+    return {
+      minter: ({} as const)
+    };
+  };
+  static collectionInfo = (): QueryMsg => {
+    return {
+      collection_info: ({} as const)
+    };
+  };
+}"
+`;

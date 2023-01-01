@@ -112,6 +112,17 @@ export const promiseTypeAnnotation = (name) => {
     );
 }
 
+export const abstractClassDeclaration = (name: string, body: any[], implementsExressions: TSExpressionWithTypeArguments[] = [], superClass: t.Identifier = null) => {
+  const declaration = classDeclaration(
+    name,
+    body,
+    implementsExressions,
+    superClass
+  );
+  declaration.abstract = true
+  return declaration;
+};
+
 export const classDeclaration = (name: string, body: any[], implementsExressions: TSExpressionWithTypeArguments[] = [], superClass: t.Identifier = null) => {
     const declaration = t.classDeclaration(
         t.identifier(name),

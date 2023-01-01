@@ -17,6 +17,9 @@ TSBuilder {
     "messageComposer": Object {
       "enabled": false,
     },
+    "msgBuilder": Object {
+      "enabled": false,
+    },
     "reactQuery": Object {
       "camelize": true,
       "enabled": true,
@@ -51,6 +54,9 @@ TSBuilder {
       "noImplicitOverride": false,
     },
     "messageComposer": Object {
+      "enabled": false,
+    },
+    "msgBuilder": Object {
       "enabled": false,
     },
     "reactQuery": Object {

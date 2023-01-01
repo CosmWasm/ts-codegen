@@ -109,6 +109,9 @@ it('builder default', async () => {
             },
             messageComposer: {
                 enabled: true
+            },
+            msgBuilder: {
+              enabled: true
             }
         }
     });
@@ -149,6 +152,9 @@ it('builder no extends', async () => {
             },
             messageComposer: {
                 enabled: true
+            },
+            msgBuilder: {
+              enabled: true
             }
         }
     });
