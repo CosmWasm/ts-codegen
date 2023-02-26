@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute 1`] = `"export type ExecuteMsg = ExecuteMsg;"`;
+
+exports[`query 1`] = `"export type QueryMsg = QueryMsg;"`;
+
+exports[`query classes 1`] = `
+"export class WagerQueryClient implements WagerReadOnlyInstance {
+  client: CosmWasmClient;
+  contractAddress: string;
+
+  constructor(client: CosmWasmClient, contractAddress: string) {
+    this.client = client;
+    this.contractAddress = contractAddress;
+    this.wagers = this.wagers.bind(this);
+    this.wager = this.wager.bind(this);
+    this.tokenStatus = this.tokenStatus.bind(this);
+    this.config = this.config.bind(this);
+  }
+
+  wagers = async (): Promise<WagersResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      wagers: {}
+    });
+  };
+  wager = async ({
+    token
+  }: {
+    token: Addr[][];
+  }): Promise<WagerResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      wager: {
+        token
+      }
+    });
+  };
+  tokenStatus = async ({
+    token
+  }: {
+    token: Addr[][];
+  }): Promise<TokenStatusResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      token_status: {
+        token
+      }
+    });
+  };
+  config = async (): Promise<ConfigResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      config: {}
+    });
+  };
+}"
+`;
