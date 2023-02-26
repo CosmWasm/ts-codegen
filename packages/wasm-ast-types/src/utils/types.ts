@@ -147,7 +147,14 @@ export const getTypeInfo = (info: JSONSchema) => {
           throw new Error('[info.items] case not handled by transpiler. contact maintainers.')
         }
       } else {
-        throw new Error('[info.items] case not handled by transpiler. contact maintainers.')
+        if (Array.isArray(info.items)) {
+          type = getArrayTypeFromItems(info.items);
+          // console.log(typeof info.items === 'object');
+          // console.log(Array.isArray(info.items));
+          // console.log(info);
+        } else {
+          throw new Error('[info.items] case not handled by transpiler. contact maintainers.')
+        }
       }
     } else {
       const detect = detectType(info.type);
