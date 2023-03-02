@@ -33,6 +33,16 @@ it('query classes', () => {
     ))
 });
 
+it('execute classes', () => {
+    expectCode(createExecuteClass(
+        executeCtx,
+        'WagerClient',
+        'WagerInstance',
+        null,
+        wagerJson.execute
+    ))
+});
+
 // it('execute classes array types', () => {
 //     expectCode(createExecuteClass(
 //         ctx,

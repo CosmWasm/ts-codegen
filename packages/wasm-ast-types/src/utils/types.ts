@@ -48,6 +48,15 @@ const getTypeOrRef = (obj) => {
 const getArrayTypeFromItems = (items) => {
   // passing in [{"type":"string"}]
   if (Array.isArray(items)) {
+    if (items[0]?.type === 'array') {
+      return t.tsArrayType(
+        t.tsArrayType(
+          getArrayTypeFromItems(
+            items[0]
+          )
+        )
+      );
+    }
     return t.tsArrayType(
       t.tsArrayType(
         getTypeOrRef(items[0])

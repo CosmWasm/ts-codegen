@@ -2,6 +2,84 @@
 
 exports[`execute 1`] = `"export type ExecuteMsg = ExecuteMsg;"`;
 
+exports[`execute classes 1`] = `
+"export class WagerClient implements WagerInstance {
+  client: SigningCosmWasmClient;
+  sender: string;
+  contractAddress: string;
+
+  constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
+    this.client = client;
+    this.sender = sender;
+    this.contractAddress = contractAddress;
+    this.updateConfig = this.updateConfig.bind(this);
+    this.setWinner = this.setWinner.bind(this);
+    this.wager = this.wager.bind(this);
+    this.cancel = this.cancel.bind(this);
+  }
+
+  updateConfig = async ({
+    params
+  }: {
+    params: ParamInfo;
+  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
+    return await this.client.execute(this.sender, this.contractAddress, {
+      update_config: {
+        params
+      }
+    }, fee, memo, funds);
+  };
+  setWinner = async ({
+    currentPrices,
+    prevPrices,
+    wagerKey
+  }: {
+    currentPrices: number[][];
+    prevPrices: number[][];
+    wagerKey: Addr[][][][];
+  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
+    return await this.client.execute(this.sender, this.contractAddress, {
+      set_winner: {
+        current_prices: currentPrices,
+        prev_prices: prevPrices,
+        wager_key: wagerKey
+      }
+    }, fee, memo, funds);
+  };
+  wager = async ({
+    againstCurrencies,
+    currency,
+    expiry,
+    token
+  }: {
+    againstCurrencies: Currency[];
+    currency: Currency;
+    expiry: number;
+    token: Addr[][];
+  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
+    return await this.client.execute(this.sender, this.contractAddress, {
+      wager: {
+        against_currencies: againstCurrencies,
+        currency,
+        expiry,
+        token
+      }
+    }, fee, memo, funds);
+  };
+  cancel = async ({
+    token
+  }: {
+    token: Addr[][];
+  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
+    return await this.client.execute(this.sender, this.contractAddress, {
+      cancel: {
+        token
+      }
+    }, fee, memo, funds);
+  };
+}"
+`;
+
 exports[`query 1`] = `"export type QueryMsg = QueryMsg;"`;
 
 exports[`query classes 1`] = `
