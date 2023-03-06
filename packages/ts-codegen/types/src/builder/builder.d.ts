@@ -1,4 +1,4 @@
-import { RenderOptions } from "wasm-ast-types";
+import { RenderOptions } from 'wasm-ast-types';
 export interface TSBuilderInput {
     contracts: Array<ContractFile | string>;
     outPath: string;
@@ -8,8 +8,9 @@ export interface BundleOptions {
     enabled?: boolean;
     scope?: string;
     bundleFile?: string;
+    bundlePath?: string;
 }
-export declare type TSBuilderOptions = {
+export type TSBuilderOptions = {
     bundle?: BundleOptions;
 } & RenderOptions;
 export interface BuilderFile {
