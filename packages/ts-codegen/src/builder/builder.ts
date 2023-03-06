@@ -189,6 +189,10 @@ export class TSBuilder {
             ]
         )).code;
 
+        if(this.options?.bundle?.bundlePath){
+            mkdirp(this.options?.bundle?.bundlePath);
+        }
+
         mkdirp(this.outPath);
 
         if (code.trim() === '') code = 'export {};'
