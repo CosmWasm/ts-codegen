@@ -2,7 +2,6 @@ import execute_msg from '../../../../__fixtures__/basic/execute_msg_for__empty.j
 import query_msg from '../../../../__fixtures__/basic/query_msg.json';
 import {
     createMsgBuilderClass,
-    createMsgBuilderInterface
 } from './msg-builder'
 import { expectCode, makeContext } from '../../test-utils';
 

@@ -5,10 +5,9 @@ exports[`execute class 1`] = `
   static transferNft = ({
     recipient,
     tokenId
-  }: {
-    recipient: string;
-    tokenId: string;
-  }): ExecuteMsg_for_Empty => {
+  }: CamelCasedProperties<Extract<ExecuteMsg_for_Empty, {
+    transfer_nft: unknown;
+  }>[\\"transfer_nft\\"]>): ExecuteMsg_for_Empty => {
     return {
       transfer_nft: ({
         recipient,
@@ -20,11 +19,9 @@ exports[`execute class 1`] = `
     contract,
     msg,
     tokenId
-  }: {
-    contract: string;
-    msg: Binary;
-    tokenId: string;
-  }): ExecuteMsg_for_Empty => {
+  }: CamelCasedProperties<Extract<ExecuteMsg_for_Empty, {
+    send_nft: unknown;
+  }>[\\"send_nft\\"]>): ExecuteMsg_for_Empty => {
     return {
       send_nft: ({
         contract,
@@ -37,11 +34,9 @@ exports[`execute class 1`] = `
     expires,
     spender,
     tokenId
-  }: {
-    expires?: Expiration;
-    spender: string;
-    tokenId: string;
-  }): ExecuteMsg_for_Empty => {
+  }: CamelCasedProperties<Extract<ExecuteMsg_for_Empty, {
+    approve: unknown;
+  }>[\\"approve\\"]>): ExecuteMsg_for_Empty => {
     return {
       approve: ({
         expires,
@@ -53,10 +48,9 @@ exports[`execute class 1`] = `
   static revoke = ({
     spender,
     tokenId
-  }: {
-    spender: string;
-    tokenId: string;
-  }): ExecuteMsg_for_Empty => {
+  }: CamelCasedProperties<Extract<ExecuteMsg_for_Empty, {
+    revoke: unknown;
+  }>[\\"revoke\\"]>): ExecuteMsg_for_Empty => {
     return {
       revoke: ({
         spender,
@@ -67,10 +61,9 @@ exports[`execute class 1`] = `
   static approveAll = ({
     expires,
     operator
-  }: {
-    expires?: Expiration;
-    operator: string;
-  }): ExecuteMsg_for_Empty => {
+  }: CamelCasedProperties<Extract<ExecuteMsg_for_Empty, {
+    approve_all: unknown;
+  }>[\\"approve_all\\"]>): ExecuteMsg_for_Empty => {
     return {
       approve_all: ({
         expires,
@@ -80,9 +73,9 @@ exports[`execute class 1`] = `
   };
   static revokeAll = ({
     operator
-  }: {
-    operator: string;
-  }): ExecuteMsg_for_Empty => {
+  }: CamelCasedProperties<Extract<ExecuteMsg_for_Empty, {
+    revoke_all: unknown;
+  }>[\\"revoke_all\\"]>): ExecuteMsg_for_Empty => {
     return {
       revoke_all: ({
         operator
@@ -94,12 +87,9 @@ exports[`execute class 1`] = `
     owner,
     tokenId,
     tokenUri
-  }: {
-    extension: Empty;
-    owner: string;
-    tokenId: string;
-    tokenUri?: string;
-  }): ExecuteMsg_for_Empty => {
+  }: CamelCasedProperties<Extract<ExecuteMsg_for_Empty, {
+    mint: unknown;
+  }>[\\"mint\\"]>): ExecuteMsg_for_Empty => {
     return {
       mint: ({
         extension,
@@ -111,9 +101,9 @@ exports[`execute class 1`] = `
   };
   static burn = ({
     tokenId
-  }: {
-    tokenId: string;
-  }): ExecuteMsg_for_Empty => {
+  }: CamelCasedProperties<Extract<ExecuteMsg_for_Empty, {
+    burn: unknown;
+  }>[\\"burn\\"]>): ExecuteMsg_for_Empty => {
     return {
       burn: ({
         token_id: tokenId
@@ -128,10 +118,9 @@ exports[`query class 1`] = `
   static ownerOf = ({
     includeExpired,
     tokenId
-  }: {
-    includeExpired?: boolean;
-    tokenId: string;
-  }): QueryMsg => {
+  }: CamelCasedProperties<Extract<QueryMsg, {
+    owner_of: unknown;
+  }>[\\"owner_of\\"]>): QueryMsg => {
     return {
       owner_of: ({
         include_expired: includeExpired,
@@ -143,11 +132,9 @@ exports[`query class 1`] = `
     includeExpired,
     spender,
     tokenId
-  }: {
-    includeExpired?: boolean;
-    spender: string;
-    tokenId: string;
-  }): QueryMsg => {
+  }: CamelCasedProperties<Extract<QueryMsg, {
+    approval: unknown;
+  }>[\\"approval\\"]>): QueryMsg => {
     return {
       approval: ({
         include_expired: includeExpired,
@@ -159,10 +146,9 @@ exports[`query class 1`] = `
   static approvals = ({
     includeExpired,
     tokenId
-  }: {
-    includeExpired?: boolean;
-    tokenId: string;
-  }): QueryMsg => {
+  }: CamelCasedProperties<Extract<QueryMsg, {
+    approvals: unknown;
+  }>[\\"approvals\\"]>): QueryMsg => {
     return {
       approvals: ({
         include_expired: includeExpired,
@@ -175,12 +161,9 @@ exports[`query class 1`] = `
     limit,
     owner,
     startAfter
-  }: {
-    includeExpired?: boolean;
-    limit?: number;
-    owner: string;
-    startAfter?: string;
-  }): QueryMsg => {
+  }: CamelCasedProperties<Extract<QueryMsg, {
+    all_operators: unknown;
+  }>[\\"all_operators\\"]>): QueryMsg => {
     return {
       all_operators: ({
         include_expired: includeExpired,
@@ -202,9 +185,9 @@ exports[`query class 1`] = `
   };
   static nftInfo = ({
     tokenId
-  }: {
-    tokenId: string;
-  }): QueryMsg => {
+  }: CamelCasedProperties<Extract<QueryMsg, {
+    nft_info: unknown;
+  }>[\\"nft_info\\"]>): QueryMsg => {
     return {
       nft_info: ({
         token_id: tokenId
@@ -214,10 +197,9 @@ exports[`query class 1`] = `
   static allNftInfo = ({
     includeExpired,
     tokenId
-  }: {
-    includeExpired?: boolean;
-    tokenId: string;
-  }): QueryMsg => {
+  }: CamelCasedProperties<Extract<QueryMsg, {
+    all_nft_info: unknown;
+  }>[\\"all_nft_info\\"]>): QueryMsg => {
     return {
       all_nft_info: ({
         include_expired: includeExpired,
@@ -229,11 +211,9 @@ exports[`query class 1`] = `
     limit,
     owner,
     startAfter
-  }: {
-    limit?: number;
-    owner: string;
-    startAfter?: string;
-  }): QueryMsg => {
+  }: CamelCasedProperties<Extract<QueryMsg, {
+    tokens: unknown;
+  }>[\\"tokens\\"]>): QueryMsg => {
     return {
       tokens: ({
         limit,
@@ -245,10 +225,9 @@ exports[`query class 1`] = `
   static allTokens = ({
     limit,
     startAfter
-  }: {
-    limit?: number;
-    startAfter?: string;
-  }): QueryMsg => {
+  }: CamelCasedProperties<Extract<QueryMsg, {
+    all_tokens: unknown;
+  }>[\\"all_tokens\\"]>): QueryMsg => {
     return {
       all_tokens: ({
         limit,

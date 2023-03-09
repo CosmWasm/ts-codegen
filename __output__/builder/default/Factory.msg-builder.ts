@@ -5,12 +5,13 @@
 */
 
 import { AdminAddrResponse, CodeIdResponse, CodeIdType, Uint128, Binary, CreateWalletMsg, Guardians, MultiSig, Coin, Cw20Coin, ExecuteMsg, Addr, ProxyMigrationTxMsg, WalletAddr, CanonicalAddr, RelayTransaction, FeeResponse, GovecAddrResponse, InstantiateMsg, QueryMsg, WalletQueryPrefix, Duration, StakingOptions, WalletInfo, ContractVersion, WalletsOfResponse, WalletsResponse } from "./Factory.types";
+import { CamelCasedProperties } from "type-fest";
 export abstract class FactoryExecuteMsgBuilder {
   static createWallet = ({
     createWalletMsg
-  }: {
-    createWalletMsg: CreateWalletMsg;
-  }): ExecuteMsg => {
+  }: CamelCasedProperties<Extract<ExecuteMsg, {
+    create_wallet: unknown;
+  }>["create_wallet"]>): ExecuteMsg => {
     return {
       create_wallet: ({
         create_wallet_msg: createWalletMsg
@@ -20,10 +21,9 @@ export abstract class FactoryExecuteMsgBuilder {
   static updateProxyUser = ({
     newUser,
     oldUser
-  }: {
-    newUser: Addr;
-    oldUser: Addr;
-  }): ExecuteMsg => {
+  }: CamelCasedProperties<Extract<ExecuteMsg, {
+    update_proxy_user: unknown;
+  }>["update_proxy_user"]>): ExecuteMsg => {
     return {
       update_proxy_user: ({
         new_user: newUser,
@@ -34,10 +34,9 @@ export abstract class FactoryExecuteMsgBuilder {
   static migrateWallet = ({
     migrationMsg,
     walletAddress
-  }: {
-    migrationMsg: ProxyMigrationTxMsg;
-    walletAddress: WalletAddr;
-  }): ExecuteMsg => {
+  }: CamelCasedProperties<Extract<ExecuteMsg, {
+    migrate_wallet: unknown;
+  }>["migrate_wallet"]>): ExecuteMsg => {
     return {
       migrate_wallet: ({
         migration_msg: migrationMsg,
@@ -48,10 +47,9 @@ export abstract class FactoryExecuteMsgBuilder {
   static updateCodeId = ({
     newCodeId,
     ty
-  }: {
-    newCodeId: number;
-    ty: CodeIdType;
-  }): ExecuteMsg => {
+  }: CamelCasedProperties<Extract<ExecuteMsg, {
+    update_code_id: unknown;
+  }>["update_code_id"]>): ExecuteMsg => {
     return {
       update_code_id: ({
         new_code_id: newCodeId,
@@ -61,9 +59,9 @@ export abstract class FactoryExecuteMsgBuilder {
   };
   static updateWalletFee = ({
     newFee
-  }: {
-    newFee: Coin;
-  }): ExecuteMsg => {
+  }: CamelCasedProperties<Extract<ExecuteMsg, {
+    update_wallet_fee: unknown;
+  }>["update_wallet_fee"]>): ExecuteMsg => {
     return {
       update_wallet_fee: ({
         new_fee: newFee
@@ -72,9 +70,9 @@ export abstract class FactoryExecuteMsgBuilder {
   };
   static updateGovecAddr = ({
     addr
-  }: {
-    addr: string;
-  }): ExecuteMsg => {
+  }: CamelCasedProperties<Extract<ExecuteMsg, {
+    update_govec_addr: unknown;
+  }>["update_govec_addr"]>): ExecuteMsg => {
     return {
       update_govec_addr: ({
         addr
@@ -83,9 +81,9 @@ export abstract class FactoryExecuteMsgBuilder {
   };
   static updateAdmin = ({
     addr
-  }: {
-    addr: string;
-  }): ExecuteMsg => {
+  }: CamelCasedProperties<Extract<ExecuteMsg, {
+    update_admin: unknown;
+  }>["update_admin"]>): ExecuteMsg => {
     return {
       update_admin: ({
         addr
@@ -97,10 +95,9 @@ export abstract class FactoryQueryMsgBuilder {
   static wallets = ({
     limit,
     startAfter
-  }: {
-    limit?: number;
-    startAfter?: WalletQueryPrefix;
-  }): QueryMsg => {
+  }: CamelCasedProperties<Extract<QueryMsg, {
+    wallets: unknown;
+  }>["wallets"]>): QueryMsg => {
     return {
       wallets: ({
         limit,
@@ -112,11 +109,9 @@ export abstract class FactoryQueryMsgBuilder {
     limit,
     startAfter,
     user
-  }: {
-    limit?: number;
-    startAfter?: string;
-    user: string;
-  }): QueryMsg => {
+  }: CamelCasedProperties<Extract<QueryMsg, {
+    wallets_of: unknown;
+  }>["wallets_of"]>): QueryMsg => {
     return {
       wallets_of: ({
         limit,
@@ -127,9 +122,9 @@ export abstract class FactoryQueryMsgBuilder {
   };
   static codeId = ({
     ty
-  }: {
-    ty: CodeIdType;
-  }): QueryMsg => {
+  }: CamelCasedProperties<Extract<QueryMsg, {
+    code_id: unknown;
+  }>["code_id"]>): QueryMsg => {
     return {
       code_id: ({
         ty

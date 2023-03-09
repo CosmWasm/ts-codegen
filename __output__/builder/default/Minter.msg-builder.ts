@@ -5,6 +5,7 @@
 */
 
 import { Timestamp, Uint64, Uint128, ConfigResponse, Coin, Addr, Config, ExecuteMsg, Decimal, InstantiateMsg, InstantiateMsg1, CollectionInfoForRoyaltyInfoResponse, RoyaltyInfoResponse, QueryMsg } from "./Minter.types";
+import { CamelCasedProperties } from "type-fest";
 export abstract class MinterExecuteMsgBuilder {
   static mint = (): ExecuteMsg => {
     return {
@@ -13,9 +14,9 @@ export abstract class MinterExecuteMsgBuilder {
   };
   static setWhitelist = ({
     whitelist
-  }: {
-    whitelist: string;
-  }): ExecuteMsg => {
+  }: CamelCasedProperties<Extract<ExecuteMsg, {
+    set_whitelist: unknown;
+  }>["set_whitelist"]>): ExecuteMsg => {
     return {
       set_whitelist: ({
         whitelist
@@ -29,9 +30,9 @@ export abstract class MinterExecuteMsgBuilder {
   };
   static updatePerAddressLimit = ({
     perAddressLimit
-  }: {
-    perAddressLimit: number;
-  }): ExecuteMsg => {
+  }: CamelCasedProperties<Extract<ExecuteMsg, {
+    update_per_address_limit: unknown;
+  }>["update_per_address_limit"]>): ExecuteMsg => {
     return {
       update_per_address_limit: ({
         per_address_limit: perAddressLimit
@@ -40,9 +41,9 @@ export abstract class MinterExecuteMsgBuilder {
   };
   static mintTo = ({
     recipient
-  }: {
-    recipient: string;
-  }): ExecuteMsg => {
+  }: CamelCasedProperties<Extract<ExecuteMsg, {
+    mint_to: unknown;
+  }>["mint_to"]>): ExecuteMsg => {
     return {
       mint_to: ({
         recipient
@@ -52,10 +53,9 @@ export abstract class MinterExecuteMsgBuilder {
   static mintFor = ({
     recipient,
     tokenId
-  }: {
-    recipient: string;
-    tokenId: number;
-  }): ExecuteMsg => {
+  }: CamelCasedProperties<Extract<ExecuteMsg, {
+    mint_for: unknown;
+  }>["mint_for"]>): ExecuteMsg => {
     return {
       mint_for: ({
         recipient,
@@ -92,9 +92,9 @@ export abstract class MinterQueryMsgBuilder {
   };
   static mintCount = ({
     address
-  }: {
-    address: string;
-  }): QueryMsg => {
+  }: CamelCasedProperties<Extract<QueryMsg, {
+    mint_count: unknown;
+  }>["mint_count"]>): QueryMsg => {
     return {
       mint_count: ({
         address

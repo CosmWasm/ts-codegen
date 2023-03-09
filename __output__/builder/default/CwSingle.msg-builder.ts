@@ -5,16 +5,15 @@
 */
 
 import { Addr, Uint128, Duration, Threshold, PercentageThreshold, Decimal, ConfigResponse, CheckedDepositInfo, ExecuteMsg, CosmosMsgForEmpty, BankMsg, StakingMsg, DistributionMsg, Binary, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Vote, DepositToken, Coin, Empty, IbcTimeout, IbcTimeoutBlock, DepositInfo, GovernanceModulesResponse, InfoResponse, ContractVersion, InstantiateMsg, Expiration, Status, ListProposalsResponse, ProposalResponse, Proposal, Votes, ListVotesResponse, VoteInfo, MigrateMsg, ProposalCountResponse, ProposalHooksResponse, QueryMsg, ReverseProposalsResponse, VoteHooksResponse, VoteResponse } from "./CwSingle.types";
+import { CamelCasedProperties } from "type-fest";
 export abstract class CwSingleExecuteMsgBuilder {
   static propose = ({
     description,
     msgs,
     title
-  }: {
-    description: string;
-    msgs: CosmosMsgForEmpty[];
-    title: string;
-  }): ExecuteMsg => {
+  }: CamelCasedProperties<Extract<ExecuteMsg, {
+    propose: unknown;
+  }>["propose"]>): ExecuteMsg => {
     return {
       propose: ({
         description,
@@ -26,10 +25,9 @@ export abstract class CwSingleExecuteMsgBuilder {
   static vote = ({
     proposalId,
     vote
-  }: {
-    proposalId: number;
-    vote: Vote;
-  }): ExecuteMsg => {
+  }: CamelCasedProperties<Extract<ExecuteMsg, {
+    vote: unknown;
+  }>["vote"]>): ExecuteMsg => {
     return {
       vote: ({
         proposal_id: proposalId,
@@ -39,9 +37,9 @@ export abstract class CwSingleExecuteMsgBuilder {
   };
   static execute = ({
     proposalId
-  }: {
-    proposalId: number;
-  }): ExecuteMsg => {
+  }: CamelCasedProperties<Extract<ExecuteMsg, {
+    execute: unknown;
+  }>["execute"]>): ExecuteMsg => {
     return {
       execute: ({
         proposal_id: proposalId
@@ -50,9 +48,9 @@ export abstract class CwSingleExecuteMsgBuilder {
   };
   static close = ({
     proposalId
-  }: {
-    proposalId: number;
-  }): ExecuteMsg => {
+  }: CamelCasedProperties<Extract<ExecuteMsg, {
+    close: unknown;
+  }>["close"]>): ExecuteMsg => {
     return {
       close: ({
         proposal_id: proposalId
@@ -67,15 +65,9 @@ export abstract class CwSingleExecuteMsgBuilder {
     minVotingPeriod,
     onlyMembersExecute,
     threshold
-  }: {
-    allowRevoting: boolean;
-    dao: string;
-    depositInfo?: DepositInfo;
-    maxVotingPeriod: Duration;
-    minVotingPeriod?: Duration;
-    onlyMembersExecute: boolean;
-    threshold: Threshold;
-  }): ExecuteMsg => {
+  }: CamelCasedProperties<Extract<ExecuteMsg, {
+    update_config: unknown;
+  }>["update_config"]>): ExecuteMsg => {
     return {
       update_config: ({
         allow_revoting: allowRevoting,
@@ -90,9 +82,9 @@ export abstract class CwSingleExecuteMsgBuilder {
   };
   static addProposalHook = ({
     address
-  }: {
-    address: string;
-  }): ExecuteMsg => {
+  }: CamelCasedProperties<Extract<ExecuteMsg, {
+    add_proposal_hook: unknown;
+  }>["add_proposal_hook"]>): ExecuteMsg => {
     return {
       add_proposal_hook: ({
         address
@@ -101,9 +93,9 @@ export abstract class CwSingleExecuteMsgBuilder {
   };
   static removeProposalHook = ({
     address
-  }: {
-    address: string;
-  }): ExecuteMsg => {
+  }: CamelCasedProperties<Extract<ExecuteMsg, {
+    remove_proposal_hook: unknown;
+  }>["remove_proposal_hook"]>): ExecuteMsg => {
     return {
       remove_proposal_hook: ({
         address
@@ -112,9 +104,9 @@ export abstract class CwSingleExecuteMsgBuilder {
   };
   static addVoteHook = ({
     address
-  }: {
-    address: string;
-  }): ExecuteMsg => {
+  }: CamelCasedProperties<Extract<ExecuteMsg, {
+    add_vote_hook: unknown;
+  }>["add_vote_hook"]>): ExecuteMsg => {
     return {
       add_vote_hook: ({
         address
@@ -123,9 +115,9 @@ export abstract class CwSingleExecuteMsgBuilder {
   };
   static removeVoteHook = ({
     address
-  }: {
-    address: string;
-  }): ExecuteMsg => {
+  }: CamelCasedProperties<Extract<ExecuteMsg, {
+    remove_vote_hook: unknown;
+  }>["remove_vote_hook"]>): ExecuteMsg => {
     return {
       remove_vote_hook: ({
         address
@@ -141,9 +133,9 @@ export abstract class CwSingleQueryMsgBuilder {
   };
   static proposal = ({
     proposalId
-  }: {
-    proposalId: number;
-  }): QueryMsg => {
+  }: CamelCasedProperties<Extract<QueryMsg, {
+    proposal: unknown;
+  }>["proposal"]>): QueryMsg => {
     return {
       proposal: ({
         proposal_id: proposalId
@@ -153,10 +145,9 @@ export abstract class CwSingleQueryMsgBuilder {
   static listProposals = ({
     limit,
     startAfter
-  }: {
-    limit?: number;
-    startAfter?: number;
-  }): QueryMsg => {
+  }: CamelCasedProperties<Extract<QueryMsg, {
+    list_proposals: unknown;
+  }>["list_proposals"]>): QueryMsg => {
     return {
       list_proposals: ({
         limit,
@@ -167,10 +158,9 @@ export abstract class CwSingleQueryMsgBuilder {
   static reverseProposals = ({
     limit,
     startBefore
-  }: {
-    limit?: number;
-    startBefore?: number;
-  }): QueryMsg => {
+  }: CamelCasedProperties<Extract<QueryMsg, {
+    reverse_proposals: unknown;
+  }>["reverse_proposals"]>): QueryMsg => {
     return {
       reverse_proposals: ({
         limit,
@@ -186,10 +176,9 @@ export abstract class CwSingleQueryMsgBuilder {
   static vote = ({
     proposalId,
     voter
-  }: {
-    proposalId: number;
-    voter: string;
-  }): QueryMsg => {
+  }: CamelCasedProperties<Extract<QueryMsg, {
+    vote: unknown;
+  }>["vote"]>): QueryMsg => {
     return {
       vote: ({
         proposal_id: proposalId,
@@ -201,11 +190,9 @@ export abstract class CwSingleQueryMsgBuilder {
     limit,
     proposalId,
     startAfter
-  }: {
-    limit?: number;
-    proposalId: number;
-    startAfter?: string;
-  }): QueryMsg => {
+  }: CamelCasedProperties<Extract<QueryMsg, {
+    list_votes: unknown;
+  }>["list_votes"]>): QueryMsg => {
     return {
       list_votes: ({
         limit,

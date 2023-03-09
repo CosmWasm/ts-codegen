@@ -10,6 +10,8 @@ import { ContractInfo, getMessageProperties } from "wasm-ast-types";
 import { findAndParseTypes, findExecuteMsg, findQueryMsg } from '../utils';
 import { RenderContext, MsgBuilderOptions } from 'wasm-ast-types';
 import { BuilderFile } from "../builder";
+import babelTraverse from '@babel/traverse';
+import { parse as babelParse } from '@babel/parser'
 
 export default async (
   name: string,
@@ -21,7 +23,6 @@ export default async (
   const context = new RenderContext(contractInfo, {
     msgBuilder: msgBuilderOptions ?? {},
   });
-  // const options = context.options.msgBuilder;
 
   const localname = pascal(name) + ".msg-builder.ts";
   const TypesFile = pascal(name) + ".types";
@@ -31,6 +32,7 @@ export default async (
   const body = [];
 
   body.push(w.importStmt(Object.keys(typeHash), `./${TypesFile}`));
+  body.push(w.importStmt(["CamelCasedProperties"], "type-fest"));
 
   // execute messages
   if (ExecuteMsg) {

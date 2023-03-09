@@ -5,16 +5,15 @@
 */
 
 import { ExecuteMsg, Binary, InstantiateMsg, QueryMsg } from "./CwAdminFactory.types";
+import { CamelCasedProperties } from "type-fest";
 export abstract class CwAdminFactoryExecuteMsgBuilder {
   static instantiateContractWithSelfAdmin = ({
     codeId,
     instantiateMsg,
     label
-  }: {
-    codeId: number;
-    instantiateMsg: Binary;
-    label: string;
-  }): ExecuteMsg => {
+  }: CamelCasedProperties<Extract<ExecuteMsg, {
+    instantiate_contract_with_self_admin: unknown;
+  }>["instantiate_contract_with_self_admin"]>): ExecuteMsg => {
     return {
       instantiate_contract_with_self_admin: ({
         code_id: codeId,

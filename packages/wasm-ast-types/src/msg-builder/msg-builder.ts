@@ -16,7 +16,7 @@ export const createMsgBuilderClass = (
   context: RenderContext,
   className: string,
   msg: ExecuteMsg | QueryMsg
-) => {
+): t.ExportNamedDeclaration => {
   const staticMethods = getMessageProperties(msg).map((schema) => {
     return createStaticExecMethodMsgBuilder(context, schema, msg.title);
   });
@@ -27,6 +27,33 @@ export const createMsgBuilderClass = (
     abstractClassDeclaration(className, staticMethods, [], null)
   );
 };
+
+/**
+ * CamelCasedProperties<Extract<ExecuteMsg, { exec_on_module: unknown }>['exec_on_module']>
+ */
+function createExtractTypeAnnotation(underscoreName: string, msgTitle: string) {
+  return t.tsTypeAnnotation(
+    t.tsTypeReference(
+      t.identifier("CamelCasedProperties"),
+      t.tsTypeParameterInstantiation([
+        t.tsIndexedAccessType(
+          t.tsTypeReference(t.identifier("Extract"),
+            t.tsTypeParameterInstantiation([
+              t.tsTypeReference(t.identifier(msgTitle)),
+              t.tsTypeLiteral([
+                t.tsPropertySignature(
+                  t.identifier(underscoreName),
+                  t.tsTypeAnnotation(t.tsUnknownKeyword())
+                )
+              ])
+            ])
+          ),
+          t.tsLiteralType(t.stringLiteral(underscoreName))
+        )
+      ])
+    )
+  );
+}
 
 const createStaticExecMethodMsgBuilder = (
   context: RenderContext,
@@ -44,15 +71,19 @@ const createStaticExecMethodMsgBuilder = (
     jsonschema.properties[underscoreName]
   );
 
+  if (obj) obj.typeAnnotation = createExtractTypeAnnotation(underscoreName, msgTitle)
+
   return t.classProperty(
     t.identifier(methodName),
     arrowFunctionExpression(
+      // params
       obj
         ? [
             // props
             obj,
           ]
         : [],
+      // body
       t.blockStatement([
         t.returnStatement(
           t.objectExpression([

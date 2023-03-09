@@ -5,16 +5,15 @@
 */
 
 import { Addr, PaymentInfo, Uint128, ConfigResponse, ExecuteMsg, Binary, Cw20ReceiveMsg, GetRegistrationResponse, Registration, InfoForCodeIdResponse, InstantiateMsg, ListRegistrationsResponse, QueryMsg, ReceiveMsg } from "./CwCodeIdRegistry.types";
+import { CamelCasedProperties } from "type-fest";
 export abstract class CwCodeIdRegistryExecuteMsgBuilder {
   static receive = ({
     amount,
     msg,
     sender
-  }: {
-    amount: Uint128;
-    msg: Binary;
-    sender: string;
-  }): ExecuteMsg => {
+  }: CamelCasedProperties<Extract<ExecuteMsg, {
+    receive: unknown;
+  }>["receive"]>): ExecuteMsg => {
     return {
       receive: ({
         amount,
@@ -29,13 +28,9 @@ export abstract class CwCodeIdRegistryExecuteMsgBuilder {
     codeId,
     name,
     version
-  }: {
-    chainId: string;
-    checksum: string;
-    codeId: number;
-    name: string;
-    version: string;
-  }): ExecuteMsg => {
+  }: CamelCasedProperties<Extract<ExecuteMsg, {
+    register: unknown;
+  }>["register"]>): ExecuteMsg => {
     return {
       register: ({
         chain_id: chainId,
@@ -50,11 +45,9 @@ export abstract class CwCodeIdRegistryExecuteMsgBuilder {
     chainId,
     name,
     owner
-  }: {
-    chainId: string;
-    name: string;
-    owner?: string;
-  }): ExecuteMsg => {
+  }: CamelCasedProperties<Extract<ExecuteMsg, {
+    set_owner: unknown;
+  }>["set_owner"]>): ExecuteMsg => {
     return {
       set_owner: ({
         chain_id: chainId,
@@ -66,10 +59,9 @@ export abstract class CwCodeIdRegistryExecuteMsgBuilder {
   static unregister = ({
     chainId,
     codeId
-  }: {
-    chainId: string;
-    codeId: number;
-  }): ExecuteMsg => {
+  }: CamelCasedProperties<Extract<ExecuteMsg, {
+    unregister: unknown;
+  }>["unregister"]>): ExecuteMsg => {
     return {
       unregister: ({
         chain_id: chainId,
@@ -80,10 +72,9 @@ export abstract class CwCodeIdRegistryExecuteMsgBuilder {
   static updateConfig = ({
     admin,
     paymentInfo
-  }: {
-    admin?: string;
-    paymentInfo?: PaymentInfo;
-  }): ExecuteMsg => {
+  }: CamelCasedProperties<Extract<ExecuteMsg, {
+    update_config: unknown;
+  }>["update_config"]>): ExecuteMsg => {
     return {
       update_config: ({
         admin,
@@ -102,11 +93,9 @@ export abstract class CwCodeIdRegistryQueryMsgBuilder {
     chainId,
     name,
     version
-  }: {
-    chainId: string;
-    name: string;
-    version?: string;
-  }): QueryMsg => {
+  }: CamelCasedProperties<Extract<QueryMsg, {
+    get_registration: unknown;
+  }>["get_registration"]>): QueryMsg => {
     return {
       get_registration: ({
         chain_id: chainId,
@@ -118,10 +107,9 @@ export abstract class CwCodeIdRegistryQueryMsgBuilder {
   static infoForCodeId = ({
     chainId,
     codeId
-  }: {
-    chainId: string;
-    codeId: number;
-  }): QueryMsg => {
+  }: CamelCasedProperties<Extract<QueryMsg, {
+    info_for_code_id: unknown;
+  }>["info_for_code_id"]>): QueryMsg => {
     return {
       info_for_code_id: ({
         chain_id: chainId,
@@ -132,10 +120,9 @@ export abstract class CwCodeIdRegistryQueryMsgBuilder {
   static listRegistrations = ({
     chainId,
     name
-  }: {
-    chainId: string;
-    name: string;
-  }): QueryMsg => {
+  }: CamelCasedProperties<Extract<QueryMsg, {
+    list_registrations: unknown;
+  }>["list_registrations"]>): QueryMsg => {
     return {
       list_registrations: ({
         chain_id: chainId,
