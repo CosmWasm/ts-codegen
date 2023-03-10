@@ -4,62 +4,72 @@
 * and run the @cosmwasm/ts-codegen generate command to regenerate this file.
 */
 
-import * as _40 from "./Factory.types";
-import * as _41 from "./Factory.client";
-import * as _42 from "./Factory.message-composer";
-import * as _43 from "./Factory.react-query";
-import * as _44 from "./Factory.recoil";
-import * as _45 from "./Minter.types";
-import * as _46 from "./Minter.client";
-import * as _47 from "./Minter.message-composer";
-import * as _48 from "./Minter.react-query";
-import * as _49 from "./Minter.recoil";
-import * as _50 from "./CwAdminFactory.types";
-import * as _51 from "./CwAdminFactory.client";
-import * as _52 from "./CwAdminFactory.message-composer";
-import * as _53 from "./CwAdminFactory.react-query";
-import * as _54 from "./CwAdminFactory.recoil";
-import * as _55 from "./CwCodeIdRegistry.types";
-import * as _56 from "./CwCodeIdRegistry.client";
-import * as _57 from "./CwCodeIdRegistry.message-composer";
-import * as _58 from "./CwCodeIdRegistry.react-query";
-import * as _59 from "./CwCodeIdRegistry.recoil";
-import * as _60 from "./CwSingle.types";
-import * as _61 from "./CwSingle.client";
-import * as _62 from "./CwSingle.message-composer";
-import * as _63 from "./CwSingle.react-query";
-import * as _64 from "./CwSingle.recoil";
+import * as _45 from "./Factory.types";
+import * as _46 from "./Factory.client";
+import * as _47 from "./Factory.message-composer";
+import * as _48 from "./Factory.msg-builder";
+import * as _49 from "./Factory.react-query";
+import * as _50 from "./Factory.recoil";
+import * as _51 from "./Minter.types";
+import * as _52 from "./Minter.client";
+import * as _53 from "./Minter.message-composer";
+import * as _54 from "./Minter.msg-builder";
+import * as _55 from "./Minter.react-query";
+import * as _56 from "./Minter.recoil";
+import * as _57 from "./CwAdminFactory.types";
+import * as _58 from "./CwAdminFactory.client";
+import * as _59 from "./CwAdminFactory.message-composer";
+import * as _60 from "./CwAdminFactory.msg-builder";
+import * as _61 from "./CwAdminFactory.react-query";
+import * as _62 from "./CwAdminFactory.recoil";
+import * as _63 from "./CwCodeIdRegistry.types";
+import * as _64 from "./CwCodeIdRegistry.client";
+import * as _65 from "./CwCodeIdRegistry.message-composer";
+import * as _66 from "./CwCodeIdRegistry.msg-builder";
+import * as _67 from "./CwCodeIdRegistry.react-query";
+import * as _68 from "./CwCodeIdRegistry.recoil";
+import * as _69 from "./CwSingle.types";
+import * as _70 from "./CwSingle.client";
+import * as _71 from "./CwSingle.message-composer";
+import * as _72 from "./CwSingle.msg-builder";
+import * as _73 from "./CwSingle.react-query";
+import * as _74 from "./CwSingle.recoil";
 export namespace smart {
   export namespace contracts {
-    export const Factory = { ..._40,
-      ..._41,
-      ..._42,
-      ..._43,
-      ..._44
-    };
-    export const Minter = { ..._45,
+    export const Factory = { ..._45,
       ..._46,
       ..._47,
       ..._48,
-      ..._49
+      ..._49,
+      ..._50
     };
-    export const CwAdminFactory = { ..._50,
-      ..._51,
+    export const Minter = { ..._51,
       ..._52,
       ..._53,
-      ..._54
+      ..._54,
+      ..._55,
+      ..._56
     };
-    export const CwCodeIdRegistry = { ..._55,
-      ..._56,
-      ..._57,
+    export const CwAdminFactory = { ..._57,
       ..._58,
-      ..._59
-    };
-    export const CwSingle = { ..._60,
+      ..._59,
+      ..._60,
       ..._61,
-      ..._62,
-      ..._63,
-      ..._64
+      ..._62
+    };
+    export const CwCodeIdRegistry = { ..._63,
+      ..._64,
+      ..._65,
+      ..._66,
+      ..._67,
+      ..._68
+    };
+    export const CwSingle = { ..._69,
+      ..._70,
+      ..._71,
+      ..._72,
+      ..._73,
+      ..._74
     };
   }
 }
