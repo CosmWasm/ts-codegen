@@ -6,6 +6,7 @@ import { writeFileSync } from 'fs';
 import { sync as mkdirp } from "mkdirp";
 
 import generateMessageComposer from '../generators/message-composer';
+import generateMsgBuilder from '../generators/msg-builder';
 import generateTypes from '../generators/types';
 import generateReactQuery from '../generators/react-query';
 import generateRecoil from '../generators/recoil';
@@ -47,7 +48,7 @@ export type TSBuilderOptions = {
 } & RenderOptions;
 
 export interface BuilderFile {
-    type: 'type' | 'client' | 'recoil' | 'react-query' | 'message-composer';
+    type: 'type' | 'client' | 'recoil' | 'react-query' | 'message-composer' | 'msg-builder';
     contract: string;
     localname: string;
     filename: string;
@@ -143,6 +144,16 @@ export class TSBuilder {
         [].push.apply(this.files, files);
     }
 
+    async renderMsgBuilder(contract: ContractFile) {
+      const { enabled, ...options } = this.options.messageComposer;
+      if (!enabled) return;
+      const contractInfo = await readSchemas({
+        schemaDir: contract.dir
+      });
+      const files = await generateMsgBuilder(contract.name, contractInfo, this.outPath, options);
+      [].push.apply(this.files, files);
+    }
+
     async build() {
         const contracts = this.getContracts();
         for (let c = 0; c < contracts.length; c++) {
@@ -150,6 +161,7 @@ export class TSBuilder {
             await this.renderTypes(contract);
             await this.renderClient(contract);
             await this.renderMessageComposer(contract);
+            await this.renderMsgBuilder(contract);
             await this.renderReactQuery(contract);
             await this.renderRecoil(contract);
         }

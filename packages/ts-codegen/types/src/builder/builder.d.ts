@@ -1,4 +1,4 @@
-import { RenderOptions } from 'wasm-ast-types';
+import { RenderOptions } from "wasm-ast-types";
 export interface TSBuilderInput {
     contracts: Array<ContractFile | string>;
     outPath: string;
@@ -14,7 +14,7 @@ export type TSBuilderOptions = {
     bundle?: BundleOptions;
 } & RenderOptions;
 export interface BuilderFile {
-    type: 'type' | 'client' | 'recoil' | 'react-query' | 'message-composer';
+    type: 'type' | 'client' | 'recoil' | 'react-query' | 'message-composer' | 'msg-builder';
     contract: string;
     localname: string;
     filename: string;
@@ -35,6 +35,7 @@ export declare class TSBuilder {
     renderRecoil(contract: ContractFile): Promise<void>;
     renderReactQuery(contract: ContractFile): Promise<void>;
     renderMessageComposer(contract: ContractFile): Promise<void>;
+    renderMsgBuilder(contract: ContractFile): Promise<void>;
     build(): Promise<void>;
     bundle(): Promise<void>;
 }

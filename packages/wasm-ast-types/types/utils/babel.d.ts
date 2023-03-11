@@ -16,6 +16,7 @@ export declare const callExpression: (callee: t.Expression | t.V8IntrinsicIdenti
 export declare const bindMethod: (name: string) => t.ExpressionStatement;
 export declare const typedIdentifier: (name: string, typeAnnotation: TSTypeAnnotation, optional?: boolean) => t.Identifier;
 export declare const promiseTypeAnnotation: (name: any) => t.TSTypeAnnotation;
+export declare const abstractClassDeclaration: (name: string, body: any[], implementsExressions?: TSExpressionWithTypeArguments[], superClass?: t.Identifier) => t.ClassDeclaration;
 export declare const classDeclaration: (name: string, body: any[], implementsExressions?: TSExpressionWithTypeArguments[], superClass?: t.Identifier) => t.ClassDeclaration;
 export declare const classProperty: (name: string, typeAnnotation?: TSTypeAnnotation, isReadonly?: boolean, isStatic?: boolean, noImplicitOverride?: boolean) => t.ClassProperty;
 export declare const arrowFunctionExpression: (params: (t.Identifier | t.Pattern | t.RestElement)[], body: t.BlockStatement, returnType: t.TSTypeAnnotation, isAsync?: boolean) => t.ArrowFunctionExpression;
