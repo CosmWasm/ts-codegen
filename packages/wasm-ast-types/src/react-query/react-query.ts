@@ -432,7 +432,7 @@ export const createReactQueryMutationArgsInterface = ({
             // @ts-ignore:next-line
             param.typeAnnotation,
             param.optional
-          )
+          ) as t.TSTypeElement
         )
       )
     )

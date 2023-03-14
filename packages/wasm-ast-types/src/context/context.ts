@@ -1,5 +1,5 @@
 import { JSONSchema } from "../types";
-import { convertUtilsToImportList, getImportStatements } from "./imports";
+import { convertUtilsToImportList, getImportStatements, UtilMapping } from "./imports";
 import deepmerge from "deepmerge";
 
 /// Plugin Types
@@ -55,6 +55,7 @@ export interface ContractInfo {
     idlObject?: IDLObject;
 };
 export interface RenderOptions {
+    enabled?: boolean;
     types?: TSTypesOptions;
     recoil?: RecoilOptions;
     messageComposer?: MessageComposerOptions;
@@ -63,12 +64,20 @@ export interface RenderOptions {
     reactQuery?: ReactQueryOptions;
 }
 
-export interface RenderContext {
+
+export interface IContext {
+  refLookup($ref: string);
+  addUtil(util: string);
+  getImports(registeredUtils?: UtilMapping);
+}
+
+export interface IRenderContext<TOpt = RenderOptions> extends IContext {
     contract: ContractInfo;
-    options: RenderOptions;
+    options: TOpt;
 }
 
 export const defaultOptions: RenderOptions = {
+    enabled: true,
     types: {
         enabled: true,
         aliasExecuteMsg: false
@@ -114,18 +123,30 @@ export const getDefinitionSchema = (schemas: JSONSchema[]): JSONSchema => {
 
     return aggregateSchema;
 };
-export class RenderContext implements RenderContext {
+
+/**
+ * context object for generating code.
+ * only mergeDefaultOpt needs to implementing for combine options and default options.
+ * @param TOpt option type
+ */
+export abstract class RenderContextBase<TOpt = RenderOptions> implements IRenderContext<TOpt> {
     contract: ContractInfo;
     utils: string[] = [];
     schema: JSONSchema;
+    options: TOpt;
     constructor(
         contract: ContractInfo,
-        options?: RenderOptions
+        options?: TOpt
     ) {
         this.contract = contract;
         this.schema = getDefinitionSchema(contract.schemas);
-        this.options = deepmerge(defaultOptions, options ?? {});
+        this.options = this.mergeDefaultOpt(options);
     }
+    /**
+     * merge options and default options
+     * @param options
+     */
+    abstract mergeDefaultOpt(options: TOpt): TOpt;
     refLookup($ref: string) {
         const refName = $ref.replace('#/definitions/', '')
         return this.schema.definitions?.[refName];
@@ -133,12 +154,19 @@ export class RenderContext implements RenderContext {
     addUtil(util: string) {
         this.utils[util] = true;
     }
-    getImports() {
+    getImports(registeredUtils?: UtilMapping) {
         return getImportStatements(
             convertUtilsToImportList(
                 this,
-                Object.keys(this.utils)
+                Object.keys(this.utils),
+                registeredUtils,
             )
         );
     }
+}
+
+export class RenderContext extends RenderContextBase{
+  mergeDefaultOpt(options: RenderOptions): RenderOptions {
+    return deepmerge(defaultOptions, options ?? {});
+  }
 }

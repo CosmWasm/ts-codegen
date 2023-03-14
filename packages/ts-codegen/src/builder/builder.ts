@@ -1,19 +1,13 @@
-import { RenderOptions, defaultOptions } from "wasm-ast-types";
+import { RenderOptions, defaultOptions, RenderContext, ContractInfo, MessageComposerOptions} from "wasm-ast-types";
 
 import { header } from '../utils/header';
 import { join } from "path";
 import { writeFileSync } from 'fs';
 import { sync as mkdirp } from "mkdirp";
 
-import generateMessageComposer from '../generators/message-composer';
-import generateMsgBuilder from '../generators/msg-builder';
-import generateTypes from '../generators/types';
-import generateReactQuery from '../generators/react-query';
-import generateRecoil from '../generators/recoil';
-import generateClient from '../generators/client';
-
 import { basename } from 'path';
 import { readSchemas } from '../utils';
+import { IBuilderPlugin } from '../plugins';
 
 import deepmerge from 'deepmerge';
 import { pascal } from "case";
@@ -21,6 +15,12 @@ import { createFileBundle, recursiveModuleBundle } from "../bundler";
 
 import generate from '@babel/generator';
 import * as t from '@babel/types';
+import { ReactQueryPlugin } from "../plugins/react-query";
+import { RecoilPlugin } from "../plugins/recoil";
+import { MsgBuilderPlugin } from "../plugins/msg-builder";
+import { MessageComposerPlugin } from "../plugins/message-composer";
+import { ClientPlugin } from "../plugins/client";
+import { TypesPlugin } from "../plugins/types";
 
 const defaultOpts: TSBuilderOptions = {
     bundle: {
@@ -34,6 +34,7 @@ export interface TSBuilderInput {
     contracts: Array<ContractFile | string>;
     outPath: string;
     options?: TSBuilderOptions;
+    plugins?: IBuilderPlugin[];
 };
 
 export interface BundleOptions {
@@ -47,8 +48,11 @@ export type TSBuilderOptions = {
     bundle?: BundleOptions;
 } & RenderOptions;
 
+export type BuilderFileType = 'type' | 'client' | 'recoil' | 'react-query' | 'message-composer' | 'msg-builder' | 'plugin';
+
 export interface BuilderFile {
-    type: 'type' | 'client' | 'recoil' | 'react-query' | 'message-composer' | 'msg-builder';
+    type: BuilderFileType;
+    pluginType?: string;
     contract: string;
     localname: string;
     filename: string;
@@ -58,14 +62,42 @@ export interface ContractFile {
     name: string;
     dir: string;
 }
+
+function getContract(contractOpt): ContractFile {
+    if (typeof contractOpt === 'string') {
+        const name = basename(contractOpt);
+        const contractName = pascal(name);
+        return {
+            name: contractName,
+            dir: contractOpt
+        }
+    }
+    return {
+        name: pascal(contractOpt.name),
+        dir: contractOpt.dir
+    };
+}
+
 export class TSBuilder {
     contracts: Array<ContractFile | string>;
     outPath: string;
     options?: TSBuilderOptions;
+    plugins: IBuilderPlugin[] = [];
 
     protected files: BuilderFile[] = [];
 
-    constructor({ contracts, outPath, options }: TSBuilderInput) {
+    loadDefaultPlugins() {
+        [].push.apply(this.plugins, [
+            new TypesPlugin(this.options),
+            new ClientPlugin(this.options),
+            new MessageComposerPlugin(this.options),
+            new ReactQueryPlugin(this.options),
+            new RecoilPlugin(this.options),
+            new MsgBuilderPlugin(this.options),
+        ]);
+    }
+
+    constructor({ contracts, outPath, options, plugins }: TSBuilderInput) {
         this.contracts = contracts;
         this.outPath = outPath;
         this.options = deepmerge(
@@ -75,96 +107,43 @@ export class TSBuilder {
             ),
             options ?? {}
         );
-    }
 
-    getContracts(): ContractFile[] {
-        return this.contracts.map(contractOpt => {
-            if (typeof contractOpt === 'string') {
-                const name = basename(contractOpt);
-                const contractName = pascal(name);
-                return {
-                    name: contractName,
-                    dir: contractOpt
-                }
-            }
-            return {
-                name: pascal(contractOpt.name),
-                dir: contractOpt.dir
-            };
-        });
-    }
+        this.loadDefaultPlugins();
 
-    async renderTypes(contract: ContractFile) {
-        const { enabled, ...options } = this.options.types;
-        if (!enabled) return;
-        const contractInfo = await readSchemas({
-            schemaDir: contract.dir
-        });
-        const files = await generateTypes(contract.name, contractInfo, this.outPath, options);
-        [].push.apply(this.files, files);
-    }
-
-    async renderClient(contract: ContractFile) {
-        const { enabled, ...options } = this.options.client;
-        if (!enabled) return;
-        const contractInfo = await readSchemas({
-            schemaDir: contract.dir
-        });
-        const files = await generateClient(contract.name, contractInfo, this.outPath, options);
-        [].push.apply(this.files, files);
-    }
-
-    async renderRecoil(contract: ContractFile) {
-        const { enabled, ...options } = this.options.recoil;
-        if (!enabled) return;
-        const contractInfo = await readSchemas({
-            schemaDir: contract.dir
-        });
-        const files = await generateRecoil(contract.name, contractInfo, this.outPath, options);
-        [].push.apply(this.files, files);
-    }
-
-    async renderReactQuery(contract: ContractFile) {
-        const { enabled, ...options } = this.options.reactQuery;
-        if (!enabled) return;
-        const contractInfo = await readSchemas({
-            schemaDir: contract.dir
-        });
-        const files = await generateReactQuery(contract.name, contractInfo, this.outPath, options);
-        [].push.apply(this.files, files);
-    }
-
-    async renderMessageComposer(contract: ContractFile) {
-        const { enabled, ...options } = this.options.messageComposer;
-        if (!enabled) return;
-        const contractInfo = await readSchemas({
-            schemaDir: contract.dir
-        });
-        const files = await generateMessageComposer(contract.name, contractInfo, this.outPath, options);
-        [].push.apply(this.files, files);
-    }
-
-    async renderMsgBuilder(contract: ContractFile) {
-      const { enabled, ...options } = this.options.messageComposer;
-      if (!enabled) return;
-      const contractInfo = await readSchemas({
-        schemaDir: contract.dir
-      });
-      const files = await generateMsgBuilder(contract.name, contractInfo, this.outPath, options);
-      [].push.apply(this.files, files);
+        if (plugins && plugins.length) {
+            [].push.apply(this.plugins, plugins);
+        }
     }
 
     async build() {
-        const contracts = this.getContracts();
-        for (let c = 0; c < contracts.length; c++) {
-            const contract = contracts[c];
-            await this.renderTypes(contract);
-            await this.renderClient(contract);
-            await this.renderMessageComposer(contract);
-            await this.renderMsgBuilder(contract);
-            await this.renderReactQuery(contract);
-            await this.renderRecoil(contract);
+        await this.process();
+        await this.after();
+    }
+
+    // lifecycle functions
+    private async process(){
+        for (const contractOpt of this.contracts) {
+            const contract = getContract(contractOpt);
+            //resolve contract schema.
+            const contractInfo = await readSchemas({
+                schemaDir: contract.dir
+            });
+
+            //lifecycle and plugins.
+            await this.render(contract.name, contractInfo);
         }
+    }
+
+    private async render(name: string, contractInfo: ContractInfo){
+      for (const plugin of this.plugins) {
+          let files = await plugin.render(name, contractInfo, this.outPath);
+          if(files && files.length){
+              [].push.apply(this.files, files);
+          }
+      }
+    }
+
+    private async after(){
         if (this.options.bundle.enabled) {
             this.bundle();
         }
