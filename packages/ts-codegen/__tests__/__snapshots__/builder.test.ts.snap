@@ -14,6 +14,7 @@ TSBuilder {
       "execExtendsQuery": true,
       "noImplicitOverride": false,
     },
+    "enabled": true,
     "messageComposer": Object {
       "enabled": false,
     },
@@ -36,6 +37,232 @@ TSBuilder {
       "enabled": true,
     },
   },
+  "plugins": Array [
+    TypesPlugin {
+      "option": Object {
+        "bundle": Object {
+          "bundleFile": "bundle.ts",
+          "enabled": true,
+          "scope": "contracts",
+        },
+        "client": Object {
+          "enabled": true,
+          "execExtendsQuery": true,
+          "noImplicitOverride": false,
+        },
+        "enabled": true,
+        "messageComposer": Object {
+          "enabled": false,
+        },
+        "msgBuilder": Object {
+          "enabled": false,
+        },
+        "reactQuery": Object {
+          "camelize": true,
+          "enabled": true,
+          "mutations": false,
+          "optionalClient": false,
+          "queryKeys": false,
+          "version": "v3",
+        },
+        "recoil": Object {
+          "enabled": false,
+        },
+        "types": Object {
+          "aliasExecuteMsg": false,
+          "enabled": true,
+        },
+      },
+      "utils": undefined,
+    },
+    ClientPlugin {
+      "option": Object {
+        "bundle": Object {
+          "bundleFile": "bundle.ts",
+          "enabled": true,
+          "scope": "contracts",
+        },
+        "client": Object {
+          "enabled": true,
+          "execExtendsQuery": true,
+          "noImplicitOverride": false,
+        },
+        "enabled": true,
+        "messageComposer": Object {
+          "enabled": false,
+        },
+        "msgBuilder": Object {
+          "enabled": false,
+        },
+        "reactQuery": Object {
+          "camelize": true,
+          "enabled": true,
+          "mutations": false,
+          "optionalClient": false,
+          "queryKeys": false,
+          "version": "v3",
+        },
+        "recoil": Object {
+          "enabled": false,
+        },
+        "types": Object {
+          "aliasExecuteMsg": false,
+          "enabled": true,
+        },
+      },
+      "utils": undefined,
+    },
+    MessageComposerPlugin {
+      "option": Object {
+        "bundle": Object {
+          "bundleFile": "bundle.ts",
+          "enabled": true,
+          "scope": "contracts",
+        },
+        "client": Object {
+          "enabled": true,
+          "execExtendsQuery": true,
+          "noImplicitOverride": false,
+        },
+        "enabled": true,
+        "messageComposer": Object {
+          "enabled": false,
+        },
+        "msgBuilder": Object {
+          "enabled": false,
+        },
+        "reactQuery": Object {
+          "camelize": true,
+          "enabled": true,
+          "mutations": false,
+          "optionalClient": false,
+          "queryKeys": false,
+          "version": "v3",
+        },
+        "recoil": Object {
+          "enabled": false,
+        },
+        "types": Object {
+          "aliasExecuteMsg": false,
+          "enabled": true,
+        },
+      },
+      "utils": undefined,
+    },
+    ReactQueryPlugin {
+      "option": Object {
+        "bundle": Object {
+          "bundleFile": "bundle.ts",
+          "enabled": true,
+          "scope": "contracts",
+        },
+        "client": Object {
+          "enabled": true,
+          "execExtendsQuery": true,
+          "noImplicitOverride": false,
+        },
+        "enabled": true,
+        "messageComposer": Object {
+          "enabled": false,
+        },
+        "msgBuilder": Object {
+          "enabled": false,
+        },
+        "reactQuery": Object {
+          "camelize": true,
+          "enabled": true,
+          "mutations": false,
+          "optionalClient": false,
+          "queryKeys": false,
+          "version": "v3",
+        },
+        "recoil": Object {
+          "enabled": false,
+        },
+        "types": Object {
+          "aliasExecuteMsg": false,
+          "enabled": true,
+        },
+      },
+      "utils": undefined,
+    },
+    RecoilPlugin {
+      "option": Object {
+        "bundle": Object {
+          "bundleFile": "bundle.ts",
+          "enabled": true,
+          "scope": "contracts",
+        },
+        "client": Object {
+          "enabled": true,
+          "execExtendsQuery": true,
+          "noImplicitOverride": false,
+        },
+        "enabled": true,
+        "messageComposer": Object {
+          "enabled": false,
+        },
+        "msgBuilder": Object {
+          "enabled": false,
+        },
+        "reactQuery": Object {
+          "camelize": true,
+          "enabled": true,
+          "mutations": false,
+          "optionalClient": false,
+          "queryKeys": false,
+          "version": "v3",
+        },
+        "recoil": Object {
+          "enabled": false,
+        },
+        "types": Object {
+          "aliasExecuteMsg": false,
+          "enabled": true,
+        },
+      },
+      "utils": Object {
+        "selectorFamily": "recoil",
+      },
+    },
+    MsgBuilderPlugin {
+      "option": Object {
+        "bundle": Object {
+          "bundleFile": "bundle.ts",
+          "enabled": true,
+          "scope": "contracts",
+        },
+        "client": Object {
+          "enabled": true,
+          "execExtendsQuery": true,
+          "noImplicitOverride": false,
+        },
+        "enabled": true,
+        "messageComposer": Object {
+          "enabled": false,
+        },
+        "msgBuilder": Object {
+          "enabled": false,
+        },
+        "reactQuery": Object {
+          "camelize": true,
+          "enabled": true,
+          "mutations": false,
+          "optionalClient": false,
+          "queryKeys": false,
+          "version": "v3",
+        },
+        "recoil": Object {
+          "enabled": false,
+        },
+        "types": Object {
+          "aliasExecuteMsg": false,
+          "enabled": true,
+        },
+      },
+      "utils": undefined,
+    },
+  ],
 }
 `;
 
@@ -53,6 +280,7 @@ TSBuilder {
       "execExtendsQuery": true,
       "noImplicitOverride": false,
     },
+    "enabled": true,
     "messageComposer": Object {
       "enabled": false,
     },
@@ -75,5 +303,231 @@ TSBuilder {
       "enabled": true,
     },
   },
+  "plugins": Array [
+    TypesPlugin {
+      "option": Object {
+        "bundle": Object {
+          "bundleFile": "bundle.ts",
+          "enabled": true,
+          "scope": "contracts",
+        },
+        "client": Object {
+          "enabled": true,
+          "execExtendsQuery": true,
+          "noImplicitOverride": false,
+        },
+        "enabled": true,
+        "messageComposer": Object {
+          "enabled": false,
+        },
+        "msgBuilder": Object {
+          "enabled": false,
+        },
+        "reactQuery": Object {
+          "camelize": true,
+          "enabled": false,
+          "mutations": false,
+          "optionalClient": false,
+          "queryKeys": false,
+          "version": "v3",
+        },
+        "recoil": Object {
+          "enabled": false,
+        },
+        "types": Object {
+          "aliasExecuteMsg": false,
+          "enabled": true,
+        },
+      },
+      "utils": undefined,
+    },
+    ClientPlugin {
+      "option": Object {
+        "bundle": Object {
+          "bundleFile": "bundle.ts",
+          "enabled": true,
+          "scope": "contracts",
+        },
+        "client": Object {
+          "enabled": true,
+          "execExtendsQuery": true,
+          "noImplicitOverride": false,
+        },
+        "enabled": true,
+        "messageComposer": Object {
+          "enabled": false,
+        },
+        "msgBuilder": Object {
+          "enabled": false,
+        },
+        "reactQuery": Object {
+          "camelize": true,
+          "enabled": false,
+          "mutations": false,
+          "optionalClient": false,
+          "queryKeys": false,
+          "version": "v3",
+        },
+        "recoil": Object {
+          "enabled": false,
+        },
+        "types": Object {
+          "aliasExecuteMsg": false,
+          "enabled": true,
+        },
+      },
+      "utils": undefined,
+    },
+    MessageComposerPlugin {
+      "option": Object {
+        "bundle": Object {
+          "bundleFile": "bundle.ts",
+          "enabled": true,
+          "scope": "contracts",
+        },
+        "client": Object {
+          "enabled": true,
+          "execExtendsQuery": true,
+          "noImplicitOverride": false,
+        },
+        "enabled": true,
+        "messageComposer": Object {
+          "enabled": false,
+        },
+        "msgBuilder": Object {
+          "enabled": false,
+        },
+        "reactQuery": Object {
+          "camelize": true,
+          "enabled": false,
+          "mutations": false,
+          "optionalClient": false,
+          "queryKeys": false,
+          "version": "v3",
+        },
+        "recoil": Object {
+          "enabled": false,
+        },
+        "types": Object {
+          "aliasExecuteMsg": false,
+          "enabled": true,
+        },
+      },
+      "utils": undefined,
+    },
+    ReactQueryPlugin {
+      "option": Object {
+        "bundle": Object {
+          "bundleFile": "bundle.ts",
+          "enabled": true,
+          "scope": "contracts",
+        },
+        "client": Object {
+          "enabled": true,
+          "execExtendsQuery": true,
+          "noImplicitOverride": false,
+        },
+        "enabled": true,
+        "messageComposer": Object {
+          "enabled": false,
+        },
+        "msgBuilder": Object {
+          "enabled": false,
+        },
+        "reactQuery": Object {
+          "camelize": true,
+          "enabled": false,
+          "mutations": false,
+          "optionalClient": false,
+          "queryKeys": false,
+          "version": "v3",
+        },
+        "recoil": Object {
+          "enabled": false,
+        },
+        "types": Object {
+          "aliasExecuteMsg": false,
+          "enabled": true,
+        },
+      },
+      "utils": undefined,
+    },
+    RecoilPlugin {
+      "option": Object {
+        "bundle": Object {
+          "bundleFile": "bundle.ts",
+          "enabled": true,
+          "scope": "contracts",
+        },
+        "client": Object {
+          "enabled": true,
+          "execExtendsQuery": true,
+          "noImplicitOverride": false,
+        },
+        "enabled": true,
+        "messageComposer": Object {
+          "enabled": false,
+        },
+        "msgBuilder": Object {
+          "enabled": false,
+        },
+        "reactQuery": Object {
+          "camelize": true,
+          "enabled": false,
+          "mutations": false,
+          "optionalClient": false,
+          "queryKeys": false,
+          "version": "v3",
+        },
+        "recoil": Object {
+          "enabled": false,
+        },
+        "types": Object {
+          "aliasExecuteMsg": false,
+          "enabled": true,
+        },
+      },
+      "utils": Object {
+        "selectorFamily": "recoil",
+      },
+    },
+    MsgBuilderPlugin {
+      "option": Object {
+        "bundle": Object {
+          "bundleFile": "bundle.ts",
+          "enabled": true,
+          "scope": "contracts",
+        },
+        "client": Object {
+          "enabled": true,
+          "execExtendsQuery": true,
+          "noImplicitOverride": false,
+        },
+        "enabled": true,
+        "messageComposer": Object {
+          "enabled": false,
+        },
+        "msgBuilder": Object {
+          "enabled": false,
+        },
+        "reactQuery": Object {
+          "camelize": true,
+          "enabled": false,
+          "mutations": false,
+          "optionalClient": false,
+          "queryKeys": false,
+          "version": "v3",
+        },
+        "recoil": Object {
+          "enabled": false,
+        },
+        "types": Object {
+          "aliasExecuteMsg": false,
+          "enabled": true,
+        },
+      },
+      "utils": undefined,
+    },
+  ],
 }
 `;

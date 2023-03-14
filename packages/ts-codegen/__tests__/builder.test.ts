@@ -159,3 +159,46 @@ it('builder no extends', async () => {
         }
     });
 });
+
+it('builder set bundler path', async () => {
+    const outPath = OUTPUT_DIR + '/bundler_test/contracts';
+    const bundlerPath = OUTPUT_DIR + '/bundler_test/';
+    const s = (str) => FIXTURE_DIR + str;
+    await codegen({
+        contracts: [
+          s('/vectis/factory'),
+          s('/minter'),
+          s('/daodao/cw-admin-factory'),
+          s('/daodao/cw-code-id-registry'),
+          {
+              name: 'CwSingle',
+              dir: s('/daodao/cw-proposal-single')
+          }
+        ],
+        outPath,
+        options: {
+            bundle: {
+              bundlePath: bundlerPath,
+              bundleFile: 'index.ts',
+              scope: 'smart.contracts'
+            },
+            types: {
+              enabled: true
+            },
+            client: {
+              enabled: true,
+              execExtendsQuery: false
+            },
+            reactQuery: {
+              enabled: true
+            },
+            recoil: {
+              enabled: true
+            },
+            messageComposer: {
+              enabled: true
+            }
+        }
+    });
+});
+

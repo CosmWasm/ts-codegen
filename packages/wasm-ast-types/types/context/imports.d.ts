@@ -5,12 +5,16 @@ export interface ImportObj {
     path: string;
     importAs?: string;
 }
+export type GetUtilFn = (<TContext = RenderContext>(...args: any[]) => (context: TContext) => ImportObj);
+export type UtilMapping = {
+    [key: string]: ImportObj | string | GetUtilFn;
+};
 export declare const UTILS: {
+    selectorFamily: string;
     MsgExecuteContract: string;
     MsgExecuteContractEncodeObject: string;
     Coin: string;
     toUtf8: string;
-    selectorFamily: string;
     StdFee: string;
     CosmWasmClient: string;
     ExecuteResult: string;
@@ -36,5 +40,6 @@ export declare const UTILS: {
         name: any;
     };
 };
-export declare const convertUtilsToImportList: (context: RenderContext, utils: string[]) => ImportObj[];
+export declare const convertUtilsToImportList: (context: RenderContext, utils: string[], registeredUtils?: UtilMapping) => ImportObj[];
+export declare const convertUtil: (context: RenderContext, util: string, registeredUtils: object) => ImportObj;
 export declare const getImportStatements: (list: ImportObj[]) => any[];

@@ -9,6 +9,7 @@ export { default as generateRecoil } from './generators/recoil';
 export * from './utils';
 export * from './builder';
 export * from './bundler';
+export * from './plugins';
 
 export default async (input: TSBuilderInput) => {
     const builder = new TSBuilder(input);

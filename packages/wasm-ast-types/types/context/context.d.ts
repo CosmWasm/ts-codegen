@@ -1,4 +1,5 @@
 import { JSONSchema } from "../types";
+import { UtilMapping } from "./imports";
 export interface ReactQueryOptions {
     enabled?: boolean;
     optionalClient?: boolean;
@@ -46,6 +47,7 @@ export interface ContractInfo {
     idlObject?: IDLObject;
 }
 export interface RenderOptions {
+    enabled?: boolean;
     types?: TSTypesOptions;
     recoil?: RecoilOptions;
     messageComposer?: MessageComposerOptions;
@@ -53,19 +55,38 @@ export interface RenderOptions {
     client?: TSClientOptions;
     reactQuery?: ReactQueryOptions;
 }
-export interface RenderContext {
+export interface IContext {
+    refLookup($ref: string): any;
+    addUtil(util: string): any;
+    getImports(registeredUtils?: UtilMapping): any;
+}
+export interface IRenderContext<TOpt = RenderOptions> extends IContext {
     contract: ContractInfo;
-    options: RenderOptions;
+    options: TOpt;
 }
 export declare const defaultOptions: RenderOptions;
 export declare const getDefinitionSchema: (schemas: JSONSchema[]) => JSONSchema;
-export declare class RenderContext implements RenderContext {
+/**
+ * context object for generating code.
+ * only mergeDefaultOpt needs to implementing for combine options and default options.
+ * @param TOpt option type
+ */
+export declare abstract class RenderContextBase<TOpt = RenderOptions> implements IRenderContext<TOpt> {
     contract: ContractInfo;
     utils: string[];
     schema: JSONSchema;
-    constructor(contract: ContractInfo, options?: RenderOptions);
+    options: TOpt;
+    constructor(contract: ContractInfo, options?: TOpt);
+    /**
+     * merge options and default options
+     * @param options
+     */
+    abstract mergeDefaultOpt(options: TOpt): TOpt;
     refLookup($ref: string): JSONSchema;
     addUtil(util: string): void;
-    getImports(): any[];
+    getImports(registeredUtils?: UtilMapping): any;
+}
+export declare class RenderContext extends RenderContextBase {
+    mergeDefaultOpt(options: RenderOptions): RenderOptions;
 }
 export {};

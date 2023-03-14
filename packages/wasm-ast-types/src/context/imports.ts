@@ -2,12 +2,21 @@ import * as t from '@babel/types';
 import { importAs, importStmt } from "../utils";
 import { RenderContext } from './context';
 
+
 export interface ImportObj {
   type: 'import' | 'default' | 'namespace';
   name: string;
   path: string;
   importAs?: string;
 }
+
+export type GetUtilFn = (<TContext = RenderContext>(...args: any[]) => (context: TContext) => ImportObj);
+export type UtilMapping = {
+  [key: string]:
+    | ImportObj
+    | string
+    | GetUtilFn
+};
 
 const makeReactQuerySwitch = (varName) => {
   return (context: RenderContext) => {
@@ -30,11 +39,11 @@ const makeReactQuerySwitch = (varName) => {
 }
 
 export const UTILS = {
+  selectorFamily: 'recoil',
   MsgExecuteContract: 'cosmjs-types/cosmwasm/wasm/v1/tx',
   MsgExecuteContractEncodeObject: 'cosmwasm',
   Coin: '@cosmjs/amino',
   toUtf8: '@cosmjs/encoding',
-  selectorFamily: 'recoil',
   StdFee: '@cosmjs/amino',
   CosmWasmClient: '@cosmjs/cosmwasm-stargate',
   ExecuteResult: '@cosmjs/cosmwasm-stargate',
@@ -50,23 +59,48 @@ export const UTILS = {
 
 export const convertUtilsToImportList = (
   context: RenderContext,
-  utils: string[]
+  utils: string[],
+  registeredUtils?: UtilMapping
 ): ImportObj[] => {
-  return utils.map(util => {
-    if (!UTILS.hasOwnProperty(util)) throw new Error(`missing Util! ::[${util}]`);
-    if (typeof UTILS[util] === 'string') {
-      return {
-        type: 'import',
-        path: UTILS[util],
-        name: util
-      };
-    } else if (typeof UTILS[util] === 'function') {
-      return UTILS[util](context);
-    } else {
-      UTILS[util];
+  return utils.map((util) => {
+    let result = null;
+
+    if(registeredUtils){
+      result = convertUtil(context, util, registeredUtils);
+
+      if (result) {
+        return result;
+      }
     }
+
+    result = convertUtil(context, util, UTILS);
+
+    if (result) {
+      return result;
+    }
+
+    throw new Error(`missing Util! ::[${util}]`);
   });
-}
+};
+
+export const convertUtil = (
+  context: RenderContext,
+  util: string,
+  registeredUtils: object
+): ImportObj => {
+  if (!registeredUtils.hasOwnProperty(util)) return null;
+  if (typeof registeredUtils[util] === 'string') {
+    return {
+      type: 'import',
+      path: registeredUtils[util],
+      name: util
+    };
+  } else if (typeof registeredUtils[util] === 'function') {
+    return registeredUtils[util](context);
+  } else {
+    return registeredUtils[util];
+  }
+};
 
 export const getImportStatements = (list: ImportObj[]) => {
   const imports = list.reduce((m, obj) => {

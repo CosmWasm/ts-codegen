@@ -7,5 +7,6 @@ export { default as generateRecoil } from './generators/recoil';
 export * from './utils';
 export * from './builder';
 export * from './bundler';
+export * from './plugins';
 declare const _default: (input: TSBuilderInput) => Promise<void>;
 export default _default;
