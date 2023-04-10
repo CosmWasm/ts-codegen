@@ -1,5 +1,5 @@
 import * as t from '@babel/types';
-import { Field, QueryMsg, ExecuteMsg } from '../types';
+import { Field } from '../types';
 import { TSTypeAnnotation, TSExpressionWithTypeArguments } from '@babel/types';
 export declare const propertySignature: (name: string, typeAnnotation: t.TSTypeAnnotation, optional?: boolean) => {
     type: string;
@@ -9,7 +9,7 @@ export declare const propertySignature: (name: string, typeAnnotation: t.TSTypeA
 };
 export declare const identifier: (name: string, typeAnnotation: t.TSTypeAnnotation, optional?: boolean) => t.Identifier;
 export declare const tsTypeOperator: (typeAnnotation: t.TSType, operator: string) => t.TSTypeOperator;
-export declare const getMessageProperties: (msg: QueryMsg | ExecuteMsg) => any;
+export declare const getMessageProperties: (msg: any) => any[];
 export declare const tsPropertySignature: (key: t.Expression, typeAnnotation: t.TSTypeAnnotation, optional: boolean) => t.TSPropertySignature;
 export declare const tsObjectPattern: (properties: (t.RestElement | t.ObjectProperty)[], typeAnnotation: t.TSTypeAnnotation) => t.ObjectPattern;
 export declare const callExpression: (callee: t.Expression | t.V8IntrinsicIdentifier, _arguments: (t.Expression | t.SpreadElement | t.ArgumentPlaceholder)[], typeParameters: t.TSTypeParameterInstantiation) => t.CallExpression;
