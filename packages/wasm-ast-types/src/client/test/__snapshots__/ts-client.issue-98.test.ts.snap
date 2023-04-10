@@ -1,0 +1,117 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute classes array types 1`] = `
+"export class SG721Client implements SG721Instance {
+  client: SigningCosmWasmClient;
+  sender: string;
+  contractAddress: string;
+
+  constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
+    this.client = client;
+    this.sender = sender;
+    this.contractAddress = contractAddress;
+    this.getConfig = this.getConfig.bind(this);
+    this.getPlugins = this.getPlugins.bind(this);
+    this.getPluginById = this.getPluginById.bind(this);
+  }
+
+  getConfig = async (fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
+    return await this.client.execute(this.sender, this.contractAddress, {
+      get_config: {}
+    }, fee, memo, funds);
+  };
+  getPlugins = async ({
+    limit,
+    startAfter
+  }: {
+    limit?: number;
+    startAfter?: number;
+  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
+    return await this.client.execute(this.sender, this.contractAddress, {
+      get_plugins: {
+        limit,
+        start_after: startAfter
+      }
+    }, fee, memo, funds);
+  };
+  getPluginById = async ({
+    id
+  }: {
+    id: number;
+  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
+    return await this.client.execute(this.sender, this.contractAddress, {
+      get_plugin_by_id: {
+        id
+      }
+    }, fee, memo, funds);
+  };
+}"
+`;
+
+exports[`execute interfaces no extends 1`] = `
+"export interface SG721Instance {
+  contractAddress: string;
+  sender: string;
+  getConfig: (fee?: number | StdFee | \\"auto\\", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
+  getPlugins: ({
+    limit,
+    startAfter
+  }: {
+    limit?: number;
+    startAfter?: number;
+  }, fee?: number | StdFee | \\"auto\\", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
+  getPluginById: ({
+    id
+  }: {
+    id: number;
+  }, fee?: number | StdFee | \\"auto\\", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
+}"
+`;
+
+exports[`execute_msg_for__empty 1`] = `"export type QueryMsg = QueryMsg;"`;
+
+exports[`query classes 1`] = `
+"export class SG721QueryClient implements SG721ReadOnlyInstance {
+  client: CosmWasmClient;
+  contractAddress: string;
+
+  constructor(client: CosmWasmClient, contractAddress: string) {
+    this.client = client;
+    this.contractAddress = contractAddress;
+    this.getConfig = this.getConfig.bind(this);
+    this.getPlugins = this.getPlugins.bind(this);
+    this.getPluginById = this.getPluginById.bind(this);
+  }
+
+  getConfig = async (): Promise<GetConfigResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      get_config: {}
+    });
+  };
+  getPlugins = async ({
+    limit,
+    startAfter
+  }: {
+    limit?: number;
+    startAfter?: number;
+  }): Promise<GetPluginsResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      get_plugins: {
+        limit,
+        start_after: startAfter
+      }
+    });
+  };
+  getPluginById = async ({
+    id
+  }: {
+    id: number;
+  }): Promise<GetPluginByIdResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      get_plugin_by_id: {
+        id
+      }
+    });
+  };
+}"
+`;

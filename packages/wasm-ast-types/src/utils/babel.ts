@@ -2,6 +2,7 @@ import * as t from '@babel/types';
 import { snake } from "case";
 import { Field, QueryMsg, ExecuteMsg } from '../types';
 import { TSTypeAnnotation, TSExpressionWithTypeArguments } from '@babel/types';
+import { refLookup } from './ref';
 
 // t.TSPropertySignature - kind?
 export const propertySignature = (
@@ -30,11 +31,28 @@ export const tsTypeOperator = (typeAnnotation: t.TSType, operator: string) => {
     return obj;
 };
 
-export const getMessageProperties = (msg: QueryMsg | ExecuteMsg) => {
-    if (msg.anyOf) return msg.anyOf;
-    if (msg.oneOf) return msg.oneOf;
-    if (msg.allOf) return msg.allOf;
-    return [];
+export const getMessageProperties = (msg) => {
+    let results = [];
+    let objs = [];
+    if (msg.anyOf) { objs = msg.anyOf; }
+    else if (msg.oneOf) { objs = msg.oneOf; }
+    else if (msg.allOf) { objs = msg.allOf; }
+
+    for (const obj of objs) {
+      if(obj.properties){
+        results.push(obj);
+      } else{
+        if(obj.$ref){
+          const ref = refLookup(obj.$ref, msg)
+
+          const refProps = getMessageProperties(ref);
+
+          results = [...results, ...refProps];
+        }
+      }
+    }
+
+    return results;
 }
 
 export const tsPropertySignature = (

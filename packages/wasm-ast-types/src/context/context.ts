@@ -1,4 +1,5 @@
 import { JSONSchema } from "../types";
+import { refLookup } from "../utils";
 import { convertUtilsToImportList, getImportStatements, UtilMapping } from "./imports";
 import deepmerge from "deepmerge";
 
@@ -148,8 +149,7 @@ export abstract class RenderContextBase<TOpt = RenderOptions> implements IRender
      */
     abstract mergeDefaultOpt(options: TOpt): TOpt;
     refLookup($ref: string) {
-        const refName = $ref.replace('#/definitions/', '')
-        return this.schema.definitions?.[refName];
+      return refLookup($ref, this.schema)
     }
     addUtil(util: string) {
         this.utils[util] = true;
