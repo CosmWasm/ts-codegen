@@ -193,9 +193,9 @@ exports[`query classes 1`] = `
     this.wasm = this.wasm.bind(this);
   }
 
-  bank = async (): Promise<BankResponse> => {
+  bank = async (bankMsg: BankMsg): Promise<BankResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
-      bank: {}
+      bank: bankMsg
     });
   };
   custom = async (): Promise<CustomResponse> => {
@@ -203,19 +203,19 @@ exports[`query classes 1`] = `
       custom: {}
     });
   };
-  staking = async (): Promise<StakingResponse> => {
+  staking = async (stakingMsg: StakingMsg): Promise<StakingResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
-      staking: {}
+      staking: stakingMsg
     });
   };
-  distribution = async (): Promise<DistributionResponse> => {
+  distribution = async (distributionMsg: DistributionMsg): Promise<DistributionResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
-      distribution: {}
+      distribution: distributionMsg
     });
   };
-  wasm = async (): Promise<WasmResponse> => {
+  wasm = async (wasmMsg: WasmMsg): Promise<WasmResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
-      wasm: {}
+      wasm: wasmMsg
     });
   };
 }"

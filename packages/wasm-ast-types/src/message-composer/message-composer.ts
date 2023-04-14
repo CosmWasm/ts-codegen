@@ -14,6 +14,7 @@ import { JSONSchema } from '../types';
 import { RenderContext } from '../context';
 import { identifier } from '../utils/babel';
 import { getWasmMethodArgs } from '../client/client';
+import { Expression } from '@babel/types';
 
 const createWasmExecMethodMessageComposer = (
     context: RenderContext,
@@ -27,11 +28,19 @@ const createWasmExecMethodMessageComposer = (
 
     const underscoreName = Object.keys(jsonschema.properties)[0];
     const methodName = camel(underscoreName);
-    const obj = createTypedObjectParams(context, jsonschema.properties[underscoreName]);
+    const param = createTypedObjectParams(context, jsonschema.properties[underscoreName]);
     const args = getWasmMethodArgs(
         context,
         jsonschema.properties[underscoreName]
     );
+
+  // what the underscore named property in the message is assigned to
+  let actionValue: Expression
+  if (param?.type === 'Identifier') {
+    actionValue = t.identifier(param.name);
+  } else {
+    actionValue = t.objectExpression(args)
+  }
 
     const constantParams = [
         identifier('funds', t.tsTypeAnnotation(
@@ -46,9 +55,9 @@ const createWasmExecMethodMessageComposer = (
     return t.classProperty(
         t.identifier(methodName),
         arrowFunctionExpression(
-            obj ? [
+            param ? [
                 // props
-                obj,
+                param,
                 ...constantParams
             ] : constantParams,
             t.blockStatement(
@@ -95,10 +104,9 @@ const createWasmExecMethodMessageComposer = (
                                                             ),
                                                             [
                                                                 t.objectExpression(
-
                                                                     [
                                                                         t.objectProperty(
-                                                                            t.identifier(underscoreName), t.objectExpression(args)
+                                                                            t.identifier(underscoreName), actionValue
                                                                         )
                                                                     ]
 

@@ -269,3 +269,63 @@ exports[`execute classes 1`] = `
   };
 }"
 `;
+
+exports[`ownershipClass 1`] = `
+"export class OwnershipMessageComposer implements OwnershipMessage {
+  sender: string;
+  contractAddress: string;
+
+  constructor(sender: string, contractAddress: string) {
+    this.sender = sender;
+    this.contractAddress = contractAddress;
+    this.setFactory = this.setFactory.bind(this);
+    this.updateOwnership = this.updateOwnership.bind(this);
+  }
+
+  setFactory = ({
+    newFactory
+  }: {
+    newFactory: string;
+  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    return {
+      typeUrl: \\"/cosmwasm.wasm.v1.MsgExecuteContract\\",
+      value: MsgExecuteContract.fromPartial({
+        sender: this.sender,
+        contract: this.contractAddress,
+        msg: toUtf8(JSON.stringify({
+          set_factory: {
+            new_factory: newFactory
+          }
+        })),
+        funds
+      })
+    };
+  };
+  updateOwnership = (action: Action, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    return {
+      typeUrl: \\"/cosmwasm.wasm.v1.MsgExecuteContract\\",
+      value: MsgExecuteContract.fromPartial({
+        sender: this.sender,
+        contract: this.contractAddress,
+        msg: toUtf8(JSON.stringify({
+          update_ownership: action
+        })),
+        funds
+      })
+    };
+  };
+}"
+`;
+
+exports[`ownershipInterface 1`] = `
+"export interface OwnershipMessage {
+  contractAddress: string;
+  sender: string;
+  setFactory: ({
+    newFactory
+  }: {
+    newFactory: string;
+  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  updateOwnership: (action: Action, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+}"
+`;

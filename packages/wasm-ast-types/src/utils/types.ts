@@ -1,5 +1,5 @@
 import * as t from '@babel/types';
-import { camel, pascal } from 'case';
+import { camel, pascal, snake } from 'case';
 import { propertySignature } from './babel';
 import { TSTypeAnnotation } from '@babel/types';
 import { RenderContext } from '../context';
@@ -425,15 +425,22 @@ export const createTypedObjectParams = (
   context: RenderContext,
   jsonschema: JSONSchema,
   camelize: boolean = true
-): t.ObjectPattern => {
+): (t.Identifier | t.Pattern | t.RestElement) => {
 
   const keys = Object.keys(jsonschema.properties ?? {});
   if (!keys.length) {
-
     // is there a ref?
     if (jsonschema.$ref) {
       const obj = context.refLookup(jsonschema.$ref);
-      if (obj) {
+      // If there is a oneOf, then we need to create a type for it
+      if (obj?.oneOf) {
+        // the actual type of the ref
+        const refType = jsonschema.$ref.split('/').pop();
+        const refName = camel(refType);
+        const id = t.identifier(refName);
+        id.typeAnnotation = t.tsTypeAnnotation(t.tsTypeReference(t.identifier(refType)));
+        return id
+      } else if (obj) {
         return createTypedObjectParams(
           context,
           obj,
