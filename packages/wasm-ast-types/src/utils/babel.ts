@@ -1,7 +1,7 @@
 import * as t from '@babel/types';
 import { snake } from "case";
 import { Field, QueryMsg, ExecuteMsg } from '../types';
-import { TSTypeAnnotation, TSExpressionWithTypeArguments } from '@babel/types';
+import { TSTypeAnnotation, TSExpressionWithTypeArguments, Identifier } from '@babel/types';
 import { refLookup } from './ref';
 
 // t.TSPropertySignature - kind?
@@ -110,7 +110,7 @@ export const bindMethod = (name: string) => {
     )
 }
 
-export const typedIdentifier = (name: string, typeAnnotation: TSTypeAnnotation, optional: boolean = false) => {
+export const typedIdentifier = (name: string, typeAnnotation: TSTypeAnnotation, optional: boolean = false): Identifier => {
     const type = t.identifier(name);
     type.typeAnnotation = typeAnnotation;
     type.optional = optional;

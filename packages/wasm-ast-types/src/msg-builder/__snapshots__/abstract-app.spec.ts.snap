@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`readonly manager 1`] = `
+"export class ReadOnlyAutocompounderManager implements IReadOnlyAutocompounderManager {
+  queryClient: AbstractQueryClient;
+  moduleId: string;
+
+  constructor({
+    abstract,
+    accountId,
+    managerAddress,
+    proxyAddress,
+    moduleId
+  }) {
+    this.queryClient = new AbstractAccountQueryClient({
+      abstract,
+      accountId,
+      managerAddress,
+      proxyAddress
+    });
+    this.moduleId = moduleId;
+    this.config = this.config.bind(this);
+    this.pendingClaims = this.pendingClaims.bind(this);
+    this.claims = this.claims.bind(this);
+    this.allClaims = this.allClaims.bind(this);
+    this.latestUnbonding = this.latestUnbonding.bind(this);
+    this.totalLpPosition = this.totalLpPosition.bind(this);
+    this.balance = this.balance.bind(this);
+  }
+
+  config = async (): Promise<ConfigResponse> => {
+    return this.queryApp(AutocompounderQueryMsgBuilder.config());
+  };
+  pendingClaims = async (params: CamelCasedProperties<Extract<Autocompounder, {
+    pending_claims: unknown;
+  }>[\\"pending_claims\\"]>): Promise<PendingClaimsResponse> => {
+    return this.queryApp(AutocompounderQueryMsgBuilder.pendingClaims(params));
+  };
+  claims = async (params: CamelCasedProperties<Extract<Autocompounder, {
+    claims: unknown;
+  }>[\\"claims\\"]>): Promise<ClaimsResponse> => {
+    return this.queryApp(AutocompounderQueryMsgBuilder.claims(params));
+  };
+  allClaims = async (params: CamelCasedProperties<Extract<Autocompounder, {
+    all_claims: unknown;
+  }>[\\"all_claims\\"]>): Promise<AllClaimsResponse> => {
+    return this.queryApp(AutocompounderQueryMsgBuilder.allClaims(params));
+  };
+  latestUnbonding = async (): Promise<LatestUnbondingResponse> => {
+    return this.queryApp(AutocompounderQueryMsgBuilder.latestUnbonding());
+  };
+  totalLpPosition = async (): Promise<TotalLpPositionResponse> => {
+    return this.queryApp(AutocompounderQueryMsgBuilder.totalLpPosition());
+  };
+  balance = async (params: CamelCasedProperties<Extract<Autocompounder, {
+    balance: unknown;
+  }>[\\"balance\\"]>): Promise<BalanceResponse> => {
+    return this.queryApp(AutocompounderQueryMsgBuilder.balance(params));
+  };
+}"
+`;
