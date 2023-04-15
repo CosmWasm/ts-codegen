@@ -6,15 +6,17 @@ import {
   bindMethod,
   classDeclaration,
   classProperty,
+  createExtractTypeAnnotation,
   getMessageProperties,
   getResponseType,
-  shorthandProperty,
-  typedIdentifier
+  identifier,
+  promiseTypeAnnotation,
+  shorthandProperty
 } from '../utils';
 import { ExecuteMsg, QueryMsg } from '../types';
 import { createTypedObjectParams } from '../utils/types';
 import { RenderContext } from '../context';
-import { createWasmQueryMethod, getWasmMethodArgs } from '../client/client';
+import { getWasmMethodArgs } from '../client/client';
 
 export const createAbstractAppClass = (
   context: RenderContext,
@@ -34,13 +36,159 @@ export const createAbstractAppClass = (
 
 const classVariables = {
   moduleId: t.identifier('moduleId'),
-  queryClient: t.identifier('queryClient'),
+  queryClient: t.identifier('queryClient')
 };
 
 const ABSTRACT_QUERY_CLIENT = 'AbstractQueryClient';
-
 const ABSTRACT_ACCOUNT_QUERY_CLIENT = 'AbstractAccountQueryClient';
-export const createReadOnlyAppManager = (
+
+function extractCamelcasedQueryParams(jsonschema, underscoreName: string) {
+  const queryParams = Object.keys(
+    jsonschema.properties[underscoreName]?.properties ?? {}
+  );
+
+  // the actual type of the ref
+  const methodParam = t.identifier('params');
+  methodParam.typeAnnotation = createExtractTypeAnnotation(
+    underscoreName,
+    'QueryMsg'
+  );
+
+  const parameters = queryParams.length ? [methodParam] : [];
+  return parameters;
+}
+
+/**
+ * The address and connect methods in the interface.
+ */
+const staticInterfaceMethods = () => {
+  return [
+    t.tsPropertySignature(
+      t.identifier('connect'),
+      t.tsTypeAnnotation(
+        t.tsFunctionType(
+          undefined,
+          // params
+          [
+            identifier(
+              'signingClient',
+              t.tsTypeAnnotation(
+                t.tsTypeReference(t.identifier('SigningCosmWasmClient'))
+              )
+            ),
+            identifier('address', t.tsTypeAnnotation(t.tsStringKeyword()))
+          ],
+          // Return
+          t.tsTypeAnnotation(
+            t.tsTypeReference(t.identifier('ConnectedVaultManager'))
+          )
+        )
+      )
+    ),
+    t.tsPropertySignature(
+      t.identifier('address'),
+      t.tsTypeAnnotation(
+        t.tsFunctionType(
+          undefined,
+          [],
+          // return
+          promiseTypeAnnotation('string')
+        )
+      )
+    )
+  ];
+};
+
+export const createAppQueryInterface = (
+  context: RenderContext,
+  className: string,
+  queryMsg: QueryMsg
+) => {
+  const methods = getMessageProperties(queryMsg).map((jsonschema) => {
+    const underscoreName = Object.keys(jsonschema.properties)[0];
+    const methodName = camel(underscoreName);
+    const responseType = getResponseType(context, underscoreName);
+    const parameters = extractCamelcasedQueryParams(jsonschema, underscoreName);
+
+    const func = {
+      type: 'TSFunctionType',
+      typeAnnotation: promiseTypeAnnotation(responseType),
+      parameters
+    };
+
+    return t.tSPropertySignature(
+      t.identifier(methodName),
+      // @ts-ignore
+      t.tsTypeAnnotation(func)
+    );
+  });
+
+  return t.exportNamedDeclaration(
+    t.tsInterfaceDeclaration(
+      t.identifier(className),
+      null,
+      [],
+      t.tSInterfaceBody([
+        t.tSPropertySignature(
+          classVariables.moduleId,
+          t.tsTypeAnnotation(t.tsStringKeyword())
+        ),
+        t.tSPropertySignature(
+          classVariables.queryClient,
+          t.tsTypeAnnotation(
+            t.tsTypeReference(t.identifier(ABSTRACT_QUERY_CLIENT))
+          )
+        ),
+        ...methods,
+        ...staticInterfaceMethods()
+      ])
+    )
+  );
+};
+
+const QUERY_APP_FN = t.classProperty(
+  t.identifier('queryApp'),
+  t.arrowFunctionExpression(
+    [t.identifier('queryMsg')],
+    t.blockStatement(
+      [
+        t.returnStatement(
+          t.callExpression(
+            t.memberExpression(
+              t.memberExpression(
+                t.thisExpression(),
+                classVariables.queryClient
+              ),
+              t.identifier('queryModule')
+            ),
+            [
+              t.objectExpression([
+                t.objectProperty(
+                  t.identifier('moduleId'),
+                  t.memberExpression(
+                    t.thisExpression(),
+                    classVariables.moduleId
+                  )
+                ),
+                t.objectProperty(
+                  t.identifier('moduleType'),
+                  t.stringLiteral('app')
+                ),
+                shorthandProperty('queryMsg')
+              ])
+            ]
+          )
+        )
+      ],
+      []
+    ),
+    false
+  ),
+  promiseTypeAnnotation('JsonObject'),
+  [t.decorator(t.identifier('private'))]
+);
+
+export const createAppQueryClass = (
   context: RenderContext,
   _moduleName: string,
   className: string,
@@ -64,56 +212,9 @@ export const createReadOnlyAppManager = (
     return createAppQueryMethod(context, moduleName, schema);
   });
 
-  methods.push(
-    t.classProperty(
-      t.identifier('queryApp'),
-      t.arrowFunctionExpression(
-        [t.identifier('queryMsg')],
-        t.blockStatement(
-          [
-            t.returnStatement(
-              t.callExpression(
-                t.memberExpression(
-                  t.memberExpression(
-                    t.thisExpression(),
-                    classVariables.queryClient
-                  ),
-                  t.identifier('queryModule')
-                ),
-                [
-                  t.objectExpression([
-                    t.objectProperty(
-                      t.identifier('moduleId'),
-                      t.memberExpression(
-                        t.thisExpression(),
-                        classVariables.moduleId
-                      )
-                    ),
-                    t.objectProperty(
-                      t.identifier('moduleType'),
-                      t.stringLiteral('app')
-                    ),
-                    shorthandProperty('queryMsg')
-                  ])
-                ]
-              )
-            )
-          ],
-          []
-        ),
-        false
-      ),
-      t.tsTypeAnnotation(
-        t.tsTypeReference(
-          t.identifier('Promise'),
-          t.tsTypeParameterInstantiation([
-            t.tsTypeReference(t.identifier('JsonObject'))
-          ])
-        )
-      ),
-      [t.decorator(t.identifier('private'))]
-    )
-  );
+  methods.push(QUERY_APP_FN);
+  methods.push(ADDRESS_METHOD);
+  methods.push(connectMethod(`${moduleName}Client`));
 
   return t.exportNamedDeclaration(
     classDeclaration(
@@ -182,6 +283,97 @@ export const createReadOnlyAppManager = (
   );
 };
 
+const ADDRESS_METHOD = t.classProperty(
+  t.identifier('address'),
+  t.arrowFunctionExpression(
+    [],
+    t.blockStatement([
+      t.returnStatement(
+        t.callExpression(
+          t.memberExpression(
+            t.memberExpression(t.thisExpression(), t.identifier('queryClient')),
+            t.identifier('getModuleAddress')
+          ),
+          [t.memberExpression(t.thisExpression(), t.identifier('moduleId'))]
+        )
+      )
+    ])
+  ),
+  t.tsTypeAnnotation(
+    t.tsTypeReference(
+      t.identifier('Promise'),
+      t.tsTypeParameterInstantiation([t.tsStringKeyword()])
+    )
+  )
+);
+
+//       t.tsTypeAnnotation(t.tsTypeReference(t.identifier('VaultManager'))),
+//       false,
+const connectMethod = (mutClientName: string) => {
+  return t.classProperty(
+    t.identifier('connect'),
+    t.arrowFunctionExpression(
+      [t.identifier('signingClient'), t.identifier('address')],
+      t.blockStatement([
+        t.returnStatement(
+          t.newExpression(t.identifier(mutClientName), [
+            t.objectExpression([
+              t.objectProperty(
+                t.identifier('accountId'),
+                t.memberExpression(
+                  t.memberExpression(
+                    t.thisExpression(),
+                    t.identifier('queryClient')
+                  ),
+                  t.identifier('accountId')
+                )
+              ),
+              t.objectProperty(
+                t.identifier('managerAddress'),
+                t.memberExpression(
+                  t.memberExpression(
+                    t.thisExpression(),
+                    classVariables.queryClient
+                  ),
+                  t.identifier('managerAddress')
+                )
+              ),
+              t.objectProperty(
+                t.identifier('proxyAddress'),
+                t.memberExpression(
+                  t.memberExpression(
+                    t.thisExpression(),
+                    classVariables.queryClient
+                  ),
+                  t.identifier('proxyAddress')
+                )
+              ),
+              t.objectProperty(
+                t.identifier('abstract'),
+                t.callExpression(
+                  t.memberExpression(
+                    t.memberExpression(
+                      t.memberExpression(
+                        t.thisExpression(),
+                        classVariables.queryClient
+                      ),
+                      t.identifier('abstract')
+                    ),
+                    t.identifier('upgrade')
+                  ),
+                  [t.identifier('signingClient'), t.identifier('address')]
+                )
+              )
+            ])
+          ])
+        )
+      ])
+    ),
+    t.tsTypeAnnotation(t.tsTypeReference(t.identifier(mutClientName))),
+    []
+  );
+};
+
 /*
   public pendingClaims = async (
     params: ExtractCamelizedParams<AutocompounderQueryMsg, 'pending_claims'>
@@ -209,7 +401,7 @@ const createAppQueryMethod = (
     moduleName
   );
 
-  const parameters = queryParams.length ? [methodParam] : [];
+  const parameters = extractCamelcasedQueryParams(schema, underscoreName);
 
   return t.classProperty(
     t.identifier(methodName),
@@ -231,46 +423,11 @@ const createAppQueryMethod = (
           )
         )
       ]),
-      t.tsTypeAnnotation(
-        t.tsTypeReference(
-          t.identifier('Promise'),
-          t.tsTypeParameterInstantiation([
-            t.tSTypeReference(t.identifier(responseType))
-          ])
-        )
-      ),
+      promiseTypeAnnotation(responseType),
       true
     )
   );
 };
-
-/**
- * CamelCasedProperties<Extract<ExecuteMsg, { exec_on_module: unknown }>['exec_on_module']>
- */
-function createExtractTypeAnnotation(underscoreName: string, msgTitle: string) {
-  return t.tsTypeAnnotation(
-    t.tsTypeReference(
-      t.identifier('CamelCasedProperties'),
-      t.tsTypeParameterInstantiation([
-        t.tsIndexedAccessType(
-          t.tsTypeReference(
-            t.identifier('Extract'),
-            t.tsTypeParameterInstantiation([
-              t.tsTypeReference(t.identifier(msgTitle)),
-              t.tsTypeLiteral([
-                t.tsPropertySignature(
-                  t.identifier(underscoreName),
-                  t.tsTypeAnnotation(t.tsUnknownKeyword())
-                )
-              ])
-            ])
-          ),
-          t.tsLiteralType(t.stringLiteral(underscoreName))
-        )
-      ])
-    )
-  );
-}
 
 const createStaticExecMethodMsgBuilder = (
   context: RenderContext,

@@ -1,7 +1,6 @@
 import * as t from '@babel/types';
 import { camel, pascal } from 'case';
 import { propertySignature } from './babel';
-import { TSTypeAnnotation } from '@babel/types';
 import { RenderContext } from '../context';
 import { JSONSchema } from '../types';
 
@@ -469,3 +468,31 @@ export const createTypedObjectParams = (
 
   return obj;
 };
+
+/**
+ * CamelCasedProperties<Extract<ExecuteMsg, { exec_on_module: unknown }>['exec_on_module']>
+ */
+export function createExtractTypeAnnotation(underscoreName: string, msgTitle: string) {
+    return t.tsTypeAnnotation(
+        t.tsTypeReference(
+            t.identifier('CamelCasedProperties'),
+            t.tsTypeParameterInstantiation([
+                t.tsIndexedAccessType(
+                    t.tsTypeReference(
+                        t.identifier('Extract'),
+                        t.tsTypeParameterInstantiation([
+                            t.tsTypeReference(t.identifier(msgTitle)),
+                            t.tsTypeLiteral([
+                                t.tsPropertySignature(
+                                    t.identifier(underscoreName),
+                                    t.tsTypeAnnotation(t.tsUnknownKeyword())
+                                )
+                            ])
+                        ])
+                    ),
+                    t.tsLiteralType(t.stringLiteral(underscoreName))
+                )
+            ])
+        )
+    );
+}

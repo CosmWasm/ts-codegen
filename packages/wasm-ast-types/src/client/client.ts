@@ -7,8 +7,8 @@ import {
   classDeclaration,
   classProperty,
   arrowFunctionExpression,
-  getMessageProperties
-} from '../utils'
+  getMessageProperties, createExtractTypeAnnotation
+} from '../utils';
 
 import {
   QueryMsg,
@@ -507,6 +507,34 @@ export const createExecuteInterface = (
           ...methods,
         ]
       )
+    )
+  );
+};
+
+export const createPropertyFunctionWithExtractedParams = (
+  context: RenderContext,
+  methodName: string,
+  responseType: string,
+  msgTitle: string,
+  jsonschema: JSONSchema,
+) => {
+  const obj = createTypedObjectParams(context, jsonschema);
+
+  if (obj) {
+    // obj.typeAnnotation = createExtractTypeAnnotation(methodName, msgTitle)
+  }
+
+  const func = {
+    type: 'TSFunctionType',
+    typeAnnotation: promiseTypeAnnotation(responseType),
+    parameters: []
+  };
+
+  return t.tSPropertySignature(
+    t.identifier(methodName),
+    t.tsTypeAnnotation(
+      // @ts-ignore:next-line
+      func
     )
   );
 };

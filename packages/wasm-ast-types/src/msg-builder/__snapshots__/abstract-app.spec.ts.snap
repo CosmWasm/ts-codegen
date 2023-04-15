@@ -1,5 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`readonly imanager 1`] = `
+"export interface IReadOnlyAutocompounderManager {
+  moduleId: string;
+  queryClient: AbstractQueryClient;
+  config: () => Promise<ConfigResponse>;
+  pendingClaims: (params: CamelCasedProperties<Extract<QueryMsg, {
+    pending_claims: unknown;
+  }>[\\"pending_claims\\"]>) => Promise<PendingClaimsResponse>;
+  claims: (params: CamelCasedProperties<Extract<QueryMsg, {
+    claims: unknown;
+  }>[\\"claims\\"]>) => Promise<ClaimsResponse>;
+  allClaims: (params: CamelCasedProperties<Extract<QueryMsg, {
+    all_claims: unknown;
+  }>[\\"all_claims\\"]>) => Promise<AllClaimsResponse>;
+  latestUnbonding: () => Promise<LatestUnbondingResponse>;
+  totalLpPosition: () => Promise<TotalLpPositionResponse>;
+  balance: (params: CamelCasedProperties<Extract<QueryMsg, {
+    balance: unknown;
+  }>[\\"balance\\"]>) => Promise<BalanceResponse>;
+  connect: (signingClient: SigningCosmWasmClient, address: string) => ConnectedVaultManager;
+  address: () => Promise<string>;
+}"
+`;
+
 exports[`readonly manager 1`] = `
 "export class ReadOnlyAutocompounderManager implements IReadOnlyAutocompounderManager {
   queryClient: AbstractQueryClient;
@@ -31,17 +55,17 @@ exports[`readonly manager 1`] = `
   config = async (): Promise<ConfigResponse> => {
     return this.queryApp(AutocompounderQueryMsgBuilder.config());
   };
-  pendingClaims = async (params: CamelCasedProperties<Extract<Autocompounder, {
+  pendingClaims = async (params: CamelCasedProperties<Extract<QueryMsg, {
     pending_claims: unknown;
   }>[\\"pending_claims\\"]>): Promise<PendingClaimsResponse> => {
     return this.queryApp(AutocompounderQueryMsgBuilder.pendingClaims(params));
   };
-  claims = async (params: CamelCasedProperties<Extract<Autocompounder, {
+  claims = async (params: CamelCasedProperties<Extract<QueryMsg, {
     claims: unknown;
   }>[\\"claims\\"]>): Promise<ClaimsResponse> => {
     return this.queryApp(AutocompounderQueryMsgBuilder.claims(params));
   };
-  allClaims = async (params: CamelCasedProperties<Extract<Autocompounder, {
+  allClaims = async (params: CamelCasedProperties<Extract<QueryMsg, {
     all_claims: unknown;
   }>[\\"all_claims\\"]>): Promise<AllClaimsResponse> => {
     return this.queryApp(AutocompounderQueryMsgBuilder.allClaims(params));
@@ -52,10 +76,29 @@ exports[`readonly manager 1`] = `
   totalLpPosition = async (): Promise<TotalLpPositionResponse> => {
     return this.queryApp(AutocompounderQueryMsgBuilder.totalLpPosition());
   };
-  balance = async (params: CamelCasedProperties<Extract<Autocompounder, {
+  balance = async (params: CamelCasedProperties<Extract<QueryMsg, {
     balance: unknown;
   }>[\\"balance\\"]>): Promise<BalanceResponse> => {
     return this.queryApp(AutocompounderQueryMsgBuilder.balance(params));
+  };
+  @private
+  queryApp: Promise<JsonObject> = queryMsg => {
+    return this.queryClient.queryModule({
+      moduleId: this.moduleId,
+      moduleType: \\"app\\",
+      queryMsg
+    });
+  };
+  address: Promise<string> = () => {
+    return this.queryClient.getModuleAddress(this.moduleId);
+  };
+  connect: VaultClient = (signingClient, address) => {
+    return new VaultClient({
+      accountId: this.queryClient.accountId,
+      managerAddress: this.queryClient.managerAddress,
+      proxyAddress: this.queryClient.proxyAddress,
+      abstract: this.queryClient.abstract.upgrade(signingClient, address)
+    });
   };
 }"
 `;
