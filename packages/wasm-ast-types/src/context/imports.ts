@@ -48,6 +48,10 @@ export const UTILS = {
   CosmWasmClient: '@cosmjs/cosmwasm-stargate',
   ExecuteResult: '@cosmjs/cosmwasm-stargate',
   SigningCosmWasmClient: '@cosmjs/cosmwasm-stargate',
+  AbstractClient: '@abstract-money/abstract.js',
+  AbstractQueryClient: '@abstract-money/abstract.js',
+  AbstractAccountClient: '@abstract-money/abstract.js',
+  AbstractAccountQueryClient: '@abstract-money/abstract.js',
 
   // react-query
   useQuery: makeReactQuerySwitch('useQuery'),

@@ -14,6 +14,11 @@ export interface ReactQueryOptions {
     queryFactory?: boolean
 }
 
+export interface AbstractAppOptions {
+  enabled?: boolean;
+  queryFactory?: boolean;
+}
+
 export interface TSClientOptions {
     enabled?: boolean;
     execExtendsQuery?: boolean;
@@ -63,6 +68,7 @@ export interface RenderOptions {
     msgBuilder?: MsgBuilderOptions;
     client?: TSClientOptions;
     reactQuery?: ReactQueryOptions;
+    abstractApp?: AbstractAppOptions
 }
 
 
