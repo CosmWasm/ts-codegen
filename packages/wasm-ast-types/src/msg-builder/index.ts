@@ -1,1 +1,1 @@
-export * from './abstract-app';
+export * from './msg-builder';

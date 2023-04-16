@@ -1,0 +1,1172 @@
+{
+  "contract_name": "module-schema",
+  "contract_version": "0.9.0",
+  "idl_version": "1.0.0",
+  "instantiate": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "InstantiateMsg",
+    "type": "object",
+    "required": [
+      "subscription"
+    ],
+    "properties": {
+      "contribution": {
+        "anyOf": [
+          {
+            "$ref": "#/definitions/ContributionInstantiateMsg"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "subscription": {
+        "$ref": "#/definitions/SubscriptionInstantiateMsg"
+      }
+    },
+    "additionalProperties": false,
+    "definitions": {
+      "AssetInfoBase_for_String": {
+        "description": "Represents the type of an fungible asset.\n\nEach **asset info** instance can be one of three variants:\n\n- Native SDK coins. To create an **asset info** instance of this type, provide the denomination. - CW20 tokens. To create an **asset info** instance of this type, provide the contract address.",
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "native"
+            ],
+            "properties": {
+              "native": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "required": [
+              "cw20"
+            ],
+            "properties": {
+              "cw20": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      },
+      "ContributionInstantiateMsg": {
+        "type": "object",
+        "required": [
+          "emission_user_share",
+          "emissions_amp_factor",
+          "emissions_offset",
+          "income_averaging_period",
+          "max_emissions_multiple",
+          "protocol_income_share",
+          "token_info"
+        ],
+        "properties": {
+          "emission_user_share": {
+            "$ref": "#/definitions/Decimal"
+          },
+          "emissions_amp_factor": {
+            "$ref": "#/definitions/Uint128"
+          },
+          "emissions_offset": {
+            "$ref": "#/definitions/Uint128"
+          },
+          "income_averaging_period": {
+            "$ref": "#/definitions/Uint64"
+          },
+          "max_emissions_multiple": {
+            "$ref": "#/definitions/Decimal"
+          },
+          "protocol_income_share": {
+            "$ref": "#/definitions/Decimal"
+          },
+          "token_info": {
+            "$ref": "#/definitions/AssetInfoBase_for_String"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Decimal": {
+        "description": "A fixed-point decimal value with 18 fractional digits, i.e. Decimal(1_000_000_000_000_000_000) == 1.0\n\nThe greatest possible value that can be represented is 340282366920938463463.374607431768211455 (which is (2^128 - 1) / 10^18)",
+        "type": "string"
+      },
+      "SubscriptionInstantiateMsg": {
+        "type": "object",
+        "required": [
+          "factory_addr",
+          "payment_asset",
+          "subscription_cost_per_block",
+          "subscription_per_block_emissions",
+          "version_control_addr"
+        ],
+        "properties": {
+          "factory_addr": {
+            "type": "string"
+          },
+          "payment_asset": {
+            "description": "Payment asset for",
+            "allOf": [
+              {
+                "$ref": "#/definitions/AssetInfoBase_for_String"
+              }
+            ]
+          },
+          "subscription_cost_per_block": {
+            "$ref": "#/definitions/Decimal"
+          },
+          "subscription_per_block_emissions": {
+            "$ref": "#/definitions/UncheckedEmissionType"
+          },
+          "version_control_addr": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Uint128": {
+        "description": "A thin wrapper around u128 that is using strings for JSON encoding/decoding, such that the full u128 range can be used for clients that convert JSON numbers to floats, like JavaScript and jq.\n\n# Examples\n\nUse `from` to create instances of this and `u128` to get the value out:\n\n``` # use cosmwasm_std::Uint128; let a = Uint128::from(123u128); assert_eq!(a.u128(), 123);\n\nlet b = Uint128::from(42u64); assert_eq!(b.u128(), 42);\n\nlet c = Uint128::from(70u32); assert_eq!(c.u128(), 70); ```",
+        "type": "string"
+      },
+      "Uint64": {
+        "description": "A thin wrapper around u64 that is using strings for JSON encoding/decoding, such that the full u64 range can be used for clients that convert JSON numbers to floats, like JavaScript and jq.\n\n# Examples\n\nUse `from` to create instances of this and `u64` to get the value out:\n\n``` # use cosmwasm_std::Uint64; let a = Uint64::from(42u64); assert_eq!(a.u64(), 42);\n\nlet b = Uint64::from(70u32); assert_eq!(b.u64(), 70); ```",
+        "type": "string"
+      },
+      "UncheckedEmissionType": {
+        "description": "Setting for protocol token emissions",
+        "oneOf": [
+          {
+            "type": "string",
+            "enum": [
+              "None"
+            ]
+          },
+          {
+            "description": "A fixed number of tokens are distributed to users on a per-block basis. emission = block_shared / total_subscribers",
+            "type": "object",
+            "required": [
+              "BlockShared"
+            ],
+            "properties": {
+              "BlockShared": {
+                "type": "array",
+                "items": [
+                  {
+                    "$ref": "#/definitions/Decimal"
+                  },
+                  {
+                    "$ref": "#/definitions/AssetInfoBase_for_String"
+                  }
+                ],
+                "maxItems": 2,
+                "minItems": 2
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "description": "Each user receives a fixed number of tokens on a per-block basis. emission = block_per_user",
+            "type": "object",
+            "required": [
+              "BlockPerUser"
+            ],
+            "properties": {
+              "BlockPerUser": {
+                "type": "array",
+                "items": [
+                  {
+                    "$ref": "#/definitions/Decimal"
+                  },
+                  {
+                    "$ref": "#/definitions/AssetInfoBase_for_String"
+                  }
+                ],
+                "maxItems": 2,
+                "minItems": 2
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "description": "Requires contribution functionality to be active Emissions will be based on protocol income and user/contributor split. See [`ContributionConfig`]",
+            "type": "object",
+            "required": [
+              "IncomeBased"
+            ],
+            "properties": {
+              "IncomeBased": {
+                "$ref": "#/definitions/AssetInfoBase_for_String"
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    }
+  },
+  "execute": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "ExecuteMsg",
+    "oneOf": [
+      {
+        "type": "object",
+        "required": [
+          "pay"
+        ],
+        "properties": {
+          "pay": {
+            "type": "object",
+            "required": [
+              "os_id"
+            ],
+            "properties": {
+              "os_id": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0.0
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "unsubscribe"
+        ],
+        "properties": {
+          "unsubscribe": {
+            "type": "object",
+            "required": [
+              "os_ids"
+            ],
+            "properties": {
+              "os_ids": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "uint32",
+                  "minimum": 0.0
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "claim_compensation"
+        ],
+        "properties": {
+          "claim_compensation": {
+            "type": "object",
+            "required": [
+              "os_id"
+            ],
+            "properties": {
+              "os_id": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0.0
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "claim_emissions"
+        ],
+        "properties": {
+          "claim_emissions": {
+            "type": "object",
+            "required": [
+              "os_id"
+            ],
+            "properties": {
+              "os_id": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0.0
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "update_contributor"
+        ],
+        "properties": {
+          "update_contributor": {
+            "type": "object",
+            "required": [
+              "contributor_os_id"
+            ],
+            "properties": {
+              "base_per_block": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/Decimal"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "contributor_os_id": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0.0
+              },
+              "expiration_block": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/Uint64"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "weight": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/Uint64"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "remove_contributor"
+        ],
+        "properties": {
+          "remove_contributor": {
+            "type": "object",
+            "required": [
+              "os_id"
+            ],
+            "properties": {
+              "os_id": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0.0
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "update_subscription_config"
+        ],
+        "properties": {
+          "update_subscription_config": {
+            "type": "object",
+            "properties": {
+              "factory_address": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "payment_asset": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/AssetInfoBase_for_String"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "subscription_cost": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/Decimal"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "version_control_address": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "update_contribution_config"
+        ],
+        "properties": {
+          "update_contribution_config": {
+            "type": "object",
+            "properties": {
+              "emission_user_share": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/Decimal"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "emissions_amp_factor": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/Uint128"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "emissions_offset": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/Uint128"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "max_emissions_multiple": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/Decimal"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "project_token_info": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/AssetInfoBase_for_String"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "protocol_income_share": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/Decimal"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    ],
+    "definitions": {
+      "AssetInfoBase_for_String": {
+        "description": "Represents the type of an fungible asset.\n\nEach **asset info** instance can be one of three variants:\n\n- Native SDK coins. To create an **asset info** instance of this type, provide the denomination. - CW20 tokens. To create an **asset info** instance of this type, provide the contract address.",
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "native"
+            ],
+            "properties": {
+              "native": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "required": [
+              "cw20"
+            ],
+            "properties": {
+              "cw20": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      },
+      "Decimal": {
+        "description": "A fixed-point decimal value with 18 fractional digits, i.e. Decimal(1_000_000_000_000_000_000) == 1.0\n\nThe greatest possible value that can be represented is 340282366920938463463.374607431768211455 (which is (2^128 - 1) / 10^18)",
+        "type": "string"
+      },
+      "Uint128": {
+        "description": "A thin wrapper around u128 that is using strings for JSON encoding/decoding, such that the full u128 range can be used for clients that convert JSON numbers to floats, like JavaScript and jq.\n\n# Examples\n\nUse `from` to create instances of this and `u128` to get the value out:\n\n``` # use cosmwasm_std::Uint128; let a = Uint128::from(123u128); assert_eq!(a.u128(), 123);\n\nlet b = Uint128::from(42u64); assert_eq!(b.u128(), 42);\n\nlet c = Uint128::from(70u32); assert_eq!(c.u128(), 70); ```",
+        "type": "string"
+      },
+      "Uint64": {
+        "description": "A thin wrapper around u64 that is using strings for JSON encoding/decoding, such that the full u64 range can be used for clients that convert JSON numbers to floats, like JavaScript and jq.\n\n# Examples\n\nUse `from` to create instances of this and `u64` to get the value out:\n\n``` # use cosmwasm_std::Uint64; let a = Uint64::from(42u64); assert_eq!(a.u64(), 42);\n\nlet b = Uint64::from(70u32); assert_eq!(b.u64(), 70); ```",
+        "type": "string"
+      }
+    }
+  },
+  "query": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "QueryMsg",
+    "oneOf": [
+      {
+        "type": "object",
+        "required": [
+          "state"
+        ],
+        "properties": {
+          "state": {
+            "type": "object",
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "config"
+        ],
+        "properties": {
+          "config": {
+            "type": "object",
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "fee"
+        ],
+        "properties": {
+          "fee": {
+            "type": "object",
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "subscriber_state"
+        ],
+        "properties": {
+          "subscriber_state": {
+            "type": "object",
+            "required": [
+              "os_id"
+            ],
+            "properties": {
+              "os_id": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0.0
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "contributor_state"
+        ],
+        "properties": {
+          "contributor_state": {
+            "type": "object",
+            "required": [
+              "os_id"
+            ],
+            "properties": {
+              "os_id": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0.0
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  "migrate": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "MigrateMsg",
+    "type": "object",
+    "additionalProperties": false
+  },
+  "sudo": null,
+  "responses": {
+    "config": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ConfigResponse",
+      "type": "object",
+      "required": [
+        "contribution",
+        "subscription"
+      ],
+      "properties": {
+        "contribution": {
+          "$ref": "#/definitions/ContributionConfig"
+        },
+        "subscription": {
+          "$ref": "#/definitions/SubscriptionConfig"
+        }
+      },
+      "additionalProperties": false,
+      "definitions": {
+        "Addr": {
+          "description": "A human readable address.\n\nIn Cosmos, this is typically bech32 encoded. But for multi-chain smart contracts no assumptions should be made other than being UTF-8 encoded and of reasonable length.\n\nThis type represents a validated address. It can be created in the following ways 1. Use `Addr::unchecked(input)` 2. Use `let checked: Addr = deps.api.addr_validate(input)?` 3. Use `let checked: Addr = deps.api.addr_humanize(canonical_addr)?` 4. Deserialize from JSON. This must only be done from JSON that was validated before such as a contract's state. `Addr` must not be used in messages sent by the user because this would result in unvalidated instances.\n\nThis type is immutable. If you really need to mutate it (Really? Are you sure?), create a mutable copy using `let mut mutable = Addr::to_string()` and operate on that `String` instance.",
+          "type": "string"
+        },
+        "AssetInfoBase_for_Addr": {
+          "description": "Represents the type of an fungible asset.\n\nEach **asset info** instance can be one of three variants:\n\n- Native SDK coins. To create an **asset info** instance of this type, provide the denomination. - CW20 tokens. To create an **asset info** instance of this type, provide the contract address.",
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "native"
+              ],
+              "properties": {
+                "native": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "required": [
+                "cw20"
+              ],
+              "properties": {
+                "cw20": {
+                  "$ref": "#/definitions/Addr"
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "ContributionConfig": {
+          "type": "object",
+          "required": [
+            "emission_user_share",
+            "emissions_amp_factor",
+            "emissions_offset",
+            "max_emissions_multiple",
+            "protocol_income_share",
+            "token_info"
+          ],
+          "properties": {
+            "emission_user_share": {
+              "description": "Percentage of emissions allocated to users",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Decimal"
+                }
+              ]
+            },
+            "emissions_amp_factor": {
+              "description": "Emissions amplification factor in inverse emissions <-> target equation",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Uint128"
+                }
+              ]
+            },
+            "emissions_offset": {
+              "description": "Emissions offset factor in inverse emissions <-> target equation",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Uint128"
+                }
+              ]
+            },
+            "max_emissions_multiple": {
+              "description": "Max emissions (when income = 0) = max_emissions_multiple * floor_emissions",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Decimal"
+                }
+              ]
+            },
+            "protocol_income_share": {
+              "description": "Percentage of income that is redirected to the protocol",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Decimal"
+                }
+              ]
+            },
+            "token_info": {
+              "description": "token",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/AssetInfoBase_for_Addr"
+                }
+              ]
+            }
+          }
+        },
+        "Decimal": {
+          "description": "A fixed-point decimal value with 18 fractional digits, i.e. Decimal(1_000_000_000_000_000_000) == 1.0\n\nThe greatest possible value that can be represented is 340282366920938463463.374607431768211455 (which is (2^128 - 1) / 10^18)",
+          "type": "string"
+        },
+        "EmissionType": {
+          "description": "Setting for protocol token emissions",
+          "oneOf": [
+            {
+              "type": "string",
+              "enum": [
+                "None"
+              ]
+            },
+            {
+              "description": "emission = block_shared / total_subs",
+              "type": "object",
+              "required": [
+                "BlockShared"
+              ],
+              "properties": {
+                "BlockShared": {
+                  "type": "array",
+                  "items": [
+                    {
+                      "$ref": "#/definitions/Decimal"
+                    },
+                    {
+                      "$ref": "#/definitions/AssetInfoBase_for_Addr"
+                    }
+                  ],
+                  "maxItems": 2,
+                  "minItems": 2
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "description": "emission = block_per_user",
+              "type": "object",
+              "required": [
+                "BlockPerUser"
+              ],
+              "properties": {
+                "BlockPerUser": {
+                  "type": "array",
+                  "items": [
+                    {
+                      "$ref": "#/definitions/Decimal"
+                    },
+                    {
+                      "$ref": "#/definitions/AssetInfoBase_for_Addr"
+                    }
+                  ],
+                  "maxItems": 2,
+                  "minItems": 2
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "description": "Requires contribution functionality to be active",
+              "type": "object",
+              "required": [
+                "IncomeBased"
+              ],
+              "properties": {
+                "IncomeBased": {
+                  "$ref": "#/definitions/AssetInfoBase_for_Addr"
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "SubscriptionConfig": {
+          "description": "Config for subscriber functionality",
+          "type": "object",
+          "required": [
+            "factory_address",
+            "payment_asset",
+            "subscription_cost_per_block",
+            "subscription_per_block_emissions",
+            "version_control_address"
+          ],
+          "properties": {
+            "factory_address": {
+              "description": "Only addr that can register on OS",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Addr"
+                }
+              ]
+            },
+            "payment_asset": {
+              "description": "Asset that's accepted as payment",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/AssetInfoBase_for_Addr"
+                }
+              ]
+            },
+            "subscription_cost_per_block": {
+              "description": "Cost of the subscription on a per-block basis.",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Decimal"
+                }
+              ]
+            },
+            "subscription_per_block_emissions": {
+              "description": "Subscription emissions per block",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/EmissionType"
+                }
+              ]
+            },
+            "version_control_address": {
+              "description": "Used to verify OS and get the proxy",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Addr"
+                }
+              ]
+            }
+          }
+        },
+        "Uint128": {
+          "description": "A thin wrapper around u128 that is using strings for JSON encoding/decoding, such that the full u128 range can be used for clients that convert JSON numbers to floats, like JavaScript and jq.\n\n# Examples\n\nUse `from` to create instances of this and `u128` to get the value out:\n\n``` # use cosmwasm_std::Uint128; let a = Uint128::from(123u128); assert_eq!(a.u128(), 123);\n\nlet b = Uint128::from(42u64); assert_eq!(b.u128(), 42);\n\nlet c = Uint128::from(70u32); assert_eq!(c.u128(), 70); ```",
+          "type": "string"
+        }
+      }
+    },
+    "contributor_state": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ContributorStateResponse",
+      "type": "object",
+      "required": [
+        "compensation"
+      ],
+      "properties": {
+        "compensation": {
+          "$ref": "#/definitions/Compensation"
+        }
+      },
+      "additionalProperties": false,
+      "definitions": {
+        "Compensation": {
+          "description": "Compensation details for contributors",
+          "type": "object",
+          "required": [
+            "base_per_block",
+            "expiration_block",
+            "last_claim_block",
+            "weight"
+          ],
+          "properties": {
+            "base_per_block": {
+              "$ref": "#/definitions/Decimal"
+            },
+            "expiration_block": {
+              "$ref": "#/definitions/Uint64"
+            },
+            "last_claim_block": {
+              "$ref": "#/definitions/Uint64"
+            },
+            "weight": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            }
+          }
+        },
+        "Decimal": {
+          "description": "A fixed-point decimal value with 18 fractional digits, i.e. Decimal(1_000_000_000_000_000_000) == 1.0\n\nThe greatest possible value that can be represented is 340282366920938463463.374607431768211455 (which is (2^128 - 1) / 10^18)",
+          "type": "string"
+        },
+        "Uint64": {
+          "description": "A thin wrapper around u64 that is using strings for JSON encoding/decoding, such that the full u64 range can be used for clients that convert JSON numbers to floats, like JavaScript and jq.\n\n# Examples\n\nUse `from` to create instances of this and `u64` to get the value out:\n\n``` # use cosmwasm_std::Uint64; let a = Uint64::from(42u64); assert_eq!(a.u64(), 42);\n\nlet b = Uint64::from(70u32); assert_eq!(b.u64(), 70); ```",
+          "type": "string"
+        }
+      }
+    },
+    "fee": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "SubscriptionFeeResponse",
+      "type": "object",
+      "required": [
+        "fee"
+      ],
+      "properties": {
+        "fee": {
+          "$ref": "#/definitions/AssetBase_for_Addr"
+        }
+      },
+      "additionalProperties": false,
+      "definitions": {
+        "Addr": {
+          "description": "A human readable address.\n\nIn Cosmos, this is typically bech32 encoded. But for multi-chain smart contracts no assumptions should be made other than being UTF-8 encoded and of reasonable length.\n\nThis type represents a validated address. It can be created in the following ways 1. Use `Addr::unchecked(input)` 2. Use `let checked: Addr = deps.api.addr_validate(input)?` 3. Use `let checked: Addr = deps.api.addr_humanize(canonical_addr)?` 4. Deserialize from JSON. This must only be done from JSON that was validated before such as a contract's state. `Addr` must not be used in messages sent by the user because this would result in unvalidated instances.\n\nThis type is immutable. If you really need to mutate it (Really? Are you sure?), create a mutable copy using `let mut mutable = Addr::to_string()` and operate on that `String` instance.",
+          "type": "string"
+        },
+        "AssetBase_for_Addr": {
+          "description": "Represents a fungible asset with a known amount\n\nEach asset instance contains two values: `info`, which specifies the asset's type (CW20 or native), and its `amount`, which specifies the asset's amount.",
+          "type": "object",
+          "required": [
+            "amount",
+            "info"
+          ],
+          "properties": {
+            "amount": {
+              "description": "Specifies the asset's amount",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Uint128"
+                }
+              ]
+            },
+            "info": {
+              "description": "Specifies the asset's type (CW20 or native)",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/AssetInfoBase_for_Addr"
+                }
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "AssetInfoBase_for_Addr": {
+          "description": "Represents the type of an fungible asset.\n\nEach **asset info** instance can be one of three variants:\n\n- Native SDK coins. To create an **asset info** instance of this type, provide the denomination. - CW20 tokens. To create an **asset info** instance of this type, provide the contract address.",
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "native"
+              ],
+              "properties": {
+                "native": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "required": [
+                "cw20"
+              ],
+              "properties": {
+                "cw20": {
+                  "$ref": "#/definitions/Addr"
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "Uint128": {
+          "description": "A thin wrapper around u128 that is using strings for JSON encoding/decoding, such that the full u128 range can be used for clients that convert JSON numbers to floats, like JavaScript and jq.\n\n# Examples\n\nUse `from` to create instances of this and `u128` to get the value out:\n\n``` # use cosmwasm_std::Uint128; let a = Uint128::from(123u128); assert_eq!(a.u128(), 123);\n\nlet b = Uint128::from(42u64); assert_eq!(b.u128(), 42);\n\nlet c = Uint128::from(70u32); assert_eq!(c.u128(), 70); ```",
+          "type": "string"
+        }
+      }
+    },
+    "state": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "StateResponse",
+      "type": "object",
+      "required": [
+        "contribution",
+        "subscription"
+      ],
+      "properties": {
+        "contribution": {
+          "$ref": "#/definitions/ContributionState"
+        },
+        "subscription": {
+          "$ref": "#/definitions/SubscriptionState"
+        }
+      },
+      "additionalProperties": false,
+      "definitions": {
+        "ContributionState": {
+          "type": "object",
+          "required": [
+            "emissions",
+            "expense",
+            "income_target",
+            "total_weight"
+          ],
+          "properties": {
+            "emissions": {
+              "description": "total emissions for this month",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Decimal"
+                }
+              ]
+            },
+            "expense": {
+              "description": "expense the org is able to make based on the income, target and split",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Decimal"
+                }
+              ]
+            },
+            "income_target": {
+              "description": "Target income to pay base salaries",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Decimal"
+                }
+              ]
+            },
+            "total_weight": {
+              "description": "total weights for token emission allocations",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Uint128"
+                }
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "Decimal": {
+          "description": "A fixed-point decimal value with 18 fractional digits, i.e. Decimal(1_000_000_000_000_000_000) == 1.0\n\nThe greatest possible value that can be represented is 340282366920938463463.374607431768211455 (which is (2^128 - 1) / 10^18)",
+          "type": "string"
+        },
+        "SubscriptionState": {
+          "description": "Keeps track of the active subscribers. Is updated each time a sub joins/leaves Used to calculate income.",
+          "type": "object",
+          "required": [
+            "active_subs"
+          ],
+          "properties": {
+            "active_subs": {
+              "description": "amount of active subscribers",
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            }
+          },
+          "additionalProperties": false
+        },
+        "Uint128": {
+          "description": "A thin wrapper around u128 that is using strings for JSON encoding/decoding, such that the full u128 range can be used for clients that convert JSON numbers to floats, like JavaScript and jq.\n\n# Examples\n\nUse `from` to create instances of this and `u128` to get the value out:\n\n``` # use cosmwasm_std::Uint128; let a = Uint128::from(123u128); assert_eq!(a.u128(), 123);\n\nlet b = Uint128::from(42u64); assert_eq!(b.u128(), 42);\n\nlet c = Uint128::from(70u32); assert_eq!(c.u128(), 70); ```",
+          "type": "string"
+        }
+      }
+    },
+    "subscriber_state": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "SubscriberStateResponse",
+      "type": "object",
+      "required": [
+        "currently_subscribed",
+        "subscriber_details"
+      ],
+      "properties": {
+        "currently_subscribed": {
+          "type": "boolean"
+        },
+        "subscriber_details": {
+          "$ref": "#/definitions/Subscriber"
+        }
+      },
+      "additionalProperties": false,
+      "definitions": {
+        "Addr": {
+          "description": "A human readable address.\n\nIn Cosmos, this is typically bech32 encoded. But for multi-chain smart contracts no assumptions should be made other than being UTF-8 encoded and of reasonable length.\n\nThis type represents a validated address. It can be created in the following ways 1. Use `Addr::unchecked(input)` 2. Use `let checked: Addr = deps.api.addr_validate(input)?` 3. Use `let checked: Addr = deps.api.addr_humanize(canonical_addr)?` 4. Deserialize from JSON. This must only be done from JSON that was validated before such as a contract's state. `Addr` must not be used in messages sent by the user because this would result in unvalidated instances.\n\nThis type is immutable. If you really need to mutate it (Really? Are you sure?), create a mutable copy using `let mut mutable = Addr::to_string()` and operate on that `String` instance.",
+          "type": "string"
+        },
+        "Subscriber": {
+          "description": "Stored info for each subscriber.",
+          "type": "object",
+          "required": [
+            "expiration_block",
+            "last_emission_claim_block",
+            "manager_addr"
+          ],
+          "properties": {
+            "expiration_block": {
+              "description": "When the subscription ends",
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0.0
+            },
+            "last_emission_claim_block": {
+              "description": "last time emissions were claimed",
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0.0
+            },
+            "manager_addr": {
+              "description": "Address of the OS manager",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Addr"
+                }
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    }
+  }
+}

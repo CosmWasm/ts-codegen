@@ -1,0 +1,205 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`autocompounderQueryMsg 1`] = `
+"export const autocompounderQueries = createQueryKeys(\\"Autocompounder\\", {
+  config: (queryClient: AutocompounderQueryClient) => ({
+    queryKey: [{
+      address: queryClient.contractAddress
+    }],
+    queryFn: ctx => queryClient.config()
+  }),
+  pendingClaims: (queryClient: AutocompounderQueryClient, params: CamelCasedProperties<Extract<QueryMsg, {
+    pending_claims: unknown;
+  }>[\\"pending_claims\\"]>) => ({
+    queryKey: [{
+      address: queryClient.contractAddress
+    }, params],
+    queryFn: ctx => queryClient.pendingClaims(params)
+  }),
+  claims: (queryClient: AutocompounderQueryClient, params: CamelCasedProperties<Extract<QueryMsg, {
+    claims: unknown;
+  }>[\\"claims\\"]>) => ({
+    queryKey: [{
+      address: queryClient.contractAddress
+    }, params],
+    queryFn: ctx => queryClient.claims(params)
+  }),
+  allClaims: (queryClient: AutocompounderQueryClient, params: CamelCasedProperties<Extract<QueryMsg, {
+    all_claims: unknown;
+  }>[\\"all_claims\\"]>) => ({
+    queryKey: [{
+      address: queryClient.contractAddress
+    }, params],
+    queryFn: ctx => queryClient.allClaims(params)
+  }),
+  latestUnbonding: (queryClient: AutocompounderQueryClient) => ({
+    queryKey: [{
+      address: queryClient.contractAddress
+    }],
+    queryFn: ctx => queryClient.latestUnbonding()
+  }),
+  totalLpPosition: (queryClient: AutocompounderQueryClient) => ({
+    queryKey: [{
+      address: queryClient.contractAddress
+    }],
+    queryFn: ctx => queryClient.totalLpPosition()
+  }),
+  balance: (queryClient: AutocompounderQueryClient, params: CamelCasedProperties<Extract<QueryMsg, {
+    balance: unknown;
+  }>[\\"balance\\"]>) => ({
+    queryKey: [{
+      address: queryClient.contractAddress
+    }, params],
+    queryFn: ctx => queryClient.balance(params)
+  })
+});"
+`;
+
+exports[`etf 1`] = `
+"export const etfQueries = createQueryKeys(\\"Etf\\", {
+  state: (queryClient: AutocompounderQueryClient) => ({
+    queryKey: [{
+      accountId: queryClient.accountQueryClient.accountId,
+      moduleId: queryClient.moduleId
+    }],
+    queryFn: ctx => queryClient.state()
+  })
+});"
+`;
+
+exports[`queryMsg 1`] = `
+"export const contractQueries = createQueryKeys(\\"Contract\\", {
+  ownerOf: (queryClient: AutocompounderQueryClient, params: CamelCasedProperties<Extract<QueryMsg, {
+    owner_of: unknown;
+  }>[\\"owner_of\\"]>) => ({
+    queryKey: [{
+      address: queryClient.contractAddress
+    }, params],
+    queryFn: ctx => queryClient.ownerOf(params)
+  }),
+  approval: (queryClient: AutocompounderQueryClient, params: CamelCasedProperties<Extract<QueryMsg, {
+    approval: unknown;
+  }>[\\"approval\\"]>) => ({
+    queryKey: [{
+      address: queryClient.contractAddress
+    }, params],
+    queryFn: ctx => queryClient.approval(params)
+  }),
+  approvals: (queryClient: AutocompounderQueryClient, params: CamelCasedProperties<Extract<QueryMsg, {
+    approvals: unknown;
+  }>[\\"approvals\\"]>) => ({
+    queryKey: [{
+      address: queryClient.contractAddress
+    }, params],
+    queryFn: ctx => queryClient.approvals(params)
+  }),
+  allOperators: (queryClient: AutocompounderQueryClient, params: CamelCasedProperties<Extract<QueryMsg, {
+    all_operators: unknown;
+  }>[\\"all_operators\\"]>) => ({
+    queryKey: [{
+      address: queryClient.contractAddress
+    }, params],
+    queryFn: ctx => queryClient.allOperators(params)
+  }),
+  numTokens: (queryClient: AutocompounderQueryClient) => ({
+    queryKey: [{
+      address: queryClient.contractAddress
+    }],
+    queryFn: ctx => queryClient.numTokens()
+  }),
+  contractInfo: (queryClient: AutocompounderQueryClient) => ({
+    queryKey: [{
+      address: queryClient.contractAddress
+    }],
+    queryFn: ctx => queryClient.contractInfo()
+  }),
+  nftInfo: (queryClient: AutocompounderQueryClient, params: CamelCasedProperties<Extract<QueryMsg, {
+    nft_info: unknown;
+  }>[\\"nft_info\\"]>) => ({
+    queryKey: [{
+      address: queryClient.contractAddress
+    }, params],
+    queryFn: ctx => queryClient.nftInfo(params)
+  }),
+  allNftInfo: (queryClient: AutocompounderQueryClient, params: CamelCasedProperties<Extract<QueryMsg, {
+    all_nft_info: unknown;
+  }>[\\"all_nft_info\\"]>) => ({
+    queryKey: [{
+      address: queryClient.contractAddress
+    }, params],
+    queryFn: ctx => queryClient.allNftInfo(params)
+  }),
+  tokens: (queryClient: AutocompounderQueryClient, params: CamelCasedProperties<Extract<QueryMsg, {
+    tokens: unknown;
+  }>[\\"tokens\\"]>) => ({
+    queryKey: [{
+      address: queryClient.contractAddress
+    }, params],
+    queryFn: ctx => queryClient.tokens(params)
+  }),
+  allTokens: (queryClient: AutocompounderQueryClient, params: CamelCasedProperties<Extract<QueryMsg, {
+    all_tokens: unknown;
+  }>[\\"all_tokens\\"]>) => ({
+    queryKey: [{
+      address: queryClient.contractAddress
+    }, params],
+    queryFn: ctx => queryClient.allTokens(params)
+  }),
+  minter: (queryClient: AutocompounderQueryClient) => ({
+    queryKey: [{
+      address: queryClient.contractAddress
+    }],
+    queryFn: ctx => queryClient.minter()
+  }),
+  collectionInfo: (queryClient: AutocompounderQueryClient) => ({
+    queryKey: [{
+      address: queryClient.contractAddress
+    }],
+    queryFn: ctx => queryClient.collectionInfo()
+  })
+});"
+`;
+
+exports[`subscription 1`] = `
+"export const subscriptionQueries = createQueryKeys(\\"Subscription\\", {
+  state: (queryClient: AutocompounderQueryClient) => ({
+    queryKey: [{
+      accountId: queryClient.accountQueryClient.accountId,
+      moduleId: queryClient.moduleId
+    }],
+    queryFn: ctx => queryClient.state()
+  }),
+  config: (queryClient: AutocompounderQueryClient) => ({
+    queryKey: [{
+      accountId: queryClient.accountQueryClient.accountId,
+      moduleId: queryClient.moduleId
+    }],
+    queryFn: ctx => queryClient.config()
+  }),
+  fee: (queryClient: AutocompounderQueryClient) => ({
+    queryKey: [{
+      accountId: queryClient.accountQueryClient.accountId,
+      moduleId: queryClient.moduleId
+    }],
+    queryFn: ctx => queryClient.fee()
+  }),
+  subscriberState: (queryClient: AutocompounderQueryClient, params: CamelCasedProperties<Extract<QueryMsg, {
+    subscriber_state: unknown;
+  }>[\\"subscriber_state\\"]>) => ({
+    queryKey: [{
+      accountId: queryClient.accountQueryClient.accountId,
+      moduleId: queryClient.moduleId
+    }, params],
+    queryFn: ctx => queryClient.subscriberState(params)
+  }),
+  contributorState: (queryClient: AutocompounderQueryClient, params: CamelCasedProperties<Extract<QueryMsg, {
+    contributor_state: unknown;
+  }>[\\"contributor_state\\"]>) => ({
+    queryKey: [{
+      accountId: queryClient.accountQueryClient.accountId,
+      moduleId: queryClient.moduleId
+    }, params],
+    queryFn: ctx => queryClient.contributorState(params)
+  })
+});"
+`;
