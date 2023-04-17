@@ -1,23 +1,19 @@
 import * as t from '@babel/types';
-import { camel, pascal } from 'case';
+import { camel } from 'case';
 import {
+  arrowFunctionExpression,
   bindMethod,
-  typedIdentifier,
-  promiseTypeAnnotation,
   classDeclaration,
   classProperty,
-  arrowFunctionExpression,
-  getMessageProperties
-} from '../utils'
+  getMessageProperties,
+  promiseTypeAnnotation,
+  typedIdentifier
+} from '../utils';
 
-import {
-  QueryMsg,
-  ExecuteMsg
-} from '../types';
+import { ExecuteMsg, JSONSchema, QueryMsg } from '../types';
 
-import { getPropertyType, getType, createTypedObjectParams, getResponseType } from '../utils/types';
+import { createTypedObjectParams, getPropertyType, getResponseType, getType } from '../utils/types';
 import { RenderContext } from '../context';
-import { JSONSchema } from '../types';
 import { identifier, propertySignature } from '../utils/babel';
 
 export const CONSTANT_EXEC_PARAMS = [
@@ -89,7 +85,7 @@ export const createWasmQueryMethod = (
   const methodName = camel(underscoreName);
   const responseType = getResponseType(context, underscoreName);
 
-  const obj = createTypedObjectParams(
+  const param = createTypedObjectParams(
     context,
     jsonschema.properties[underscoreName]
   );
@@ -99,13 +95,14 @@ export const createWasmQueryMethod = (
     jsonschema.properties[underscoreName]
   );
 
-  const actionArg =
-    t.objectProperty(t.identifier(underscoreName), t.objectExpression(args));
+  const msgAction = t.identifier(underscoreName);
+  // If the param is an identifier, we can just use it as is
+  const msgActionValue = param?.type === 'Identifier' ? t.identifier(param.name) : t.objectExpression(args)
 
   return t.classProperty(
     t.identifier(methodName),
     arrowFunctionExpression(
-      obj ? [obj] : [],
+      param ? [param] : [],
       t.blockStatement(
         [
           t.returnStatement(
@@ -120,7 +117,7 @@ export const createWasmQueryMethod = (
               [
                 t.memberExpression(t.thisExpression(), t.identifier('contractAddress')),
                 t.objectExpression([
-                  actionArg
+                  t.objectProperty(msgAction, msgActionValue)
                 ])
               ]
             )
@@ -237,8 +234,14 @@ export const getWasmMethodArgs = (
   // only 1 degree $ref-lookup
   if (!keys.length && jsonschema.$ref) {
     const obj = context.refLookup(jsonschema.$ref);
+    // properties
     if (obj) {
       keys = Object.keys(obj.properties ?? {})
+    }
+
+    // tuple struct or otherwise, use the name of the reference
+    if (!keys.length && obj?.oneOf) {
+// TODO????? ADAIR
     }
   }
 
@@ -265,7 +268,7 @@ export const createWasmExecMethod = (
 
   const underscoreName = Object.keys(jsonschema.properties)[0];
   const methodName = camel(underscoreName);
-  const obj = createTypedObjectParams(
+  const param = createTypedObjectParams(
     context,
     jsonschema.properties[underscoreName]
   );
@@ -274,12 +277,16 @@ export const createWasmExecMethod = (
     jsonschema.properties[underscoreName]
   );
 
+  const msgAction = t.identifier(underscoreName);
+  // If the param is an identifier, we can just use it as is
+  const msgActionValue = param?.type === 'Identifier' ? t.identifier(param.name) : t.objectExpression(args)
+
   return t.classProperty(
     t.identifier(methodName),
     arrowFunctionExpression(
-      obj ? [
+      param ? [
         // props
-        obj,
+        param,
         ...CONSTANT_EXEC_PARAMS
       ] : CONSTANT_EXEC_PARAMS,
       t.blockStatement(
@@ -306,10 +313,8 @@ export const createWasmExecMethod = (
                   t.objectExpression(
                     [
                       t.objectProperty(
-                        t.identifier(underscoreName),
-                        t.objectExpression([
-                          ...args
-                        ])
+                        msgAction,
+                        msgActionValue
                       )
 
                     ]

@@ -1312,3 +1312,48 @@ export function useSg721TransferNftMutation(options?: Omit<UseMutationOptions<Ex
   }) => client.transferNft(msg, fee, memo, funds), options);
 }"
 `;
+
+exports[`ownership 1`] = `
+"export interface OwnershipUpdateOwnershipMutation {
+  client: OwnershipClient;
+  msg: Action;
+  args?: {
+    fee?: number | StdFee | \\"auto\\";
+    memo?: string;
+    funds?: Coin[];
+  };
+}
+export function useOwnershipUpdateOwnershipMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, OwnershipUpdateOwnershipMutation>, \\"mutationFn\\">) {
+  return useMutation<ExecuteResult, Error, OwnershipUpdateOwnershipMutation>(({
+    client,
+    msg,
+    args: {
+      fee,
+      memo,
+      funds
+    } = {}
+  }) => client.updateOwnership(msg, fee, memo, funds), options);
+}
+export interface OwnershipSetFactoryMutation {
+  client: OwnershipClient;
+  msg: {
+    newFactory: string;
+  };
+  args?: {
+    fee?: number | StdFee | \\"auto\\";
+    memo?: string;
+    funds?: Coin[];
+  };
+}
+export function useOwnershipSetFactoryMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, OwnershipSetFactoryMutation>, \\"mutationFn\\">) {
+  return useMutation<ExecuteResult, Error, OwnershipSetFactoryMutation>(({
+    client,
+    msg,
+    args: {
+      fee,
+      memo,
+      funds
+    } = {}
+  }) => client.setFactory(msg, fee, memo, funds), options);
+}"
+`;
