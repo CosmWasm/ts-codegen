@@ -8,48 +8,99 @@ import {
 } from '../client'
 import { expectCode, printCode, makeContext } from '../../../test-utils';
 
-const message = contract.query
-const ctx = makeContext(message);
+const queryMessage = contract.query
+const executeMessage = contract.execute
+const queryCtx = makeContext(queryMessage);
+const executeCtx = makeContext(executeMessage);
 
-it('execute_msg_for__empty', () => {
-    expectCode(createTypeInterface(
-        ctx,
-        message
-    ))
-})
+describe('query', () => {
+    it('execute_msg_for__empty', () => {
+        expectCode(createTypeInterface(
+            queryCtx,
+            queryMessage
+        ))
+    })
 
 
-it('query classes', () => {
-    expectCode(createQueryClass(
-        ctx,
-        'QueryClient',
-        'ReadOnlyInstance',
-        message
-    ))
+    it('query classes', () => {
+        expectCode(createQueryClass(
+            queryCtx,
+            'QueryClient',
+            'ReadOnlyInstance',
+            queryMessage
+        ))
+    });
+
+    it('query classes response', () => {
+        expectCode(createTypeInterface(
+            queryCtx,
+            contract.query
+        ))
+    });
+
+    it('execute classes array types', () => {
+        expectCode(createExecuteClass(
+            queryCtx,
+            'Client',
+            'Instance',
+            null,
+            queryMessage
+        ))
+    });
+
+    it('execute interfaces no extends', () => {
+        expectCode(createExecuteInterface(
+            queryCtx,
+            'SG721Instance',
+            null,
+            queryMessage
+        ))
+    });
+
 });
 
-// it('query classes response', () => {
-//     expectCode(createTypeInterface(
-//         ctx,
-//         contract.responses.all_debt_shares
-//     ))
-// });
+describe('execute', () => {
+    it('execute_msg_for__empty', () => {
+        expectCode(createTypeInterface(
+            executeCtx,
+            executeMessage
+        ))
+    })
 
-it('execute classes array types', () => {
-    expectCode(createExecuteClass(
-        ctx,
-        'Client',
-        'Instance',
-        null,
-        message
-    ))
-});
 
-it('execute interfaces no extends', () => {
-    expectCode(createExecuteInterface(
-        ctx,
-        'SG721Instance',
-        null,
-        message
-    ))
+    it('query classes', () => {
+        expectCode(createQueryClass(
+            executeCtx,
+            'QueryClient',
+            'ReadOnlyInstance',
+            executeMessage
+        ))
+    });
+
+    it('query classes response', () => {
+        expectCode(createTypeInterface(
+            executeCtx,
+            contract.query
+        ))
+    });
+
+    it('execute classes array types', () => {
+        expectCode(createExecuteClass(
+            executeCtx,
+            'Client',
+            'Instance',
+            null,
+            executeMessage
+        ))
+    });
+
+    it('execute interfaces no extends', () => {
+        expectCode(createExecuteInterface(
+            executeCtx,
+            'SG721Instance',
+            null,
+            executeMessage
+        ))
+    });
+
 });
