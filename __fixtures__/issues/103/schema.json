@@ -1,0 +1,58 @@
+{
+    "contract_name": "cw1-whitelist",
+    "contract_version": "0.3.0",
+    "idl_version": "1.0.0",
+    "instantiate": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "title": "InstantiateMsg",
+        "type": "object",
+        "required": [
+            "admins",
+            "mutable"
+        ],
+        "properties": {
+            "admins": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                }
+            },
+            "mutable": {
+                "type": "boolean"
+            }
+        }
+    },
+    "execute": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "title": "ExecuteMsg",
+        "anyOf": [
+            {
+                "$ref": "#/definitions/ExecMsg"
+            }
+        ],
+        "definitions": {
+            "ExecMsg": {
+                "type": "string",
+                "enum": []
+            }
+        }
+    },
+    "query": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "title": "QueryMsg",
+        "anyOf": [
+            {
+                "$ref": "#/definitions/QueryMsg"
+            }
+        ],
+        "definitions": {
+            "QueryMsg": {
+                "type": "string",
+                "enum": []
+            }
+        }
+    },
+    "migrate": null,
+    "sudo": null,
+    "responses": {}
+}
