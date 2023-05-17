@@ -29,6 +29,17 @@ it('daodao/cw-code-id-registry', async () => {
     mkdirp(out);
     writeFileSync(out + '/orig.json', JSON.stringify(orig, null, 2));
     writeFileSync(out + '/clean.json', JSON.stringify(clean, null, 2));
+})
 
+it('issues/103', async () => {
+    const out = OUTPUT_DIR + '/issues/103';
+    const schemaDir = FIXTURE_DIR + '/issues/103/';
+
+    const clean = await readSchemas({ schemaDir, clean: true });
+    const orig = await readSchemas({ schemaDir, clean: false });
+
+    mkdirp(out);
+    writeFileSync(out + '/orig.json', JSON.stringify(orig, null, 2));
+    writeFileSync(out + '/clean.json', JSON.stringify(clean, null, 2));
 })
 
