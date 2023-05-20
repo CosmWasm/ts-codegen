@@ -41,7 +41,7 @@ const makeReactQuerySwitch = (varName) => {
 export const UTILS = {
   selectorFamily: 'recoil',
   MsgExecuteContract: 'cosmjs-types/cosmwasm/wasm/v1/tx',
-  MsgExecuteContractEncodeObject: 'cosmwasm',
+  MsgExecuteContractEncodeObject: '@cosmjs/cosmwasm-stargate',
   Coin: '@cosmjs/amino',
   toUtf8: '@cosmjs/encoding',
   StdFee: '@cosmjs/amino',
