@@ -6,7 +6,7 @@
 
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { AdminAddrResponse, CodeIdResponse, CodeIdType, Uint128, Binary, CreateWalletMsg, Guardians, MultiSig, Coin, Cw20Coin, ExecuteMsg, Addr, ProxyMigrationTxMsg, WalletAddr, CanonicalAddr, RelayTransaction, FeeResponse, GovecAddrResponse, InstantiateMsg, QueryMsg, WalletQueryPrefix, Duration, StakingOptions, WalletInfo, ContractVersion, WalletsOfResponse, WalletsResponse } from "./Factory.types";
-import { FactoryQueryClient } from "./Factory.client";
+import { FactoryQueryClient } from "./Factoryclient";
 export interface FactoryReactQuery<TResponse, TData = TResponse> {
   client: FactoryQueryClient;
   options?: Omit<UseQueryOptions<TResponse, Error, TData>, "'queryKey' | 'queryFn' | 'initialData'"> & {

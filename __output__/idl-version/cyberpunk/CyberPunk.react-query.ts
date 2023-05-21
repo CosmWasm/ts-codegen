@@ -6,7 +6,7 @@
 
 import { UseQueryOptions, useQuery } from "react-query";
 import { InstantiateMsg, ExecuteMsg, QueryMsg, Timestamp, Uint64, Addr, Env, BlockInfo, ContractInfo, TransactionInfo } from "./CyberPunk.types";
-import { CyberPunkQueryClient } from "./CyberPunk.client";
+import { CyberPunkQueryClient } from "./CyberPunkclient";
 export interface CyberPunkReactQuery<TResponse, TData = TResponse> {
   client: CyberPunkQueryClient;
   options?: UseQueryOptions<TResponse, Error, TData>;

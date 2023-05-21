@@ -6,7 +6,7 @@
 
 import { UseQueryOptions, useQuery } from "react-query";
 import { InstantiateMsg, ExecuteMsg, QueryMsg, MigrateMsg, SudoMsg, Uint128, Coin, IntResponse, AllBalanceResponse, Binary, RecurseResponse, VerifierResponse } from "./HackAtom.types";
-import { HackAtomQueryClient } from "./HackAtom.client";
+import { HackAtomQueryClient } from "./HackAtomclient";
 export interface HackAtomReactQuery<TResponse, TData = TResponse> {
   client: HackAtomQueryClient;
   options?: UseQueryOptions<TResponse, Error, TData>;

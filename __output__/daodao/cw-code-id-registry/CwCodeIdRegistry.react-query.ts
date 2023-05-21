@@ -6,7 +6,7 @@
 
 import { UseQueryOptions, useQuery } from "react-query";
 import { Addr, PaymentInfo, Uint128, ConfigResponse, ExecuteMsg, Binary, Cw20ReceiveMsg, GetRegistrationResponse, Registration, InfoForCodeIdResponse, InstantiateMsg, ListRegistrationsResponse, QueryMsg, ReceiveMsg } from "./CwCodeIdRegistry.types";
-import { CwCodeIdRegistryQueryClient } from "./CwCodeIdRegistry.client";
+import { CwCodeIdRegistryQueryClient } from "./CwCodeIdRegistryclient";
 export interface CwCodeIdRegistryReactQuery<TResponse, TData = TResponse> {
   client: CwCodeIdRegistryQueryClient;
   options?: UseQueryOptions<TResponse, Error, TData>;

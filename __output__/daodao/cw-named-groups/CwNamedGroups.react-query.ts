@@ -6,7 +6,7 @@
 
 import { UseQueryOptions, useQuery } from "react-query";
 import { DumpResponse, Group, ExecuteMsg, InstantiateMsg, Addr, ListAddressesResponse, ListGroupsResponse, QueryMsg } from "./CwNamedGroups.types";
-import { CwNamedGroupsQueryClient } from "./CwNamedGroups.client";
+import { CwNamedGroupsQueryClient } from "./CwNamedGroupsclient";
 export interface CwNamedGroupsReactQuery<TResponse, TData = TResponse> {
   client: CwNamedGroupsQueryClient;
   options?: UseQueryOptions<TResponse, Error, TData>;

@@ -6,7 +6,7 @@
 
 import { UseQueryOptions, useQuery } from "react-query";
 import { InstantiateMsg, ExecuteMsg, Binary, Expiration, Timestamp, Uint64, QueryMsg, VaultBaseForString, Uint128, ArrayOfSharesResponseItem, SharesResponseItem, AllNftInfoResponseForEmpty, OwnerOfResponse, Approval, NftInfoResponseForEmpty, Empty, OperatorsResponse, String, TokensResponse, ArrayOfVaultBaseForString, ApprovalResponse, ApprovalsResponse, ContractInfoResponse, MinterResponse, NumTokensResponse } from "./AccountsNft.types";
-import { AccountsNftQueryClient } from "./AccountsNft.client";
+import { AccountsNftQueryClient } from "./AccountsNftclient";
 export interface AccountsNftReactQuery<TResponse, TData = TResponse> {
   client: AccountsNftQueryClient;
   options?: UseQueryOptions<TResponse, Error, TData>;

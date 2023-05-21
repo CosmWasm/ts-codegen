@@ -6,7 +6,7 @@
 
 import { UseQueryOptions, useQuery } from "react-query";
 import { Duration, Threshold, Decimal, InstantiateMsg, Voter, ExecuteMsg, Expiration, Timestamp, Uint64, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, WasmMsg, Binary, Vote, Coin, Empty, QueryMsg, Status, ThresholdResponse, ProposalListResponse, ProposalResponseForEmpty, VoterListResponse, VoterDetail, VoteListResponse, VoteInfo, VoteResponse, VoterResponse } from "./Cw3FixedMultiSig.types";
-import { Cw3FixedMultiSigQueryClient } from "./Cw3FixedMultiSig.client";
+import { Cw3FixedMultiSigQueryClient } from "./Cw3FixedMultiSigclient";
 export interface Cw3FixedMultiSigReactQuery<TResponse, TData = TResponse> {
   client: Cw3FixedMultiSigQueryClient;
   options?: UseQueryOptions<TResponse, Error, TData>;

@@ -8,7 +8,7 @@ import { UseQueryOptions, useQuery, useMutation, UseMutationOptions } from "@tan
 import { ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { StdFee, Coin } from "@cosmjs/amino";
 import { Decimal, AssetEntry, BondingPeriodSelector, Duration, InstantiateMsg, ExecuteMsg, Uint128, AnsAsset, QueryMsg, MigrateMsg, Expiration, Timestamp, Uint64, ArrayOfTupleOfStringAndArrayOfClaim, Claim, ArrayOfClaim, Addr, PoolAddressBaseForAddr, AssetInfoBaseForAddr, PoolType, Config, PoolMetadata } from "./Autocompounder.types";
-import { AutocompounderAppQueryClient, AutocompounderAppClient } from "./Autocompounder.app-client";
+import { AutocompounderAppQueryClient, AutocompounderAppClient } from "./Autocompounder.client";
 export const autocompounderQueryKeys = {
   contract: ([{
     contract: "autocompounder"

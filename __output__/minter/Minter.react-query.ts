@@ -6,7 +6,7 @@
 
 import { UseQueryOptions, useQuery } from "react-query";
 import { Timestamp, Uint64, Uint128, ConfigResponse, Coin, Addr, Config, ExecuteMsg, Decimal, InstantiateMsg, InstantiateMsg1, CollectionInfoForRoyaltyInfoResponse, RoyaltyInfoResponse, QueryMsg } from "./Minter.types";
-import { MinterQueryClient } from "./Minter.client";
+import { MinterQueryClient } from "./Minterclient";
 export interface MinterReactQuery<TResponse, TData = TResponse> {
   client: MinterQueryClient;
   options?: UseQueryOptions<TResponse, Error, TData>;

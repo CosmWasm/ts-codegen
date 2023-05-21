@@ -6,7 +6,7 @@
 
 import { UseQueryOptions, useQuery } from "react-query";
 import { CanExecuteRelayResponse, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, WasmMsg, Binary, Coin, Empty, ExecuteMsgForEmpty, Addr, RelayTransaction, Guardians, MultiSig, InfoResponse, ContractVersion, InstantiateMsg, CreateWalletMsg, QueryMsg, Uint64 } from "./Govec.types";
-import { GovecQueryClient } from "./Govec.client";
+import { GovecQueryClient } from "./Govecclient";
 export interface GovecReactQuery<TResponse, TData = TResponse> {
   client: GovecQueryClient;
   options?: UseQueryOptions<TResponse, Error, TData>;

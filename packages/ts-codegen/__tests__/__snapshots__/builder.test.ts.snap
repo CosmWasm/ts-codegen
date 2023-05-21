@@ -4,6 +4,9 @@ exports[`options tsClient.enabled 1`] = `
 TSBuilder {
   "files": Array [],
   "options": Object {
+    "abstractApp": Object {
+      "enabled": false,
+    },
     "bundle": Object {
       "bundleFile": "bundle.ts",
       "enabled": true,
@@ -40,6 +43,9 @@ TSBuilder {
   "plugins": Array [
     TypesPlugin {
       "option": Object {
+        "abstractApp": Object {
+          "enabled": false,
+        },
         "bundle": Object {
           "bundleFile": "bundle.ts",
           "enabled": true,
@@ -77,6 +83,9 @@ TSBuilder {
     },
     ClientPlugin {
       "option": Object {
+        "abstractApp": Object {
+          "enabled": false,
+        },
         "bundle": Object {
           "bundleFile": "bundle.ts",
           "enabled": true,
@@ -114,6 +123,9 @@ TSBuilder {
     },
     AbstractAppPlugin {
       "option": Object {
+        "abstractApp": Object {
+          "enabled": false,
+        },
         "bundle": Object {
           "bundleFile": "bundle.ts",
           "enabled": true,
@@ -151,6 +163,9 @@ TSBuilder {
     },
     MessageComposerPlugin {
       "option": Object {
+        "abstractApp": Object {
+          "enabled": false,
+        },
         "bundle": Object {
           "bundleFile": "bundle.ts",
           "enabled": true,
@@ -188,6 +203,9 @@ TSBuilder {
     },
     ReactQueryPlugin {
       "option": Object {
+        "abstractApp": Object {
+          "enabled": false,
+        },
         "bundle": Object {
           "bundleFile": "bundle.ts",
           "enabled": true,
@@ -225,6 +243,9 @@ TSBuilder {
     },
     RecoilPlugin {
       "option": Object {
+        "abstractApp": Object {
+          "enabled": false,
+        },
         "bundle": Object {
           "bundleFile": "bundle.ts",
           "enabled": true,
@@ -264,6 +285,9 @@ TSBuilder {
     },
     MsgBuilderPlugin {
       "option": Object {
+        "abstractApp": Object {
+          "enabled": false,
+        },
         "bundle": Object {
           "bundleFile": "bundle.ts",
           "enabled": true,
@@ -307,6 +331,9 @@ exports[`options undefined 1`] = `
 TSBuilder {
   "files": Array [],
   "options": Object {
+    "abstractApp": Object {
+      "enabled": false,
+    },
     "bundle": Object {
       "bundleFile": "bundle.ts",
       "enabled": true,
@@ -343,6 +370,9 @@ TSBuilder {
   "plugins": Array [
     TypesPlugin {
       "option": Object {
+        "abstractApp": Object {
+          "enabled": false,
+        },
         "bundle": Object {
           "bundleFile": "bundle.ts",
           "enabled": true,
@@ -380,6 +410,9 @@ TSBuilder {
     },
     ClientPlugin {
       "option": Object {
+        "abstractApp": Object {
+          "enabled": false,
+        },
         "bundle": Object {
           "bundleFile": "bundle.ts",
           "enabled": true,
@@ -417,6 +450,9 @@ TSBuilder {
     },
     AbstractAppPlugin {
       "option": Object {
+        "abstractApp": Object {
+          "enabled": false,
+        },
         "bundle": Object {
           "bundleFile": "bundle.ts",
           "enabled": true,
@@ -454,6 +490,9 @@ TSBuilder {
     },
     MessageComposerPlugin {
       "option": Object {
+        "abstractApp": Object {
+          "enabled": false,
+        },
         "bundle": Object {
           "bundleFile": "bundle.ts",
           "enabled": true,
@@ -491,6 +530,9 @@ TSBuilder {
     },
     ReactQueryPlugin {
       "option": Object {
+        "abstractApp": Object {
+          "enabled": false,
+        },
         "bundle": Object {
           "bundleFile": "bundle.ts",
           "enabled": true,
@@ -528,6 +570,9 @@ TSBuilder {
     },
     RecoilPlugin {
       "option": Object {
+        "abstractApp": Object {
+          "enabled": false,
+        },
         "bundle": Object {
           "bundleFile": "bundle.ts",
           "enabled": true,
@@ -567,6 +612,9 @@ TSBuilder {
     },
     MsgBuilderPlugin {
       "option": Object {
+        "abstractApp": Object {
+          "enabled": false,
+        },
         "bundle": Object {
           "bundleFile": "bundle.ts",
           "enabled": true,

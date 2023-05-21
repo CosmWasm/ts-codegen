@@ -6,7 +6,7 @@
 
 import { UseQueryOptions, useQuery } from "react-query";
 import { InstantiateMsg, Member, ExecuteMsg, QueryMsg, AdminResponse, HooksResponse, MemberListResponse, MemberResponse, TotalWeightResponse } from "./Cw4Group.types";
-import { Cw4GroupQueryClient } from "./Cw4Group.client";
+import { Cw4GroupQueryClient } from "./Cw4Groupclient";
 export interface Cw4GroupReactQuery<TResponse, TData = TResponse> {
   client: Cw4GroupQueryClient;
   options?: UseQueryOptions<TResponse, Error, TData>;

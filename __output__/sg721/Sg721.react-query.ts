@@ -6,7 +6,7 @@
 
 import { UseQueryOptions, useQuery } from "react-query";
 import { Expiration, Timestamp, Uint64, AllNftInfoResponse, OwnerOfResponse, Approval, NftInfoResponseForEmpty, Empty, AllOperatorsResponse, AllTokensResponse, ApprovalResponse, ApprovalsResponse, Decimal, CollectionInfoResponse, RoyaltyInfoResponse, ContractInfoResponse, ExecuteMsgForEmpty, Binary, MintMsgForEmpty, InstantiateMsg, CollectionInfoForRoyaltyInfoResponse, MinterResponse, NftInfoResponse, NumTokensResponse, OperatorsResponse, QueryMsg, TokensResponse } from "./Sg721.types";
-import { Sg721QueryClient } from "./Sg721.client";
+import { Sg721QueryClient } from "./Sg721client";
 export interface Sg721ReactQuery<TResponse, TData = TResponse> {
   client: Sg721QueryClient;
   options?: UseQueryOptions<TResponse, Error, TData>;

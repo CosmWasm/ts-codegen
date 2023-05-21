@@ -6,7 +6,7 @@
 
 import { UseQueryOptions } from "react-query";
 import { ExecuteMsg, Binary, InstantiateMsg, QueryMsg } from "./CwAdminFactory.types";
-import { CwAdminFactoryQueryClient } from "./CwAdminFactory.client";
+import { CwAdminFactoryQueryClient } from "./CwAdminFactoryclient";
 export interface CwAdminFactoryReactQuery<TResponse, TData = TResponse> {
   client: CwAdminFactoryQueryClient;
   options?: UseQueryOptions<TResponse, Error, TData>;

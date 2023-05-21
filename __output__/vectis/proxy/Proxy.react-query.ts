@@ -6,7 +6,7 @@
 
 import { UseQueryOptions, useQuery } from "react-query";
 import { CanExecuteRelayResponse, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, WasmMsg, Binary, Coin, Empty, ExecuteMsgForEmpty, Addr, RelayTransaction, Guardians, MultiSig, InfoResponse, ContractVersion, InstantiateMsg, CreateWalletMsg, QueryMsg, Uint64 } from "./Proxy.types";
-import { ProxyQueryClient } from "./Proxy.client";
+import { ProxyQueryClient } from "./Proxyclient";
 export interface ProxyReactQuery<TResponse, TData = TResponse> {
   client: ProxyQueryClient;
   options?: UseQueryOptions<TResponse, Error, TData>;
