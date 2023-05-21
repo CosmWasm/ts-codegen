@@ -53,7 +53,8 @@ const CLASS_VARS = {
   moduleId: t.identifier('moduleId'),
   _moduleAddress: t.identifier('_moduleAddress'),
   queryClient: t.identifier('queryClient'),
-  accountClient: t.identifier('accountClient')
+  accountClient: t.identifier('accountClient'),
+  accountQueryClient: t.identifier('accountQueryClient')
 };
 
 const ABSTRACT_ACCOUNT_CLIENT = 'AbstractAccountClient';
@@ -219,7 +220,7 @@ export const createAppExecuteInterface = (
   mutClassName: string,
   extendsClassName,
   executeMsg: ExecuteMsg
-) => {
+): t.ExportNamedDeclaration => {
   context.addUtils(['SigningCosmWasmClient', ABSTRACT_ACCOUNT_CLIENT]);
 
   const methods = getMessageProperties(executeMsg).map((jsonschema) => {
@@ -289,26 +290,88 @@ const COMPOSE_MSG_FN = t.classProperty(
     ],
     t.blockStatement(
       [
-        t.returnStatement(
-          t.callExpression(
-            t.memberExpression(
-              t.memberExpression(t.thisExpression(), CLASS_VARS.queryClient),
-              t.identifier('queryModule')
+        t.variableDeclaration('const', [
+          t.variableDeclarator(
+            identifier(
+              'moduleMsg',
+              t.tsTypeAnnotation(
+                t.tSTypeReference(
+                  t.identifier('AppExecuteMsg'),
+                  t.tsTypeParameterInstantiation([
+                    t.tsTypeReference(t.identifier('AutocompounderExecuteMsg'))
+                  ])
+                )
+              )
             ),
-            [
-              t.objectExpression([
-                t.objectProperty(
-                  t.identifier('moduleId'),
-                  t.memberExpression(t.thisExpression(), CLASS_VARS.moduleId)
-                ),
-                t.objectProperty(
-                  t.identifier('moduleType'),
-                  t.stringLiteral('app')
-                ),
-                shorthandProperty('queryMsg')
-              ])
-            ]
+            t.callExpression(
+              t.memberExpression(
+                t.identifier('AppModuleExecuteMsgBuilder'),
+                t.identifier('executeApp')
+              ),
+              [t.identifier('msg')]
+            )
           )
+        ]),
+        t.returnStatement(
+          t.objectExpression([
+            t.objectProperty(
+              t.identifier('typeUrl'),
+              t.stringLiteral('/cosmwasm.wasm.v1.MsgExecuteContract')
+            ),
+            t.objectProperty(
+              t.identifier('value'),
+              t.callExpression(
+                t.memberExpression(
+                  t.identifier('MsgExecuteContract'),
+                  t.identifier('fromPartial')
+                ),
+                [
+                  t.objectExpression([
+                    t.objectProperty(
+                      t.identifier('sender'),
+                      t.memberExpression(
+                        t.memberExpression(
+                          t.thisExpression(),
+                          CLASS_VARS.accountClient
+                        ),
+                        t.identifier('sender')
+                      )
+                    ),
+                    t.objectProperty(
+                      t.identifier('contract'),
+                      t.awaitExpression(
+                        t.callExpression(
+                          t.memberExpression(
+                            t.thisExpression(),
+                            t.identifier('address')
+                          ),
+                          []
+                        )
+                      )
+                    ),
+                    t.objectProperty(
+                      t.identifier('msg'),
+                      t.callExpression(t.identifier('toUtf8'), [
+                        t.callExpression(
+                          t.memberExpression(
+                            t.identifier('JSON'),
+                            t.identifier('stringify')
+                          ),
+                          [t.identifier('moduleMsg')]
+                        )
+                      ])
+                    ),
+                    t.objectProperty(
+                      t.identifier('funds'),
+                      t.identifier('funds'),
+                      false,
+                      true
+                    )
+                  ])
+                ]
+              )
+            )
+          ])
         )
       ],
       []
@@ -323,7 +386,7 @@ export const createAppQueryClass = (
   className: string,
   implementsClassName: string,
   queryMsg: QueryMsg
-) => {
+): t.ExportNamedDeclaration => {
   const moduleName = pascal(_moduleName);
 
   context.addUtils([ABSTRACT_QUERY_CLIENT, ABSTRACT_ACCOUNT_QUERY_CLIENT]);
@@ -339,7 +402,7 @@ export const createAppQueryClass = (
   });
 
   methods.push(QUERY_APP_FN);
-  methods.push(ADDRESS_METHOD);
+  methods.push(ADDRESS_ACCESSOR_FN);
   methods.push(connectMethod(`${moduleName}AppClient`));
 
   return t.exportNamedDeclaration(
@@ -418,7 +481,7 @@ export const createAppQueryClass = (
   );
 };
 
-const ADDRESS_METHOD = t.classProperty(
+const ADDRESS_ACCESSOR_FN = t.classProperty(
   t.identifier('address'),
   arrowFunctionExpression(
     [],
@@ -587,6 +650,154 @@ const createAppQueryMethod = (
                   t.identifier(methodName)
                 ),
                 parameters
+              )
+            ]
+          )
+        )
+      ]),
+      promiseTypeAnnotation(responseType),
+      true
+    )
+  );
+};
+
+export const createAppExecuteClass = (
+  context: RenderContext,
+  uncheckedModuleName: string,
+  className: string,
+  implementsClassName: string,
+  execMsg: ExecuteMsg
+): t.ExportNamedDeclaration => {
+  const moduleName = pascal(uncheckedModuleName);
+
+  context.addUtils([ABSTRACT_ACCOUNT_CLIENT]);
+
+  const propertyNames = getMessageProperties(execMsg)
+    .map((method) => Object.keys(method.properties)?.[0])
+    .filter(Boolean);
+
+  const bindings = propertyNames.map(camel).map(bindMethod);
+
+  const methods = getMessageProperties(execMsg).map((schema) => {
+    return createAppExecMethod(context, moduleName, schema);
+  });
+
+  methods.push(COMPOSE_MSG_FN);
+
+  return t.exportNamedDeclaration(
+    classDeclaration(
+      className,
+      [
+        // client
+        classProperty(
+          'accountClient',
+          t.tsTypeAnnotation(
+            t.tsTypeReference(t.identifier(ABSTRACT_ACCOUNT_CLIENT))
+          )
+        ),
+
+        // constructor
+        t.classMethod(
+          'constructor',
+          t.identifier('constructor'),
+          // TODO: typing
+          [
+            t.objectPattern([
+              shorthandProperty('abstract'),
+              shorthandProperty('accountId'),
+              shorthandProperty('managerAddress'),
+              shorthandProperty('proxyAddress'),
+              shorthandProperty('moduleId')
+            ])
+          ],
+          t.blockStatement([
+            t.expressionStatement(
+              // TODO!
+              t.callExpression(t.super(), [t.identifier('base')])
+            ),
+            t.expressionStatement(
+              t.assignmentExpression(
+                '=',
+                t.memberExpression(
+                  t.thisExpression(),
+                  CLASS_VARS.accountClient
+                ),
+                t.callExpression(
+                  t.memberExpression(
+                    t.identifier(ABSTRACT_ACCOUNT_CLIENT),
+                    t.identifier('fromQueryClient')
+                  ),
+                  [
+                    t.memberExpression(
+                      t.thisExpression(),
+                      CLASS_VARS.accountQueryClient
+                    ),
+                    t.memberExpression(
+                      t.identifier('base'),
+                      t.identifier('abstract')
+                    )
+                  ]
+                )
+              )
+            ),
+            ...bindings
+          ])
+        ),
+
+        ...methods
+      ],
+      [t.tSExpressionWithTypeArguments(t.identifier(implementsClassName))]
+    )
+  );
+};
+
+/*
+  deposit = async (
+    params: ExtractCamelizedParams<AutocompounderExecuteMsg, 'deposit'>,
+    _funds?: Coin[]
+  ): Promise<MsgExecuteContractEncodeObject> => {
+    return this._composeMsg(AutocompounderExecuteMsgBuilder.deposit(params), _funds)
+  }
+ */
+const createAppExecMethod = (
+  context: RenderContext,
+  moduleName: string,
+  schema: any
+) => {
+  const underscoreName = Object.keys(schema.properties)[0];
+  const methodName = camel(underscoreName);
+  const responseType = getResponseType(context, underscoreName);
+
+  const execParams = Object.keys(
+    schema.properties[underscoreName]?.properties ?? {}
+  );
+
+  // the actual type of the ref
+  const methodParam = t.identifier('params');
+  methodParam.typeAnnotation = createExtractTypeAnnotation(
+    underscoreName,
+    moduleName
+  );
+
+  const methodParameters = extractCamelcasedQueryParams(schema, underscoreName);
+
+  return t.classProperty(
+    t.identifier(methodName),
+    arrowFunctionExpression(
+      methodParameters
+        ? [...methodParameters, ...FIXED_EXECUTE_PARAMS]
+        : FIXED_EXECUTE_PARAMS,
+      t.blockStatement([
+        t.returnStatement(
+          t.callExpression(
+            t.memberExpression(t.thisExpression(), t.identifier('_composeMsg')),
+            [
+              t.callExpression(
+                t.memberExpression(
+                  t.identifier(`${moduleName}ExecuteMsgBuilder`),
+                  t.identifier(methodName)
+                ),
+                methodParameters
               )
             ]
           )

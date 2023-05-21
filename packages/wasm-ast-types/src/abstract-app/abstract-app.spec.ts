@@ -1,6 +1,7 @@
 import autocompounder_schema from '../../../../__fixtures__/abstract/apps/autocompounder.json';
 import { expectCode, makeContext } from '../../test-utils';
 import {
+  createAppExecuteClass,
   createAppExecuteInterface,
   createAppQueryClass,
   createAppQueryInterface
@@ -42,6 +43,20 @@ it('IAutocompounderAppClient', () => {
       'IAutocompounderAppClient',
       'AutocompounderAppClient',
       'IAutocompounderAppQueryClient',
+      autocompounder_schema.execute
+    )
+  );
+});
+
+it('AutocompounderAppClient', () => {
+  const ctx = makeContext(autocompounder_schema);
+
+  expectCode(
+    createAppExecuteClass(
+      ctx,
+      'Autocompounder',
+      'AutocompounderAppClient',
+      'IAutocompounderAppClient',
       autocompounder_schema.execute
     )
   );

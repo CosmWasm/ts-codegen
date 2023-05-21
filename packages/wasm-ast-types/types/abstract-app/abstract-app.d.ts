@@ -7,6 +7,7 @@ export declare const createAbstractAppClass: (
   className: string,
   msg: ExecuteMsg | QueryMsg
 ) => t.ExportNamedDeclaration;
+
 /**
  * The address and connect methods in the interface.
  */
@@ -23,6 +24,25 @@ export declare const createAppQueryClass: (
   className: string,
   implementsClassName: string,
   queryMsg: QueryMsg
+) => t.ExportNamedDeclaration;
+
+/**
+ * The address and connect methods in the interface.
+ */
+export declare const createAppExecuteInterface: (
+  context: RenderContext,
+  interfaceClassName: string,
+  mutClassName: string,
+  extendsClassName,
+  executeMsg: ExecuteMsg
+) => t.ExportNamedDeclaration;
+
+export declare const createAppExecuteClass: (
+  context: RenderContext,
+  uncheckedModuleName: string,
+  className: string,
+  implementsClassName: string,
+  execute: ExecuteMsg
 ) => t.ExportNamedDeclaration;
 
 export declare const createAbstractAppQueryFactory: (

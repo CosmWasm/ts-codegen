@@ -1,5 +1,59 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`AutocompounderAppClient 1`] = `
+"export class AutocompounderAppClient implements IAutocompounderAppClient {
+  accountClient: AbstractAccountClient;
+
+  constructor({
+    abstract,
+    accountId,
+    managerAddress,
+    proxyAddress,
+    moduleId
+  }) {
+    super(base);
+    this.accountClient = AbstractAccountClient.fromQueryClient(this.accountQueryClient, base.abstract);
+    this.updateFeeConfig = this.updateFeeConfig.bind(this);
+    this.deposit = this.deposit.bind(this);
+    this.withdraw = this.withdraw.bind(this);
+    this.compound = this.compound.bind(this);
+    this.batchUnbond = this.batchUnbond.bind(this);
+  }
+
+  updateFeeConfig = async (params: CamelCasedProperties<Extract<QueryMsg, {
+    update_fee_config: unknown;
+  }>[\\"update_fee_config\\"]>, fee?: number | StdFee | \\"auto\\", memo?: string, funds?: Coin[]): Promise<UpdateFeeConfigResponse> => {
+    return this._composeMsg(AutocompounderExecuteMsgBuilder.updateFeeConfig(params));
+  };
+  deposit = async (params: CamelCasedProperties<Extract<QueryMsg, {
+    deposit: unknown;
+  }>[\\"deposit\\"]>, fee?: number | StdFee | \\"auto\\", memo?: string, funds?: Coin[]): Promise<DepositResponse> => {
+    return this._composeMsg(AutocompounderExecuteMsgBuilder.deposit(params));
+  };
+  withdraw = async (fee?: number | StdFee | \\"auto\\", memo?: string, funds?: Coin[]): Promise<WithdrawResponse> => {
+    return this._composeMsg(AutocompounderExecuteMsgBuilder.withdraw());
+  };
+  compound = async (fee?: number | StdFee | \\"auto\\", memo?: string, funds?: Coin[]): Promise<CompoundResponse> => {
+    return this._composeMsg(AutocompounderExecuteMsgBuilder.compound());
+  };
+  batchUnbond = async (fee?: number | StdFee | \\"auto\\", memo?: string, funds?: Coin[]): Promise<BatchUnbondResponse> => {
+    return this._composeMsg(AutocompounderExecuteMsgBuilder.batchUnbond());
+  };
+  _composeMsg = (msg: AutocompounderExecuteMsg, _funds?: Coin[]): Promise<MsgExecuteContractEncodeObject> => {
+    const moduleMsg: AppExecuteMsg<AutocompounderExecuteMsg> = AppModuleExecuteMsgBuilder.executeApp(msg);
+    return {
+      typeUrl: \\"/cosmwasm.wasm.v1.MsgExecuteContract\\",
+      value: MsgExecuteContract.fromPartial({
+        sender: this.accountClient.sender,
+        contract: await this.address(),
+        msg: toUtf8(JSON.stringify(moduleMsg)),
+        funds
+      })
+    };
+  };
+}"
+`;
+
 exports[`AutocompounderAppQueryClient 1`] = `
 "export class AutocompounderAppQueryClient implements IAutocompounderAppQueryClient {
   queryClient: AbstractQueryClient;

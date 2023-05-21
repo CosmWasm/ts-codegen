@@ -3,7 +3,11 @@ import { header } from '../utils/header';
 import { join } from 'path';
 import { sync as mkdirp } from 'mkdirp';
 import * as w from 'wasm-ast-types';
-import { AbstractAppOptions, ContractInfo, RenderContext } from 'wasm-ast-types';
+import {
+  AbstractAppOptions,
+  ContractInfo,
+  RenderContext
+} from 'wasm-ast-types';
 import * as t from '@babel/types';
 import { writeFileSync } from 'fs';
 import generate from '@babel/generator';
@@ -37,7 +41,7 @@ export default async (
   const appQueryClientName = pascal(`${contractName}AppQueryClient`);
   const appQueryInterfaceName = pascal(`I${appQueryClientName}`);
   // TODO
-  const moduleName = contractName
+  const moduleName = contractName;
 
   const body = [];
 
@@ -61,11 +65,11 @@ export default async (
   // client imports
   body.push(w.importStmt(clientImports, `./${ContractFile}`));
   body.push(w.importStmt(msgBuilderImports, `./${MsgBuilderFile}`));
-  context.addUtil('CamelCasedProperties')
+  context.addUtil('CamelCasedProperties');
 
   // query messages
   if (QueryMsg) {
-    console.log('QueryMsg', QueryMsg)
+    console.log('QueryMsg', QueryMsg);
 
     body.push(
       w.createAppQueryInterface(
@@ -76,7 +80,15 @@ export default async (
       )
     );
     // body.push(w.createAbstractAppClass(context, queryClientName, QueryMsg));
-    body.push(w.createAppQueryClass(context, moduleName, appQueryClientName, appQueryInterfaceName, QueryMsg));
+    body.push(
+      w.createAppQueryClass(
+        context,
+        moduleName,
+        appQueryClientName,
+        appQueryInterfaceName,
+        QueryMsg
+      )
+    );
   }
 
   if (typeHash.hasOwnProperty('Coin')) {
