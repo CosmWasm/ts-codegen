@@ -5,7 +5,7 @@ import { sync as mkdirp } from 'mkdirp';
 import * as w from 'wasm-ast-types';
 import {
   AbstractAppOptions,
-  ContractInfo,
+  ContractInfo, getMessageProperties,
   RenderContext
 } from 'wasm-ast-types';
 import * as t from '@babel/types';
@@ -38,6 +38,7 @@ export default async (
   const executeClientName = pascal(`${contractName}Client`);
   const queryClientName = pascal(`${contractName}QueryClient`);
   const appExecuteClientName = pascal(`${contractName}AppClient`);
+  const appExecuteInterfaceName = pascal(`I${appExecuteClientName}`);
   const appQueryClientName = pascal(`${contractName}AppQueryClient`);
   const appQueryInterfaceName = pascal(`I${appQueryClientName}`);
   // TODO
@@ -79,7 +80,7 @@ export default async (
         QueryMsg
       )
     );
-    // body.push(w.createAbstractAppClass(context, queryClientName, QueryMsg));
+
     body.push(
       w.createAppQueryClass(
         context,
@@ -89,6 +90,34 @@ export default async (
         QueryMsg
       )
     );
+  }
+
+  // execute messages
+  if (ExecuteMsg) {
+    const children = getMessageProperties(ExecuteMsg);
+    if (children.length > 0) {
+      console.log('ExecuteMsg', ExecuteMsg);
+      body.push(
+        w.createAppExecuteInterface(
+          context,
+          appExecuteInterfaceName,
+          appExecuteClientName,
+          appQueryInterfaceName,
+          ExecuteMsg
+        )
+      );
+
+      body.push(
+        w.createAppExecuteClass(
+          context,
+          moduleName,
+          appExecuteClientName,
+          appExecuteInterfaceName,
+          appQueryClientName,
+          ExecuteMsg
+        )
+      );
+    }
   }
 
   if (typeHash.hasOwnProperty('Coin')) {

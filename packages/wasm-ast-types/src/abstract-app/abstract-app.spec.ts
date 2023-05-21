@@ -57,6 +57,7 @@ it('AutocompounderAppClient', () => {
       'Autocompounder',
       'AutocompounderAppClient',
       'IAutocompounderAppClient',
+      'AutocompounderAppQueryClient',
       autocompounder_schema.execute
     )
   );

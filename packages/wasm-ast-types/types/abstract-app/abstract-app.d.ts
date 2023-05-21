@@ -33,7 +33,7 @@ export declare const createAppExecuteInterface: (
   context: RenderContext,
   interfaceClassName: string,
   mutClassName: string,
-  extendsClassName,
+  extendsClassName: string,
   executeMsg: ExecuteMsg
 ) => t.ExportNamedDeclaration;
 
@@ -42,6 +42,7 @@ export declare const createAppExecuteClass: (
   uncheckedModuleName: string,
   className: string,
   implementsClassName: string,
+  extendsClassName: string,
   execute: ExecuteMsg
 ) => t.ExportNamedDeclaration;
 

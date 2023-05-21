@@ -57,6 +57,8 @@ export const UTILS = {
   AbstractQueryClient: '@abstract-money/abstract.js',
   AbstractAccountClient: '@abstract-money/abstract.js',
   AbstractAccountQueryClient: '@abstract-money/abstract.js',
+  AppExecuteMsg: '@abstract-money/abstract.js',
+  AppModuleExecuteMsgBuilder: '@abstract-money/abstract.js',
 
   // react-query
   createQueryKeys: '@lukemorales/query-key-factory',

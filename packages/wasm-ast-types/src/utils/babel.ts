@@ -9,9 +9,10 @@ export const propertySignature = (
     name: string,
     typeAnnotation: t.TSTypeAnnotation,
     optional: boolean = false
-) => {
+): t.TSPropertySignature => {
     return {
         type: 'TSPropertySignature',
+      kind: "get",
         key: t.identifier(name),
         typeAnnotation,
         optional
@@ -234,9 +235,49 @@ export const FieldTypeAsts = {
     }
 };
 
-export const shorthandProperty = (prop: string) => {
-    return t.objectProperty(t.identifier(prop), t.identifier(prop), false, true);
+export const shorthandProperty = (prop: string, typeAnnotation?: t.TSTypeAnnotation) => {
+    return t.objectProperty(identifier(prop, typeAnnotation), t.identifier(prop), false, true);
 };
+
+export const objectPattern = (properties: t.ObjectProperty[], typeAnnotation?: t.TSTypeAnnotation) => {
+    const obj = t.objectPattern(properties);
+    if (typeAnnotation) {
+      obj.typeAnnotation = typeAnnotation;
+    }
+    return obj;
+}
+
+/**
+ * Retrieve the types from the object pattern properties.
+ * Example:
+ ```ts
+  autoTypedObjectPattern([
+    shorthandProperty(
+      'moduleId',
+      t.tsTypeAnnotation(t.tsStringKeyword())
+    ),
+    shorthandProperty(
+      'accountId',
+      t.tsTypeAnnotation(t.tsNumberKeyword())
+    ),
+  ])
+ ```
+ */
+export const autoTypedObjectPattern = (properties: t.ObjectProperty[]) => {
+  const propertyTypes = properties.map((prop) => {
+    return propertySignature(
+      // @ts-ignore
+      prop.key.name,
+      // @ts-ignore
+      prop.key.typeAnnotation
+    );
+  })
+
+  return objectPattern(
+    properties,
+    t.tSTypeAnnotation(t.tsTypeLiteral(propertyTypes))
+  );
+}
 
 export const importStmt = (names: string[], path: string) => {
     return t.importDeclaration(

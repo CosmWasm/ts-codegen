@@ -1,11 +1,12 @@
 import * as t from '@babel/types';
+import { ExportNamedDeclaration } from '@babel/types';
 import { camel, pascal } from 'case';
 import {
   abstractClassDeclaration,
   arrowFunctionExpression,
+  autoTypedObjectPattern,
   bindMethod,
   classDeclaration,
-  classPrivateProperty,
   classProperty,
   createExtractTypeAnnotation,
   getMessageProperties,
@@ -17,8 +18,14 @@ import {
 import { ExecuteMsg, QueryMsg } from '../types';
 import { createTypedObjectParams } from '../utils/types';
 import { RenderContext } from '../context';
-import { FIXED_EXECUTE_PARAMS, getWasmMethodArgs } from '../client/client';
+import { getWasmMethodArgs } from '../client/client';
 import { createQueryOptionsFactory } from './query-options-factory';
+
+const FUNDS_PARAM = identifier(
+  '_funds',
+  t.tsTypeAnnotation(t.tsArrayType(t.tsTypeReference(t.identifier('Coin')))),
+  true
+);
 
 export const createAbstractAppClass = (
   context: RenderContext,
@@ -52,12 +59,12 @@ export const createAbstractAppQueryFactory = (
 const CLASS_VARS = {
   moduleId: t.identifier('moduleId'),
   _moduleAddress: t.identifier('_moduleAddress'),
-  queryClient: t.identifier('queryClient'),
   accountClient: t.identifier('accountClient'),
   accountQueryClient: t.identifier('accountQueryClient')
 };
 
 const ABSTRACT_ACCOUNT_CLIENT = 'AbstractAccountClient';
+const ABSTRACT_CLIENT = 'AbstractClient';
 const ABSTRACT_QUERY_CLIENT = 'AbstractQueryClient';
 const ABSTRACT_ACCOUNT_QUERY_CLIENT = 'AbstractAccountQueryClient';
 
@@ -157,7 +164,7 @@ export const createAppQueryInterface = (
           t.tsTypeAnnotation(t.tsStringKeyword())
         ),
         t.tSPropertySignature(
-          CLASS_VARS.queryClient,
+          CLASS_VARS.accountQueryClient,
           t.tsTypeAnnotation(
             t.tsTypeReference(t.identifier(ABSTRACT_ACCOUNT_QUERY_CLIENT))
           )
@@ -188,7 +195,10 @@ const QUERY_APP_FN = t.classProperty(
         t.returnStatement(
           t.callExpression(
             t.memberExpression(
-              t.memberExpression(t.thisExpression(), CLASS_VARS.queryClient),
+              t.memberExpression(
+                t.thisExpression(),
+                CLASS_VARS.accountQueryClient
+              ),
               t.identifier('queryModule')
             ),
             [
@@ -210,7 +220,8 @@ const QUERY_APP_FN = t.classProperty(
       []
     ),
     // TODO: better than any
-    promiseTypeAnnotation('any')
+    promiseTypeAnnotation('any'),
+    true
   )
 );
 
@@ -221,7 +232,15 @@ export const createAppExecuteInterface = (
   extendsClassName,
   executeMsg: ExecuteMsg
 ): t.ExportNamedDeclaration => {
-  context.addUtils(['SigningCosmWasmClient', ABSTRACT_ACCOUNT_CLIENT]);
+  context.addUtils([
+    'SigningCosmWasmClient',
+    ABSTRACT_ACCOUNT_CLIENT,
+    'MsgExecuteContractEncodeObject',
+    'AppExecuteMsg',
+    'AppModuleExecuteMsgBuilder',
+    'MsgExecuteContract',
+    'toUtf8'
+  ]);
 
   const methods = getMessageProperties(executeMsg).map((jsonschema) => {
     const underscoreName = Object.keys(jsonschema.properties)[0];
@@ -232,9 +251,7 @@ export const createAppExecuteInterface = (
     const func = {
       type: 'TSFunctionType',
       typeAnnotation: promiseTypeAnnotation(responseType),
-      parameters: parameters
-        ? [...parameters, ...FIXED_EXECUTE_PARAMS]
-        : FIXED_EXECUTE_PARAMS
+      parameters: parameters ? [...parameters, FUNDS_PARAM] : [FUNDS_PARAM]
     };
 
     return t.tSPropertySignature(
@@ -272,21 +289,9 @@ const COMPOSE_MSG_FN = t.classProperty(
     [
       identifier(
         'msg',
-        t.tsTypeAnnotation(
-          // TODO: parameter
-          t.tsTypeReference(t.identifier('AutocompounderExecuteMsg'))
-        )
+        t.tsTypeAnnotation(t.tsTypeReference(t.identifier('ExecuteMsg')))
       ),
-      identifier(
-        '_funds',
-        t.tsTypeAnnotation(
-          t.tsArrayType(
-            // TODO: push coin
-            t.tsTypeReference(t.identifier('Coin'))
-          )
-        ),
-        true
-      )
+      FUNDS_PARAM
     ],
     t.blockStatement(
       [
@@ -298,7 +303,7 @@ const COMPOSE_MSG_FN = t.classProperty(
                 t.tSTypeReference(
                   t.identifier('AppExecuteMsg'),
                   t.tsTypeParameterInstantiation([
-                    t.tsTypeReference(t.identifier('AutocompounderExecuteMsg'))
+                    t.tsTypeReference(t.identifier('ExecuteMsg'))
                   ])
                 )
               )
@@ -363,9 +368,9 @@ const COMPOSE_MSG_FN = t.classProperty(
                     ),
                     t.objectProperty(
                       t.identifier('funds'),
-                      t.identifier('funds'),
+                      t.identifier('_funds'),
                       false,
-                      true
+                      false
                     )
                   ])
                 ]
@@ -376,7 +381,10 @@ const COMPOSE_MSG_FN = t.classProperty(
       ],
       []
     ),
-    promiseTypeAnnotation('MsgExecuteContractEncodeObject')
+    // return
+    promiseTypeAnnotation('MsgExecuteContractEncodeObject'),
+    // async
+    true
   )
 );
 
@@ -411,7 +419,7 @@ export const createAppQueryClass = (
       [
         // client
         classProperty(
-          'queryClient',
+          'accountQueryClient',
           t.tsTypeAnnotation(
             t.tsTypeReference(t.identifier(ABSTRACT_ACCOUNT_QUERY_CLIENT))
           )
@@ -434,12 +442,29 @@ export const createAppQueryClass = (
           'constructor',
           t.identifier('constructor'),
           [
-            t.objectPattern([
-              shorthandProperty('abstract'),
-              shorthandProperty('accountId'),
-              shorthandProperty('managerAddress'),
-              shorthandProperty('proxyAddress'),
-              shorthandProperty('moduleId')
+            autoTypedObjectPattern([
+              shorthandProperty(
+                'abstractQueryClient',
+                t.tsTypeAnnotation(
+                  t.tsTypeReference(t.identifier(ABSTRACT_QUERY_CLIENT))
+                )
+              ),
+              shorthandProperty(
+                'accountId',
+                t.tsTypeAnnotation(t.tsNumberKeyword())
+              ),
+              shorthandProperty(
+                'managerAddress',
+                t.tsTypeAnnotation(t.tsStringKeyword())
+              ),
+              shorthandProperty(
+                'proxyAddress',
+                t.tsTypeAnnotation(t.tsStringKeyword())
+              ),
+              shorthandProperty(
+                'moduleId',
+                t.tsTypeAnnotation(t.tsStringKeyword())
+              )
             ])
           ],
           t.blockStatement([
@@ -448,11 +473,16 @@ export const createAppQueryClass = (
                 '=',
                 t.memberExpression(
                   t.thisExpression(),
-                  t.identifier('queryClient')
+                  CLASS_VARS.accountQueryClient
                 ),
                 t.newExpression(t.identifier(ABSTRACT_ACCOUNT_QUERY_CLIENT), [
                   t.objectExpression([
-                    shorthandProperty('abstract'),
+                    t.objectProperty(
+                      identifier('abstract'),
+                      t.identifier('abstractQueryClient'),
+                      false,
+                      true
+                    ),
                     shorthandProperty('accountId'),
                     shorthandProperty('managerAddress'),
                     shorthandProperty('proxyAddress')
@@ -501,7 +531,7 @@ const ADDRESS_ACCESSOR_FN = t.classProperty(
                   t.memberExpression(
                     t.memberExpression(
                       t.thisExpression(),
-                      t.identifier('queryClient')
+                      CLASS_VARS.accountQueryClient
                     ),
                     t.identifier('getModuleAddress')
                   ),
@@ -556,7 +586,7 @@ const connectMethod = (mutClientName: string) => {
                 t.memberExpression(
                   t.memberExpression(
                     t.thisExpression(),
-                    t.identifier('queryClient')
+                    CLASS_VARS.accountQueryClient
                   ),
                   t.identifier('accountId')
                 )
@@ -566,7 +596,7 @@ const connectMethod = (mutClientName: string) => {
                 t.memberExpression(
                   t.memberExpression(
                     t.thisExpression(),
-                    CLASS_VARS.queryClient
+                    CLASS_VARS.accountQueryClient
                   ),
                   t.identifier('managerAddress')
                 )
@@ -576,19 +606,23 @@ const connectMethod = (mutClientName: string) => {
                 t.memberExpression(
                   t.memberExpression(
                     t.thisExpression(),
-                    CLASS_VARS.queryClient
+                    CLASS_VARS.accountQueryClient
                   ),
                   t.identifier('proxyAddress')
                 )
               ),
               t.objectProperty(
-                t.identifier('abstract'),
+                t.identifier('moduleId'),
+                t.memberExpression(t.thisExpression(), t.identifier('moduleId'))
+              ),
+              t.objectProperty(
+                t.identifier('abstractClient'),
                 t.callExpression(
                   t.memberExpression(
                     t.memberExpression(
                       t.memberExpression(
                         t.thisExpression(),
-                        CLASS_VARS.queryClient
+                        CLASS_VARS.accountQueryClient
                       ),
                       t.identifier('abstract')
                     ),
@@ -666,11 +700,17 @@ export const createAppExecuteClass = (
   uncheckedModuleName: string,
   className: string,
   implementsClassName: string,
+  extendsClassName: string,
   execMsg: ExecuteMsg
-): t.ExportNamedDeclaration => {
+): ExportNamedDeclaration => {
   const moduleName = pascal(uncheckedModuleName);
 
-  context.addUtils([ABSTRACT_ACCOUNT_CLIENT]);
+  context.addUtils([
+    ABSTRACT_ACCOUNT_CLIENT,
+    'StdFee',
+    'Coin',
+    ABSTRACT_CLIENT
+  ]);
 
   const propertyNames = getMessageProperties(execMsg)
     .map((method) => Object.keys(method.properties)?.[0])
@@ -702,18 +742,48 @@ export const createAppExecuteClass = (
           t.identifier('constructor'),
           // TODO: typing
           [
-            t.objectPattern([
-              shorthandProperty('abstract'),
-              shorthandProperty('accountId'),
-              shorthandProperty('managerAddress'),
-              shorthandProperty('proxyAddress'),
-              shorthandProperty('moduleId')
+            autoTypedObjectPattern([
+              shorthandProperty(
+                'abstractClient',
+                t.tsTypeAnnotation(
+                  t.tsTypeReference(t.identifier(ABSTRACT_CLIENT))
+                )
+              ),
+              shorthandProperty(
+                'accountId',
+                t.tsTypeAnnotation(t.tsNumberKeyword())
+              ),
+              shorthandProperty(
+                'managerAddress',
+                t.tsTypeAnnotation(t.tsStringKeyword())
+              ),
+              shorthandProperty(
+                'proxyAddress',
+                t.tsTypeAnnotation(t.tsStringKeyword())
+              ),
+              shorthandProperty(
+                'moduleId',
+                t.tsTypeAnnotation(t.tsStringKeyword())
+              )
             ])
           ],
           t.blockStatement([
             t.expressionStatement(
               // TODO!
-              t.callExpression(t.super(), [t.identifier('base')])
+              t.callExpression(t.super(), [
+                t.objectExpression([
+                  t.objectProperty(
+                    identifier('abstractQueryClient', undefined),
+                    t.identifier('abstractClient'),
+                    false,
+                    true
+                  ),
+                  shorthandProperty('accountId'),
+                  shorthandProperty('managerAddress'),
+                  shorthandProperty('proxyAddress'),
+                  shorthandProperty('moduleId')
+                ])
+              ])
             ),
             t.expressionStatement(
               t.assignmentExpression(
@@ -732,10 +802,7 @@ export const createAppExecuteClass = (
                       t.thisExpression(),
                       CLASS_VARS.accountQueryClient
                     ),
-                    t.memberExpression(
-                      t.identifier('base'),
-                      t.identifier('abstract')
-                    )
+                    t.identifier('abstractClient')
                   ]
                 )
               )
@@ -746,7 +813,8 @@ export const createAppExecuteClass = (
 
         ...methods
       ],
-      [t.tSExpressionWithTypeArguments(t.identifier(implementsClassName))]
+      [t.tSExpressionWithTypeArguments(t.identifier(implementsClassName))],
+      extendsClassName ? t.identifier(extendsClassName) : null
     )
   );
 };
@@ -766,7 +834,6 @@ const createAppExecMethod = (
 ) => {
   const underscoreName = Object.keys(schema.properties)[0];
   const methodName = camel(underscoreName);
-  const responseType = getResponseType(context, underscoreName);
 
   const execParams = Object.keys(
     schema.properties[underscoreName]?.properties ?? {}
@@ -784,9 +851,7 @@ const createAppExecMethod = (
   return t.classProperty(
     t.identifier(methodName),
     arrowFunctionExpression(
-      methodParameters
-        ? [...methodParameters, ...FIXED_EXECUTE_PARAMS]
-        : FIXED_EXECUTE_PARAMS,
+      methodParameters ? [...methodParameters, FUNDS_PARAM] : [FUNDS_PARAM],
       t.blockStatement([
         t.returnStatement(
           t.callExpression(
@@ -798,12 +863,13 @@ const createAppExecMethod = (
                   t.identifier(methodName)
                 ),
                 methodParameters
-              )
+              ),
+              FUNDS_PARAM
             ]
           )
         )
       ]),
-      promiseTypeAnnotation(responseType),
+      promiseTypeAnnotation('MsgExecuteContractEncodeObject'),
       true
     )
   );
