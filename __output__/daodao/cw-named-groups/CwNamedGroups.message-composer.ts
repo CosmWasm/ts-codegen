@@ -65,7 +65,7 @@ export class CwNamedGroupsMessageComposer implements CwNamedGroupsMessage {
             group
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -84,7 +84,7 @@ export class CwNamedGroupsMessageComposer implements CwNamedGroupsMessage {
             group
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -103,7 +103,7 @@ export class CwNamedGroupsMessageComposer implements CwNamedGroupsMessage {
             owner
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };

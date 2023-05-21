@@ -107,7 +107,7 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
             new_owner: newOwner
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -120,7 +120,7 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
         msg: toUtf8(JSON.stringify({
           accept_ownership: {}
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -139,7 +139,7 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
             user
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -161,7 +161,7 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
             token_id: tokenId
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -186,7 +186,7 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
             token_id: tokenId
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -211,7 +211,7 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
             token_id: tokenId
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -233,7 +233,7 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
             token_id: tokenId
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -255,7 +255,7 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
             operator
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -274,7 +274,7 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
             operator
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -293,7 +293,7 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
             token_id: tokenId
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };

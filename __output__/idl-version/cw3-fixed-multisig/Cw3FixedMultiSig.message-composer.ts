@@ -77,7 +77,7 @@ export class Cw3FixedMultiSigMessageComposer implements Cw3FixedMultiSigMessage 
             title
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -99,7 +99,7 @@ export class Cw3FixedMultiSigMessageComposer implements Cw3FixedMultiSigMessage 
             vote
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -118,7 +118,7 @@ export class Cw3FixedMultiSigMessageComposer implements Cw3FixedMultiSigMessage 
             proposal_id: proposalId
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -137,7 +137,7 @@ export class Cw3FixedMultiSigMessageComposer implements Cw3FixedMultiSigMessage 
             proposal_id: proposalId
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };

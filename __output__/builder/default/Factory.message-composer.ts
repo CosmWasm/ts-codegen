@@ -84,7 +84,7 @@ export class FactoryMessageComposer implements FactoryMessage {
             create_wallet_msg: createWalletMsg
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -106,7 +106,7 @@ export class FactoryMessageComposer implements FactoryMessage {
             old_user: oldUser
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -128,7 +128,7 @@ export class FactoryMessageComposer implements FactoryMessage {
             wallet_address: walletAddress
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -150,7 +150,7 @@ export class FactoryMessageComposer implements FactoryMessage {
             ty
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -169,7 +169,7 @@ export class FactoryMessageComposer implements FactoryMessage {
             new_fee: newFee
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -188,7 +188,7 @@ export class FactoryMessageComposer implements FactoryMessage {
             addr
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -207,7 +207,7 @@ export class FactoryMessageComposer implements FactoryMessage {
             addr
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };

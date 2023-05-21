@@ -53,7 +53,7 @@ export class CwAdminFactoryMessageComposer implements CwAdminFactoryMessage {
             label
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };

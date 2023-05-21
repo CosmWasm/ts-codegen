@@ -82,7 +82,7 @@ export class ProxyMessageComposer implements ProxyMessage {
             msgs
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -95,7 +95,7 @@ export class ProxyMessageComposer implements ProxyMessage {
         msg: toUtf8(JSON.stringify({
           revert_freeze_status: {}
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -114,7 +114,7 @@ export class ProxyMessageComposer implements ProxyMessage {
             transaction
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -133,7 +133,7 @@ export class ProxyMessageComposer implements ProxyMessage {
             new_user_address: newUserAddress
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -152,7 +152,7 @@ export class ProxyMessageComposer implements ProxyMessage {
             new_relayer_address: newRelayerAddress
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -171,7 +171,7 @@ export class ProxyMessageComposer implements ProxyMessage {
             relayer_address: relayerAddress
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -193,7 +193,7 @@ export class ProxyMessageComposer implements ProxyMessage {
             new_multisig_code_id: newMultisigCodeId
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -212,7 +212,7 @@ export class ProxyMessageComposer implements ProxyMessage {
             new_label: newLabel
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };

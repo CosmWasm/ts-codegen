@@ -93,7 +93,7 @@ export class CwCodeIdRegistryMessageComposer implements CwCodeIdRegistryMessage 
             sender
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -124,7 +124,7 @@ export class CwCodeIdRegistryMessageComposer implements CwCodeIdRegistryMessage 
             version
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -149,7 +149,7 @@ export class CwCodeIdRegistryMessageComposer implements CwCodeIdRegistryMessage 
             owner
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -171,7 +171,7 @@ export class CwCodeIdRegistryMessageComposer implements CwCodeIdRegistryMessage 
             code_id: codeId
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -193,7 +193,7 @@ export class CwCodeIdRegistryMessageComposer implements CwCodeIdRegistryMessage 
             payment_info: paymentInfo
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };

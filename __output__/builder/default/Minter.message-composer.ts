@@ -62,7 +62,7 @@ export class MinterMessageComposer implements MinterMessage {
         msg: toUtf8(JSON.stringify({
           mint: {}
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -81,7 +81,7 @@ export class MinterMessageComposer implements MinterMessage {
             whitelist
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -94,7 +94,7 @@ export class MinterMessageComposer implements MinterMessage {
         msg: toUtf8(JSON.stringify({
           update_start_time: {}
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -113,7 +113,7 @@ export class MinterMessageComposer implements MinterMessage {
             per_address_limit: perAddressLimit
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -132,7 +132,7 @@ export class MinterMessageComposer implements MinterMessage {
             recipient
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -154,7 +154,7 @@ export class MinterMessageComposer implements MinterMessage {
             token_id: tokenId
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -167,7 +167,7 @@ export class MinterMessageComposer implements MinterMessage {
         msg: toUtf8(JSON.stringify({
           withdraw: {}
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };

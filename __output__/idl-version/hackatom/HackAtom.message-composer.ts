@@ -50,7 +50,7 @@ export class HackAtomMessageComposer implements HackAtomMessage {
         msg: toUtf8(JSON.stringify({
           release: {}
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -63,7 +63,7 @@ export class HackAtomMessageComposer implements HackAtomMessage {
         msg: toUtf8(JSON.stringify({
           cpu_loop: {}
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -76,7 +76,7 @@ export class HackAtomMessageComposer implements HackAtomMessage {
         msg: toUtf8(JSON.stringify({
           storage_loop: {}
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -89,7 +89,7 @@ export class HackAtomMessageComposer implements HackAtomMessage {
         msg: toUtf8(JSON.stringify({
           memory_loop: {}
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -102,7 +102,7 @@ export class HackAtomMessageComposer implements HackAtomMessage {
         msg: toUtf8(JSON.stringify({
           message_loop: {}
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -121,7 +121,7 @@ export class HackAtomMessageComposer implements HackAtomMessage {
             pages
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -134,7 +134,7 @@ export class HackAtomMessageComposer implements HackAtomMessage {
         msg: toUtf8(JSON.stringify({
           panic: {}
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -147,7 +147,7 @@ export class HackAtomMessageComposer implements HackAtomMessage {
         msg: toUtf8(JSON.stringify({
           user_errors_in_api_calls: {}
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };

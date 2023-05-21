@@ -63,7 +63,7 @@ export class Cw4GroupMessageComposer implements Cw4GroupMessage {
             admin
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -85,7 +85,7 @@ export class Cw4GroupMessageComposer implements Cw4GroupMessage {
             remove
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -104,7 +104,7 @@ export class Cw4GroupMessageComposer implements Cw4GroupMessage {
             addr
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -123,7 +123,7 @@ export class Cw4GroupMessageComposer implements Cw4GroupMessage {
             addr
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };

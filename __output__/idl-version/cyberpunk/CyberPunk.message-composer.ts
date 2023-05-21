@@ -50,7 +50,7 @@ export class CyberPunkMessageComposer implements CyberPunkMessage {
             time_cost: timeCost
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -63,7 +63,7 @@ export class CyberPunkMessageComposer implements CyberPunkMessage {
         msg: toUtf8(JSON.stringify({
           mirror_env: {}
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };

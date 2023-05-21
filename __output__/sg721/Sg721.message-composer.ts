@@ -108,7 +108,7 @@ export class Sg721MessageComposer implements Sg721Message {
             token_id: tokenId
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -133,7 +133,7 @@ export class Sg721MessageComposer implements Sg721Message {
             token_id: tokenId
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -158,7 +158,7 @@ export class Sg721MessageComposer implements Sg721Message {
             token_id: tokenId
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -180,7 +180,7 @@ export class Sg721MessageComposer implements Sg721Message {
             token_id: tokenId
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -202,7 +202,7 @@ export class Sg721MessageComposer implements Sg721Message {
             operator
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -221,7 +221,7 @@ export class Sg721MessageComposer implements Sg721Message {
             operator
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -249,7 +249,7 @@ export class Sg721MessageComposer implements Sg721Message {
             token_uri: tokenUri
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -268,7 +268,7 @@ export class Sg721MessageComposer implements Sg721Message {
             token_id: tokenId
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };

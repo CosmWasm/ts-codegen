@@ -114,7 +114,7 @@ export class CwSingleMessageComposer implements CwSingleMessage {
             title
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -136,7 +136,7 @@ export class CwSingleMessageComposer implements CwSingleMessage {
             vote
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -155,7 +155,7 @@ export class CwSingleMessageComposer implements CwSingleMessage {
             proposal_id: proposalId
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -174,7 +174,7 @@ export class CwSingleMessageComposer implements CwSingleMessage {
             proposal_id: proposalId
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -211,7 +211,7 @@ export class CwSingleMessageComposer implements CwSingleMessage {
             threshold
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -230,7 +230,7 @@ export class CwSingleMessageComposer implements CwSingleMessage {
             address
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -249,7 +249,7 @@ export class CwSingleMessageComposer implements CwSingleMessage {
             address
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -268,7 +268,7 @@ export class CwSingleMessageComposer implements CwSingleMessage {
             address
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
@@ -287,7 +287,7 @@ export class CwSingleMessageComposer implements CwSingleMessage {
             address
           }
         })),
-        _funds: funds
+        funds: _funds
       })
     };
   };
