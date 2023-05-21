@@ -1,26 +1,19 @@
 import * as t from '@babel/types';
+import { Expression } from '@babel/types';
 import { camel } from 'case';
 import {
+  arrowFunctionExpression,
   bindMethod,
-  typedIdentifier,
   classDeclaration,
   classProperty,
-  arrowFunctionExpression,
-  getMessageProperties
+  getMessageProperties,
+  OPTIONAL_FUNDS_PARAM,
+  typedIdentifier
 } from '../utils';
-import { ExecuteMsg } from '../types';
+import { ExecuteMsg, JSONSchema } from '../types';
 import { createTypedObjectParams } from '../utils/types';
-import { JSONSchema } from '../types';
 import { RenderContext } from '../context';
-import { identifier } from '../utils/babel';
 import { getWasmMethodArgs } from '../client/client';
-import { Expression } from '@babel/types';
-
-const OPTIONAL_FUNDS = identifier(
-  '_funds',
-  t.tsTypeAnnotation(t.tsArrayType(t.tsTypeReference(t.identifier('Coin')))),
-  true
-);
 
 const createWasmExecMethodMessageComposer = (
   context: RenderContext,
@@ -50,7 +43,7 @@ const createWasmExecMethodMessageComposer = (
     actionValue = t.objectExpression(args);
   }
 
-  const constantParams = [OPTIONAL_FUNDS];
+  const constantParams = [OPTIONAL_FUNDS_PARAM];
 
   return t.classProperty(
     t.identifier(methodName),
@@ -250,7 +243,7 @@ const createPropertyFunctionWithObjectParamsForMessageComposer = (
   jsonschema: JSONSchema
 ) => {
   const obj = createTypedObjectParams(context, jsonschema);
-  const fixedParams = [OPTIONAL_FUNDS];
+  const fixedParams = [OPTIONAL_FUNDS_PARAM];
   const func = {
     type: 'TSFunctionType',
     typeAnnotation: t.tsTypeAnnotation(

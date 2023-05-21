@@ -26,13 +26,13 @@ exports[`execute classes array types 1`] = `
   }: {
     recipient: string;
     tokenId: string;
-  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       transfer_nft: {
         recipient,
         token_id: tokenId
       }
-    }, fee, memo, funds);
+    }, fee, memo, _funds);
   };
   sendNft = async ({
     contract,
@@ -42,14 +42,14 @@ exports[`execute classes array types 1`] = `
     contract: string;
     msg: Binary;
     tokenId: string;
-  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       send_nft: {
         contract,
         msg,
         token_id: tokenId
       }
-    }, fee, memo, funds);
+    }, fee, memo, _funds);
   };
   approve = async ({
     expires,
@@ -59,14 +59,14 @@ exports[`execute classes array types 1`] = `
     expires?: Expiration;
     spender: string;
     tokenId: string;
-  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       approve: {
         expires,
         spender,
         token_id: tokenId
       }
-    }, fee, memo, funds);
+    }, fee, memo, _funds);
   };
   revoke = async ({
     spender,
@@ -74,13 +74,13 @@ exports[`execute classes array types 1`] = `
   }: {
     spender: string;
     tokenId: string;
-  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       revoke: {
         spender,
         token_id: tokenId
       }
-    }, fee, memo, funds);
+    }, fee, memo, _funds);
   };
   approveAll = async ({
     expires,
@@ -88,24 +88,24 @@ exports[`execute classes array types 1`] = `
   }: {
     expires?: Expiration;
     operator: string;
-  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       approve_all: {
         expires,
         operator
       }
-    }, fee, memo, funds);
+    }, fee, memo, _funds);
   };
   revokeAll = async ({
     operator
   }: {
     operator: string;
-  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       revoke_all: {
         operator
       }
-    }, fee, memo, funds);
+    }, fee, memo, _funds);
   };
   mint = async ({
     extension,
@@ -117,7 +117,7 @@ exports[`execute classes array types 1`] = `
     owner: string;
     tokenId: string;
     tokenUri?: string;
-  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       mint: {
         extension,
@@ -125,18 +125,18 @@ exports[`execute classes array types 1`] = `
         token_id: tokenId,
         token_uri: tokenUri
       }
-    }, fee, memo, funds);
+    }, fee, memo, _funds);
   };
   burn = async ({
     tokenId
   }: {
     tokenId: string;
-  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       burn: {
         token_id: tokenId
       }
-    }, fee, memo, funds);
+    }, fee, memo, _funds);
   };
 }"
 `;
@@ -151,7 +151,7 @@ exports[`execute interfaces no extends 1`] = `
   }: {
     recipient: string;
     tokenId: string;
-  }, fee?: number | StdFee | \\"auto\\", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
   sendNft: ({
     contract,
     msg,
@@ -160,7 +160,7 @@ exports[`execute interfaces no extends 1`] = `
     contract: string;
     msg: Binary;
     tokenId: string;
-  }, fee?: number | StdFee | \\"auto\\", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
   approve: ({
     expires,
     spender,
@@ -169,26 +169,26 @@ exports[`execute interfaces no extends 1`] = `
     expires?: Expiration;
     spender: string;
     tokenId: string;
-  }, fee?: number | StdFee | \\"auto\\", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
   revoke: ({
     spender,
     tokenId
   }: {
     spender: string;
     tokenId: string;
-  }, fee?: number | StdFee | \\"auto\\", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
   approveAll: ({
     expires,
     operator
   }: {
     expires?: Expiration;
     operator: string;
-  }, fee?: number | StdFee | \\"auto\\", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
   revokeAll: ({
     operator
   }: {
     operator: string;
-  }, fee?: number | StdFee | \\"auto\\", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
   mint: ({
     extension,
     owner,
@@ -199,12 +199,12 @@ exports[`execute interfaces no extends 1`] = `
     owner: string;
     tokenId: string;
     tokenUri?: string;
-  }, fee?: number | StdFee | \\"auto\\", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
   burn: ({
     tokenId
   }: {
     tokenId: string;
-  }, fee?: number | StdFee | \\"auto\\", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
 }"
 `;
 

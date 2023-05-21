@@ -25,7 +25,7 @@ exports[`execute classes array types 1`] = `
     edges: number[][];
     nested: number[][][];
     supernested: string[][][][][][];
-  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_edges: {
         edges3,
@@ -34,7 +34,7 @@ exports[`execute classes array types 1`] = `
         nested,
         supernested
       }
-    }, fee, memo, funds);
+    }, fee, memo, _funds);
   };
 }"
 `;
@@ -55,7 +55,7 @@ exports[`execute interfaces no extends 1`] = `
     edges: number[][];
     nested: number[][][];
     supernested: string[][][][][][];
-  }, fee?: number | StdFee | \\"auto\\", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
 }"
 `;
 

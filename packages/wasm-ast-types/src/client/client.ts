@@ -5,14 +5,21 @@ import {
   bindMethod,
   classDeclaration,
   classProperty,
+  FIXED_EXECUTE_PARAMS,
   getMessageProperties,
+  OPTIONAL_FUNDS_PARAM,
   promiseTypeAnnotation,
   typedIdentifier
 } from '../utils';
 
 import { ExecuteMsg, JSONSchema, QueryMsg } from '../types';
 
-import { createTypedObjectParams, getPropertyType, getResponseType, getType } from '../utils/types';
+import {
+  createTypedObjectParams,
+  getPropertyType,
+  getResponseType,
+  getType
+} from '../utils/types';
 import { RenderContext } from '../context';
 import { identifier, propertySignature } from '../utils/babel';
 
@@ -21,66 +28,24 @@ export const CONSTANT_EXEC_PARAMS = [
     identifier(
       'fee',
       t.tsTypeAnnotation(
-        t.tsUnionType(
-          [
-            t.tSNumberKeyword(),
-            t.tsTypeReference(
-              t.identifier('StdFee')
-            ),
-            t.tsLiteralType(
-              t.stringLiteral('auto')
-            )
-          ]
-        )
+        t.tsUnionType([
+          t.tSNumberKeyword(),
+          t.tsTypeReference(t.identifier('StdFee')),
+          t.tsLiteralType(t.stringLiteral('auto'))
+        ])
       ),
       false
     ),
     t.stringLiteral('auto')
   ),
-  identifier('memo', t.tsTypeAnnotation(
-    t.tsStringKeyword()
-  ), true),
-  identifier('funds', t.tsTypeAnnotation(
-    t.tsArrayType(
-      t.tsTypeReference(
-        t.identifier('Coin')
-      )
-    )
-  ), true)
+  identifier('memo', t.tsTypeAnnotation(t.tsStringKeyword()), true),
+  OPTIONAL_FUNDS_PARAM
 ];
-
-export const FIXED_EXECUTE_PARAMS = [
-  identifier('fee', t.tsTypeAnnotation(
-    t.tsUnionType(
-      [
-        t.tsNumberKeyword(),
-        t.tsTypeReference(
-          t.identifier('StdFee')
-        ),
-        t.tsLiteralType(
-          t.stringLiteral('auto')
-        )
-      ]
-    )
-  ), true),
-  identifier('memo', t.tsTypeAnnotation(
-    t.tsStringKeyword()
-  ), true),
-  identifier('funds', t.tsTypeAnnotation(
-    t.tsArrayType(
-      t.tsTypeReference(
-        t.identifier('Coin')
-      )
-    )
-  ), true)
-];
-
 
 export const createWasmQueryMethod = (
   context: RenderContext,
   jsonschema: any
 ) => {
-
   const underscoreName = Object.keys(jsonschema.properties)[0];
   const methodName = camel(underscoreName);
   const responseType = getResponseType(context, underscoreName);
@@ -97,49 +62,44 @@ export const createWasmQueryMethod = (
 
   const msgAction = t.identifier(underscoreName);
   // If the param is an identifier, we can just use it as is
-  const msgActionValue = param?.type === 'Identifier' ? t.identifier(param.name) : t.objectExpression(args)
+  const msgActionValue =
+    param?.type === 'Identifier'
+      ? t.identifier(param.name)
+      : t.objectExpression(args);
 
   return t.classProperty(
     t.identifier(methodName),
     arrowFunctionExpression(
       param ? [param] : [],
-      t.blockStatement(
-        [
-          t.returnStatement(
-            t.callExpression(
+      t.blockStatement([
+        t.returnStatement(
+          t.callExpression(
+            t.memberExpression(
+              t.memberExpression(t.thisExpression(), t.identifier('client')),
+              t.identifier('queryContractSmart')
+            ),
+            [
               t.memberExpression(
-                t.memberExpression(
-                  t.thisExpression(),
-                  t.identifier('client')
-                ),
-                t.identifier('queryContractSmart')
+                t.thisExpression(),
+                t.identifier('contractAddress')
               ),
-              [
-                t.memberExpression(t.thisExpression(), t.identifier('contractAddress')),
-                t.objectExpression([
-                  t.objectProperty(msgAction, msgActionValue)
-                ])
-              ]
-            )
+              t.objectExpression([t.objectProperty(msgAction, msgActionValue)])
+            ]
           )
-        ]
-      ),
+        )
+      ]),
       t.tsTypeAnnotation(
         t.tsTypeReference(
           t.identifier('Promise'),
-          t.tsTypeParameterInstantiation(
-            [
-              t.tSTypeReference(
-                t.identifier(responseType)
-              )
-            ]
-          )
+          t.tsTypeParameterInstantiation([
+            t.tSTypeReference(t.identifier(responseType))
+          ])
         )
       ),
       true
     )
   );
-}
+};
 
 export const createQueryClass = (
   context: RenderContext,
@@ -147,81 +107,78 @@ export const createQueryClass = (
   implementsClassName: string,
   queryMsg: QueryMsg
 ) => {
-
   context.addUtil('CosmWasmClient');
 
   const propertyNames = getMessageProperties(queryMsg)
-    .map(method => Object.keys(method.properties)?.[0])
+    .map((method) => Object.keys(method.properties)?.[0])
     .filter(Boolean);
 
-  const bindings = propertyNames
-    .map(camel)
-    .map(bindMethod);
+  const bindings = propertyNames.map(camel).map(bindMethod);
 
-  const methods = getMessageProperties(queryMsg)
-    .map(schema => {
-      return createWasmQueryMethod(context, schema)
-    });
+  const methods = getMessageProperties(queryMsg).map((schema) => {
+    return createWasmQueryMethod(context, schema);
+  });
 
   return t.exportNamedDeclaration(
-    classDeclaration(className,
+    classDeclaration(
+      className,
       [
         // client
-        classProperty('client', t.tsTypeAnnotation(
-          t.tsTypeReference(t.identifier('CosmWasmClient'))
-        )),
+        classProperty(
+          'client',
+          t.tsTypeAnnotation(t.tsTypeReference(t.identifier('CosmWasmClient')))
+        ),
 
         // contractAddress
-        classProperty('contractAddress', t.tsTypeAnnotation(
-          t.tsStringKeyword()
-        )),
+        classProperty(
+          'contractAddress',
+          t.tsTypeAnnotation(t.tsStringKeyword())
+        ),
 
         // constructor
-        t.classMethod('constructor',
+        t.classMethod(
+          'constructor',
           t.identifier('constructor'),
           [
-            typedIdentifier('client', t.tsTypeAnnotation(t.tsTypeReference(t.identifier('CosmWasmClient')))),
-            typedIdentifier('contractAddress', t.tsTypeAnnotation(t.tsStringKeyword()))
-
+            typedIdentifier(
+              'client',
+              t.tsTypeAnnotation(
+                t.tsTypeReference(t.identifier('CosmWasmClient'))
+              )
+            ),
+            typedIdentifier(
+              'contractAddress',
+              t.tsTypeAnnotation(t.tsStringKeyword())
+            )
           ],
-          t.blockStatement(
-            [
-
-              // client/contract set
-              t.expressionStatement(
-                t.assignmentExpression(
-                  '=',
-                  t.memberExpression(
-                    t.thisExpression(),
-                    t.identifier('client')
-                  ),
-                  t.identifier('client')
-                )
-              ),
-              t.expressionStatement(
-                t.assignmentExpression(
-                  '=',
-                  t.memberExpression(
-                    t.thisExpression(),
-                    t.identifier('contractAddress')
-                  ),
+          t.blockStatement([
+            // client/contract set
+            t.expressionStatement(
+              t.assignmentExpression(
+                '=',
+                t.memberExpression(t.thisExpression(), t.identifier('client')),
+                t.identifier('client')
+              )
+            ),
+            t.expressionStatement(
+              t.assignmentExpression(
+                '=',
+                t.memberExpression(
+                  t.thisExpression(),
                   t.identifier('contractAddress')
-                )
-              ),
+                ),
+                t.identifier('contractAddress')
+              )
+            ),
 
-              ...bindings
-
-            ]
-          )),
+            ...bindings
+          ])
+        ),
 
         ...methods
-
       ],
-      [
-        t.tSExpressionWithTypeArguments(
-          t.identifier(implementsClassName)
-        )
-      ])
+      [t.tSExpressionWithTypeArguments(t.identifier(implementsClassName))]
+    )
   );
 };
 
@@ -236,16 +193,16 @@ export const getWasmMethodArgs = (
     const obj = context.refLookup(jsonschema.$ref);
     // properties
     if (obj) {
-      keys = Object.keys(obj.properties ?? {})
+      keys = Object.keys(obj.properties ?? {});
     }
 
     // tuple struct or otherwise, use the name of the reference
     if (!keys.length && obj?.oneOf) {
-// TODO????? ADAIR
+      // TODO????? ADAIR
     }
   }
 
-  const args = keys.map(prop => {
+  const args = keys.map((prop) => {
     return t.objectProperty(
       t.identifier(prop),
       t.identifier(camel(prop)),
@@ -261,7 +218,6 @@ export const createWasmExecMethod = (
   context: RenderContext,
   jsonschema: JSONSchema
 ) => {
-
   context.addUtil('ExecuteResult');
   context.addUtil('StdFee');
   context.addUtil('Coin');
@@ -279,73 +235,59 @@ export const createWasmExecMethod = (
 
   const msgAction = t.identifier(underscoreName);
   // If the param is an identifier, we can just use it as is
-  const msgActionValue = param?.type === 'Identifier' ? t.identifier(param.name) : t.objectExpression(args)
+  const msgActionValue =
+    param?.type === 'Identifier'
+      ? t.identifier(param.name)
+      : t.objectExpression(args);
 
   return t.classProperty(
     t.identifier(methodName),
     arrowFunctionExpression(
-      param ? [
-        // props
-        param,
-        ...CONSTANT_EXEC_PARAMS
-      ] : CONSTANT_EXEC_PARAMS,
-      t.blockStatement(
-        [
-          t.returnStatement(
-            t.awaitExpression(
-              t.callExpression(
+      param
+        ? [
+            // props
+            param,
+            ...CONSTANT_EXEC_PARAMS
+          ]
+        : CONSTANT_EXEC_PARAMS,
+      t.blockStatement([
+        t.returnStatement(
+          t.awaitExpression(
+            t.callExpression(
+              t.memberExpression(
+                t.memberExpression(t.thisExpression(), t.identifier('client')),
+                t.identifier('execute')
+              ),
+              [
+                t.memberExpression(t.thisExpression(), t.identifier('sender')),
                 t.memberExpression(
-                  t.memberExpression(
-                    t.thisExpression(),
-                    t.identifier('client')
-                  ),
-                  t.identifier('execute')
+                  t.thisExpression(),
+                  t.identifier('contractAddress')
                 ),
-                [
-                  t.memberExpression(
-                    t.thisExpression(),
-                    t.identifier('sender')
-                  ),
-                  t.memberExpression(
-                    t.thisExpression(),
-                    t.identifier('contractAddress')
-                  ),
-                  t.objectExpression(
-                    [
-                      t.objectProperty(
-                        msgAction,
-                        msgActionValue
-                      )
-
-                    ]
-                  ),
-                  t.identifier('fee'),
-                  t.identifier('memo'),
-                  t.identifier('funds')
-                ]
-              )
+                t.objectExpression([
+                  t.objectProperty(msgAction, msgActionValue)
+                ]),
+                t.identifier('fee'),
+                t.identifier('memo'),
+                t.identifier('_funds')
+              ]
             )
           )
-        ]
-      ),
+        )
+      ]),
       // return type
       t.tsTypeAnnotation(
         t.tsTypeReference(
           t.identifier('Promise'),
-          t.tsTypeParameterInstantiation(
-            [
-              t.tSTypeReference(
-                t.identifier('ExecuteResult')
-              )
-            ]
-          )
+          t.tsTypeParameterInstantiation([
+            t.tSTypeReference(t.identifier('ExecuteResult'))
+          ])
         )
       ),
       true
     )
   );
-
-}
+};
 
 export const createExecuteClass = (
   context: RenderContext,
@@ -354,33 +296,29 @@ export const createExecuteClass = (
   extendsClassName: string | null,
   execMsg: ExecuteMsg
 ) => {
-
   context.addUtil('SigningCosmWasmClient');
 
   const propertyNames = getMessageProperties(execMsg)
-    .map(method => Object.keys(method.properties)?.[0])
+    .map((method) => Object.keys(method.properties)?.[0])
     .filter(Boolean);
 
-  const bindings = propertyNames
-    .map(camel)
-    .map(bindMethod);
+  const bindings = propertyNames.map(camel).map(bindMethod);
 
-  const methods = getMessageProperties(execMsg)
-    .map(schema => {
-      return createWasmExecMethod(context, schema)
-    });
+  const methods = getMessageProperties(execMsg).map((schema) => {
+    return createWasmExecMethod(context, schema);
+  });
 
   const blockStmt = [];
 
   if (extendsClassName) {
-    blockStmt.push(    // super()
-      t.expressionStatement(t.callExpression(
-        t.super(),
-        [
+    blockStmt.push(
+      // super()
+      t.expressionStatement(
+        t.callExpression(t.super(), [
           t.identifier('client'),
           t.identifier('contractAddress')
-        ]
-      ))
+        ])
+      )
     );
   }
 
@@ -389,78 +327,85 @@ export const createExecuteClass = (
     t.expressionStatement(
       t.assignmentExpression(
         '=',
-        t.memberExpression(
-          t.thisExpression(),
-          t.identifier('client')
-        ),
+        t.memberExpression(t.thisExpression(), t.identifier('client')),
         t.identifier('client')
       )
     ),
     t.expressionStatement(
       t.assignmentExpression(
         '=',
-        t.memberExpression(
-          t.thisExpression(),
-          t.identifier('sender')
-        ),
+        t.memberExpression(t.thisExpression(), t.identifier('sender')),
         t.identifier('sender')
       )
     ),
     t.expressionStatement(
       t.assignmentExpression(
         '=',
-        t.memberExpression(
-          t.thisExpression(),
-          t.identifier('contractAddress')
-        ),
+        t.memberExpression(t.thisExpression(), t.identifier('contractAddress')),
         t.identifier('contractAddress')
       )
     ),
     ...bindings
   ]);
 
-  const noImplicitOverride = context.options.client.noImplicitOverride && extendsClassName && context.options.client.execExtendsQuery;
+  const noImplicitOverride =
+    context.options.client.noImplicitOverride &&
+    extendsClassName &&
+    context.options.client.execExtendsQuery;
 
   return t.exportNamedDeclaration(
-    classDeclaration(className,
+    classDeclaration(
+      className,
       [
         // client
-        classProperty('client', t.tsTypeAnnotation(
-          t.tsTypeReference(t.identifier('SigningCosmWasmClient'))
-        ), false, false, noImplicitOverride),
+        classProperty(
+          'client',
+          t.tsTypeAnnotation(
+            t.tsTypeReference(t.identifier('SigningCosmWasmClient'))
+          ),
+          false,
+          false,
+          noImplicitOverride
+        ),
 
         // sender
-        classProperty('sender', t.tsTypeAnnotation(
-          t.tsStringKeyword()
-        )),
+        classProperty('sender', t.tsTypeAnnotation(t.tsStringKeyword())),
 
         // contractAddress
-        classProperty('contractAddress', t.tsTypeAnnotation(
-          t.tsStringKeyword()
-        ), false, false, noImplicitOverride),
+        classProperty(
+          'contractAddress',
+          t.tsTypeAnnotation(t.tsStringKeyword()),
+          false,
+          false,
+          noImplicitOverride
+        ),
 
         // constructor
-        t.classMethod('constructor',
+        t.classMethod(
+          'constructor',
           t.identifier('constructor'),
           [
-            typedIdentifier('client', t.tsTypeAnnotation(t.tsTypeReference(t.identifier('SigningCosmWasmClient')))),
+            typedIdentifier(
+              'client',
+              t.tsTypeAnnotation(
+                t.tsTypeReference(t.identifier('SigningCosmWasmClient'))
+              )
+            ),
             typedIdentifier('sender', t.tsTypeAnnotation(t.tsStringKeyword())),
-            typedIdentifier('contractAddress', t.tsTypeAnnotation(t.tsStringKeyword()))
+            typedIdentifier(
+              'contractAddress',
+              t.tsTypeAnnotation(t.tsStringKeyword())
+            )
           ],
-          t.blockStatement(
-            blockStmt
-          )),
+          t.blockStatement(blockStmt)
+        ),
         ...methods
       ],
-      [
-        t.tSExpressionWithTypeArguments(
-          t.identifier(implementsClassName)
-        )
-      ],
+      [t.tSExpressionWithTypeArguments(t.identifier(implementsClassName))],
       extendsClassName ? t.identifier(extendsClassName) : null
     )
   );
-}
+};
 
 export const createExecuteInterface = (
   context: RenderContext,
@@ -468,50 +413,41 @@ export const createExecuteInterface = (
   extendsClassName: string | null,
   execMsg: ExecuteMsg
 ) => {
+  const methods = getMessageProperties(execMsg).map((jsonschema) => {
+    const underscoreName = Object.keys(jsonschema.properties)[0];
+    const methodName = camel(underscoreName);
+    return createPropertyFunctionWithObjectParamsForExec(
+      context,
+      methodName,
+      'ExecuteResult',
+      jsonschema.properties[underscoreName]
+    );
+  });
 
-  const methods = getMessageProperties(execMsg)
-    .map(jsonschema => {
-      const underscoreName = Object.keys(jsonschema.properties)[0];
-      const methodName = camel(underscoreName);
-      return createPropertyFunctionWithObjectParamsForExec(
-        context,
-        methodName,
-        'ExecuteResult',
-        jsonschema.properties[underscoreName]
-      );
-    });
-
-  const extendsAst = extendsClassName ? [t.tSExpressionWithTypeArguments(
-    t.identifier(extendsClassName)
-  )] : []
+  const extendsAst = extendsClassName
+    ? [t.tSExpressionWithTypeArguments(t.identifier(extendsClassName))]
+    : [];
 
   return t.exportNamedDeclaration(
     t.tsInterfaceDeclaration(
       t.identifier(className),
       null,
       extendsAst,
-      t.tSInterfaceBody(
-        [
+      t.tSInterfaceBody([
+        // contract address
+        t.tSPropertySignature(
+          t.identifier('contractAddress'),
+          t.tsTypeAnnotation(t.tsStringKeyword())
+        ),
 
-          // contract address
-          t.tSPropertySignature(
-            t.identifier('contractAddress'),
-            t.tsTypeAnnotation(
-              t.tsStringKeyword()
-            )
-          ),
+        // contract address
+        t.tSPropertySignature(
+          t.identifier('sender'),
+          t.tsTypeAnnotation(t.tsStringKeyword())
+        ),
 
-          // contract address
-          t.tSPropertySignature(
-            t.identifier('sender'),
-            t.tsTypeAnnotation(
-              t.tsStringKeyword()
-            )
-          ),
-
-          ...methods,
-        ]
-      )
+        ...methods
+      ])
     )
   );
 };
@@ -527,10 +463,8 @@ export const createPropertyFunctionWithObjectParams = (
   const func = {
     type: 'TSFunctionType',
     typeAnnotation: promiseTypeAnnotation(responseType),
-    parameters: obj ? [
-      obj
-    ] : []
-  }
+    parameters: obj ? [obj] : []
+  };
 
   return t.tSPropertySignature(
     t.identifier(methodName),
@@ -547,7 +481,6 @@ export const createPropertyFunctionWithObjectParamsForExec = (
   responseType: string,
   jsonschema: JSONSchema
 ) => {
-
   context.addUtil('Coin');
 
   const obj = createTypedObjectParams(context, jsonschema);
@@ -555,12 +488,8 @@ export const createPropertyFunctionWithObjectParamsForExec = (
   const func = {
     type: 'TSFunctionType',
     typeAnnotation: promiseTypeAnnotation(responseType),
-    parameters: obj ? [
-      obj,
-      ...FIXED_EXECUTE_PARAMS
-
-    ] : FIXED_EXECUTE_PARAMS
-  }
+    parameters: obj ? [obj, ...FIXED_EXECUTE_PARAMS] : FIXED_EXECUTE_PARAMS
+  };
 
   return t.tSPropertySignature(
     t.identifier(methodName),
@@ -576,39 +505,33 @@ export const createQueryInterface = (
   className: string,
   queryMsg: QueryMsg
 ) => {
-  const methods = getMessageProperties(queryMsg)
-    .map(jsonschema => {
-      const underscoreName = Object.keys(jsonschema.properties)[0];
-      const methodName = camel(underscoreName);
-      const responseType = getResponseType(context, underscoreName);
-      return createPropertyFunctionWithObjectParams(
-        context,
-        methodName,
-        responseType,
-        jsonschema.properties[underscoreName]
-      );
-    });
+  const methods = getMessageProperties(queryMsg).map((jsonschema) => {
+    const underscoreName = Object.keys(jsonschema.properties)[0];
+    const methodName = camel(underscoreName);
+    const responseType = getResponseType(context, underscoreName);
+    return createPropertyFunctionWithObjectParams(
+      context,
+      methodName,
+      responseType,
+      jsonschema.properties[underscoreName]
+    );
+  });
 
   return t.exportNamedDeclaration(
     t.tsInterfaceDeclaration(
       t.identifier(className),
       null,
       [],
-      t.tSInterfaceBody(
-        [
-          t.tSPropertySignature(
-            t.identifier('contractAddress'),
-            t.tsTypeAnnotation(
-              t.tsStringKeyword()
-            )
-          ),
-          ...methods
-        ]
-      )
+      t.tSInterfaceBody([
+        t.tSPropertySignature(
+          t.identifier('contractAddress'),
+          t.tsTypeAnnotation(t.tsStringKeyword())
+        ),
+        ...methods
+      ])
     )
   );
 };
-
 
 export const createTypeOrInterface = (
   context: RenderContext,
@@ -616,7 +539,6 @@ export const createTypeOrInterface = (
   jsonschema: JSONSchema
 ) => {
   if (jsonschema.type !== 'object') {
-
     if (!jsonschema.type) {
       return t.exportNamedDeclaration(
         t.tsTypeAliasDeclaration(
@@ -624,7 +546,7 @@ export const createTypeOrInterface = (
           null,
           t.tsTypeReference(t.identifier(jsonschema.title))
         )
-      )
+      );
     }
 
     return t.exportNamedDeclaration(
@@ -635,14 +557,10 @@ export const createTypeOrInterface = (
       )
     );
   }
-  const props = Object.keys(jsonschema.properties ?? {})
-    .map(prop => {
-      const { type, optional } = getPropertyType(context, jsonschema, prop);
-      return propertySignature(camel(prop), t.tsTypeAnnotation(
-        type
-      ), optional);
-    });
-
+  const props = Object.keys(jsonschema.properties ?? {}).map((prop) => {
+    const { type, optional } = getPropertyType(context, jsonschema, prop);
+    return propertySignature(camel(prop), t.tsTypeAnnotation(type), optional);
+  });
 
   return t.exportNamedDeclaration(
     t.tsInterfaceDeclaration(
@@ -651,12 +569,10 @@ export const createTypeOrInterface = (
       [],
       t.tsInterfaceBody(
         // @ts-ignore:next-line
-        [
-          ...props
-        ]
+        [...props]
       )
     )
-  )
+  );
 };
 
 export const createTypeInterface = (
@@ -664,9 +580,5 @@ export const createTypeInterface = (
   jsonschema: JSONSchema
 ) => {
   const Type = jsonschema.title;
-  return createTypeOrInterface(
-    context,
-    Type,
-    jsonschema
-  );
+  return createTypeOrInterface(context, Type, jsonschema);
 };
