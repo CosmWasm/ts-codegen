@@ -1,4 +1,5 @@
 import * as t from '@babel/types';
+import { Expression } from '@babel/types';
 import { camel } from 'case';
 import {
   arrowFunctionExpression,
@@ -7,6 +8,7 @@ import {
   classProperty,
   getMessageProperties,
   identifier,
+  OPTIONAL_FUNDS_PARAM,
   typedIdentifier
 } from '../utils';
 import { ExecuteMsg, JSONSchema } from '../types';
@@ -46,7 +48,7 @@ const createWasmExecMethodMessageComposer = (
     'MsgExecuteContract',
     'toUtf8',
     'AppExecuteMsg',
-    'AppModuleExecuteMsgBuilder',
+    'AppModuleExecuteMsgBuilder'
   ]);
 
   const underscoreName = Object.keys(jsonschema.properties)[0];
@@ -60,7 +62,7 @@ const createWasmExecMethodMessageComposer = (
     jsonschema.properties[underscoreName]
   );
 
-  const isAbstractApp = context.options.abstractApp.enabled;
+  const isAbstractApp = context.options.abstractApp?.enabled;
 
   const constantParams = [
     identifier(
@@ -133,13 +135,14 @@ const createWasmExecMethodMessageComposer = (
                             t.identifier('JSON'),
                             t.identifier('stringify')
                           ),
-                          [
-                            t.identifier(isAbstractApp ? 'moduleMsg' : 'msg')
-                          ]
+                          [t.identifier(isAbstractApp ? 'moduleMsg' : 'msg')]
                         )
                       ])
                     ),
-                    t.objectProperty(t.identifier('funds'), t.identifier('_funds'))
+                    t.objectProperty(
+                      t.identifier('funds'),
+                      t.identifier('_funds')
+                    )
                   ])
                 ]
               )
@@ -275,15 +278,7 @@ const createPropertyFunctionWithObjectParamsForMessageComposer = (
   jsonschema: JSONSchema
 ) => {
   const obj = createTypedObjectParams(context, jsonschema);
-  const fixedParams = [
-    identifier(
-      'funds',
-      t.tsTypeAnnotation(
-        t.tsArrayType(t.tsTypeReference(t.identifier('Coin')))
-      ),
-      true
-    )
-  ];
+  const fixedParams = [OPTIONAL_FUNDS_PARAM];
   const func = {
     type: 'TSFunctionType',
     typeAnnotation: t.tsTypeAnnotation(

@@ -113,6 +113,27 @@ exports[`execute class 1`] = `
 }"
 `;
 
+exports[`ownership 1`] = `
+"export abstract class Ownership {
+  static setFactory = ({
+    newFactory
+  }: CamelCasedProperties<Extract<ExecuteMsg, {
+    set_factory: unknown;
+  }>[\\"set_factory\\"]>): ExecuteMsg => {
+    return {
+      set_factory: ({
+        new_factory: newFactory
+      } as const)
+    };
+  };
+  static updateOwnership = (action: Action): ExecuteMsg => {
+    return {
+      update_ownership: action
+    };
+  };
+}"
+`;
+
 exports[`query class 1`] = `
 "export abstract class SG721MsgBuilder {
   static ownerOf = ({

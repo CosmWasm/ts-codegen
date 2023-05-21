@@ -4,7 +4,7 @@ import { camel, pascal } from 'case';
 import { ExecuteMsg, QueryMsg } from '../types';
 import {
   callExpression,
-  createTypedObjectParams,
+  createTypedObjectParams, FIXED_EXECUTE_PARAMS,
   getMessageProperties,
   identifier, RECORD_STRING_UNKNOWN_TYPE_ANNOTATION,
   tsObjectPattern,
@@ -24,7 +24,6 @@ import {
 } from '../utils/types';
 import { ReactQueryOptions, RenderContext } from '../context';
 import { JSONSchema } from '../types';
-import { FIXED_EXECUTE_PARAMS } from '../client';
 import { ArrowFunctionExpression, objectExpression } from '@babel/types';
 
 interface ReactQueryHookQuery {

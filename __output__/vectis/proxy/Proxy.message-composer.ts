@@ -15,40 +15,40 @@ export interface ProxyMessage {
     msgs
   }: {
     msgs: CosmosMsgForEmpty[];
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
-  revertFreezeStatus: (funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  revertFreezeStatus: (_funds?: Coin[]) => MsgExecuteContractEncodeObject;
   relay: ({
     transaction
   }: {
     transaction: RelayTransaction;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   rotateUserKey: ({
     newUserAddress
   }: {
     newUserAddress: string;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   addRelayer: ({
     newRelayerAddress
   }: {
     newRelayerAddress: Addr;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   removeRelayer: ({
     relayerAddress
   }: {
     relayerAddress: Addr;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   updateGuardians: ({
     guardians,
     newMultisigCodeId
   }: {
     guardians: Guardians;
     newMultisigCodeId?: number;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   updateLabel: ({
     newLabel
   }: {
     newLabel: string;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
 }
 export class ProxyMessageComposer implements ProxyMessage {
   sender: string;
@@ -71,7 +71,7 @@ export class ProxyMessageComposer implements ProxyMessage {
     msgs
   }: {
     msgs: CosmosMsgForEmpty[];
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -82,11 +82,11 @@ export class ProxyMessageComposer implements ProxyMessage {
             msgs
           }
         })),
-        funds
+        _funds: funds
       })
     };
   };
-  revertFreezeStatus = (funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  revertFreezeStatus = (_funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -95,7 +95,7 @@ export class ProxyMessageComposer implements ProxyMessage {
         msg: toUtf8(JSON.stringify({
           revert_freeze_status: {}
         })),
-        funds
+        _funds: funds
       })
     };
   };
@@ -103,7 +103,7 @@ export class ProxyMessageComposer implements ProxyMessage {
     transaction
   }: {
     transaction: RelayTransaction;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -114,7 +114,7 @@ export class ProxyMessageComposer implements ProxyMessage {
             transaction
           }
         })),
-        funds
+        _funds: funds
       })
     };
   };
@@ -122,7 +122,7 @@ export class ProxyMessageComposer implements ProxyMessage {
     newUserAddress
   }: {
     newUserAddress: string;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -133,7 +133,7 @@ export class ProxyMessageComposer implements ProxyMessage {
             new_user_address: newUserAddress
           }
         })),
-        funds
+        _funds: funds
       })
     };
   };
@@ -141,7 +141,7 @@ export class ProxyMessageComposer implements ProxyMessage {
     newRelayerAddress
   }: {
     newRelayerAddress: Addr;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -152,7 +152,7 @@ export class ProxyMessageComposer implements ProxyMessage {
             new_relayer_address: newRelayerAddress
           }
         })),
-        funds
+        _funds: funds
       })
     };
   };
@@ -160,7 +160,7 @@ export class ProxyMessageComposer implements ProxyMessage {
     relayerAddress
   }: {
     relayerAddress: Addr;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -171,7 +171,7 @@ export class ProxyMessageComposer implements ProxyMessage {
             relayer_address: relayerAddress
           }
         })),
-        funds
+        _funds: funds
       })
     };
   };
@@ -181,7 +181,7 @@ export class ProxyMessageComposer implements ProxyMessage {
   }: {
     guardians: Guardians;
     newMultisigCodeId?: number;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -193,7 +193,7 @@ export class ProxyMessageComposer implements ProxyMessage {
             new_multisig_code_id: newMultisigCodeId
           }
         })),
-        funds
+        _funds: funds
       })
     };
   };
@@ -201,7 +201,7 @@ export class ProxyMessageComposer implements ProxyMessage {
     newLabel
   }: {
     newLabel: string;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -212,7 +212,7 @@ export class ProxyMessageComposer implements ProxyMessage {
             new_label: newLabel
           }
         })),
-        funds
+        _funds: funds
       })
     };
   };

@@ -92,7 +92,7 @@ export interface FactoryUpdateAdminMutation {
   args?: {
     fee?: number | StdFee | "auto";
     memo?: string;
-    funds?: Coin[];
+    _funds?: Coin[];
   };
 }
 export function useFactoryUpdateAdminMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, FactoryUpdateAdminMutation>, "mutationFn">) {
@@ -102,9 +102,9 @@ export function useFactoryUpdateAdminMutation(options?: Omit<UseMutationOptions<
     args: {
       fee,
       memo,
-      funds
+      _funds
     } = {}
-  }) => client.updateAdmin(msg, fee, memo, funds), options);
+  }) => client.updateAdmin(msg, fee, memo, _funds), options);
 }
 export interface FactoryUpdateGovecAddrMutation {
   client: FactoryClient;
@@ -114,7 +114,7 @@ export interface FactoryUpdateGovecAddrMutation {
   args?: {
     fee?: number | StdFee | "auto";
     memo?: string;
-    funds?: Coin[];
+    _funds?: Coin[];
   };
 }
 export function useFactoryUpdateGovecAddrMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, FactoryUpdateGovecAddrMutation>, "mutationFn">) {
@@ -124,9 +124,9 @@ export function useFactoryUpdateGovecAddrMutation(options?: Omit<UseMutationOpti
     args: {
       fee,
       memo,
-      funds
+      _funds
     } = {}
-  }) => client.updateGovecAddr(msg, fee, memo, funds), options);
+  }) => client.updateGovecAddr(msg, fee, memo, _funds), options);
 }
 export interface FactoryUpdateWalletFeeMutation {
   client: FactoryClient;
@@ -136,7 +136,7 @@ export interface FactoryUpdateWalletFeeMutation {
   args?: {
     fee?: number | StdFee | "auto";
     memo?: string;
-    funds?: Coin[];
+    _funds?: Coin[];
   };
 }
 export function useFactoryUpdateWalletFeeMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, FactoryUpdateWalletFeeMutation>, "mutationFn">) {
@@ -146,9 +146,9 @@ export function useFactoryUpdateWalletFeeMutation(options?: Omit<UseMutationOpti
     args: {
       fee,
       memo,
-      funds
+      _funds
     } = {}
-  }) => client.updateWalletFee(msg, fee, memo, funds), options);
+  }) => client.updateWalletFee(msg, fee, memo, _funds), options);
 }
 export interface FactoryUpdateCodeIdMutation {
   client: FactoryClient;
@@ -159,7 +159,7 @@ export interface FactoryUpdateCodeIdMutation {
   args?: {
     fee?: number | StdFee | "auto";
     memo?: string;
-    funds?: Coin[];
+    _funds?: Coin[];
   };
 }
 export function useFactoryUpdateCodeIdMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, FactoryUpdateCodeIdMutation>, "mutationFn">) {
@@ -169,9 +169,9 @@ export function useFactoryUpdateCodeIdMutation(options?: Omit<UseMutationOptions
     args: {
       fee,
       memo,
-      funds
+      _funds
     } = {}
-  }) => client.updateCodeId(msg, fee, memo, funds), options);
+  }) => client.updateCodeId(msg, fee, memo, _funds), options);
 }
 export interface FactoryMigrateWalletMutation {
   client: FactoryClient;
@@ -182,7 +182,7 @@ export interface FactoryMigrateWalletMutation {
   args?: {
     fee?: number | StdFee | "auto";
     memo?: string;
-    funds?: Coin[];
+    _funds?: Coin[];
   };
 }
 export function useFactoryMigrateWalletMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, FactoryMigrateWalletMutation>, "mutationFn">) {
@@ -192,9 +192,9 @@ export function useFactoryMigrateWalletMutation(options?: Omit<UseMutationOption
     args: {
       fee,
       memo,
-      funds
+      _funds
     } = {}
-  }) => client.migrateWallet(msg, fee, memo, funds), options);
+  }) => client.migrateWallet(msg, fee, memo, _funds), options);
 }
 export interface FactoryUpdateProxyUserMutation {
   client: FactoryClient;
@@ -205,7 +205,7 @@ export interface FactoryUpdateProxyUserMutation {
   args?: {
     fee?: number | StdFee | "auto";
     memo?: string;
-    funds?: Coin[];
+    _funds?: Coin[];
   };
 }
 export function useFactoryUpdateProxyUserMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, FactoryUpdateProxyUserMutation>, "mutationFn">) {
@@ -215,9 +215,9 @@ export function useFactoryUpdateProxyUserMutation(options?: Omit<UseMutationOpti
     args: {
       fee,
       memo,
-      funds
+      _funds
     } = {}
-  }) => client.updateProxyUser(msg, fee, memo, funds), options);
+  }) => client.updateProxyUser(msg, fee, memo, _funds), options);
 }
 export interface FactoryCreateWalletMutation {
   client: FactoryClient;
@@ -227,7 +227,7 @@ export interface FactoryCreateWalletMutation {
   args?: {
     fee?: number | StdFee | "auto";
     memo?: string;
-    funds?: Coin[];
+    _funds?: Coin[];
   };
 }
 export function useFactoryCreateWalletMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, FactoryCreateWalletMutation>, "mutationFn">) {
@@ -237,7 +237,7 @@ export function useFactoryCreateWalletMutation(options?: Omit<UseMutationOptions
     args: {
       fee,
       memo,
-      funds
+      _funds
     } = {}
-  }) => client.createWallet(msg, fee, memo, funds), options);
+  }) => client.createWallet(msg, fee, memo, _funds), options);
 }
