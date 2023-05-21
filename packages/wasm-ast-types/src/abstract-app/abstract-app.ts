@@ -9,9 +9,11 @@ import {
   classDeclaration,
   classProperty,
   createExtractTypeAnnotation,
+  FIXED_EXECUTE_PARAMS,
   getMessageProperties,
   getResponseType,
   identifier,
+  OPTIONAL_FUNDS_PARAM,
   promiseTypeAnnotation,
   shorthandProperty
 } from '../utils';
@@ -20,12 +22,6 @@ import { createTypedObjectParams } from '../utils/types';
 import { RenderContext } from '../context';
 import { getWasmMethodArgs } from '../client/client';
 import { createQueryOptionsFactory } from './query-options-factory';
-
-const FUNDS_PARAM = identifier(
-  '_funds',
-  t.tsTypeAnnotation(t.tsArrayType(t.tsTypeReference(t.identifier('Coin')))),
-  true
-);
 
 export const createAbstractAppClass = (
   context: RenderContext,
@@ -235,7 +231,7 @@ export const createAppExecuteInterface = (
   context.addUtils([
     'SigningCosmWasmClient',
     ABSTRACT_ACCOUNT_CLIENT,
-    'MsgExecuteContractEncodeObject',
+    'ExecuteResult',
     'AppExecuteMsg',
     'AppModuleExecuteMsgBuilder',
     'MsgExecuteContract',
@@ -245,13 +241,14 @@ export const createAppExecuteInterface = (
   const methods = getMessageProperties(executeMsg).map((jsonschema) => {
     const underscoreName = Object.keys(jsonschema.properties)[0];
     const methodName = camel(underscoreName);
-    const responseType = getResponseType(context, underscoreName);
     const parameters = extractCamelcasedQueryParams(jsonschema, underscoreName);
 
     const func = {
       type: 'TSFunctionType',
-      typeAnnotation: promiseTypeAnnotation(responseType),
-      parameters: parameters ? [...parameters, FUNDS_PARAM] : [FUNDS_PARAM]
+      typeAnnotation: promiseTypeAnnotation('ExecuteResult'),
+      parameters: parameters
+        ? [...parameters, ...FIXED_EXECUTE_PARAMS]
+        : FIXED_EXECUTE_PARAMS
     };
 
     return t.tSPropertySignature(
@@ -283,15 +280,15 @@ export const createAppExecuteInterface = (
   );
 };
 
-const COMPOSE_MSG_FN = t.classProperty(
-  t.identifier('_composeMsg'),
+const EXECUTE_APP_FN = t.classProperty(
+  t.identifier('_execute'),
   arrowFunctionExpression(
     [
       identifier(
         'msg',
         t.tsTypeAnnotation(t.tsTypeReference(t.identifier('ExecuteMsg')))
       ),
-      FUNDS_PARAM
+      ...FIXED_EXECUTE_PARAMS
     ],
     t.blockStatement(
       [
@@ -318,71 +315,53 @@ const COMPOSE_MSG_FN = t.classProperty(
           )
         ]),
         t.returnStatement(
-          t.objectExpression([
-            t.objectProperty(
-              t.identifier('typeUrl'),
-              t.stringLiteral('/cosmwasm.wasm.v1.MsgExecuteContract')
-            ),
-            t.objectProperty(
-              t.identifier('value'),
-              t.callExpression(
+          t.awaitExpression(
+            t.callExpression(
+              t.memberExpression(
                 t.memberExpression(
-                  t.identifier('MsgExecuteContract'),
-                  t.identifier('fromPartial')
+                  t.memberExpression(
+                    t.memberExpression(
+                      t.thisExpression(),
+                      t.identifier('accountClient')
+                    ),
+                    t.identifier('abstract')
+                  ),
+                  t.identifier('client')
                 ),
-                [
-                  t.objectExpression([
-                    t.objectProperty(
-                      t.identifier('sender'),
-                      t.memberExpression(
-                        t.memberExpression(
-                          t.thisExpression(),
-                          CLASS_VARS.accountClient
-                        ),
-                        t.identifier('sender')
-                      )
+                t.identifier('execute')
+              ),
+              [
+                t.memberExpression(
+                  t.memberExpression(
+                    t.thisExpression(),
+
+                    t.identifier('accountClient'),
+                  ),
+                  t.identifier('sender')
+                ),
+                // get this module address
+                t.awaitExpression(
+                  t.callExpression(
+                    t.memberExpression(
+                      t.thisExpression(),
+                      t.identifier('address')
                     ),
-                    t.objectProperty(
-                      t.identifier('contract'),
-                      t.awaitExpression(
-                        t.callExpression(
-                          t.memberExpression(
-                            t.thisExpression(),
-                            t.identifier('address')
-                          ),
-                          []
-                        )
-                      )
-                    ),
-                    t.objectProperty(
-                      t.identifier('msg'),
-                      t.callExpression(t.identifier('toUtf8'), [
-                        t.callExpression(
-                          t.memberExpression(
-                            t.identifier('JSON'),
-                            t.identifier('stringify')
-                          ),
-                          [t.identifier('moduleMsg')]
-                        )
-                      ])
-                    ),
-                    t.objectProperty(
-                      t.identifier('funds'),
-                      t.identifier('_funds'),
-                      false,
-                      false
-                    )
-                  ])
-                ]
-              )
+                    []
+                  )
+                ),
+                t.identifier('moduleMsg'),
+                t.identifier('fee'),
+                t.identifier('memo'),
+                t.identifier('_funds')
+              ]
             )
-          ])
+          )
         )
       ],
       []
     ),
     // return
-    promiseTypeAnnotation('MsgExecuteContractEncodeObject'),
+    promiseTypeAnnotation('ExecuteResult'),
     // async
     true
   )
@@ -478,7 +457,7 @@ export const createAppQueryClass = (
                 t.newExpression(t.identifier(ABSTRACT_ACCOUNT_QUERY_CLIENT), [
                   t.objectExpression([
                     t.objectProperty(
-                      identifier('abstract'),
+                      t.identifier('abstract'),
                       t.identifier('abstractQueryClient'),
                       false,
                       true
@@ -552,12 +531,7 @@ const ADDRESS_ACCESSOR_FN = t.classProperty(
       )
     ]),
 
-    t.tsTypeAnnotation(
-      t.tsTypeReference(
-        t.identifier('Promise'),
-        t.tsTypeParameterInstantiation([t.tsStringKeyword()])
-      )
-    ),
+    promiseTypeAnnotation('string'),
     true
   )
 );
@@ -722,7 +696,7 @@ export const createAppExecuteClass = (
     return createAppExecMethod(context, moduleName, schema);
   });
 
-  methods.push(COMPOSE_MSG_FN);
+  methods.push(EXECUTE_APP_FN);
 
   return t.exportNamedDeclaration(
     classDeclaration(
@@ -820,12 +794,11 @@ export const createAppExecuteClass = (
 };
 
 /*
-  deposit = async (
-    params: ExtractCamelizedParams<AutocompounderExecuteMsg, 'deposit'>,
-    _funds?: Coin[]
-  ): Promise<MsgExecuteContractEncodeObject> => {
-    return this._composeMsg(AutocompounderExecuteMsgBuilder.deposit(params), _funds)
-  }
+  deposit = async (params: CamelCasedProperties<Extract<QueryMsg, {
+    deposit: unknown;
+  }>["deposit"]>, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+    return this._execute(AutocompounderExecuteMsgBuilder.deposit(params), fee, memo, _funds);
+  };
  */
 const createAppExecMethod = (
   context: RenderContext,
@@ -851,11 +824,13 @@ const createAppExecMethod = (
   return t.classProperty(
     t.identifier(methodName),
     arrowFunctionExpression(
-      methodParameters ? [...methodParameters, FUNDS_PARAM] : [FUNDS_PARAM],
+      methodParameters
+        ? [...methodParameters, ...FIXED_EXECUTE_PARAMS]
+        : FIXED_EXECUTE_PARAMS,
       t.blockStatement([
         t.returnStatement(
           t.callExpression(
-            t.memberExpression(t.thisExpression(), t.identifier('_composeMsg')),
+            t.memberExpression(t.thisExpression(), t.identifier('_execute')),
             [
               t.callExpression(
                 t.memberExpression(
@@ -864,12 +839,12 @@ const createAppExecMethod = (
                 ),
                 methodParameters
               ),
-              FUNDS_PARAM
+              ...FIXED_EXECUTE_PARAMS
             ]
           )
         )
       ]),
-      promiseTypeAnnotation('MsgExecuteContractEncodeObject'),
+      promiseTypeAnnotation('ExecuteResult'),
       true
     )
   );

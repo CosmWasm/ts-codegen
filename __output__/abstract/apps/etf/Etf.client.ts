@@ -34,12 +34,12 @@ export interface EtfInterface extends EtfReadOnlyInterface {
     asset
   }: {
     asset: AssetBaseForString;
-  }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
   setFee: ({
     fee
   }: {
     fee: Decimal;
-  }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
 }
 export class EtfClient extends EtfQueryClient implements EtfInterface {
   client: SigningCosmWasmClient;
@@ -59,22 +59,22 @@ export class EtfClient extends EtfQueryClient implements EtfInterface {
     asset
   }: {
     asset: AssetBaseForString;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       provide_liquidity: {
         asset
       }
-    }, fee, memo, funds);
+    }, fee, memo, _funds);
   };
   setFee = async ({
     fee
   }: {
     fee: Decimal;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       set_fee: {
         fee
       }
-    }, fee, memo, funds);
+    }, fee, memo, _funds);
   };
 }

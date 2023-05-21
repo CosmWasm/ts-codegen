@@ -5,9 +5,8 @@
 */
 
 import { CamelCasedProperties } from "type-fest";
-import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
+import { SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { AbstractQueryClient, AbstractAccountQueryClient, AbstractAccountClient, AppExecuteMsg, AppModuleExecuteMsgBuilder, AbstractClient } from "@abstract-money/abstract.js";
-import { MsgExecuteContractEncodeObject } from "cosmwasm";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
 import { StdFee, Coin } from "@cosmjs/amino";
@@ -127,13 +126,13 @@ export interface IAutocompounderAppClient extends IAutocompounderAppQueryClient 
   accountClient: AbstractAccountClient;
   updateFeeConfig: (params: CamelCasedProperties<Extract<QueryMsg, {
     update_fee_config: unknown;
-  }>["update_fee_config"]>, _funds?: Coin[]) => Promise<UpdateFeeConfigResponse>;
+  }>["update_fee_config"]>, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
   deposit: (params: CamelCasedProperties<Extract<QueryMsg, {
     deposit: unknown;
-  }>["deposit"]>, _funds?: Coin[]) => Promise<DepositResponse>;
-  withdraw: (_funds?: Coin[]) => Promise<WithdrawResponse>;
-  compound: (_funds?: Coin[]) => Promise<CompoundResponse>;
-  batchUnbond: (_funds?: Coin[]) => Promise<BatchUnbondResponse>;
+  }>["deposit"]>, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  withdraw: (fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  compound: (fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  batchUnbond: (fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
 }
 export class AutocompounderAppClient extends AutocompounderAppQueryClient implements IAutocompounderAppClient {
   accountClient: AbstractAccountClient;
@@ -168,33 +167,25 @@ export class AutocompounderAppClient extends AutocompounderAppQueryClient implem
 
   updateFeeConfig = async (params: CamelCasedProperties<Extract<QueryMsg, {
     update_fee_config: unknown;
-  }>["update_fee_config"]>, _funds?: Coin[]): Promise<MsgExecuteContractEncodeObject> => {
-    return this._composeMsg(AutocompounderExecuteMsgBuilder.updateFeeConfig(params), _funds);
+  }>["update_fee_config"]>, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+    return this._execute(AutocompounderExecuteMsgBuilder.updateFeeConfig(params), fee, memo, _funds);
   };
   deposit = async (params: CamelCasedProperties<Extract<QueryMsg, {
     deposit: unknown;
-  }>["deposit"]>, _funds?: Coin[]): Promise<MsgExecuteContractEncodeObject> => {
-    return this._composeMsg(AutocompounderExecuteMsgBuilder.deposit(params), _funds);
+  }>["deposit"]>, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+    return this._execute(AutocompounderExecuteMsgBuilder.deposit(params), fee, memo, _funds);
   };
-  withdraw = async (_funds?: Coin[]): Promise<MsgExecuteContractEncodeObject> => {
-    return this._composeMsg(AutocompounderExecuteMsgBuilder.withdraw(), _funds);
+  withdraw = async (fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+    return this._execute(AutocompounderExecuteMsgBuilder.withdraw(), fee, memo, _funds);
   };
-  compound = async (_funds?: Coin[]): Promise<MsgExecuteContractEncodeObject> => {
-    return this._composeMsg(AutocompounderExecuteMsgBuilder.compound(), _funds);
+  compound = async (fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+    return this._execute(AutocompounderExecuteMsgBuilder.compound(), fee, memo, _funds);
   };
-  batchUnbond = async (_funds?: Coin[]): Promise<MsgExecuteContractEncodeObject> => {
-    return this._composeMsg(AutocompounderExecuteMsgBuilder.batchUnbond(), _funds);
+  batchUnbond = async (fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+    return this._execute(AutocompounderExecuteMsgBuilder.batchUnbond(), fee, memo, _funds);
   };
-  _composeMsg = async (msg: ExecuteMsg, _funds?: Coin[]): Promise<MsgExecuteContractEncodeObject> => {
+  _execute = async (msg: ExecuteMsg, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     const moduleMsg: AppExecuteMsg<ExecuteMsg> = AppModuleExecuteMsgBuilder.executeApp(msg);
-    return {
-      typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
-      value: MsgExecuteContract.fromPartial({
-        sender: this.accountClient.sender,
-        contract: await this.address(),
-        msg: toUtf8(JSON.stringify(moduleMsg)),
-        funds: _funds
-      })
-    };
+    return await this.accountClient.abstract.client.execute(this.accountClient.sender, await this.address(), moduleMsg, fee, memo, _funds);
   };
 }

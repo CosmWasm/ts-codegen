@@ -8,6 +8,7 @@ import { Coin } from "@cosmjs/amino";
 import { MsgExecuteContractEncodeObject } from "cosmwasm";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
+import { AppExecuteMsg, AppModuleExecuteMsgBuilder } from "@abstract-money/abstract.js";
 import { ExecuteMsg, Binary, InstantiateMsg, QueryMsg } from "./CwAdminFactory.types";
 export interface CwAdminFactoryMessage {
   contractAddress: string;
@@ -41,19 +42,20 @@ export class CwAdminFactoryMessageComposer implements CwAdminFactoryMessage {
     instantiateMsg: Binary;
     label: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      instantiate_contract_with_self_admin: {
+        code_id: codeId,
+        instantiate_msg: instantiateMsg,
+        label
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          instantiate_contract_with_self_admin: {
-            code_id: codeId,
-            instantiate_msg: instantiateMsg,
-            label
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };

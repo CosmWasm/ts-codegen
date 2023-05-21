@@ -65,13 +65,7 @@ const createWasmExecMethodMessageComposer = (
   const isAbstractApp = context.options.abstractApp?.enabled;
 
   const constantParams = [
-    identifier(
-      '_funds',
-      t.tsTypeAnnotation(
-        t.tsArrayType(t.tsTypeReference(t.identifier('Coin')))
-      ),
-      true
-    )
+    OPTIONAL_FUNDS_PARAM
   ];
 
   return t.classProperty(

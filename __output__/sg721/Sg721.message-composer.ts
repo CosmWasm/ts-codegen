@@ -8,6 +8,7 @@ import { Coin } from "@cosmjs/amino";
 import { MsgExecuteContractEncodeObject } from "cosmwasm";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
+import { AppExecuteMsg, AppModuleExecuteMsgBuilder } from "@abstract-money/abstract.js";
 import { Expiration, Timestamp, Uint64, AllNftInfoResponse, OwnerOfResponse, Approval, NftInfoResponseForEmpty, Empty, AllOperatorsResponse, AllTokensResponse, ApprovalResponse, ApprovalsResponse, Decimal, CollectionInfoResponse, RoyaltyInfoResponse, ContractInfoResponse, ExecuteMsgForEmpty, Binary, MintMsgForEmpty, InstantiateMsg, CollectionInfoForRoyaltyInfoResponse, MinterResponse, NftInfoResponse, NumTokensResponse, OperatorsResponse, QueryMsg, TokensResponse } from "./Sg721.types";
 export interface Sg721Message {
   contractAddress: string;
@@ -97,18 +98,19 @@ export class Sg721MessageComposer implements Sg721Message {
     recipient: string;
     tokenId: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      transfer_nft: {
+        recipient,
+        token_id: tokenId
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          transfer_nft: {
-            recipient,
-            token_id: tokenId
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -121,19 +123,20 @@ export class Sg721MessageComposer implements Sg721Message {
     msg: Binary;
     tokenId: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      send_nft: {
+        contract,
+        msg,
+        token_id: tokenId
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          send_nft: {
-            contract,
-            msg,
-            token_id: tokenId
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -146,19 +149,20 @@ export class Sg721MessageComposer implements Sg721Message {
     spender: string;
     tokenId: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      approve: {
+        expires,
+        spender,
+        token_id: tokenId
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          approve: {
-            expires,
-            spender,
-            token_id: tokenId
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -169,18 +173,19 @@ export class Sg721MessageComposer implements Sg721Message {
     spender: string;
     tokenId: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      revoke: {
+        spender,
+        token_id: tokenId
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          revoke: {
-            spender,
-            token_id: tokenId
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -191,18 +196,19 @@ export class Sg721MessageComposer implements Sg721Message {
     expires?: Expiration;
     operator: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      approve_all: {
+        expires,
+        operator
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          approve_all: {
-            expires,
-            operator
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -211,17 +217,18 @@ export class Sg721MessageComposer implements Sg721Message {
   }: {
     operator: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      revoke_all: {
+        operator
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          revoke_all: {
-            operator
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -236,20 +243,21 @@ export class Sg721MessageComposer implements Sg721Message {
     tokenId: string;
     tokenUri?: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      mint: {
+        extension,
+        owner,
+        token_id: tokenId,
+        token_uri: tokenUri
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          mint: {
-            extension,
-            owner,
-            token_id: tokenId,
-            token_uri: tokenUri
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -258,17 +266,18 @@ export class Sg721MessageComposer implements Sg721Message {
   }: {
     tokenId: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      burn: {
+        token_id: tokenId
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          burn: {
-            token_id: tokenId
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };

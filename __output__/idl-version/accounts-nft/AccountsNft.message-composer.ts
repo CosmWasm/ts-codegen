@@ -8,6 +8,7 @@ import { Coin } from "@cosmjs/amino";
 import { MsgExecuteContractEncodeObject } from "cosmwasm";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
+import { AppExecuteMsg, AppModuleExecuteMsgBuilder } from "@abstract-money/abstract.js";
 import { InstantiateMsg, ExecuteMsg, Binary, Expiration, Timestamp, Uint64, QueryMsg, VaultBaseForString, Uint128, ArrayOfSharesResponseItem, SharesResponseItem, AllNftInfoResponseForEmpty, OwnerOfResponse, Approval, NftInfoResponseForEmpty, Empty, OperatorsResponse, String, TokensResponse, ArrayOfVaultBaseForString, ApprovalResponse, ApprovalsResponse, ContractInfoResponse, MinterResponse, NumTokensResponse } from "./AccountsNft.types";
 export interface AccountsNftMessage {
   contractAddress: string;
@@ -97,30 +98,32 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
   }: {
     newOwner: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      propose_new_owner: {
+        new_owner: newOwner
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          propose_new_owner: {
-            new_owner: newOwner
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
   acceptOwnership = (_funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      accept_ownership: {}
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          accept_ownership: {}
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -129,17 +132,18 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
   }: {
     user: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      mint: {
+        user
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          mint: {
-            user
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -150,18 +154,19 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
     recipient: string;
     tokenId: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      transfer_nft: {
+        recipient,
+        token_id: tokenId
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          transfer_nft: {
-            recipient,
-            token_id: tokenId
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -174,19 +179,20 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
     msg: Binary;
     tokenId: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      send_nft: {
+        contract,
+        msg,
+        token_id: tokenId
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          send_nft: {
-            contract,
-            msg,
-            token_id: tokenId
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -199,19 +205,20 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
     spender: string;
     tokenId: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      approve: {
+        expires,
+        spender,
+        token_id: tokenId
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          approve: {
-            expires,
-            spender,
-            token_id: tokenId
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -222,18 +229,19 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
     spender: string;
     tokenId: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      revoke: {
+        spender,
+        token_id: tokenId
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          revoke: {
-            spender,
-            token_id: tokenId
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -244,18 +252,19 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
     expires?: Expiration;
     operator: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      approve_all: {
+        expires,
+        operator
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          approve_all: {
-            expires,
-            operator
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -264,17 +273,18 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
   }: {
     operator: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      revoke_all: {
+        operator
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          revoke_all: {
-            operator
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -283,17 +293,18 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
   }: {
     tokenId: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      burn: {
+        token_id: tokenId
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          burn: {
-            token_id: tokenId
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };

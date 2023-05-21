@@ -7,6 +7,7 @@
 import { MsgExecuteContractEncodeObject } from "cosmwasm";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
+import { AppExecuteMsg, AppModuleExecuteMsgBuilder } from "@abstract-money/abstract.js";
 import { Duration, Threshold, Decimal, InstantiateMsg, Voter, ExecuteMsg, Expiration, Timestamp, Uint64, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, WasmMsg, Binary, Vote, Coin, Empty, QueryMsg, Status, ThresholdResponse, ProposalListResponse, ProposalResponseForEmpty, VoterListResponse, VoterDetail, VoteListResponse, VoteInfo, VoteResponse, VoterResponse } from "./Cw3FixedMultiSig.types";
 export interface Cw3FixedMultiSigMessage {
   contractAddress: string;
@@ -64,20 +65,21 @@ export class Cw3FixedMultiSigMessageComposer implements Cw3FixedMultiSigMessage 
     msgs: CosmosMsgForEmpty[];
     title: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      propose: {
+        description,
+        latest,
+        msgs,
+        title
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          propose: {
-            description,
-            latest,
-            msgs,
-            title
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -88,18 +90,19 @@ export class Cw3FixedMultiSigMessageComposer implements Cw3FixedMultiSigMessage 
     proposalId: number;
     vote: Vote;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      vote: {
+        proposal_id: proposalId,
+        vote
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          vote: {
-            proposal_id: proposalId,
-            vote
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -108,17 +111,18 @@ export class Cw3FixedMultiSigMessageComposer implements Cw3FixedMultiSigMessage 
   }: {
     proposalId: number;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      execute: {
+        proposal_id: proposalId
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          execute: {
-            proposal_id: proposalId
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -127,17 +131,18 @@ export class Cw3FixedMultiSigMessageComposer implements Cw3FixedMultiSigMessage 
   }: {
     proposalId: number;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      close: {
+        proposal_id: proposalId
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          close: {
-            proposal_id: proposalId
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };

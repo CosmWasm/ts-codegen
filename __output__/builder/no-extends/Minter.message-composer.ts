@@ -7,6 +7,7 @@
 import { MsgExecuteContractEncodeObject } from "cosmwasm";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
+import { AppExecuteMsg, AppModuleExecuteMsgBuilder } from "@abstract-money/abstract.js";
 import { Timestamp, Uint64, Uint128, ConfigResponse, Coin, Addr, Config, ExecuteMsg, Decimal, InstantiateMsg, InstantiateMsg1, CollectionInfoForRoyaltyInfoResponse, RoyaltyInfoResponse, QueryMsg } from "./Minter.types";
 export interface MinterMessage {
   contractAddress: string;
@@ -54,15 +55,16 @@ export class MinterMessageComposer implements MinterMessage {
   }
 
   mint = (_funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      mint: {}
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          mint: {}
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -71,30 +73,32 @@ export class MinterMessageComposer implements MinterMessage {
   }: {
     whitelist: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      set_whitelist: {
+        whitelist
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          set_whitelist: {
-            whitelist
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
   updateStartTime = (_funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      update_start_time: {}
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          update_start_time: {}
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -103,17 +107,18 @@ export class MinterMessageComposer implements MinterMessage {
   }: {
     perAddressLimit: number;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      update_per_address_limit: {
+        per_address_limit: perAddressLimit
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          update_per_address_limit: {
-            per_address_limit: perAddressLimit
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -122,17 +127,18 @@ export class MinterMessageComposer implements MinterMessage {
   }: {
     recipient: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      mint_to: {
+        recipient
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          mint_to: {
-            recipient
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -143,31 +149,33 @@ export class MinterMessageComposer implements MinterMessage {
     recipient: string;
     tokenId: number;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      mint_for: {
+        recipient,
+        token_id: tokenId
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          mint_for: {
-            recipient,
-            token_id: tokenId
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
   withdraw = (_funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      withdraw: {}
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          withdraw: {}
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };

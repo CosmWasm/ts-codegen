@@ -7,6 +7,7 @@
 import { MsgExecuteContractEncodeObject } from "cosmwasm";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
+import { AppExecuteMsg, AppModuleExecuteMsgBuilder } from "@abstract-money/abstract.js";
 import { CanExecuteRelayResponse, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, WasmMsg, Binary, Coin, Empty, ExecuteMsgForEmpty, Addr, RelayTransaction, Guardians, MultiSig, InfoResponse, ContractVersion, InstantiateMsg, CreateWalletMsg, QueryMsg, Uint64 } from "./Govec.types";
 export interface GovecMessage {
   contractAddress: string;
@@ -72,30 +73,32 @@ export class GovecMessageComposer implements GovecMessage {
   }: {
     msgs: CosmosMsgForEmpty[];
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      execute: {
+        msgs
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          execute: {
-            msgs
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
   revertFreezeStatus = (_funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      revert_freeze_status: {}
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          revert_freeze_status: {}
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -104,17 +107,18 @@ export class GovecMessageComposer implements GovecMessage {
   }: {
     transaction: RelayTransaction;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      relay: {
+        transaction
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          relay: {
-            transaction
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -123,17 +127,18 @@ export class GovecMessageComposer implements GovecMessage {
   }: {
     newUserAddress: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      rotate_user_key: {
+        new_user_address: newUserAddress
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          rotate_user_key: {
-            new_user_address: newUserAddress
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -142,17 +147,18 @@ export class GovecMessageComposer implements GovecMessage {
   }: {
     newRelayerAddress: Addr;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      add_relayer: {
+        new_relayer_address: newRelayerAddress
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          add_relayer: {
-            new_relayer_address: newRelayerAddress
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -161,17 +167,18 @@ export class GovecMessageComposer implements GovecMessage {
   }: {
     relayerAddress: Addr;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      remove_relayer: {
+        relayer_address: relayerAddress
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          remove_relayer: {
-            relayer_address: relayerAddress
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -182,18 +189,19 @@ export class GovecMessageComposer implements GovecMessage {
     guardians: Guardians;
     newMultisigCodeId?: number;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      update_guardians: {
+        guardians,
+        new_multisig_code_id: newMultisigCodeId
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          update_guardians: {
-            guardians,
-            new_multisig_code_id: newMultisigCodeId
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -202,17 +210,18 @@ export class GovecMessageComposer implements GovecMessage {
   }: {
     newLabel: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      update_label: {
+        new_label: newLabel
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          update_label: {
-            new_label: newLabel
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };

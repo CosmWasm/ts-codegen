@@ -5,7 +5,8 @@ import {
   bindMethod,
   classDeclaration,
   classProperty,
-  getMessageProperties, createExtractTypeAnnotation,
+  getMessageProperties,
+  createExtractTypeAnnotation,
   FIXED_EXECUTE_PARAMS,
   OPTIONAL_FUNDS_PARAM,
   promiseTypeAnnotation,
@@ -457,7 +458,7 @@ export const createPropertyFunctionWithExtractedParams = (
   methodName: string,
   responseType: string,
   msgTitle: string,
-  jsonschema: JSONSchema,
+  jsonschema: JSONSchema
 ) => {
   const obj = createTypedObjectParams(context, jsonschema);
 

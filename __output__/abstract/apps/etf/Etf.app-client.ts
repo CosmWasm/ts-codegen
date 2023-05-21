@@ -5,33 +5,42 @@
 */
 
 import { CamelCasedProperties } from "type-fest";
-import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
-import { AbstractQueryClient, AbstractAccountQueryClient, AbstractAccountClient } from "@abstract-money/abstract.js";
+import { SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
+import { AbstractQueryClient, AbstractAccountQueryClient, AbstractAccountClient, AppExecuteMsg, AppModuleExecuteMsgBuilder, AbstractClient } from "@abstract-money/abstract.js";
+import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
+import { toUtf8 } from "@cosmjs/encoding";
+import { StdFee, Coin } from "@cosmjs/amino";
 import { Decimal, InstantiateMsg, ExecuteMsg, Uint128, AssetInfoBaseForString, AssetBaseForString, QueryMsg, MigrateMsg, StateResponse } from "./Etf.types";
 import { EtfQueryClient, EtfClient } from "./Etf.client";
 import { EtfQueryMsgBuilder, EtfExecuteMsgBuilder } from "./Etf.msg-builder";
 export interface IEtfAppQueryClient {
   moduleId: string;
-  queryClient: AbstractAccountQueryClient;
+  accountQueryClient: AbstractAccountQueryClient;
   _moduleAddress: string;
   state: () => Promise<StateResponse>;
   connect: (signingClient: SigningCosmWasmClient, address: string) => EtfAppClient;
   address: () => Promise<string>;
 }
 export class EtfAppQueryClient implements IEtfAppQueryClient {
-  queryClient: AbstractAccountQueryClient;
+  accountQueryClient: AbstractAccountQueryClient;
   moduleId: string;
   _moduleAddress: string;
 
   constructor({
-    abstract,
+    abstractQueryClient,
     accountId,
     managerAddress,
     proxyAddress,
     moduleId
+  }: {
+    abstractQueryClient: AbstractQueryClient;
+    accountId: number;
+    managerAddress: string;
+    proxyAddress: string;
+    moduleId: string;
   }) {
-    this.queryClient = new AbstractAccountQueryClient({
-      abstract,
+    this.accountQueryClient = new AbstractAccountQueryClient({
+      abstract: abstractQueryClient,
       accountId,
       managerAddress,
       proxyAddress
@@ -43,8 +52,8 @@ export class EtfAppQueryClient implements IEtfAppQueryClient {
   state = async (): Promise<StateResponse> => {
     return this._query(EtfQueryMsgBuilder.state());
   };
-  _query = (queryMsg: QueryMsg): Promise<any> => {
-    return this.queryClient.queryModule({
+  _query = async (queryMsg: QueryMsg): Promise<any> => {
+    return this.accountQueryClient.queryModule({
       moduleId: this.moduleId,
       moduleType: "app",
       queryMsg
@@ -52,17 +61,18 @@ export class EtfAppQueryClient implements IEtfAppQueryClient {
   };
   address = async (): Promise<string> => {
     if (!this._moduleAddress) {
-      this._moduleAddress = await this.queryClient.getModuleAddress(this.moduleId);
+      this._moduleAddress = await this.accountQueryClient.getModuleAddress(this.moduleId);
     }
 
     return this._moduleAddress;
   };
   connect = (signingClient: SigningCosmWasmClient, address: string): EtfAppClient => {
     return new EtfAppClient({
-      accountId: this.queryClient.accountId,
-      managerAddress: this.queryClient.managerAddress,
-      proxyAddress: this.queryClient.proxyAddress,
-      abstract: this.queryClient.abstract.upgrade(signingClient, address)
+      accountId: this.accountQueryClient.accountId,
+      managerAddress: this.accountQueryClient.managerAddress,
+      proxyAddress: this.accountQueryClient.proxyAddress,
+      moduleId: this.moduleId,
+      abstractClient: this.accountQueryClient.abstract.upgrade(signingClient, address)
     });
   };
 }
@@ -70,47 +80,51 @@ export interface IEtfAppClient extends IEtfAppQueryClient {
   accountClient: AbstractAccountClient;
   provideLiquidity: (params: CamelCasedProperties<Extract<QueryMsg, {
     provide_liquidity: unknown;
-  }>["provide_liquidity"]>, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ProvideLiquidityResponse>;
+  }>["provide_liquidity"]>, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
   setFee: (params: CamelCasedProperties<Extract<QueryMsg, {
     set_fee: unknown;
-  }>["set_fee"]>, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<SetFeeResponse>;
+  }>["set_fee"]>, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
 }
-export class EtfAppClient implements IEtfAppClient {
+export class EtfAppClient extends EtfAppQueryClient implements IEtfAppClient {
   accountClient: AbstractAccountClient;
 
   constructor({
-    abstract,
+    abstractClient,
     accountId,
     managerAddress,
     proxyAddress,
     moduleId
+  }: {
+    abstractClient: AbstractClient;
+    accountId: number;
+    managerAddress: string;
+    proxyAddress: string;
+    moduleId: string;
   }) {
-    super(base);
-    this.accountClient = AbstractAccountClient.fromQueryClient(this.accountQueryClient, base.abstract);
+    super({
+      abstractQueryClient: abstractClient,
+      accountId,
+      managerAddress,
+      proxyAddress,
+      moduleId
+    });
+    this.accountClient = AbstractAccountClient.fromQueryClient(this.accountQueryClient, abstractClient);
     this.provideLiquidity = this.provideLiquidity.bind(this);
     this.setFee = this.setFee.bind(this);
   }
 
   provideLiquidity = async (params: CamelCasedProperties<Extract<QueryMsg, {
     provide_liquidity: unknown;
-  }>["provide_liquidity"]>, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]): Promise<ProvideLiquidityResponse> => {
-    return this._composeMsg(EtfExecuteMsgBuilder.provideLiquidity(params));
+  }>["provide_liquidity"]>, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+    return this._execute(EtfExecuteMsgBuilder.provideLiquidity(params), fee, memo, _funds);
   };
   setFee = async (params: CamelCasedProperties<Extract<QueryMsg, {
     set_fee: unknown;
-  }>["set_fee"]>, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]): Promise<SetFeeResponse> => {
-    return this._composeMsg(EtfExecuteMsgBuilder.setFee(params));
+  }>["set_fee"]>, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+    return this._execute(EtfExecuteMsgBuilder.setFee(params), fee, memo, _funds);
   };
-  _composeMsg = (msg: AutocompounderExecuteMsg, _funds?: Coin[]): Promise<MsgExecuteContractEncodeObject> => {
-    const moduleMsg: AppExecuteMsg<AutocompounderExecuteMsg> = AppModuleExecuteMsgBuilder.executeApp(msg);
-    return {
-      typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
-      value: MsgExecuteContract.fromPartial({
-        sender: this.accountClient.sender,
-        contract: await this.address(),
-        msg: toUtf8(JSON.stringify(moduleMsg)),
-        funds
-      })
-    };
+  _execute = async (msg: ExecuteMsg, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+    const moduleMsg: AppExecuteMsg<ExecuteMsg> = AppModuleExecuteMsgBuilder.executeApp(msg);
+    return await this.accountClient.abstract.client.execute(this.accountClient.sender, await this.address(), moduleMsg, fee, memo, _funds);
   };
 }

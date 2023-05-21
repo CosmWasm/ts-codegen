@@ -7,6 +7,7 @@
 import { MsgExecuteContractEncodeObject } from "cosmwasm";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
+import { AppExecuteMsg, AppModuleExecuteMsgBuilder } from "@abstract-money/abstract.js";
 import { Addr, Uint128, Duration, Threshold, PercentageThreshold, Decimal, ConfigResponse, CheckedDepositInfo, ExecuteMsg, CosmosMsgForEmpty, BankMsg, StakingMsg, DistributionMsg, Binary, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Vote, DepositToken, Coin, Empty, IbcTimeout, IbcTimeoutBlock, DepositInfo, GovernanceModulesResponse, InfoResponse, ContractVersion, InstantiateMsg, Expiration, Status, ListProposalsResponse, ProposalResponse, Proposal, Votes, ListVotesResponse, VoteInfo, MigrateMsg, ProposalCountResponse, ProposalHooksResponse, QueryMsg, ReverseProposalsResponse, VoteHooksResponse, VoteResponse } from "./CwSingle.types";
 export interface CwSingleMessage {
   contractAddress: string;
@@ -102,19 +103,20 @@ export class CwSingleMessageComposer implements CwSingleMessage {
     msgs: CosmosMsgForEmpty[];
     title: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      propose: {
+        description,
+        msgs,
+        title
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          propose: {
-            description,
-            msgs,
-            title
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -125,18 +127,19 @@ export class CwSingleMessageComposer implements CwSingleMessage {
     proposalId: number;
     vote: Vote;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      vote: {
+        proposal_id: proposalId,
+        vote
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          vote: {
-            proposal_id: proposalId,
-            vote
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -145,17 +148,18 @@ export class CwSingleMessageComposer implements CwSingleMessage {
   }: {
     proposalId: number;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      execute: {
+        proposal_id: proposalId
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          execute: {
-            proposal_id: proposalId
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -164,17 +168,18 @@ export class CwSingleMessageComposer implements CwSingleMessage {
   }: {
     proposalId: number;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      close: {
+        proposal_id: proposalId
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          close: {
-            proposal_id: proposalId
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -195,23 +200,24 @@ export class CwSingleMessageComposer implements CwSingleMessage {
     onlyMembersExecute: boolean;
     threshold: Threshold;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      update_config: {
+        allow_revoting: allowRevoting,
+        dao,
+        deposit_info: depositInfo,
+        max_voting_period: maxVotingPeriod,
+        min_voting_period: minVotingPeriod,
+        only_members_execute: onlyMembersExecute,
+        threshold
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          update_config: {
-            allow_revoting: allowRevoting,
-            dao,
-            deposit_info: depositInfo,
-            max_voting_period: maxVotingPeriod,
-            min_voting_period: minVotingPeriod,
-            only_members_execute: onlyMembersExecute,
-            threshold
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -220,17 +226,18 @@ export class CwSingleMessageComposer implements CwSingleMessage {
   }: {
     address: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      add_proposal_hook: {
+        address
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          add_proposal_hook: {
-            address
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -239,17 +246,18 @@ export class CwSingleMessageComposer implements CwSingleMessage {
   }: {
     address: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      remove_proposal_hook: {
+        address
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          remove_proposal_hook: {
-            address
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -258,17 +266,18 @@ export class CwSingleMessageComposer implements CwSingleMessage {
   }: {
     address: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      add_vote_hook: {
+        address
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          add_vote_hook: {
-            address
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -277,17 +286,18 @@ export class CwSingleMessageComposer implements CwSingleMessage {
   }: {
     address: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      remove_vote_hook: {
+        address
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          remove_vote_hook: {
-            address
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };

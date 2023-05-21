@@ -307,6 +307,13 @@ it('abstract-app/autocompounder', async () => {
       types: {
         enabled: true
       },
+      reactQuery: {
+        enabled: true,
+        version: 'v4',
+        queryFactory: true,
+        queryKeys: true,
+        mutations: true,
+      },
       client: {
         enabled: true
       },

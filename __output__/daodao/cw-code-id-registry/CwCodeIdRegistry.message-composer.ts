@@ -8,6 +8,7 @@ import { Coin } from "@cosmjs/amino";
 import { MsgExecuteContractEncodeObject } from "cosmwasm";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
+import { AppExecuteMsg, AppModuleExecuteMsgBuilder } from "@abstract-money/abstract.js";
 import { Addr, PaymentInfo, Uint128, ConfigResponse, ExecuteMsg, Binary, Cw20ReceiveMsg, GetRegistrationResponse, Registration, InfoForCodeIdResponse, InstantiateMsg, ListRegistrationsResponse, QueryMsg, ReceiveMsg } from "./CwCodeIdRegistry.types";
 export interface CwCodeIdRegistryMessage {
   contractAddress: string;
@@ -81,19 +82,20 @@ export class CwCodeIdRegistryMessageComposer implements CwCodeIdRegistryMessage 
     msg: Binary;
     sender: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      receive: {
+        amount,
+        msg,
+        sender
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          receive: {
-            amount,
-            msg,
-            sender
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -110,21 +112,22 @@ export class CwCodeIdRegistryMessageComposer implements CwCodeIdRegistryMessage 
     name: string;
     version: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      register: {
+        chain_id: chainId,
+        checksum,
+        code_id: codeId,
+        name,
+        version
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          register: {
-            chain_id: chainId,
-            checksum,
-            code_id: codeId,
-            name,
-            version
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -137,19 +140,20 @@ export class CwCodeIdRegistryMessageComposer implements CwCodeIdRegistryMessage 
     name: string;
     owner?: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      set_owner: {
+        chain_id: chainId,
+        name,
+        owner
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          set_owner: {
-            chain_id: chainId,
-            name,
-            owner
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -160,18 +164,19 @@ export class CwCodeIdRegistryMessageComposer implements CwCodeIdRegistryMessage 
     chainId: string;
     codeId: number;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      unregister: {
+        chain_id: chainId,
+        code_id: codeId
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          unregister: {
-            chain_id: chainId,
-            code_id: codeId
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -182,18 +187,19 @@ export class CwCodeIdRegistryMessageComposer implements CwCodeIdRegistryMessage 
     admin?: string;
     paymentInfo?: PaymentInfo;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      update_config: {
+        admin,
+        payment_info: paymentInfo
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          update_config: {
-            admin,
-            payment_info: paymentInfo
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };

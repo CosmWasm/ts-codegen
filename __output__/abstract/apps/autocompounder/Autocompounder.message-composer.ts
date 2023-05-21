@@ -21,15 +21,15 @@ export interface AutocompounderMessage {
     deposit?: Decimal;
     performance?: Decimal;
     withdrawal?: Decimal;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   deposit: ({
     funds
   }: {
     funds: AnsAsset[];
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
-  withdraw: (funds?: Coin[]) => MsgExecuteContractEncodeObject;
-  compound: (funds?: Coin[]) => MsgExecuteContractEncodeObject;
-  batchUnbond: (funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  withdraw: (_funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  compound: (_funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  batchUnbond: (_funds?: Coin[]) => MsgExecuteContractEncodeObject;
 }
 export class AutocompounderMessageComposer implements AutocompounderMessage {
   sender: string;

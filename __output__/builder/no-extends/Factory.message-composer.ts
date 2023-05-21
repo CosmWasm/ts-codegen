@@ -7,6 +7,7 @@
 import { MsgExecuteContractEncodeObject } from "cosmwasm";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
+import { AppExecuteMsg, AppModuleExecuteMsgBuilder } from "@abstract-money/abstract.js";
 import { AdminAddrResponse, CodeIdResponse, CodeIdType, Uint128, Binary, CreateWalletMsg, Guardians, MultiSig, Coin, Cw20Coin, ExecuteMsg, Addr, ProxyMigrationTxMsg, WalletAddr, CanonicalAddr, RelayTransaction, FeeResponse, GovecAddrResponse, InstantiateMsg, QueryMsg, WalletQueryPrefix, Duration, StakingOptions, WalletInfo, ContractVersion, WalletsOfResponse, WalletsResponse } from "./Factory.types";
 export interface FactoryMessage {
   contractAddress: string;
@@ -74,17 +75,18 @@ export class FactoryMessageComposer implements FactoryMessage {
   }: {
     createWalletMsg: CreateWalletMsg;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      create_wallet: {
+        create_wallet_msg: createWalletMsg
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          create_wallet: {
-            create_wallet_msg: createWalletMsg
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -95,18 +97,19 @@ export class FactoryMessageComposer implements FactoryMessage {
     newUser: Addr;
     oldUser: Addr;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      update_proxy_user: {
+        new_user: newUser,
+        old_user: oldUser
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          update_proxy_user: {
-            new_user: newUser,
-            old_user: oldUser
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -117,18 +120,19 @@ export class FactoryMessageComposer implements FactoryMessage {
     migrationMsg: ProxyMigrationTxMsg;
     walletAddress: WalletAddr;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      migrate_wallet: {
+        migration_msg: migrationMsg,
+        wallet_address: walletAddress
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          migrate_wallet: {
-            migration_msg: migrationMsg,
-            wallet_address: walletAddress
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -139,18 +143,19 @@ export class FactoryMessageComposer implements FactoryMessage {
     newCodeId: number;
     ty: CodeIdType;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      update_code_id: {
+        new_code_id: newCodeId,
+        ty
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          update_code_id: {
-            new_code_id: newCodeId,
-            ty
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -159,17 +164,18 @@ export class FactoryMessageComposer implements FactoryMessage {
   }: {
     newFee: Coin;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      update_wallet_fee: {
+        new_fee: newFee
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          update_wallet_fee: {
-            new_fee: newFee
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -178,17 +184,18 @@ export class FactoryMessageComposer implements FactoryMessage {
   }: {
     addr: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      update_govec_addr: {
+        addr
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          update_govec_addr: {
-            addr
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };
@@ -197,17 +204,18 @@ export class FactoryMessageComposer implements FactoryMessage {
   }: {
     addr: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    const msg = {
+      update_admin: {
+        addr
+      }
+    };
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          update_admin: {
-            addr
-          }
-        })),
-        _funds: funds
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: _funds
       })
     };
   };

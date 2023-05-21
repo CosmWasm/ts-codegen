@@ -30,7 +30,7 @@ export class AbstractAppPlugin extends BuilderPluginBase<RenderOptions> {
       body: any[];
     }[]
   > {
-    const options = this.option.abstractApp;
+    const options = this.option.abstractApp ?? {};
 
     const { enabled } = options;
 
