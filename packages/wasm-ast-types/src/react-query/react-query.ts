@@ -6,7 +6,7 @@ import {
   callExpression,
   createTypedObjectParams,
   getMessageProperties,
-  identifier,
+  identifier, RECORD_STRING_UNKNOWN_TYPE_ANNOTATION,
   tsObjectPattern,
   tsPropertySignature
 } from '../utils';
@@ -703,15 +703,7 @@ function createReactQueryKeys({
                   identifier(
                     'args',
                     // Record<string, unknown>
-                    t.tSTypeAnnotation(
-                      t.tsTypeReference(
-                        t.identifier('Record'),
-                        t.tsTypeParameterInstantiation([
-                          t.tsStringKeyword(),
-                          t.tsUnknownKeyword()
-                        ])
-                      )
-                    ),
+                    RECORD_STRING_UNKNOWN_TYPE_ANNOTATION,
                     true // optional
                   )
                 ],

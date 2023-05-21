@@ -13,6 +13,8 @@ import { camel } from 'case';
 import { ExecuteMsg, QueryMsg } from '../types';
 import { getWasmMethodArgs } from '../client';
 
+type GenerationType = 'abstract-app' | 'contract';
+
 /**
  * Create a react-query factory for use in queries.
  * @param context
@@ -25,12 +27,12 @@ export function createQueryOptionsFactory(
   context: RenderContext,
   moduleName: string,
   queryMsg: QueryMsg,
-  isAbstractApp: boolean
+  generationType: GenerationType
 ) {
   context.addUtil('createQueryKeys');
 
   const queryKeys = getMessageProperties(queryMsg).map((schema) => {
-    return createQueryOptions(context, schema, isAbstractApp);
+    return createQueryOptions(context, schema, generationType);
   });
 
   return t.exportNamedDeclaration(
@@ -99,7 +101,7 @@ const CONTRACT_QUERY_CLIENT_KEYS = t.objectExpression([
 const createQueryOptions = (
   context: RenderContext,
   jsonschema: any,
-  isAbstractApp: boolean
+  generationType: GenerationType
 ) => {
   const underscoreName = Object.keys(jsonschema.properties)[0];
   const methodName = camel(underscoreName);
@@ -139,7 +141,7 @@ const createQueryOptions = (
         t.objectProperty(
           t.identifier('queryKey'),
           t.arrayExpression([
-            isAbstractApp
+            generationType === 'abstract-app'
               ? ABSTRACT_APP_QUERY_KEYS
               : CONTRACT_QUERY_CLIENT_KEYS,
             ...(param ? [t.identifier('params')] : [])

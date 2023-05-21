@@ -7,24 +7,29 @@ import query_msg from '../../../../__fixtures__/basic/query_msg.json';
 
 it('etf', () => {
   const ctx = makeContext(etfQuery);
-  expectCode(createQueryOptionsFactory(ctx, 'Etf', etfQuery, true));
+  expectCode(createQueryOptionsFactory(ctx, 'Etf', etfQuery, 'abstract-app'));
 });
 
 it('subscription', () => {
   const ctx = makeContext(subscriptionQuery);
   expectCode(
-    createQueryOptionsFactory(ctx, 'Subscription', subscriptionQuery, true)
+    createQueryOptionsFactory(ctx, 'Subscription', subscriptionQuery, 'abstract-app')
   );
 });
 
 it('queryMsg', () => {
   const ctx = makeContext(query_msg);
-  expectCode(createQueryOptionsFactory(ctx, 'Contract', query_msg, false));
+  expectCode(createQueryOptionsFactory(ctx, 'Contract', query_msg, 'contract'));
 });
 
 it('autocompounderQueryMsg', () => {
   const ctx = makeContext(autocompounderQuery);
   expectCode(
-    createQueryOptionsFactory(ctx, 'Autocompounder', autocompounderQuery, false)
+    createQueryOptionsFactory(
+      ctx,
+      'Autocompounder',
+      autocompounderQuery,
+      'contract'
+    )
   );
 });

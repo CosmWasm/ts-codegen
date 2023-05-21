@@ -75,6 +75,7 @@ export interface RenderOptions {
 export interface IContext {
   refLookup($ref: string);
   addUtil(util: string);
+  addUtils(util: string[]);
   getImports(registeredUtils?: UtilMapping);
 }
 
@@ -159,6 +160,11 @@ export abstract class RenderContextBase<TOpt = RenderOptions> implements IRender
     }
     addUtil(util: string) {
         this.utils[util] = true;
+    }
+    addUtils(utils: string[]) {
+        utils.forEach(util => {
+            this.utils[util] = true;
+        });
     }
     getImports(registeredUtils?: UtilMapping) {
         return getImportStatements(

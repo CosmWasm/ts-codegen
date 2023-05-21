@@ -117,7 +117,7 @@ export const typedIdentifier = (name: string, typeAnnotation: TSTypeAnnotation, 
     return type;
 }
 
-export const promiseTypeAnnotation = (name) => {
+export const promiseTypeAnnotation = (name: string) => {
     return t.tsTypeAnnotation(
         t.tsTypeReference(
             t.identifier('Promise'),
@@ -168,6 +168,17 @@ export const classProperty = (
     if (noImplicitOverride) prop.override = true;
     return prop;
 };
+
+export const classPrivateProperty = (
+  name: string,
+  value: t.Expression = null,
+  typeAnnotation: TSTypeAnnotation = null,
+  isStatic: boolean = false
+) => {
+    const prop = t.classPrivateProperty( t.privateName(t.identifier(name)), value, [], isStatic);
+    if (typeAnnotation) prop.typeAnnotation = typeAnnotation;
+    return prop;
+}
 
 export const arrowFunctionExpression = (
     params: (t.Identifier | t.Pattern | t.RestElement)[],
@@ -349,3 +360,13 @@ export const omitTypeReference = (from: t.TSType, omit: string | Array<string>) 
 export const pickTypeReference = (from: t.TSType, pick: string | Array<string>) => {
     return parameterizedTypeReference('Pick', from, pick)
 }
+
+export const RECORD_STRING_UNKNOWN_TYPE_ANNOTATION = t.tSTypeAnnotation(
+  t.tsTypeReference(
+    t.identifier('Record'),
+    t.tsTypeParameterInstantiation([
+      t.tsStringKeyword(),
+      t.tsUnknownKeyword()
+    ])
+  )
+)

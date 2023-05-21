@@ -6,7 +6,7 @@ import {
   ContractInfo,
   RenderOptions,
   RenderContextBase,
-  RenderContext
+  RenderContext, createAbstractAppQueryFactory
 } from 'wasm-ast-types';
 import { BuilderFileType } from '../builder';
 import { BuilderPluginBase } from './plugin-base';
@@ -40,7 +40,7 @@ export class AbstractAppPlugin extends BuilderPluginBase<RenderOptions> {
 
     const { schemas } = context.contract;
 
-    const localname = pascal(`${name}`) + '.react-query.ts';
+    const localname = pascal(`${name}`) + '.app-client.ts';
     const ContractFile = pascal(`${name}`) + '.client';
     const TypesFile = pascal(`${name}`) + '.types';
 
@@ -49,23 +49,16 @@ export class AbstractAppPlugin extends BuilderPluginBase<RenderOptions> {
     const typeHash = await findAndParseTypes(schemas);
 
     const ExecuteClient = pascal(`${name}Client`);
-    const QueryClient = pascal(`${name}QueryClient`);
+    const queryClientName = pascal(`${name}QueryClient`);
+    const moduleName = pascal(name);
 
     const body = [];
 
     const clientImports = [];
 
-    QueryMsg && clientImports.push(QueryClient);
-
-    // check that there are commands within the exec msg
-    const shouldGenerateMutationHooks =
-      ExecuteMsg &&
-      options?.version === 'v4' &&
-      options?.mutations &&
-      getMessageProperties(ExecuteMsg).length > 0;
-
-    if (shouldGenerateMutationHooks) {
-      clientImports.push(ExecuteClient);
+    // TODO: push message builder
+    if (QueryMsg) {
+      clientImports.push(queryClientName);
     }
 
     // general contract imports
@@ -78,25 +71,14 @@ export class AbstractAppPlugin extends BuilderPluginBase<RenderOptions> {
     if (QueryMsg) {
       [].push.apply(
         body,
-        w.createReactQueryHooks({
-          context,
-          queryMsg: QueryMsg,
-          contractName: name,
-          QueryClient
-        })
+        w.createAbstractAppClass(context, queryClientName, QueryMsg)
       );
-    }
-
-    if (shouldGenerateMutationHooks) {
-      [].push.apply(
-        body,
-        w.createReactQueryMutationHooks({
-          context,
-          execMsg: ExecuteMsg,
-          contractName: name,
-          ExecuteClient
-        })
-      );
+      if (options.queryFactory) {
+        [].push.apply(
+          body,
+          w.createAbstractAppQueryFactory(context, moduleName, QueryMsg)
+        );
+      }
     }
 
     if (typeHash.hasOwnProperty('Coin')) {
@@ -106,7 +88,7 @@ export class AbstractAppPlugin extends BuilderPluginBase<RenderOptions> {
 
     return [
       {
-        type: 'react-query',
+        type: 'abstract-app',
         localname,
         body
       }

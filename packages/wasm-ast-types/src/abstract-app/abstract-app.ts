@@ -5,6 +5,7 @@ import {
   arrowFunctionExpression,
   bindMethod,
   classDeclaration,
+  classPrivateProperty,
   classProperty,
   createExtractTypeAnnotation,
   getMessageProperties,
@@ -17,6 +18,7 @@ import { ExecuteMsg, QueryMsg } from '../types';
 import { createTypedObjectParams } from '../utils/types';
 import { RenderContext } from '../context';
 import { getWasmMethodArgs } from '../client/client';
+import { createQueryOptionsFactory } from './query-options-factory';
 
 export const createAbstractAppClass = (
   context: RenderContext,
@@ -30,15 +32,31 @@ export const createAbstractAppClass = (
   // const blockStmt = bindings;
 
   return t.exportNamedDeclaration(
-    abstractClassDeclaration(className, staticMethods, [], null)
+    abstractClassDeclaration(
+      className,
+      staticMethods,
+      [t.tSExpressionWithTypeArguments(t.identifier(`I${className}`))],
+      null
+    )
   );
 };
 
-const classVariables = {
-  moduleId: t.identifier('moduleId'),
-  queryClient: t.identifier('queryClient')
+export const createAbstractAppQueryFactory = (
+  context: RenderContext,
+  moduleName: string,
+  msg: QueryMsg
+): t.ExportNamedDeclaration => {
+  return createQueryOptionsFactory(context, moduleName, msg, 'abstract-app');
 };
 
+const CLASS_VARS = {
+  moduleId: t.identifier('moduleId'),
+  _moduleAddress: t.identifier('_moduleAddress'),
+  queryClient: t.identifier('queryClient'),
+  accountClient: t.identifier('accountClient')
+};
+
+const ABSTRACT_ACCOUNT_CLIENT = 'AbstractAccountClient';
 const ABSTRACT_QUERY_CLIENT = 'AbstractQueryClient';
 const ABSTRACT_ACCOUNT_QUERY_CLIENT = 'AbstractAccountQueryClient';
 
@@ -61,7 +79,7 @@ function extractCamelcasedQueryParams(jsonschema, underscoreName: string) {
 /**
  * The address and connect methods in the interface.
  */
-const staticInterfaceMethods = () => {
+const staticInterfaceMethods = (connectedAppClientName: string) => {
   return [
     t.tsPropertySignature(
       t.identifier('connect'),
@@ -78,9 +96,9 @@ const staticInterfaceMethods = () => {
             ),
             identifier('address', t.tsTypeAnnotation(t.tsStringKeyword()))
           ],
-          // Return
+          // Return the connected app client
           t.tsTypeAnnotation(
-            t.tsTypeReference(t.identifier('ConnectedVaultManager'))
+            t.tsTypeReference(t.identifier(connectedAppClientName))
           )
         )
       )
@@ -99,11 +117,15 @@ const staticInterfaceMethods = () => {
   ];
 };
 
+// TODO: there might not be any execute methods, in which case we wouldn't need the connect method
 export const createAppQueryInterface = (
   context: RenderContext,
-  className: string,
+  interfaceClassName: string,
+  mutClassName: string,
   queryMsg: QueryMsg
 ) => {
+  context.addUtils(['SigningCosmWasmClient', ABSTRACT_QUERY_CLIENT]);
+
   const methods = getMessageProperties(queryMsg).map((jsonschema) => {
     const underscoreName = Object.keys(jsonschema.properties)[0];
     const methodName = camel(underscoreName);
@@ -125,50 +147,54 @@ export const createAppQueryInterface = (
 
   return t.exportNamedDeclaration(
     t.tsInterfaceDeclaration(
-      t.identifier(className),
+      t.identifier(interfaceClassName),
       null,
       [],
       t.tSInterfaceBody([
         t.tSPropertySignature(
-          classVariables.moduleId,
+          CLASS_VARS.moduleId,
           t.tsTypeAnnotation(t.tsStringKeyword())
         ),
         t.tSPropertySignature(
-          classVariables.queryClient,
+          CLASS_VARS.queryClient,
           t.tsTypeAnnotation(
-            t.tsTypeReference(t.identifier(ABSTRACT_QUERY_CLIENT))
+            t.tsTypeReference(t.identifier(ABSTRACT_ACCOUNT_QUERY_CLIENT))
           )
         ),
+        t.tSPropertySignature(
+          CLASS_VARS._moduleAddress,
+          t.tsTypeAnnotation(t.tsStringKeyword())
+        ),
         ...methods,
-        ...staticInterfaceMethods()
+        ...staticInterfaceMethods(mutClassName)
       ])
     )
   );
 };
 
+// TODO: private
 const QUERY_APP_FN = t.classProperty(
-  t.identifier('queryApp'),
-  t.arrowFunctionExpression(
-    [t.identifier('queryMsg')],
+  t.identifier('_query'),
+  arrowFunctionExpression(
+    [
+      identifier(
+        'queryMsg',
+        t.tsTypeAnnotation(t.tsTypeReference(t.identifier('QueryMsg')))
+      )
+    ],
     t.blockStatement(
       [
         t.returnStatement(
           t.callExpression(
             t.memberExpression(
-              t.memberExpression(
-                t.thisExpression(),
-                classVariables.queryClient
-              ),
+              t.memberExpression(t.thisExpression(), CLASS_VARS.queryClient),
               t.identifier('queryModule')
             ),
             [
               t.objectExpression([
                 t.objectProperty(
                   t.identifier('moduleId'),
-                  t.memberExpression(
-                    t.thisExpression(),
-                    classVariables.moduleId
-                  )
+                  t.memberExpression(t.thisExpression(), CLASS_VARS.moduleId)
                 ),
                 t.objectProperty(
                   t.identifier('moduleType'),
@@ -182,11 +208,11 @@ const QUERY_APP_FN = t.classProperty(
       ],
       []
     ),
-    false
-  ),
-  promiseTypeAnnotation('JsonObject'),
-  [t.decorator(t.identifier('private'))]
+    // TODO: better than any
+    promiseTypeAnnotation('any')
+  )
 );
+
 
 export const createAppQueryClass = (
   context: RenderContext,
@@ -197,10 +223,7 @@ export const createAppQueryClass = (
 ) => {
   const moduleName = pascal(_moduleName);
 
-  const msgBuilderName = `${moduleName}MsgBuilder`;
-  context.addUtil(ABSTRACT_QUERY_CLIENT);
-  context.addUtil(ABSTRACT_ACCOUNT_QUERY_CLIENT);
-  context.addUtil(msgBuilderName);
+  context.addUtils([ABSTRACT_QUERY_CLIENT, ABSTRACT_ACCOUNT_QUERY_CLIENT]);
 
   const propertyNames = getMessageProperties(queryMsg)
     .map((method) => Object.keys(method.properties)?.[0])
@@ -214,7 +237,7 @@ export const createAppQueryClass = (
 
   methods.push(QUERY_APP_FN);
   methods.push(ADDRESS_METHOD);
-  methods.push(connectMethod(`${moduleName}Client`));
+  methods.push(connectMethod(`${moduleName}AppClient`));
 
   return t.exportNamedDeclaration(
     classDeclaration(
@@ -224,12 +247,21 @@ export const createAppQueryClass = (
         classProperty(
           'queryClient',
           t.tsTypeAnnotation(
-            t.tsTypeReference(t.identifier(ABSTRACT_QUERY_CLIENT))
+            t.tsTypeReference(t.identifier(ABSTRACT_ACCOUNT_QUERY_CLIENT))
           )
         ),
 
         // moduleId
         classProperty('moduleId', t.tsTypeAnnotation(t.tsStringKeyword())),
+
+        // _moduleAddress
+        {
+          ...classProperty(
+            '_moduleAddress',
+            t.tsTypeAnnotation(t.tsStringKeyword())
+          ),
+          visibility: 'private'
+        },
 
         // constructor
         t.classMethod(
@@ -285,25 +317,52 @@ export const createAppQueryClass = (
 
 const ADDRESS_METHOD = t.classProperty(
   t.identifier('address'),
-  t.arrowFunctionExpression(
+  arrowFunctionExpression(
     [],
     t.blockStatement([
+      t.ifStatement(
+        t.unaryExpression(
+          '!',
+          t.memberExpression(t.thisExpression(), CLASS_VARS._moduleAddress)
+        ),
+        t.blockStatement([
+          t.expressionStatement(
+            t.assignmentExpression(
+              '=',
+              t.memberExpression(t.thisExpression(), CLASS_VARS._moduleAddress),
+              t.awaitExpression(
+                t.callExpression(
+                  t.memberExpression(
+                    t.memberExpression(
+                      t.thisExpression(),
+                      t.identifier('queryClient')
+                    ),
+                    t.identifier('getModuleAddress')
+                  ),
+                  [
+                    t.memberExpression(
+                      t.thisExpression(),
+                      t.identifier('moduleId')
+                    )
+                  ]
+                )
+              )
+            )
+          )
+        ])
+      ),
       t.returnStatement(
-        t.callExpression(
-          t.memberExpression(
-            t.memberExpression(t.thisExpression(), t.identifier('queryClient')),
-            t.identifier('getModuleAddress')
-          ),
-          [t.memberExpression(t.thisExpression(), t.identifier('moduleId'))]
-        )
+        t.memberExpression(t.thisExpression(), CLASS_VARS._moduleAddress)
       )
-    ])
-  ),
-  t.tsTypeAnnotation(
-    t.tsTypeReference(
-      t.identifier('Promise'),
-      t.tsTypeParameterInstantiation([t.tsStringKeyword()])
-    )
+    ]),
+
+    t.tsTypeAnnotation(
+      t.tsTypeReference(
+        t.identifier('Promise'),
+        t.tsTypeParameterInstantiation([t.tsStringKeyword()])
+      )
+    ),
+    true
   )
 );
 
@@ -312,8 +371,16 @@ const ADDRESS_METHOD = t.classProperty(
 const connectMethod = (mutClientName: string) => {
   return t.classProperty(
     t.identifier('connect'),
-    t.arrowFunctionExpression(
-      [t.identifier('signingClient'), t.identifier('address')],
+    arrowFunctionExpression(
+      [
+        identifier(
+          'signingClient',
+          t.tsTypeAnnotation(
+            t.tsTypeReference(t.identifier('SigningCosmWasmClient'))
+          )
+        ),
+        identifier('address', t.tsTypeAnnotation(t.tsStringKeyword()))
+      ],
       t.blockStatement([
         t.returnStatement(
           t.newExpression(t.identifier(mutClientName), [
@@ -333,7 +400,7 @@ const connectMethod = (mutClientName: string) => {
                 t.memberExpression(
                   t.memberExpression(
                     t.thisExpression(),
-                    classVariables.queryClient
+                    CLASS_VARS.queryClient
                   ),
                   t.identifier('managerAddress')
                 )
@@ -343,7 +410,7 @@ const connectMethod = (mutClientName: string) => {
                 t.memberExpression(
                   t.memberExpression(
                     t.thisExpression(),
-                    classVariables.queryClient
+                    CLASS_VARS.queryClient
                   ),
                   t.identifier('proxyAddress')
                 )
@@ -355,7 +422,7 @@ const connectMethod = (mutClientName: string) => {
                     t.memberExpression(
                       t.memberExpression(
                         t.thisExpression(),
-                        classVariables.queryClient
+                        CLASS_VARS.queryClient
                       ),
                       t.identifier('abstract')
                     ),
@@ -367,10 +434,9 @@ const connectMethod = (mutClientName: string) => {
             ])
           ])
         )
-      ])
-    ),
-    t.tsTypeAnnotation(t.tsTypeReference(t.identifier(mutClientName))),
-    []
+      ]),
+      t.tsTypeAnnotation(t.tsTypeReference(t.identifier(mutClientName)))
+    )
   );
 };
 
@@ -378,7 +444,7 @@ const connectMethod = (mutClientName: string) => {
   public pendingClaims = async (
     params: ExtractCamelizedParams<AutocompounderQueryMsg, 'pending_claims'>
   ): Promise<Uint128> => {
-    return this.queryApp(AutocompounderQueryMsgBuilder.pendingClaims(params))
+    return this._query(AutocompounderQueryMsgBuilder.pendingClaims(params))
   }
  */
 const createAppQueryMethod = (
@@ -410,7 +476,7 @@ const createAppQueryMethod = (
       t.blockStatement([
         t.returnStatement(
           t.callExpression(
-            t.memberExpression(t.thisExpression(), t.identifier('queryApp')),
+            t.memberExpression(t.thisExpression(), t.identifier('_query')),
             [
               t.callExpression(
                 t.memberExpression(

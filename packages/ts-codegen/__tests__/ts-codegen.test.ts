@@ -4,6 +4,8 @@ import generateClient from '../src/generators/client';
 import generateMessageComposer from '../src/generators/message-composer';
 import generateReactQuery from '../src/generators/react-query';
 import generateRecoil from '../src/generators/recoil';
+import generateAbstractApp from '../src/generators/abstract-app';
+import generateMsgBuilder from '../src/generators/msg-builder';
 
 const FIXTURE_DIR = __dirname + '/../../../__fixtures__';
 const OUTPUT_DIR = __dirname + '/../../../__output__';
@@ -261,4 +263,32 @@ it('idl-version/accounts-nft', async () => {
     await generateMessageComposer('AccountsNft', contractInfo, out);
     await generateRecoil('AccountsNft', contractInfo, out);
     await generateReactQuery('AccountsNft', contractInfo, out);
+})
+
+it('abstract-app/etf', async () => {
+  const out = OUTPUT_DIR + '/abstract/apps/etf/';
+  const schemaDir = FIXTURE_DIR + '/abstract/apps/etf/';
+
+  const contractInfo = await readSchemas({
+    schemaDir
+  });
+
+  await generateTypes('Etf', contractInfo, out);
+  await generateClient('Etf', contractInfo, out);
+  await generateMsgBuilder('Etf', contractInfo, out);
+  await generateAbstractApp('Etf', contractInfo, out);
+})
+
+it('abstract-app/autocompounder', async () => {
+  const out = OUTPUT_DIR + '/abstract/apps/autocompounder/';
+  const schemaDir = FIXTURE_DIR + '/abstract/apps/autocompounder/';
+
+  const contractInfo = await readSchemas({
+    schemaDir
+  });
+
+  await generateTypes('Autocompounder', contractInfo, out);
+  await generateClient('Autocompounder', contractInfo, out);
+  await generateMsgBuilder('Autocompounder', contractInfo, out);
+  await generateAbstractApp('Autocompounder', contractInfo, out);
 })

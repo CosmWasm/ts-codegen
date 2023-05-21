@@ -1,15 +1,14 @@
-import { pascal } from "case";
+import { pascal } from 'case';
 import { header } from '../utils/header';
-import { join } from "path";
-import { sync as mkdirp } from "mkdirp";
+import { join } from 'path';
+import { sync as mkdirp } from 'mkdirp';
 import * as w from 'wasm-ast-types';
-import { RenderContext } from 'wasm-ast-types';
+import { AbstractAppOptions, ContractInfo, RenderContext } from 'wasm-ast-types';
 import * as t from '@babel/types';
 import { writeFileSync } from 'fs';
-import generate from "@babel/generator";
+import generate from '@babel/generator';
 import { findAndParseTypes, findExecuteMsg, findQueryMsg } from '../utils';
-import { getMessageProperties, AbstractAppOptions, ContractInfo } from "wasm-ast-types";
-import { BuilderFile } from "../builder";
+import { BuilderFile } from '../builder';
 
 export default async (
   contractName: string,
@@ -23,28 +22,37 @@ export default async (
   });
   const options = context.options.abstractApp;
 
-  const localname = pascal(`${contractName}`) + '.react-query.ts';
+  const localname = pascal(`${contractName}`) + '.app-client.ts';
   const ContractFile = pascal(`${contractName}`) + '.client';
+  const MsgBuilderFile = pascal(`${contractName}`) + '.msg-builder';
   const TypesFile = pascal(`${contractName}`) + '.types';
 
   const QueryMsg = findQueryMsg(schemas);
   const ExecuteMsg = findExecuteMsg(schemas);
   const typeHash = await findAndParseTypes(schemas);
 
-  const ExecuteClient = pascal(`${contractName}Client`);
-  const QueryClient = pascal(`${contractName}QueryClient`);
+  const executeClientName = pascal(`${contractName}Client`);
+  const queryClientName = pascal(`${contractName}QueryClient`);
+  const appExecuteClientName = pascal(`${contractName}AppClient`);
+  const appQueryClientName = pascal(`${contractName}AppQueryClient`);
+  const appQueryInterfaceName = pascal(`I${appQueryClientName}`);
+  // TODO
+  const moduleName = contractName
 
   const body = [];
 
-  const clientImports = []
+  const clientImports = [];
+  const msgBuilderImports = [];
+  if (QueryMsg) {
+    clientImports.push(queryClientName);
+    // TODO: there might not be any execute methods, where we should not generate the connect method
+    // connect (xxx, yyy) -> executeClientName
+    clientImports.push(executeClientName);
+    msgBuilderImports.push(`${pascal(moduleName)}QueryMsgBuilder`);
+  }
 
-  QueryMsg && clientImports.push(QueryClient)
-
-  // check that there are commands within the exec msg
-  const shouldGenerateMutationHooks = ExecuteMsg && options?.version === 'v4' && options?.mutations && getMessageProperties(ExecuteMsg).length > 0
-
-  if (shouldGenerateMutationHooks) {
-    clientImports.push(ExecuteClient)
+  if (ExecuteMsg) {
+    msgBuilderImports.push(`${pascal(moduleName)}ExecuteMsgBuilder`);
   }
 
   // general contract imports
@@ -52,28 +60,23 @@ export default async (
 
   // client imports
   body.push(w.importStmt(clientImports, `./${ContractFile}`));
+  body.push(w.importStmt(msgBuilderImports, `./${MsgBuilderFile}`));
+  context.addUtil('CamelCasedProperties')
 
   // query messages
   if (QueryMsg) {
-    [].push.apply(body,
-      w.createReactQueryHooks({
-        context,
-        queryMsg: QueryMsg,
-        contractName: contractName,
-        QueryClient
-      })
-    );
-  }
+    console.log('QueryMsg', QueryMsg)
 
-  if (shouldGenerateMutationHooks) {
-    [].push.apply(body,
-      w.createReactQueryMutationHooks({
+    body.push(
+      w.createAppQueryInterface(
         context,
-        execMsg: ExecuteMsg,
-        contractName: contractName,
-        ExecuteClient
-      })
+        appQueryInterfaceName,
+        appExecuteClientName,
+        QueryMsg
+      )
     );
+    // body.push(w.createAbstractAppClass(context, queryClientName, QueryMsg));
+    body.push(w.createAppQueryClass(context, moduleName, appQueryClientName, appQueryInterfaceName, QueryMsg));
   }
 
   if (typeHash.hasOwnProperty('Coin')) {
@@ -81,22 +84,17 @@ export default async (
     delete context.utils.Coin;
   }
   const imports = context.getImports();
-  const code = header + generate(
-    t.program([
-      ...imports,
-      ...body
-    ])
-  ).code;
+  const code = header + generate(t.program([...imports, ...body])).code;
 
   mkdirp(outPath);
   writeFileSync(join(outPath, localname), code);
 
   return [
     {
-      type: 'react-query',
+      type: 'abstract-app',
       contract: contractName,
       localname,
-      filename: join(outPath, localname),
+      filename: join(outPath, localname)
     }
-  ]
+  ];
 };

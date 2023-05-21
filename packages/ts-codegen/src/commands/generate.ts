@@ -135,7 +135,8 @@ export default async (argv) => {
             enabled:
                 plugin.includes('client') ||
                 plugin.includes('recoil') ||
-                plugin.includes('react-query')
+                plugin.includes('react-query') ||
+                plugin.includes('abstract-app')
         },
         reactQuery: {
             enabled: plugin.includes('react-query'),
@@ -152,12 +153,17 @@ export default async (argv) => {
             enabled: plugin.includes('message-composer')
         },
         msgBuilder: {
-          enabled: plugin.includes('msg-builder')
+          enabled: plugin.includes('msg-builder') || plugin.includes('abstract-app')
         },
         bundle: {
             enabled: bundle,
             scope: bundleScope,
             bundleFile
+        },
+        abstractApp: {
+          enabled: plugin.includes('abstract-app'),
+          // TODO - add this to the questions
+          queryFactory: true
         }
     };
 
