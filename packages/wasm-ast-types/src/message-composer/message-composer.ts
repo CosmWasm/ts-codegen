@@ -1,28 +1,53 @@
 import * as t from '@babel/types';
 import { camel } from 'case';
 import {
+  arrowFunctionExpression,
   bindMethod,
-  typedIdentifier,
   classDeclaration,
   classProperty,
-  arrowFunctionExpression,
-  getMessageProperties
+  getMessageProperties,
+  identifier,
+  typedIdentifier
 } from '../utils';
-import { ExecuteMsg } from '../types';
+import { ExecuteMsg, JSONSchema } from '../types';
 import { createTypedObjectParams } from '../utils/types';
-import { JSONSchema } from '../types';
 import { RenderContext } from '../context';
-import { identifier } from '../utils/babel';
 import { getWasmMethodArgs } from '../client/client';
 
+const ABSTRACT_MODULE_MSG = t.variableDeclaration('const', [
+  t.variableDeclarator(
+    identifier(
+      'moduleMsg',
+      t.tsTypeAnnotation(
+        t.tSTypeReference(
+          t.identifier('AppExecuteMsg'),
+          t.tsTypeParameterInstantiation([
+            t.tsTypeReference(t.identifier('ExecuteMsg'))
+          ])
+        )
+      )
+    ),
+    t.callExpression(
+      t.memberExpression(
+        t.identifier('AppModuleExecuteMsgBuilder'),
+        t.identifier('executeApp')
+      ),
+      [t.identifier('msg')]
+    )
+  )
+]);
 const createWasmExecMethodMessageComposer = (
   context: RenderContext,
   jsonschema: any
 ) => {
-  context.addUtil('Coin');
-  context.addUtil('MsgExecuteContractEncodeObject');
-  context.addUtil('MsgExecuteContract');
-  context.addUtil('toUtf8');
+  context.addUtils([
+    'Coin',
+    'MsgExecuteContractEncodeObject',
+    'MsgExecuteContract',
+    'toUtf8',
+    'AppExecuteMsg',
+    'AppModuleExecuteMsgBuilder',
+  ]);
 
   const underscoreName = Object.keys(jsonschema.properties)[0];
   const methodName = camel(underscoreName);
@@ -35,9 +60,11 @@ const createWasmExecMethodMessageComposer = (
     jsonschema.properties[underscoreName]
   );
 
+  const isAbstractApp = context.options.abstractApp.enabled;
+
   const constantParams = [
     identifier(
-      'funds',
+      '_funds',
       t.tsTypeAnnotation(
         t.tsArrayType(t.tsTypeReference(t.identifier('Coin')))
       ),
@@ -56,6 +83,19 @@ const createWasmExecMethodMessageComposer = (
           ]
         : constantParams,
       t.blockStatement([
+        // TODO: use msg-builder
+        t.variableDeclaration('const', [
+          t.variableDeclarator(
+            t.identifier('msg'),
+            t.objectExpression([
+              t.objectProperty(
+                t.identifier(underscoreName),
+                t.objectExpression(args)
+              )
+            ])
+          )
+        ]),
+        ...(isAbstractApp ? [ABSTRACT_MODULE_MSG] : []),
         t.returnStatement(
           t.objectExpression([
             t.objectProperty(
@@ -94,22 +134,12 @@ const createWasmExecMethodMessageComposer = (
                             t.identifier('stringify')
                           ),
                           [
-                            t.objectExpression([
-                              t.objectProperty(
-                                t.identifier(underscoreName),
-                                t.objectExpression(args)
-                              )
-                            ])
+                            t.identifier(isAbstractApp ? 'moduleMsg' : 'msg')
                           ]
                         )
                       ])
                     ),
-                    t.objectProperty(
-                      t.identifier('funds'),
-                      t.identifier('funds'),
-                      false,
-                      true
-                    )
+                    t.objectProperty(t.identifier('funds'), t.identifier('_funds'))
                   ])
                 ]
               )

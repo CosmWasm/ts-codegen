@@ -70,8 +70,6 @@ export default async (
 
   // query messages
   if (QueryMsg) {
-    console.log('QueryMsg', QueryMsg);
-
     body.push(
       w.createAppQueryInterface(
         context,
@@ -96,7 +94,6 @@ export default async (
   if (ExecuteMsg) {
     const children = getMessageProperties(ExecuteMsg);
     if (children.length > 0) {
-      console.log('ExecuteMsg', ExecuteMsg);
       body.push(
         w.createAppExecuteInterface(
           context,

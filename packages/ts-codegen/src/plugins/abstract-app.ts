@@ -30,7 +30,7 @@ export class AbstractAppPlugin extends BuilderPluginBase<RenderOptions> {
       body: any[];
     }[]
   > {
-    const options = this.option.abstractApp ?? {};
+    const options = this.option.abstractApp;
 
     const { enabled } = options;
 
@@ -42,23 +42,36 @@ export class AbstractAppPlugin extends BuilderPluginBase<RenderOptions> {
 
     const localname = pascal(`${name}`) + '.app-client.ts';
     const ContractFile = pascal(`${name}`) + '.client';
+    const MsgBuilderFile = pascal(`${name}`) + '.msg-builder';
     const TypesFile = pascal(`${name}`) + '.types';
 
     const QueryMsg = findQueryMsg(schemas);
     const ExecuteMsg = findExecuteMsg(schemas);
     const typeHash = await findAndParseTypes(schemas);
 
-    const ExecuteClient = pascal(`${name}Client`);
+    const executeClientName = pascal(`${name}Client`);
     const queryClientName = pascal(`${name}QueryClient`);
-    const moduleName = pascal(name);
+    const appExecuteClientName = pascal(`${name}AppClient`);
+    const appExecuteInterfaceName = pascal(`I${appExecuteClientName}`);
+    const appQueryClientName = pascal(`${name}AppQueryClient`);
+    const appQueryInterfaceName = pascal(`I${appQueryClientName}`);
+    // TODO
+    const moduleName = name;
 
     const body = [];
 
     const clientImports = [];
-
-    // TODO: push message builder
+    const msgBuilderImports = [];
     if (QueryMsg) {
       clientImports.push(queryClientName);
+      // TODO: there might not be any execute methods, where we should not generate the connect method
+      // connect (xxx, yyy) -> executeClientName
+      clientImports.push(executeClientName);
+      msgBuilderImports.push(`${pascal(moduleName)}QueryMsgBuilder`);
+    }
+
+    if (ExecuteMsg) {
+      msgBuilderImports.push(`${pascal(moduleName)}ExecuteMsgBuilder`);
     }
 
     // general contract imports
@@ -66,25 +79,76 @@ export class AbstractAppPlugin extends BuilderPluginBase<RenderOptions> {
 
     // client imports
     body.push(w.importStmt(clientImports, `./${ContractFile}`));
+    body.push(w.importStmt(msgBuilderImports, `./${MsgBuilderFile}`));
+    context.addUtil('CamelCasedProperties');
 
     // query messages
     if (QueryMsg) {
-      [].push.apply(
-        body,
-        w.createAbstractAppClass(context, queryClientName, QueryMsg)
+      body.push(
+        w.createAppQueryInterface(
+          context,
+          appQueryInterfaceName,
+          appExecuteClientName,
+          QueryMsg
+        )
       );
-      if (options.queryFactory) {
-        [].push.apply(
-          body,
-          w.createAbstractAppQueryFactory(context, moduleName, QueryMsg)
+
+      body.push(
+        w.createAppQueryClass(
+          context,
+          moduleName,
+          appQueryClientName,
+          appQueryInterfaceName,
+          QueryMsg
+        )
+      );
+    }
+
+    // execute messages
+    if (ExecuteMsg) {
+      const children = getMessageProperties(ExecuteMsg);
+      if (children.length > 0) {
+        body.push(
+          w.createAppExecuteInterface(
+            context,
+            appExecuteInterfaceName,
+            appExecuteClientName,
+            appQueryInterfaceName,
+            ExecuteMsg
+          )
+        );
+
+        body.push(
+          w.createAppExecuteClass(
+            context,
+            moduleName,
+            appExecuteClientName,
+            appExecuteInterfaceName,
+            appQueryClientName,
+            ExecuteMsg
+          )
         );
       }
     }
+
+    //
+    // // query messages
+    // if (QueryMsg) {
+    //   body.push(
+    //     w.createAbstractAppClass(context, queryClientName, QueryMsg)
+    //   );
+    //   if (options.queryFactory) {
+    //     body.push(
+    //       w.createAbstractAppQueryFactory(context, moduleName, QueryMsg)
+    //     );
+    //   }
+    // }
 
     if (typeHash.hasOwnProperty('Coin')) {
       // @ts-ignore
       delete context.utils.Coin;
     }
+
 
     return [
       {

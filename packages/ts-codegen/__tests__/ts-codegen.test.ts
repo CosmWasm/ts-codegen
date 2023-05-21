@@ -6,6 +6,7 @@ import generateReactQuery from '../src/generators/react-query';
 import generateRecoil from '../src/generators/recoil';
 import generateAbstractApp from '../src/generators/abstract-app';
 import generateMsgBuilder from '../src/generators/msg-builder';
+import { TSBuilder } from '../src';
 
 const FIXTURE_DIR = __dirname + '/../../../__fixtures__';
 const OUTPUT_DIR = __dirname + '/../../../__output__';
@@ -280,15 +281,42 @@ it('abstract-app/etf', async () => {
 })
 
 it('abstract-app/autocompounder', async () => {
-  const out = OUTPUT_DIR + '/abstract/apps/autocompounder/';
+  const outPath = OUTPUT_DIR + '/abstract/apps/autocompounder/';
   const schemaDir = FIXTURE_DIR + '/abstract/apps/autocompounder/';
 
-  const contractInfo = await readSchemas({
-    schemaDir
-  });
+  // const contractInfo = await readSchemas({
+  //   schemaDir
+  // });
 
-  await generateTypes('Autocompounder', contractInfo, out);
-  await generateClient('Autocompounder', contractInfo, out);
-  await generateMsgBuilder('Autocompounder', contractInfo, out);
-  await generateAbstractApp('Autocompounder', contractInfo, out);
+  // await generateTypes('Autocompounder', contractInfo, out);
+  // await generateClient('Autocompounder', contractInfo, out);
+  // await generateMsgBuilder('Autocompounder', contractInfo, out);
+  // await generateAbstractApp('Autocompounder', contractInfo, out);
+  // await generateMessageComposer('Autocompounder', contractInfo, out);
+
+
+  const builder = new TSBuilder({
+    contracts: [
+      schemaDir
+    ],
+    outPath,
+    options: {
+      bundle: {
+        enabled: false,
+      },
+      types: {
+        enabled: true
+      },
+      client: {
+        enabled: true
+      },
+      messageComposer: {
+        enabled: true
+      },
+      abstractApp: {
+        enabled: true
+      }
+    }
+  });
+  await builder.build();
 })
