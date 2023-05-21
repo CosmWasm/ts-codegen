@@ -64,8 +64,12 @@ const ABSTRACT_CLIENT = 'AbstractClient';
 const ABSTRACT_QUERY_CLIENT = 'AbstractQueryClient';
 const ABSTRACT_ACCOUNT_QUERY_CLIENT = 'AbstractAccountQueryClient';
 
-function extractCamelcasedQueryParams(jsonschema, underscoreName: string) {
-  const queryParams = Object.keys(
+function extractCamelcasedMethodParams(
+  type: 'ExecuteMsg' | 'QueryMsg',
+  jsonschema,
+  underscoreName: string
+) {
+  const methadParams = Object.keys(
     jsonschema.properties[underscoreName]?.properties ?? {}
   );
 
@@ -73,10 +77,10 @@ function extractCamelcasedQueryParams(jsonschema, underscoreName: string) {
   const methodParam = t.identifier('params');
   methodParam.typeAnnotation = createExtractTypeAnnotation(
     underscoreName,
-    'QueryMsg'
+    type
   );
 
-  const parameters = queryParams.length ? [methodParam] : [];
+  const parameters = methadParams.length ? [methodParam] : [];
   return parameters;
 }
 
@@ -134,7 +138,11 @@ export const createAppQueryInterface = (
     const underscoreName = Object.keys(jsonschema.properties)[0];
     const methodName = camel(underscoreName);
     const responseType = getResponseType(context, underscoreName);
-    const parameters = extractCamelcasedQueryParams(jsonschema, underscoreName);
+    const parameters = extractCamelcasedMethodParams(
+      'QueryMsg',
+      jsonschema,
+      underscoreName
+    );
 
     const func = {
       type: 'TSFunctionType',
@@ -234,14 +242,16 @@ export const createAppExecuteInterface = (
     'ExecuteResult',
     'AppExecuteMsg',
     'AppModuleExecuteMsgBuilder',
-    'MsgExecuteContract',
-    'toUtf8'
   ]);
 
   const methods = getMessageProperties(executeMsg).map((jsonschema) => {
     const underscoreName = Object.keys(jsonschema.properties)[0];
     const methodName = camel(underscoreName);
-    const parameters = extractCamelcasedQueryParams(jsonschema, underscoreName);
+    const parameters = extractCamelcasedMethodParams(
+      'ExecuteMsg',
+      jsonschema,
+      underscoreName
+    );
 
     const func = {
       type: 'TSFunctionType',
@@ -335,7 +345,7 @@ const EXECUTE_APP_FN = t.classProperty(
                   t.memberExpression(
                     t.thisExpression(),
 
-                    t.identifier('accountClient'),
+                    t.identifier('accountClient')
                   ),
                   t.identifier('sender')
                 ),
@@ -641,7 +651,11 @@ const createAppQueryMethod = (
     moduleName
   );
 
-  const parameters = extractCamelcasedQueryParams(schema, underscoreName);
+  const parameters = extractCamelcasedMethodParams(
+    'QueryMsg',
+    schema,
+    underscoreName
+  );
 
   return t.classProperty(
     t.identifier(methodName),
@@ -794,7 +808,7 @@ export const createAppExecuteClass = (
 };
 
 /*
-  deposit = async (params: CamelCasedProperties<Extract<QueryMsg, {
+  deposit = async (params: CamelCasedProperties<Extract<ExecuteMsg, {
     deposit: unknown;
   }>["deposit"]>, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return this._execute(AutocompounderExecuteMsgBuilder.deposit(params), fee, memo, _funds);
@@ -819,7 +833,11 @@ const createAppExecMethod = (
     moduleName
   );
 
-  const methodParameters = extractCamelcasedQueryParams(schema, underscoreName);
+  const methodParameters = extractCamelcasedMethodParams(
+    'ExecuteMsg',
+    schema,
+    underscoreName
+  );
 
   return t.classProperty(
     t.identifier(methodName),

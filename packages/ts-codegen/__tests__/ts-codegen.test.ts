@@ -317,6 +317,9 @@ it('abstract-app/autocompounder', async () => {
       messageComposer: {
         enabled: true
       },
+      msgBuilder: {
+        enabled: true
+      },
       abstractApp: {
         enabled: true
       }

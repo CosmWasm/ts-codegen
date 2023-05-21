@@ -7,8 +7,6 @@
 import { CamelCasedProperties } from "type-fest";
 import { SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { AbstractQueryClient, AbstractAccountQueryClient, AbstractAccountClient, AppExecuteMsg, AppModuleExecuteMsgBuilder, AbstractClient } from "@abstract-money/abstract.js";
-import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
-import { toUtf8 } from "@cosmjs/encoding";
 import { StdFee, Coin } from "@cosmjs/amino";
 import { Decimal, AssetEntry, BondingPeriodSelector, Duration, InstantiateMsg, ExecuteMsg, Uint128, AnsAsset, QueryMsg, MigrateMsg, Expiration, Timestamp, Uint64, ArrayOfTupleOfStringAndArrayOfClaim, Claim, ArrayOfClaim, Addr, PoolAddressBaseForAddr, AssetInfoBaseForAddr, PoolType, Config, PoolMetadata } from "./Autocompounder.types";
 import { AutocompounderQueryMsgBuilder, AutocompounderExecuteMsgBuilder } from "./Autocompounder.msg-builder";
@@ -123,10 +121,10 @@ export class AutocompounderAppQueryClient implements IAutocompounderAppQueryClie
 }
 export interface IAutocompounderAppClient extends IAutocompounderAppQueryClient {
   accountClient: AbstractAccountClient;
-  updateFeeConfig: (params: CamelCasedProperties<Extract<QueryMsg, {
+  updateFeeConfig: (params: CamelCasedProperties<Extract<ExecuteMsg, {
     update_fee_config: unknown;
   }>["update_fee_config"]>, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
-  deposit: (params: CamelCasedProperties<Extract<QueryMsg, {
+  deposit: (params: CamelCasedProperties<Extract<ExecuteMsg, {
     deposit: unknown;
   }>["deposit"]>, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
   withdraw: (fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
@@ -164,12 +162,12 @@ export class AutocompounderAppClient extends AutocompounderAppQueryClient implem
     this.batchUnbond = this.batchUnbond.bind(this);
   }
 
-  updateFeeConfig = async (params: CamelCasedProperties<Extract<QueryMsg, {
+  updateFeeConfig = async (params: CamelCasedProperties<Extract<ExecuteMsg, {
     update_fee_config: unknown;
   }>["update_fee_config"]>, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return this._execute(AutocompounderExecuteMsgBuilder.updateFeeConfig(params), fee, memo, _funds);
   };
-  deposit = async (params: CamelCasedProperties<Extract<QueryMsg, {
+  deposit = async (params: CamelCasedProperties<Extract<ExecuteMsg, {
     deposit: unknown;
   }>["deposit"]>, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return this._execute(AutocompounderExecuteMsgBuilder.deposit(params), fee, memo, _funds);
