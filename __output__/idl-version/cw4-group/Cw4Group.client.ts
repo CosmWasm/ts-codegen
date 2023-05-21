@@ -92,24 +92,24 @@ export interface Cw4GroupInterface extends Cw4GroupReadOnlyInterface {
     admin
   }: {
     admin?: string;
-  }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
   updateMembers: ({
     add,
     remove
   }: {
     add: Member[];
     remove: string[];
-  }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
   addHook: ({
     addr
   }: {
     addr: string;
-  }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
   removeHook: ({
     addr
   }: {
     addr: string;
-  }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
 }
 export class Cw4GroupClient extends Cw4GroupQueryClient implements Cw4GroupInterface {
   client: SigningCosmWasmClient;
@@ -131,12 +131,12 @@ export class Cw4GroupClient extends Cw4GroupQueryClient implements Cw4GroupInter
     admin
   }: {
     admin?: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_admin: {
         admin
       }
-    }, fee, memo, funds);
+    }, fee, memo, _funds);
   };
   updateMembers = async ({
     add,
@@ -144,34 +144,34 @@ export class Cw4GroupClient extends Cw4GroupQueryClient implements Cw4GroupInter
   }: {
     add: Member[];
     remove: string[];
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_members: {
         add,
         remove
       }
-    }, fee, memo, funds);
+    }, fee, memo, _funds);
   };
   addHook = async ({
     addr
   }: {
     addr: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       add_hook: {
         addr
       }
-    }, fee, memo, funds);
+    }, fee, memo, _funds);
   };
   removeHook = async ({
     addr
   }: {
     addr: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       remove_hook: {
         addr
       }
-    }, fee, memo, funds);
+    }, fee, memo, _funds);
   };
 }
