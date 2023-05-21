@@ -15,43 +15,43 @@ export interface FactoryMessage {
     createWalletMsg
   }: {
     createWalletMsg: CreateWalletMsg;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   updateProxyUser: ({
     newUser,
     oldUser
   }: {
     newUser: Addr;
     oldUser: Addr;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   migrateWallet: ({
     migrationMsg,
     walletAddress
   }: {
     migrationMsg: ProxyMigrationTxMsg;
     walletAddress: WalletAddr;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   updateCodeId: ({
     newCodeId,
     ty
   }: {
     newCodeId: number;
     ty: CodeIdType;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   updateWalletFee: ({
     newFee
   }: {
     newFee: Coin;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   updateGovecAddr: ({
     addr
   }: {
     addr: string;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   updateAdmin: ({
     addr
   }: {
     addr: string;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
 }
 export class FactoryMessageComposer implements FactoryMessage {
   sender: string;
@@ -73,7 +73,7 @@ export class FactoryMessageComposer implements FactoryMessage {
     createWalletMsg
   }: {
     createWalletMsg: CreateWalletMsg;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -84,7 +84,7 @@ export class FactoryMessageComposer implements FactoryMessage {
             create_wallet_msg: createWalletMsg
           }
         })),
-        funds
+        _funds: funds
       })
     };
   };
@@ -94,7 +94,7 @@ export class FactoryMessageComposer implements FactoryMessage {
   }: {
     newUser: Addr;
     oldUser: Addr;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -106,7 +106,7 @@ export class FactoryMessageComposer implements FactoryMessage {
             old_user: oldUser
           }
         })),
-        funds
+        _funds: funds
       })
     };
   };
@@ -116,7 +116,7 @@ export class FactoryMessageComposer implements FactoryMessage {
   }: {
     migrationMsg: ProxyMigrationTxMsg;
     walletAddress: WalletAddr;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -128,7 +128,7 @@ export class FactoryMessageComposer implements FactoryMessage {
             wallet_address: walletAddress
           }
         })),
-        funds
+        _funds: funds
       })
     };
   };
@@ -138,7 +138,7 @@ export class FactoryMessageComposer implements FactoryMessage {
   }: {
     newCodeId: number;
     ty: CodeIdType;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -150,7 +150,7 @@ export class FactoryMessageComposer implements FactoryMessage {
             ty
           }
         })),
-        funds
+        _funds: funds
       })
     };
   };
@@ -158,7 +158,7 @@ export class FactoryMessageComposer implements FactoryMessage {
     newFee
   }: {
     newFee: Coin;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -169,7 +169,7 @@ export class FactoryMessageComposer implements FactoryMessage {
             new_fee: newFee
           }
         })),
-        funds
+        _funds: funds
       })
     };
   };
@@ -177,7 +177,7 @@ export class FactoryMessageComposer implements FactoryMessage {
     addr
   }: {
     addr: string;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -188,7 +188,7 @@ export class FactoryMessageComposer implements FactoryMessage {
             addr
           }
         })),
-        funds
+        _funds: funds
       })
     };
   };
@@ -196,7 +196,7 @@ export class FactoryMessageComposer implements FactoryMessage {
     addr
   }: {
     addr: string;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -207,7 +207,7 @@ export class FactoryMessageComposer implements FactoryMessage {
             addr
           }
         })),
-        funds
+        _funds: funds
       })
     };
   };

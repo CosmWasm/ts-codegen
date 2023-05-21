@@ -18,7 +18,7 @@ export interface Sg721Message {
   }: {
     recipient: string;
     tokenId: string;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   sendNft: ({
     contract,
     msg,
@@ -27,7 +27,7 @@ export interface Sg721Message {
     contract: string;
     msg: Binary;
     tokenId: string;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   approve: ({
     expires,
     spender,
@@ -36,26 +36,26 @@ export interface Sg721Message {
     expires?: Expiration;
     spender: string;
     tokenId: string;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   revoke: ({
     spender,
     tokenId
   }: {
     spender: string;
     tokenId: string;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   approveAll: ({
     expires,
     operator
   }: {
     expires?: Expiration;
     operator: string;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   revokeAll: ({
     operator
   }: {
     operator: string;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   mint: ({
     extension,
     owner,
@@ -66,12 +66,12 @@ export interface Sg721Message {
     owner: string;
     tokenId: string;
     tokenUri?: string;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   burn: ({
     tokenId
   }: {
     tokenId: string;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
 }
 export class Sg721MessageComposer implements Sg721Message {
   sender: string;
@@ -96,7 +96,7 @@ export class Sg721MessageComposer implements Sg721Message {
   }: {
     recipient: string;
     tokenId: string;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -108,7 +108,7 @@ export class Sg721MessageComposer implements Sg721Message {
             token_id: tokenId
           }
         })),
-        funds
+        _funds: funds
       })
     };
   };
@@ -120,7 +120,7 @@ export class Sg721MessageComposer implements Sg721Message {
     contract: string;
     msg: Binary;
     tokenId: string;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -133,7 +133,7 @@ export class Sg721MessageComposer implements Sg721Message {
             token_id: tokenId
           }
         })),
-        funds
+        _funds: funds
       })
     };
   };
@@ -145,7 +145,7 @@ export class Sg721MessageComposer implements Sg721Message {
     expires?: Expiration;
     spender: string;
     tokenId: string;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -158,7 +158,7 @@ export class Sg721MessageComposer implements Sg721Message {
             token_id: tokenId
           }
         })),
-        funds
+        _funds: funds
       })
     };
   };
@@ -168,7 +168,7 @@ export class Sg721MessageComposer implements Sg721Message {
   }: {
     spender: string;
     tokenId: string;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -180,7 +180,7 @@ export class Sg721MessageComposer implements Sg721Message {
             token_id: tokenId
           }
         })),
-        funds
+        _funds: funds
       })
     };
   };
@@ -190,7 +190,7 @@ export class Sg721MessageComposer implements Sg721Message {
   }: {
     expires?: Expiration;
     operator: string;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -202,7 +202,7 @@ export class Sg721MessageComposer implements Sg721Message {
             operator
           }
         })),
-        funds
+        _funds: funds
       })
     };
   };
@@ -210,7 +210,7 @@ export class Sg721MessageComposer implements Sg721Message {
     operator
   }: {
     operator: string;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -221,7 +221,7 @@ export class Sg721MessageComposer implements Sg721Message {
             operator
           }
         })),
-        funds
+        _funds: funds
       })
     };
   };
@@ -235,7 +235,7 @@ export class Sg721MessageComposer implements Sg721Message {
     owner: string;
     tokenId: string;
     tokenUri?: string;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -249,7 +249,7 @@ export class Sg721MessageComposer implements Sg721Message {
             token_uri: tokenUri
           }
         })),
-        funds
+        _funds: funds
       })
     };
   };
@@ -257,7 +257,7 @@ export class Sg721MessageComposer implements Sg721Message {
     tokenId
   }: {
     tokenId: string;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -268,7 +268,7 @@ export class Sg721MessageComposer implements Sg721Message {
             token_id: tokenId
           }
         })),
-        funds
+        _funds: funds
       })
     };
   };
