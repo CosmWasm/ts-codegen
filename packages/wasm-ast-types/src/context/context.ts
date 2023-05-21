@@ -110,6 +110,9 @@ export const defaultOptions: RenderOptions = {
         mutations: false,
         camelize: true,
         queryKeys: false
+    },
+    abstractApp: {
+        enabled: false
     }
 };
 

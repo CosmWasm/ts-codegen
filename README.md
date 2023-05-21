@@ -279,7 +279,7 @@ cosmwasm-ts-codegen generate \
 ### Abstract App
 
 Generate a client for an app-module using the created using the [Abstract SDK](https://docs.abstract.money). This plugin will generate a `AppQueryClient` for queries as well as a `AppClient` for queries and mutations.
-This client will be injected as the client for the `react-query` and `message-composer` plugins, if enabled.
+This client will be injected as the client for the `react-query` and `message-composer` plugins, if enabled. It is NOT currently compatible with the `recoil` plugin.
 
 #### Abstract App via CLI
 

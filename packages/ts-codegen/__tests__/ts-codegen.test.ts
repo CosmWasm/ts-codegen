@@ -284,16 +284,42 @@ it('abstract-app/autocompounder', async () => {
   const outPath = OUTPUT_DIR + '/abstract/apps/autocompounder/';
   const schemaDir = FIXTURE_DIR + '/abstract/apps/autocompounder/';
 
-  // const contractInfo = await readSchemas({
-  //   schemaDir
-  // });
+  const builder = new TSBuilder({
+    contracts: [
+      schemaDir
+    ],
+    outPath,
+    options: {
+      bundle: {
+        enabled: false,
+      },
+      types: {
+        enabled: true
+      },
+      reactQuery: {
+        enabled: true,
+        version: 'v4',
+        queryFactory: true,
+        queryKeys: true,
+        mutations: true,
+      },
+      messageComposer: {
+        enabled: true
+      },
+      msgBuilder: {
+        enabled: true
+      },
+      abstractApp: {
+        enabled: true
+      }
+    }
+  });
+  await builder.build();
+})
 
-  // await generateTypes('Autocompounder', contractInfo, out);
-  // await generateClient('Autocompounder', contractInfo, out);
-  // await generateMsgBuilder('Autocompounder', contractInfo, out);
-  // await generateAbstractApp('Autocompounder', contractInfo, out);
-  // await generateMessageComposer('Autocompounder', contractInfo, out);
-
+it('abstract-app/etf', async () => {
+  const outPath = OUTPUT_DIR + '/abstract/apps/etf/';
+  const schemaDir = FIXTURE_DIR + '/abstract/apps/etf/';
 
   const builder = new TSBuilder({
     contracts: [
@@ -303,6 +329,9 @@ it('abstract-app/autocompounder', async () => {
     options: {
       bundle: {
         enabled: false,
+      },
+      recoil: {
+        enabled: true,
       },
       types: {
         enabled: true

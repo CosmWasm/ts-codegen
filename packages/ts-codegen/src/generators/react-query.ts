@@ -27,16 +27,16 @@ export default async (
   });
   const options = context.options.reactQuery;
 
-  const isAbstractApp = context.options.abstractApp?.enabled;
-
   const localname = pascal(`${contractName}`) + '.react-query.ts';
   const ContractFile =
-    pascal(`${contractName}`) + `.${isAbstractApp ? 'app-' : ''}client`;
+    pascal(`${contractName}`) + `client`;
   const TypesFile = pascal(`${contractName}`) + '.types';
 
   const QueryMsg = findQueryMsg(schemas);
   const ExecuteMsg = findExecuteMsg(schemas);
   const typeHash = await findAndParseTypes(schemas);
+
+  const isAbstractApp = context.options.abstractApp?.enabled;
 
   const ExecuteClient = pascal(
     `${contractName}${isAbstractApp ? 'App' : ''}Client`

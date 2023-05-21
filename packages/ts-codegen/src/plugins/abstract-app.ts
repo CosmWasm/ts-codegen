@@ -40,7 +40,7 @@ export class AbstractAppPlugin extends BuilderPluginBase<RenderOptions> {
 
     const { schemas } = context.contract;
 
-    const localname = pascal(`${name}`) + '.app-client.ts';
+    const localname = pascal(`${name}`) + '.client.ts';
     const ContractFile = pascal(`${name}`) + '.client';
     const MsgBuilderFile = pascal(`${name}`) + '.msg-builder';
     const TypesFile = pascal(`${name}`) + '.types';

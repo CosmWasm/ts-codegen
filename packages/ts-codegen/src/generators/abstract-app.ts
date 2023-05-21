@@ -26,7 +26,7 @@ export default async (
   });
   const options = context.options.abstractApp;
 
-  const localname = pascal(`${contractName}`) + '.app-client.ts';
+  const localname = pascal(`${contractName}`) + '.client.ts';
   const MsgBuilderFile = pascal(`${contractName}`) + '.msg-builder';
   const TypesFile = pascal(`${contractName}`) + '.types';
 

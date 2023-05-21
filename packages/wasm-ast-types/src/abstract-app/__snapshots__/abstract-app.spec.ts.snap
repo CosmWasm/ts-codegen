@@ -32,12 +32,12 @@ exports[`AutocompounderAppClient 1`] = `
     this.batchUnbond = this.batchUnbond.bind(this);
   }
 
-  updateFeeConfig = async (params: CamelCasedProperties<Extract<QueryMsg, {
+  updateFeeConfig = async (params: CamelCasedProperties<Extract<ExecuteMsg, {
     update_fee_config: unknown;
   }>[\\"update_fee_config\\"]>, fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return this._execute(AutocompounderExecuteMsgBuilder.updateFeeConfig(params), fee, memo, _funds);
   };
-  deposit = async (params: CamelCasedProperties<Extract<QueryMsg, {
+  deposit = async (params: CamelCasedProperties<Extract<ExecuteMsg, {
     deposit: unknown;
   }>[\\"deposit\\"]>, fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return this._execute(AutocompounderExecuteMsgBuilder.deposit(params), fee, memo, _funds);
@@ -151,10 +151,10 @@ exports[`AutocompounderAppQueryClient 1`] = `
 exports[`IAutocompounderAppClient 1`] = `
 "export interface IAutocompounderAppClient extends IAutocompounderAppQueryClient {
   accountClient: AbstractAccountClient;
-  updateFeeConfig: (params: CamelCasedProperties<Extract<QueryMsg, {
+  updateFeeConfig: (params: CamelCasedProperties<Extract<ExecuteMsg, {
     update_fee_config: unknown;
   }>[\\"update_fee_config\\"]>, fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
-  deposit: (params: CamelCasedProperties<Extract<QueryMsg, {
+  deposit: (params: CamelCasedProperties<Extract<ExecuteMsg, {
     deposit: unknown;
   }>[\\"deposit\\"]>, fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
   withdraw: (fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;

@@ -7,11 +7,8 @@
 import { CamelCasedProperties } from "type-fest";
 import { SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { AbstractQueryClient, AbstractAccountQueryClient, AbstractAccountClient, AppExecuteMsg, AppModuleExecuteMsgBuilder, AbstractClient } from "@abstract-money/abstract.js";
-import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
-import { toUtf8 } from "@cosmjs/encoding";
 import { StdFee, Coin } from "@cosmjs/amino";
 import { Decimal, InstantiateMsg, ExecuteMsg, Uint128, AssetInfoBaseForString, AssetBaseForString, QueryMsg, MigrateMsg, StateResponse } from "./Etf.types";
-import { EtfQueryClient, EtfClient } from "./Etf.client";
 import { EtfQueryMsgBuilder, EtfExecuteMsgBuilder } from "./Etf.msg-builder";
 export interface IEtfAppQueryClient {
   moduleId: string;
@@ -78,10 +75,10 @@ export class EtfAppQueryClient implements IEtfAppQueryClient {
 }
 export interface IEtfAppClient extends IEtfAppQueryClient {
   accountClient: AbstractAccountClient;
-  provideLiquidity: (params: CamelCasedProperties<Extract<QueryMsg, {
+  provideLiquidity: (params: CamelCasedProperties<Extract<ExecuteMsg, {
     provide_liquidity: unknown;
   }>["provide_liquidity"]>, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
-  setFee: (params: CamelCasedProperties<Extract<QueryMsg, {
+  setFee: (params: CamelCasedProperties<Extract<ExecuteMsg, {
     set_fee: unknown;
   }>["set_fee"]>, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
 }
@@ -113,12 +110,12 @@ export class EtfAppClient extends EtfAppQueryClient implements IEtfAppClient {
     this.setFee = this.setFee.bind(this);
   }
 
-  provideLiquidity = async (params: CamelCasedProperties<Extract<QueryMsg, {
+  provideLiquidity = async (params: CamelCasedProperties<Extract<ExecuteMsg, {
     provide_liquidity: unknown;
   }>["provide_liquidity"]>, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return this._execute(EtfExecuteMsgBuilder.provideLiquidity(params), fee, memo, _funds);
   };
-  setFee = async (params: CamelCasedProperties<Extract<QueryMsg, {
+  setFee = async (params: CamelCasedProperties<Extract<ExecuteMsg, {
     set_fee: unknown;
   }>["set_fee"]>, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return this._execute(EtfExecuteMsgBuilder.setFee(params), fee, memo, _funds);

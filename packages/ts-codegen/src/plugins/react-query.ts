@@ -40,16 +40,16 @@ export class ReactQueryPlugin extends BuilderPluginBase<RenderOptions> {
 
     const { schemas } = context.contract;
 
-    const isAbstractApp = context.options.abstractApp?.enabled;
 
     const localname = pascal(`${name}`) + '.react-query.ts';
-    const ContractFile = pascal(`${name}`) + `.${isAbstractApp ? 'app-' : ''}client`;
+    const ContractFile = pascal(`${name}`) + `.client`;
     const TypesFile = pascal(`${name}`) + '.types';
 
     const QueryMsg = findQueryMsg(schemas);
     const ExecuteMsg = findExecuteMsg(schemas);
     const typeHash = await findAndParseTypes(schemas);
 
+    const isAbstractApp = context.options.abstractApp?.enabled;
 
     const ExecuteClient = pascal(`${name}${isAbstractApp ? 'App' : ''}Client`);
     const QueryClient = pascal(
