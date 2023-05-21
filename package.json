@@ -14,6 +14,8 @@
     "test": "lerna run test --stream"
   },
   "devDependencies": {
+    "@tanstack/react-query": "4.19.1",
+    "type-fest": "^3.11.0",
     "@babel/cli": "7.18.10",
     "@babel/core": "7.18.10",
     "@babel/eslint-parser": "^7.18.9",

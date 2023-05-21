@@ -8,7 +8,7 @@ import { UseQueryOptions, useQuery, useMutation, UseMutationOptions } from "@tan
 import { ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { StdFee, Coin } from "@cosmjs/amino";
 import { Decimal, AssetEntry, BondingPeriodSelector, Duration, InstantiateMsg, ExecuteMsg, Uint128, AnsAsset, QueryMsg, MigrateMsg, Expiration, Timestamp, Uint64, ArrayOfTupleOfStringAndArrayOfClaim, Claim, ArrayOfClaim, Addr, PoolAddressBaseForAddr, AssetInfoBaseForAddr, PoolType, Config, PoolMetadata } from "./Autocompounder.types";
-import { AutocompounderQueryClient, AutocompounderClient } from "./Autocompounder.client";
+import { AutocompounderAppQueryClient, AutocompounderAppClient } from "./Autocompounder.app-client";
 export const autocompounderQueryKeys = {
   contract: ([{
     contract: "autocompounder"
@@ -50,7 +50,7 @@ export const autocompounderQueries = {
     client,
     options
   }: AutocompounderConfigQuery<TData>): UseQueryOptions<Config, Error, TData> => ({
-    queryKey: autocompounderQueryKeys.config(client?.contractAddress),
+    queryKey: autocompounderQueryKeys.config(client?.moduleId),
     queryFn: () => client.config(),
     ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
@@ -60,7 +60,7 @@ export const autocompounderQueries = {
     args,
     options
   }: AutocompounderPendingClaimsQuery<TData>): UseQueryOptions<Uint128, Error, TData> => ({
-    queryKey: autocompounderQueryKeys.pendingClaims(client?.contractAddress, args),
+    queryKey: autocompounderQueryKeys.pendingClaims(client?.moduleId, args),
     queryFn: () => client.pendingClaims({
       address: args.address
     }),
@@ -72,7 +72,7 @@ export const autocompounderQueries = {
     args,
     options
   }: AutocompounderClaimsQuery<TData>): UseQueryOptions<ArrayOfClaim, Error, TData> => ({
-    queryKey: autocompounderQueryKeys.claims(client?.contractAddress, args),
+    queryKey: autocompounderQueryKeys.claims(client?.moduleId, args),
     queryFn: () => client.claims({
       address: args.address
     }),
@@ -84,7 +84,7 @@ export const autocompounderQueries = {
     args,
     options
   }: AutocompounderAllClaimsQuery<TData>): UseQueryOptions<ArrayOfTupleOfStringAndArrayOfClaim, Error, TData> => ({
-    queryKey: autocompounderQueryKeys.allClaims(client?.contractAddress, args),
+    queryKey: autocompounderQueryKeys.allClaims(client?.moduleId, args),
     queryFn: () => client.allClaims({
       limit: args.limit,
       startAfter: args.startAfter
@@ -96,7 +96,7 @@ export const autocompounderQueries = {
     client,
     options
   }: AutocompounderLatestUnbondingQuery<TData>): UseQueryOptions<Expiration, Error, TData> => ({
-    queryKey: autocompounderQueryKeys.latestUnbonding(client?.contractAddress),
+    queryKey: autocompounderQueryKeys.latestUnbonding(client?.moduleId),
     queryFn: () => client.latestUnbonding(),
     ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
@@ -105,7 +105,7 @@ export const autocompounderQueries = {
     client,
     options
   }: AutocompounderTotalLpPositionQuery<TData>): UseQueryOptions<Uint128, Error, TData> => ({
-    queryKey: autocompounderQueryKeys.totalLpPosition(client?.contractAddress),
+    queryKey: autocompounderQueryKeys.totalLpPosition(client?.moduleId),
     queryFn: () => client.totalLpPosition(),
     ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
@@ -115,7 +115,7 @@ export const autocompounderQueries = {
     args,
     options
   }: AutocompounderBalanceQuery<TData>): UseQueryOptions<Uint128, Error, TData> => ({
-    queryKey: autocompounderQueryKeys.balance(client?.contractAddress, args),
+    queryKey: autocompounderQueryKeys.balance(client?.moduleId, args),
     queryFn: () => client.balance({
       address: args.address
     }),
@@ -124,7 +124,7 @@ export const autocompounderQueries = {
   })
 };
 export interface AutocompounderReactQuery<TResponse, TData = TResponse> {
-  client: AutocompounderQueryClient;
+  client: AutocompounderAppQueryClient;
   options?: Omit<UseQueryOptions<TResponse, Error, TData>, "'queryKey' | 'queryFn' | 'initialData'"> & {
     initialData?: undefined;
   };
@@ -139,7 +139,7 @@ export function useAutocompounderBalanceQuery<TData = Uint128>({
   args,
   options
 }: AutocompounderBalanceQuery<TData>) {
-  return useQuery<Uint128, Error, TData>(autocompounderQueryKeys.balance(client.contractAddress, args), () => client.balance({
+  return useQuery<Uint128, Error, TData>(autocompounderQueryKeys.balance(client.moduleId, args), () => client.balance({
     address: args.address
   }), options);
 }
@@ -148,14 +148,14 @@ export function useAutocompounderTotalLpPositionQuery<TData = Uint128>({
   client,
   options
 }: AutocompounderTotalLpPositionQuery<TData>) {
-  return useQuery<Uint128, Error, TData>(autocompounderQueryKeys.totalLpPosition(client.contractAddress), () => client.totalLpPosition(), options);
+  return useQuery<Uint128, Error, TData>(autocompounderQueryKeys.totalLpPosition(client.moduleId), () => client.totalLpPosition(), options);
 }
 export interface AutocompounderLatestUnbondingQuery<TData> extends AutocompounderReactQuery<Expiration, TData> {}
 export function useAutocompounderLatestUnbondingQuery<TData = Expiration>({
   client,
   options
 }: AutocompounderLatestUnbondingQuery<TData>) {
-  return useQuery<Expiration, Error, TData>(autocompounderQueryKeys.latestUnbonding(client.contractAddress), () => client.latestUnbonding(), options);
+  return useQuery<Expiration, Error, TData>(autocompounderQueryKeys.latestUnbonding(client.moduleId), () => client.latestUnbonding(), options);
 }
 export interface AutocompounderAllClaimsQuery<TData> extends AutocompounderReactQuery<ArrayOfTupleOfStringAndArrayOfClaim, TData> {
   args: {
@@ -168,7 +168,7 @@ export function useAutocompounderAllClaimsQuery<TData = ArrayOfTupleOfStringAndA
   args,
   options
 }: AutocompounderAllClaimsQuery<TData>) {
-  return useQuery<ArrayOfTupleOfStringAndArrayOfClaim, Error, TData>(autocompounderQueryKeys.allClaims(client.contractAddress, args), () => client.allClaims({
+  return useQuery<ArrayOfTupleOfStringAndArrayOfClaim, Error, TData>(autocompounderQueryKeys.allClaims(client.moduleId, args), () => client.allClaims({
     limit: args.limit,
     startAfter: args.startAfter
   }), options);
@@ -183,7 +183,7 @@ export function useAutocompounderClaimsQuery<TData = ArrayOfClaim>({
   args,
   options
 }: AutocompounderClaimsQuery<TData>) {
-  return useQuery<ArrayOfClaim, Error, TData>(autocompounderQueryKeys.claims(client.contractAddress, args), () => client.claims({
+  return useQuery<ArrayOfClaim, Error, TData>(autocompounderQueryKeys.claims(client.moduleId, args), () => client.claims({
     address: args.address
   }), options);
 }
@@ -197,7 +197,7 @@ export function useAutocompounderPendingClaimsQuery<TData = Uint128>({
   args,
   options
 }: AutocompounderPendingClaimsQuery<TData>) {
-  return useQuery<Uint128, Error, TData>(autocompounderQueryKeys.pendingClaims(client.contractAddress, args), () => client.pendingClaims({
+  return useQuery<Uint128, Error, TData>(autocompounderQueryKeys.pendingClaims(client.moduleId, args), () => client.pendingClaims({
     address: args.address
   }), options);
 }
@@ -206,10 +206,10 @@ export function useAutocompounderConfigQuery<TData = Config>({
   client,
   options
 }: AutocompounderConfigQuery<TData>) {
-  return useQuery<Config, Error, TData>(autocompounderQueryKeys.config(client.contractAddress), () => client.config(), options);
+  return useQuery<Config, Error, TData>(autocompounderQueryKeys.config(client.moduleId), () => client.config(), options);
 }
 export interface AutocompounderBatchUnbondMutation {
-  client: AutocompounderClient;
+  client: AutocompounderAppClient;
   args?: {
     fee?: number | StdFee | "auto";
     memo?: string;
@@ -222,12 +222,12 @@ export function useAutocompounderBatchUnbondMutation(options?: Omit<UseMutationO
     args: {
       fee,
       memo,
-      _funds
+      funds
     } = {}
-  }) => client.batchUnbond(fee, memo, _funds), options);
+  }) => client.batchUnbond(fee, memo, funds), options);
 }
 export interface AutocompounderCompoundMutation {
-  client: AutocompounderClient;
+  client: AutocompounderAppClient;
   args?: {
     fee?: number | StdFee | "auto";
     memo?: string;
@@ -240,12 +240,12 @@ export function useAutocompounderCompoundMutation(options?: Omit<UseMutationOpti
     args: {
       fee,
       memo,
-      _funds
+      funds
     } = {}
-  }) => client.compound(fee, memo, _funds), options);
+  }) => client.compound(fee, memo, funds), options);
 }
 export interface AutocompounderWithdrawMutation {
-  client: AutocompounderClient;
+  client: AutocompounderAppClient;
   args?: {
     fee?: number | StdFee | "auto";
     memo?: string;
@@ -258,12 +258,12 @@ export function useAutocompounderWithdrawMutation(options?: Omit<UseMutationOpti
     args: {
       fee,
       memo,
-      _funds
+      funds
     } = {}
-  }) => client.withdraw(fee, memo, _funds), options);
+  }) => client.withdraw(fee, memo, funds), options);
 }
 export interface AutocompounderDepositMutation {
-  client: AutocompounderClient;
+  client: AutocompounderAppClient;
   msg: {
     funds: AnsAsset[];
   };
@@ -280,12 +280,12 @@ export function useAutocompounderDepositMutation(options?: Omit<UseMutationOptio
     args: {
       fee,
       memo,
-      _funds
+      funds
     } = {}
-  }) => client.deposit(msg, fee, memo, _funds), options);
+  }) => client.deposit(msg, fee, memo, funds), options);
 }
 export interface AutocompounderUpdateFeeConfigMutation {
-  client: AutocompounderClient;
+  client: AutocompounderAppClient;
   msg: {
     deposit?: Decimal;
     performance?: Decimal;
@@ -304,7 +304,7 @@ export function useAutocompounderUpdateFeeConfigMutation(options?: Omit<UseMutat
     args: {
       fee,
       memo,
-      _funds
+      funds
     } = {}
-  }) => client.updateFeeConfig(msg, fee, memo, _funds), options);
+  }) => client.updateFeeConfig(msg, fee, memo, funds), options);
 }

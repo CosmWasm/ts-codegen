@@ -32,7 +32,9 @@ export default async (argv) => {
                 'client',
                 'recoil',
                 'react-query',
-                'message-composer'
+                'message-composer',
+                'msg-builder',
+                'abstract-app'
             ]
         },
         {
@@ -98,7 +100,7 @@ export default async (argv) => {
         {
           type: 'confirm',
           name: 'queryFactory',
-          message: 'queryFactory? ',
+          message: 'queryFactory?',
           default: false
         }
       ])
@@ -135,8 +137,8 @@ export default async (argv) => {
             enabled:
                 plugin.includes('client') ||
                 plugin.includes('recoil') ||
-                plugin.includes('react-query') ||
-                plugin.includes('abstract-app')
+              // react-query either uses client or abstract-app
+              (plugin.includes('react-query') && !plugin.includes('abstract-app'))
         },
         reactQuery: {
             enabled: plugin.includes('react-query'),
@@ -162,8 +164,6 @@ export default async (argv) => {
         },
         abstractApp: {
           enabled: plugin.includes('abstract-app'),
-          // TODO - add this to the questions
-          queryFactory: true
         }
     };
 

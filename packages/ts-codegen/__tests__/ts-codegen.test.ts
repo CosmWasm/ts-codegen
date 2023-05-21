@@ -314,9 +314,6 @@ it('abstract-app/autocompounder', async () => {
         queryKeys: true,
         mutations: true,
       },
-      client: {
-        enabled: true
-      },
       messageComposer: {
         enabled: true
       },

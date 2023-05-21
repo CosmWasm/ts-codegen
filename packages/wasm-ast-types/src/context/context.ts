@@ -16,7 +16,6 @@ export interface ReactQueryOptions {
 
 export interface AbstractAppOptions {
   enabled?: boolean;
-  queryFactory?: boolean;
 }
 
 export interface TSClientOptions {

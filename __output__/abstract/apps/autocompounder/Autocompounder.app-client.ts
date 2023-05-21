@@ -11,7 +11,6 @@ import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
 import { StdFee, Coin } from "@cosmjs/amino";
 import { Decimal, AssetEntry, BondingPeriodSelector, Duration, InstantiateMsg, ExecuteMsg, Uint128, AnsAsset, QueryMsg, MigrateMsg, Expiration, Timestamp, Uint64, ArrayOfTupleOfStringAndArrayOfClaim, Claim, ArrayOfClaim, Addr, PoolAddressBaseForAddr, AssetInfoBaseForAddr, PoolType, Config, PoolMetadata } from "./Autocompounder.types";
-import { AutocompounderQueryClient, AutocompounderClient } from "./Autocompounder.client";
 import { AutocompounderQueryMsgBuilder, AutocompounderExecuteMsgBuilder } from "./Autocompounder.msg-builder";
 export interface IAutocompounderAppQueryClient {
   moduleId: string;

@@ -27,7 +27,6 @@ export default async (
   const options = context.options.abstractApp;
 
   const localname = pascal(`${contractName}`) + '.app-client.ts';
-  const ContractFile = pascal(`${contractName}`) + '.client';
   const MsgBuilderFile = pascal(`${contractName}`) + '.msg-builder';
   const TypesFile = pascal(`${contractName}`) + '.types';
 
@@ -64,7 +63,6 @@ export default async (
   body.push(w.importStmt(Object.keys(typeHash), `./${TypesFile}`));
 
   // client imports
-  body.push(w.importStmt(clientImports, `./${ContractFile}`));
   body.push(w.importStmt(msgBuilderImports, `./${MsgBuilderFile}`));
   context.addUtil('CamelCasedProperties');
 

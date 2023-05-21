@@ -49,8 +49,6 @@ export class AbstractAppPlugin extends BuilderPluginBase<RenderOptions> {
     const ExecuteMsg = findExecuteMsg(schemas);
     const typeHash = await findAndParseTypes(schemas);
 
-    const executeClientName = pascal(`${name}Client`);
-    const queryClientName = pascal(`${name}QueryClient`);
     const appExecuteClientName = pascal(`${name}AppClient`);
     const appExecuteInterfaceName = pascal(`I${appExecuteClientName}`);
     const appQueryClientName = pascal(`${name}AppQueryClient`);
@@ -60,13 +58,9 @@ export class AbstractAppPlugin extends BuilderPluginBase<RenderOptions> {
 
     const body = [];
 
-    const clientImports = [];
     const msgBuilderImports = [];
     if (QueryMsg) {
-      clientImports.push(queryClientName);
       // TODO: there might not be any execute methods, where we should not generate the connect method
-      // connect (xxx, yyy) -> executeClientName
-      clientImports.push(executeClientName);
       msgBuilderImports.push(`${pascal(moduleName)}QueryMsgBuilder`);
     }
 
@@ -78,7 +72,6 @@ export class AbstractAppPlugin extends BuilderPluginBase<RenderOptions> {
     body.push(w.importStmt(Object.keys(typeHash), `./${TypesFile}`));
 
     // client imports
-    body.push(w.importStmt(clientImports, `./${ContractFile}`));
     body.push(w.importStmt(msgBuilderImports, `./${MsgBuilderFile}`));
     context.addUtil('CamelCasedProperties');
 
@@ -131,24 +124,10 @@ export class AbstractAppPlugin extends BuilderPluginBase<RenderOptions> {
       }
     }
 
-    //
-    // // query messages
-    // if (QueryMsg) {
-    //   body.push(
-    //     w.createAbstractAppClass(context, queryClientName, QueryMsg)
-    //   );
-    //   if (options.queryFactory) {
-    //     body.push(
-    //       w.createAbstractAppQueryFactory(context, moduleName, QueryMsg)
-    //     );
-    //   }
-    // }
-
     if (typeHash.hasOwnProperty('Coin')) {
       // @ts-ignore
       delete context.utils.Coin;
     }
-
 
     return [
       {
