@@ -213,7 +213,7 @@ export interface AutocompounderBatchUnbondMutation {
   args?: {
     fee?: number | StdFee | "auto";
     memo?: string;
-    _funds?: Coin[];
+    funds?: Coin[];
   };
 }
 export function useAutocompounderBatchUnbondMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, AutocompounderBatchUnbondMutation>, "mutationFn">) {
@@ -231,7 +231,7 @@ export interface AutocompounderCompoundMutation {
   args?: {
     fee?: number | StdFee | "auto";
     memo?: string;
-    _funds?: Coin[];
+    funds?: Coin[];
   };
 }
 export function useAutocompounderCompoundMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, AutocompounderCompoundMutation>, "mutationFn">) {
@@ -249,7 +249,7 @@ export interface AutocompounderWithdrawMutation {
   args?: {
     fee?: number | StdFee | "auto";
     memo?: string;
-    _funds?: Coin[];
+    funds?: Coin[];
   };
 }
 export function useAutocompounderWithdrawMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, AutocompounderWithdrawMutation>, "mutationFn">) {
@@ -270,7 +270,7 @@ export interface AutocompounderDepositMutation {
   args?: {
     fee?: number | StdFee | "auto";
     memo?: string;
-    _funds?: Coin[];
+    funds?: Coin[];
   };
 }
 export function useAutocompounderDepositMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, AutocompounderDepositMutation>, "mutationFn">) {
@@ -294,7 +294,7 @@ export interface AutocompounderUpdateFeeConfigMutation {
   args?: {
     fee?: number | StdFee | "auto";
     memo?: string;
-    _funds?: Coin[];
+    funds?: Coin[];
   };
 }
 export function useAutocompounderUpdateFeeConfigMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, AutocompounderUpdateFeeConfigMutation>, "mutationFn">) {

@@ -7,13 +7,14 @@ import { refLookup } from './ref';
 // t.TSPropertySignature - kind?
 export const propertySignature = (
     name: string,
-    typeAnnotation: t.TSTypeAnnotation,
+    typeAnnotation: TSTypeAnnotation,
     optional: boolean = false
 ): t.TSPropertySignature => {
     return {
         type: 'TSPropertySignature',
       kind: "get",
         key: t.identifier(name),
+      kind: 'get',
         typeAnnotation,
         optional
     }
@@ -65,8 +66,6 @@ export const tsPropertySignature = (
     obj.optional = optional;
     return obj
 };
-
-
 
 export const tsObjectPattern = (
     properties: (t.RestElement | t.ObjectProperty)[],
