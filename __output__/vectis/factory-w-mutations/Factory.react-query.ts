@@ -92,7 +92,7 @@ export interface FactoryUpdateAdminMutation {
   args?: {
     fee?: number | StdFee | "auto";
     memo?: string;
-    _funds?: Coin[];
+    funds?: Coin[];
   };
 }
 export function useFactoryUpdateAdminMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, FactoryUpdateAdminMutation>, "mutationFn">) {
@@ -114,7 +114,7 @@ export interface FactoryUpdateGovecAddrMutation {
   args?: {
     fee?: number | StdFee | "auto";
     memo?: string;
-    _funds?: Coin[];
+    funds?: Coin[];
   };
 }
 export function useFactoryUpdateGovecAddrMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, FactoryUpdateGovecAddrMutation>, "mutationFn">) {
@@ -136,7 +136,7 @@ export interface FactoryUpdateWalletFeeMutation {
   args?: {
     fee?: number | StdFee | "auto";
     memo?: string;
-    _funds?: Coin[];
+    funds?: Coin[];
   };
 }
 export function useFactoryUpdateWalletFeeMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, FactoryUpdateWalletFeeMutation>, "mutationFn">) {
@@ -159,7 +159,7 @@ export interface FactoryUpdateCodeIdMutation {
   args?: {
     fee?: number | StdFee | "auto";
     memo?: string;
-    _funds?: Coin[];
+    funds?: Coin[];
   };
 }
 export function useFactoryUpdateCodeIdMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, FactoryUpdateCodeIdMutation>, "mutationFn">) {
@@ -182,7 +182,7 @@ export interface FactoryMigrateWalletMutation {
   args?: {
     fee?: number | StdFee | "auto";
     memo?: string;
-    _funds?: Coin[];
+    funds?: Coin[];
   };
 }
 export function useFactoryMigrateWalletMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, FactoryMigrateWalletMutation>, "mutationFn">) {
@@ -205,7 +205,7 @@ export interface FactoryUpdateProxyUserMutation {
   args?: {
     fee?: number | StdFee | "auto";
     memo?: string;
-    _funds?: Coin[];
+    funds?: Coin[];
   };
 }
 export function useFactoryUpdateProxyUserMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, FactoryUpdateProxyUserMutation>, "mutationFn">) {
@@ -227,7 +227,7 @@ export interface FactoryCreateWalletMutation {
   args?: {
     fee?: number | StdFee | "auto";
     memo?: string;
-    _funds?: Coin[];
+    funds?: Coin[];
   };
 }
 export function useFactoryCreateWalletMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, FactoryCreateWalletMutation>, "mutationFn">) {

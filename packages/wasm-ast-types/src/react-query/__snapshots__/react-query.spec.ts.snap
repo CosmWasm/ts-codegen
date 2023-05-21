@@ -1133,7 +1133,7 @@ exports[`createReactQueryHooks 6`] = `
   args?: {
     fee?: number | StdFee | \\"auto\\";
     memo?: string;
-    _funds?: Coin[];
+    funds?: Coin[];
   };
 }
 export function useSg721BurnMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, Sg721BurnMutation>, \\"mutationFn\\">) {
@@ -1158,7 +1158,7 @@ export interface Sg721MintMutation {
   args?: {
     fee?: number | StdFee | \\"auto\\";
     memo?: string;
-    _funds?: Coin[];
+    funds?: Coin[];
   };
 }
 export function useSg721MintMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, Sg721MintMutation>, \\"mutationFn\\">) {
@@ -1180,7 +1180,7 @@ export interface Sg721RevokeAllMutation {
   args?: {
     fee?: number | StdFee | \\"auto\\";
     memo?: string;
-    _funds?: Coin[];
+    funds?: Coin[];
   };
 }
 export function useSg721RevokeAllMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, Sg721RevokeAllMutation>, \\"mutationFn\\">) {
@@ -1203,7 +1203,7 @@ export interface Sg721ApproveAllMutation {
   args?: {
     fee?: number | StdFee | \\"auto\\";
     memo?: string;
-    _funds?: Coin[];
+    funds?: Coin[];
   };
 }
 export function useSg721ApproveAllMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, Sg721ApproveAllMutation>, \\"mutationFn\\">) {
@@ -1226,7 +1226,7 @@ export interface Sg721RevokeMutation {
   args?: {
     fee?: number | StdFee | \\"auto\\";
     memo?: string;
-    _funds?: Coin[];
+    funds?: Coin[];
   };
 }
 export function useSg721RevokeMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, Sg721RevokeMutation>, \\"mutationFn\\">) {
@@ -1250,7 +1250,7 @@ export interface Sg721ApproveMutation {
   args?: {
     fee?: number | StdFee | \\"auto\\";
     memo?: string;
-    _funds?: Coin[];
+    funds?: Coin[];
   };
 }
 export function useSg721ApproveMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, Sg721ApproveMutation>, \\"mutationFn\\">) {
@@ -1274,7 +1274,7 @@ export interface Sg721SendNftMutation {
   args?: {
     fee?: number | StdFee | \\"auto\\";
     memo?: string;
-    _funds?: Coin[];
+    funds?: Coin[];
   };
 }
 export function useSg721SendNftMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, Sg721SendNftMutation>, \\"mutationFn\\">) {
@@ -1297,7 +1297,7 @@ export interface Sg721TransferNftMutation {
   args?: {
     fee?: number | StdFee | \\"auto\\";
     memo?: string;
-    _funds?: Coin[];
+    funds?: Coin[];
   };
 }
 export function useSg721TransferNftMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, Sg721TransferNftMutation>, \\"mutationFn\\">) {
@@ -1320,7 +1320,7 @@ exports[`ownership 1`] = `
   args?: {
     fee?: number | StdFee | \\"auto\\";
     memo?: string;
-    _funds?: Coin[];
+    funds?: Coin[];
   };
 }
 export function useOwnershipUpdateOwnershipMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, OwnershipUpdateOwnershipMutation>, \\"mutationFn\\">) {
@@ -1342,7 +1342,7 @@ export interface OwnershipSetFactoryMutation {
   args?: {
     fee?: number | StdFee | \\"auto\\";
     memo?: string;
-    _funds?: Coin[];
+    funds?: Coin[];
   };
 }
 export function useOwnershipSetFactoryMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, OwnershipSetFactoryMutation>, \\"mutationFn\\">) {

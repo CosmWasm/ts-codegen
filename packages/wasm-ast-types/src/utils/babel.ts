@@ -1,18 +1,19 @@
 import * as t from '@babel/types';
 import { snake } from "case";
 import { Field, QueryMsg, ExecuteMsg } from '../types';
-import { TSTypeAnnotation, TSExpressionWithTypeArguments } from '@babel/types';
+import { TSTypeAnnotation, TSExpressionWithTypeArguments, Noop, TypeAnnotation } from '@babel/types';
 import { refLookup } from './ref';
 
 // t.TSPropertySignature - kind?
 export const propertySignature = (
     name: string,
-    typeAnnotation: t.TSTypeAnnotation,
+    typeAnnotation: TSTypeAnnotation,
     optional: boolean = false
-) => {
+): t.TSPropertySignature => {
     return {
         type: 'TSPropertySignature',
         key: t.identifier(name),
+      kind: 'get',
         typeAnnotation,
         optional
     }
