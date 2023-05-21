@@ -6,22 +6,22 @@
 
 import { CamelCasedProperties } from "type-fest";
 import { SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
-import { AbstractQueryClient, AbstractAccountQueryClient, AbstractAccountClient, AppExecuteMsg, AppModuleExecuteMsgBuilder, AbstractClient } from "@abstract-money/abstract.js";
+import { AbstractQueryClient, AbstractAccountQueryClient, AbstractAccountClient, AppExecuteMsg, AppExecuteMsgFactory, AbstractClient } from "@abstract-money/abstract.js";
 import { StdFee, Coin } from "@cosmjs/amino";
 import { Decimal, InstantiateMsg, ExecuteMsg, Uint128, AssetInfoBaseForString, AssetBaseForString, QueryMsg, MigrateMsg, StateResponse } from "./Etf.types";
 import { EtfQueryMsgBuilder, EtfExecuteMsgBuilder } from "./Etf.msg-builder";
 export interface IEtfAppQueryClient {
   moduleId: string;
   accountQueryClient: AbstractAccountQueryClient;
-  _moduleAddress: string;
+  _moduleAddress: string | undefined;
   state: () => Promise<StateResponse>;
-  connect: (signingClient: SigningCosmWasmClient, address: string) => EtfAppClient;
+  connectSigningClient: (signingClient: SigningCosmWasmClient, address: string) => EtfAppClient;
   address: () => Promise<string>;
 }
 export class EtfAppQueryClient implements IEtfAppQueryClient {
   accountQueryClient: AbstractAccountQueryClient;
   moduleId: string;
-  _moduleAddress: string;
+  _moduleAddress: string | undefined;
 
   constructor({
     abstractQueryClient,
@@ -49,13 +49,6 @@ export class EtfAppQueryClient implements IEtfAppQueryClient {
   state = async (): Promise<StateResponse> => {
     return this._query(EtfQueryMsgBuilder.state());
   };
-  _query = async (queryMsg: QueryMsg): Promise<any> => {
-    return this.accountQueryClient.queryModule({
-      moduleId: this.moduleId,
-      moduleType: "app",
-      queryMsg
-    });
-  };
   address = async (): Promise<string> => {
     if (!this._moduleAddress) {
       this._moduleAddress = await this.accountQueryClient.getModuleAddress(this.moduleId);
@@ -63,13 +56,20 @@ export class EtfAppQueryClient implements IEtfAppQueryClient {
 
     return this._moduleAddress;
   };
-  connect = (signingClient: SigningCosmWasmClient, address: string): EtfAppClient => {
+  connectSigningClient = (signingClient: SigningCosmWasmClient, address: string): EtfAppClient => {
     return new EtfAppClient({
       accountId: this.accountQueryClient.accountId,
       managerAddress: this.accountQueryClient.managerAddress,
       proxyAddress: this.accountQueryClient.proxyAddress,
       moduleId: this.moduleId,
-      abstractClient: this.accountQueryClient.abstract.upgrade(signingClient, address)
+      abstractClient: this.accountQueryClient.abstract.connectSigningClient(signingClient, address)
+    });
+  };
+  _query = async (queryMsg: QueryMsg): Promise<any> => {
+    return this.accountQueryClient.queryModule({
+      moduleId: this.moduleId,
+      moduleType: "app",
+      queryMsg
     });
   };
 }
@@ -112,16 +112,16 @@ export class EtfAppClient extends EtfAppQueryClient implements IEtfAppClient {
 
   provideLiquidity = async (params: CamelCasedProperties<Extract<ExecuteMsg, {
     provide_liquidity: unknown;
-  }>["provide_liquidity"]>, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }>["provide_liquidity"]>, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return this._execute(EtfExecuteMsgBuilder.provideLiquidity(params), fee, memo, _funds);
   };
   setFee = async (params: CamelCasedProperties<Extract<ExecuteMsg, {
     set_fee: unknown;
-  }>["set_fee"]>, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }>["set_fee"]>, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return this._execute(EtfExecuteMsgBuilder.setFee(params), fee, memo, _funds);
   };
-  _execute = async (msg: ExecuteMsg, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
-    const moduleMsg: AppExecuteMsg<ExecuteMsg> = AppModuleExecuteMsgBuilder.executeApp(msg);
+  _execute = async (msg: ExecuteMsg, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+    const moduleMsg: AppExecuteMsg<ExecuteMsg> = AppExecuteMsgFactory.executeApp(msg);
     return await this.accountClient.abstract.client.execute(this.accountClient.sender, await this.address(), moduleMsg, fee, memo, _funds);
   };
 }

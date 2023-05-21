@@ -31,7 +31,7 @@ const ABSTRACT_MODULE_MSG = t.variableDeclaration('const', [
     ),
     t.callExpression(
       t.memberExpression(
-        t.identifier('AppModuleExecuteMsgBuilder'),
+        t.identifier('AppExecuteMsgFactory'),
         t.identifier('executeApp')
       ),
       [t.identifier('msg')]
@@ -48,7 +48,7 @@ const createWasmExecMethodMessageComposer = (
     'MsgExecuteContract',
     'toUtf8',
     'AppExecuteMsg',
-    'AppModuleExecuteMsgBuilder'
+    'AppExecuteMsgFactory'
   ]);
 
   const underscoreName = Object.keys(jsonschema.properties)[0];

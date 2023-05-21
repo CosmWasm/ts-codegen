@@ -8,7 +8,7 @@ import { Coin } from "@cosmjs/amino";
 import { MsgExecuteContractEncodeObject } from "cosmwasm";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
-import { AppExecuteMsg, AppModuleExecuteMsgBuilder } from "@abstract-money/abstract.js";
+import { AppExecuteMsg, AppExecuteMsgFactory } from "@abstract-money/abstract.js";
 import { Decimal, InstantiateMsg, ExecuteMsg, Uint128, AssetInfoBaseForString, AssetBaseForString, QueryMsg, MigrateMsg, StateResponse } from "./Etf.types";
 export interface EtfMessage {
   contractAddress: string;
@@ -45,7 +45,7 @@ export class EtfMessageComposer implements EtfMessage {
         asset
       }
     };
-    const moduleMsg: AppExecuteMsg<ExecuteMsg> = AppModuleExecuteMsgBuilder.executeApp(msg);
+    const moduleMsg: AppExecuteMsg<ExecuteMsg> = AppExecuteMsgFactory.executeApp(msg);
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -66,7 +66,7 @@ export class EtfMessageComposer implements EtfMessage {
         fee
       }
     };
-    const moduleMsg: AppExecuteMsg<ExecuteMsg> = AppModuleExecuteMsgBuilder.executeApp(msg);
+    const moduleMsg: AppExecuteMsg<ExecuteMsg> = AppExecuteMsgFactory.executeApp(msg);
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({

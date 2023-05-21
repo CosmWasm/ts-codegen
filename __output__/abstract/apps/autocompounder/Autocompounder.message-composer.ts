@@ -8,7 +8,7 @@ import { Coin } from "@cosmjs/amino";
 import { MsgExecuteContractEncodeObject } from "cosmwasm";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
-import { AppExecuteMsg, AppModuleExecuteMsgBuilder } from "@abstract-money/abstract.js";
+import { AppExecuteMsg, AppExecuteMsgFactory } from "@abstract-money/abstract.js";
 import { Decimal, AssetEntry, BondingPeriodSelector, Duration, InstantiateMsg, ExecuteMsg, Uint128, AnsAsset, QueryMsg, MigrateMsg, Expiration, Timestamp, Uint64, ArrayOfTupleOfStringAndArrayOfClaim, Claim, ArrayOfClaim, Addr, PoolAddressBaseForAddr, AssetInfoBaseForAddr, PoolType, Config, PoolMetadata } from "./Autocompounder.types";
 export interface AutocompounderMessage {
   contractAddress: string;
@@ -61,7 +61,7 @@ export class AutocompounderMessageComposer implements AutocompounderMessage {
         withdrawal
       }
     };
-    const moduleMsg: AppExecuteMsg<ExecuteMsg> = AppModuleExecuteMsgBuilder.executeApp(msg);
+    const moduleMsg: AppExecuteMsg<ExecuteMsg> = AppExecuteMsgFactory.executeApp(msg);
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -82,7 +82,7 @@ export class AutocompounderMessageComposer implements AutocompounderMessage {
         funds
       }
     };
-    const moduleMsg: AppExecuteMsg<ExecuteMsg> = AppModuleExecuteMsgBuilder.executeApp(msg);
+    const moduleMsg: AppExecuteMsg<ExecuteMsg> = AppExecuteMsgFactory.executeApp(msg);
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -97,7 +97,7 @@ export class AutocompounderMessageComposer implements AutocompounderMessage {
     const msg = {
       withdraw: {}
     };
-    const moduleMsg: AppExecuteMsg<ExecuteMsg> = AppModuleExecuteMsgBuilder.executeApp(msg);
+    const moduleMsg: AppExecuteMsg<ExecuteMsg> = AppExecuteMsgFactory.executeApp(msg);
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -112,7 +112,7 @@ export class AutocompounderMessageComposer implements AutocompounderMessage {
     const msg = {
       compound: {}
     };
-    const moduleMsg: AppExecuteMsg<ExecuteMsg> = AppModuleExecuteMsgBuilder.executeApp(msg);
+    const moduleMsg: AppExecuteMsg<ExecuteMsg> = AppExecuteMsgFactory.executeApp(msg);
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -127,7 +127,7 @@ export class AutocompounderMessageComposer implements AutocompounderMessage {
     const msg = {
       batch_unbond: {}
     };
-    const moduleMsg: AppExecuteMsg<ExecuteMsg> = AppModuleExecuteMsgBuilder.executeApp(msg);
+    const moduleMsg: AppExecuteMsg<ExecuteMsg> = AppExecuteMsgFactory.executeApp(msg);
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({

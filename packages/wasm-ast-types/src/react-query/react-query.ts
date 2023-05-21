@@ -5,7 +5,7 @@ import { ExecuteMsg, QueryMsg } from '../types';
 import {
   callExpression,
   createTypedObjectParams,
-  FIXED_EXECUTE_PARAMS,
+  OPTIONAL_FIXED_EXECUTE_PARAMS,
   getMessageProperties,
   identifier,
   RECORD_STRING_UNKNOWN_TYPE_ANNOTATION,

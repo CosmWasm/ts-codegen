@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@abstract-money/abstract.js@^0.14.2":
-  version "0.14.2"
-  resolved "https://registry.npmjs.org/@abstract-money/abstract.js/-/abstract.js-0.14.2.tgz#6a230e1c0cc39e8f691f0920228e4071780ee177"
-  integrity sha512-km0j14P8ddHKjrWIFNGgSdpoSAoS0l8oPLNKIQt79vdqTjjAs1XdgsiobE/hwTtz1u/wo3KZNUPVNxwS9cwPjQ==
+"@abstract-money/abstract.js@^0.15.2":
+  version "0.15.2"
+  resolved "https://registry.npmjs.org/@abstract-money/abstract.js/-/abstract.js-0.15.2.tgz#90e779c7ba645f44b2da5c889ebd48944205ea6e"
+  integrity sha512-l0q4Gh3r9lZwclr3Um7mbp46VEsVVKe05Ku3TgKSlNJOaFtTnSAql+NJZWVPFs+HRExxhZYFs2v0QqgP+DilBA==
   dependencies:
     "@cosmjs/amino" "^0.29.4"
     "@cosmjs/cosmwasm-stargate" "^0.29.4"

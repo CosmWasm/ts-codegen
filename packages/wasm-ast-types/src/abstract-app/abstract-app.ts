@@ -9,19 +9,19 @@ import {
   classDeclaration,
   classProperty,
   createExtractTypeAnnotation,
-  FIXED_EXECUTE_PARAMS,
+  OPTIONAL_FIXED_EXECUTE_PARAMS,
   getMessageProperties,
   getResponseType,
   identifier,
-  OPTIONAL_FUNDS_PARAM,
   promiseTypeAnnotation,
   shorthandProperty
 } from '../utils';
 import { ExecuteMsg, QueryMsg } from '../types';
 import { createTypedObjectParams } from '../utils/types';
 import { RenderContext } from '../context';
-import { getWasmMethodArgs } from '../client/client';
+import { CONSTANT_EXEC_PARAMS, getWasmMethodArgs } from '../client/client';
 import { createQueryOptionsFactory } from './query-options-factory';
+import { FIXED_EXECUTE_PARAMS } from '../../types';
 
 export const createAbstractAppClass = (
   context: RenderContext,
@@ -90,7 +90,7 @@ function extractCamelcasedMethodParams(
 const staticQueryInterfaceMethods = (connectedAppClientName: string) => {
   return [
     t.tsPropertySignature(
-      t.identifier('connect'),
+      t.identifier('connectSigningClient'),
       t.tsTypeAnnotation(
         t.tsFunctionType(
           undefined,
@@ -175,7 +175,9 @@ export const createAppQueryInterface = (
         ),
         t.tSPropertySignature(
           CLASS_VARS._moduleAddress,
-          t.tsTypeAnnotation(t.tsStringKeyword())
+          t.tsTypeAnnotation(
+            t.tsUnionType([t.tsStringKeyword(), t.tsUndefinedKeyword()])
+          )
         ),
         ...methods,
         ...staticQueryInterfaceMethods(mutClassName)
@@ -241,7 +243,7 @@ export const createAppExecuteInterface = (
     ABSTRACT_ACCOUNT_CLIENT,
     'ExecuteResult',
     'AppExecuteMsg',
-    'AppModuleExecuteMsgBuilder',
+    'AppExecuteMsgFactory'
   ]);
 
   const methods = getMessageProperties(executeMsg).map((jsonschema) => {
@@ -257,8 +259,8 @@ export const createAppExecuteInterface = (
       type: 'TSFunctionType',
       typeAnnotation: promiseTypeAnnotation('ExecuteResult'),
       parameters: parameters
-        ? [...parameters, ...FIXED_EXECUTE_PARAMS]
-        : FIXED_EXECUTE_PARAMS
+        ? [...parameters, ...OPTIONAL_FIXED_EXECUTE_PARAMS]
+        : OPTIONAL_FIXED_EXECUTE_PARAMS
     };
 
     return t.tSPropertySignature(
@@ -298,7 +300,7 @@ const EXECUTE_APP_FN = t.classProperty(
         'msg',
         t.tsTypeAnnotation(t.tsTypeReference(t.identifier('ExecuteMsg')))
       ),
-      ...FIXED_EXECUTE_PARAMS
+      ...CONSTANT_EXEC_PARAMS
     ],
     t.blockStatement(
       [
@@ -317,7 +319,7 @@ const EXECUTE_APP_FN = t.classProperty(
             ),
             t.callExpression(
               t.memberExpression(
-                t.identifier('AppModuleExecuteMsgBuilder'),
+                t.identifier('AppExecuteMsgFactory'),
                 t.identifier('executeApp')
               ),
               [t.identifier('msg')]
@@ -398,9 +400,9 @@ export const createAppQueryClass = (
     return createAppQueryMethod(context, moduleName, schema);
   });
 
-  methods.push(QUERY_APP_FN);
   methods.push(ADDRESS_ACCESSOR_FN);
-  methods.push(connectMethod(`${moduleName}AppClient`));
+  methods.push(connectSigningClientMethod(`${moduleName}AppClient`));
+  methods.push(QUERY_APP_FN);
 
   return t.exportNamedDeclaration(
     classDeclaration(
@@ -421,7 +423,9 @@ export const createAppQueryClass = (
         {
           ...classProperty(
             '_moduleAddress',
-            t.tsTypeAnnotation(t.tsStringKeyword())
+            t.tsTypeAnnotation(
+              t.tsUnionType([t.tsStringKeyword(), t.tsUndefinedKeyword()])
+            )
           ),
           visibility: 'private'
         },
@@ -546,11 +550,9 @@ const ADDRESS_ACCESSOR_FN = t.classProperty(
   )
 );
 
-//       t.tsTypeAnnotation(t.tsTypeReference(t.identifier('VaultManager'))),
-//       false,
-const connectMethod = (mutClientName: string) => {
+const connectSigningClientMethod = (mutClientName: string) => {
   return t.classProperty(
-    t.identifier('connect'),
+    t.identifier('connectSigningClient'),
     arrowFunctionExpression(
       [
         identifier(
@@ -610,7 +612,7 @@ const connectMethod = (mutClientName: string) => {
                       ),
                       t.identifier('abstract')
                     ),
-                    t.identifier('upgrade')
+                    t.identifier('connectSigningClient')
                   ),
                   [t.identifier('signingClient'), t.identifier('address')]
                 )
@@ -843,8 +845,8 @@ const createAppExecMethod = (
     t.identifier(methodName),
     arrowFunctionExpression(
       methodParameters
-        ? [...methodParameters, ...FIXED_EXECUTE_PARAMS]
-        : FIXED_EXECUTE_PARAMS,
+        ? [...methodParameters, ...CONSTANT_EXEC_PARAMS]
+        : CONSTANT_EXEC_PARAMS,
       t.blockStatement([
         t.returnStatement(
           t.callExpression(
@@ -857,7 +859,7 @@ const createAppExecMethod = (
                 ),
                 methodParameters
               ),
-              ...FIXED_EXECUTE_PARAMS
+              ...OPTIONAL_FIXED_EXECUTE_PARAMS
             ]
           )
         )
