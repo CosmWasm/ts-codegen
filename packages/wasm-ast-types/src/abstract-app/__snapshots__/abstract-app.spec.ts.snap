@@ -79,82 +79,18 @@ exports[`AutocompounderAppQueryClient 1`] = `
 }"
 `;
 
-exports[`AutocompounderQueryClient 1`] = `
-"export class AutocompounderQueryClient implements IAutocompounderQueryClient {
-  queryClient: AbstractQueryClient;
-  moduleId: string;
-
-  constructor({
-    abstract,
-    accountId,
-    managerAddress,
-    proxyAddress,
-    moduleId
-  }) {
-    this.queryClient = new AbstractAccountQueryClient({
-      abstract,
-      accountId,
-      managerAddress,
-      proxyAddress
-    });
-    this.moduleId = moduleId;
-    this.config = this.config.bind(this);
-    this.pendingClaims = this.pendingClaims.bind(this);
-    this.claims = this.claims.bind(this);
-    this.allClaims = this.allClaims.bind(this);
-    this.latestUnbonding = this.latestUnbonding.bind(this);
-    this.totalLpPosition = this.totalLpPosition.bind(this);
-    this.balance = this.balance.bind(this);
-  }
-
-  config = async (): Promise<ConfigResponse> => {
-    return this.queryApp(AutocompounderQueryMsgBuilder.config());
-  };
-  pendingClaims = async (params: CamelCasedProperties<Extract<QueryMsg, {
-    pending_claims: unknown;
-  }>[\\"pending_claims\\"]>): Promise<PendingClaimsResponse> => {
-    return this.queryApp(AutocompounderQueryMsgBuilder.pendingClaims(params));
-  };
-  claims = async (params: CamelCasedProperties<Extract<QueryMsg, {
-    claims: unknown;
-  }>[\\"claims\\"]>): Promise<ClaimsResponse> => {
-    return this.queryApp(AutocompounderQueryMsgBuilder.claims(params));
-  };
-  allClaims = async (params: CamelCasedProperties<Extract<QueryMsg, {
-    all_claims: unknown;
-  }>[\\"all_claims\\"]>): Promise<AllClaimsResponse> => {
-    return this.queryApp(AutocompounderQueryMsgBuilder.allClaims(params));
-  };
-  latestUnbonding = async (): Promise<LatestUnbondingResponse> => {
-    return this.queryApp(AutocompounderQueryMsgBuilder.latestUnbonding());
-  };
-  totalLpPosition = async (): Promise<TotalLpPositionResponse> => {
-    return this.queryApp(AutocompounderQueryMsgBuilder.totalLpPosition());
-  };
-  balance = async (params: CamelCasedProperties<Extract<QueryMsg, {
-    balance: unknown;
-  }>[\\"balance\\"]>): Promise<BalanceResponse> => {
-    return this.queryApp(AutocompounderQueryMsgBuilder.balance(params));
-  };
-  @private
-  queryApp: Promise<JsonObject> = queryMsg => {
-    return this.queryClient.queryModule({
-      moduleId: this.moduleId,
-      moduleType: \\"app\\",
-      queryMsg
-    });
-  };
-  address: Promise<string> = () => {
-    return this.queryClient.getModuleAddress(this.moduleId);
-  };
-  connect: AutocompounderClient = (signingClient, address) => {
-    return new AutocompounderClient({
-      accountId: this.queryClient.accountId,
-      managerAddress: this.queryClient.managerAddress,
-      proxyAddress: this.queryClient.proxyAddress,
-      abstract: this.queryClient.abstract.upgrade(signingClient, address)
-    });
-  };
+exports[`IAutocompounderAppClient 1`] = `
+"export interface IAutocompounderAppClient {
+  accountClient: AbstractAccountClient;
+  updateFeeConfig: (params: CamelCasedProperties<Extract<QueryMsg, {
+    update_fee_config: unknown;
+  }>[\\"update_fee_config\\"]>, fee?: number | StdFee | \\"auto\\", memo?: string, funds?: Coin[]) => Promise<UpdateFeeConfigResponse>;
+  deposit: (params: CamelCasedProperties<Extract<QueryMsg, {
+    deposit: unknown;
+  }>[\\"deposit\\"]>, fee?: number | StdFee | \\"auto\\", memo?: string, funds?: Coin[]) => Promise<DepositResponse>;
+  withdraw: (fee?: number | StdFee | \\"auto\\", memo?: string, funds?: Coin[]) => Promise<WithdrawResponse>;
+  compound: (fee?: number | StdFee | \\"auto\\", memo?: string, funds?: Coin[]) => Promise<CompoundResponse>;
+  batchUnbond: (fee?: number | StdFee | \\"auto\\", memo?: string, funds?: Coin[]) => Promise<BatchUnbondResponse>;
 }"
 `;
 
@@ -179,132 +115,5 @@ exports[`IAutocompounderAppQueryClient 1`] = `
   }>[\\"balance\\"]>) => Promise<BalanceResponse>;
   connect: (signingClient: SigningCosmWasmClient, address: string) => AutocompounderAppClient;
   address: () => Promise<string>;
-}"
-`;
-
-exports[`IReadOnlyAutocompounderClient 1`] = `
-"export interface IAutocompounderQueryClient {
-  moduleId: string;
-  queryClient: AbstractQueryClient;
-  config: () => Promise<ConfigResponse>;
-  pendingClaims: (params: CamelCasedProperties<Extract<QueryMsg, {
-    pending_claims: unknown;
-  }>[\\"pending_claims\\"]>) => Promise<PendingClaimsResponse>;
-  claims: (params: CamelCasedProperties<Extract<QueryMsg, {
-    claims: unknown;
-  }>[\\"claims\\"]>) => Promise<ClaimsResponse>;
-  allClaims: (params: CamelCasedProperties<Extract<QueryMsg, {
-    all_claims: unknown;
-  }>[\\"all_claims\\"]>) => Promise<AllClaimsResponse>;
-  latestUnbonding: () => Promise<LatestUnbondingResponse>;
-  totalLpPosition: () => Promise<TotalLpPositionResponse>;
-  balance: (params: CamelCasedProperties<Extract<QueryMsg, {
-    balance: unknown;
-  }>[\\"balance\\"]>) => Promise<BalanceResponse>;
-  connect: (signingClient: SigningCosmWasmClient, address: string) => ConnectedVaultManager;
-  address: () => Promise<string>;
-}"
-`;
-
-exports[`readonly imanager 1`] = `
-"export interface IReadOnlyAutocompounderManager {
-  moduleId: string;
-  queryClient: AbstractQueryClient;
-  config: () => Promise<ConfigResponse>;
-  pendingClaims: (params: CamelCasedProperties<Extract<QueryMsg, {
-    pending_claims: unknown;
-  }>[\\"pending_claims\\"]>) => Promise<PendingClaimsResponse>;
-  claims: (params: CamelCasedProperties<Extract<QueryMsg, {
-    claims: unknown;
-  }>[\\"claims\\"]>) => Promise<ClaimsResponse>;
-  allClaims: (params: CamelCasedProperties<Extract<QueryMsg, {
-    all_claims: unknown;
-  }>[\\"all_claims\\"]>) => Promise<AllClaimsResponse>;
-  latestUnbonding: () => Promise<LatestUnbondingResponse>;
-  totalLpPosition: () => Promise<TotalLpPositionResponse>;
-  balance: (params: CamelCasedProperties<Extract<QueryMsg, {
-    balance: unknown;
-  }>[\\"balance\\"]>) => Promise<BalanceResponse>;
-  connect: (signingClient: SigningCosmWasmClient, address: string) => ConnectedVaultManager;
-  address: () => Promise<string>;
-}"
-`;
-
-exports[`readonly manager 1`] = `
-"export class ReadOnlyAutocompounderManager implements IReadOnlyAutocompounderManager {
-  queryClient: AbstractQueryClient;
-  moduleId: string;
-
-  constructor({
-    abstract,
-    accountId,
-    managerAddress,
-    proxyAddress,
-    moduleId
-  }) {
-    this.queryClient = new AbstractAccountQueryClient({
-      abstract,
-      accountId,
-      managerAddress,
-      proxyAddress
-    });
-    this.moduleId = moduleId;
-    this.config = this.config.bind(this);
-    this.pendingClaims = this.pendingClaims.bind(this);
-    this.claims = this.claims.bind(this);
-    this.allClaims = this.allClaims.bind(this);
-    this.latestUnbonding = this.latestUnbonding.bind(this);
-    this.totalLpPosition = this.totalLpPosition.bind(this);
-    this.balance = this.balance.bind(this);
-  }
-
-  config = async (): Promise<ConfigResponse> => {
-    return this.queryApp(AutocompounderQueryMsgBuilder.config());
-  };
-  pendingClaims = async (params: CamelCasedProperties<Extract<QueryMsg, {
-    pending_claims: unknown;
-  }>[\\"pending_claims\\"]>): Promise<PendingClaimsResponse> => {
-    return this.queryApp(AutocompounderQueryMsgBuilder.pendingClaims(params));
-  };
-  claims = async (params: CamelCasedProperties<Extract<QueryMsg, {
-    claims: unknown;
-  }>[\\"claims\\"]>): Promise<ClaimsResponse> => {
-    return this.queryApp(AutocompounderQueryMsgBuilder.claims(params));
-  };
-  allClaims = async (params: CamelCasedProperties<Extract<QueryMsg, {
-    all_claims: unknown;
-  }>[\\"all_claims\\"]>): Promise<AllClaimsResponse> => {
-    return this.queryApp(AutocompounderQueryMsgBuilder.allClaims(params));
-  };
-  latestUnbonding = async (): Promise<LatestUnbondingResponse> => {
-    return this.queryApp(AutocompounderQueryMsgBuilder.latestUnbonding());
-  };
-  totalLpPosition = async (): Promise<TotalLpPositionResponse> => {
-    return this.queryApp(AutocompounderQueryMsgBuilder.totalLpPosition());
-  };
-  balance = async (params: CamelCasedProperties<Extract<QueryMsg, {
-    balance: unknown;
-  }>[\\"balance\\"]>): Promise<BalanceResponse> => {
-    return this.queryApp(AutocompounderQueryMsgBuilder.balance(params));
-  };
-  @private
-  queryApp: Promise<JsonObject> = queryMsg => {
-    return this.queryClient.queryModule({
-      moduleId: this.moduleId,
-      moduleType: \\"app\\",
-      queryMsg
-    });
-  };
-  address: Promise<string> = () => {
-    return this.queryClient.getModuleAddress(this.moduleId);
-  };
-  connect: VaultClient = (signingClient, address) => {
-    return new VaultClient({
-      accountId: this.queryClient.accountId,
-      managerAddress: this.queryClient.managerAddress,
-      proxyAddress: this.queryClient.proxyAddress,
-      abstract: this.queryClient.abstract.upgrade(signingClient, address)
-    });
-  };
 }"
 `;

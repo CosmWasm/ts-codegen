@@ -1,6 +1,6 @@
 import autocompounder_schema from '../../../../__fixtures__/abstract/apps/autocompounder.json';
 import { expectCode, makeContext } from '../../test-utils';
-import { createAppQueryClass, createAppQueryInterface } from './abstract-app';
+import { createAppExecuteInterface, createAppQueryClass, createAppQueryInterface } from './abstract-app';
 
 it('IAutocompounderAppQueryClient', () => {
   const ctx = makeContext(autocompounder_schema);
@@ -30,3 +30,15 @@ it('AutocompounderAppQueryClient', () => {
   );
 });
 
+it('IAutocompounderAppClient', () => {
+  const ctx = makeContext(autocompounder_schema);
+
+  expectCode(
+    createAppExecuteInterface(
+      ctx,
+      'IAutocompounderAppClient',
+      'AutocompounderAppClient',
+      autocompounder_schema.execute
+    )
+  );
+});
