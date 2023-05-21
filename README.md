@@ -270,12 +270,31 @@ cosmwasm-ts-codegen generate \
     --out ./ts \
     --name MyContractName 
 ```
-#### Message Composer Options
+#### Message Builder Options
 
 | option      | description                                                         |
 -------------| ------------------------------ | ------------------------------------------------------------------- |
-| `msgBuilder.enabled` | enable the msgBilder plugin                                   |
+| `msgBuilder.enabled` | enable the msgBuilder plugin                                   |
 
+### Abstract App
+
+Generate a client for an app-module using the created using the [Abstract SDK](https://docs.abstract.money). This plugin will generate a `AppQueryClient` for queries as well as a `AppClient` for queries and mutations.
+This client will be injected as the client for the `react-query` and `message-composer` plugins, if enabled.
+
+#### Abstract App via CLI
+
+```sh
+cosmwasm-ts-codegen generate \
+    --plugin abstract-app \
+    --schema ./schema \
+    --out ./ts \
+    --name MyAppModuleName 
+```
+#### Abstract App Options
+
+| option      | description                   |
+-------------|-------------------------------| ------------------------------------------------------------------- |
+| `abstractApp.enabled` | enable the abstractApp plugin |
 
 ### Bundles
 
