@@ -12,9 +12,8 @@ export const propertySignature = (
 ): t.TSPropertySignature => {
     return {
         type: 'TSPropertySignature',
-      kind: "get",
+        kind: "get",
         key: t.identifier(name),
-      kind: 'get',
         typeAnnotation,
         optional
     }

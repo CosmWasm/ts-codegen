@@ -1143,9 +1143,9 @@ export function useSg721BurnMutation(options?: Omit<UseMutationOptions<ExecuteRe
     args: {
       fee,
       memo,
-      _funds
+      funds
     } = {}
-  }) => client.burn(msg, fee, memo, _funds), options);
+  }) => client.burn(msg, fee, memo, funds), options);
 }
 export interface Sg721MintMutation {
   client: Sg721Client;
@@ -1168,9 +1168,9 @@ export function useSg721MintMutation(options?: Omit<UseMutationOptions<ExecuteRe
     args: {
       fee,
       memo,
-      _funds
+      funds
     } = {}
-  }) => client.mint(msg, fee, memo, _funds), options);
+  }) => client.mint(msg, fee, memo, funds), options);
 }
 export interface Sg721RevokeAllMutation {
   client: Sg721Client;
@@ -1190,9 +1190,9 @@ export function useSg721RevokeAllMutation(options?: Omit<UseMutationOptions<Exec
     args: {
       fee,
       memo,
-      _funds
+      funds
     } = {}
-  }) => client.revokeAll(msg, fee, memo, _funds), options);
+  }) => client.revokeAll(msg, fee, memo, funds), options);
 }
 export interface Sg721ApproveAllMutation {
   client: Sg721Client;
@@ -1213,9 +1213,9 @@ export function useSg721ApproveAllMutation(options?: Omit<UseMutationOptions<Exe
     args: {
       fee,
       memo,
-      _funds
+      funds
     } = {}
-  }) => client.approveAll(msg, fee, memo, _funds), options);
+  }) => client.approveAll(msg, fee, memo, funds), options);
 }
 export interface Sg721RevokeMutation {
   client: Sg721Client;
@@ -1236,9 +1236,9 @@ export function useSg721RevokeMutation(options?: Omit<UseMutationOptions<Execute
     args: {
       fee,
       memo,
-      _funds
+      funds
     } = {}
-  }) => client.revoke(msg, fee, memo, _funds), options);
+  }) => client.revoke(msg, fee, memo, funds), options);
 }
 export interface Sg721ApproveMutation {
   client: Sg721Client;
@@ -1260,9 +1260,9 @@ export function useSg721ApproveMutation(options?: Omit<UseMutationOptions<Execut
     args: {
       fee,
       memo,
-      _funds
+      funds
     } = {}
-  }) => client.approve(msg, fee, memo, _funds), options);
+  }) => client.approve(msg, fee, memo, funds), options);
 }
 export interface Sg721SendNftMutation {
   client: Sg721Client;
@@ -1284,9 +1284,9 @@ export function useSg721SendNftMutation(options?: Omit<UseMutationOptions<Execut
     args: {
       fee,
       memo,
-      _funds
+      funds
     } = {}
-  }) => client.sendNft(msg, fee, memo, _funds), options);
+  }) => client.sendNft(msg, fee, memo, funds), options);
 }
 export interface Sg721TransferNftMutation {
   client: Sg721Client;
@@ -1307,9 +1307,9 @@ export function useSg721TransferNftMutation(options?: Omit<UseMutationOptions<Ex
     args: {
       fee,
       memo,
-      _funds
+      funds
     } = {}
-  }) => client.transferNft(msg, fee, memo, _funds), options);
+  }) => client.transferNft(msg, fee, memo, funds), options);
 }"
 `;
 
@@ -1330,9 +1330,9 @@ export function useOwnershipUpdateOwnershipMutation(options?: Omit<UseMutationOp
     args: {
       fee,
       memo,
-      _funds
+      funds
     } = {}
-  }) => client.updateOwnership(msg, fee, memo, _funds), options);
+  }) => client.updateOwnership(msg, fee, memo, funds), options);
 }
 export interface OwnershipSetFactoryMutation {
   client: OwnershipClient;
@@ -1352,8 +1352,8 @@ export function useOwnershipSetFactoryMutation(options?: Omit<UseMutationOptions
     args: {
       fee,
       memo,
-      _funds
+      funds
     } = {}
-  }) => client.setFactory(msg, fee, memo, _funds), options);
+  }) => client.setFactory(msg, fee, memo, funds), options);
 }"
 `;
