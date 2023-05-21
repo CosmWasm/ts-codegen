@@ -80,7 +80,7 @@ exports[`AutocompounderAppQueryClient 1`] = `
 `;
 
 exports[`IAutocompounderAppClient 1`] = `
-"export interface IAutocompounderAppClient {
+"export interface IAutocompounderAppClient extends IAutocompounderAppQueryClient {
   accountClient: AbstractAccountClient;
   updateFeeConfig: (params: CamelCasedProperties<Extract<QueryMsg, {
     update_fee_config: unknown;
