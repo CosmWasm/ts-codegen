@@ -431,14 +431,7 @@ export const createReactQueryMutationArgsInterface = ({
       t.tsTypeLiteral([
         propertySignature('fee', OPTIONAL_FEE_PARAM.typeAnnotation, true),
         propertySignature('memo', OPTIONAL_MEMO_PARAM.typeAnnotation, true),
-        {
-          ...propertySignature(
-            'funds',
-            OPTIONAL_FUNDS_PARAM.typeAnnotation,
-            true
-          ),
-          value: '_funds'
-        }
+        propertySignature('funds', OPTIONAL_FUNDS_PARAM.typeAnnotation, true)
       ])
     )
   );
@@ -573,9 +566,11 @@ export const createReactQueryMutationHook = ({
     t.objectProperty(
       t.identifier('args'),
       t.assignmentPattern(
-        t.objectPattern(
-          FIXED_EXECUTE_PARAMS.map((param) => shorthandProperty(param.name))
-        ),
+        t.objectPattern([
+          shorthandProperty('fee'),
+          shorthandProperty('memo'),
+          shorthandProperty('funds')
+        ]),
         t.objectExpression([])
       )
     )
@@ -611,11 +606,11 @@ export const createReactQueryMutationHook = ({
                     t.identifier('client'),
                     t.identifier(execMethodName)
                   ),
-                  (hasMsg ? [t.identifier('msg')] : []).concat(
-                    FIXED_EXECUTE_PARAMS.map((param) =>
-                      t.identifier(param.name)
-                    )
-                  )
+                  (hasMsg ? [t.identifier('msg')] : []).concat([
+                    t.identifier('fee'),
+                    t.identifier('memo'),
+                    t.identifier('funds')
+                  ])
                 ),
                 false // not async
               ),
