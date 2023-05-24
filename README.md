@@ -136,10 +136,11 @@ Typescript types and interfaces are generated in separate files so they can be i
 
 #### Types Options
 
-  | option                        | description                                          |
-  | ----------------------------- | ---------------------------------------------------  |
-  | `types.enabled`               | enable type generation                               |
-  | `types.aliasExecuteMsg`       | generate a type alias based on the contract name     |
+  | option                  | description                                          |
+-------------------------| ----------------------------- | ---------------------------------------------------  |
+  | `types.enabled`         | enable type generation                               |
+  | `types.aliasExecuteMsg` | generate a type alias based on the contract name     |
+  | `types.aliasEntryPoints`               | generate type aliases for the entry points based on the contract name     |
 
 ### Client
 
