@@ -11,18 +11,18 @@ import { InstantiateMsg, ExecuteMsg, QueryMsg, MigrateMsg, SudoMsg, Uint128, Coi
 export interface HackAtomMessage {
   contractAddress: string;
   sender: string;
-  release: (funds?: Coin[]) => MsgExecuteContractEncodeObject;
-  cpuLoop: (funds?: Coin[]) => MsgExecuteContractEncodeObject;
-  storageLoop: (funds?: Coin[]) => MsgExecuteContractEncodeObject;
-  memoryLoop: (funds?: Coin[]) => MsgExecuteContractEncodeObject;
-  messageLoop: (funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  release: (_funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  cpuLoop: (_funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  storageLoop: (_funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  memoryLoop: (_funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  messageLoop: (_funds?: Coin[]) => MsgExecuteContractEncodeObject;
   allocateLargeMemory: ({
     pages
   }: {
     pages: number;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
-  panic: (funds?: Coin[]) => MsgExecuteContractEncodeObject;
-  userErrorsInApiCalls: (funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  panic: (_funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  userErrorsInApiCalls: (_funds?: Coin[]) => MsgExecuteContractEncodeObject;
 }
 export class HackAtomMessageComposer implements HackAtomMessage {
   sender: string;
@@ -41,7 +41,7 @@ export class HackAtomMessageComposer implements HackAtomMessage {
     this.userErrorsInApiCalls = this.userErrorsInApiCalls.bind(this);
   }
 
-  release = (funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  release = (_funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -50,11 +50,11 @@ export class HackAtomMessageComposer implements HackAtomMessage {
         msg: toUtf8(JSON.stringify({
           release: {}
         })),
-        funds
+        funds: _funds
       })
     };
   };
-  cpuLoop = (funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  cpuLoop = (_funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -63,11 +63,11 @@ export class HackAtomMessageComposer implements HackAtomMessage {
         msg: toUtf8(JSON.stringify({
           cpu_loop: {}
         })),
-        funds
+        funds: _funds
       })
     };
   };
-  storageLoop = (funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  storageLoop = (_funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -76,11 +76,11 @@ export class HackAtomMessageComposer implements HackAtomMessage {
         msg: toUtf8(JSON.stringify({
           storage_loop: {}
         })),
-        funds
+        funds: _funds
       })
     };
   };
-  memoryLoop = (funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  memoryLoop = (_funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -89,11 +89,11 @@ export class HackAtomMessageComposer implements HackAtomMessage {
         msg: toUtf8(JSON.stringify({
           memory_loop: {}
         })),
-        funds
+        funds: _funds
       })
     };
   };
-  messageLoop = (funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  messageLoop = (_funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -102,7 +102,7 @@ export class HackAtomMessageComposer implements HackAtomMessage {
         msg: toUtf8(JSON.stringify({
           message_loop: {}
         })),
-        funds
+        funds: _funds
       })
     };
   };
@@ -110,7 +110,7 @@ export class HackAtomMessageComposer implements HackAtomMessage {
     pages
   }: {
     pages: number;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -121,11 +121,11 @@ export class HackAtomMessageComposer implements HackAtomMessage {
             pages
           }
         })),
-        funds
+        funds: _funds
       })
     };
   };
-  panic = (funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  panic = (_funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -134,11 +134,11 @@ export class HackAtomMessageComposer implements HackAtomMessage {
         msg: toUtf8(JSON.stringify({
           panic: {}
         })),
-        funds
+        funds: _funds
       })
     };
   };
-  userErrorsInApiCalls = (funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  userErrorsInApiCalls = (_funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -147,7 +147,7 @@ export class HackAtomMessageComposer implements HackAtomMessage {
         msg: toUtf8(JSON.stringify({
           user_errors_in_api_calls: {}
         })),
-        funds
+        funds: _funds
       })
     };
   };

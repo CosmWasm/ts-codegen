@@ -11,31 +11,31 @@ import { Timestamp, Uint64, Uint128, ConfigResponse, Coin, Addr, Config, Execute
 export interface MinterMessage {
   contractAddress: string;
   sender: string;
-  mint: (funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  mint: (_funds?: Coin[]) => MsgExecuteContractEncodeObject;
   setWhitelist: ({
     whitelist
   }: {
     whitelist: string;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
-  updateStartTime: (funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  updateStartTime: (_funds?: Coin[]) => MsgExecuteContractEncodeObject;
   updatePerAddressLimit: ({
     perAddressLimit
   }: {
     perAddressLimit: number;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   mintTo: ({
     recipient
   }: {
     recipient: string;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   mintFor: ({
     recipient,
     tokenId
   }: {
     recipient: string;
     tokenId: number;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
-  withdraw: (funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  withdraw: (_funds?: Coin[]) => MsgExecuteContractEncodeObject;
 }
 export class MinterMessageComposer implements MinterMessage {
   sender: string;
@@ -53,7 +53,7 @@ export class MinterMessageComposer implements MinterMessage {
     this.withdraw = this.withdraw.bind(this);
   }
 
-  mint = (funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  mint = (_funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -62,7 +62,7 @@ export class MinterMessageComposer implements MinterMessage {
         msg: toUtf8(JSON.stringify({
           mint: {}
         })),
-        funds
+        funds: _funds
       })
     };
   };
@@ -70,7 +70,7 @@ export class MinterMessageComposer implements MinterMessage {
     whitelist
   }: {
     whitelist: string;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -81,11 +81,11 @@ export class MinterMessageComposer implements MinterMessage {
             whitelist
           }
         })),
-        funds
+        funds: _funds
       })
     };
   };
-  updateStartTime = (funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  updateStartTime = (_funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -94,7 +94,7 @@ export class MinterMessageComposer implements MinterMessage {
         msg: toUtf8(JSON.stringify({
           update_start_time: {}
         })),
-        funds
+        funds: _funds
       })
     };
   };
@@ -102,7 +102,7 @@ export class MinterMessageComposer implements MinterMessage {
     perAddressLimit
   }: {
     perAddressLimit: number;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -113,7 +113,7 @@ export class MinterMessageComposer implements MinterMessage {
             per_address_limit: perAddressLimit
           }
         })),
-        funds
+        funds: _funds
       })
     };
   };
@@ -121,7 +121,7 @@ export class MinterMessageComposer implements MinterMessage {
     recipient
   }: {
     recipient: string;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -132,7 +132,7 @@ export class MinterMessageComposer implements MinterMessage {
             recipient
           }
         })),
-        funds
+        funds: _funds
       })
     };
   };
@@ -142,7 +142,7 @@ export class MinterMessageComposer implements MinterMessage {
   }: {
     recipient: string;
     tokenId: number;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -154,11 +154,11 @@ export class MinterMessageComposer implements MinterMessage {
             token_id: tokenId
           }
         })),
-        funds
+        funds: _funds
       })
     };
   };
-  withdraw = (funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  withdraw = (_funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -167,7 +167,7 @@ export class MinterMessageComposer implements MinterMessage {
         msg: toUtf8(JSON.stringify({
           withdraw: {}
         })),
-        funds
+        funds: _funds
       })
     };
   };

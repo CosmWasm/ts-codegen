@@ -16,24 +16,24 @@ export interface Cw4GroupMessage {
     admin
   }: {
     admin?: string;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   updateMembers: ({
     add,
     remove
   }: {
     add: Member[];
     remove: string[];
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   addHook: ({
     addr
   }: {
     addr: string;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   removeHook: ({
     addr
   }: {
     addr: string;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
 }
 export class Cw4GroupMessageComposer implements Cw4GroupMessage {
   sender: string;
@@ -52,7 +52,7 @@ export class Cw4GroupMessageComposer implements Cw4GroupMessage {
     admin
   }: {
     admin?: string;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -63,7 +63,7 @@ export class Cw4GroupMessageComposer implements Cw4GroupMessage {
             admin
           }
         })),
-        funds
+        funds: _funds
       })
     };
   };
@@ -73,7 +73,7 @@ export class Cw4GroupMessageComposer implements Cw4GroupMessage {
   }: {
     add: Member[];
     remove: string[];
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -85,7 +85,7 @@ export class Cw4GroupMessageComposer implements Cw4GroupMessage {
             remove
           }
         })),
-        funds
+        funds: _funds
       })
     };
   };
@@ -93,7 +93,7 @@ export class Cw4GroupMessageComposer implements Cw4GroupMessage {
     addr
   }: {
     addr: string;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -104,7 +104,7 @@ export class Cw4GroupMessageComposer implements Cw4GroupMessage {
             addr
           }
         })),
-        funds
+        funds: _funds
       })
     };
   };
@@ -112,7 +112,7 @@ export class Cw4GroupMessageComposer implements Cw4GroupMessage {
     addr
   }: {
     addr: string;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -123,7 +123,7 @@ export class Cw4GroupMessageComposer implements Cw4GroupMessage {
             addr
           }
         })),
-        funds
+        funds: _funds
       })
     };
   };

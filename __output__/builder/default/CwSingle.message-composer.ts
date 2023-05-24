@@ -19,24 +19,24 @@ export interface CwSingleMessage {
     description: string;
     msgs: CosmosMsgForEmpty[];
     title: string;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   vote: ({
     proposalId,
     vote
   }: {
     proposalId: number;
     vote: Vote;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   execute: ({
     proposalId
   }: {
     proposalId: number;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   close: ({
     proposalId
   }: {
     proposalId: number;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   updateConfig: ({
     allowRevoting,
     dao,
@@ -53,27 +53,27 @@ export interface CwSingleMessage {
     minVotingPeriod?: Duration;
     onlyMembersExecute: boolean;
     threshold: Threshold;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   addProposalHook: ({
     address
   }: {
     address: string;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   removeProposalHook: ({
     address
   }: {
     address: string;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   addVoteHook: ({
     address
   }: {
     address: string;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   removeVoteHook: ({
     address
   }: {
     address: string;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
 }
 export class CwSingleMessageComposer implements CwSingleMessage {
   sender: string;
@@ -101,7 +101,7 @@ export class CwSingleMessageComposer implements CwSingleMessage {
     description: string;
     msgs: CosmosMsgForEmpty[];
     title: string;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -114,7 +114,7 @@ export class CwSingleMessageComposer implements CwSingleMessage {
             title
           }
         })),
-        funds
+        funds: _funds
       })
     };
   };
@@ -124,7 +124,7 @@ export class CwSingleMessageComposer implements CwSingleMessage {
   }: {
     proposalId: number;
     vote: Vote;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -136,7 +136,7 @@ export class CwSingleMessageComposer implements CwSingleMessage {
             vote
           }
         })),
-        funds
+        funds: _funds
       })
     };
   };
@@ -144,7 +144,7 @@ export class CwSingleMessageComposer implements CwSingleMessage {
     proposalId
   }: {
     proposalId: number;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -155,7 +155,7 @@ export class CwSingleMessageComposer implements CwSingleMessage {
             proposal_id: proposalId
           }
         })),
-        funds
+        funds: _funds
       })
     };
   };
@@ -163,7 +163,7 @@ export class CwSingleMessageComposer implements CwSingleMessage {
     proposalId
   }: {
     proposalId: number;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -174,7 +174,7 @@ export class CwSingleMessageComposer implements CwSingleMessage {
             proposal_id: proposalId
           }
         })),
-        funds
+        funds: _funds
       })
     };
   };
@@ -194,7 +194,7 @@ export class CwSingleMessageComposer implements CwSingleMessage {
     minVotingPeriod?: Duration;
     onlyMembersExecute: boolean;
     threshold: Threshold;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -211,7 +211,7 @@ export class CwSingleMessageComposer implements CwSingleMessage {
             threshold
           }
         })),
-        funds
+        funds: _funds
       })
     };
   };
@@ -219,7 +219,7 @@ export class CwSingleMessageComposer implements CwSingleMessage {
     address
   }: {
     address: string;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -230,7 +230,7 @@ export class CwSingleMessageComposer implements CwSingleMessage {
             address
           }
         })),
-        funds
+        funds: _funds
       })
     };
   };
@@ -238,7 +238,7 @@ export class CwSingleMessageComposer implements CwSingleMessage {
     address
   }: {
     address: string;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -249,7 +249,7 @@ export class CwSingleMessageComposer implements CwSingleMessage {
             address
           }
         })),
-        funds
+        funds: _funds
       })
     };
   };
@@ -257,7 +257,7 @@ export class CwSingleMessageComposer implements CwSingleMessage {
     address
   }: {
     address: string;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -268,7 +268,7 @@ export class CwSingleMessageComposer implements CwSingleMessage {
             address
           }
         })),
-        funds
+        funds: _funds
       })
     };
   };
@@ -276,7 +276,7 @@ export class CwSingleMessageComposer implements CwSingleMessage {
     address
   }: {
     address: string;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -287,7 +287,7 @@ export class CwSingleMessageComposer implements CwSingleMessage {
             address
           }
         })),
-        funds
+        funds: _funds
       })
     };
   };

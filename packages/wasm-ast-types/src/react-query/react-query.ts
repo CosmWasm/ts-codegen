@@ -5,8 +5,10 @@ import { ExecuteMsg, QueryMsg } from '../types';
 import {
   callExpression,
   createTypedObjectParams,
+  FIXED_EXECUTE_PARAMS,
   getMessageProperties,
   identifier,
+  OPTIONAL_FUNDS_PARAM,
   tsObjectPattern,
   tsPropertySignature
 } from '../utils';
@@ -24,8 +26,8 @@ import {
 } from '../utils/types';
 import { ReactQueryOptions, RenderContext } from '../context';
 import { JSONSchema } from '../types';
-import { FIXED_EXECUTE_PARAMS } from '../client';
 import { ArrowFunctionExpression, objectExpression } from '@babel/types';
+import { OPTIONAL_FEE_PARAM, OPTIONAL_MEMO_PARAM } from '../utils/constants';
 
 interface ReactQueryHookQuery {
   context: RenderContext;
@@ -120,7 +122,7 @@ export const createReactQueryHooks = ({
         context,
         queryFactoryName,
         queryKeysName,
-        queryMsgs,
+        queryMsgs
       })
     );
   }
@@ -407,7 +409,7 @@ export const createReactQueryMutationArgsInterface = ({
     )
   ];
 
-  const msgType = createTypedObjectParams(context, jsonschema)?.typeAnnotation
+  const msgType = createTypedObjectParams(context, jsonschema)?.typeAnnotation;
 
   if (msgType) {
     body.push(
@@ -415,7 +417,8 @@ export const createReactQueryMutationArgsInterface = ({
         t.identifier('msg'),
         // @ts-ignore
         msgType
-      ));
+      )
+    );
   }
 
   context.addUtil('StdFee');
@@ -425,16 +428,11 @@ export const createReactQueryMutationArgsInterface = ({
     t.identifier('args'),
     t.tsTypeAnnotation(
       // @ts-ignore:next-line
-      t.tsTypeLiteral(
-        FIXED_EXECUTE_PARAMS.map((param) =>
-          propertySignature(
-            param.name,
-            // @ts-ignore:next-line
-            param.typeAnnotation,
-            param.optional
-          ) as t.TSTypeElement
-        )
-      )
+      t.tsTypeLiteral([
+        propertySignature('fee', OPTIONAL_FEE_PARAM.typeAnnotation, true),
+        propertySignature('memo', OPTIONAL_MEMO_PARAM.typeAnnotation, true),
+        propertySignature('funds', OPTIONAL_FUNDS_PARAM.typeAnnotation, true)
+      ])
     )
   );
 
@@ -568,9 +566,11 @@ export const createReactQueryMutationHook = ({
     t.objectProperty(
       t.identifier('args'),
       t.assignmentPattern(
-        t.objectPattern(
-          FIXED_EXECUTE_PARAMS.map((param) => shorthandProperty(param.name))
-        ),
+        t.objectPattern([
+          shorthandProperty('fee'),
+          shorthandProperty('memo'),
+          shorthandProperty('funds')
+        ]),
         t.objectExpression([])
       )
     )
@@ -606,11 +606,11 @@ export const createReactQueryMutationHook = ({
                     t.identifier('client'),
                     t.identifier(execMethodName)
                   ),
-                  (hasMsg ? [t.identifier('msg')] : []).concat(
-                    FIXED_EXECUTE_PARAMS.map((param) =>
-                      t.identifier(param.name)
-                    )
-                  )
+                  (hasMsg ? [t.identifier('msg')] : []).concat([
+                    t.identifier('fee'),
+                    t.identifier('memo'),
+                    t.identifier('funds')
+                  ])
                 ),
                 false // not async
               ),
@@ -787,7 +787,9 @@ function createReactQueryFactory({
                       t.tsTypeReference(
                         t.identifier(hookParamsTypeName),
                         t.tsTypeParameterInstantiation([
-                          t.tsTypeReference(t.identifier(GENERIC_SELECT_RESPONSE_NAME))
+                          t.tsTypeReference(
+                            t.identifier(GENERIC_SELECT_RESPONSE_NAME)
+                          )
                         ])
                       )
                     )
@@ -840,7 +842,9 @@ function createReactQueryFactory({
                   t.tsTypeParameterInstantiation([
                     t.tsTypeReference(t.identifier(responseType)),
                     t.tsTypeReference(t.identifier('Error')),
-                    t.tsTypeReference(t.identifier(GENERIC_SELECT_RESPONSE_NAME))
+                    t.tsTypeReference(
+                      t.identifier(GENERIC_SELECT_RESPONSE_NAME)
+                    )
                   ])
                 )
               );
@@ -871,7 +875,6 @@ function createReactQueryHookGenericInterface({
   QueryClient,
   genericQueryInterfaceName
 }: ReactQueryHookGenericInterface) {
-
   const options = context.options.reactQuery;
   const genericResponseTypeName = 'TResponse';
 

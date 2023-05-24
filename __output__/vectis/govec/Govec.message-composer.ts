@@ -15,40 +15,40 @@ export interface GovecMessage {
     msgs
   }: {
     msgs: CosmosMsgForEmpty[];
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
-  revertFreezeStatus: (funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  revertFreezeStatus: (_funds?: Coin[]) => MsgExecuteContractEncodeObject;
   relay: ({
     transaction
   }: {
     transaction: RelayTransaction;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   rotateUserKey: ({
     newUserAddress
   }: {
     newUserAddress: string;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   addRelayer: ({
     newRelayerAddress
   }: {
     newRelayerAddress: Addr;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   removeRelayer: ({
     relayerAddress
   }: {
     relayerAddress: Addr;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   updateGuardians: ({
     guardians,
     newMultisigCodeId
   }: {
     guardians: Guardians;
     newMultisigCodeId?: number;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   updateLabel: ({
     newLabel
   }: {
     newLabel: string;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
 }
 export class GovecMessageComposer implements GovecMessage {
   sender: string;
@@ -71,7 +71,7 @@ export class GovecMessageComposer implements GovecMessage {
     msgs
   }: {
     msgs: CosmosMsgForEmpty[];
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -82,11 +82,11 @@ export class GovecMessageComposer implements GovecMessage {
             msgs
           }
         })),
-        funds
+        funds: _funds
       })
     };
   };
-  revertFreezeStatus = (funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  revertFreezeStatus = (_funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -95,7 +95,7 @@ export class GovecMessageComposer implements GovecMessage {
         msg: toUtf8(JSON.stringify({
           revert_freeze_status: {}
         })),
-        funds
+        funds: _funds
       })
     };
   };
@@ -103,7 +103,7 @@ export class GovecMessageComposer implements GovecMessage {
     transaction
   }: {
     transaction: RelayTransaction;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -114,7 +114,7 @@ export class GovecMessageComposer implements GovecMessage {
             transaction
           }
         })),
-        funds
+        funds: _funds
       })
     };
   };
@@ -122,7 +122,7 @@ export class GovecMessageComposer implements GovecMessage {
     newUserAddress
   }: {
     newUserAddress: string;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -133,7 +133,7 @@ export class GovecMessageComposer implements GovecMessage {
             new_user_address: newUserAddress
           }
         })),
-        funds
+        funds: _funds
       })
     };
   };
@@ -141,7 +141,7 @@ export class GovecMessageComposer implements GovecMessage {
     newRelayerAddress
   }: {
     newRelayerAddress: Addr;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -152,7 +152,7 @@ export class GovecMessageComposer implements GovecMessage {
             new_relayer_address: newRelayerAddress
           }
         })),
-        funds
+        funds: _funds
       })
     };
   };
@@ -160,7 +160,7 @@ export class GovecMessageComposer implements GovecMessage {
     relayerAddress
   }: {
     relayerAddress: Addr;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -171,7 +171,7 @@ export class GovecMessageComposer implements GovecMessage {
             relayer_address: relayerAddress
           }
         })),
-        funds
+        funds: _funds
       })
     };
   };
@@ -181,7 +181,7 @@ export class GovecMessageComposer implements GovecMessage {
   }: {
     guardians: Guardians;
     newMultisigCodeId?: number;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -193,7 +193,7 @@ export class GovecMessageComposer implements GovecMessage {
             new_multisig_code_id: newMultisigCodeId
           }
         })),
-        funds
+        funds: _funds
       })
     };
   };
@@ -201,7 +201,7 @@ export class GovecMessageComposer implements GovecMessage {
     newLabel
   }: {
     newLabel: string;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -212,7 +212,7 @@ export class GovecMessageComposer implements GovecMessage {
             new_label: newLabel
           }
         })),
-        funds
+        funds: _funds
       })
     };
   };

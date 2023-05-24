@@ -21,24 +21,24 @@ export interface Cw3FixedMultiSigMessage {
     latest?: Expiration;
     msgs: CosmosMsgForEmpty[];
     title: string;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   vote: ({
     proposalId,
     vote
   }: {
     proposalId: number;
     vote: Vote;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   execute: ({
     proposalId
   }: {
     proposalId: number;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   close: ({
     proposalId
   }: {
     proposalId: number;
-  }, funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
 }
 export class Cw3FixedMultiSigMessageComposer implements Cw3FixedMultiSigMessage {
   sender: string;
@@ -63,7 +63,7 @@ export class Cw3FixedMultiSigMessageComposer implements Cw3FixedMultiSigMessage 
     latest?: Expiration;
     msgs: CosmosMsgForEmpty[];
     title: string;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -77,7 +77,7 @@ export class Cw3FixedMultiSigMessageComposer implements Cw3FixedMultiSigMessage 
             title
           }
         })),
-        funds
+        funds: _funds
       })
     };
   };
@@ -87,7 +87,7 @@ export class Cw3FixedMultiSigMessageComposer implements Cw3FixedMultiSigMessage 
   }: {
     proposalId: number;
     vote: Vote;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -99,7 +99,7 @@ export class Cw3FixedMultiSigMessageComposer implements Cw3FixedMultiSigMessage 
             vote
           }
         })),
-        funds
+        funds: _funds
       })
     };
   };
@@ -107,7 +107,7 @@ export class Cw3FixedMultiSigMessageComposer implements Cw3FixedMultiSigMessage 
     proposalId
   }: {
     proposalId: number;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -118,7 +118,7 @@ export class Cw3FixedMultiSigMessageComposer implements Cw3FixedMultiSigMessage 
             proposal_id: proposalId
           }
         })),
-        funds
+        funds: _funds
       })
     };
   };
@@ -126,7 +126,7 @@ export class Cw3FixedMultiSigMessageComposer implements Cw3FixedMultiSigMessage 
     proposalId
   }: {
     proposalId: number;
-  }, funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -137,7 +137,7 @@ export class Cw3FixedMultiSigMessageComposer implements Cw3FixedMultiSigMessage 
             proposal_id: proposalId
           }
         })),
-        funds
+        funds: _funds
       })
     };
   };

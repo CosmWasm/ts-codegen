@@ -189,24 +189,24 @@ export interface Cw3FixedMultiSigInterface extends Cw3FixedMultiSigReadOnlyInter
     latest?: Expiration;
     msgs: CosmosMsgForEmpty[];
     title: string;
-  }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
   vote: ({
     proposalId,
     vote
   }: {
     proposalId: number;
     vote: Vote;
-  }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
   execute: ({
     proposalId
   }: {
     proposalId: number;
-  }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
   close: ({
     proposalId
   }: {
     proposalId: number;
-  }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
 }
 export class Cw3FixedMultiSigClient extends Cw3FixedMultiSigQueryClient implements Cw3FixedMultiSigInterface {
   client: SigningCosmWasmClient;
@@ -234,7 +234,7 @@ export class Cw3FixedMultiSigClient extends Cw3FixedMultiSigQueryClient implemen
     latest?: Expiration;
     msgs: CosmosMsgForEmpty[];
     title: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       propose: {
         description,
@@ -242,7 +242,7 @@ export class Cw3FixedMultiSigClient extends Cw3FixedMultiSigQueryClient implemen
         msgs,
         title
       }
-    }, fee, memo, funds);
+    }, fee, memo, _funds);
   };
   vote = async ({
     proposalId,
@@ -250,34 +250,34 @@ export class Cw3FixedMultiSigClient extends Cw3FixedMultiSigQueryClient implemen
   }: {
     proposalId: number;
     vote: Vote;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       vote: {
         proposal_id: proposalId,
         vote
       }
-    }, fee, memo, funds);
+    }, fee, memo, _funds);
   };
   execute = async ({
     proposalId
   }: {
     proposalId: number;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       execute: {
         proposal_id: proposalId
       }
-    }, fee, memo, funds);
+    }, fee, memo, _funds);
   };
   close = async ({
     proposalId
   }: {
     proposalId: number;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       close: {
         proposal_id: proposalId
       }
-    }, fee, memo, funds);
+    }, fee, memo, _funds);
   };
 }
