@@ -16,6 +16,7 @@ export interface ReactQueryOptions {
 
 export interface AbstractAppOptions {
   enabled?: boolean;
+  clientPrefix?: string;
 }
 
 export interface TSClientOptions {
@@ -112,7 +113,8 @@ export const defaultOptions: RenderOptions = {
         queryKeys: false
     },
     abstractApp: {
-        enabled: false
+        enabled: false,
+        clientPrefix: 'App'
     }
 };
 

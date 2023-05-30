@@ -356,3 +356,31 @@ it('abstract-app/etf', async () => {
   });
   await builder.build();
 })
+
+it('abstract-app/etf-prefix', async () => {
+  const outPath = OUTPUT_DIR + '/abstract/apps/etf-prefix/';
+  const schemaDir = FIXTURE_DIR + '/abstract/apps/etf/';
+
+  const builder = new TSBuilder({
+    contracts: [
+      schemaDir
+    ],
+    outPath,
+    options: {
+      bundle: {
+        enabled: false,
+      },
+      messageComposer: {
+        enabled: true
+      },
+      msgBuilder: {
+        enabled: true
+      },
+      abstractApp: {
+        enabled: true,
+        clientPrefix: 'Test'
+      }
+    }
+  });
+  await builder.build();
+})

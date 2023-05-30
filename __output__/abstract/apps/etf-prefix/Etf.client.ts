@@ -10,15 +10,15 @@ import { AbstractQueryClient, AbstractAccountQueryClient, AbstractAccountClient,
 import { StdFee, Coin } from "@cosmjs/amino";
 import { Decimal, InstantiateMsg, ExecuteMsg, Uint128, AssetInfoBaseForString, AssetBaseForString, QueryMsg, MigrateMsg, StateResponse } from "./Etf.types";
 import { EtfQueryMsgBuilder, EtfExecuteMsgBuilder } from "./Etf.msg-builder";
-export interface IEtfAppQueryClient {
+export interface IEtfTestQueryClient {
   moduleId: string;
   accountQueryClient: AbstractAccountQueryClient;
   _moduleAddress: string | undefined;
   state: () => Promise<StateResponse>;
-  connectSigningClient: (signingClient: SigningCosmWasmClient, address: string) => EtfAppClient;
+  connectSigningClient: (signingClient: SigningCosmWasmClient, address: string) => EtfTestClient;
   getAddress: () => Promise<string>;
 }
-export class EtfAppQueryClient implements IEtfAppQueryClient {
+export class EtfTestQueryClient implements IEtfTestQueryClient {
   accountQueryClient: AbstractAccountQueryClient;
   moduleId: string;
   _moduleAddress: string | undefined;
@@ -56,8 +56,8 @@ export class EtfAppQueryClient implements IEtfAppQueryClient {
 
     return this._moduleAddress!;
   };
-  connectSigningClient = (signingClient: SigningCosmWasmClient, address: string): EtfAppClient => {
-    return new EtfAppClient({
+  connectSigningClient = (signingClient: SigningCosmWasmClient, address: string): EtfTestClient => {
+    return new EtfTestClient({
       accountId: this.accountQueryClient.accountId,
       managerAddress: this.accountQueryClient.managerAddress,
       proxyAddress: this.accountQueryClient.proxyAddress,
@@ -73,7 +73,7 @@ export class EtfAppQueryClient implements IEtfAppQueryClient {
     });
   };
 }
-export interface IEtfAppClient extends IEtfAppQueryClient {
+export interface IEtfTestClient extends IEtfTestQueryClient {
   accountClient: AbstractAccountClient;
   provideLiquidity: (params: CamelCasedProperties<Extract<ExecuteMsg, {
     provide_liquidity: unknown;
@@ -82,7 +82,7 @@ export interface IEtfAppClient extends IEtfAppQueryClient {
     set_fee: unknown;
   }>["set_fee"]>, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
 }
-export class EtfAppClient extends EtfAppQueryClient implements IEtfAppClient {
+export class EtfTestClient extends EtfTestQueryClient implements IEtfTestClient {
   accountClient: AbstractAccountClient;
 
   constructor({

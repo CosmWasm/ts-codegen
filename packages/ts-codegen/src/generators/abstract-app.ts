@@ -34,11 +34,13 @@ export default async (
   const ExecuteMsg = findExecuteMsg(schemas);
   const typeHash = await findAndParseTypes(schemas);
 
+  const appPrefix = options.clientPrefix ?? '';
+
   const executeClientName = pascal(`${contractName}Client`);
   const queryClientName = pascal(`${contractName}QueryClient`);
-  const appExecuteClientName = pascal(`${contractName}AppClient`);
+  const appExecuteClientName = pascal(`${contractName}${appPrefix}Client`);
   const appExecuteInterfaceName = pascal(`I${appExecuteClientName}`);
-  const appQueryClientName = pascal(`${contractName}AppQueryClient`);
+  const appQueryClientName = pascal(`${contractName}${appPrefix}QueryClient`);
   const appQueryInterfaceName = pascal(`I${appQueryClientName}`);
   // TODO
   const moduleName = contractName;

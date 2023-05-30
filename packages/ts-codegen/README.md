@@ -296,6 +296,7 @@ cosmwasm-ts-codegen generate \
 | option      | description                   |
 -------------|-------------------------------| ------------------------------------------------------------------- |
 | `abstractApp.enabled` | enable the abstractApp plugin |
+| `abstractApp.clientPrefix` | prefix the client name, defaults to `App` |
 
 ### Bundles
 

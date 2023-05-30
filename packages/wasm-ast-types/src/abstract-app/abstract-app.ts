@@ -63,6 +63,7 @@ const ABSTRACT_ACCOUNT_CLIENT = 'AbstractAccountClient';
 const ABSTRACT_CLIENT = 'AbstractClient';
 const ABSTRACT_QUERY_CLIENT = 'AbstractQueryClient';
 const ABSTRACT_ACCOUNT_QUERY_CLIENT = 'AbstractAccountQueryClient';
+const ADDRESS_GETTER_FN_NAME = 'getAddress';
 
 function extractCamelcasedMethodParams(
   type: 'ExecuteMsg' | 'QueryMsg',
@@ -112,7 +113,7 @@ const staticQueryInterfaceMethods = (connectedAppClientName: string) => {
       )
     ),
     t.tsPropertySignature(
-      t.identifier('address'),
+      t.identifier(ADDRESS_GETTER_FN_NAME),
       t.tsTypeAnnotation(
         t.tsFunctionType(
           undefined,
@@ -356,7 +357,7 @@ const EXECUTE_APP_FN = t.classProperty(
                   t.callExpression(
                     t.memberExpression(
                       t.thisExpression(),
-                      t.identifier('address')
+                      t.identifier(ADDRESS_GETTER_FN_NAME)
                     ),
                     []
                   )
@@ -401,7 +402,11 @@ export const createAppQueryClass = (
   });
 
   methods.push(ADDRESS_ACCESSOR_FN);
-  methods.push(connectSigningClientMethod(`${moduleName}AppClient`));
+  methods.push(
+    connectSigningClientMethod(
+      `${moduleName}${context.options.abstractApp?.clientPrefix ?? ''}Client`
+    )
+  );
   methods.push(QUERY_APP_FN);
 
   return t.exportNamedDeclaration(
@@ -505,7 +510,7 @@ export const createAppQueryClass = (
 };
 
 const ADDRESS_ACCESSOR_FN = t.classProperty(
-  t.identifier('address'),
+  t.identifier(ADDRESS_GETTER_FN_NAME),
   arrowFunctionExpression(
     [],
     t.blockStatement([
@@ -541,10 +546,10 @@ const ADDRESS_ACCESSOR_FN = t.classProperty(
         ])
       ),
       t.returnStatement(
-        t.memberExpression(t.thisExpression(), CLASS_VARS._moduleAddress)
+        // The address must be available because we just retrieved it
+        t.memberExpression(t.thisExpression(), t.identifier('_moduleAddress!'))
       )
     ]),
-
     promiseTypeAnnotation('string'),
     true
   )

@@ -32,7 +32,7 @@ export class AbstractAppPlugin extends BuilderPluginBase<RenderOptions> {
   > {
     const options = this.option.abstractApp ?? {};
 
-    const { enabled } = options;
+    const { enabled, clientPrefix } = options;
 
     if (!enabled) {
       return;
@@ -49,9 +49,11 @@ export class AbstractAppPlugin extends BuilderPluginBase<RenderOptions> {
     const ExecuteMsg = findExecuteMsg(schemas);
     const typeHash = await findAndParseTypes(schemas);
 
-    const appExecuteClientName = pascal(`${name}AppClient`);
+    const appPrefix = clientPrefix ?? '';
+
+    const appExecuteClientName = pascal(`${name}${appPrefix}Client`);
     const appExecuteInterfaceName = pascal(`I${appExecuteClientName}`);
-    const appQueryClientName = pascal(`${name}AppQueryClient`);
+    const appQueryClientName = pascal(`${name}${appPrefix}QueryClient`);
     const appQueryInterfaceName = pascal(`I${appQueryClientName}`);
     // TODO
     const moduleName = name;

@@ -5,6 +5,7 @@ TSBuilder {
   "files": Array [],
   "options": Object {
     "abstractApp": Object {
+      "clientPrefix": "App",
       "enabled": false,
     },
     "bundle": Object {
@@ -44,6 +45,7 @@ TSBuilder {
     TypesPlugin {
       "option": Object {
         "abstractApp": Object {
+          "clientPrefix": "App",
           "enabled": false,
         },
         "bundle": Object {
@@ -84,6 +86,7 @@ TSBuilder {
     ClientPlugin {
       "option": Object {
         "abstractApp": Object {
+          "clientPrefix": "App",
           "enabled": false,
         },
         "bundle": Object {
@@ -124,6 +127,7 @@ TSBuilder {
     AbstractAppPlugin {
       "option": Object {
         "abstractApp": Object {
+          "clientPrefix": "App",
           "enabled": false,
         },
         "bundle": Object {
@@ -164,6 +168,7 @@ TSBuilder {
     MessageComposerPlugin {
       "option": Object {
         "abstractApp": Object {
+          "clientPrefix": "App",
           "enabled": false,
         },
         "bundle": Object {
@@ -204,6 +209,7 @@ TSBuilder {
     ReactQueryPlugin {
       "option": Object {
         "abstractApp": Object {
+          "clientPrefix": "App",
           "enabled": false,
         },
         "bundle": Object {
@@ -244,6 +250,7 @@ TSBuilder {
     RecoilPlugin {
       "option": Object {
         "abstractApp": Object {
+          "clientPrefix": "App",
           "enabled": false,
         },
         "bundle": Object {
@@ -286,6 +293,7 @@ TSBuilder {
     MsgBuilderPlugin {
       "option": Object {
         "abstractApp": Object {
+          "clientPrefix": "App",
           "enabled": false,
         },
         "bundle": Object {
@@ -332,6 +340,7 @@ TSBuilder {
   "files": Array [],
   "options": Object {
     "abstractApp": Object {
+      "clientPrefix": "App",
       "enabled": false,
     },
     "bundle": Object {
@@ -371,6 +380,7 @@ TSBuilder {
     TypesPlugin {
       "option": Object {
         "abstractApp": Object {
+          "clientPrefix": "App",
           "enabled": false,
         },
         "bundle": Object {
@@ -411,6 +421,7 @@ TSBuilder {
     ClientPlugin {
       "option": Object {
         "abstractApp": Object {
+          "clientPrefix": "App",
           "enabled": false,
         },
         "bundle": Object {
@@ -451,6 +462,7 @@ TSBuilder {
     AbstractAppPlugin {
       "option": Object {
         "abstractApp": Object {
+          "clientPrefix": "App",
           "enabled": false,
         },
         "bundle": Object {
@@ -491,6 +503,7 @@ TSBuilder {
     MessageComposerPlugin {
       "option": Object {
         "abstractApp": Object {
+          "clientPrefix": "App",
           "enabled": false,
         },
         "bundle": Object {
@@ -531,6 +544,7 @@ TSBuilder {
     ReactQueryPlugin {
       "option": Object {
         "abstractApp": Object {
+          "clientPrefix": "App",
           "enabled": false,
         },
         "bundle": Object {
@@ -571,6 +585,7 @@ TSBuilder {
     RecoilPlugin {
       "option": Object {
         "abstractApp": Object {
+          "clientPrefix": "App",
           "enabled": false,
         },
         "bundle": Object {
@@ -613,6 +628,7 @@ TSBuilder {
     MsgBuilderPlugin {
       "option": Object {
         "abstractApp": Object {
+          "clientPrefix": "App",
           "enabled": false,
         },
         "bundle": Object {

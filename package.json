@@ -1,5 +1,5 @@
 {
-  "name": "@cosmwasm/ts-codegen",
+  "name": "@abstract-money/ts-codegen",
   "version": "0.0.1",
   "publishConfig": {
     "access": "restricted"
