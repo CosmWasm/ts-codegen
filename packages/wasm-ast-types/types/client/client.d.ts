@@ -1,9 +1,7 @@
 import * as t from '@babel/types';
-import { QueryMsg, ExecuteMsg } from '../types';
+import { ExecuteMsg, JSONSchema, QueryMsg } from '../types';
 import { RenderContext } from '../context';
-import { JSONSchema } from '../types';
 export declare const CONSTANT_EXEC_PARAMS: (t.AssignmentPattern | t.Identifier)[];
-export declare const FIXED_EXECUTE_PARAMS: t.Identifier[];
 export declare const createWasmQueryMethod: (context: RenderContext, jsonschema: any) => t.ClassProperty;
 export declare const createQueryClass: (context: RenderContext, className: string, implementsClassName: string, queryMsg: QueryMsg) => t.ExportNamedDeclaration;
 export declare const getWasmMethodArgs: (context: RenderContext, jsonschema: JSONSchema) => t.ObjectProperty[];

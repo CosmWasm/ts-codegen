@@ -1,0 +1,63 @@
+[package]
+name = "sg721-updatable"
+authors = [
+    "John Y <j@noreply.publicawesome.com>",
+    "Shane Vitarana <s@noreply.publicawesome.com>",
+]
+exclude = [
+    # Those files are rust-optimizer artifacts. You might want to commit them for convenience but they should not be part of the source code publication.
+    "contract.wasm",
+    "hash.txt",
+]
+description = "Stargaze Updatable NFT collection contract"
+version = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+repository = { workspace = true }
+license = { workspace = true }
+
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[profile.release]
+opt-level        = 3
+debug            = false
+rpath            = false
+lto              = true
+debug-assertions = false
+codegen-units    = 1
+panic            = 'abort'
+incremental      = false
+overflow-checks  = true
+
+[features]
+# for more explicit tests, cargo test --features=backtraces
+backtraces = ["cosmwasm-std/backtraces"]
+# use library feature to disable all instantiate/execute/query exports
+library = []
+
+
+[dependencies]
+cosmwasm-schema = { workspace = true }
+cosmwasm-std    = { workspace = true }
+cw-storage-plus = { workspace = true }
+cw-utils        = { workspace = true }
+cw2             = { workspace = true }
+cw721           = { workspace = true }
+schemars        = { workspace = true }
+serde           = { workspace = true }
+thiserror       = { workspace = true }
+cw721-base      = { workspace = true, features = ["library"] }
+sg1             = { workspace = true }
+sg721           = { workspace = true }
+sg721-base      = { workspace = true, features = ["library"] }
+sg-std          = { workspace = true }
+semver          = { workspace = true }
+
+[dev-dependencies]
+cosmwasm-schema = { workspace = true }
+cw-multi-test   = { workspace = true }
+cw721           = { workspace = true }
