@@ -8,21 +8,19 @@ import { Coin } from "@cosmjs/amino";
 import { MsgExecuteContractEncodeObject } from "@cosmjs/cosmwasm-stargate";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
-import { InstantiateMsg, ExecuteMsg, Binary, Expiration, Timestamp, Uint64, QueryMsg, VaultBaseForString, Uint128, ArrayOfSharesResponseItem, SharesResponseItem, AllNftInfoResponseForEmpty, OwnerOfResponse, Approval, NftInfoResponseForEmpty, Empty, OperatorsResponse, String, TokensResponse, ArrayOfVaultBaseForString, ApprovalResponse, ApprovalsResponse, ContractInfoResponse, MinterResponse, NumTokensResponse } from "./AccountsNft.types";
-export interface AccountsNftMessage {
+import { Expiration, Timestamp, Uint64, AllNftInfoResponse, OwnerOfResponse, Approval, NftInfoResponseForEmpty, Empty, AllOperatorsResponse, AllTokensResponse, ApprovalResponse, ApprovalsResponse, Decimal, CollectionInfoResponse, RoyaltyInfoResponse, ContractInfoResponse, ExecuteMsgForNullable_EmptyAndEmpty, Binary, UpdateCollectionInfoMsgForRoyaltyInfoResponse, InstantiateMsg, CollectionInfoForRoyaltyInfoResponse, MinterResponse, NftInfoResponse, NumTokensResponse, QueryMsg, TokensResponse } from "./Sg721Updatable.types";
+export interface Sg721UpdatableMessage {
   contractAddress: string;
   sender: string;
-  proposeNewOwner: ({
-    newOwner
+  freezeTokenMetadata: (_funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  updateTokenMetadata: ({
+    tokenId,
+    tokenUri
   }: {
-    newOwner: string;
+    tokenId: string;
+    tokenUri?: string;
   }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
-  acceptOwnership: (_funds?: Coin[]) => MsgExecuteContractEncodeObject;
-  mint: ({
-    user
-  }: {
-    user: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  enableUpdatable: (_funds?: Coin[]) => MsgExecuteContractEncodeObject;
   transferNft: ({
     recipient,
     tokenId
@@ -72,17 +70,40 @@ export interface AccountsNftMessage {
   }: {
     tokenId: string;
   }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  updateCollectionInfo: ({
+    collectionInfo
+  }: {
+    collectionInfo: UpdateCollectionInfoMsgForRoyaltyInfoResponse;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  updateTradingStartTime: (_funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  freezeCollectionInfo: (_funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  mint: ({
+    extension,
+    owner,
+    tokenId,
+    tokenUri
+  }: {
+    extension?: Empty;
+    owner: string;
+    tokenId: string;
+    tokenUri?: string;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  extension: ({
+    msg
+  }: {
+    msg: Empty;
+  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
 }
-export class AccountsNftMessageComposer implements AccountsNftMessage {
+export class Sg721UpdatableMessageComposer implements Sg721UpdatableMessage {
   sender: string;
   contractAddress: string;
 
   constructor(sender: string, contractAddress: string) {
     this.sender = sender;
     this.contractAddress = contractAddress;
-    this.proposeNewOwner = this.proposeNewOwner.bind(this);
-    this.acceptOwnership = this.acceptOwnership.bind(this);
-    this.mint = this.mint.bind(this);
+    this.freezeTokenMetadata = this.freezeTokenMetadata.bind(this);
+    this.updateTokenMetadata = this.updateTokenMetadata.bind(this);
+    this.enableUpdatable = this.enableUpdatable.bind(this);
     this.transferNft = this.transferNft.bind(this);
     this.sendNft = this.sendNft.bind(this);
     this.approve = this.approve.bind(this);
@@ -90,12 +111,32 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
     this.approveAll = this.approveAll.bind(this);
     this.revokeAll = this.revokeAll.bind(this);
     this.burn = this.burn.bind(this);
+    this.updateCollectionInfo = this.updateCollectionInfo.bind(this);
+    this.updateTradingStartTime = this.updateTradingStartTime.bind(this);
+    this.freezeCollectionInfo = this.freezeCollectionInfo.bind(this);
+    this.mint = this.mint.bind(this);
+    this.extension = this.extension.bind(this);
   }
 
-  proposeNewOwner = ({
-    newOwner
+  freezeTokenMetadata = (_funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    return {
+      typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
+      value: MsgExecuteContract.fromPartial({
+        sender: this.sender,
+        contract: this.contractAddress,
+        msg: toUtf8(JSON.stringify({
+          freeze_token_metadata: {}
+        })),
+        funds: _funds
+      })
+    };
+  };
+  updateTokenMetadata = ({
+    tokenId,
+    tokenUri
   }: {
-    newOwner: string;
+    tokenId: string;
+    tokenUri?: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
@@ -103,41 +144,23 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify({
-          propose_new_owner: {
-            new_owner: newOwner
+          update_token_metadata: {
+            token_id: tokenId,
+            token_uri: tokenUri
           }
         })),
         funds: _funds
       })
     };
   };
-  acceptOwnership = (_funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  enableUpdatable = (_funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify({
-          accept_ownership: {}
-        })),
-        funds: _funds
-      })
-    };
-  };
-  mint = ({
-    user
-  }: {
-    user: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
-    return {
-      typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
-      value: MsgExecuteContract.fromPartial({
-        sender: this.sender,
-        contract: this.contractAddress,
-        msg: toUtf8(JSON.stringify({
-          mint: {
-            user
-          }
+          enable_updatable: {}
         })),
         funds: _funds
       })
@@ -291,6 +314,98 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
         msg: toUtf8(JSON.stringify({
           burn: {
             token_id: tokenId
+          }
+        })),
+        funds: _funds
+      })
+    };
+  };
+  updateCollectionInfo = ({
+    collectionInfo
+  }: {
+    collectionInfo: UpdateCollectionInfoMsgForRoyaltyInfoResponse;
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    return {
+      typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
+      value: MsgExecuteContract.fromPartial({
+        sender: this.sender,
+        contract: this.contractAddress,
+        msg: toUtf8(JSON.stringify({
+          update_collection_info: {
+            collection_info: collectionInfo
+          }
+        })),
+        funds: _funds
+      })
+    };
+  };
+  updateTradingStartTime = (_funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    return {
+      typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
+      value: MsgExecuteContract.fromPartial({
+        sender: this.sender,
+        contract: this.contractAddress,
+        msg: toUtf8(JSON.stringify({
+          update_trading_start_time: {}
+        })),
+        funds: _funds
+      })
+    };
+  };
+  freezeCollectionInfo = (_funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    return {
+      typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
+      value: MsgExecuteContract.fromPartial({
+        sender: this.sender,
+        contract: this.contractAddress,
+        msg: toUtf8(JSON.stringify({
+          freeze_collection_info: {}
+        })),
+        funds: _funds
+      })
+    };
+  };
+  mint = ({
+    extension,
+    owner,
+    tokenId,
+    tokenUri
+  }: {
+    extension?: Empty;
+    owner: string;
+    tokenId: string;
+    tokenUri?: string;
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    return {
+      typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
+      value: MsgExecuteContract.fromPartial({
+        sender: this.sender,
+        contract: this.contractAddress,
+        msg: toUtf8(JSON.stringify({
+          mint: {
+            extension,
+            owner,
+            token_id: tokenId,
+            token_uri: tokenUri
+          }
+        })),
+        funds: _funds
+      })
+    };
+  };
+  extension = ({
+    msg
+  }: {
+    msg: Empty;
+  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+    return {
+      typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
+      value: MsgExecuteContract.fromPartial({
+        sender: this.sender,
+        contract: this.contractAddress,
+        msg: toUtf8(JSON.stringify({
+          extension: {
+            msg
           }
         })),
         funds: _funds

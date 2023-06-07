@@ -1,12 +1,7 @@
 import * as t from '@babel/types';
 import { Field } from '../types';
 import { TSTypeAnnotation, TSExpressionWithTypeArguments } from '@babel/types';
-export declare const propertySignature: (name: string, typeAnnotation: t.TSTypeAnnotation, optional?: boolean) => {
-    type: string;
-    key: t.Identifier;
-    typeAnnotation: t.TSTypeAnnotation;
-    optional: boolean;
-};
+export declare const propertySignature: (name: string, typeAnnotation: TSTypeAnnotation, optional?: boolean) => t.TSPropertySignature;
 export declare const identifier: (name: string, typeAnnotation: t.TSTypeAnnotation, optional?: boolean) => t.Identifier;
 export declare const tsTypeOperator: (typeAnnotation: t.TSType, operator: string) => t.TSTypeOperator;
 export declare const getMessageProperties: (msg: any) => any[];
