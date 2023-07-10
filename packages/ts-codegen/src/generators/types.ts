@@ -6,7 +6,7 @@ import * as t from '@babel/types';
 import { writeFileSync } from 'fs';
 import generate from "@babel/generator";
 import { clean } from "../utils/clean";
-import { findAndParseTypes, findExecuteMsg } from '../utils';
+import { findAndParseTypes, findExecuteMsg, findQueryMsg } from '../utils';
 import { ContractInfo, RenderContext, TSTypesOptions } from "wasm-ast-types";
 import { BuilderFile } from "../builder";
 
@@ -36,7 +36,7 @@ export default async (
     )
   });
 
-  // alias the ExecuteMsg
+  // alias the ExecuteMsg (deprecated option)
   if (options.aliasExecuteMsg && ExecuteMsg) {
     body.push(
       t.exportNamedDeclaration(
@@ -48,6 +48,28 @@ export default async (
       )
     );
   }
+
+  function addEntryPointAlias(msgName: string) {
+    body.push(
+      t.exportNamedDeclaration(
+        t.tsTypeAliasDeclaration(
+          t.identifier(`${name}${msgName}`),
+          null,
+          t.tsTypeReference(t.identifier(msgName))
+        )
+      )
+    );
+  }
+
+  if (options.aliasEntryPoints) {
+    if (ExecuteMsg) {
+      addEntryPointAlias('ExecuteMsg');
+    }
+    if (findQueryMsg(schemas)) {
+      addEntryPointAlias('QueryMsg');
+    }
+  }
+
 
   const imports = context.getImports();
   const code = header + generate(

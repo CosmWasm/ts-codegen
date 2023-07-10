@@ -5,7 +5,7 @@
 */
 
 import { Coin } from "@cosmjs/amino";
-import { MsgExecuteContractEncodeObject } from "cosmwasm";
+import { MsgExecuteContractEncodeObject } from "@cosmjs/cosmwasm-stargate";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
 import { AppExecuteMsg, AppExecuteMsgFactory } from "@abstract-money/abstract.js";

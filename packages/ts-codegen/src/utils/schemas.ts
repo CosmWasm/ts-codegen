@@ -79,9 +79,7 @@ export const findQueryMsg = (schemas) => {
 
 export const findExecuteMsg = (schemas) => {
     const ExecuteMsg = schemas.find(schema =>
-        schema.title === 'ExecuteMsg' ||
-        schema.title === 'ExecuteMsg_for_Empty' || // if cleanse is used, this is never
-        schema.title === 'ExecuteMsgForEmpty'
+      schema.title.startsWith('ExecuteMsg')
     );
     return ExecuteMsg;
 };
