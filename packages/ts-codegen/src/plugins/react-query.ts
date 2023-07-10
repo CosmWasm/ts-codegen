@@ -40,22 +40,29 @@ export class ReactQueryPlugin extends BuilderPluginBase<RenderOptions> {
 
     const { schemas } = context.contract;
 
+
     const localname = pascal(`${name}`) + '.react-query.ts';
-    const ContractFile = pascal(`${name}`) + '.client';
+    const ContractFile = pascal(`${name}`) + `.client`;
     const TypesFile = pascal(`${name}`) + '.types';
 
     const QueryMsg = findQueryMsg(schemas);
     const ExecuteMsg = findExecuteMsg(schemas);
     const typeHash = await findAndParseTypes(schemas);
 
-    const ExecuteClient = pascal(`${name}Client`);
-    const QueryClient = pascal(`${name}QueryClient`);
+    const isAbstractApp = context.options.abstractApp?.enabled;
+
+    const ExecuteClient = pascal(`${name}${isAbstractApp ? 'App' : ''}Client`);
+    const QueryClient = pascal(
+      `${name}${isAbstractApp ? 'App' : ''}QueryClient`
+    );
 
     const body = [];
 
     const clientImports = [];
 
-    QueryMsg && clientImports.push(QueryClient);
+    if (QueryMsg) {
+      clientImports.push(QueryClient);
+    }
 
     // check that there are commands within the exec msg
     const shouldGenerateMutationHooks =

@@ -5,9 +5,10 @@ import { ExecuteMsg, QueryMsg } from '../types';
 import {
   callExpression,
   createTypedObjectParams,
-  FIXED_EXECUTE_PARAMS,
+  OPTIONAL_FIXED_EXECUTE_PARAMS,
   getMessageProperties,
   identifier,
+  RECORD_STRING_UNKNOWN_TYPE_ANNOTATION,
   OPTIONAL_FUNDS_PARAM,
   tsObjectPattern,
   tsPropertySignature
@@ -293,7 +294,10 @@ export const createReactQueryHook = ({
   context.addUtil('useQuery');
   context.addUtil('UseQueryOptions');
 
-  const options = context.options.reactQuery;
+  const options = {
+    ...context.options.reactQuery,
+    isAbstractApp: context.options.abstractApp?.enabled
+  };
   const keys = Object.keys(jsonschema.properties ?? {});
 
   let props = ['client', 'options'];
@@ -703,15 +707,7 @@ function createReactQueryKeys({
                   identifier(
                     'args',
                     // Record<string, unknown>
-                    t.tSTypeAnnotation(
-                      t.tsTypeReference(
-                        t.identifier('Record'),
-                        t.tsTypeParameterInstantiation([
-                          t.tsStringKeyword(),
-                          t.tsUnknownKeyword()
-                        ])
-                      )
-                    ),
+                    RECORD_STRING_UNKNOWN_TYPE_ANNOTATION,
                     true // optional
                   )
                 ],
@@ -763,6 +759,7 @@ function createReactQueryFactory({
   queryKeysName: string;
   queryMsgs: ParsedQueryMsg[];
 }) {
+  const isAbstractApp = context.options.abstractApp?.enabled;
   const options = context.options.reactQuery;
 
   return t.exportNamedDeclaration(
@@ -807,7 +804,9 @@ function createReactQueryFactory({
                       [
                         t.optionalMemberExpression(
                           t.identifier('client'),
-                          t.identifier('contractAddress'),
+                          t.identifier(
+                            isAbstractApp ? 'moduleId' : 'contractAddress'
+                          ),
                           false,
                           true
                         ),
@@ -1020,7 +1019,7 @@ interface GenerateUseQueryQueryKeyParams {
   queryKeysName: string;
   methodName: string;
   props: string[];
-  options: ReactQueryOptions;
+  options: ReactQueryOptions & { isAbstractApp: boolean };
 }
 
 const generateUseQueryQueryKey = ({
@@ -1030,13 +1029,13 @@ const generateUseQueryQueryKey = ({
   props,
   options
 }: GenerateUseQueryQueryKeyParams): t.ArrayExpression | t.CallExpression => {
-  const { optionalClient, queryKeys } = options;
+  const { optionalClient, queryKeys, isAbstractApp } = options;
 
   const hasArgs = props.includes('args');
 
   const contractAddressExpression = t.optionalMemberExpression(
     t.identifier('client'),
-    t.identifier('contractAddress'),
+    t.identifier(isAbstractApp ? 'moduleId' : 'contractAddress'),
     false,
     optionalClient
   );

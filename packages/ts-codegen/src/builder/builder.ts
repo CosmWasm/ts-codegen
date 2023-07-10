@@ -21,6 +21,7 @@ import { MsgBuilderPlugin } from "../plugins/msg-builder";
 import { MessageComposerPlugin } from "../plugins/message-composer";
 import { ClientPlugin } from "../plugins/client";
 import { TypesPlugin } from "../plugins/types";
+import { AbstractAppPlugin } from '../plugins/abstract-app';
 
 const defaultOpts: TSBuilderOptions = {
     bundle: {
@@ -48,7 +49,7 @@ export type TSBuilderOptions = {
     bundle?: BundleOptions;
 } & RenderOptions;
 
-export type BuilderFileType = 'type' | 'client' | 'recoil' | 'react-query' | 'message-composer' | 'msg-builder' | 'plugin';
+export type BuilderFileType = 'type' | 'client' | 'recoil' | 'react-query' | 'message-composer' | 'msg-builder' | 'plugin' | 'abstract-app';
 
 export interface BuilderFile {
     type: BuilderFileType;
@@ -90,6 +91,7 @@ export class TSBuilder {
         [].push.apply(this.plugins, [
             new TypesPlugin(this.options),
             new ClientPlugin(this.options),
+            new AbstractAppPlugin(this.options),
             new MessageComposerPlugin(this.options),
             new ReactQueryPlugin(this.options),
             new RecoilPlugin(this.options),

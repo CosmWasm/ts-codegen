@@ -4,6 +4,10 @@ exports[`options tsClient.enabled 1`] = `
 TSBuilder {
   "files": Array [],
   "options": Object {
+    "abstractApp": Object {
+      "clientPrefix": "App",
+      "enabled": false,
+    },
     "bundle": Object {
       "bundleFile": "bundle.ts",
       "enabled": true,
@@ -40,6 +44,10 @@ TSBuilder {
   "plugins": Array [
     TypesPlugin {
       "option": Object {
+        "abstractApp": Object {
+          "clientPrefix": "App",
+          "enabled": false,
+        },
         "bundle": Object {
           "bundleFile": "bundle.ts",
           "enabled": true,
@@ -77,6 +85,51 @@ TSBuilder {
     },
     ClientPlugin {
       "option": Object {
+        "abstractApp": Object {
+          "clientPrefix": "App",
+          "enabled": false,
+        },
+        "bundle": Object {
+          "bundleFile": "bundle.ts",
+          "enabled": true,
+          "scope": "contracts",
+        },
+        "client": Object {
+          "enabled": true,
+          "execExtendsQuery": true,
+          "noImplicitOverride": false,
+        },
+        "enabled": true,
+        "messageComposer": Object {
+          "enabled": false,
+        },
+        "msgBuilder": Object {
+          "enabled": false,
+        },
+        "reactQuery": Object {
+          "camelize": true,
+          "enabled": true,
+          "mutations": false,
+          "optionalClient": false,
+          "queryKeys": false,
+          "version": "v3",
+        },
+        "recoil": Object {
+          "enabled": false,
+        },
+        "types": Object {
+          "aliasExecuteMsg": false,
+          "enabled": true,
+        },
+      },
+      "utils": undefined,
+    },
+    AbstractAppPlugin {
+      "option": Object {
+        "abstractApp": Object {
+          "clientPrefix": "App",
+          "enabled": false,
+        },
         "bundle": Object {
           "bundleFile": "bundle.ts",
           "enabled": true,
@@ -114,6 +167,10 @@ TSBuilder {
     },
     MessageComposerPlugin {
       "option": Object {
+        "abstractApp": Object {
+          "clientPrefix": "App",
+          "enabled": false,
+        },
         "bundle": Object {
           "bundleFile": "bundle.ts",
           "enabled": true,
@@ -151,6 +208,10 @@ TSBuilder {
     },
     ReactQueryPlugin {
       "option": Object {
+        "abstractApp": Object {
+          "clientPrefix": "App",
+          "enabled": false,
+        },
         "bundle": Object {
           "bundleFile": "bundle.ts",
           "enabled": true,
@@ -188,6 +249,10 @@ TSBuilder {
     },
     RecoilPlugin {
       "option": Object {
+        "abstractApp": Object {
+          "clientPrefix": "App",
+          "enabled": false,
+        },
         "bundle": Object {
           "bundleFile": "bundle.ts",
           "enabled": true,
@@ -227,6 +292,10 @@ TSBuilder {
     },
     MsgBuilderPlugin {
       "option": Object {
+        "abstractApp": Object {
+          "clientPrefix": "App",
+          "enabled": false,
+        },
         "bundle": Object {
           "bundleFile": "bundle.ts",
           "enabled": true,
@@ -270,6 +339,10 @@ exports[`options undefined 1`] = `
 TSBuilder {
   "files": Array [],
   "options": Object {
+    "abstractApp": Object {
+      "clientPrefix": "App",
+      "enabled": false,
+    },
     "bundle": Object {
       "bundleFile": "bundle.ts",
       "enabled": true,
@@ -306,6 +379,10 @@ TSBuilder {
   "plugins": Array [
     TypesPlugin {
       "option": Object {
+        "abstractApp": Object {
+          "clientPrefix": "App",
+          "enabled": false,
+        },
         "bundle": Object {
           "bundleFile": "bundle.ts",
           "enabled": true,
@@ -343,6 +420,51 @@ TSBuilder {
     },
     ClientPlugin {
       "option": Object {
+        "abstractApp": Object {
+          "clientPrefix": "App",
+          "enabled": false,
+        },
+        "bundle": Object {
+          "bundleFile": "bundle.ts",
+          "enabled": true,
+          "scope": "contracts",
+        },
+        "client": Object {
+          "enabled": true,
+          "execExtendsQuery": true,
+          "noImplicitOverride": false,
+        },
+        "enabled": true,
+        "messageComposer": Object {
+          "enabled": false,
+        },
+        "msgBuilder": Object {
+          "enabled": false,
+        },
+        "reactQuery": Object {
+          "camelize": true,
+          "enabled": false,
+          "mutations": false,
+          "optionalClient": false,
+          "queryKeys": false,
+          "version": "v3",
+        },
+        "recoil": Object {
+          "enabled": false,
+        },
+        "types": Object {
+          "aliasExecuteMsg": false,
+          "enabled": true,
+        },
+      },
+      "utils": undefined,
+    },
+    AbstractAppPlugin {
+      "option": Object {
+        "abstractApp": Object {
+          "clientPrefix": "App",
+          "enabled": false,
+        },
         "bundle": Object {
           "bundleFile": "bundle.ts",
           "enabled": true,
@@ -380,6 +502,10 @@ TSBuilder {
     },
     MessageComposerPlugin {
       "option": Object {
+        "abstractApp": Object {
+          "clientPrefix": "App",
+          "enabled": false,
+        },
         "bundle": Object {
           "bundleFile": "bundle.ts",
           "enabled": true,
@@ -417,6 +543,10 @@ TSBuilder {
     },
     ReactQueryPlugin {
       "option": Object {
+        "abstractApp": Object {
+          "clientPrefix": "App",
+          "enabled": false,
+        },
         "bundle": Object {
           "bundleFile": "bundle.ts",
           "enabled": true,
@@ -454,6 +584,10 @@ TSBuilder {
     },
     RecoilPlugin {
       "option": Object {
+        "abstractApp": Object {
+          "clientPrefix": "App",
+          "enabled": false,
+        },
         "bundle": Object {
           "bundleFile": "bundle.ts",
           "enabled": true,
@@ -493,6 +627,10 @@ TSBuilder {
     },
     MsgBuilderPlugin {
       "option": Object {
+        "abstractApp": Object {
+          "clientPrefix": "App",
+          "enabled": false,
+        },
         "bundle": Object {
           "bundleFile": "bundle.ts",
           "enabled": true,

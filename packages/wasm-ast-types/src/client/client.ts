@@ -5,8 +5,9 @@ import {
   bindMethod,
   classDeclaration,
   classProperty,
-  FIXED_EXECUTE_PARAMS,
   getMessageProperties,
+  createExtractTypeAnnotation,
+  OPTIONAL_FIXED_EXECUTE_PARAMS,
   OPTIONAL_FUNDS_PARAM,
   promiseTypeAnnotation,
   typedIdentifier
@@ -22,23 +23,11 @@ import {
 } from '../utils/types';
 import { RenderContext } from '../context';
 import { identifier, propertySignature } from '../utils/babel';
+import { FEE_PARAM, OPTIONAL_MEMO_PARAM } from '../utils/constants';
 
 export const CONSTANT_EXEC_PARAMS = [
-  t.assignmentPattern(
-    identifier(
-      'fee',
-      t.tsTypeAnnotation(
-        t.tsUnionType([
-          t.tSNumberKeyword(),
-          t.tsTypeReference(t.identifier('StdFee')),
-          t.tsLiteralType(t.stringLiteral('auto'))
-        ])
-      ),
-      false
-    ),
-    t.stringLiteral('auto')
-  ),
-  identifier('memo', t.tsTypeAnnotation(t.tsStringKeyword()), true),
+  t.assignmentPattern(FEE_PARAM, t.stringLiteral('auto')),
+  OPTIONAL_MEMO_PARAM,
   OPTIONAL_FUNDS_PARAM
 ];
 
@@ -452,6 +441,34 @@ export const createExecuteInterface = (
   );
 };
 
+export const createPropertyFunctionWithExtractedParams = (
+  context: RenderContext,
+  methodName: string,
+  responseType: string,
+  msgTitle: string,
+  jsonschema: JSONSchema
+) => {
+  const obj = createTypedObjectParams(context, jsonschema);
+
+  if (obj) {
+    // obj.typeAnnotation = createExtractTypeAnnotation(methodName, msgTitle)
+  }
+
+  const func = {
+    type: 'TSFunctionType',
+    typeAnnotation: promiseTypeAnnotation(responseType),
+    parameters: []
+  };
+
+  return t.tSPropertySignature(
+    t.identifier(methodName),
+    t.tsTypeAnnotation(
+      // @ts-ignore:next-line
+      func
+    )
+  );
+};
+
 export const createPropertyFunctionWithObjectParams = (
   context: RenderContext,
   methodName: string,
@@ -488,7 +505,9 @@ export const createPropertyFunctionWithObjectParamsForExec = (
   const func = {
     type: 'TSFunctionType',
     typeAnnotation: promiseTypeAnnotation(responseType),
-    parameters: obj ? [obj, ...FIXED_EXECUTE_PARAMS] : FIXED_EXECUTE_PARAMS
+    parameters: obj
+      ? [obj, ...OPTIONAL_FIXED_EXECUTE_PARAMS]
+      : OPTIONAL_FIXED_EXECUTE_PARAMS
   };
 
   return t.tSPropertySignature(

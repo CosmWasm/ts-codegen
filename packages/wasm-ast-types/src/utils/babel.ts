@@ -1,7 +1,7 @@
 import * as t from '@babel/types';
 import { snake } from "case";
 import { Field, QueryMsg, ExecuteMsg } from '../types';
-import { TSTypeAnnotation, TSExpressionWithTypeArguments, Noop, TypeAnnotation } from '@babel/types';
+import { TSTypeAnnotation, TSExpressionWithTypeArguments, Identifier } from '@babel/types';
 import { refLookup } from './ref';
 
 // t.TSPropertySignature - kind?
@@ -12,8 +12,8 @@ export const propertySignature = (
 ): t.TSPropertySignature => {
     return {
         type: 'TSPropertySignature',
+        kind: "get",
         key: t.identifier(name),
-      kind: 'get',
         typeAnnotation,
         optional
     }
@@ -66,8 +66,6 @@ export const tsPropertySignature = (
     return obj
 };
 
-
-
 export const tsObjectPattern = (
     properties: (t.RestElement | t.ObjectProperty)[],
     typeAnnotation: t.TSTypeAnnotation
@@ -111,14 +109,14 @@ export const bindMethod = (name: string) => {
     )
 }
 
-export const typedIdentifier = (name: string, typeAnnotation: TSTypeAnnotation, optional: boolean = false) => {
+export const typedIdentifier = (name: string, typeAnnotation: TSTypeAnnotation, optional: boolean = false): Identifier => {
     const type = t.identifier(name);
     type.typeAnnotation = typeAnnotation;
     type.optional = optional;
     return type;
 }
 
-export const promiseTypeAnnotation = (name) => {
+export const promiseTypeAnnotation = (name: string) => {
     return t.tsTypeAnnotation(
         t.tsTypeReference(
             t.identifier('Promise'),
@@ -169,6 +167,17 @@ export const classProperty = (
     if (noImplicitOverride) prop.override = true;
     return prop;
 };
+
+export const classPrivateProperty = (
+  name: string,
+  value: t.Expression = null,
+  typeAnnotation: TSTypeAnnotation = null,
+  isStatic: boolean = false
+) => {
+    const prop = t.classPrivateProperty( t.privateName(t.identifier(name)), value, [], isStatic);
+    if (typeAnnotation) prop.typeAnnotation = typeAnnotation;
+    return prop;
+}
 
 export const arrowFunctionExpression = (
     params: (t.Identifier | t.Pattern | t.RestElement)[],
@@ -224,9 +233,49 @@ export const FieldTypeAsts = {
     }
 };
 
-export const shorthandProperty = (prop: string) => {
-    return t.objectProperty(t.identifier(prop), t.identifier(prop), false, true);
+export const shorthandProperty = (prop: string, typeAnnotation?: t.TSTypeAnnotation) => {
+    return t.objectProperty(identifier(prop, typeAnnotation), t.identifier(prop), false, true);
 };
+
+export const objectPattern = (properties: t.ObjectProperty[], typeAnnotation?: t.TSTypeAnnotation) => {
+    const obj = t.objectPattern(properties);
+    if (typeAnnotation) {
+      obj.typeAnnotation = typeAnnotation;
+    }
+    return obj;
+}
+
+/**
+ * Retrieve the types from the object pattern properties.
+ * Example:
+ ```ts
+  autoTypedObjectPattern([
+    shorthandProperty(
+      'moduleId',
+      t.tsTypeAnnotation(t.tsStringKeyword())
+    ),
+    shorthandProperty(
+      'accountId',
+      t.tsTypeAnnotation(t.tsNumberKeyword())
+    ),
+  ])
+ ```
+ */
+export const autoTypedObjectPattern = (properties: t.ObjectProperty[]) => {
+  const propertyTypes = properties.map((prop) => {
+    return propertySignature(
+      // @ts-ignore
+      prop.key.name,
+      // @ts-ignore
+      prop.key.typeAnnotation
+    );
+  })
+
+  return objectPattern(
+    properties,
+    t.tSTypeAnnotation(t.tsTypeLiteral(propertyTypes))
+  );
+}
 
 export const importStmt = (names: string[], path: string) => {
     return t.importDeclaration(
@@ -350,3 +399,13 @@ export const omitTypeReference = (from: t.TSType, omit: string | Array<string>) 
 export const pickTypeReference = (from: t.TSType, pick: string | Array<string>) => {
     return parameterizedTypeReference('Pick', from, pick)
 }
+
+export const RECORD_STRING_UNKNOWN_TYPE_ANNOTATION = t.tSTypeAnnotation(
+  t.tsTypeReference(
+    t.identifier('Record'),
+    t.tsTypeParameterInstantiation([
+      t.tsStringKeyword(),
+      t.tsUnknownKeyword()
+    ])
+  )
+)

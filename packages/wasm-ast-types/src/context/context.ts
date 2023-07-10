@@ -14,6 +14,11 @@ export interface ReactQueryOptions {
     queryFactory?: boolean
 }
 
+export interface AbstractAppOptions {
+  enabled?: boolean;
+  clientPrefix?: string;
+}
+
 export interface TSClientOptions {
     enabled?: boolean;
     execExtendsQuery?: boolean;
@@ -65,12 +70,14 @@ export interface RenderOptions {
     msgBuilder?: MsgBuilderOptions;
     client?: TSClientOptions;
     reactQuery?: ReactQueryOptions;
+    abstractApp?: AbstractAppOptions
 }
 
 
 export interface IContext {
   refLookup($ref: string);
   addUtil(util: string);
+  addUtils(util: string[]);
   getImports(registeredUtils?: UtilMapping);
 }
 
@@ -106,6 +113,10 @@ export const defaultOptions: RenderOptions = {
         mutations: false,
         camelize: true,
         queryKeys: false
+    },
+    abstractApp: {
+        enabled: false,
+        clientPrefix: 'App'
     }
 };
 
@@ -155,6 +166,11 @@ export abstract class RenderContextBase<TOpt = RenderOptions> implements IRender
     }
     addUtil(util: string) {
         this.utils[util] = true;
+    }
+    addUtils(utils: string[]) {
+        utils.forEach(util => {
+            this.utils[util] = true;
+        });
     }
     getImports(registeredUtils?: UtilMapping) {
         return getImportStatements(

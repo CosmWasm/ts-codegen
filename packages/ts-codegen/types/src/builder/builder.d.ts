@@ -12,10 +12,10 @@ export interface BundleOptions {
     bundleFile?: string;
     bundlePath?: string;
 }
-export type TSBuilderOptions = {
+export declare type TSBuilderOptions = {
     bundle?: BundleOptions;
 } & RenderOptions;
-export type BuilderFileType = 'type' | 'client' | 'recoil' | 'react-query' | 'message-composer' | 'msg-builder' | 'plugin';
+export declare type BuilderFileType = 'type' | 'client' | 'recoil' | 'react-query' | 'message-composer' | 'msg-builder' | 'plugin' | 'abstract-app';
 export interface BuilderFile {
     type: BuilderFileType;
     pluginType?: string;

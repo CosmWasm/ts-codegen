@@ -7,6 +7,7 @@ import {
   classDeclaration,
   classProperty,
   getMessageProperties,
+  identifier,
   OPTIONAL_FUNDS_PARAM,
   typedIdentifier
 } from '../utils';
@@ -15,18 +16,44 @@ import { createTypedObjectParams } from '../utils/types';
 import { RenderContext } from '../context';
 import { getWasmMethodArgs } from '../client/client';
 
+const ABSTRACT_MODULE_MSG = t.variableDeclaration('const', [
+  t.variableDeclarator(
+    identifier(
+      'moduleMsg',
+      t.tsTypeAnnotation(
+        t.tSTypeReference(
+          t.identifier('AppExecuteMsg'),
+          t.tsTypeParameterInstantiation([
+            t.tsTypeReference(t.identifier('ExecuteMsg'))
+          ])
+        )
+      )
+    ),
+    t.callExpression(
+      t.memberExpression(
+        t.identifier('AppExecuteMsgFactory'),
+        t.identifier('executeApp')
+      ),
+      [t.identifier('msg')]
+    )
+  )
+]);
 const createWasmExecMethodMessageComposer = (
   context: RenderContext,
   jsonschema: any
 ) => {
-  context.addUtil('Coin');
-  context.addUtil('MsgExecuteContractEncodeObject');
-  context.addUtil('MsgExecuteContract');
-  context.addUtil('toUtf8');
+  context.addUtils([
+    'Coin',
+    'MsgExecuteContractEncodeObject',
+    'MsgExecuteContract',
+    'toUtf8',
+    'AppExecuteMsg',
+    'AppExecuteMsgFactory'
+  ]);
 
   const underscoreName = Object.keys(jsonschema.properties)[0];
   const methodName = camel(underscoreName);
-  const param = createTypedObjectParams(
+  const obj = createTypedObjectParams(
     context,
     jsonschema.properties[underscoreName]
   );
@@ -35,27 +62,36 @@ const createWasmExecMethodMessageComposer = (
     jsonschema.properties[underscoreName]
   );
 
-  // what the underscore named property in the message is assigned to
-  let actionValue: Expression;
-  if (param?.type === 'Identifier') {
-    actionValue = t.identifier(param.name);
-  } else {
-    actionValue = t.objectExpression(args);
-  }
+  const isAbstractApp = context.options.abstractApp?.enabled;
 
-  const constantParams = [OPTIONAL_FUNDS_PARAM];
+  const constantParams = [
+    OPTIONAL_FUNDS_PARAM
+  ];
 
   return t.classProperty(
     t.identifier(methodName),
     arrowFunctionExpression(
-      param
+      obj
         ? [
             // props
-            param,
+            obj,
             ...constantParams
           ]
         : constantParams,
       t.blockStatement([
+        // TODO: use msg-builder
+        t.variableDeclaration('const', [
+          t.variableDeclarator(
+            t.identifier('msg'),
+            t.objectExpression([
+              t.objectProperty(
+                t.identifier(underscoreName),
+                t.objectExpression(args)
+              )
+            ])
+          )
+        ]),
+        ...(isAbstractApp ? [ABSTRACT_MODULE_MSG] : []),
         t.returnStatement(
           t.objectExpression([
             t.objectProperty(
@@ -93,14 +129,7 @@ const createWasmExecMethodMessageComposer = (
                             t.identifier('JSON'),
                             t.identifier('stringify')
                           ),
-                          [
-                            t.objectExpression([
-                              t.objectProperty(
-                                t.identifier(underscoreName),
-                                actionValue
-                              )
-                            ])
-                          ]
+                          [t.identifier(isAbstractApp ? 'moduleMsg' : 'msg')]
                         )
                       ])
                     ),

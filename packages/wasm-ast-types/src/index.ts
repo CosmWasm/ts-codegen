@@ -3,6 +3,7 @@ export * from './client';
 export * from './context';
 export * from './recoil';
 export * from './message-composer';
+export * from './abstract-app';
 export * from './react-query';
 export * from './types';
 export * from './msg-builder';

@@ -1,5 +1,5 @@
 {
-  "name": "wasm-ast-types",
+  "name": "@abstract-money/wasm-ast-types",
   "version": "0.23.1",
   "description": "CosmWasm TypeScript AST generation",
   "author": "Dan Lynch <pyramation@gmail.com>",
