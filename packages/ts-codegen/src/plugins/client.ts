@@ -1,18 +1,17 @@
-import { pascal } from 'case';
-import * as w from 'wasm-ast-types';
-import { findExecuteMsg, findAndParseTypes, findQueryMsg } from '../utils';
+import { pascal } from "case";
+import * as w from "wasm-ast-types";
+import { findExecuteMsg, findAndParseTypes, findQueryMsg } from "../utils";
 import {
   RenderContext,
   ContractInfo,
   RenderContextBase,
   getMessageProperties,
-  RenderOptions
-} from 'wasm-ast-types';
-import { BuilderFileType } from '../builder';
-import { BuilderPluginBase } from './plugin-base';
+  RenderOptions,
+} from "wasm-ast-types";
+import { BuilderFileType } from "../builder";
+import { BuilderPluginBase } from "./plugin-base";
 
-export const TYPE = 'client';
-export const QUERY_CLIENT_TYPE = 'queryClient';
+export const TYPE = "client";
 
 export class ClientPlugin extends BuilderPluginBase<RenderOptions> {
   initContext(
@@ -41,8 +40,8 @@ export class ClientPlugin extends BuilderPluginBase<RenderOptions> {
 
     const { schemas } = context.contract;
 
-    const localname = pascal(name) + '.client.ts';
-    const TypesFile = pascal(name) + '.types';
+    const localname = pascal(name) + ".client.ts";
+    const TypesFile = pascal(name) + ".types";
     const QueryMsg = findQueryMsg(schemas);
     const ExecuteMsg = findExecuteMsg(schemas);
     const typeHash = await findAndParseTypes(schemas);
@@ -66,7 +65,12 @@ export class ClientPlugin extends BuilderPluginBase<RenderOptions> {
         w.createQueryClass(context, QueryClient, ReadOnlyInstance, QueryMsg)
       );
 
-      context.addProviderInfo(QUERY_CLIENT_TYPE, QueryClient, localname)
+      context.addProviderInfo(
+        name,
+        w.PROVIDER_TYPES.QUERY_CLIENT_TYPE,
+        QueryClient,
+        localname
+      );
     }
 
     // execute messages
@@ -95,11 +99,16 @@ export class ClientPlugin extends BuilderPluginBase<RenderOptions> {
           )
         );
 
-        context.addProviderInfo(TYPE, Client, localname)
+        context.addProviderInfo(
+          name,
+          w.PROVIDER_TYPES.SIGNING_CLIENT_TYPE,
+          Client,
+          localname
+        );
       }
     }
 
-    if (typeHash.hasOwnProperty('Coin')) {
+    if (typeHash.hasOwnProperty("Coin")) {
       // @ts-ignore
       delete context.utils.Coin;
     }
@@ -108,8 +117,8 @@ export class ClientPlugin extends BuilderPluginBase<RenderOptions> {
       {
         type: TYPE,
         localname,
-        body
-      }
+        body,
+      },
     ];
   }
 }

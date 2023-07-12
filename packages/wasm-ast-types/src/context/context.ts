@@ -84,9 +84,11 @@ export interface IRenderContext<TOpt = RenderOptions> extends IContext {
     contract: ContractInfo;
     options: TOpt;
 
-    addProviderInfo(type: string, classname: string, filename: string): void;
+    addProviderInfo(contractName:string, type: string, classname: string, filename: string): void;
     getProviderInfos(): {
-      [key: string]: ProviderInfo;
+      [key: string]: {
+        [key: string]: ProviderInfo;
+      };
     };
 }
 
@@ -140,11 +142,17 @@ export const getDefinitionSchema = (schemas: JSONSchema[]): JSONSchema => {
 
 export class BuilderContext{
     providers:{
-      [key: string]: ProviderInfo;
+      [key: string]: {
+        [key: string]: ProviderInfo;
+      };
     } = {};
 
-    addProviderInfo(type: string, classname: string, filename: string): void {
-      this.providers[type] = {
+    addProviderInfo(contractName:string, type: string, classname: string, filename: string): void {
+      if(!this.providers[contractName]){
+        this.providers[contractName] = {}
+      }
+
+      this.providers[contractName][type] = {
         classname,
         filename,
         basename: basename(filename, extname(filename))
@@ -185,10 +193,14 @@ export abstract class RenderContextBase<TOpt = RenderOptions> implements IRender
     addUtil(util: string) {
         this.utils[util] = true;
     }
-    addProviderInfo(type: string, classname: string, filename: string): void {
-        this.builderContext.addProviderInfo(type, classname, filename);
+    addProviderInfo(contractName:string, type: string, classname: string, filename: string): void {
+        this.builderContext.addProviderInfo(contractName, type, classname, filename);
     }
-    getProviderInfos(): { [key: string]: ProviderInfo; } {
+    getProviderInfos(): {
+      [key: string]: {
+        [key: string]: ProviderInfo;
+      };
+    } {
         return this.builderContext.providers;
     }
     getImports(registeredUtils?: UtilMapping, filepath?: string) {

@@ -1,17 +1,8 @@
 import { pascal } from "case";
 import * as w from "wasm-ast-types";
-import { findAndParseTypes, findExecuteMsg } from "../utils";
-import {
-  getMessageProperties,
-  ContractInfo,
-  RenderContextBase,
-  RenderContext,
-  RenderOptions,
-} from "wasm-ast-types";
-import { BuilderFileType, TSBuilder, TSBuilderOptions } from "../builder";
+import { ContractInfo, RenderContextBase, RenderContext } from "wasm-ast-types";
+import { BuilderFileType, TSBuilderOptions } from "../builder";
 import { BuilderPluginBase } from "./plugin-base";
-import { TYPE as SIGN_CLIENT_TYPE, QUERY_CLIENT_TYPE } from "./client";
-import { TYPE as MESSAGE_COMPOSER_TYPE } from "./message-composer";
 
 export class ContractsContextProviderPlugin extends BuilderPluginBase<TSBuilderOptions> {
   constructor(opt: TSBuilderOptions) {
@@ -20,9 +11,7 @@ export class ContractsContextProviderPlugin extends BuilderPluginBase<TSBuilderO
     this.utils = {
       ContractBase: "__contractContextBase__",
       IContractConstructor: "__contractContextBase__",
-      getSigningClientDefault: "__contractContextBase__",
-      getQueryClientDefault: "__contractContextBase__",
-      getMessageComposerDefault: "__contractContextBase__",
+      EmptyClient: "__contractContextBase__",
     };
   }
 
@@ -48,80 +37,67 @@ export class ContractsContextProviderPlugin extends BuilderPluginBase<TSBuilderO
       return;
     }
 
-    if (!Object.keys(context.getProviderInfos())?.length) {
+    const providerInfo = context.getProviderInfos()[name];
+
+    if (!Object.keys(providerInfo)?.length) {
       return;
     }
 
     context.addUtil("ContractBase");
     context.addUtil("IContractConstructor");
+
     const localname = pascal(name) + ".provider.ts";
+    let needEmptyClientType = false;
 
     const body = [];
-    const methods = [];
 
-    const signClientProviderInfo = context.getProviderInfos()[SIGN_CLIENT_TYPE];
+    const signClientProviderInfo =
+      providerInfo[w.PROVIDER_TYPES.SIGNING_CLIENT_TYPE];
 
     if (signClientProviderInfo) {
-      context.addUtil("getSigningClientDefault");
-
       body.push(
         w.importStmt(
           [signClientProviderInfo.classname],
           `./${signClientProviderInfo.basename}`
         )
       );
-
-      methods.push(
-        w.createProviderFunction(
-          "SigningClient",
-          signClientProviderInfo.classname
-        )
-      );
+    } else {
+      needEmptyClientType = true;
     }
 
     const queryClientProviderInfo =
-      context.getProviderInfos()[QUERY_CLIENT_TYPE];
+      providerInfo[w.PROVIDER_TYPES.QUERY_CLIENT_TYPE];
 
     if (queryClientProviderInfo) {
-      context.addUtil("getQueryClientDefault");
-
       body.push(
         w.importStmt(
           [queryClientProviderInfo.classname],
           `./${queryClientProviderInfo.basename}`
         )
       );
-
-      methods.push(
-        w.createProviderFunction(
-          "QueryClient",
-          queryClientProviderInfo.classname
-        )
-      );
+    } else {
+      needEmptyClientType = true;
     }
 
     const messageComposerProviderInfo =
-      context.getProviderInfos()[MESSAGE_COMPOSER_TYPE];
+      providerInfo[w.PROVIDER_TYPES.MESSAGE_COMPOSER_TYPE];
 
     if (messageComposerProviderInfo) {
-      context.addUtil("getMessageComposerDefault");
-
       body.push(
         w.importStmt(
           [messageComposerProviderInfo.classname],
           `./${messageComposerProviderInfo.basename}`
         )
       );
-
-      methods.push(
-        w.createProviderFunction(
-          "MessageComposer",
-          messageComposerProviderInfo.classname
-        )
-      );
+    } else {
+      needEmptyClientType = true;
     }
 
-    body.push(w.createProvider(name, methods));
+    if(needEmptyClientType){
+      context.addUtil("EmptyClient")
+    }
+
+    body.push(w.createProvider(name, providerInfo));
 
     return [
       {

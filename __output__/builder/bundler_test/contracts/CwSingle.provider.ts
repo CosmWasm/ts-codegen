@@ -4,29 +4,17 @@
 * and run the @cosmwasm/ts-codegen generate command to regenerate this file.
 */
 
-import { ContractBase, IContractConstructor, getSigningClientDefault, getQueryClientDefault, getMessageComposerDefault } from "./contractContextBase";
+import { ContractBase, IContractConstructor } from "./contractContextBase";
 import { CwSingleClient } from "./CwSingle.client";
 import { CwSingleQueryClient } from "./CwSingle.client";
 import { CwSingleMessageComposer } from "./CwSingle.message-composer";
-export class CwSingle extends ContractBase {
+export class CwSingle extends ContractBase<CwSingleClient, CwSingleQueryClient, CwSingleMessageComposer> {
   constructor({
     address,
     cosmWasmClient,
     signingCosmWasmClient
   }: IContractConstructor) {
-    super(address, cosmWasmClient, signingCosmWasmClient);
-  }
-
-  getSigningClient(contractAddr) {
-    return getSigningClientDefault(this, contractAddr, CwSingleClient);
-  }
-
-  getQueryClient(contractAddr) {
-    return getQueryClientDefault(this, contractAddr, CwSingleQueryClient);
-  }
-
-  getMessageComposer(contractAddr) {
-    return getMessageComposerDefault(this, contractAddr, CwSingleMessageComposer);
+    super(address, cosmWasmClient, signingCosmWasmClient, CwSingleClient, CwSingleQueryClient, CwSingleMessageComposer);
   }
 
 }

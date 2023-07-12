@@ -4,29 +4,17 @@
 * and run the @cosmwasm/ts-codegen generate command to regenerate this file.
 */
 
-import { ContractBase, IContractConstructor, getSigningClientDefault, getQueryClientDefault, getMessageComposerDefault } from "./contractContextBase";
+import { ContractBase, IContractConstructor } from "./contractContextBase";
 import { CwCodeIdRegistryClient } from "./CwCodeIdRegistry.client";
 import { CwCodeIdRegistryQueryClient } from "./CwCodeIdRegistry.client";
 import { CwCodeIdRegistryMessageComposer } from "./CwCodeIdRegistry.message-composer";
-export class CwCodeIdRegistry extends ContractBase {
+export class CwCodeIdRegistry extends ContractBase<CwCodeIdRegistryClient, CwCodeIdRegistryQueryClient, CwCodeIdRegistryMessageComposer> {
   constructor({
     address,
     cosmWasmClient,
     signingCosmWasmClient
   }: IContractConstructor) {
-    super(address, cosmWasmClient, signingCosmWasmClient);
-  }
-
-  getSigningClient(contractAddr) {
-    return getSigningClientDefault(this, contractAddr, CwCodeIdRegistryClient);
-  }
-
-  getQueryClient(contractAddr) {
-    return getQueryClientDefault(this, contractAddr, CwCodeIdRegistryQueryClient);
-  }
-
-  getMessageComposer(contractAddr) {
-    return getMessageComposerDefault(this, contractAddr, CwCodeIdRegistryMessageComposer);
+    super(address, cosmWasmClient, signingCosmWasmClient, CwCodeIdRegistryClient, CwCodeIdRegistryQueryClient, CwCodeIdRegistryMessageComposer);
   }
 
 }

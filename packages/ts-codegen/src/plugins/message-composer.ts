@@ -1,18 +1,18 @@
-import { pascal } from 'case';
-import * as w from 'wasm-ast-types';
-import { findAndParseTypes, findExecuteMsg } from '../utils';
+import { pascal } from "case";
+import * as w from "wasm-ast-types";
+import { findAndParseTypes, findExecuteMsg } from "../utils";
 import {
   MessageComposerOptions,
   getMessageProperties,
   ContractInfo,
   RenderContextBase,
   RenderContext,
-  RenderOptions
-} from 'wasm-ast-types';
-import { BuilderFileType } from '../builder';
-import { BuilderPluginBase } from './plugin-base';
+  RenderOptions,
+} from "wasm-ast-types";
+import { BuilderFileType } from "../builder";
+import { BuilderPluginBase } from "./plugin-base";
 
-export const TYPE = 'message-composer';
+export const TYPE = "message-composer";
 
 export class MessageComposerPlugin extends BuilderPluginBase<RenderOptions> {
   initContext(
@@ -41,8 +41,8 @@ export class MessageComposerPlugin extends BuilderPluginBase<RenderOptions> {
 
     const { schemas } = context.contract;
 
-    const localname = pascal(name) + '.message-composer.ts';
-    const TypesFile = pascal(name) + '.types';
+    const localname = pascal(name) + ".message-composer.ts";
+    const TypesFile = pascal(name) + ".types";
     const ExecuteMsg = findExecuteMsg(schemas);
     const typeHash = await findAndParseTypes(schemas);
 
@@ -64,11 +64,16 @@ export class MessageComposerPlugin extends BuilderPluginBase<RenderOptions> {
           w.createMessageComposerClass(context, TheClass, Interface, ExecuteMsg)
         );
 
-        context.addProviderInfo(TYPE, TheClass, localname)
+        context.addProviderInfo(
+          name,
+          w.PROVIDER_TYPES.MESSAGE_COMPOSER_TYPE,
+          TheClass,
+          localname
+        );
       }
     }
 
-    if (typeHash.hasOwnProperty('Coin')) {
+    if (typeHash.hasOwnProperty("Coin")) {
       // @ts-ignore
       delete context.utils.Coin;
     }
@@ -77,8 +82,8 @@ export class MessageComposerPlugin extends BuilderPluginBase<RenderOptions> {
       {
         type: TYPE,
         localname,
-        body
-      }
+        body,
+      },
     ];
   }
 }

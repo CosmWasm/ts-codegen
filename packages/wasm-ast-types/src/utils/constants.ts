@@ -28,3 +28,9 @@ export const FIXED_EXECUTE_PARAMS = [
   OPTIONAL_MEMO_PARAM,
   OPTIONAL_FUNDS_PARAM
 ];
+
+export const PROVIDER_TYPES = {
+  SIGNING_CLIENT_TYPE: "client",
+  QUERY_CLIENT_TYPE: "queryClient",
+  MESSAGE_COMPOSER_TYPE : 'message-composer'
+};

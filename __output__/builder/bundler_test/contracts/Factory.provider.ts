@@ -4,29 +4,17 @@
 * and run the @cosmwasm/ts-codegen generate command to regenerate this file.
 */
 
-import { ContractBase, IContractConstructor, getSigningClientDefault, getQueryClientDefault, getMessageComposerDefault } from "./contractContextBase";
+import { ContractBase, IContractConstructor } from "./contractContextBase";
 import { FactoryClient } from "./Factory.client";
 import { FactoryQueryClient } from "./Factory.client";
 import { FactoryMessageComposer } from "./Factory.message-composer";
-export class Factory extends ContractBase {
+export class Factory extends ContractBase<FactoryClient, FactoryQueryClient, FactoryMessageComposer> {
   constructor({
     address,
     cosmWasmClient,
     signingCosmWasmClient
   }: IContractConstructor) {
-    super(address, cosmWasmClient, signingCosmWasmClient);
-  }
-
-  getSigningClient(contractAddr) {
-    return getSigningClientDefault(this, contractAddr, FactoryClient);
-  }
-
-  getQueryClient(contractAddr) {
-    return getQueryClientDefault(this, contractAddr, FactoryQueryClient);
-  }
-
-  getMessageComposer(contractAddr) {
-    return getMessageComposerDefault(this, contractAddr, FactoryMessageComposer);
+    super(address, cosmWasmClient, signingCosmWasmClient, FactoryClient, FactoryQueryClient, FactoryMessageComposer);
   }
 
 }

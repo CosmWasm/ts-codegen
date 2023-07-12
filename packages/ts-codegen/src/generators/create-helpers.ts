@@ -3,7 +3,7 @@ import { sync as mkdirp } from "mkdirp";
 import pkg from "../../package.json";
 import { writeContentToFile } from "../utils/files";
 import { TSBuilderInput } from "../builder";
-import { contractContextBase } from "../helpers";
+import { contractContextBase, contractsContextTSX } from "../helpers";
 
 const version = process.env.NODE_ENV === "test" ? "latest" : pkg.version;
 const header = `/**
@@ -22,5 +22,6 @@ const write = (outPath: string, file: string, content: string) => {
 export const createHelpers = (input: TSBuilderInput) => {
   if (input.options?.useContracts?.enabled) {
     write(input.outPath, "contractContextBase.ts", contractContextBase);
+    write(input.outPath, "contracts-context.tsx", contractsContextTSX);
   }
 };

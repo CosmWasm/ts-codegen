@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute class 1`] = `
+"export class Whitelist extends ContractBase<WhitelistClient, WhitelistQueryClient, WhitelistMessageComposer> {
+  constructor({
+    address,
+    cosmWasmClient,
+    signingCosmWasmClient
+  }: IContractConstructor) {
+    super(address, cosmWasmClient, signingCosmWasmClient, WhitelistClient, WhitelistQueryClient, WhitelistMessageComposer);
+  }
+
+}"
+`;
+
+exports[`execute class without message composer 1`] = `
+"export class Whitelist extends ContractBase<WhitelistClient, WhitelistQueryClient, EmptyClient> {
+  constructor({
+    address,
+    cosmWasmClient,
+    signingCosmWasmClient
+  }: IContractConstructor) {
+    super(address, cosmWasmClient, signingCosmWasmClient, WhitelistClient, WhitelistQueryClient, undefined);
+  }
+
+}"
+`;

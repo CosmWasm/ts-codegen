@@ -16,48 +16,82 @@ export interface IContractConstructor {
   signingCosmWasmClient: SigningCosmWasmClient | undefined;
 }
 
-export const noSigningErrorMessage = 'signingCosmWasmClient not connected';
+export const NO_SINGING_ERROR_MESSAGE = 'signingCosmWasmClient not connected';
 
-export const noCosmWasmClientErrorMessage = 'cosmWasmClient not connected';
+export const NO_COSMWASW_CLIENT_ERROR_MESSAGE = 'cosmWasmClient not connected';
 
-export const noAddressErrorMessage = "address doesn't exist";
+export const NO_ADDRESS_ERROR_MESSAGE = "address doesn't exist";
 
-export class ContractBase {
+export const NO_SIGNING_CLIENT_ERROR_MESSAGE =
+  'Signing client is not generated. Please check ts-codegen config';
+
+export const NO_QUERY_CLIENT_ERROR_MESSAGE =
+  'Query client is not generated. Please check ts-codegen config';
+
+export const NO_MESSAGE_COMPOSER_ERROR_MESSAGE =
+  'Message composer client is not generated. Please check ts-codegen config';
+
+/**
+ * a placeholder for non-generated classes
+ */
+export class EmptyClient {}
+
+export interface SigningClientProvider<T> {
+  getSigningClient(contractAddr: string): T;
+}
+
+export interface QueryClientProvider<T> {
+  getQueryClient(contractAddr: string): T;
+}
+
+export interface MessageComposerProvider<T> {
+  getMessageComposer(contractAddr: string): T;
+}
+
+export class ContractBase<
+  TSign = EmptyClient,
+  TQuery = EmptyClient,
+  TMsgComposer = EmptyClient
+> {
   constructor(
-    public readonly address: string | undefined,
-    public readonly cosmWasmClient: CosmWasmClient | undefined,
-    public readonly signingCosmWasmClient: SigningCosmWasmClient | undefined
+    protected address: string | undefined,
+    protected cosmWasmClient: CosmWasmClient | undefined,
+    protected signingCosmWasmClient: SigningCosmWasmClient | undefined,
+    private TSign?: new (
+      client: SigningCosmWasmClient,
+      sender: string,
+      contractAddress: string
+    ) => TSign,
+    private TQuery?: new (
+      client: CosmWasmClient,
+      contractAddress: string
+    ) => TQuery,
+    private TMsgComposer?: new (
+      sender: string,
+      contractAddress: string
+    ) => TMsgComposer
   ) {}
-}
 
-export function getSigningClientDefault<T>(
-  intance: ContractBase,
-  contractAddr: string,
-  T: new (
-    client: SigningCosmWasmClient,
-    sender: string,
-    contractAddress: string
-  ) => T
-): T {
-  if (!intance.signingCosmWasmClient) throw new Error(noSigningErrorMessage);
-  if (!intance.address) throw new Error(noAddressErrorMessage);
-  return new T(intance.signingCosmWasmClient, intance.address, contractAddr);
-}
+  public getSigningClient(contractAddr: string): TSign {
+    if (!this.signingCosmWasmClient) throw new Error(NO_SINGING_ERROR_MESSAGE);
+    if (!this.address) throw new Error(NO_ADDRESS_ERROR_MESSAGE);
+    if (!this.TSign) throw new Error(NO_SIGNING_CLIENT_ERROR_MESSAGE);
+    return new this.TSign(
+      this.signingCosmWasmClient,
+      this.address,
+      contractAddr
+    );
+  }
 
-export function getQueryClientDefault<T>(
-  intance: ContractBase,
-  contractAddr: string,
-  T: new (client: CosmWasmClient, contractAddress: string) => T
-): T {
-  if (!intance.cosmWasmClient) throw new Error(noCosmWasmClientErrorMessage);
-  return new T(intance.cosmWasmClient, contractAddr);
-}
+  public getQueryClient(contractAddr: string): TQuery {
+    if (!this.cosmWasmClient) throw new Error(NO_COSMWASW_CLIENT_ERROR_MESSAGE);
+    if (!this.TQuery) throw new Error(NO_QUERY_CLIENT_ERROR_MESSAGE);
+    return new this.TQuery(this.cosmWasmClient, contractAddr);
+  }
 
-export function getMessageComposerDefault<T>(
-  intance: ContractBase,
-  contractAddr: string,
-  T: new (address: string, contractAddress: string) => T
-): T {
-  if (!intance.address) throw new Error(noAddressErrorMessage);
-  return new T(intance.address, contractAddr);
+  public getMessageComposer(contractAddr: string): TMsgComposer {
+    if (!this.address) throw new Error(NO_ADDRESS_ERROR_MESSAGE);
+    if (!this.TMsgComposer) throw new Error(NO_MESSAGE_COMPOSER_ERROR_MESSAGE);
+    return new this.TMsgComposer(this.address, contractAddr);
+  }
 }

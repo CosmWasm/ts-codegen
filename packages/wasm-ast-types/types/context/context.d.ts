@@ -69,18 +69,22 @@ export interface IContext {
 export interface IRenderContext<TOpt = RenderOptions> extends IContext {
     contract: ContractInfo;
     options: TOpt;
-    addProviderInfo(type: string, classname: string, filename: string): void;
+    addProviderInfo(contractName: string, type: string, classname: string, filename: string): void;
     getProviderInfos(): {
-        [key: string]: ProviderInfo;
+        [key: string]: {
+            [key: string]: ProviderInfo;
+        };
     };
 }
 export declare const defaultOptions: RenderOptions;
 export declare const getDefinitionSchema: (schemas: JSONSchema[]) => JSONSchema;
 export declare class BuilderContext {
     providers: {
-        [key: string]: ProviderInfo;
+        [key: string]: {
+            [key: string]: ProviderInfo;
+        };
     };
-    addProviderInfo(type: string, classname: string, filename: string): void;
+    addProviderInfo(contractName: string, type: string, classname: string, filename: string): void;
 }
 /**
  * context object for generating code.
@@ -101,9 +105,11 @@ export declare abstract class RenderContextBase<TOpt = RenderOptions> implements
     abstract mergeDefaultOpt(options: TOpt): TOpt;
     refLookup($ref: string): JSONSchema;
     addUtil(util: string): void;
-    addProviderInfo(type: string, classname: string, filename: string): void;
+    addProviderInfo(contractName: string, type: string, classname: string, filename: string): void;
     getProviderInfos(): {
-        [key: string]: ProviderInfo;
+        [key: string]: {
+            [key: string]: ProviderInfo;
+        };
     };
     getImports(registeredUtils?: UtilMapping, filepath?: string): any;
 }
