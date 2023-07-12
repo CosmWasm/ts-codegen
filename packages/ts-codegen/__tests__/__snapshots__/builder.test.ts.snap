@@ -2,6 +2,9 @@
 
 exports[`options tsClient.enabled 1`] = `
 TSBuilder {
+  "builderContext": BuilderContext {
+    "providers": Object {},
+  },
   "files": Array [],
   "options": Object {
     "bundle": Object {
@@ -39,6 +42,7 @@ TSBuilder {
   },
   "plugins": Array [
     TypesPlugin {
+      "builder": [Circular],
       "option": Object {
         "bundle": Object {
           "bundleFile": "bundle.ts",
@@ -76,6 +80,7 @@ TSBuilder {
       "utils": undefined,
     },
     ClientPlugin {
+      "builder": [Circular],
       "option": Object {
         "bundle": Object {
           "bundleFile": "bundle.ts",
@@ -113,6 +118,7 @@ TSBuilder {
       "utils": undefined,
     },
     MessageComposerPlugin {
+      "builder": [Circular],
       "option": Object {
         "bundle": Object {
           "bundleFile": "bundle.ts",
@@ -150,6 +156,7 @@ TSBuilder {
       "utils": undefined,
     },
     ReactQueryPlugin {
+      "builder": [Circular],
       "option": Object {
         "bundle": Object {
           "bundleFile": "bundle.ts",
@@ -187,6 +194,7 @@ TSBuilder {
       "utils": undefined,
     },
     RecoilPlugin {
+      "builder": [Circular],
       "option": Object {
         "bundle": Object {
           "bundleFile": "bundle.ts",
@@ -226,6 +234,7 @@ TSBuilder {
       },
     },
     MsgBuilderPlugin {
+      "builder": [Circular],
       "option": Object {
         "bundle": Object {
           "bundleFile": "bundle.ts",
@@ -261,6 +270,49 @@ TSBuilder {
         },
       },
       "utils": undefined,
+    },
+    ContractsContextProviderPlugin {
+      "builder": [Circular],
+      "option": Object {
+        "bundle": Object {
+          "bundleFile": "bundle.ts",
+          "enabled": true,
+          "scope": "contracts",
+        },
+        "client": Object {
+          "enabled": true,
+          "execExtendsQuery": true,
+          "noImplicitOverride": false,
+        },
+        "enabled": true,
+        "messageComposer": Object {
+          "enabled": false,
+        },
+        "msgBuilder": Object {
+          "enabled": false,
+        },
+        "reactQuery": Object {
+          "camelize": true,
+          "enabled": true,
+          "mutations": false,
+          "optionalClient": false,
+          "queryKeys": false,
+          "version": "v3",
+        },
+        "recoil": Object {
+          "enabled": false,
+        },
+        "types": Object {
+          "aliasExecuteMsg": false,
+          "enabled": true,
+        },
+      },
+      "utils": Object {
+        "ContractBase": "__contractContextBase__",
+        "getMessageComposerDefault": "__contractContextBase__",
+        "getQueryClientDefault": "__contractContextBase__",
+        "getSigningClientDefault": "__contractContextBase__",
+      },
     },
   ],
 }
@@ -268,6 +320,9 @@ TSBuilder {
 
 exports[`options undefined 1`] = `
 TSBuilder {
+  "builderContext": BuilderContext {
+    "providers": Object {},
+  },
   "files": Array [],
   "options": Object {
     "bundle": Object {
@@ -305,6 +360,7 @@ TSBuilder {
   },
   "plugins": Array [
     TypesPlugin {
+      "builder": [Circular],
       "option": Object {
         "bundle": Object {
           "bundleFile": "bundle.ts",
@@ -342,6 +398,7 @@ TSBuilder {
       "utils": undefined,
     },
     ClientPlugin {
+      "builder": [Circular],
       "option": Object {
         "bundle": Object {
           "bundleFile": "bundle.ts",
@@ -379,6 +436,7 @@ TSBuilder {
       "utils": undefined,
     },
     MessageComposerPlugin {
+      "builder": [Circular],
       "option": Object {
         "bundle": Object {
           "bundleFile": "bundle.ts",
@@ -416,6 +474,7 @@ TSBuilder {
       "utils": undefined,
     },
     ReactQueryPlugin {
+      "builder": [Circular],
       "option": Object {
         "bundle": Object {
           "bundleFile": "bundle.ts",
@@ -453,6 +512,7 @@ TSBuilder {
       "utils": undefined,
     },
     RecoilPlugin {
+      "builder": [Circular],
       "option": Object {
         "bundle": Object {
           "bundleFile": "bundle.ts",
@@ -492,6 +552,7 @@ TSBuilder {
       },
     },
     MsgBuilderPlugin {
+      "builder": [Circular],
       "option": Object {
         "bundle": Object {
           "bundleFile": "bundle.ts",
@@ -527,6 +588,49 @@ TSBuilder {
         },
       },
       "utils": undefined,
+    },
+    ContractsContextProviderPlugin {
+      "builder": [Circular],
+      "option": Object {
+        "bundle": Object {
+          "bundleFile": "bundle.ts",
+          "enabled": true,
+          "scope": "contracts",
+        },
+        "client": Object {
+          "enabled": true,
+          "execExtendsQuery": true,
+          "noImplicitOverride": false,
+        },
+        "enabled": true,
+        "messageComposer": Object {
+          "enabled": false,
+        },
+        "msgBuilder": Object {
+          "enabled": false,
+        },
+        "reactQuery": Object {
+          "camelize": true,
+          "enabled": false,
+          "mutations": false,
+          "optionalClient": false,
+          "queryKeys": false,
+          "version": "v3",
+        },
+        "recoil": Object {
+          "enabled": false,
+        },
+        "types": Object {
+          "aliasExecuteMsg": false,
+          "enabled": true,
+        },
+      },
+      "utils": Object {
+        "ContractBase": "__contractContextBase__",
+        "getMessageComposerDefault": "__contractContextBase__",
+        "getQueryClientDefault": "__contractContextBase__",
+        "getSigningClientDefault": "__contractContextBase__",
+      },
     },
   ],
 }

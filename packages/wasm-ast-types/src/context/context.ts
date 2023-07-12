@@ -67,16 +67,25 @@ export interface RenderOptions {
     reactQuery?: ReactQueryOptions;
 }
 
+export interface ProviderInfo{
+  classname: string,
+  filename: string,
+}
 
 export interface IContext {
   refLookup($ref: string);
   addUtil(util: string);
-  getImports(registeredUtils?: UtilMapping);
+  getImports(registeredUtils?: UtilMapping, filepath?: string);
 }
 
 export interface IRenderContext<TOpt = RenderOptions> extends IContext {
     contract: ContractInfo;
     options: TOpt;
+
+    addProviderInfo(type: string, classname: string, filename: string): void;
+    getProviderInfos(): {
+      [key: string]: ProviderInfo;
+    };
 }
 
 export const defaultOptions: RenderOptions = {
@@ -127,23 +136,40 @@ export const getDefinitionSchema = (schemas: JSONSchema[]): JSONSchema => {
     return aggregateSchema;
 };
 
+export class BuilderContext{
+    providers:{
+      [key: string]: ProviderInfo;
+    } = {};
+
+    addProviderInfo(type: string, classname: string, filename: string): void {
+      this.providers[type] = {
+        classname,
+        filename
+      };
+    }
+}
+
 /**
  * context object for generating code.
  * only mergeDefaultOpt needs to implementing for combine options and default options.
  * @param TOpt option type
  */
 export abstract class RenderContextBase<TOpt = RenderOptions> implements IRenderContext<TOpt> {
+    builderContext: BuilderContext;
     contract: ContractInfo;
     utils: string[] = [];
     schema: JSONSchema;
     options: TOpt;
+
     constructor(
         contract: ContractInfo,
-        options?: TOpt
+        options?: TOpt,
+        builderContext?: BuilderContext
     ) {
         this.contract = contract;
         this.schema = getDefinitionSchema(contract.schemas);
         this.options = this.mergeDefaultOpt(options);
+        this.builderContext = builderContext;
     }
     /**
      * merge options and default options
@@ -155,6 +181,12 @@ export abstract class RenderContextBase<TOpt = RenderOptions> implements IRender
     }
     addUtil(util: string) {
         this.utils[util] = true;
+    }
+    addProviderInfo(type: string, classname: string, filename: string): void {
+        this.builderContext.addProviderInfo(type, classname, filename);
+    }
+    getProviderInfos(): { [key: string]: ProviderInfo; } {
+        return this.builderContext.providers;
     }
     getImports(registeredUtils?: UtilMapping, filepath?: string) {
         return getImportStatements(

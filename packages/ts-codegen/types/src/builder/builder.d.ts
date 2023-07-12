@@ -1,4 +1,4 @@
-import { RenderOptions } from "wasm-ast-types";
+import { RenderOptions, BuilderContext } from "wasm-ast-types";
 import { IBuilderPlugin } from '../plugins';
 export interface TSBuilderInput {
     contracts: Array<ContractFile | string>;
@@ -37,6 +37,7 @@ export declare class TSBuilder {
     outPath: string;
     options?: TSBuilderOptions;
     plugins: IBuilderPlugin[];
+    builderContext: BuilderContext;
     protected files: BuilderFile[];
     loadDefaultPlugins(): void;
     constructor({ contracts, outPath, options, plugins }: TSBuilderInput);

@@ -1,4 +1,4 @@
-import { RenderOptions, defaultOptions, RenderContext, ContractInfo, MessageComposerOptions} from "wasm-ast-types";
+import { RenderOptions, defaultOptions, RenderContext, ContractInfo, MessageComposerOptions, BuilderContext} from "wasm-ast-types";
 
 import { header } from '../utils/header';
 import { join } from "path";
@@ -21,6 +21,7 @@ import { MsgBuilderPlugin } from "../plugins/msg-builder";
 import { MessageComposerPlugin } from "../plugins/message-composer";
 import { ClientPlugin } from "../plugins/client";
 import { TypesPlugin } from "../plugins/types";
+import { ContractsContextProviderPlugin } from "../plugins/provider";
 import { createHelpers } from "../generators/create-helpers";
 
 const defaultOpts: TSBuilderOptions = {
@@ -90,6 +91,7 @@ export class TSBuilder {
     outPath: string;
     options?: TSBuilderOptions;
     plugins: IBuilderPlugin[] = [];
+    builderContext: BuilderContext = new BuilderContext();
 
     protected files: BuilderFile[] = [];
 
@@ -101,6 +103,7 @@ export class TSBuilder {
             new ReactQueryPlugin(this.options),
             new RecoilPlugin(this.options),
             new MsgBuilderPlugin(this.options),
+            new ContractsContextProviderPlugin(this.options),
         ]);
     }
 
@@ -120,6 +123,8 @@ export class TSBuilder {
         if (plugins && plugins.length) {
             [].push.apply(this.plugins, plugins);
         }
+
+        this.plugins.forEach(plugin=> plugin.setBuilder(this))
     }
 
     async build() {

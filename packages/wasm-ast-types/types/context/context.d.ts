@@ -56,28 +56,43 @@ export interface RenderOptions {
     client?: TSClientOptions;
     reactQuery?: ReactQueryOptions;
 }
+export interface ProviderInfo {
+    classname: string;
+    filename: string;
+}
 export interface IContext {
     refLookup($ref: string): any;
     addUtil(util: string): any;
-    getImports(registeredUtils?: UtilMapping): any;
+    getImports(registeredUtils?: UtilMapping, filepath?: string): any;
 }
 export interface IRenderContext<TOpt = RenderOptions> extends IContext {
     contract: ContractInfo;
     options: TOpt;
+    addProviderInfo(type: string, classname: string, filename: string): void;
+    getProviderInfos(): {
+        [key: string]: ProviderInfo;
+    };
 }
 export declare const defaultOptions: RenderOptions;
 export declare const getDefinitionSchema: (schemas: JSONSchema[]) => JSONSchema;
+export declare class BuilderContext {
+    providers: {
+        [key: string]: ProviderInfo;
+    };
+    addProviderInfo(type: string, classname: string, filename: string): void;
+}
 /**
  * context object for generating code.
  * only mergeDefaultOpt needs to implementing for combine options and default options.
  * @param TOpt option type
  */
 export declare abstract class RenderContextBase<TOpt = RenderOptions> implements IRenderContext<TOpt> {
+    builderContext: BuilderContext;
     contract: ContractInfo;
     utils: string[];
     schema: JSONSchema;
     options: TOpt;
-    constructor(contract: ContractInfo, options?: TOpt);
+    constructor(contract: ContractInfo, options?: TOpt, builderContext?: BuilderContext);
     /**
      * merge options and default options
      * @param options
@@ -85,6 +100,10 @@ export declare abstract class RenderContextBase<TOpt = RenderOptions> implements
     abstract mergeDefaultOpt(options: TOpt): TOpt;
     refLookup($ref: string): JSONSchema;
     addUtil(util: string): void;
+    addProviderInfo(type: string, classname: string, filename: string): void;
+    getProviderInfos(): {
+        [key: string]: ProviderInfo;
+    };
     getImports(registeredUtils?: UtilMapping, filepath?: string): any;
 }
 export declare class RenderContext extends RenderContextBase {

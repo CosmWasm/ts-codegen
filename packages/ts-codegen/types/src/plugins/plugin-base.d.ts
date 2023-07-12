@@ -1,5 +1,5 @@
-import { ContractInfo, UtilMapping, IContext } from 'wasm-ast-types';
-import { BuilderFile, BuilderFileType } from '../builder';
+import { ContractInfo, UtilMapping, IContext } from "wasm-ast-types";
+import { BuilderFile, BuilderFileType, TSBuilder } from "../builder";
 /**
  * IBuilderPlugin is a common plugin that render generated code.
  */
@@ -8,6 +8,8 @@ export interface IBuilderPlugin {
      * a mapping of utils will be used in generated code.
      */
     utils: UtilMapping;
+    builder?: TSBuilder;
+    setBuilder(builder: TSBuilder): any;
     /**
      * render generated cdoe.
      * @param name the name of contract
@@ -23,9 +25,11 @@ export interface IBuilderPlugin {
 export declare abstract class BuilderPluginBase<TOpt extends {
     enabled?: boolean;
 }> implements IBuilderPlugin {
+    builder?: TSBuilder;
     option: TOpt;
     utils: UtilMapping;
-    constructor(opt: TOpt);
+    constructor(opt: TOpt, builder?: TSBuilder);
+    setBuilder(builder: TSBuilder): void;
     render(name: string, contractInfo: ContractInfo, outPath: string): Promise<BuilderFile[]>;
     /**
      * init context here

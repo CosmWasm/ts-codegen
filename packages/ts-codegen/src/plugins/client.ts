@@ -11,12 +11,15 @@ import {
 import { BuilderFileType } from '../builder';
 import { BuilderPluginBase } from './plugin-base';
 
+export const TYPE = 'client';
+export const QUERY_CLIENT_TYPE = 'queryClient';
+
 export class ClientPlugin extends BuilderPluginBase<RenderOptions> {
   initContext(
     contract: ContractInfo,
     options?: RenderOptions
   ): RenderContextBase<RenderOptions> {
-    return new RenderContext(contract, options);
+    return new RenderContext(contract, options, this.builder.builderContext);
   }
 
   async doRender(
@@ -62,6 +65,8 @@ export class ClientPlugin extends BuilderPluginBase<RenderOptions> {
       body.push(
         w.createQueryClass(context, QueryClient, ReadOnlyInstance, QueryMsg)
       );
+
+      context.addProviderInfo(QUERY_CLIENT_TYPE, QueryClient, localname)
     }
 
     // execute messages
@@ -89,6 +94,8 @@ export class ClientPlugin extends BuilderPluginBase<RenderOptions> {
             ExecuteMsg
           )
         );
+
+        context.addProviderInfo(TYPE, Client, localname)
       }
     }
 
@@ -99,7 +106,7 @@ export class ClientPlugin extends BuilderPluginBase<RenderOptions> {
 
     return [
       {
-        type: 'client',
+        type: TYPE,
         localname,
         body
       }

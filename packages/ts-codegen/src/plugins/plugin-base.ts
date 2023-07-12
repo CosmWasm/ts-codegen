@@ -1,15 +1,16 @@
-import { sync as mkdirp } from 'mkdirp';
-import { join } from 'path';
-import { writeFileSync } from 'fs';
-import { header } from '../utils/header';
+import { sync as mkdirp } from "mkdirp";
+import { join } from "path";
+import { writeFileSync } from "fs";
+import { header } from "../utils/header";
+import { ContractInfo, UtilMapping, IContext } from "wasm-ast-types";
+import generate from "@babel/generator";
+import * as t from "@babel/types";
 import {
-  ContractInfo,
-  UtilMapping,
-  IContext
-} from 'wasm-ast-types';
-import generate from '@babel/generator';
-import * as t from '@babel/types';
-import { BuilderFile, BuilderFileType, TSBuilderOptions } from '../builder';
+  BuilderFile,
+  BuilderFileType,
+  TSBuilder,
+  TSBuilderOptions,
+} from "../builder";
 
 /**
  * IBuilderPlugin is a common plugin that render generated code.
@@ -19,6 +20,10 @@ export interface IBuilderPlugin {
    * a mapping of utils will be used in generated code.
    */
   utils: UtilMapping;
+
+  builder?: TSBuilder;
+
+  setBuilder(builder: TSBuilder);
 
   /**
    * render generated cdoe.
@@ -30,19 +35,27 @@ export interface IBuilderPlugin {
   render(
     name: string,
     contractInfo: ContractInfo,
-    outPath: string,
+    outPath: string
   ): Promise<BuilderFile[]>;
 }
 
 /**
  * BuilderPluginBase enable ts-codegen users implement their own plugins by only implement a few functions.
  */
-export abstract class BuilderPluginBase<TOpt extends { enabled?: boolean }> implements IBuilderPlugin {
+export abstract class BuilderPluginBase<TOpt extends { enabled?: boolean }>
+  implements IBuilderPlugin
+{
+  builder?: TSBuilder;
   option: TOpt;
   utils: UtilMapping;
 
-  constructor(opt: TOpt) {
+  constructor(opt: TOpt, builder?: TSBuilder) {
     this.option = opt;
+    this.builder = builder;
+  }
+
+  setBuilder(builder: TSBuilder) {
+    this.builder = builder;
   }
 
   async render(
@@ -65,7 +78,7 @@ export abstract class BuilderPluginBase<TOpt extends { enabled?: boolean }> impl
     }
 
     return results.map((result) => {
-      const imports = context.getImports(this.utils);
+      const imports = context.getImports(this.utils, result.localname);
       const code =
         header + generate(t.program([...imports, ...result.body])).code;
 
@@ -78,7 +91,7 @@ export abstract class BuilderPluginBase<TOpt extends { enabled?: boolean }> impl
         pluginType: result.pluginType,
         contract: name,
         localname: result.localname,
-        filename
+        filename,
       };
     });
   }
@@ -88,10 +101,7 @@ export abstract class BuilderPluginBase<TOpt extends { enabled?: boolean }> impl
    * @param contract
    * @param options
    */
-  abstract initContext(
-    contract: ContractInfo,
-    options?: TOpt
-  ): IContext;
+  abstract initContext(contract: ContractInfo, options?: TOpt): IContext;
 
   /**
    * render generated code here.

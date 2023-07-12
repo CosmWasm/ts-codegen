@@ -43,7 +43,7 @@ export class ContractsContextPlugin extends BuilderPluginBase<TSBuilderOptions> 
     // const ExecuteMsg = findExecuteMsg(schemas);
     // const typeHash = await findAndParseTypes(schemas);
 
-    // const body = [];
+    const body = [];
 
     // body.push(w.importStmt(Object.keys(typeHash), `./${TypesFile}`));
 
