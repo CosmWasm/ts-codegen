@@ -12,8 +12,13 @@ export interface BundleOptions {
     bundleFile?: string;
     bundlePath?: string;
 }
+export interface UseContractsOptions {
+    enabled?: boolean;
+    filename?: string;
+}
 export type TSBuilderOptions = {
     bundle?: BundleOptions;
+    useContracts?: UseContractsOptions;
 } & RenderOptions;
 export type BuilderFileType = 'type' | 'client' | 'recoil' | 'react-query' | 'message-composer' | 'msg-builder' | 'plugin';
 export interface BuilderFile {

@@ -85,7 +85,7 @@ export declare abstract class RenderContextBase<TOpt = RenderOptions> implements
     abstract mergeDefaultOpt(options: TOpt): TOpt;
     refLookup($ref: string): JSONSchema;
     addUtil(util: string): void;
-    getImports(registeredUtils?: UtilMapping): any;
+    getImports(registeredUtils?: UtilMapping, filepath?: string): any;
 }
 export declare class RenderContext extends RenderContextBase {
     mergeDefaultOpt(options: RenderOptions): RenderOptions;

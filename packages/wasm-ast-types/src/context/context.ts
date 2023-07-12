@@ -156,13 +156,14 @@ export abstract class RenderContextBase<TOpt = RenderOptions> implements IRender
     addUtil(util: string) {
         this.utils[util] = true;
     }
-    getImports(registeredUtils?: UtilMapping) {
+    getImports(registeredUtils?: UtilMapping, filepath?: string) {
         return getImportStatements(
             convertUtilsToImportList(
                 this,
                 Object.keys(this.utils),
                 registeredUtils,
-            )
+            ),
+            filepath
         );
     }
 }

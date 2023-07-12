@@ -1,6 +1,7 @@
 import * as t from '@babel/types';
 import { importAs, importStmt } from "../utils";
 import { RenderContext } from './context';
+import { relative, dirname, extname } from 'path';
 
 
 export interface ImportObj {
@@ -57,6 +58,10 @@ export const UTILS = {
 
 };
 
+export const UTIL_HELPERS = [
+  '__contractContextBase__',
+];
+
 export const convertUtilsToImportList = (
   context: RenderContext,
   utils: string[],
@@ -102,59 +107,89 @@ export const convertUtil = (
   }
 };
 
-export const getImportStatements = (list: ImportObj[]) => {
-  const imports = list.reduce((m, obj) => {
-    m[obj.path] = m[obj.path] || [];
-    const exists = m[obj.path].find(el => el.type === obj.type && el.path === obj.path && el.name === obj.name);
 
-    // TODO some have google.protobuf.Any shows up... figure out the better way to handle this
-    if (/\./.test(obj.name)) {
-      obj.name = obj.name.split('.')[obj.name.split('.').length - 1];
-    }
+// __helpers__
+export const getImportStatements = (
+  list: ImportObj[],
+  filepath?: string
+) => {
 
-    if (!exists) m[obj.path].push(obj);
-    return m;
-  }, {})
-
-  return Object.entries(imports)
-    .reduce((m, [importPath, imports]: [string, ImportObj[]]) => {
-      const defaultImports = imports.filter(a => a.type === 'default');
-      if (defaultImports.length) {
-        if (defaultImports.length > 1) throw new Error('more than one default name NOT allowed.')
-        m.push(
-          t.importDeclaration(
-            [
-              t.importDefaultSpecifier(
-                t.identifier(defaultImports[0].name)
-              )
-            ],
-            t.stringLiteral(defaultImports[0].path)
-          )
-        )
+  // swap helpers with helpers file...
+  const modifiedImports = list.map(imp => {
+      if (filepath && UTIL_HELPERS.includes(imp.path)) {
+          const name = imp.path.replace(/__/g, '');
+          return {
+              ...imp,
+              path: getRelativePath(filepath, `./${name}`)
+          }
       }
-      const namedImports = imports.filter(a => a.type === 'import' && (!a.importAs || (a.name === a.importAs)));
-      if (namedImports.length) {
-        m.push(importStmt(namedImports.map(i => i.name), namedImports[0].path));
-      }
-      const aliasNamedImports = imports.filter(a => a.type === 'import' && (a.importAs && (a.name !== a.importAs)));
-      aliasNamedImports.forEach(imp => {
-        m.push(importAs(imp.name, imp.importAs, imp.path));
-      });
+      return imp;
+  });
 
-      const namespaced = imports.filter(a => a.type === 'namespace');
-      if (namespaced.length) {
-        if (namespaced.length > 1) throw new Error('more than one namespaced name NOT allowed.')
-        m.push(
-          t.importDeclaration(
-            [
-              t.importNamespaceSpecifier(
-                t.identifier(namespaced[0].name)
-              )
-            ],
-            t.stringLiteral(namespaced[0].path)
-          )
-        )
+  const imports = modifiedImports.reduce((m, obj) => {
+      m[obj.path] = m[obj.path] || [];
+      const exists = m[obj.path].find(el =>
+          el.type === obj.type && el.path === obj.path && el.name === obj.name);
+
+      // MARKED AS NOT DRY [google.protobuf names]
+      // TODO some have google.protobuf.Any shows up... figure out the better way to handle this
+      if (/\./.test(obj.name)) {
+          obj.name = obj.name.split('.')[obj.name.split('.').length - 1];
+      }
+
+      if (!exists) {
+          m[obj.path].push(obj);
       }
       return m;
-    }, [])
+  }, {})
+
+
+  return Object.entries(imports)
+      .reduce((m, [importPath, imports]: [string, ImportObj[]]) => {
+          const defaultImports = imports.filter(a => a.type === 'default');
+          if (defaultImports.length) {
+              if (defaultImports.length > 1) throw new Error('more than one default name NOT allowed.')
+              m.push(
+                  t.importDeclaration(
+                      [
+                          t.importDefaultSpecifier(
+                              t.identifier(defaultImports[0].name)
+                          )
+                      ],
+                      t.stringLiteral(defaultImports[0].path)
+                  )
+              )
+          }
+          const namedImports = imports.filter(a => a.type === 'import' && (!a.importAs || (a.name === a.importAs)));
+          if (namedImports.length) {
+              m.push(importStmt(namedImports.map(i => i.name), namedImports[0].path));
+          }
+          const aliasNamedImports = imports.filter(a => a.type === 'import' && (a.importAs && (a.name !== a.importAs)));
+          aliasNamedImports.forEach(imp => {
+              m.push(importAs(imp.name, imp.importAs, imp.path));
+          });
+
+          const namespaced = imports.filter(a => a.type === 'namespace');
+          if (namespaced.length) {
+              if (namespaced.length > 1) throw new Error('more than one namespaced name NOT allowed.')
+              m.push(
+                  t.importDeclaration(
+                      [
+                          t.importNamespaceSpecifier(
+                              t.identifier(namespaced[0].name)
+                          )
+                      ],
+                      t.stringLiteral(namespaced[0].path)
+                  )
+              )
+          }
+          return m;
+      }, [])
 };
+
+export const getRelativePath = (f1: string, f2: string) => {
+  const rel = relative(dirname(f1), f2);
+  let importPath = rel.replace(extname(rel), '');
+  if (!/^\./.test(importPath)) importPath = `./${importPath}`;
+  return importPath;
+}

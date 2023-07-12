@@ -21,6 +21,7 @@ import { MsgBuilderPlugin } from "../plugins/msg-builder";
 import { MessageComposerPlugin } from "../plugins/message-composer";
 import { ClientPlugin } from "../plugins/client";
 import { TypesPlugin } from "../plugins/types";
+import { createHelpers } from "../generators/create-helpers";
 
 const defaultOpts: TSBuilderOptions = {
     bundle: {
@@ -44,8 +45,14 @@ export interface BundleOptions {
     bundlePath?: string;
 };
 
+export interface UseContractsOptions {
+  enabled?: boolean;
+  filename?: string;
+};
+
 export type TSBuilderOptions = {
     bundle?: BundleOptions;
+    useContracts?: UseContractsOptions;
 } & RenderOptions;
 
 export type BuilderFileType = 'type' | 'client' | 'recoil' | 'react-query' | 'message-composer' | 'msg-builder' | 'plugin';
@@ -147,6 +154,13 @@ export class TSBuilder {
         if (this.options.bundle.enabled) {
             this.bundle();
         }
+
+        createHelpers({
+          outPath: this.outPath,
+          contracts: this.contracts,
+          options: this.options,
+          plugins: this.plugins,
+        });
     }
 
     async bundle() {
