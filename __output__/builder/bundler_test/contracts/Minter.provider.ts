@@ -4,17 +4,29 @@
 * and run the @cosmwasm/ts-codegen generate command to regenerate this file.
 */
 
-import { ContractBase, getSigningClientDefault, getQueryClientDefault, getMessageComposerDefault } from "./contractContextBase";
-import { MinterClient } from "./Minter.client.ts";
-import { MinterQueryClient } from "./Minter.client.ts";
-import { MinterMessageComposer } from "./Minter.message-composer.ts";
+import { ContractBase, IContractConstructor, getSigningClientDefault, getQueryClientDefault, getMessageComposerDefault } from "./contractContextBase";
+import { MinterClient } from "./Minter.client";
+import { MinterQueryClient } from "./Minter.client";
+import { MinterMessageComposer } from "./Minter.message-composer";
 export class Minter extends ContractBase {
   constructor({
     address,
     cosmWasmClient,
     signingCosmWasmClient
-  }) {
+  }: IContractConstructor) {
     super(address, cosmWasmClient, signingCosmWasmClient);
+  }
+
+  getSigningClient(contractAddr) {
+    return getSigningClientDefault(this, contractAddr, MinterClient);
+  }
+
+  getQueryClient(contractAddr) {
+    return getQueryClientDefault(this, contractAddr, MinterQueryClient);
+  }
+
+  getMessageComposer(contractAddr) {
+    return getMessageComposerDefault(this, contractAddr, MinterMessageComposer);
   }
 
 }

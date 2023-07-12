@@ -4,17 +4,29 @@
 * and run the @cosmwasm/ts-codegen generate command to regenerate this file.
 */
 
-import { ContractBase, getSigningClientDefault, getQueryClientDefault, getMessageComposerDefault } from "./contractContextBase";
-import { CwAdminFactoryClient } from "./CwAdminFactory.client.ts";
-import { CwAdminFactoryQueryClient } from "./CwAdminFactory.client.ts";
-import { CwAdminFactoryMessageComposer } from "./CwAdminFactory.message-composer.ts";
+import { ContractBase, IContractConstructor, getSigningClientDefault, getQueryClientDefault, getMessageComposerDefault } from "./contractContextBase";
+import { CwAdminFactoryClient } from "./CwAdminFactory.client";
+import { CwAdminFactoryQueryClient } from "./CwAdminFactory.client";
+import { CwAdminFactoryMessageComposer } from "./CwAdminFactory.message-composer";
 export class CwAdminFactory extends ContractBase {
   constructor({
     address,
     cosmWasmClient,
     signingCosmWasmClient
-  }) {
+  }: IContractConstructor) {
     super(address, cosmWasmClient, signingCosmWasmClient);
+  }
+
+  getSigningClient(contractAddr) {
+    return getSigningClientDefault(this, contractAddr, CwAdminFactoryClient);
+  }
+
+  getQueryClient(contractAddr) {
+    return getQueryClientDefault(this, contractAddr, CwAdminFactoryQueryClient);
+  }
+
+  getMessageComposer(contractAddr) {
+    return getMessageComposerDefault(this, contractAddr, CwAdminFactoryMessageComposer);
   }
 
 }

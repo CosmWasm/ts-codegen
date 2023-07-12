@@ -309,6 +309,7 @@ TSBuilder {
       },
       "utils": Object {
         "ContractBase": "__contractContextBase__",
+        "IContractConstructor": "__contractContextBase__",
         "getMessageComposerDefault": "__contractContextBase__",
         "getQueryClientDefault": "__contractContextBase__",
         "getSigningClientDefault": "__contractContextBase__",
@@ -627,6 +628,7 @@ TSBuilder {
       },
       "utils": Object {
         "ContractBase": "__contractContextBase__",
+        "IContractConstructor": "__contractContextBase__",
         "getMessageComposerDefault": "__contractContextBase__",
         "getQueryClientDefault": "__contractContextBase__",
         "getSigningClientDefault": "__contractContextBase__",

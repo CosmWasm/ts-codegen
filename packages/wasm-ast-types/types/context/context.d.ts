@@ -59,6 +59,7 @@ export interface RenderOptions {
 export interface ProviderInfo {
     classname: string;
     filename: string;
+    basename: string;
 }
 export interface IContext {
     refLookup($ref: string): any;

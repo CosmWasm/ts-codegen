@@ -2,6 +2,7 @@ import { JSONSchema } from "../types";
 import { refLookup } from "../utils";
 import { convertUtilsToImportList, getImportStatements, UtilMapping } from "./imports";
 import deepmerge from "deepmerge";
+import { basename, extname } from 'path'
 
 /// Plugin Types
 export interface ReactQueryOptions {
@@ -70,6 +71,7 @@ export interface RenderOptions {
 export interface ProviderInfo{
   classname: string,
   filename: string,
+  basename: string,
 }
 
 export interface IContext {
@@ -144,7 +146,8 @@ export class BuilderContext{
     addProviderInfo(type: string, classname: string, filename: string): void {
       this.providers[type] = {
         classname,
-        filename
+        filename,
+        basename: basename(filename, extname(filename))
       };
     }
 }

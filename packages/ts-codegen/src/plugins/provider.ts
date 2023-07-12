@@ -53,9 +53,11 @@ export class ContractsContextProviderPlugin extends BuilderPluginBase<TSBuilderO
     }
 
     context.addUtil("ContractBase");
+    context.addUtil("IContractConstructor");
     const localname = pascal(name) + ".provider.ts";
 
     const body = [];
+    const methods = [];
 
     const signClientProviderInfo = context.getProviderInfos()[SIGN_CLIENT_TYPE];
 
@@ -65,7 +67,14 @@ export class ContractsContextProviderPlugin extends BuilderPluginBase<TSBuilderO
       body.push(
         w.importStmt(
           [signClientProviderInfo.classname],
-          `./${signClientProviderInfo.filename}`
+          `./${signClientProviderInfo.basename}`
+        )
+      );
+
+      methods.push(
+        w.createProviderFunction(
+          "SigningClient",
+          signClientProviderInfo.classname
         )
       );
     }
@@ -79,7 +88,14 @@ export class ContractsContextProviderPlugin extends BuilderPluginBase<TSBuilderO
       body.push(
         w.importStmt(
           [queryClientProviderInfo.classname],
-          `./${queryClientProviderInfo.filename}`
+          `./${queryClientProviderInfo.basename}`
+        )
+      );
+
+      methods.push(
+        w.createProviderFunction(
+          "QueryClient",
+          queryClientProviderInfo.classname
         )
       );
     }
@@ -93,12 +109,19 @@ export class ContractsContextProviderPlugin extends BuilderPluginBase<TSBuilderO
       body.push(
         w.importStmt(
           [messageComposerProviderInfo.classname],
-          `./${messageComposerProviderInfo.filename}`
+          `./${messageComposerProviderInfo.basename}`
+        )
+      );
+
+      methods.push(
+        w.createProviderFunction(
+          "MessageComposer",
+          messageComposerProviderInfo.classname
         )
       );
     }
 
-    body.push(w.createProvider(name));
+    body.push(w.createProvider(name, methods));
 
     return [
       {
