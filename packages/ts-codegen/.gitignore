@@ -46,3 +46,4 @@ yarn.lock
 
 # others
 .DS_Store
+testgen
