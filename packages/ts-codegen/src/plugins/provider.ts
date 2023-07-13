@@ -4,6 +4,12 @@ import { ContractInfo, RenderContextBase, RenderContext } from "wasm-ast-types";
 import { BuilderFileType, TSBuilderOptions } from "../builder";
 import { BuilderPluginBase } from "./plugin-base";
 
+export const GetLocalNameByContractName = (name) =>
+  `${pascal(name)}.provider.ts`;
+
+export const GetLocalBaseNameByContractName = (name) =>
+  `${pascal(name)}.provider`;
+
 export class ContractsContextProviderPlugin extends BuilderPluginBase<TSBuilderOptions> {
   constructor(opt: TSBuilderOptions) {
     super(opt);
@@ -11,7 +17,7 @@ export class ContractsContextProviderPlugin extends BuilderPluginBase<TSBuilderO
     this.utils = {
       ContractBase: "__contractContextBase__",
       IContractConstructor: "__contractContextBase__",
-      EmptyClient: "__contractContextBase__",
+      IEmptyClient: "__contractContextBase__",
     };
   }
 
@@ -46,8 +52,10 @@ export class ContractsContextProviderPlugin extends BuilderPluginBase<TSBuilderO
     context.addUtil("ContractBase");
     context.addUtil("IContractConstructor");
 
-    const localname = pascal(name) + ".provider.ts";
+    const localname = GetLocalNameByContractName(name);
     let needEmptyClientType = false;
+    let clientFile = null;
+    let clientClasses = [];
 
     const body = [];
 
@@ -55,12 +63,8 @@ export class ContractsContextProviderPlugin extends BuilderPluginBase<TSBuilderO
       providerInfo[w.PROVIDER_TYPES.SIGNING_CLIENT_TYPE];
 
     if (signClientProviderInfo) {
-      body.push(
-        w.importStmt(
-          [signClientProviderInfo.classname],
-          `./${signClientProviderInfo.basename}`
-        )
-      );
+      clientFile = `./${signClientProviderInfo.basename}`;
+      clientClasses.push(signClientProviderInfo.classname);
     } else {
       needEmptyClientType = true;
     }
@@ -69,14 +73,14 @@ export class ContractsContextProviderPlugin extends BuilderPluginBase<TSBuilderO
       providerInfo[w.PROVIDER_TYPES.QUERY_CLIENT_TYPE];
 
     if (queryClientProviderInfo) {
-      body.push(
-        w.importStmt(
-          [queryClientProviderInfo.classname],
-          `./${queryClientProviderInfo.basename}`
-        )
-      );
+      clientFile = `./${queryClientProviderInfo.basename}`;
+      clientClasses.push(queryClientProviderInfo.classname);
     } else {
       needEmptyClientType = true;
+    }
+
+    if (clientFile) {
+      body.push(w.importStmt(clientClasses, clientFile));
     }
 
     const messageComposerProviderInfo =
@@ -93,8 +97,8 @@ export class ContractsContextProviderPlugin extends BuilderPluginBase<TSBuilderO
       needEmptyClientType = true;
     }
 
-    if(needEmptyClientType){
-      context.addUtil("EmptyClient")
+    if (needEmptyClientType) {
+      context.addUtil("IEmptyClient");
     }
 
     body.push(w.createProvider(name, providerInfo));

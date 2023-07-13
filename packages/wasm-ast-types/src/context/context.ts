@@ -158,6 +158,13 @@ export class BuilderContext{
         basename: basename(filename, extname(filename))
       };
     }
+    getProviderInfos(): {
+      [key: string]: {
+        [key: string]: ProviderInfo;
+      };
+    }{
+      return this.providers;
+    }
 }
 
 /**

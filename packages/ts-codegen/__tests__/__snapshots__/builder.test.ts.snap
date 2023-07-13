@@ -309,8 +309,8 @@ TSBuilder {
       },
       "utils": Object {
         "ContractBase": "__contractContextBase__",
-        "EmptyClient": "__contractContextBase__",
         "IContractConstructor": "__contractContextBase__",
+        "IEmptyClient": "__contractContextBase__",
       },
     },
   ],
@@ -626,8 +626,8 @@ TSBuilder {
       },
       "utils": Object {
         "ContractBase": "__contractContextBase__",
-        "EmptyClient": "__contractContextBase__",
         "IContractConstructor": "__contractContextBase__",
+        "IEmptyClient": "__contractContextBase__",
       },
     },
   ],

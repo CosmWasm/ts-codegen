@@ -1,2 +1,3 @@
 import { TSBuilderInput } from "../builder";
-export declare const createHelpers: (input: TSBuilderInput) => void;
+import { BuilderContext } from "wasm-ast-types";
+export declare const createHelpers: (input: TSBuilderInput, builderContext: BuilderContext) => void;

@@ -28,24 +28,24 @@ export const NO_MESSAGE_COMPOSER_ERROR_MESSAGE =
 /**
  * a placeholder for non-generated classes
  */
-export class EmptyClient {}
+export interface IEmptyClient {}
 
-export interface SigningClientProvider<T> {
+export interface ISigningClientProvider<T> {
   getSigningClient(contractAddr: string): T;
 }
 
-export interface QueryClientProvider<T> {
+export interface IQueryClientProvider<T> {
   getQueryClient(contractAddr: string): T;
 }
 
-export interface MessageComposerProvider<T> {
+export interface IMessageComposerProvider<T> {
   getMessageComposer(contractAddr: string): T;
 }
 
 export class ContractBase<
-  TSign = EmptyClient,
-  TQuery = EmptyClient,
-  TMsgComposer = EmptyClient
+  TSign = IEmptyClient,
+  TQuery = IEmptyClient,
+  TMsgComposer = IEmptyClient
 > {
   constructor(
     protected address: string | undefined,

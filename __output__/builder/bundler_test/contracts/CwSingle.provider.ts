@@ -5,8 +5,7 @@
 */
 
 import { ContractBase, IContractConstructor } from "./contractContextBase";
-import { CwSingleClient } from "./CwSingle.client";
-import { CwSingleQueryClient } from "./CwSingle.client";
+import { CwSingleClient, CwSingleQueryClient } from "./CwSingle.client";
 import { CwSingleMessageComposer } from "./CwSingle.message-composer";
 export class CwSingle extends ContractBase<CwSingleClient, CwSingleQueryClient, CwSingleMessageComposer> {
   constructor({

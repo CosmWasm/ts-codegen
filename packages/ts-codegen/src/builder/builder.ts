@@ -23,6 +23,7 @@ import { ClientPlugin } from "../plugins/client";
 import { TypesPlugin } from "../plugins/types";
 import { ContractsContextProviderPlugin } from "../plugins/provider";
 import { createHelpers } from "../generators/create-helpers";
+import { ContractsProviderBundlePlugin } from "../plugins/provider-bundle";
 
 const defaultOpts: TSBuilderOptions = {
     bundle: {
@@ -160,12 +161,27 @@ export class TSBuilder {
             this.bundle();
         }
 
+        //create useContracts bundle file
+        const contractsProviderBundlePlugin = new ContractsProviderBundlePlugin(this.options);
+        contractsProviderBundlePlugin.setBuilder(this);
+
+        let files = await contractsProviderBundlePlugin.render(
+          "",
+          {
+            schemas: [],
+          },
+          this.outPath
+        );
+        if(files && files.length){
+          [].push.apply(this.files, files);
+        }
+
         createHelpers({
           outPath: this.outPath,
           contracts: this.contracts,
           options: this.options,
           plugins: this.plugins,
-        });
+        }, this.builderContext);
     }
 
     async bundle() {

@@ -5,8 +5,7 @@
 */
 
 import { ContractBase, IContractConstructor } from "./contractContextBase";
-import { CwCodeIdRegistryClient } from "./CwCodeIdRegistry.client";
-import { CwCodeIdRegistryQueryClient } from "./CwCodeIdRegistry.client";
+import { CwCodeIdRegistryClient, CwCodeIdRegistryQueryClient } from "./CwCodeIdRegistry.client";
 import { CwCodeIdRegistryMessageComposer } from "./CwCodeIdRegistry.message-composer";
 export class CwCodeIdRegistry extends ContractBase<CwCodeIdRegistryClient, CwCodeIdRegistryQueryClient, CwCodeIdRegistryMessageComposer> {
   constructor({

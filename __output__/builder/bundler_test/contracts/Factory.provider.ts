@@ -5,8 +5,7 @@
 */
 
 import { ContractBase, IContractConstructor } from "./contractContextBase";
-import { FactoryClient } from "./Factory.client";
-import { FactoryQueryClient } from "./Factory.client";
+import { FactoryClient, FactoryQueryClient } from "./Factory.client";
 import { FactoryMessageComposer } from "./Factory.message-composer";
 export class Factory extends ContractBase<FactoryClient, FactoryQueryClient, FactoryMessageComposer> {
   constructor({

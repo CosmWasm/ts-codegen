@@ -5,8 +5,7 @@
 */
 
 import { ContractBase, IContractConstructor } from "./contractContextBase";
-import { CwAdminFactoryClient } from "./CwAdminFactory.client";
-import { CwAdminFactoryQueryClient } from "./CwAdminFactory.client";
+import { CwAdminFactoryClient, CwAdminFactoryQueryClient } from "./CwAdminFactory.client";
 import { CwAdminFactoryMessageComposer } from "./CwAdminFactory.message-composer";
 export class CwAdminFactory extends ContractBase<CwAdminFactoryClient, CwAdminFactoryQueryClient, CwAdminFactoryMessageComposer> {
   constructor({

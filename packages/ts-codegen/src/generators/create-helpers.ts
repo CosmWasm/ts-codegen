@@ -4,6 +4,7 @@ import pkg from "../../package.json";
 import { writeContentToFile } from "../utils/files";
 import { TSBuilderInput } from "../builder";
 import { contractContextBase, contractsContextTSX } from "../helpers";
+import { BuilderContext } from "wasm-ast-types";
 
 const version = process.env.NODE_ENV === "test" ? "latest" : pkg.version;
 const header = `/**
@@ -19,8 +20,8 @@ const write = (outPath: string, file: string, content: string) => {
   writeContentToFile(outPath, header + content, outFile);
 };
 
-export const createHelpers = (input: TSBuilderInput) => {
-  if (input.options?.useContracts?.enabled) {
+export const createHelpers = (input: TSBuilderInput, builderContext: BuilderContext) => {
+  if (input.options?.useContracts?.enabled && Object.keys(builderContext.providers)?.length) {
     write(input.outPath, "contractContextBase.ts", contractContextBase);
     write(input.outPath, "contracts-context.tsx", contractsContextTSX);
   }

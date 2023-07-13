@@ -7,4 +7,5 @@ export declare const PROVIDER_TYPES: {
     SIGNING_CLIENT_TYPE: string;
     QUERY_CLIENT_TYPE: string;
     MESSAGE_COMPOSER_TYPE: string;
+    PROVIDER_TYPE: string;
 };

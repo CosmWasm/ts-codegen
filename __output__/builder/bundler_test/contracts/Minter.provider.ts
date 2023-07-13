@@ -5,8 +5,7 @@
 */
 
 import { ContractBase, IContractConstructor } from "./contractContextBase";
-import { MinterClient } from "./Minter.client";
-import { MinterQueryClient } from "./Minter.client";
+import { MinterClient, MinterQueryClient } from "./Minter.client";
 import { MinterMessageComposer } from "./Minter.message-composer";
 export class Minter extends ContractBase<MinterClient, MinterQueryClient, MinterMessageComposer> {
   constructor({

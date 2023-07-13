@@ -32,5 +32,6 @@ export const FIXED_EXECUTE_PARAMS = [
 export const PROVIDER_TYPES = {
   SIGNING_CLIENT_TYPE: "client",
   QUERY_CLIENT_TYPE: "queryClient",
-  MESSAGE_COMPOSER_TYPE : 'message-composer'
+  MESSAGE_COMPOSER_TYPE : 'message-composer',
+  PROVIDER_TYPE : 'provider'
 };

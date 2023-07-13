@@ -85,6 +85,11 @@ export declare class BuilderContext {
         };
     };
     addProviderInfo(contractName: string, type: string, classname: string, filename: string): void;
+    getProviderInfos(): {
+        [key: string]: {
+            [key: string]: ProviderInfo;
+        };
+    };
 }
 /**
  * context object for generating code.
