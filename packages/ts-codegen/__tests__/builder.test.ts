@@ -197,6 +197,9 @@ it('builder set bundler path', async () => {
             },
             messageComposer: {
               enabled: true
+            },
+            useContracts:{
+              enabled: true,
             }
         }
     });

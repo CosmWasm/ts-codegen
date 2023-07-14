@@ -1,4 +1,4 @@
-import { RenderOptions, defaultOptions, RenderContext, ContractInfo, MessageComposerOptions} from "wasm-ast-types";
+import { RenderOptions, defaultOptions, RenderContext, ContractInfo, MessageComposerOptions, BuilderContext} from "wasm-ast-types";
 
 import { header } from '../utils/header';
 import { join } from "path";
@@ -21,6 +21,9 @@ import { MsgBuilderPlugin } from "../plugins/msg-builder";
 import { MessageComposerPlugin } from "../plugins/message-composer";
 import { ClientPlugin } from "../plugins/client";
 import { TypesPlugin } from "../plugins/types";
+import { ContractsContextProviderPlugin } from "../plugins/provider";
+import { createHelpers } from "../generators/create-helpers";
+import { ContractsProviderBundlePlugin } from "../plugins/provider-bundle";
 
 const defaultOpts: TSBuilderOptions = {
     bundle: {
@@ -44,8 +47,14 @@ export interface BundleOptions {
     bundlePath?: string;
 };
 
+export interface UseContractsOptions {
+  enabled?: boolean;
+  filename?: string;
+};
+
 export type TSBuilderOptions = {
     bundle?: BundleOptions;
+    useContracts?: UseContractsOptions;
 } & RenderOptions;
 
 export type BuilderFileType = 'type' | 'client' | 'recoil' | 'react-query' | 'message-composer' | 'msg-builder' | 'plugin';
@@ -83,6 +92,7 @@ export class TSBuilder {
     outPath: string;
     options?: TSBuilderOptions;
     plugins: IBuilderPlugin[] = [];
+    builderContext: BuilderContext = new BuilderContext();
 
     protected files: BuilderFile[] = [];
 
@@ -94,6 +104,7 @@ export class TSBuilder {
             new ReactQueryPlugin(this.options),
             new RecoilPlugin(this.options),
             new MsgBuilderPlugin(this.options),
+            new ContractsContextProviderPlugin(this.options),
         ]);
     }
 
@@ -113,6 +124,8 @@ export class TSBuilder {
         if (plugins && plugins.length) {
             [].push.apply(this.plugins, plugins);
         }
+
+        this.plugins.forEach(plugin=> plugin.setBuilder(this))
     }
 
     async build() {
@@ -147,6 +160,28 @@ export class TSBuilder {
         if (this.options.bundle.enabled) {
             this.bundle();
         }
+
+        //create useContracts bundle file
+        const contractsProviderBundlePlugin = new ContractsProviderBundlePlugin(this.options);
+        contractsProviderBundlePlugin.setBuilder(this);
+
+        let files = await contractsProviderBundlePlugin.render(
+          "",
+          {
+            schemas: [],
+          },
+          this.outPath
+        );
+        if(files && files.length){
+          [].push.apply(this.files, files);
+        }
+
+        createHelpers({
+          outPath: this.outPath,
+          contracts: this.contracts,
+          options: this.options,
+          plugins: this.plugins,
+        }, this.builderContext);
     }
 
     async bundle() {
