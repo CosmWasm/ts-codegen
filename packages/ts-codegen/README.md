@@ -124,6 +124,9 @@ codegen({
     },
     msgBuilder: {
       enabled: false
+    },
+    useContractsHooks: {
+      enabled: false
     }
   }
 }).then(() => {
