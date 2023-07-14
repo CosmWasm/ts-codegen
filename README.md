@@ -36,6 +36,8 @@ The quickest and easiest way to interact with CosmWasm Contracts. `@cosmwasm/ts-
     - [React Query](#react-query)
     - [Recoil](#recoil)
     - [Message Composer](#message-composer)
+    - [Message Builder](#message-builder)
+    - [Use Contracts Hooks](#use-contracts-hooks)
     - [Bundles](#bundles)
     - [CLI Usage and Examples](#cli-usage-and-examples)
     - [Advanced Usage](#advanced-usage)
@@ -256,13 +258,13 @@ cosmwasm-ts-codegen generate \
 | ------------------------------ | ------------------------------------------------------------------- |
 | `messageComposer.enabled`      | enable the messageComposer plugin                                   |
 
-### Msg Builder
+### Message Builder
 
 Generate raw message jsons for use in your application with the `msg-builder` command.
 
 [see example output code](https://gist.github.com/adairrr/b394e62beb9856b0351883f776650f26)
 
-#### Msg Builder via CLI
+#### Message Builder via CLI
 
 ```sh
 cosmwasm-ts-codegen generate \
@@ -271,12 +273,18 @@ cosmwasm-ts-codegen generate \
     --out ./ts \
     --name MyContractName 
 ```
-#### Message Composer Options
+#### Message Builder Options
 
 | option      | description                                                         |
 |------------ | ------------------------------ | ------------------------------------------------------------------- |
-| `msgBuilder.enabled` | enable the msgBilder plugin                                   |
+| `msgBuilder.enabled` | enable the msgBuilder plugin                                   |
 
+
+### Use Contracts Hooks
+
+| option                           | description                             |
+| -------------------------------- | --------------------------------------- |
+| `useContractsHooks.enabled`      | enable the `useContracts` plugin        |
 
 ### Bundles
 

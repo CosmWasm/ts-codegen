@@ -1,4 +1,4 @@
-import { RenderOptions, defaultOptions, RenderContext, ContractInfo, MessageComposerOptions, BuilderContext} from "wasm-ast-types";
+import { RenderOptions, defaultOptions, RenderContext, ContractInfo, MessageComposerOptions, BuilderContext } from "wasm-ast-types";
 
 import { header } from '../utils/header';
 import { join } from "path";
@@ -48,13 +48,13 @@ export interface BundleOptions {
 };
 
 export interface UseContractsOptions {
-  enabled?: boolean;
-  filename?: string;
+    enabled?: boolean;
+    filename?: string;
 };
 
 export type TSBuilderOptions = {
     bundle?: BundleOptions;
-    useContracts?: UseContractsOptions;
+    useContractsHooks?: UseContractsOptions;
 } & RenderOptions;
 
 export type BuilderFileType = 'type' | 'client' | 'recoil' | 'react-query' | 'message-composer' | 'msg-builder' | 'plugin';
@@ -125,7 +125,7 @@ export class TSBuilder {
             [].push.apply(this.plugins, plugins);
         }
 
-        this.plugins.forEach(plugin=> plugin.setBuilder(this))
+        this.plugins.forEach(plugin => plugin.setBuilder(this))
     }
 
     async build() {
@@ -134,7 +134,7 @@ export class TSBuilder {
     }
 
     // lifecycle functions
-    private async process(){
+    private async process() {
         for (const contractOpt of this.contracts) {
             const contract = getContract(contractOpt);
             //resolve contract schema.
@@ -147,16 +147,16 @@ export class TSBuilder {
         }
     }
 
-    private async render(name: string, contractInfo: ContractInfo){
-      for (const plugin of this.plugins) {
-          let files = await plugin.render(name, contractInfo, this.outPath);
-          if(files && files.length){
-              [].push.apply(this.files, files);
-          }
-      }
+    private async render(name: string, contractInfo: ContractInfo) {
+        for (const plugin of this.plugins) {
+            let files = await plugin.render(name, contractInfo, this.outPath);
+            if (files && files.length) {
+                [].push.apply(this.files, files);
+            }
+        }
     }
 
-    private async after(){
+    private async after() {
         if (this.options.bundle.enabled) {
             this.bundle();
         }
@@ -166,21 +166,21 @@ export class TSBuilder {
         contractsProviderBundlePlugin.setBuilder(this);
 
         let files = await contractsProviderBundlePlugin.render(
-          "",
-          {
-            schemas: [],
-          },
-          this.outPath
+            "",
+            {
+                schemas: [],
+            },
+            this.outPath
         );
-        if(files && files.length){
-          [].push.apply(this.files, files);
+        if (files && files.length) {
+            [].push.apply(this.files, files);
         }
 
         createHelpers({
-          outPath: this.outPath,
-          contracts: this.contracts,
-          options: this.options,
-          plugins: this.plugins,
+            outPath: this.outPath,
+            contracts: this.contracts,
+            options: this.options,
+            plugins: this.plugins,
         }, this.builderContext);
     }
 
@@ -190,8 +190,8 @@ export class TSBuilder {
 
         const bundleFile = this.options.bundle.bundleFile;
         const bundlePath = join(
-          this.options?.bundle?.bundlePath ?? this.outPath,
-          bundleFile
+            this.options?.bundle?.bundlePath ?? this.outPath,
+            bundleFile
         );
         const bundleVariables = {};
         const importPaths = [];
@@ -215,7 +215,7 @@ export class TSBuilder {
             ]
         )).code;
 
-        if(this.options?.bundle?.bundlePath){
+        if (this.options?.bundle?.bundlePath) {
             mkdirp(this.options?.bundle?.bundlePath);
         }
 
