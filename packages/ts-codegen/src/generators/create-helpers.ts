@@ -21,7 +21,7 @@ const write = (outPath: string, file: string, content: string) => {
 };
 
 export const createHelpers = (input: TSBuilderInput, builderContext: BuilderContext) => {
-  if (input.options?.useContracts?.enabled && Object.keys(builderContext.providers)?.length) {
+  if (input.options?.useContractsHooks?.enabled && Object.keys(builderContext.providers)?.length) {
     write(input.outPath, "contractContextBase.ts", contractContextBase);
     write(input.outPath, "contracts-context.tsx", contractsContextTSX);
   }
