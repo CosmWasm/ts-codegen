@@ -36,7 +36,6 @@ The quickest and easiest way to interact with CosmWasm Contracts. `@cosmwasm/ts-
     - [React Query](#react-query)
     - [Recoil](#recoil)
     - [Message Composer](#message-composer)
-    - [Msg Builder](#msg-builder)
     - [Bundles](#bundles)
     - [CLI Usage and Examples](#cli-usage-and-examples)
     - [Advanced Usage](#advanced-usage)
@@ -121,7 +120,7 @@ codegen({
     messageComposer: {
       enabled: false
     },
-    msgBuilder: { 
+    msgBuilder: {
       enabled: false
     }
   }
@@ -137,11 +136,11 @@ Typescript types and interfaces are generated in separate files so they can be i
 
 #### Types Options
 
-  | option                        | description                                          |
-  | ----------------------------- | ---------------------------------------------------  |
-  | `types.enabled`               | enable type generation                               |
-  | `types.aliasExecuteMsg`       | generate a type alias based on the contract name     |
-  | `types.aliasEntryPoints`               | generate type aliases for the entry points based on the contract name     |
+  | option                   | description                                          |
+  | ------------------------ | ---------------------------------------------------- |
+  | `types.enabled`          | enable type generation                               |
+  | `types.aliasExecuteMsg`  | generate a type alias based on the contract name     |
+  | `types.aliasEntryPoints` | generate type aliases for the entry points based on the contract name     |
 
 ### Client
 
@@ -174,15 +173,15 @@ Generate [react-query v3](https://react-query-v3.tanstack.com/) or [react-query 
 
 #### React Query Options
 
-  | option                      | description                                                                  |
-  | ---------------------------- | ---------------------------------------------------------------------------- |
-  | `reactQuery.enabled`        | enable the react-query plugin                                                |
-  | `reactQuery.optionalClient` | allows contract client to be undefined as the component renders              |
-  | `reactQuery.queryKeys`      | generates a const queryKeys object for use with invalidations and set values |
-  | `reactQuery.queryFactory`   | generates a const queryFactory object for useQueries and prefetchQueries use |
-  | `reactQuery.version`        | `v4` uses `@tanstack/react-query` and `v3` uses `react-query`                |
-  | `reactQuery.mutations`      | also generate mutations                                                      |
-  | `reactQuery.camelize`       | use camelCase style for property names                                       |
+| option                      | description                                                                  |
+| --------------------------- | --------------------------------------------------------------------------- |
+| `reactQuery.enabled`        | enable the react-query plugin                                                |
+| `reactQuery.optionalClient` | allows contract client to be undefined as the component renders              |
+| `reactQuery.queryKeys`      | generates a const queryKeys object for use with invalidations and set values |
+| `reactQuery.queryFactory`   | generates a const queryFactory object for useQueries and prefetchQueries use |
+| `reactQuery.version`        | `v4` uses `@tanstack/react-query` and `v3` uses `react-query`                |
+| `reactQuery.mutations`      | also generate mutations                                                      |
+| `reactQuery.camelize`       | use camelCase style for property names                                       |
 
 
 #### React Query via CLI 
@@ -232,9 +231,9 @@ cosmwasm-ts-codegen generate \
 
 #### Recoil Options
 
-  | option                         | description                                                         |
-  | ------------------------------ | ------------------------------------------------------------------- |
-  | `recoil.enabled`               | enable the recoil plugin                                            |
+| option                         | description                                                         |
+| ------------------------------ | ------------------------------------------------------------------- |
+| `recoil.enabled`               | enable the recoil plugin                                            |
 
 ### Message Composer
 
@@ -253,9 +252,9 @@ cosmwasm-ts-codegen generate \
 ```
 #### Message Composer Options
 
-  | option                         | description                                                         |
-  | ------------------------------ | ------------------------------------------------------------------- |
-  | `messageComposer.enabled`      | enable the messageComposer plugin                                   |
+| option                         | description                                                         |
+| ------------------------------ | ------------------------------------------------------------------- |
+| `messageComposer.enabled`      | enable the messageComposer plugin                                   |
 
 ### Msg Builder
 
@@ -275,7 +274,7 @@ cosmwasm-ts-codegen generate \
 #### Message Composer Options
 
 | option      | description                                                         |
--------------| ------------------------------ | ------------------------------------------------------------------- |
+|------------ | ------------------------------ | ------------------------------------------------------------------- |
 | `msgBuilder.enabled` | enable the msgBilder plugin                                   |
 
 
@@ -293,11 +292,11 @@ const { CwAdminFactoryClient } = contracts.CwAdminFactory;
 ```
 #### Bundler Options
 
-  | option                | description                                                                      |
-  | --------------------- | -------------------------------------------------------------------------------- |
-  | `bundle.enabled`      | enable the bundler plugin                                                        |
-  | `bundle.scope`        | name of the scope, defaults to `contracts` (you can use `.` to make more scopes) |
-  | `bundle.bundleFile`   | name of the bundle file                                                          |
+| option                | description                                                                      |
+| --------------------- | -------------------------------------------------------------------------------- |
+| `bundle.enabled`      | enable the bundler plugin                                                        |
+| `bundle.scope`        | name of the scope, defaults to `contracts` (you can use `.` to make more scopes) |
+| `bundle.bundleFile`   | name of the bundle file                                                          |
 
 ### CLI Usage and Examples
 
@@ -415,6 +414,10 @@ https://gist.github.com/pyramation/a9520ccf131177b1841e02a97d7d3731
 - `cosmwasm-ts-codegen generate --plugin message-composer`
 
 https://gist.github.com/pyramation/43320e8b952751a0bd5a77dbc5b601f4
+
+- `cosmwasm-ts-codegen generate --plugin msg-builder`
+
+https://gist.github.com/adairrr/b394e62beb9856b0351883f776650f26
 
 
 ### JSON Schema
