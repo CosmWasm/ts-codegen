@@ -286,6 +286,54 @@ cosmwasm-ts-codegen generate \
 | -------------------------------- | --------------------------------------- |
 | `useContractsHooks.enabled`      | enable the `useContracts` plugin        |
 
+#### Use Contracts Provider Usage
+
+```tsx
+import { useChain } from '@cosmos-kit/react';
+import { ContractsProvider } from '../path/to/codegen/contracts-context';
+
+export default function YourComponent() {
+  
+  const { 
+    address,
+    getCosmWasmClient,
+    getSigningCosmWasmClient
+  } = useChain(chainName);
+
+  return (
+    <ContractsProvider
+      contractsConfig={{
+        address,
+        getCosmWasmClient,
+        getSigningCosmWasmClient,
+      }}
+    >
+        <SomeCoolComponent />
+    </ContractsProvider>
+  )
+};
+```
+
+#### Use Contracts Hooks Usage
+
+Once enabled, you can get contracts very simply:
+
+```ts
+const { marketplace } = useContracts();
+```
+
+```ts
+const marketplaceClient = marketplace.signingClient(marketplaceContract);
+await marketplaceClient.updateAskPrice({
+  collection: token.collectionAddr,
+  price: {
+    amount,
+    denom,
+  },
+  tokenId,
+});
+```
+
 ### Bundles
 
 The bundler will make a nice package of all your contracts. For example:
