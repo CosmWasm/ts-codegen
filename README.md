@@ -136,11 +136,11 @@ Typescript types and interfaces are generated in separate files so they can be i
 
 #### Types Options
 
-  | option                   | description                                          |
-  | ------------------------ | ---------------------------------------------------- |
-  | `types.enabled`          | enable type generation                               |
-  | `types.aliasExecuteMsg`  | generate a type alias based on the contract name     |
-  | `types.aliasEntryPoints` | generate type aliases for the entry points based on the contract name     |
+| option                   | description                                          |
+| ------------------------ | ---------------------------------------------------- |
+| `types.enabled`          | enable type generation                               |
+| `types.aliasExecuteMsg`  | generate a type alias based on the contract name     |
+| `types.aliasEntryPoints` | generate type aliases for the entry points based on the contract name     |
 
 ### Client
 
@@ -150,11 +150,11 @@ The `client` plugin will generate TS client classes for your contracts. This opt
 
 #### Client Options
 
-  | option                                  | description                                          |
-  | --------------------------------------- | ---------------------------------------------------  |
-  | `client.enabled`                        | generate TS client classes for your contracts        |
-  | `client.execExtendsQuery`               | execute should extend query message clients          |
-  | `client.noImplicitOverride`             | should match your tsconfig noImplicitOverride option |
+| option                                  | description                                          |
+| --------------------------------------- | ---------------------------------------------------  |
+| `client.enabled`                        | generate TS client classes for your contracts        |
+| `client.execExtendsQuery`               | execute should extend query message clients          |
+| `client.noImplicitOverride`             | should match your tsconfig noImplicitOverride option |
 
 #### Client via CLI
 
