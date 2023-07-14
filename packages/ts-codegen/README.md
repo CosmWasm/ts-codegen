@@ -275,9 +275,9 @@ cosmwasm-ts-codegen generate \
 ```
 #### Message Builder Options
 
-| option      | description                                                         |
-|------------ | ------------------------------ | ------------------------------------------------------------------- |
-| `msgBuilder.enabled` | enable the msgBuilder plugin                                   |
+| option               | description                    |
+|--------------------- | ------------------------------ |
+| `msgBuilder.enabled` | enable the msgBuilder plugin   |
 
 
 ### Use Contracts Hooks
