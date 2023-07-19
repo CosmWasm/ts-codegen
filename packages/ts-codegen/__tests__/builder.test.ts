@@ -112,6 +112,9 @@ it('builder default', async () => {
             },
             msgBuilder: {
                 enabled: true
+            },
+            useContractsHooks: {
+              enabled: true,
             }
         }
     });

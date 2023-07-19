@@ -1,8 +1,8 @@
-import { join, dirname } from "path";
+import { join, dirname, basename, extname } from "path";
 import { sync as mkdirp } from "mkdirp";
 import pkg from "../../package.json";
 import { writeContentToFile } from "../utils/files";
-import { TSBuilderInput } from "../builder";
+import { BuilderFile, TSBuilderInput } from "../builder";
 import { contractContextBase, contractsContextTSX } from "../helpers";
 import { BuilderContext } from "wasm-ast-types";
 
@@ -14,15 +14,37 @@ const header = `/**
 */
 \n`;
 
-const write = (outPath: string, file: string, content: string) => {
+const write = (outPath: string, file: string, content: string, varname?: string): BuilderFile => {
   const outFile = join(outPath, file);
   mkdirp(dirname(outFile));
   writeContentToFile(outPath, header + content, outFile);
+
+  return {
+    type: "plugin",
+    pluginType: "helper",
+    contract: varname ?? basename(file, extname(file)),
+    localname: file,
+    filename: outFile,
+  };
 };
 
-export const createHelpers = (input: TSBuilderInput, builderContext: BuilderContext) => {
-  if (input.options?.useContractsHooks?.enabled && Object.keys(builderContext.providers)?.length) {
-    write(input.outPath, "contractContextBase.ts", contractContextBase);
-    write(input.outPath, "contracts-context.tsx", contractsContextTSX);
+export const createHelpers = (
+  input: TSBuilderInput,
+  builderContext: BuilderContext
+): BuilderFile[] => {
+  const files: BuilderFile[] = [];
+
+  if (
+    input.options?.useContractsHooks?.enabled &&
+    Object.keys(builderContext.providers)?.length
+  ) {
+    files.push(
+      write(input.outPath, "contractContextBase.ts", contractContextBase)
+    );
+    files.push(
+      write(input.outPath, "contracts-context.tsx", contractsContextTSX, "contractsContext")
+    );
   }
+
+  return files;
 };

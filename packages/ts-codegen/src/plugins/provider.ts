@@ -106,6 +106,7 @@ export class ContractsContextProviderPlugin extends BuilderPluginBase<TSBuilderO
     return [
       {
         type: "plugin",
+        pluginType: "provider",
         localname,
         body,
       },

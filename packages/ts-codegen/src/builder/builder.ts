@@ -63,7 +63,9 @@ export interface BuilderFile {
     type: BuilderFileType;
     pluginType?: string;
     contract: string;
+    //filename only: Factory.client.ts
     localname: string;
+    //full path: contracts/Factory.client.ts
     filename: string;
 };
 
@@ -157,35 +159,41 @@ export class TSBuilder {
     }
 
     private async after() {
-        if (this.options.bundle.enabled) {
-            this.bundle();
-        }
 
         //create useContracts bundle file
         const contractsProviderBundlePlugin = new ContractsProviderBundlePlugin(this.options);
         contractsProviderBundlePlugin.setBuilder(this);
 
-        let files = await contractsProviderBundlePlugin.render(
-            "",
+        //contractContextProviders.ts
+        const files = await contractsProviderBundlePlugin.render(
+            "contractContextProviders",
             {
                 schemas: [],
             },
             this.outPath
         );
+
         if (files && files.length) {
             [].push.apply(this.files, files);
         }
 
-        createHelpers({
+        const helpers = createHelpers({
             outPath: this.outPath,
             contracts: this.contracts,
             options: this.options,
             plugins: this.plugins,
         }, this.builderContext);
+
+        if (helpers && helpers.length) {
+          [].push.apply(this.files, helpers);
+        }
+
+        if (this.options.bundle.enabled) {
+            this.bundle();
+        }
     }
 
     async bundle() {
-
         const allFiles = this.files;
 
         const bundleFile = this.options.bundle.bundleFile;
