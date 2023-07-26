@@ -47,7 +47,7 @@ The quickest and easiest way to interact with CosmWasm Contracts. `@cosmwasm/ts-
     - [Exporting Schemas](#exporting-schemas)
 - [Developing](#developing)
 - [Related](#related)
-## Quickstart 
+## Quickstart
 
 Clone your project and `cd` into your contracts folder
 
@@ -133,7 +133,7 @@ codegen({
   console.log('✨ all done!');
 });
 ```
-#### Types 
+#### Types
 
 Typescript types and interfaces are generated in separate files so they can be imported into various generated plugins.
 
@@ -149,7 +149,7 @@ Typescript types and interfaces are generated in separate files so they can be i
 
 ### Client
 
-The `client` plugin will generate TS client classes for your contracts. This option generates a `QueryClient` for queries as well as a `Client` for queries and mutations. 
+The `client` plugin will generate TS client classes for your contracts. This option generates a `QueryClient` for queries as well as a `Client` for queries and mutations.
 
 [see example output code](https://gist.github.com/pyramation/30508678b7563e286f06ccc5ac384817)
 
@@ -189,7 +189,7 @@ Generate [react-query v3](https://react-query-v3.tanstack.com/) or [react-query 
 | `reactQuery.camelize`       | use camelCase style for property names                                       |
 
 
-#### React Query via CLI 
+#### React Query via CLI
 
 Here is an example without optional client, using v3 for `react-query`, without mutations:
 
@@ -231,7 +231,7 @@ cosmwasm-ts-codegen generate \
     --plugin recoil \
     --schema ./schema \
     --out ./ts \
-    --name MyContractName 
+    --name MyContractName
 ```
 
 #### Recoil Options
@@ -253,7 +253,7 @@ cosmwasm-ts-codegen generate \
     --plugin message-composer \
     --schema ./schema \
     --out ./ts \
-    --name MyContractName 
+    --name MyContractName
 ```
 #### Message Composer Options
 
@@ -274,7 +274,7 @@ cosmwasm-ts-codegen generate \
     --plugin msg-builder \
     --schema ./schema \
     --out ./ts \
-    --name MyContractName 
+    --name MyContractName
 ```
 #### Message Builder Options
 
@@ -296,8 +296,8 @@ import { useChain } from '@cosmos-kit/react';
 import { ContractsProvider } from '../path/to/codegen/contracts-context';
 
 export default function YourComponent() {
-  
-  const { 
+
+  const {
     address,
     getCosmWasmClient,
     getSigningCosmWasmClient
@@ -357,11 +357,64 @@ const { CwAdminFactoryClient } = contracts.CwAdminFactory;
 | `bundle.scope`        | name of the scope, defaults to `contracts` (you can use `.` to make more scopes) |
 | `bundle.bundleFile`   | name of the bundle file                                                          |
 
+#### Coding Style
+
+| option                | description                                                                      |
+| --------------------- | -------------------------------------------------------------------------------- |
+| `useShorthandCtor`      |  Enable using shorthand constructor. Default: false |
+
+Using shorthand constructor(Might not be transpiled correctly with babel):
+
+```ts
+  constructor(
+    protected address: string | undefined,
+    protected cosmWasmClient: CosmWasmClient | undefined,
+    protected signingCosmWasmClient: SigningCosmWasmClient | undefined,
+    private TSign?: new (
+      client: SigningCosmWasmClient,
+      sender: string,
+      contractAddress: string
+    ) => TSign,
+    private TQuery?: new (
+      client: CosmWasmClient,
+      contractAddress: string
+    ) => TQuery,
+    private TMsgComposer?: new (
+      sender: string,
+      contractAddress: string
+    ) => TMsgComposer
+  ) {}
+```
+
+Without using shorthand constructor:
+
+```ts
+  address: string | undefined;
+  ...
+  TMsgComposer?: new (
+    sender: string,
+    contractAddress: string
+  ) => TMsgComposer;
+
+  constructor(
+    address: string | undefined,
+    ...
+    TMsgComposer?: new (
+      sender: string,
+      contractAddress: string
+    ) => TMsgComposer
+  ) {
+    this.address = address;
+    ...
+    this.TMsgComposer = TMsgComposer;
+  }
+```
+
 ### CLI Usage and Examples
 
 #### Interactive prompt
 
-The CLI is interactive, and if you don't specify an option, it will interactively prompt you. 
+The CLI is interactive, and if you don't specify an option, it will interactively prompt you.
 
 ```sh
 cosmwasm-ts-codegen generate
@@ -444,7 +497,7 @@ cosmwasm-ts-codegen generate \
 for lower-level access, you can import the various plugins directly:
 
 ```ts
-import { 
+import {
   generateTypes,
   generateClient,
   generateReactQuery,
@@ -541,7 +594,7 @@ export_schema_with_title(
 ### Initial setup
 
 ```
-yarn 
+yarn
 yarn bootstrap
 ```
 

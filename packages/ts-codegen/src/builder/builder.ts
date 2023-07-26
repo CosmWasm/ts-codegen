@@ -49,11 +49,15 @@ export interface BundleOptions {
 
 export interface UseContractsOptions {
     enabled?: boolean;
-    filename?: string;
 };
 
 export type TSBuilderOptions = {
     bundle?: BundleOptions;
+    /**
+     * Enable using shorthand constructor.
+     * Default: false
+     */
+    useShorthandCtor?: boolean;
     useContractsHooks?: UseContractsOptions;
 } & RenderOptions;
 
