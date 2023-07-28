@@ -64,7 +64,7 @@ export const ContractsProvider = ({
 };
 
 export const useContracts = () => {
-  const contracts = useContext(ContractsContext);
+  const contracts: IContractsContext = useContext(ContractsContext);
   if (contracts === null) {
     throw new Error('useContracts must be used within a ContractsProvider');
   }

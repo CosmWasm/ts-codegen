@@ -94,6 +94,7 @@ it('builder default', async () => {
                 bundleFile: 'index.ts',
                 scope: 'smart.contracts'
             },
+            useShorthandCtor: true,
             types: {
                 enabled: true
             },
@@ -112,6 +113,9 @@ it('builder default', async () => {
             },
             msgBuilder: {
                 enabled: true
+            },
+            useContractsHooks: {
+              enabled: true,
             }
         }
     });

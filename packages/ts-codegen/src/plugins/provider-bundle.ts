@@ -89,6 +89,7 @@ export class ContractsProviderBundlePlugin extends BuilderPluginBase<TSBuilderOp
     return [
       {
         type: "plugin",
+        pluginType: "contractContextProviders",
         localname,
         body,
       },

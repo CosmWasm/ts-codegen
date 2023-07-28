@@ -5,8 +5,8 @@ export interface ImportObj {
     path: string;
     importAs?: string;
 }
-export type GetUtilFn = (<TContext = RenderContext>(...args: any[]) => (context: TContext) => ImportObj);
-export type UtilMapping = {
+export declare type GetUtilFn = (<TContext = RenderContext>(...args: any[]) => (context: TContext) => ImportObj);
+export declare type UtilMapping = {
     [key: string]: ImportObj | string | GetUtilFn;
 };
 export declare const UTILS: {
