@@ -317,6 +317,16 @@ export default function YourComponent() {
 };
 ```
 
+If you're using Babel, please make sure include '@babel/preset-react' in devDeps and presets in .babelrc.js:
+
+```js
+ presets: [
+      '@babel/typescript',
+      '@babel/env',
+      '@babel/preset-react',
+     ]
+```
+
 #### Use Contracts Hooks Usage
 
 Once enabled, you can get contracts very simply:
