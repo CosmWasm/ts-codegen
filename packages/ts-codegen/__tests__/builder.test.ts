@@ -94,7 +94,7 @@ it('builder default', async () => {
                 bundleFile: 'index.ts',
                 scope: 'smart.contracts'
             },
-            useShorthandCtor: true,
+            useShorthandCtor: false,
             types: {
                 enabled: true
             },

@@ -30,7 +30,8 @@ const defaultOpts: TSBuilderOptions = {
         enabled: true,
         scope: 'contracts',
         bundleFile: 'bundle.ts'
-    }
+    },
+    useShorthandCtor: true
 }
 
 export interface TSBuilderInput {
