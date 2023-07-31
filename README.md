@@ -371,7 +371,7 @@ const { CwAdminFactoryClient } = contracts.CwAdminFactory;
 
 | option                | description                                                                      |
 | --------------------- | -------------------------------------------------------------------------------- |
-| `useShorthandCtor`      |  Enable using shorthand constructor. Default: false |
+| `useShorthandCtor`      |  Enable using shorthand constructor. Default: true |
 
 Using shorthand constructor(Might not be transpiled correctly with babel):
 
