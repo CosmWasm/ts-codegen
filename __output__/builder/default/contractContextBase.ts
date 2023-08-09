@@ -53,24 +53,49 @@ export class ContractBase<
   TQuery = IEmptyClient,
   TMsgComposer = IEmptyClient
 > {
+
+  address: string | undefined;
+  cosmWasmClient: CosmWasmClient | undefined;
+  signingCosmWasmClient: SigningCosmWasmClient | undefined;
+  TSign?: new (
+    client: SigningCosmWasmClient,
+    sender: string,
+    contractAddress: string
+  ) => TSign;
+  TQuery?: new (
+    client: CosmWasmClient,
+    contractAddress: string
+  ) => TQuery;
+  TMsgComposer?: new (
+    sender: string,
+    contractAddress: string
+  ) => TMsgComposer;
+
   constructor(
-    protected address: string | undefined,
-    protected cosmWasmClient: CosmWasmClient | undefined,
-    protected signingCosmWasmClient: SigningCosmWasmClient | undefined,
-    private TSign?: new (
+    address: string | undefined,
+    cosmWasmClient: CosmWasmClient | undefined,
+    signingCosmWasmClient: SigningCosmWasmClient | undefined,
+    TSign?: new (
       client: SigningCosmWasmClient,
       sender: string,
       contractAddress: string
     ) => TSign,
-    private TQuery?: new (
+    TQuery?: new (
       client: CosmWasmClient,
       contractAddress: string
     ) => TQuery,
-    private TMsgComposer?: new (
+    TMsgComposer?: new (
       sender: string,
       contractAddress: string
     ) => TMsgComposer
-  ) {}
+  ) {
+    this.address = address;
+    this.cosmWasmClient = cosmWasmClient;
+    this.signingCosmWasmClient = signingCosmWasmClient;
+    this.TSign = TSign;
+    this.TQuery = TQuery;
+    this.TMsgComposer = TMsgComposer;
+  }
 
   public getSigningClient(contractAddr: string): TSign {
     if (!this.signingCosmWasmClient) throw new Error(NO_SINGING_ERROR_MESSAGE);

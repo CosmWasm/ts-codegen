@@ -30,7 +30,8 @@ const defaultOpts: TSBuilderOptions = {
         enabled: true,
         scope: 'contracts',
         bundleFile: 'bundle.ts'
-    }
+    },
+    useShorthandCtor: true
 }
 
 export interface TSBuilderInput {
@@ -55,7 +56,7 @@ export type TSBuilderOptions = {
     bundle?: BundleOptions;
     /**
      * Enable using shorthand constructor.
-     * Default: false
+     * Default: true
      */
     useShorthandCtor?: boolean;
     useContractsHooks?: UseContractsOptions;

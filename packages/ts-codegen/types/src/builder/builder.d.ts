@@ -19,7 +19,7 @@ export type TSBuilderOptions = {
     bundle?: BundleOptions;
     /**
      * Enable using shorthand constructor.
-     * Default: false
+     * Default: true
      */
     useShorthandCtor?: boolean;
     useContractsHooks?: UseContractsOptions;
