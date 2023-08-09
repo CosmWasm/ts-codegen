@@ -64,7 +64,7 @@ export default async (argv) => {
                 type: 'list',
                 name: 'version',
                 message: 'which react-query version?',
-                default: 'v3',
+                default: 'v4',
                 choices: ['v3', 'v4']
             },
             {

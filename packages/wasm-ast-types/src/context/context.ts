@@ -115,7 +115,7 @@ export const defaultOptions: RenderOptions = {
   reactQuery: {
     enabled: false,
     optionalClient: false,
-    version: 'v3',
+    version: 'v4',
     mutations: false,
     camelize: true,
     queryKeys: false

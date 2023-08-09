@@ -9,16 +9,16 @@ import {
   createReactQueryMutationHooks,
 } from './react-query'
 import { expectCode, makeContext } from '../../test-utils';
-import { createMessageBuilderClass } from '../message-builder';
-
-const execCtx = makeContext(execute_msg);
-const queryCtx = makeContext(query_msg);
 
 it('createReactQueryHooks', () => {
   expectCode(t.program(
     createReactQueryHooks(
       {
-        context: queryCtx,
+        context: makeContext(query_msg, {
+          reactQuery: {
+            version: 'v3',
+          }
+        }),
         queryMsg: query_msg,
         contractName: 'Sg721',
         QueryClient: 'Sg721QueryClient'
@@ -29,6 +29,7 @@ it('createReactQueryHooks', () => {
       {
         context: makeContext(query_msg, {
           reactQuery: {
+            version: 'v3',
             optionalClient: true
           }
         }),
@@ -84,7 +85,11 @@ it('createReactQueryHooks', () => {
   expectCode(t.program(
     createReactQueryMutationHooks(
       {
-        context: execCtx,
+        context: makeContext(execute_msg, {
+          reactQuery: {
+            version: 'v3'
+          }
+        }),
         execMsg: execute_msg,
         contractName: 'Sg721',
         ExecuteClient: 'Sg721Client',
@@ -93,11 +98,14 @@ it('createReactQueryHooks', () => {
 });
 
 it('ownership', () => {
-  const ownershipCtx = makeContext(ownership);
   expectCode(t.program(
     createReactQueryMutationHooks(
       {
-        context: ownershipCtx,
+        context: makeContext(ownership, {
+          reactQuery: {
+            version: 'v3'
+          }
+        }),
         execMsg: ownership,
         contractName: 'Ownership',
         ExecuteClient: 'OwnershipClient',
