@@ -369,11 +369,11 @@ const { CwAdminFactoryClient } = contracts.CwAdminFactory;
 
 #### Coding Style
 
-| option                | description                                                                      |
-| --------------------- | -------------------------------------------------------------------------------- |
-| `useShorthandCtor`      |  Enable using shorthand constructor. Default: true |
+| option                | description                          | default |
+| --------------------- | ---------------------------------------------- |
+| `useShorthandCtor`    |  Enable using shorthand constructor. | true    |
 
-Using shorthand constructor(Might not be transpiled correctly with babel):
+Using shorthand constructor (Might not be transpiled correctly with babel):
 
 ```ts
   constructor(

@@ -317,6 +317,16 @@ export default function YourComponent() {
 };
 ```
 
+If you're using Babel, please make sure include '@babel/preset-react' in devDeps and presets in .babelrc.js:
+
+```js
+ presets: [
+      '@babel/typescript',
+      '@babel/env',
+      '@babel/preset-react',
+     ]
+```
+
 #### Use Contracts Hooks Usage
 
 Once enabled, you can get contracts very simply:
@@ -359,11 +369,11 @@ const { CwAdminFactoryClient } = contracts.CwAdminFactory;
 
 #### Coding Style
 
-| option                | description                                                                      |
-| --------------------- | -------------------------------------------------------------------------------- |
-| `useShorthandCtor`      |  Enable using shorthand constructor. Default: false |
+| option                | description                          | default |
+| --------------------- | ---------------------------------------------- |
+| `useShorthandCtor`    |  Enable using shorthand constructor. | true    |
 
-Using shorthand constructor(Might not be transpiled correctly with babel):
+Using shorthand constructor (Might not be transpiled correctly with babel):
 
 ```ts
   constructor(
