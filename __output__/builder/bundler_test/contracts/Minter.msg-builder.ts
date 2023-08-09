@@ -6,7 +6,7 @@
 
 import { Timestamp, Uint64, Uint128, ConfigResponse, Coin, Addr, Config, ExecuteMsg, Decimal, InstantiateMsg, InstantiateMsg1, CollectionInfoForRoyaltyInfoResponse, RoyaltyInfoResponse, QueryMsg } from "./Minter.types";
 import { CamelCasedProperties } from "type-fest";
-export abstract class MinterExecuteMsgBuilder {
+export abstract class MinterExecuteMessageBuilder {
   static mint = (): ExecuteMsg => {
     return {
       mint: ({} as const)
@@ -69,7 +69,7 @@ export abstract class MinterExecuteMsgBuilder {
     };
   };
 }
-export abstract class MinterQueryMsgBuilder {
+export abstract class MinterQueryMessageBuilder {
   static config = (): QueryMsg => {
     return {
       config: ({} as const)

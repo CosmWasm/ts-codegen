@@ -122,7 +122,7 @@ codegen({
     messageComposer: {
       enabled: false
     },
-    msgBuilder: {
+    messageBuilder: {
       enabled: false
     },
     useContractsHooks: {
@@ -278,9 +278,9 @@ cosmwasm-ts-codegen generate \
 ```
 #### Message Builder Options
 
-| option               | description                    |
-|--------------------- | ------------------------------ |
-| `msgBuilder.enabled` | enable the msgBuilder plugin   |
+| option                   | description                    |
+|------------------------- | ------------------------------ |
+| `messageBuilder.enabled` | enable the messageBuilder plugin   |
 
 
 ### Use Contracts Hooks

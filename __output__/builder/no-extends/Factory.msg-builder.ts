@@ -6,7 +6,7 @@
 
 import { AdminAddrResponse, CodeIdResponse, CodeIdType, Uint128, Binary, CreateWalletMsg, Guardians, MultiSig, Coin, Cw20Coin, ExecuteMsg, Addr, ProxyMigrationTxMsg, WalletAddr, CanonicalAddr, RelayTransaction, FeeResponse, GovecAddrResponse, InstantiateMsg, QueryMsg, WalletQueryPrefix, Duration, StakingOptions, WalletInfo, ContractVersion, WalletsOfResponse, WalletsResponse } from "./Factory.types";
 import { CamelCasedProperties } from "type-fest";
-export abstract class FactoryExecuteMsgBuilder {
+export abstract class FactoryExecuteMessageBuilder {
   static createWallet = ({
     createWalletMsg
   }: CamelCasedProperties<Extract<ExecuteMsg, {
@@ -91,7 +91,7 @@ export abstract class FactoryExecuteMsgBuilder {
     };
   };
 }
-export abstract class FactoryQueryMsgBuilder {
+export abstract class FactoryQueryMessageBuilder {
   static wallets = ({
     limit,
     startAfter

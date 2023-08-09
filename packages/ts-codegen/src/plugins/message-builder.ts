@@ -11,7 +11,7 @@ import {
 import { BuilderFileType } from '../builder';
 import { BuilderPluginBase } from './plugin-base';
 
-export class MsgBuilderPlugin extends BuilderPluginBase<RenderOptions> {
+export class MessageBuilderPlugin extends BuilderPluginBase<RenderOptions> {
   initContext(
     contract: ContractInfo,
     options?: RenderOptions
@@ -30,7 +30,7 @@ export class MsgBuilderPlugin extends BuilderPluginBase<RenderOptions> {
       body: any[];
     }[]
   > {
-    const { enabled } = this.option.msgBuilder;
+    const { enabled } = this.option.messageBuilder;
 
     if (!enabled) {
       return;
@@ -52,9 +52,9 @@ export class MsgBuilderPlugin extends BuilderPluginBase<RenderOptions> {
     if (ExecuteMsg) {
       const children = getMessageProperties(ExecuteMsg);
       if (children.length > 0) {
-        const className = pascal(`${name}ExecuteMsgBuilder`);
+        const className = pascal(`${name}ExecuteMessageBuilder`);
 
-        body.push(w.createMsgBuilderClass(context, className, ExecuteMsg));
+        body.push(w.createMessageBuilderClass(context, className, ExecuteMsg));
       }
     }
 
@@ -63,9 +63,9 @@ export class MsgBuilderPlugin extends BuilderPluginBase<RenderOptions> {
     if (QueryMsg) {
       const children = getMessageProperties(QueryMsg);
       if (children.length > 0) {
-        const className = pascal(`${name}QueryMsgBuilder`);
+        const className = pascal(`${name}QueryMessageBuilder`);
 
-        body.push(w.createMsgBuilderClass(context, className, QueryMsg));
+        body.push(w.createMessageBuilderClass(context, className, QueryMsg));
       }
     }
 

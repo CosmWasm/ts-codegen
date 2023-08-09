@@ -7,13 +7,13 @@ import { RenderContext } from '../context';
 import { getWasmMethodArgs } from '../client/client';
 import { Expression, Identifier, PatternLike, TSAsExpression } from '@babel/types';
 
-export const createMsgBuilderClass = (
+export const createMessageBuilderClass = (
   context: RenderContext,
   className: string,
   msg: ExecuteMsg | QueryMsg
 ): t.ExportNamedDeclaration => {
   const staticMethods = getMessageProperties(msg).map((schema) => {
-    return createStaticExecMethodMsgBuilder(context, schema, msg.title);
+    return createStaticExecMethodMessageBuilder(context, schema, msg.title);
   });
 
   // const blockStmt = bindings;
@@ -50,7 +50,7 @@ function createExtractTypeAnnotation(underscoreName: string, msgTitle: string) {
   );
 }
 
-const createStaticExecMethodMsgBuilder = (
+const createStaticExecMethodMessageBuilder = (
   context: RenderContext,
   jsonschema: any,
   msgTitle: string
@@ -82,7 +82,7 @@ const createStaticExecMethodMsgBuilder = (
     param.typeAnnotation.type === 'TSTypeAnnotation' &&
     param.typeAnnotation.typeAnnotation.type === 'TSTypeLiteral'
   ) {
-      param.typeAnnotation = createExtractTypeAnnotation(underscoreName, msgTitle);
+    param.typeAnnotation = createExtractTypeAnnotation(underscoreName, msgTitle);
   }
 
   return t.classProperty(

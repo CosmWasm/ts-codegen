@@ -9,7 +9,7 @@ import {
   createReactQueryMutationHooks,
 } from './react-query'
 import { expectCode, makeContext } from '../../test-utils';
-import { createMsgBuilderClass } from '../msg-builder';
+import { createMessageBuilderClass } from '../msg-builder';
 
 const execCtx = makeContext(execute_msg);
 const queryCtx = makeContext(query_msg);

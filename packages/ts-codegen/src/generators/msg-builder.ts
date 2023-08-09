@@ -8,7 +8,7 @@ import { writeFileSync } from "fs";
 import generate from "@babel/generator";
 import { ContractInfo, getMessageProperties } from "wasm-ast-types";
 import { findAndParseTypes, findExecuteMsg, findQueryMsg } from '../utils';
-import { RenderContext, MsgBuilderOptions } from 'wasm-ast-types';
+import { RenderContext, MessageBuilderOptions } from 'wasm-ast-types';
 import { BuilderFile } from "../builder";
 import babelTraverse from '@babel/traverse';
 import { parse as babelParse } from '@babel/parser'
@@ -17,11 +17,11 @@ export default async (
   name: string,
   contractInfo: ContractInfo,
   outPath: string,
-  msgBuilderOptions?: MsgBuilderOptions
+  messageBuilderOptions?: MessageBuilderOptions
 ): Promise<BuilderFile[]> => {
   const { schemas } = contractInfo;
   const context = new RenderContext(contractInfo, {
-    msgBuilder: msgBuilderOptions ?? {},
+    messageBuilder: messageBuilderOptions ?? {},
   });
 
   const localname = pascal(name) + ".msg-builder.ts";
@@ -38,10 +38,10 @@ export default async (
   if (ExecuteMsg) {
     const children = getMessageProperties(ExecuteMsg);
     if (children.length > 0) {
-      const className = pascal(`${name}ExecuteMsgBuilder`);
+      const className = pascal(`${name}ExecuteMessageBuilder`);
 
       body.push(
-        w.createMsgBuilderClass(context, className, ExecuteMsg)
+        w.createMessageBuilderClass(context, className, ExecuteMsg)
       );
     }
   }
@@ -51,10 +51,10 @@ export default async (
   if (QueryMsg) {
     const children = getMessageProperties(QueryMsg);
     if (children.length > 0) {
-      const className = pascal(`${name}QueryMsgBuilder`);
+      const className = pascal(`${name}QueryMessageBuilder`);
 
       body.push(
-        w.createMsgBuilderClass(context, className, QueryMsg)
+        w.createMessageBuilderClass(context, className, QueryMsg)
       );
     }
   }

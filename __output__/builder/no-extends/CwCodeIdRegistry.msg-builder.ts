@@ -6,7 +6,7 @@
 
 import { Addr, PaymentInfo, Uint128, ConfigResponse, ExecuteMsg, Binary, Cw20ReceiveMsg, GetRegistrationResponse, Registration, InfoForCodeIdResponse, InstantiateMsg, ListRegistrationsResponse, QueryMsg, ReceiveMsg } from "./CwCodeIdRegistry.types";
 import { CamelCasedProperties } from "type-fest";
-export abstract class CwCodeIdRegistryExecuteMsgBuilder {
+export abstract class CwCodeIdRegistryExecuteMessageBuilder {
   static receive = ({
     amount,
     msg,
@@ -83,7 +83,7 @@ export abstract class CwCodeIdRegistryExecuteMsgBuilder {
     };
   };
 }
-export abstract class CwCodeIdRegistryQueryMsgBuilder {
+export abstract class CwCodeIdRegistryQueryMessageBuilder {
   static config = (): QueryMsg => {
     return {
       config: ({} as const)

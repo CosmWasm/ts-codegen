@@ -17,7 +17,7 @@ import generate from '@babel/generator';
 import * as t from '@babel/types';
 import { ReactQueryPlugin } from "../plugins/react-query";
 import { RecoilPlugin } from "../plugins/recoil";
-import { MsgBuilderPlugin } from "../plugins/msg-builder";
+import { MessageBuilderPlugin } from "../plugins/message-builder";
 import { MessageComposerPlugin } from "../plugins/message-composer";
 import { ClientPlugin } from "../plugins/client";
 import { TypesPlugin } from "../plugins/types";
@@ -109,7 +109,7 @@ export class TSBuilder {
             new MessageComposerPlugin(this.options),
             new ReactQueryPlugin(this.options),
             new RecoilPlugin(this.options),
-            new MsgBuilderPlugin(this.options),
+            new MessageBuilderPlugin(this.options),
             new ContractsContextProviderPlugin(this.options),
         ]);
     }
@@ -189,7 +189,7 @@ export class TSBuilder {
         }, this.builderContext);
 
         if (helpers && helpers.length) {
-          [].push.apply(this.files, helpers);
+            [].push.apply(this.files, helpers);
         }
 
         if (this.options.bundle.enabled) {
