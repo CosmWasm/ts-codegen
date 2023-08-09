@@ -6,7 +6,7 @@
 
 import { Addr, Uint128, Duration, Threshold, PercentageThreshold, Decimal, ConfigResponse, CheckedDepositInfo, ExecuteMsg, CosmosMsgForEmpty, BankMsg, StakingMsg, DistributionMsg, Binary, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Vote, DepositToken, Coin, Empty, IbcTimeout, IbcTimeoutBlock, DepositInfo, GovernanceModulesResponse, InfoResponse, ContractVersion, InstantiateMsg, Expiration, Status, ListProposalsResponse, ProposalResponse, Proposal, Votes, ListVotesResponse, VoteInfo, MigrateMsg, ProposalCountResponse, ProposalHooksResponse, QueryMsg, ReverseProposalsResponse, VoteHooksResponse, VoteResponse } from "./CwSingle.types";
 import { CamelCasedProperties } from "type-fest";
-export abstract class CwSingleExecuteMessageBuilder {
+export abstract class CwSingleExecuteMsgBuilder {
   static propose = ({
     description,
     msgs,
@@ -125,7 +125,7 @@ export abstract class CwSingleExecuteMessageBuilder {
     };
   };
 }
-export abstract class CwSingleQueryMessageBuilder {
+export abstract class CwSingleQueryMsgBuilder {
   static config = (): QueryMsg => {
     return {
       config: ({} as const)

@@ -502,7 +502,7 @@ import {
   generateClient,
   generateReactQuery,
   generateRecoil,
-  generateMessageComposer,
+  generateMessageComposer
 } from '@cosmwasm/ts-codegen';
 ```
 ### Example Output

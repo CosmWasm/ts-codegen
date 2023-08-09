@@ -6,7 +6,7 @@
 
 import { ExecuteMsg, Binary, InstantiateMsg, QueryMsg } from "./CwAdminFactory.types";
 import { CamelCasedProperties } from "type-fest";
-export abstract class CwAdminFactoryExecuteMessageBuilder {
+export abstract class CwAdminFactoryExecuteMsgBuilder {
   static instantiateContractWithSelfAdmin = ({
     codeId,
     instantiateMsg,

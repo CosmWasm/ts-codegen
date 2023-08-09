@@ -52,7 +52,7 @@ export class MessageBuilderPlugin extends BuilderPluginBase<RenderOptions> {
     if (ExecuteMsg) {
       const children = getMessageProperties(ExecuteMsg);
       if (children.length > 0) {
-        const className = pascal(`${name}ExecuteMessageBuilder`);
+        const className = pascal(`${name}ExecuteMsgBuilder`);
 
         body.push(w.createMessageBuilderClass(context, className, ExecuteMsg));
       }
@@ -63,7 +63,7 @@ export class MessageBuilderPlugin extends BuilderPluginBase<RenderOptions> {
     if (QueryMsg) {
       const children = getMessageProperties(QueryMsg);
       if (children.length > 0) {
-        const className = pascal(`${name}QueryMessageBuilder`);
+        const className = pascal(`${name}QueryMsgBuilder`);
 
         body.push(w.createMessageBuilderClass(context, className, QueryMsg));
       }
