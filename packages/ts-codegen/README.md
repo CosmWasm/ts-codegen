@@ -317,15 +317,19 @@ export default function YourComponent() {
 };
 ```
 
-If you're using Babel, please make sure include '@babel/preset-react' in devDeps and presets in .babelrc.js:
+#### Use Contracts Provider Babel/TSC config
+
+If you're using Babel, please make sure include `'@babel/preset-react'` in devDeps and presets in `.babelrc.js`:
 
 ```js
  presets: [
-      '@babel/typescript',
-      '@babel/env',
-      '@babel/preset-react',
-     ]
+   '@babel/typescript',
+   '@babel/env',
+   '@babel/preset-react',
+ ]
 ```
+
+For `tsc`, you should set the `jsx` option to `'react'` in your `tsconfig.json`.
 
 #### Use Contracts Hooks Usage
 
