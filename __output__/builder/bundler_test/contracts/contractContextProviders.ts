@@ -8,30 +8,30 @@ import { CosmWasmClient, SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate
 import { IQueryClientProvider, ISigningClientProvider, IMessageComposerProvider } from "./contractContextBase";
 import { FactoryQueryClient } from "./Factory.client";
 import { FactoryClient } from "./Factory.client";
-import { FactoryMessageComposer } from "./Factory.message-composer";
+import { FactoryMsgComposer } from "./Factory.message-composer";
 import { Factory } from "./Factory.provider";
 import { MinterQueryClient } from "./Minter.client";
 import { MinterClient } from "./Minter.client";
-import { MinterMessageComposer } from "./Minter.message-composer";
+import { MinterMsgComposer } from "./Minter.message-composer";
 import { Minter } from "./Minter.provider";
 import { CwAdminFactoryQueryClient } from "./CwAdminFactory.client";
 import { CwAdminFactoryClient } from "./CwAdminFactory.client";
-import { CwAdminFactoryMessageComposer } from "./CwAdminFactory.message-composer";
+import { CwAdminFactoryMsgComposer } from "./CwAdminFactory.message-composer";
 import { CwAdminFactory } from "./CwAdminFactory.provider";
 import { CwCodeIdRegistryQueryClient } from "./CwCodeIdRegistry.client";
 import { CwCodeIdRegistryClient } from "./CwCodeIdRegistry.client";
-import { CwCodeIdRegistryMessageComposer } from "./CwCodeIdRegistry.message-composer";
+import { CwCodeIdRegistryMsgComposer } from "./CwCodeIdRegistry.message-composer";
 import { CwCodeIdRegistry } from "./CwCodeIdRegistry.provider";
 import { CwSingleQueryClient } from "./CwSingle.client";
 import { CwSingleClient } from "./CwSingle.client";
-import { CwSingleMessageComposer } from "./CwSingle.message-composer";
+import { CwSingleMsgComposer } from "./CwSingle.message-composer";
 import { CwSingle } from "./CwSingle.provider";
 export interface IContractsContext {
-  factory: IQueryClientProvider<FactoryQueryClient> & ISigningClientProvider<FactoryClient> & IMessageComposerProvider<FactoryMessageComposer>;
-  minter: IQueryClientProvider<MinterQueryClient> & ISigningClientProvider<MinterClient> & IMessageComposerProvider<MinterMessageComposer>;
-  cwAdminFactory: IQueryClientProvider<CwAdminFactoryQueryClient> & ISigningClientProvider<CwAdminFactoryClient> & IMessageComposerProvider<CwAdminFactoryMessageComposer>;
-  cwCodeIdRegistry: IQueryClientProvider<CwCodeIdRegistryQueryClient> & ISigningClientProvider<CwCodeIdRegistryClient> & IMessageComposerProvider<CwCodeIdRegistryMessageComposer>;
-  cwSingle: IQueryClientProvider<CwSingleQueryClient> & ISigningClientProvider<CwSingleClient> & IMessageComposerProvider<CwSingleMessageComposer>;
+  factory: IQueryClientProvider<FactoryQueryClient> & ISigningClientProvider<FactoryClient> & IMessageComposerProvider<FactoryMsgComposer>;
+  minter: IQueryClientProvider<MinterQueryClient> & ISigningClientProvider<MinterClient> & IMessageComposerProvider<MinterMsgComposer>;
+  cwAdminFactory: IQueryClientProvider<CwAdminFactoryQueryClient> & ISigningClientProvider<CwAdminFactoryClient> & IMessageComposerProvider<CwAdminFactoryMsgComposer>;
+  cwCodeIdRegistry: IQueryClientProvider<CwCodeIdRegistryQueryClient> & ISigningClientProvider<CwCodeIdRegistryClient> & IMessageComposerProvider<CwCodeIdRegistryMsgComposer>;
+  cwSingle: IQueryClientProvider<CwSingleQueryClient> & ISigningClientProvider<CwSingleClient> & IMessageComposerProvider<CwSingleMsgComposer>;
 }
 export const getProviders = (address?: string, cosmWasmClient?: CosmWasmClient, signingCosmWasmClient?: SigningCosmWasmClient) => ({
   factory: new Factory({

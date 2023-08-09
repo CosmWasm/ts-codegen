@@ -278,8 +278,8 @@ cosmwasm-ts-codegen generate \
 ```
 #### Message Builder Options
 
-| option                   | description                    |
-|------------------------- | ------------------------------ |
+| option                   | description                        |
+|------------------------- | ---------------------------------- |
 | `messageBuilder.enabled` | enable the messageBuilder plugin   |
 
 

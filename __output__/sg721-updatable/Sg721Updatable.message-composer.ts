@@ -9,7 +9,7 @@ import { MsgExecuteContractEncodeObject } from "@cosmjs/cosmwasm-stargate";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
 import { Expiration, Timestamp, Uint64, AllNftInfoResponse, OwnerOfResponse, Approval, NftInfoResponseForEmpty, Empty, AllOperatorsResponse, AllTokensResponse, ApprovalResponse, ApprovalsResponse, Decimal, CollectionInfoResponse, RoyaltyInfoResponse, ContractInfoResponse, ExecuteMsgForNullable_EmptyAndEmpty, Binary, UpdateCollectionInfoMsgForRoyaltyInfoResponse, InstantiateMsg, CollectionInfoForRoyaltyInfoResponse, MinterResponse, NftInfoResponse, NumTokensResponse, QueryMsg, TokensResponse } from "./Sg721Updatable.types";
-export interface Sg721UpdatableMessage {
+export interface Sg721UpdatableMsg {
   contractAddress: string;
   sender: string;
   freezeTokenMetadata: (_funds?: Coin[]) => MsgExecuteContractEncodeObject;
@@ -94,7 +94,7 @@ export interface Sg721UpdatableMessage {
     msg: Empty;
   }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
 }
-export class Sg721UpdatableMessageComposer implements Sg721UpdatableMessage {
+export class Sg721UpdatableMsgComposer implements Sg721UpdatableMsg {
   sender: string;
   contractAddress: string;
 

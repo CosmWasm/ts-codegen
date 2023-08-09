@@ -9,7 +9,7 @@ import { MsgExecuteContractEncodeObject } from "@cosmjs/cosmwasm-stargate";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
 import { ExecuteMsg, Binary, InstantiateMsg, QueryMsg } from "./CwAdminFactory.types";
-export interface CwAdminFactoryMessage {
+export interface CwAdminFactoryMsg {
   contractAddress: string;
   sender: string;
   instantiateContractWithSelfAdmin: ({
@@ -22,7 +22,7 @@ export interface CwAdminFactoryMessage {
     label: string;
   }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
 }
-export class CwAdminFactoryMessageComposer implements CwAdminFactoryMessage {
+export class CwAdminFactoryMsgComposer implements CwAdminFactoryMsg {
   sender: string;
   contractAddress: string;
 

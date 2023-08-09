@@ -6,14 +6,14 @@
 
 import { ContractBase, IContractConstructor } from "./contractContextBase";
 import { CwSingleClient, CwSingleQueryClient } from "./CwSingle.client";
-import { CwSingleMessageComposer } from "./CwSingle.message-composer";
-export class CwSingle extends ContractBase<CwSingleClient, CwSingleQueryClient, CwSingleMessageComposer> {
+import { CwSingleMsgComposer } from "./CwSingle.message-composer";
+export class CwSingle extends ContractBase<CwSingleClient, CwSingleQueryClient, CwSingleMsgComposer> {
   constructor({
     address,
     cosmWasmClient,
     signingCosmWasmClient
   }: IContractConstructor) {
-    super(address, cosmWasmClient, signingCosmWasmClient, CwSingleClient, CwSingleQueryClient, CwSingleMessageComposer);
+    super(address, cosmWasmClient, signingCosmWasmClient, CwSingleClient, CwSingleQueryClient, CwSingleMsgComposer);
   }
 
 }
