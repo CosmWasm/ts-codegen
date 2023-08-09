@@ -6,14 +6,14 @@
 
 import { ContractBase, IContractConstructor } from "./contractContextBase";
 import { MinterClient, MinterQueryClient } from "./Minter.client";
-import { MinterMessageComposer } from "./Minter.message-composer";
-export class Minter extends ContractBase<MinterClient, MinterQueryClient, MinterMessageComposer> {
+import { MinterMsgComposer } from "./Minter.message-composer";
+export class Minter extends ContractBase<MinterClient, MinterQueryClient, MinterMsgComposer> {
   constructor({
     address,
     cosmWasmClient,
     signingCosmWasmClient
   }: IContractConstructor) {
-    super(address, cosmWasmClient, signingCosmWasmClient, MinterClient, MinterQueryClient, MinterMessageComposer);
+    super(address, cosmWasmClient, signingCosmWasmClient, MinterClient, MinterQueryClient, MinterMsgComposer);
   }
 
 }

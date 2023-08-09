@@ -18,10 +18,10 @@ TSBuilder {
       "noImplicitOverride": false,
     },
     "enabled": true,
-    "messageComposer": Object {
+    "messageBuilder": Object {
       "enabled": false,
     },
-    "msgBuilder": Object {
+    "messageComposer": Object {
       "enabled": false,
     },
     "reactQuery": Object {
@@ -56,10 +56,10 @@ TSBuilder {
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageComposer": Object {
+        "messageBuilder": Object {
           "enabled": false,
         },
-        "msgBuilder": Object {
+        "messageComposer": Object {
           "enabled": false,
         },
         "reactQuery": Object {
@@ -95,10 +95,10 @@ TSBuilder {
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageComposer": Object {
+        "messageBuilder": Object {
           "enabled": false,
         },
-        "msgBuilder": Object {
+        "messageComposer": Object {
           "enabled": false,
         },
         "reactQuery": Object {
@@ -134,10 +134,10 @@ TSBuilder {
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageComposer": Object {
+        "messageBuilder": Object {
           "enabled": false,
         },
-        "msgBuilder": Object {
+        "messageComposer": Object {
           "enabled": false,
         },
         "reactQuery": Object {
@@ -173,10 +173,10 @@ TSBuilder {
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageComposer": Object {
+        "messageBuilder": Object {
           "enabled": false,
         },
-        "msgBuilder": Object {
+        "messageComposer": Object {
           "enabled": false,
         },
         "reactQuery": Object {
@@ -212,10 +212,10 @@ TSBuilder {
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageComposer": Object {
+        "messageBuilder": Object {
           "enabled": false,
         },
-        "msgBuilder": Object {
+        "messageComposer": Object {
           "enabled": false,
         },
         "reactQuery": Object {
@@ -239,7 +239,7 @@ TSBuilder {
         "selectorFamily": "recoil",
       },
     },
-    MsgBuilderPlugin {
+    MessageBuilderPlugin {
       "builder": [Circular],
       "option": Object {
         "bundle": Object {
@@ -253,10 +253,10 @@ TSBuilder {
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageComposer": Object {
+        "messageBuilder": Object {
           "enabled": false,
         },
-        "msgBuilder": Object {
+        "messageComposer": Object {
           "enabled": false,
         },
         "reactQuery": Object {
@@ -292,10 +292,10 @@ TSBuilder {
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageComposer": Object {
+        "messageBuilder": Object {
           "enabled": false,
         },
-        "msgBuilder": Object {
+        "messageComposer": Object {
           "enabled": false,
         },
         "reactQuery": Object {
@@ -343,10 +343,10 @@ TSBuilder {
       "noImplicitOverride": false,
     },
     "enabled": true,
-    "messageComposer": Object {
+    "messageBuilder": Object {
       "enabled": false,
     },
-    "msgBuilder": Object {
+    "messageComposer": Object {
       "enabled": false,
     },
     "reactQuery": Object {
@@ -381,10 +381,10 @@ TSBuilder {
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageComposer": Object {
+        "messageBuilder": Object {
           "enabled": false,
         },
-        "msgBuilder": Object {
+        "messageComposer": Object {
           "enabled": false,
         },
         "reactQuery": Object {
@@ -420,10 +420,10 @@ TSBuilder {
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageComposer": Object {
+        "messageBuilder": Object {
           "enabled": false,
         },
-        "msgBuilder": Object {
+        "messageComposer": Object {
           "enabled": false,
         },
         "reactQuery": Object {
@@ -459,10 +459,10 @@ TSBuilder {
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageComposer": Object {
+        "messageBuilder": Object {
           "enabled": false,
         },
-        "msgBuilder": Object {
+        "messageComposer": Object {
           "enabled": false,
         },
         "reactQuery": Object {
@@ -498,10 +498,10 @@ TSBuilder {
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageComposer": Object {
+        "messageBuilder": Object {
           "enabled": false,
         },
-        "msgBuilder": Object {
+        "messageComposer": Object {
           "enabled": false,
         },
         "reactQuery": Object {
@@ -537,10 +537,10 @@ TSBuilder {
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageComposer": Object {
+        "messageBuilder": Object {
           "enabled": false,
         },
-        "msgBuilder": Object {
+        "messageComposer": Object {
           "enabled": false,
         },
         "reactQuery": Object {
@@ -564,7 +564,7 @@ TSBuilder {
         "selectorFamily": "recoil",
       },
     },
-    MsgBuilderPlugin {
+    MessageBuilderPlugin {
       "builder": [Circular],
       "option": Object {
         "bundle": Object {
@@ -578,10 +578,10 @@ TSBuilder {
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageComposer": Object {
+        "messageBuilder": Object {
           "enabled": false,
         },
-        "msgBuilder": Object {
+        "messageComposer": Object {
           "enabled": false,
         },
         "reactQuery": Object {
@@ -617,10 +617,10 @@ TSBuilder {
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageComposer": Object {
+        "messageBuilder": Object {
           "enabled": false,
         },
-        "msgBuilder": Object {
+        "messageComposer": Object {
           "enabled": false,
         },
         "reactQuery": Object {

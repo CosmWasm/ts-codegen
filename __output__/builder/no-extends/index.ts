@@ -9,31 +9,31 @@ import * as _54 from "./Factory.client";
 import * as _55 from "./Factory.message-composer";
 import * as _56 from "./Factory.react-query";
 import * as _57 from "./Factory.recoil";
-import * as _58 from "./Factory.msg-builder";
+import * as _58 from "./Factory.message-builder";
 import * as _59 from "./Minter.types";
 import * as _60 from "./Minter.client";
 import * as _61 from "./Minter.message-composer";
 import * as _62 from "./Minter.react-query";
 import * as _63 from "./Minter.recoil";
-import * as _64 from "./Minter.msg-builder";
+import * as _64 from "./Minter.message-builder";
 import * as _65 from "./CwAdminFactory.types";
 import * as _66 from "./CwAdminFactory.client";
 import * as _67 from "./CwAdminFactory.message-composer";
 import * as _68 from "./CwAdminFactory.react-query";
 import * as _69 from "./CwAdminFactory.recoil";
-import * as _70 from "./CwAdminFactory.msg-builder";
+import * as _70 from "./CwAdminFactory.message-builder";
 import * as _71 from "./CwCodeIdRegistry.types";
 import * as _72 from "./CwCodeIdRegistry.client";
 import * as _73 from "./CwCodeIdRegistry.message-composer";
 import * as _74 from "./CwCodeIdRegistry.react-query";
 import * as _75 from "./CwCodeIdRegistry.recoil";
-import * as _76 from "./CwCodeIdRegistry.msg-builder";
+import * as _76 from "./CwCodeIdRegistry.message-builder";
 import * as _77 from "./CwSingle.types";
 import * as _78 from "./CwSingle.client";
 import * as _79 from "./CwSingle.message-composer";
 import * as _80 from "./CwSingle.react-query";
 import * as _81 from "./CwSingle.recoil";
-import * as _82 from "./CwSingle.msg-builder";
+import * as _82 from "./CwSingle.message-builder";
 export namespace smart {
   export namespace contracts {
     export const Factory = { ..._53,

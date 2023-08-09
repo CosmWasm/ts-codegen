@@ -17,7 +17,7 @@ export interface TSClientOptions {
 export interface MessageComposerOptions {
     enabled?: boolean;
 }
-export interface MsgBuilderOptions {
+export interface MessageBuilderOptions {
     enabled?: boolean;
 }
 export interface RecoilOptions {
@@ -52,7 +52,7 @@ export interface RenderOptions {
     types?: TSTypesOptions;
     recoil?: RecoilOptions;
     messageComposer?: MessageComposerOptions;
-    msgBuilder?: MsgBuilderOptions;
+    messageBuilder?: MessageBuilderOptions;
     client?: TSClientOptions;
     reactQuery?: ReactQueryOptions;
 }

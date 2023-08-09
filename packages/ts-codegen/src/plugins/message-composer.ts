@@ -54,8 +54,8 @@ export class MessageComposerPlugin extends BuilderPluginBase<RenderOptions> {
     if (ExecuteMsg) {
       const children = getMessageProperties(ExecuteMsg);
       if (children.length > 0) {
-        const TheClass = pascal(`${name}MessageComposer`);
-        const Interface = pascal(`${name}Message`);
+        const TheClass = pascal(`${name}MsgComposer`);
+        const Interface = pascal(`${name}Msg`);
 
         body.push(
           w.createMessageComposerInterface(context, Interface, ExecuteMsg)
