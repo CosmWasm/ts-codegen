@@ -91,17 +91,17 @@ export default async (argv) => {
     };
     const { mutations } = await prompt(questions3, argv);
 
-    const queryFactoryQuestions  = [];
+    const queryFactoryQuestions = [];
     if (queryKeys) {
-      [].push.apply(queryFactoryQuestions, [
-        // Only can use queryFactory if queryKeys is enabled
-        {
-          type: 'confirm',
-          name: 'queryFactory',
-          message: 'queryFactory? ',
-          default: false
-        }
-      ])
+        [].push.apply(queryFactoryQuestions, [
+            // Only can use queryFactory if queryKeys is enabled
+            {
+                type: 'confirm',
+                name: 'queryFactory',
+                message: 'queryFactory? ',
+                default: false
+            }
+        ])
     };
     const { queryFactory } = await prompt(queryFactoryQuestions, argv);
     ///////// END REACT QUERY
@@ -151,8 +151,9 @@ export default async (argv) => {
         messageComposer: {
             enabled: plugin.includes('message-composer')
         },
-        msgBuilder: {
-          enabled: plugin.includes('msg-builder')
+        messageBuilder: {
+
+            enabled: plugin.includes('message-builder')
         },
         bundle: {
             enabled: bundle,

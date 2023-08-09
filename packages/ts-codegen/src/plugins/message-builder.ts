@@ -11,7 +11,7 @@ import {
 import { BuilderFileType } from '../builder';
 import { BuilderPluginBase } from './plugin-base';
 
-export class MsgBuilderPlugin extends BuilderPluginBase<RenderOptions> {
+export class MessageBuilderPlugin extends BuilderPluginBase<RenderOptions> {
   initContext(
     contract: ContractInfo,
     options?: RenderOptions
@@ -30,7 +30,7 @@ export class MsgBuilderPlugin extends BuilderPluginBase<RenderOptions> {
       body: any[];
     }[]
   > {
-    const { enabled } = this.option.msgBuilder;
+    const { enabled } = this.option.messageBuilder;
 
     if (!enabled) {
       return;
@@ -38,7 +38,7 @@ export class MsgBuilderPlugin extends BuilderPluginBase<RenderOptions> {
 
     const { schemas } = context.contract;
 
-    const localname = pascal(name) + '.msg-builder.ts';
+    const localname = pascal(name) + '.message-builder.ts';
     const TypesFile = pascal(name) + '.types';
     const ExecuteMsg = findExecuteMsg(schemas);
     const typeHash = await findAndParseTypes(schemas);
@@ -54,7 +54,7 @@ export class MsgBuilderPlugin extends BuilderPluginBase<RenderOptions> {
       if (children.length > 0) {
         const className = pascal(`${name}ExecuteMsgBuilder`);
 
-        body.push(w.createMsgBuilderClass(context, className, ExecuteMsg));
+        body.push(w.createMessageBuilderClass(context, className, ExecuteMsg));
       }
     }
 
@@ -65,7 +65,7 @@ export class MsgBuilderPlugin extends BuilderPluginBase<RenderOptions> {
       if (children.length > 0) {
         const className = pascal(`${name}QueryMsgBuilder`);
 
-        body.push(w.createMsgBuilderClass(context, className, QueryMsg));
+        body.push(w.createMessageBuilderClass(context, className, QueryMsg));
       }
     }
 
@@ -76,7 +76,7 @@ export class MsgBuilderPlugin extends BuilderPluginBase<RenderOptions> {
 
     return [
       {
-        type: 'msg-builder',
+        type: 'message-builder',
         localname,
         body
       }

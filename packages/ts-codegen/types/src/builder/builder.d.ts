@@ -15,15 +15,16 @@ export interface BundleOptions {
 export interface UseContractsOptions {
     enabled?: boolean;
 }
-export declare type TSBuilderOptions = {
+export type TSBuilderOptions = {
     bundle?: BundleOptions;
     /**
      * Enable using shorthand constructor.
+     * Default: false
      */
     useShorthandCtor?: boolean;
     useContractsHooks?: UseContractsOptions;
 } & RenderOptions;
-export declare type BuilderFileType = 'type' | 'client' | 'recoil' | 'react-query' | 'message-composer' | 'msg-builder' | 'plugin';
+export type BuilderFileType = 'type' | 'client' | 'recoil' | 'react-query' | 'message-composer' | 'message-builder' | 'plugin';
 export interface BuilderFile {
     type: BuilderFileType;
     pluginType?: string;

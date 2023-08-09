@@ -8,7 +8,7 @@ import { MsgExecuteContractEncodeObject } from "@cosmjs/cosmwasm-stargate";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
 import { Timestamp, Uint64, Uint128, ConfigResponse, Coin, Addr, Config, ExecuteMsg, Decimal, InstantiateMsg, InstantiateMsg1, CollectionInfoForRoyaltyInfoResponse, RoyaltyInfoResponse, QueryMsg } from "./Minter.types";
-export interface MinterMessage {
+export interface MinterMsg {
   contractAddress: string;
   sender: string;
   mint: (_funds?: Coin[]) => MsgExecuteContractEncodeObject;
@@ -37,7 +37,7 @@ export interface MinterMessage {
   }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   withdraw: (_funds?: Coin[]) => MsgExecuteContractEncodeObject;
 }
-export class MinterMessageComposer implements MinterMessage {
+export class MinterMsgComposer implements MinterMsg {
   sender: string;
   contractAddress: string;
 

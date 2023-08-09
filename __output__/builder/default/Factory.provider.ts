@@ -6,14 +6,14 @@
 
 import { ContractBase, IContractConstructor } from "./contractContextBase";
 import { FactoryClient, FactoryQueryClient } from "./Factory.client";
-import { FactoryMessageComposer } from "./Factory.message-composer";
-export class Factory extends ContractBase<FactoryClient, FactoryQueryClient, FactoryMessageComposer> {
+import { FactoryMsgComposer } from "./Factory.message-composer";
+export class Factory extends ContractBase<FactoryClient, FactoryQueryClient, FactoryMsgComposer> {
   constructor({
     address,
     cosmWasmClient,
     signingCosmWasmClient
   }: IContractConstructor) {
-    super(address, cosmWasmClient, signingCosmWasmClient, FactoryClient, FactoryQueryClient, FactoryMessageComposer);
+    super(address, cosmWasmClient, signingCosmWasmClient, FactoryClient, FactoryQueryClient, FactoryMsgComposer);
   }
 
 }

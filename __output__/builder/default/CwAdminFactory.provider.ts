@@ -6,14 +6,14 @@
 
 import { ContractBase, IContractConstructor } from "./contractContextBase";
 import { CwAdminFactoryClient, CwAdminFactoryQueryClient } from "./CwAdminFactory.client";
-import { CwAdminFactoryMessageComposer } from "./CwAdminFactory.message-composer";
-export class CwAdminFactory extends ContractBase<CwAdminFactoryClient, CwAdminFactoryQueryClient, CwAdminFactoryMessageComposer> {
+import { CwAdminFactoryMsgComposer } from "./CwAdminFactory.message-composer";
+export class CwAdminFactory extends ContractBase<CwAdminFactoryClient, CwAdminFactoryQueryClient, CwAdminFactoryMsgComposer> {
   constructor({
     address,
     cosmWasmClient,
     signingCosmWasmClient
   }: IContractConstructor) {
-    super(address, cosmWasmClient, signingCosmWasmClient, CwAdminFactoryClient, CwAdminFactoryQueryClient, CwAdminFactoryMessageComposer);
+    super(address, cosmWasmClient, signingCosmWasmClient, CwAdminFactoryClient, CwAdminFactoryQueryClient, CwAdminFactoryMsgComposer);
   }
 
 }
