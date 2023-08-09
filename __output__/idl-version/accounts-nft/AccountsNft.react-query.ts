@@ -4,12 +4,14 @@
 * and run the @cosmwasm/ts-codegen generate command to regenerate this file.
 */
 
-import { UseQueryOptions, useQuery } from "react-query";
+import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { InstantiateMsg, ExecuteMsg, Binary, Expiration, Timestamp, Uint64, QueryMsg, VaultBaseForString, Uint128, ArrayOfSharesResponseItem, SharesResponseItem, AllNftInfoResponseForEmpty, OwnerOfResponse, Approval, NftInfoResponseForEmpty, Empty, OperatorsResponse, String, TokensResponse, ArrayOfVaultBaseForString, ApprovalResponse, ApprovalsResponse, ContractInfoResponse, MinterResponse, NumTokensResponse } from "./AccountsNft.types";
 import { AccountsNftQueryClient } from "./AccountsNft.client";
 export interface AccountsNftReactQuery<TResponse, TData = TResponse> {
   client: AccountsNftQueryClient;
-  options?: UseQueryOptions<TResponse, Error, TData>;
+  options?: Omit<UseQueryOptions<TResponse, Error, TData>, "'queryKey' | 'queryFn' | 'initialData'"> & {
+    initialData?: undefined;
+  };
 }
 export interface AccountsNftMinterQuery<TData> extends AccountsNftReactQuery<MinterResponse, TData> {}
 export function useAccountsNftMinterQuery<TData = MinterResponse>({

@@ -4,12 +4,14 @@
 * and run the @cosmwasm/ts-codegen generate command to regenerate this file.
 */
 
-import { UseQueryOptions, useQuery } from "react-query";
+import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { Duration, Threshold, Decimal, InstantiateMsg, Voter, ExecuteMsg, Expiration, Timestamp, Uint64, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, WasmMsg, Binary, Vote, Coin, Empty, QueryMsg, Status, ThresholdResponse, ProposalListResponse, ProposalResponseForEmpty, VoterListResponse, VoterDetail, VoteListResponse, VoteInfo, VoteResponse, VoterResponse } from "./Cw3FixedMultiSig.types";
 import { Cw3FixedMultiSigQueryClient } from "./Cw3FixedMultiSig.client";
 export interface Cw3FixedMultiSigReactQuery<TResponse, TData = TResponse> {
   client: Cw3FixedMultiSigQueryClient;
-  options?: UseQueryOptions<TResponse, Error, TData>;
+  options?: Omit<UseQueryOptions<TResponse, Error, TData>, "'queryKey' | 'queryFn' | 'initialData'"> & {
+    initialData?: undefined;
+  };
 }
 export interface Cw3FixedMultiSigListVotersQuery<TData> extends Cw3FixedMultiSigReactQuery<VoterListResponse, TData> {
   args: {

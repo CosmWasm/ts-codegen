@@ -4,10 +4,12 @@
 * and run the @cosmwasm/ts-codegen generate command to regenerate this file.
 */
 
-import { UseQueryOptions } from "react-query";
+import { UseQueryOptions } from "@tanstack/react-query";
 import { ExecuteMsg, Binary, InstantiateMsg, QueryMsg } from "./CwAdminFactory.types";
 import { CwAdminFactoryQueryClient } from "./CwAdminFactory.client";
 export interface CwAdminFactoryReactQuery<TResponse, TData = TResponse> {
   client: CwAdminFactoryQueryClient;
-  options?: UseQueryOptions<TResponse, Error, TData>;
+  options?: Omit<UseQueryOptions<TResponse, Error, TData>, "'queryKey' | 'queryFn' | 'initialData'"> & {
+    initialData?: undefined;
+  };
 }

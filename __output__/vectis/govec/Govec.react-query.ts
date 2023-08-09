@@ -4,12 +4,14 @@
 * and run the @cosmwasm/ts-codegen generate command to regenerate this file.
 */
 
-import { UseQueryOptions, useQuery } from "react-query";
+import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { CanExecuteRelayResponse, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, WasmMsg, Binary, Coin, Empty, ExecuteMsgForEmpty, Addr, RelayTransaction, Guardians, MultiSig, InfoResponse, ContractVersion, InstantiateMsg, CreateWalletMsg, QueryMsg, Uint64 } from "./Govec.types";
 import { GovecQueryClient } from "./Govec.client";
 export interface GovecReactQuery<TResponse, TData = TResponse> {
   client: GovecQueryClient;
-  options?: UseQueryOptions<TResponse, Error, TData>;
+  options?: Omit<UseQueryOptions<TResponse, Error, TData>, "'queryKey' | 'queryFn' | 'initialData'"> & {
+    initialData?: undefined;
+  };
 }
 export interface GovecCanExecuteRelayQuery<TData> extends GovecReactQuery<CanExecuteRelayResponse, TData> {
   args: {

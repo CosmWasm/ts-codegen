@@ -4,12 +4,14 @@
 * and run the @cosmwasm/ts-codegen generate command to regenerate this file.
 */
 
-import { UseQueryOptions, useQuery } from "react-query";
+import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { CanExecuteRelayResponse, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, WasmMsg, Binary, Coin, Empty, ExecuteMsgForEmpty, Addr, RelayTransaction, Guardians, MultiSig, InfoResponse, ContractVersion, InstantiateMsg, CreateWalletMsg, QueryMsg, Uint64 } from "./Proxy.types";
 import { ProxyQueryClient } from "./Proxy.client";
 export interface ProxyReactQuery<TResponse, TData = TResponse> {
   client: ProxyQueryClient;
-  options?: UseQueryOptions<TResponse, Error, TData>;
+  options?: Omit<UseQueryOptions<TResponse, Error, TData>, "'queryKey' | 'queryFn' | 'initialData'"> & {
+    initialData?: undefined;
+  };
 }
 export interface ProxyCanExecuteRelayQuery<TData> extends ProxyReactQuery<CanExecuteRelayResponse, TData> {
   args: {

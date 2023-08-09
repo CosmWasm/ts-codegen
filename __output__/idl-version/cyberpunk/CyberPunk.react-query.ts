@@ -4,12 +4,14 @@
 * and run the @cosmwasm/ts-codegen generate command to regenerate this file.
 */
 
-import { UseQueryOptions, useQuery } from "react-query";
+import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { InstantiateMsg, ExecuteMsg, QueryMsg, Timestamp, Uint64, Addr, Env, BlockInfo, ContractInfo, TransactionInfo } from "./CyberPunk.types";
 import { CyberPunkQueryClient } from "./CyberPunk.client";
 export interface CyberPunkReactQuery<TResponse, TData = TResponse> {
   client: CyberPunkQueryClient;
-  options?: UseQueryOptions<TResponse, Error, TData>;
+  options?: Omit<UseQueryOptions<TResponse, Error, TData>, "'queryKey' | 'queryFn' | 'initialData'"> & {
+    initialData?: undefined;
+  };
 }
 export interface CyberPunkMirrorEnvQuery<TData> extends CyberPunkReactQuery<Env, TData> {}
 export function useCyberPunkMirrorEnvQuery<TData = Env>({

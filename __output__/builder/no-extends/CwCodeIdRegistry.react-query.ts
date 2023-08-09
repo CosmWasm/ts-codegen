@@ -4,12 +4,14 @@
 * and run the @cosmwasm/ts-codegen generate command to regenerate this file.
 */
 
-import { UseQueryOptions, useQuery } from "react-query";
+import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { Addr, PaymentInfo, Uint128, ConfigResponse, ExecuteMsg, Binary, Cw20ReceiveMsg, GetRegistrationResponse, Registration, InfoForCodeIdResponse, InstantiateMsg, ListRegistrationsResponse, QueryMsg, ReceiveMsg } from "./CwCodeIdRegistry.types";
 import { CwCodeIdRegistryQueryClient } from "./CwCodeIdRegistry.client";
 export interface CwCodeIdRegistryReactQuery<TResponse, TData = TResponse> {
   client: CwCodeIdRegistryQueryClient;
-  options?: UseQueryOptions<TResponse, Error, TData>;
+  options?: Omit<UseQueryOptions<TResponse, Error, TData>, "'queryKey' | 'queryFn' | 'initialData'"> & {
+    initialData?: undefined;
+  };
 }
 export interface CwCodeIdRegistryListRegistrationsQuery<TData> extends CwCodeIdRegistryReactQuery<ListRegistrationsResponse, TData> {
   args: {

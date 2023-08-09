@@ -4,12 +4,14 @@
 * and run the @cosmwasm/ts-codegen generate command to regenerate this file.
 */
 
-import { UseQueryOptions, useQuery } from "react-query";
+import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { InstantiateMsg, Member, ExecuteMsg, QueryMsg, AdminResponse, HooksResponse, MemberListResponse, MemberResponse, TotalWeightResponse } from "./Cw4Group.types";
 import { Cw4GroupQueryClient } from "./Cw4Group.client";
 export interface Cw4GroupReactQuery<TResponse, TData = TResponse> {
   client: Cw4GroupQueryClient;
-  options?: UseQueryOptions<TResponse, Error, TData>;
+  options?: Omit<UseQueryOptions<TResponse, Error, TData>, "'queryKey' | 'queryFn' | 'initialData'"> & {
+    initialData?: undefined;
+  };
 }
 export interface Cw4GroupHooksQuery<TData> extends Cw4GroupReactQuery<HooksResponse, TData> {}
 export function useCw4GroupHooksQuery<TData = HooksResponse>({

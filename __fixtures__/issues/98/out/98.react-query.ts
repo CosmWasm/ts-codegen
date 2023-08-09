@@ -4,12 +4,14 @@
 * and run the @cosmwasm/ts-codegen generate command to regenerate this file.
 */
 
-import { UseQueryOptions, useQuery } from "react-query";
+import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { Uint128, InstantiateMsg, Coin, ExecuteMsg, InstallableExecMsg, Binary, ExecMsg, QueryMsg, InstallableQueryMsg, QueryMsg1, ConfigResponse, NullablePlugin, CanonicalAddr, Plugin, PluginsResponse } from "./98.types";
 import { 98QueryClient } from "./98.client";
 export interface 98ReactQuery<TResponse, TData = TResponse> {
   client: 98QueryClient;
-  options?: UseQueryOptions<TResponse, Error, TData>;
+  options?: Omit<UseQueryOptions<TResponse, Error, TData>, "'queryKey' | 'queryFn' | 'initialData'"> & {
+    initialData?: undefined;
+  };
 }
 export interface 98GetPluginByIdQuery<TData> extends 98ReactQuery<NullablePlugin, TData> {
   args: {

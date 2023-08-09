@@ -30,7 +30,7 @@ TSBuilder {
       "mutations": false,
       "optionalClient": false,
       "queryKeys": false,
-      "version": "v3",
+      "version": "v4",
     },
     "recoil": Object {
       "enabled": false,
@@ -68,7 +68,7 @@ TSBuilder {
           "mutations": false,
           "optionalClient": false,
           "queryKeys": false,
-          "version": "v3",
+          "version": "v4",
         },
         "recoil": Object {
           "enabled": false,
@@ -107,7 +107,7 @@ TSBuilder {
           "mutations": false,
           "optionalClient": false,
           "queryKeys": false,
-          "version": "v3",
+          "version": "v4",
         },
         "recoil": Object {
           "enabled": false,
@@ -146,7 +146,7 @@ TSBuilder {
           "mutations": false,
           "optionalClient": false,
           "queryKeys": false,
-          "version": "v3",
+          "version": "v4",
         },
         "recoil": Object {
           "enabled": false,
@@ -185,7 +185,7 @@ TSBuilder {
           "mutations": false,
           "optionalClient": false,
           "queryKeys": false,
-          "version": "v3",
+          "version": "v4",
         },
         "recoil": Object {
           "enabled": false,
@@ -224,7 +224,7 @@ TSBuilder {
           "mutations": false,
           "optionalClient": false,
           "queryKeys": false,
-          "version": "v3",
+          "version": "v4",
         },
         "recoil": Object {
           "enabled": false,
@@ -265,7 +265,7 @@ TSBuilder {
           "mutations": false,
           "optionalClient": false,
           "queryKeys": false,
-          "version": "v3",
+          "version": "v4",
         },
         "recoil": Object {
           "enabled": false,
@@ -304,7 +304,7 @@ TSBuilder {
           "mutations": false,
           "optionalClient": false,
           "queryKeys": false,
-          "version": "v3",
+          "version": "v4",
         },
         "recoil": Object {
           "enabled": false,
@@ -355,7 +355,7 @@ TSBuilder {
       "mutations": false,
       "optionalClient": false,
       "queryKeys": false,
-      "version": "v3",
+      "version": "v4",
     },
     "recoil": Object {
       "enabled": false,
@@ -393,7 +393,7 @@ TSBuilder {
           "mutations": false,
           "optionalClient": false,
           "queryKeys": false,
-          "version": "v3",
+          "version": "v4",
         },
         "recoil": Object {
           "enabled": false,
@@ -432,7 +432,7 @@ TSBuilder {
           "mutations": false,
           "optionalClient": false,
           "queryKeys": false,
-          "version": "v3",
+          "version": "v4",
         },
         "recoil": Object {
           "enabled": false,
@@ -471,7 +471,7 @@ TSBuilder {
           "mutations": false,
           "optionalClient": false,
           "queryKeys": false,
-          "version": "v3",
+          "version": "v4",
         },
         "recoil": Object {
           "enabled": false,
@@ -510,7 +510,7 @@ TSBuilder {
           "mutations": false,
           "optionalClient": false,
           "queryKeys": false,
-          "version": "v3",
+          "version": "v4",
         },
         "recoil": Object {
           "enabled": false,
@@ -549,7 +549,7 @@ TSBuilder {
           "mutations": false,
           "optionalClient": false,
           "queryKeys": false,
-          "version": "v3",
+          "version": "v4",
         },
         "recoil": Object {
           "enabled": false,
@@ -590,7 +590,7 @@ TSBuilder {
           "mutations": false,
           "optionalClient": false,
           "queryKeys": false,
-          "version": "v3",
+          "version": "v4",
         },
         "recoil": Object {
           "enabled": false,
@@ -629,7 +629,7 @@ TSBuilder {
           "mutations": false,
           "optionalClient": false,
           "queryKeys": false,
-          "version": "v3",
+          "version": "v4",
         },
         "recoil": Object {
           "enabled": false,
