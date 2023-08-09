@@ -152,7 +152,8 @@ export default async (argv) => {
             enabled: plugin.includes('message-composer')
         },
         messageBuilder: {
-            enabled: plugin.includes('msg-builder')
+
+            enabled: plugin.includes('message-builder')
         },
         bundle: {
             enabled: bundle,

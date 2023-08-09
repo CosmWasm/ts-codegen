@@ -121,4 +121,4 @@ export declare abstract class RenderContextBase<TOpt = RenderOptions> implements
 export declare class RenderContext extends RenderContextBase {
     mergeDefaultOpt(options: RenderOptions): RenderOptions;
 }
-export { };
+export {};

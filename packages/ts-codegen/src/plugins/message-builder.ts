@@ -38,7 +38,7 @@ export class MessageBuilderPlugin extends BuilderPluginBase<RenderOptions> {
 
     const { schemas } = context.contract;
 
-    const localname = pascal(name) + '.msg-builder.ts';
+    const localname = pascal(name) + '.message-builder.ts';
     const TypesFile = pascal(name) + '.types';
     const ExecuteMsg = findExecuteMsg(schemas);
     const typeHash = await findAndParseTypes(schemas);
@@ -76,7 +76,7 @@ export class MessageBuilderPlugin extends BuilderPluginBase<RenderOptions> {
 
     return [
       {
-        type: 'msg-builder',
+        type: 'message-builder',
         localname,
         body
       }

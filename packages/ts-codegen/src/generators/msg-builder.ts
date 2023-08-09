@@ -10,8 +10,6 @@ import { ContractInfo, getMessageProperties } from "wasm-ast-types";
 import { findAndParseTypes, findExecuteMsg, findQueryMsg } from '../utils';
 import { RenderContext, MessageBuilderOptions } from 'wasm-ast-types';
 import { BuilderFile } from "../builder";
-import babelTraverse from '@babel/traverse';
-import { parse as babelParse } from '@babel/parser'
 
 export default async (
   name: string,
@@ -24,7 +22,7 @@ export default async (
     messageBuilder: messageBuilderOptions ?? {},
   });
 
-  const localname = pascal(name) + ".msg-builder.ts";
+  const localname = pascal(name) + ".message-builder.ts";
   const TypesFile = pascal(name) + ".types";
   const ExecuteMsg = findExecuteMsg(schemas);
   const typeHash = await findAndParseTypes(schemas);
@@ -38,7 +36,7 @@ export default async (
   if (ExecuteMsg) {
     const children = getMessageProperties(ExecuteMsg);
     if (children.length > 0) {
-      const className = pascal(`${name}ExecuteMessageBuilder`);
+      const className = pascal(`${name}ExecuteMsgBuilder`);
 
       body.push(
         w.createMessageBuilderClass(context, className, ExecuteMsg)
@@ -51,7 +49,7 @@ export default async (
   if (QueryMsg) {
     const children = getMessageProperties(QueryMsg);
     if (children.length > 0) {
-      const className = pascal(`${name}QueryMessageBuilder`);
+      const className = pascal(`${name}QueryMsgBuilder`);
 
       body.push(
         w.createMessageBuilderClass(context, className, QueryMsg)
@@ -71,7 +69,7 @@ export default async (
 
   return [
     {
-      type: "msg-builder",
+      type: "message-builder",
       contract: name,
       localname,
       filename: join(outPath, localname),

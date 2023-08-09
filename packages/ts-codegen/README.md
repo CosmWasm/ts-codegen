@@ -263,7 +263,7 @@ cosmwasm-ts-codegen generate \
 
 ### Message Builder
 
-Generate raw message jsons for use in your application with the `msg-builder` command.
+Generate raw message jsons for use in your application with the `message-builder` command.
 
 [see example output code](https://gist.github.com/adairrr/b394e62beb9856b0351883f776650f26)
 
@@ -271,7 +271,7 @@ Generate raw message jsons for use in your application with the `msg-builder` co
 
 ```sh
 cosmwasm-ts-codegen generate \
-    --plugin msg-builder \
+    --plugin message-builder \
     --schema ./schema \
     --out ./ts \
     --name MyContractName 
@@ -474,7 +474,7 @@ https://gist.github.com/pyramation/a9520ccf131177b1841e02a97d7d3731
 
 https://gist.github.com/pyramation/43320e8b952751a0bd5a77dbc5b601f4
 
-- `cosmwasm-ts-codegen generate --plugin msg-builder`
+- `cosmwasm-ts-codegen generate --plugin message-builder`
 
 https://gist.github.com/adairrr/b394e62beb9856b0351883f776650f26
 

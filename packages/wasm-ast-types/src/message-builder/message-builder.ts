@@ -5,7 +5,7 @@ import { ExecuteMsg, QueryMsg } from '../types';
 import { createTypedObjectParams } from '../utils/types';
 import { RenderContext } from '../context';
 import { getWasmMethodArgs } from '../client/client';
-import { Expression, Identifier, PatternLike, TSAsExpression } from '@babel/types';
+import { Expression } from '@babel/types';
 
 export const createMessageBuilderClass = (
   context: RenderContext,

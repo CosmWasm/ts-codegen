@@ -4,9 +4,8 @@ import ownership from '../../../../__fixtures__/basic/ownership.json';
 
 import {
   createMessageBuilderClass,
-} from './msg-builder'
+} from './message-builder'
 import { expectCode, makeContext } from '../../test-utils';
-import { findExecuteMsg } from '@cosmwasm/ts-codegen/src';
 
 it('execute class', () => {
   const ctx = makeContext(execute_msg);
