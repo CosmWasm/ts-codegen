@@ -45,7 +45,7 @@ export class ContractsContextProviderPlugin extends BuilderPluginBase<TSBuilderO
 
     const providerInfo = context.getProviderInfos()[name];
 
-    if (!Object.keys(providerInfo)?.length) {
+    if (!Object.keys(providerInfo || {})?.length) {
       return;
     }
 

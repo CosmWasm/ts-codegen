@@ -42,7 +42,7 @@ export class ContractsProviderBundlePlugin extends BuilderPluginBase<TSBuilderOp
 
     const providerInfos = context.getProviderInfos();
 
-    if (!Object.keys(providerInfos)?.length) {
+    if (!Object.keys(providerInfos || {})?.length) {
       return;
     }
 
