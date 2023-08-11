@@ -13,7 +13,7 @@ import {
 
 import { IContractsContext, getProviders } from './contractContextProviders';
 
-interface ContractsConfig {
+export interface ContractsConfig {
   address: string | undefined;
   getCosmWasmClient: () => Promise<CosmWasmClient>;
   getSigningCosmWasmClient: () => Promise<SigningCosmWasmClient>;
