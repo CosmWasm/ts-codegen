@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.26.2](https://github.com/pyramation/cosmwasm-typescript-gen/compare/wasm-ast-types@0.26.1...wasm-ast-types@0.26.2) (2023-08-11)
+
+**Note:** Version bump only for package wasm-ast-types
+
+
+
+
+
 ## [0.26.1](https://github.com/pyramation/cosmwasm-typescript-gen/compare/wasm-ast-types@0.26.0...wasm-ast-types@0.26.1) (2023-08-09)
 
 **Note:** Version bump only for package wasm-ast-types
