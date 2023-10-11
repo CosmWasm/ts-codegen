@@ -55,6 +55,7 @@ export const UTILS = {
   // Abstract
   AbstractClient: '@abstract-money/abstract.js',
   AbstractQueryClient: '@abstract-money/abstract.js',
+  AbstractAccountId: '@abstract-money/abstract.js',
   AbstractAccountClient: '@abstract-money/abstract.js',
   AbstractAccountQueryClient: '@abstract-money/abstract.js',
   AppExecuteMsg: '@abstract-money/abstract.js',

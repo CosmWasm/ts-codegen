@@ -62,6 +62,7 @@ const CLASS_VARS = {
 const ABSTRACT_ACCOUNT_CLIENT = 'AbstractAccountClient';
 const ABSTRACT_CLIENT = 'AbstractClient';
 const ABSTRACT_QUERY_CLIENT = 'AbstractQueryClient';
+const ABSTRACT_ACCOUNT_ID = 'AbstractAccountId';
 const ABSTRACT_ACCOUNT_QUERY_CLIENT = 'AbstractAccountQueryClient';
 const ADDRESS_GETTER_FN_NAME = 'getAddress';
 
@@ -449,7 +450,9 @@ export const createAppQueryClass = (
               ),
               shorthandProperty(
                 'accountId',
-                t.tsTypeAnnotation(t.tsNumberKeyword())
+                t.tsTypeAnnotation(
+                  t.tsTypeReference(t.identifier(ABSTRACT_ACCOUNT_ID))
+                )
               ),
               shorthandProperty(
                 'managerAddress',
@@ -746,7 +749,9 @@ export const createAppExecuteClass = (
               ),
               shorthandProperty(
                 'accountId',
-                t.tsTypeAnnotation(t.tsNumberKeyword())
+                t.tsTypeAnnotation(
+                  t.tsTypeReference(t.identifier(ABSTRACT_ACCOUNT_ID))
+                )
               ),
               shorthandProperty(
                 'managerAddress',

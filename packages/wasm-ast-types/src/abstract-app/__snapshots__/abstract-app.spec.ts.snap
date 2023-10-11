@@ -12,7 +12,7 @@ exports[`AutocompounderAppClient 1`] = `
     moduleId
   }: {
     abstractClient: AbstractClient;
-    accountId: number;
+    accountId: AbstractAccountId;
     managerAddress: string;
     proxyAddress: string;
     moduleId: string;
@@ -72,7 +72,7 @@ exports[`AutocompounderAppQueryClient 1`] = `
     moduleId
   }: {
     abstractQueryClient: AbstractQueryClient;
-    accountId: number;
+    accountId: AbstractAccountId;
     managerAddress: string;
     proxyAddress: string;
     moduleId: string;
