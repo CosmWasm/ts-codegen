@@ -4487,7 +4487,7 @@ electron-to-chromium@^1.4.284:
   resolved "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.4.402.tgz"
   integrity sha512-gWYvJSkohOiBE6ecVYXkrDgNaUjo47QEKK0kQzmWyhkH+yoYiG44bwuicTGNSIQRG3WDMsWVZJLRnJnLNkbWvA==
 
-elliptic@^6.5.4:
+elliptic@^6.5.3, elliptic@^6.5.4:
   version "6.5.4"
   resolved "https://registry.npmjs.org/elliptic/-/elliptic-6.5.4.tgz#da37cebd31e79a1367e941b592ed1fbebd58abbb"
   integrity sha512-iLhC6ULemrljPZb+QutR5TQGB+pdW6KGD5RSegS+8sorOZT+rdQFbsQFJgvN3eRqNALqJer4oQ16YvJHlU8hzQ==
@@ -9138,8 +9138,10 @@ walker@^1.0.8:
   dependencies:
     makeerror "1.0.12"
 
-"wasm-ast-types@file:packages/wasm-ast-types":
-  version "0.23.1"
+"wasm-ast-types@npm:@abstract-money/wasm-ast-types@0.24.1":
+  version "0.24.1"
+  resolved "https://registry.npmjs.org/@abstract-money/wasm-ast-types/-/wasm-ast-types-0.24.1.tgz#82d0487d69b46783f0b6b800bcbab2055ca55a77"
+  integrity sha512-EiFaAjXCf93as/zWT6PYNRiIknk+2BxWG1kEeKrL+Q25S1ZCq3uLgaOklA3ou2kL5WdrGQ2MvUSynUzNNUZgDA==
   dependencies:
     "@babel/runtime" "^7.18.9"
     "@babel/types" "7.18.10"
