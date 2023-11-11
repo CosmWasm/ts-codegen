@@ -2,6 +2,9 @@
 
 exports[`options tsClient.enabled 1`] = `
 TSBuilder {
+  "builderContext": BuilderContext {
+    "providers": Object {},
+  },
   "files": Array [],
   "options": Object {
     "abstractApp": Object {
@@ -19,10 +22,10 @@ TSBuilder {
       "noImplicitOverride": false,
     },
     "enabled": true,
-    "messageComposer": Object {
+    "messageBuilder": Object {
       "enabled": false,
     },
-    "msgBuilder": Object {
+    "messageComposer": Object {
       "enabled": false,
     },
     "reactQuery": Object {
@@ -31,7 +34,7 @@ TSBuilder {
       "mutations": false,
       "optionalClient": false,
       "queryKeys": false,
-      "version": "v3",
+      "version": "v4",
     },
     "recoil": Object {
       "enabled": false,
@@ -40,9 +43,11 @@ TSBuilder {
       "aliasExecuteMsg": false,
       "enabled": true,
     },
+    "useShorthandCtor": true,
   },
   "plugins": Array [
     TypesPlugin {
+      "builder": [Circular],
       "option": Object {
         "abstractApp": Object {
           "clientPrefix": "App",
@@ -59,10 +64,10 @@ TSBuilder {
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageComposer": Object {
+        "messageBuilder": Object {
           "enabled": false,
         },
-        "msgBuilder": Object {
+        "messageComposer": Object {
           "enabled": false,
         },
         "reactQuery": Object {
@@ -71,7 +76,7 @@ TSBuilder {
           "mutations": false,
           "optionalClient": false,
           "queryKeys": false,
-          "version": "v3",
+          "version": "v4",
         },
         "recoil": Object {
           "enabled": false,
@@ -80,10 +85,12 @@ TSBuilder {
           "aliasExecuteMsg": false,
           "enabled": true,
         },
+        "useShorthandCtor": true,
       },
       "utils": undefined,
     },
     ClientPlugin {
+      "builder": [Circular],
       "option": Object {
         "abstractApp": Object {
           "clientPrefix": "App",
@@ -100,10 +107,10 @@ TSBuilder {
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageComposer": Object {
+        "messageBuilder": Object {
           "enabled": false,
         },
-        "msgBuilder": Object {
+        "messageComposer": Object {
           "enabled": false,
         },
         "reactQuery": Object {
@@ -112,7 +119,7 @@ TSBuilder {
           "mutations": false,
           "optionalClient": false,
           "queryKeys": false,
-          "version": "v3",
+          "version": "v4",
         },
         "recoil": Object {
           "enabled": false,
@@ -121,10 +128,12 @@ TSBuilder {
           "aliasExecuteMsg": false,
           "enabled": true,
         },
+        "useShorthandCtor": true,
       },
       "utils": undefined,
     },
     AbstractAppPlugin {
+      "builder": [Circular],
       "option": Object {
         "abstractApp": Object {
           "clientPrefix": "App",
@@ -141,10 +150,10 @@ TSBuilder {
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageComposer": Object {
+        "messageBuilder": Object {
           "enabled": false,
         },
-        "msgBuilder": Object {
+        "messageComposer": Object {
           "enabled": false,
         },
         "reactQuery": Object {
@@ -153,7 +162,7 @@ TSBuilder {
           "mutations": false,
           "optionalClient": false,
           "queryKeys": false,
-          "version": "v3",
+          "version": "v4",
         },
         "recoil": Object {
           "enabled": false,
@@ -162,10 +171,12 @@ TSBuilder {
           "aliasExecuteMsg": false,
           "enabled": true,
         },
+        "useShorthandCtor": true,
       },
       "utils": undefined,
     },
     MessageComposerPlugin {
+      "builder": [Circular],
       "option": Object {
         "abstractApp": Object {
           "clientPrefix": "App",
@@ -182,10 +193,10 @@ TSBuilder {
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageComposer": Object {
+        "messageBuilder": Object {
           "enabled": false,
         },
-        "msgBuilder": Object {
+        "messageComposer": Object {
           "enabled": false,
         },
         "reactQuery": Object {
@@ -194,7 +205,7 @@ TSBuilder {
           "mutations": false,
           "optionalClient": false,
           "queryKeys": false,
-          "version": "v3",
+          "version": "v4",
         },
         "recoil": Object {
           "enabled": false,
@@ -203,10 +214,12 @@ TSBuilder {
           "aliasExecuteMsg": false,
           "enabled": true,
         },
+        "useShorthandCtor": true,
       },
       "utils": undefined,
     },
     ReactQueryPlugin {
+      "builder": [Circular],
       "option": Object {
         "abstractApp": Object {
           "clientPrefix": "App",
@@ -223,10 +236,10 @@ TSBuilder {
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageComposer": Object {
+        "messageBuilder": Object {
           "enabled": false,
         },
-        "msgBuilder": Object {
+        "messageComposer": Object {
           "enabled": false,
         },
         "reactQuery": Object {
@@ -235,7 +248,7 @@ TSBuilder {
           "mutations": false,
           "optionalClient": false,
           "queryKeys": false,
-          "version": "v3",
+          "version": "v4",
         },
         "recoil": Object {
           "enabled": false,
@@ -244,10 +257,12 @@ TSBuilder {
           "aliasExecuteMsg": false,
           "enabled": true,
         },
+        "useShorthandCtor": true,
       },
       "utils": undefined,
     },
     RecoilPlugin {
+      "builder": [Circular],
       "option": Object {
         "abstractApp": Object {
           "clientPrefix": "App",
@@ -264,10 +279,10 @@ TSBuilder {
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageComposer": Object {
+        "messageBuilder": Object {
           "enabled": false,
         },
-        "msgBuilder": Object {
+        "messageComposer": Object {
           "enabled": false,
         },
         "reactQuery": Object {
@@ -276,7 +291,7 @@ TSBuilder {
           "mutations": false,
           "optionalClient": false,
           "queryKeys": false,
-          "version": "v3",
+          "version": "v4",
         },
         "recoil": Object {
           "enabled": false,
@@ -285,12 +300,14 @@ TSBuilder {
           "aliasExecuteMsg": false,
           "enabled": true,
         },
+        "useShorthandCtor": true,
       },
       "utils": Object {
         "selectorFamily": "recoil",
       },
     },
-    MsgBuilderPlugin {
+    MessageBuilderPlugin {
+      "builder": [Circular],
       "option": Object {
         "abstractApp": Object {
           "clientPrefix": "App",
@@ -307,10 +324,10 @@ TSBuilder {
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageComposer": Object {
+        "messageBuilder": Object {
           "enabled": false,
         },
-        "msgBuilder": Object {
+        "messageComposer": Object {
           "enabled": false,
         },
         "reactQuery": Object {
@@ -319,7 +336,7 @@ TSBuilder {
           "mutations": false,
           "optionalClient": false,
           "queryKeys": false,
-          "version": "v3",
+          "version": "v4",
         },
         "recoil": Object {
           "enabled": false,
@@ -328,8 +345,56 @@ TSBuilder {
           "aliasExecuteMsg": false,
           "enabled": true,
         },
+        "useShorthandCtor": true,
       },
       "utils": undefined,
+    },
+    ContractsContextProviderPlugin {
+      "builder": [Circular],
+      "option": Object {
+        "abstractApp": Object {
+          "clientPrefix": "App",
+          "enabled": false,
+        },
+        "bundle": Object {
+          "bundleFile": "bundle.ts",
+          "enabled": true,
+          "scope": "contracts",
+        },
+        "client": Object {
+          "enabled": true,
+          "execExtendsQuery": true,
+          "noImplicitOverride": false,
+        },
+        "enabled": true,
+        "messageBuilder": Object {
+          "enabled": false,
+        },
+        "messageComposer": Object {
+          "enabled": false,
+        },
+        "reactQuery": Object {
+          "camelize": true,
+          "enabled": true,
+          "mutations": false,
+          "optionalClient": false,
+          "queryKeys": false,
+          "version": "v4",
+        },
+        "recoil": Object {
+          "enabled": false,
+        },
+        "types": Object {
+          "aliasExecuteMsg": false,
+          "enabled": true,
+        },
+        "useShorthandCtor": true,
+      },
+      "utils": Object {
+        "ContractBase": "__contractContextBase__",
+        "IContractConstructor": "__contractContextBase__",
+        "IEmptyClient": "__contractContextBase__",
+      },
     },
   ],
 }
@@ -337,6 +402,9 @@ TSBuilder {
 
 exports[`options undefined 1`] = `
 TSBuilder {
+  "builderContext": BuilderContext {
+    "providers": Object {},
+  },
   "files": Array [],
   "options": Object {
     "abstractApp": Object {
@@ -354,10 +422,10 @@ TSBuilder {
       "noImplicitOverride": false,
     },
     "enabled": true,
-    "messageComposer": Object {
+    "messageBuilder": Object {
       "enabled": false,
     },
-    "msgBuilder": Object {
+    "messageComposer": Object {
       "enabled": false,
     },
     "reactQuery": Object {
@@ -366,7 +434,7 @@ TSBuilder {
       "mutations": false,
       "optionalClient": false,
       "queryKeys": false,
-      "version": "v3",
+      "version": "v4",
     },
     "recoil": Object {
       "enabled": false,
@@ -375,9 +443,11 @@ TSBuilder {
       "aliasExecuteMsg": false,
       "enabled": true,
     },
+    "useShorthandCtor": true,
   },
   "plugins": Array [
     TypesPlugin {
+      "builder": [Circular],
       "option": Object {
         "abstractApp": Object {
           "clientPrefix": "App",
@@ -394,10 +464,10 @@ TSBuilder {
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageComposer": Object {
+        "messageBuilder": Object {
           "enabled": false,
         },
-        "msgBuilder": Object {
+        "messageComposer": Object {
           "enabled": false,
         },
         "reactQuery": Object {
@@ -406,7 +476,7 @@ TSBuilder {
           "mutations": false,
           "optionalClient": false,
           "queryKeys": false,
-          "version": "v3",
+          "version": "v4",
         },
         "recoil": Object {
           "enabled": false,
@@ -415,10 +485,12 @@ TSBuilder {
           "aliasExecuteMsg": false,
           "enabled": true,
         },
+        "useShorthandCtor": true,
       },
       "utils": undefined,
     },
     ClientPlugin {
+      "builder": [Circular],
       "option": Object {
         "abstractApp": Object {
           "clientPrefix": "App",
@@ -435,10 +507,10 @@ TSBuilder {
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageComposer": Object {
+        "messageBuilder": Object {
           "enabled": false,
         },
-        "msgBuilder": Object {
+        "messageComposer": Object {
           "enabled": false,
         },
         "reactQuery": Object {
@@ -447,7 +519,7 @@ TSBuilder {
           "mutations": false,
           "optionalClient": false,
           "queryKeys": false,
-          "version": "v3",
+          "version": "v4",
         },
         "recoil": Object {
           "enabled": false,
@@ -456,10 +528,12 @@ TSBuilder {
           "aliasExecuteMsg": false,
           "enabled": true,
         },
+        "useShorthandCtor": true,
       },
       "utils": undefined,
     },
     AbstractAppPlugin {
+      "builder": [Circular],
       "option": Object {
         "abstractApp": Object {
           "clientPrefix": "App",
@@ -476,10 +550,10 @@ TSBuilder {
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageComposer": Object {
+        "messageBuilder": Object {
           "enabled": false,
         },
-        "msgBuilder": Object {
+        "messageComposer": Object {
           "enabled": false,
         },
         "reactQuery": Object {
@@ -488,7 +562,7 @@ TSBuilder {
           "mutations": false,
           "optionalClient": false,
           "queryKeys": false,
-          "version": "v3",
+          "version": "v4",
         },
         "recoil": Object {
           "enabled": false,
@@ -497,10 +571,12 @@ TSBuilder {
           "aliasExecuteMsg": false,
           "enabled": true,
         },
+        "useShorthandCtor": true,
       },
       "utils": undefined,
     },
     MessageComposerPlugin {
+      "builder": [Circular],
       "option": Object {
         "abstractApp": Object {
           "clientPrefix": "App",
@@ -517,10 +593,10 @@ TSBuilder {
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageComposer": Object {
+        "messageBuilder": Object {
           "enabled": false,
         },
-        "msgBuilder": Object {
+        "messageComposer": Object {
           "enabled": false,
         },
         "reactQuery": Object {
@@ -529,7 +605,7 @@ TSBuilder {
           "mutations": false,
           "optionalClient": false,
           "queryKeys": false,
-          "version": "v3",
+          "version": "v4",
         },
         "recoil": Object {
           "enabled": false,
@@ -538,10 +614,12 @@ TSBuilder {
           "aliasExecuteMsg": false,
           "enabled": true,
         },
+        "useShorthandCtor": true,
       },
       "utils": undefined,
     },
     ReactQueryPlugin {
+      "builder": [Circular],
       "option": Object {
         "abstractApp": Object {
           "clientPrefix": "App",
@@ -558,10 +636,10 @@ TSBuilder {
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageComposer": Object {
+        "messageBuilder": Object {
           "enabled": false,
         },
-        "msgBuilder": Object {
+        "messageComposer": Object {
           "enabled": false,
         },
         "reactQuery": Object {
@@ -570,7 +648,7 @@ TSBuilder {
           "mutations": false,
           "optionalClient": false,
           "queryKeys": false,
-          "version": "v3",
+          "version": "v4",
         },
         "recoil": Object {
           "enabled": false,
@@ -579,10 +657,12 @@ TSBuilder {
           "aliasExecuteMsg": false,
           "enabled": true,
         },
+        "useShorthandCtor": true,
       },
       "utils": undefined,
     },
     RecoilPlugin {
+      "builder": [Circular],
       "option": Object {
         "abstractApp": Object {
           "clientPrefix": "App",
@@ -599,10 +679,10 @@ TSBuilder {
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageComposer": Object {
+        "messageBuilder": Object {
           "enabled": false,
         },
-        "msgBuilder": Object {
+        "messageComposer": Object {
           "enabled": false,
         },
         "reactQuery": Object {
@@ -611,7 +691,7 @@ TSBuilder {
           "mutations": false,
           "optionalClient": false,
           "queryKeys": false,
-          "version": "v3",
+          "version": "v4",
         },
         "recoil": Object {
           "enabled": false,
@@ -620,12 +700,14 @@ TSBuilder {
           "aliasExecuteMsg": false,
           "enabled": true,
         },
+        "useShorthandCtor": true,
       },
       "utils": Object {
         "selectorFamily": "recoil",
       },
     },
-    MsgBuilderPlugin {
+    MessageBuilderPlugin {
+      "builder": [Circular],
       "option": Object {
         "abstractApp": Object {
           "clientPrefix": "App",
@@ -642,10 +724,10 @@ TSBuilder {
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageComposer": Object {
+        "messageBuilder": Object {
           "enabled": false,
         },
-        "msgBuilder": Object {
+        "messageComposer": Object {
           "enabled": false,
         },
         "reactQuery": Object {
@@ -654,7 +736,7 @@ TSBuilder {
           "mutations": false,
           "optionalClient": false,
           "queryKeys": false,
-          "version": "v3",
+          "version": "v4",
         },
         "recoil": Object {
           "enabled": false,
@@ -663,8 +745,56 @@ TSBuilder {
           "aliasExecuteMsg": false,
           "enabled": true,
         },
+        "useShorthandCtor": true,
       },
       "utils": undefined,
+    },
+    ContractsContextProviderPlugin {
+      "builder": [Circular],
+      "option": Object {
+        "abstractApp": Object {
+          "clientPrefix": "App",
+          "enabled": false,
+        },
+        "bundle": Object {
+          "bundleFile": "bundle.ts",
+          "enabled": true,
+          "scope": "contracts",
+        },
+        "client": Object {
+          "enabled": true,
+          "execExtendsQuery": true,
+          "noImplicitOverride": false,
+        },
+        "enabled": true,
+        "messageBuilder": Object {
+          "enabled": false,
+        },
+        "messageComposer": Object {
+          "enabled": false,
+        },
+        "reactQuery": Object {
+          "camelize": true,
+          "enabled": false,
+          "mutations": false,
+          "optionalClient": false,
+          "queryKeys": false,
+          "version": "v4",
+        },
+        "recoil": Object {
+          "enabled": false,
+        },
+        "types": Object {
+          "aliasExecuteMsg": false,
+          "enabled": true,
+        },
+        "useShorthandCtor": true,
+      },
+      "utils": Object {
+        "ContractBase": "__contractContextBase__",
+        "IContractConstructor": "__contractContextBase__",
+        "IEmptyClient": "__contractContextBase__",
+      },
     },
   ],
 }

@@ -433,9 +433,9 @@ export const createReactQueryMutationArgsInterface = ({
     t.tsTypeAnnotation(
       // @ts-ignore:next-line
       t.tsTypeLiteral([
-        propertySignature('fee', OPTIONAL_FEE_PARAM.typeAnnotation, true),
-        propertySignature('memo', OPTIONAL_MEMO_PARAM.typeAnnotation, true),
-        propertySignature('funds', OPTIONAL_FUNDS_PARAM.typeAnnotation, true)
+        propertySignature('fee', OPTIONAL_FEE_PARAM.typeAnnotation as t.TSTypeAnnotation, true),
+        propertySignature('memo', OPTIONAL_MEMO_PARAM.typeAnnotation as t.TSTypeAnnotation, true),
+        propertySignature('funds', OPTIONAL_FUNDS_PARAM.typeAnnotation as t.TSTypeAnnotation, true)
       ])
     )
   );

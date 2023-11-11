@@ -5,7 +5,7 @@ const glob = require('glob').sync;
 const fs = require('fs');
 const path = require('path');
 
-const repo = 'https://github.com/pyramation/tmpl-cosmwasm-module.git';
+const repo = 'https://github.com/cosmology-tech/ts-codegen-module-boilerplate';
 export default async argv => {
     if (!shell.which('git')) {
         shell.echo('Sorry, this script requires git');
@@ -88,7 +88,7 @@ export default async argv => {
             path.basename(templateFile) === 'LICENSE' &&
             license.__LICENSE__ === 'closed'
         ) {
-            content = `Copyright (c) 2022 __USERFULLNAME__ <__USEREMAIL__> - All Rights Reserved
+            content = `Copyright (c) 2023 __USERFULLNAME__ <__USEREMAIL__> - All Rights Reserved
 Unauthorized copying via any medium is strictly prohibited
 Proprietary and confidential`;
         }
@@ -118,9 +118,9 @@ Proprietary and confidential`;
             );
         }
 
-        if (path.basename(templateFile) === 'README.md') {
-            content = `# ${results.__MODULENAME__}`;
-        }
+        // if (path.basename(templateFile) === 'README.md') {
+        //     content = `# ${results.__MODULENAME__}`;
+        // }
 
         fs.writeFileSync(templateFile, content);
     }

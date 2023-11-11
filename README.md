@@ -36,6 +36,8 @@ The quickest and easiest way to interact with CosmWasm Contracts. `@cosmwasm/ts-
     - [React Query](#react-query)
     - [Recoil](#recoil)
     - [Message Composer](#message-composer)
+    - [Message Builder](#message-builder)
+    - [Use Contracts Hooks](#use-contracts-hooks)
     - [Bundles](#bundles)
     - [CLI Usage and Examples](#cli-usage-and-examples)
     - [Advanced Usage](#advanced-usage)
@@ -45,7 +47,7 @@ The quickest and easiest way to interact with CosmWasm Contracts. `@cosmwasm/ts-
     - [Exporting Schemas](#exporting-schemas)
 - [Developing](#developing)
 - [Related](#related)
-## Quickstart 
+## Quickstart
 
 Clone your project and `cd` into your contracts folder
 
@@ -120,7 +122,10 @@ codegen({
     messageComposer: {
       enabled: false
     },
-    msgBuilder: {
+    messageBuilder: {
+      enabled: false
+    },
+    useContractsHooks: {
       enabled: false
     }
   }
@@ -128,7 +133,7 @@ codegen({
   console.log('✨ all done!');
 });
 ```
-#### Types 
+#### Types
 
 Typescript types and interfaces are generated in separate files so they can be imported into various generated plugins.
 
@@ -136,25 +141,25 @@ Typescript types and interfaces are generated in separate files so they can be i
 
 #### Types Options
 
-  | option                  | description                                          |
--------------------------| ----------------------------- | ---------------------------------------------------  |
-  | `types.enabled`         | enable type generation                               |
-  | `types.aliasExecuteMsg` | generate a type alias based on the contract name     |
-  | `types.aliasEntryPoints`               | generate type aliases for the entry points based on the contract name     |
+| option                   | description                                          |
+| ------------------------ | ---------------------------------------------------- |
+| `types.enabled`          | enable type generation                               |
+| `types.aliasExecuteMsg`  | generate a type alias based on the contract name     |
+| `types.aliasEntryPoints` | generate type aliases for the entry points based on the contract name     |
 
 ### Client
 
-The `client` plugin will generate TS client classes for your contracts. This option generates a `QueryClient` for queries as well as a `Client` for queries and mutations. 
+The `client` plugin will generate TS client classes for your contracts. This option generates a `QueryClient` for queries as well as a `Client` for queries and mutations.
 
 [see example output code](https://gist.github.com/pyramation/30508678b7563e286f06ccc5ac384817)
 
 #### Client Options
 
-  | option                                  | description                                          |
-  | --------------------------------------- | ---------------------------------------------------  |
-  | `client.enabled`                        | generate TS client classes for your contracts        |
-  | `client.execExtendsQuery`               | execute should extend query message clients          |
-  | `client.noImplicitOverride`             | should match your tsconfig noImplicitOverride option |
+| option                                  | description                                          |
+| --------------------------------------- | ---------------------------------------------------  |
+| `client.enabled`                        | generate TS client classes for your contracts        |
+| `client.execExtendsQuery`               | execute should extend query message clients          |
+| `client.noImplicitOverride`             | should match your tsconfig noImplicitOverride option |
 
 #### Client via CLI
 
@@ -173,18 +178,18 @@ Generate [react-query v3](https://react-query-v3.tanstack.com/) or [react-query 
 
 #### React Query Options
 
-  | option                      | description                                                                  |
-  | ---------------------------- | ---------------------------------------------------------------------------- |
-  | `reactQuery.enabled`        | enable the react-query plugin                                                |
-  | `reactQuery.optionalClient` | allows contract client to be undefined as the component renders              |
-  | `reactQuery.queryKeys`      | generates a const queryKeys object for use with invalidations and set values |
-  | `reactQuery.queryFactory`   | generates a const queryFactory object for useQueries and prefetchQueries use |
-  | `reactQuery.version`        | `v4` uses `@tanstack/react-query` and `v3` uses `react-query`                |
-  | `reactQuery.mutations`      | also generate mutations                                                      |
-  | `reactQuery.camelize`       | use camelCase style for property names                                       |
+| option                      | description                                                                  |
+| --------------------------- | --------------------------------------------------------------------------- |
+| `reactQuery.enabled`        | enable the react-query plugin                                                |
+| `reactQuery.optionalClient` | allows contract client to be undefined as the component renders              |
+| `reactQuery.queryKeys`      | generates a const queryKeys object for use with invalidations and set values |
+| `reactQuery.queryFactory`   | generates a const queryFactory object for useQueries and prefetchQueries use |
+| `reactQuery.version`        | `v4` uses `@tanstack/react-query` and `v3` uses `react-query`                |
+| `reactQuery.mutations`      | also generate mutations                                                      |
+| `reactQuery.camelize`       | use camelCase style for property names                                       |
 
 
-#### React Query via CLI 
+#### React Query via CLI
 
 Here is an example without optional client, using v3 for `react-query`, without mutations:
 
@@ -226,14 +231,14 @@ cosmwasm-ts-codegen generate \
     --plugin recoil \
     --schema ./schema \
     --out ./ts \
-    --name MyContractName 
+    --name MyContractName
 ```
 
 #### Recoil Options
 
-  | option                         | description                                                         |
-  | ------------------------------ | ------------------------------------------------------------------- |
-  | `recoil.enabled`               | enable the recoil plugin                                            |
+| option                         | description                                                         |
+| ------------------------------ | ------------------------------------------------------------------- |
+| `recoil.enabled`               | enable the recoil plugin                                            |
 
 ### Message Composer
 
@@ -248,34 +253,34 @@ cosmwasm-ts-codegen generate \
     --plugin message-composer \
     --schema ./schema \
     --out ./ts \
-    --name MyContractName 
+    --name MyContractName
 ```
 #### Message Composer Options
 
-  | option                         | description                                                         |
-  | ------------------------------ | ------------------------------------------------------------------- |
-  | `messageComposer.enabled`      | enable the messageComposer plugin                                   |
+| option                         | description                                                         |
+| ------------------------------ | ------------------------------------------------------------------- |
+| `messageComposer.enabled`      | enable the messageComposer plugin                                   |
 
-### Msg Builder
+### Message Builder
 
-Generate raw message jsons for use in your application with the `msg-builder` command.
+Generate raw message jsons for use in your application with the `message-builder` command.
 
 [see example output code](https://gist.github.com/adairrr/b394e62beb9856b0351883f776650f26)
 
-#### Msg Builder via CLI
+#### Message Builder via CLI
 
 ```sh
 cosmwasm-ts-codegen generate \
-    --plugin msg-builder \
+    --plugin message-builder \
     --schema ./schema \
     --out ./ts \
-    --name MyContractName 
+    --name MyContractName
 ```
 #### Message Builder Options
 
-| option      | description                                                         |
--------------| ------------------------------ | ------------------------------------------------------------------- |
-| `msgBuilder.enabled` | enable the msgBuilder plugin                                   |
+| option                   | description                        |
+|------------------------- | ---------------------------------- |
+| `messageBuilder.enabled` | enable the messageBuilder plugin   |
 
 ### Abstract App
 
@@ -298,6 +303,74 @@ cosmwasm-ts-codegen generate \
 | `abstractApp.enabled` | enable the abstractApp plugin |
 | `abstractApp.clientPrefix` | prefix the client name, defaults to `App` |
 
+### Use Contracts Hooks
+
+| option                           | description                             |
+| -------------------------------- | --------------------------------------- |
+| `useContractsHooks.enabled`      | enable the `useContracts` plugin        |
+
+#### Use Contracts Provider Usage
+
+```tsx
+import { useChain } from '@cosmos-kit/react';
+import { ContractsProvider } from '../path/to/codegen/contracts-context';
+
+export default function YourComponent() {
+
+  const {
+    address,
+    getCosmWasmClient,
+    getSigningCosmWasmClient
+  } = useChain(chainName);
+
+  return (
+    <ContractsProvider
+      contractsConfig={{
+        address,
+        getCosmWasmClient,
+        getSigningCosmWasmClient,
+      }}
+    >
+        <SomeCoolComponent />
+    </ContractsProvider>
+  )
+};
+```
+
+#### Use Contracts Provider Babel/TSC config
+
+If you're using Babel, please make sure include `'@babel/preset-react'` in devDeps and presets in `.babelrc.js`:
+
+```js
+ presets: [
+   '@babel/typescript',
+   '@babel/env',
+   '@babel/preset-react',
+ ]
+```
+
+For `tsc`, you should set the `jsx` option to `'react'` in your `tsconfig.json`.
+
+#### Use Contracts Hooks Usage
+
+Once enabled, you can get contracts very simply:
+
+```ts
+const { marketplace } = useContracts();
+```
+
+```ts
+const marketplaceClient = marketplace.signingClient(marketplaceContract);
+await marketplaceClient.updateAskPrice({
+  collection: token.collectionAddr,
+  price: {
+    amount,
+    denom,
+  },
+  tokenId,
+});
+```
+
 ### Bundles
 
 The bundler will make a nice package of all your contracts. For example:
@@ -312,17 +385,70 @@ const { CwAdminFactoryClient } = contracts.CwAdminFactory;
 ```
 #### Bundler Options
 
-  | option                | description                                                                      |
-  | --------------------- | -------------------------------------------------------------------------------- |
-  | `bundle.enabled`      | enable the bundler plugin                                                        |
-  | `bundle.scope`        | name of the scope, defaults to `contracts` (you can use `.` to make more scopes) |
-  | `bundle.bundleFile`   | name of the bundle file                                                          |
+| option                | description                                                                      |
+| --------------------- | -------------------------------------------------------------------------------- |
+| `bundle.enabled`      | enable the bundler plugin                                                        |
+| `bundle.scope`        | name of the scope, defaults to `contracts` (you can use `.` to make more scopes) |
+| `bundle.bundleFile`   | name of the bundle file                                                          |
+
+#### Coding Style
+
+| option                | description                          | default |
+| --------------------- | ---------------------------------------------- |
+| `useShorthandCtor`    |  Enable using shorthand constructor. | true    |
+
+Using shorthand constructor (Might not be transpiled correctly with babel):
+
+```ts
+  constructor(
+    protected address: string | undefined,
+    protected cosmWasmClient: CosmWasmClient | undefined,
+    protected signingCosmWasmClient: SigningCosmWasmClient | undefined,
+    private TSign?: new (
+      client: SigningCosmWasmClient,
+      sender: string,
+      contractAddress: string
+    ) => TSign,
+    private TQuery?: new (
+      client: CosmWasmClient,
+      contractAddress: string
+    ) => TQuery,
+    private TMsgComposer?: new (
+      sender: string,
+      contractAddress: string
+    ) => TMsgComposer
+  ) {}
+```
+
+Without using shorthand constructor:
+
+```ts
+  address: string | undefined;
+  ...
+  TMsgComposer?: new (
+    sender: string,
+    contractAddress: string
+  ) => TMsgComposer;
+
+  constructor(
+    address: string | undefined,
+    ...
+    TMsgComposer?: new (
+      sender: string,
+      contractAddress: string
+    ) => TMsgComposer
+  ) {
+    this.address = address;
+    ...
+    this.TMsgComposer = TMsgComposer;
+  }
+```
 
 ### CLI Usage and Examples
 
 #### Interactive prompt
 
-The CLI is interactive, and if you don't specify an option, it will interactively prompt you. 
+The CLI is interactive, and if you don't specify an option, it will interactively prompt you.
 
 ```sh
 cosmwasm-ts-codegen generate
@@ -405,12 +531,12 @@ cosmwasm-ts-codegen generate \
 for lower-level access, you can import the various plugins directly:
 
 ```ts
-import { 
+import {
   generateTypes,
   generateClient,
   generateReactQuery,
   generateRecoil,
-  generateMessageComposer,
+  generateMessageComposer
 } from '@cosmwasm/ts-codegen';
 ```
 ### Example Output
@@ -435,7 +561,7 @@ https://gist.github.com/pyramation/a9520ccf131177b1841e02a97d7d3731
 
 https://gist.github.com/pyramation/43320e8b952751a0bd5a77dbc5b601f4
 
-- `cosmwasm-ts-codegen generate --plugin msg-builder`
+- `cosmwasm-ts-codegen generate --plugin message-builder`
 
 https://gist.github.com/adairrr/b394e62beb9856b0351883f776650f26
 
@@ -502,7 +628,7 @@ export_schema_with_title(
 ### Initial setup
 
 ```
-yarn 
+yarn
 yarn bootstrap
 ```
 
@@ -529,7 +655,7 @@ See the [docs](https://github.com/CosmWasm/ts-codegen/blob/main/packages/wasm-as
 
 Checkout these related projects:
 
-* [@osmonauts/telescope](https://github.com/osmosis-labs/telescope) a "babel for the Cosmos", Telescope is a TypeScript Transpiler for Cosmos Protobufs.
+* [@cosmology/telescope](https://github.com/cosmology-tech/telescope) a "babel for the Cosmos", Telescope is a TypeScript Transpiler for Cosmos Protobufs.
 * [chain-registry](https://github.com/cosmology-tech/chain-registry) an npm module for the official Cosmos chain-registry.
 * [cosmos-kit](https://github.com/cosmology-tech/cosmos-kit) A wallet connector for the Cosmos ⚛️
 * [create-cosmos-app](https://github.com/cosmology-tech/create-cosmos-app) set up a modern Cosmos app by running one command.

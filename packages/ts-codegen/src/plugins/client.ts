@@ -1,22 +1,24 @@
-import { pascal } from 'case';
-import * as w from 'wasm-ast-types';
-import { findExecuteMsg, findAndParseTypes, findQueryMsg } from '../utils';
+import { pascal } from "case";
+import * as w from "wasm-ast-types";
+import { findExecuteMsg, findAndParseTypes, findQueryMsg } from "../utils";
 import {
   RenderContext,
   ContractInfo,
   RenderContextBase,
   getMessageProperties,
-  RenderOptions
-} from 'wasm-ast-types';
-import { BuilderFileType } from '../builder';
-import { BuilderPluginBase } from './plugin-base';
+  RenderOptions,
+} from "wasm-ast-types";
+import { BuilderFileType } from "../builder";
+import { BuilderPluginBase } from "./plugin-base";
+
+export const TYPE = "client";
 
 export class ClientPlugin extends BuilderPluginBase<RenderOptions> {
   initContext(
     contract: ContractInfo,
     options?: RenderOptions
   ): RenderContextBase<RenderOptions> {
-    return new RenderContext(contract, options);
+    return new RenderContext(contract, options, this.builder.builderContext);
   }
 
   async doRender(
@@ -38,8 +40,8 @@ export class ClientPlugin extends BuilderPluginBase<RenderOptions> {
 
     const { schemas } = context.contract;
 
-    const localname = pascal(name) + '.client.ts';
-    const TypesFile = pascal(name) + '.types';
+    const localname = pascal(name) + ".client.ts";
+    const TypesFile = pascal(name) + ".types";
     const QueryMsg = findQueryMsg(schemas);
     const ExecuteMsg = findExecuteMsg(schemas);
     const typeHash = await findAndParseTypes(schemas);
@@ -61,6 +63,13 @@ export class ClientPlugin extends BuilderPluginBase<RenderOptions> {
       body.push(w.createQueryInterface(context, ReadOnlyInstance, QueryMsg));
       body.push(
         w.createQueryClass(context, QueryClient, ReadOnlyInstance, QueryMsg)
+      );
+
+      context.addProviderInfo(
+        name,
+        w.PROVIDER_TYPES.QUERY_CLIENT_TYPE,
+        QueryClient,
+        localname
       );
     }
 
@@ -89,20 +98,27 @@ export class ClientPlugin extends BuilderPluginBase<RenderOptions> {
             ExecuteMsg
           )
         );
+
+        context.addProviderInfo(
+          name,
+          w.PROVIDER_TYPES.SIGNING_CLIENT_TYPE,
+          Client,
+          localname
+        );
       }
     }
 
-    if (typeHash.hasOwnProperty('Coin')) {
+    if (typeHash.hasOwnProperty("Coin")) {
       // @ts-ignore
       delete context.utils.Coin;
     }
 
     return [
       {
-        type: 'client',
+        type: TYPE,
         localname,
-        body
-      }
+        body,
+      },
     ];
   }
 }

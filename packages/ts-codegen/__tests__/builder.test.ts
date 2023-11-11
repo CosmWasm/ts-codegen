@@ -94,6 +94,7 @@ it('builder default', async () => {
                 bundleFile: 'index.ts',
                 scope: 'smart.contracts'
             },
+            useShorthandCtor: false,
             types: {
                 enabled: true
             },
@@ -110,8 +111,11 @@ it('builder default', async () => {
             messageComposer: {
                 enabled: true
             },
-            msgBuilder: {
-              enabled: true
+            messageBuilder: {
+                enabled: true
+            },
+            useContractsHooks: {
+                enabled: true,
             }
         }
     });
@@ -153,8 +157,8 @@ it('builder no extends', async () => {
             messageComposer: {
                 enabled: true
             },
-            msgBuilder: {
-              enabled: true
+            messageBuilder: {
+                enabled: true
             }
         }
     });
@@ -166,37 +170,40 @@ it('builder set bundler path', async () => {
     const s = (str) => FIXTURE_DIR + str;
     await codegen({
         contracts: [
-          s('/vectis/factory'),
-          s('/minter'),
-          s('/daodao/cw-admin-factory'),
-          s('/daodao/cw-code-id-registry'),
-          {
-              name: 'CwSingle',
-              dir: s('/daodao/cw-proposal-single')
-          }
+            s('/vectis/factory'),
+            s('/minter'),
+            s('/daodao/cw-admin-factory'),
+            s('/daodao/cw-code-id-registry'),
+            {
+                name: 'CwSingle',
+                dir: s('/daodao/cw-proposal-single')
+            }
         ],
         outPath,
         options: {
             bundle: {
-              bundlePath: bundlerPath,
-              bundleFile: 'index.ts',
-              scope: 'smart.contracts'
+                bundlePath: bundlerPath,
+                bundleFile: 'index.ts',
+                scope: 'smart.contracts'
             },
             types: {
-              enabled: true
+                enabled: true
             },
             client: {
-              enabled: true,
-              execExtendsQuery: false
+                enabled: true,
+                execExtendsQuery: false
             },
             reactQuery: {
-              enabled: true
+                enabled: true
             },
             recoil: {
-              enabled: true
+                enabled: true
             },
             messageComposer: {
-              enabled: true
+                enabled: true
+            },
+            useContractsHooks: {
+                enabled: true,
             }
         }
     });

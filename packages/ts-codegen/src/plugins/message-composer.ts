@@ -1,23 +1,25 @@
-import { pascal } from 'case';
-import * as w from 'wasm-ast-types';
-import { findAndParseTypes, findExecuteMsg } from '../utils';
+import { pascal } from "case";
+import * as w from "wasm-ast-types";
+import { findAndParseTypes, findExecuteMsg } from "../utils";
 import {
   MessageComposerOptions,
   getMessageProperties,
   ContractInfo,
   RenderContextBase,
   RenderContext,
-  RenderOptions
-} from 'wasm-ast-types';
-import { BuilderFileType } from '../builder';
-import { BuilderPluginBase } from './plugin-base';
+  RenderOptions,
+} from "wasm-ast-types";
+import { BuilderFileType } from "../builder";
+import { BuilderPluginBase } from "./plugin-base";
+
+export const TYPE = "message-composer";
 
 export class MessageComposerPlugin extends BuilderPluginBase<RenderOptions> {
   initContext(
     contract: ContractInfo,
     options?: RenderOptions
   ): RenderContextBase<RenderOptions> {
-    return new RenderContext(contract, options);
+    return new RenderContext(contract, options, this.builder.builderContext);
   }
 
   async doRender(
@@ -39,8 +41,8 @@ export class MessageComposerPlugin extends BuilderPluginBase<RenderOptions> {
 
     const { schemas } = context.contract;
 
-    const localname = pascal(name) + '.message-composer.ts';
-    const TypesFile = pascal(name) + '.types';
+    const localname = pascal(name) + ".message-composer.ts";
+    const TypesFile = pascal(name) + ".types";
     const ExecuteMsg = findExecuteMsg(schemas);
     const typeHash = await findAndParseTypes(schemas);
 
@@ -52,8 +54,8 @@ export class MessageComposerPlugin extends BuilderPluginBase<RenderOptions> {
     if (ExecuteMsg) {
       const children = getMessageProperties(ExecuteMsg);
       if (children.length > 0) {
-        const TheClass = pascal(`${name}MessageComposer`);
-        const Interface = pascal(`${name}Message`);
+        const TheClass = pascal(`${name}MsgComposer`);
+        const Interface = pascal(`${name}Msg`);
 
         body.push(
           w.createMessageComposerInterface(context, Interface, ExecuteMsg)
@@ -61,20 +63,27 @@ export class MessageComposerPlugin extends BuilderPluginBase<RenderOptions> {
         body.push(
           w.createMessageComposerClass(context, TheClass, Interface, ExecuteMsg)
         );
+
+        context.addProviderInfo(
+          name,
+          w.PROVIDER_TYPES.MESSAGE_COMPOSER_TYPE,
+          TheClass,
+          localname
+        );
       }
     }
 
-    if (typeHash.hasOwnProperty('Coin')) {
+    if (typeHash.hasOwnProperty("Coin")) {
       // @ts-ignore
       delete context.utils.Coin;
     }
 
     return [
       {
-        type: 'message-composer',
+        type: TYPE,
         localname,
-        body
-      }
+        body,
+      },
     ];
   }
 }

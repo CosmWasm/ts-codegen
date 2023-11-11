@@ -1,4 +1,4 @@
-import { RenderOptions, defaultOptions, RenderContext, ContractInfo, MessageComposerOptions} from "wasm-ast-types";
+import { RenderOptions, defaultOptions, RenderContext, ContractInfo, MessageComposerOptions, BuilderContext } from "wasm-ast-types";
 
 import { header } from '../utils/header';
 import { join } from "path";
@@ -17,18 +17,22 @@ import generate from '@babel/generator';
 import * as t from '@babel/types';
 import { ReactQueryPlugin } from "../plugins/react-query";
 import { RecoilPlugin } from "../plugins/recoil";
-import { MsgBuilderPlugin } from "../plugins/msg-builder";
+import { MessageBuilderPlugin } from "../plugins/message-builder";
 import { MessageComposerPlugin } from "../plugins/message-composer";
 import { ClientPlugin } from "../plugins/client";
 import { TypesPlugin } from "../plugins/types";
 import { AbstractAppPlugin } from '../plugins/abstract-app';
+import { ContractsContextProviderPlugin } from "../plugins/provider";
+import { createHelpers } from "../generators/create-helpers";
+import { ContractsProviderBundlePlugin } from "../plugins/provider-bundle";
 
 const defaultOpts: TSBuilderOptions = {
     bundle: {
         enabled: true,
         scope: 'contracts',
         bundleFile: 'bundle.ts'
-    }
+    },
+    useShorthandCtor: true
 }
 
 export interface TSBuilderInput {
@@ -45,17 +49,29 @@ export interface BundleOptions {
     bundlePath?: string;
 };
 
+export interface UseContractsOptions {
+    enabled?: boolean;
+};
+
 export type TSBuilderOptions = {
     bundle?: BundleOptions;
+    /**
+     * Enable using shorthand constructor.
+     * Default: true
+     */
+    useShorthandCtor?: boolean;
+    useContractsHooks?: UseContractsOptions;
 } & RenderOptions;
 
-export type BuilderFileType = 'type' | 'client' | 'recoil' | 'react-query' | 'message-composer' | 'msg-builder' | 'plugin' | 'abstract-app';
+export type BuilderFileType = 'type' | 'client' | 'recoil' | 'react-query' | 'message-composer' | 'message-builder' | 'plugin' | 'abstract-app'
 
 export interface BuilderFile {
     type: BuilderFileType;
     pluginType?: string;
     contract: string;
+    //filename only: Factory.client.ts
     localname: string;
+    //full path: contracts/Factory.client.ts
     filename: string;
 };
 
@@ -84,6 +100,7 @@ export class TSBuilder {
     outPath: string;
     options?: TSBuilderOptions;
     plugins: IBuilderPlugin[] = [];
+    builderContext: BuilderContext = new BuilderContext();
 
     protected files: BuilderFile[] = [];
 
@@ -95,7 +112,8 @@ export class TSBuilder {
             new MessageComposerPlugin(this.options),
             new ReactQueryPlugin(this.options),
             new RecoilPlugin(this.options),
-            new MsgBuilderPlugin(this.options),
+            new MessageBuilderPlugin(this.options),
+            new ContractsContextProviderPlugin(this.options),
         ]);
     }
 
@@ -115,6 +133,8 @@ export class TSBuilder {
         if (plugins && plugins.length) {
             [].push.apply(this.plugins, plugins);
         }
+
+        this.plugins.forEach(plugin => plugin.setBuilder(this))
     }
 
     async build() {
@@ -123,7 +143,7 @@ export class TSBuilder {
     }
 
     // lifecycle functions
-    private async process(){
+    private async process() {
         for (const contractOpt of this.contracts) {
             const contract = getContract(contractOpt);
             //resolve contract schema.
@@ -136,29 +156,57 @@ export class TSBuilder {
         }
     }
 
-    private async render(name: string, contractInfo: ContractInfo){
-      for (const plugin of this.plugins) {
-          let files = await plugin.render(name, contractInfo, this.outPath);
-          if(files && files.length){
-              [].push.apply(this.files, files);
-          }
-      }
+    private async render(name: string, contractInfo: ContractInfo) {
+        for (const plugin of this.plugins) {
+            let files = await plugin.render(name, contractInfo, this.outPath);
+            if (files && files.length) {
+                [].push.apply(this.files, files);
+            }
+        }
     }
 
-    private async after(){
+    private async after() {
+
+        //create useContracts bundle file
+        const contractsProviderBundlePlugin = new ContractsProviderBundlePlugin(this.options);
+        contractsProviderBundlePlugin.setBuilder(this);
+
+        //contractContextProviders.ts
+        const files = await contractsProviderBundlePlugin.render(
+            "contractContextProviders",
+            {
+                schemas: [],
+            },
+            this.outPath
+        );
+
+        if (files && files.length) {
+            [].push.apply(this.files, files);
+        }
+
+        const helpers = createHelpers({
+            outPath: this.outPath,
+            contracts: this.contracts,
+            options: this.options,
+            plugins: this.plugins,
+        }, this.builderContext);
+
+        if (helpers && helpers.length) {
+            [].push.apply(this.files, helpers);
+        }
+
         if (this.options.bundle.enabled) {
             this.bundle();
         }
     }
 
     async bundle() {
-
         const allFiles = this.files;
 
         const bundleFile = this.options.bundle.bundleFile;
         const bundlePath = join(
-          this.options?.bundle?.bundlePath ?? this.outPath,
-          bundleFile
+            this.options?.bundle?.bundlePath ?? this.outPath,
+            bundleFile
         );
         const bundleVariables = {};
         const importPaths = [];
@@ -182,7 +230,7 @@ export class TSBuilder {
             ]
         )).code;
 
-        if(this.options?.bundle?.bundlePath){
+        if (this.options?.bundle?.bundlePath) {
             mkdirp(this.options?.bundle?.bundlePath);
         }
 

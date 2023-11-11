@@ -1,4 +1,4 @@
-import { RenderOptions } from "wasm-ast-types";
+import { RenderOptions, BuilderContext } from "wasm-ast-types";
 import { IBuilderPlugin } from '../plugins';
 export interface TSBuilderInput {
     contracts: Array<ContractFile | string>;
@@ -12,10 +12,20 @@ export interface BundleOptions {
     bundleFile?: string;
     bundlePath?: string;
 }
+
+export interface UseContractsOptions {
+    enabled?: boolean;
+}
 export declare type TSBuilderOptions = {
     bundle?: BundleOptions;
+    /**
+     * Enable using shorthand constructor.
+     * Default: true
+     */
+    useShorthandCtor?: boolean;
+    useContractsHooks?: UseContractsOptions;
 } & RenderOptions;
-export declare type BuilderFileType = 'type' | 'client' | 'recoil' | 'react-query' | 'message-composer' | 'msg-builder' | 'plugin' | 'abstract-app';
+export declare type BuilderFileType = 'type' | 'client' | 'recoil' | 'react-query' | 'message-composer' | 'message-builder' | 'plugin' | 'abstract-app';
 export interface BuilderFile {
     type: BuilderFileType;
     pluginType?: string;
@@ -32,6 +42,7 @@ export declare class TSBuilder {
     outPath: string;
     options?: TSBuilderOptions;
     plugins: IBuilderPlugin[];
+    builderContext: BuilderContext;
     protected files: BuilderFile[];
     loadDefaultPlugins(): void;
     constructor({ contracts, outPath, options, plugins }: TSBuilderInput);

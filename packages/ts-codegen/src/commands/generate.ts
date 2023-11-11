@@ -66,7 +66,7 @@ export default async (argv) => {
                 type: 'list',
                 name: 'version',
                 message: 'which react-query version?',
-                default: 'v3',
+                default: 'v4',
                 choices: ['v3', 'v4']
             },
             {
@@ -93,7 +93,7 @@ export default async (argv) => {
     };
     const { mutations } = await prompt(questions3, argv);
 
-    const queryFactoryQuestions  = [];
+    const queryFactoryQuestions = [];
     if (queryKeys) {
       [].push.apply(queryFactoryQuestions, [
         // Only can use queryFactory if queryKeys is enabled
@@ -154,8 +154,8 @@ export default async (argv) => {
         messageComposer: {
             enabled: plugin.includes('message-composer')
         },
-        msgBuilder: {
-          enabled: plugin.includes('msg-builder') || plugin.includes('abstract-app')
+        messageBuilder: {
+            enabled: plugin.includes('message-builder') || plugin.includes('abstract-app')
         },
         bundle: {
             enabled: bundle,
