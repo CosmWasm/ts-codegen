@@ -42,7 +42,7 @@ export class AbstractAppPlugin extends BuilderPluginBase<RenderOptions> {
 
     const localname = pascal(`${name}`) + '.client.ts';
     const ContractFile = pascal(`${name}`) + '.client';
-    const MsgBuilderFile = pascal(`${name}`) + '.msg-builder';
+    const MsgBuilderFile = pascal(`${name}`) + '.message-builder';
     const TypesFile = pascal(`${name}`) + '.types';
 
     const QueryMsg = findQueryMsg(schemas);

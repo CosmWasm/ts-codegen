@@ -523,27 +523,57 @@ const ADDRESS_ACCESSOR_FN = t.classProperty(
           t.memberExpression(t.thisExpression(), CLASS_VARS._moduleAddress)
         ),
         t.blockStatement([
+          t.variableDeclaration(
+            'const',
+            [
+              t.variableDeclarator(
+                t.identifier('address'),
+                t.awaitExpression(
+                  t.callExpression(
+                    t.memberExpression(
+                      t.memberExpression(
+                        t.thisExpression(),
+                        CLASS_VARS.accountQueryClient
+                      ),
+                      t.identifier('getModuleAddress')
+                    ),
+                    [
+                      t.memberExpression(
+                        t.thisExpression(),
+                        t.identifier('moduleId')
+                      )
+                    ]
+                  )
+                )
+              )
+            ]
+          ),
+          t.ifStatement(
+            t.binaryExpression(
+              '===',
+              t.identifier('address'),
+              t.nullLiteral()
+            ),
+            t.blockStatement([
+              t.throwStatement(
+                t.newExpression(
+                  t.identifier('Error'),
+                  [t.templateLiteral(
+                    [
+                      t.templateElement({ raw: 'Module ', cooked: 'Module ' }, false),
+                      t.templateElement({ raw: ' not installed', cooked: ' not installed' }, true)
+                    ],
+                    [t.memberExpression(t.thisExpression(), t.identifier('moduleId'))]
+                  )]
+                )
+              )
+            ])
+          ),
           t.expressionStatement(
             t.assignmentExpression(
               '=',
               t.memberExpression(t.thisExpression(), CLASS_VARS._moduleAddress),
-              t.awaitExpression(
-                t.callExpression(
-                  t.memberExpression(
-                    t.memberExpression(
-                      t.thisExpression(),
-                      CLASS_VARS.accountQueryClient
-                    ),
-                    t.identifier('getModuleAddress')
-                  ),
-                  [
-                    t.memberExpression(
-                      t.thisExpression(),
-                      t.identifier('moduleId')
-                    )
-                  ]
-                )
-              )
+              t.identifier('address')
             )
           )
         ])
@@ -557,6 +587,7 @@ const ADDRESS_ACCESSOR_FN = t.classProperty(
     true
   )
 );
+
 
 const connectSigningClientMethod = (mutClientName: string) => {
   return t.classProperty(
@@ -707,7 +738,8 @@ export const createAppExecuteClass = (
     ABSTRACT_ACCOUNT_CLIENT,
     'StdFee',
     'Coin',
-    ABSTRACT_CLIENT
+    ABSTRACT_CLIENT,
+    ABSTRACT_ACCOUNT_ID
   ]);
 
   const propertyNames = getMessageProperties(execMsg)

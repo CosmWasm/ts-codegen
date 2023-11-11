@@ -124,7 +124,13 @@ exports[`AutocompounderAppQueryClient 1`] = `
   };
   getAddress = async (): Promise<string> => {
     if (!this._moduleAddress) {
-      this._moduleAddress = await this.accountQueryClient.getModuleAddress(this.moduleId);
+      const address = await this.accountQueryClient.getModuleAddress(this.moduleId);
+
+      if (address === null) {
+        throw new Error(\`Module \${this.moduleId} not installed\`);
+      }
+
+      this._moduleAddress = address;
     }
 
     return this._moduleAddress!;

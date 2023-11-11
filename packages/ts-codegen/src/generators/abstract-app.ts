@@ -27,7 +27,7 @@ export default async (
   const options = context.options.abstractApp;
 
   const localname = pascal(`${contractName}`) + '.client.ts';
-  const MsgBuilderFile = pascal(`${contractName}`) + '.msg-builder';
+  const MsgBuilderFile = pascal(`${contractName}`) + '.message-builder';
   const TypesFile = pascal(`${contractName}`) + '.types';
 
   const QueryMsg = findQueryMsg(schemas);
