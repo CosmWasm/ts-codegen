@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.35.7](https://github.com/cosmwasm/ts-codegen/compare/@cosmwasm/ts-codegen@0.35.6...@cosmwasm/ts-codegen@0.35.7) (2024-01-19)
+
+**Note:** Version bump only for package @cosmwasm/ts-codegen
+
+
+
+
+
 ## [0.35.6](https://github.com/cosmwasm/ts-codegen/compare/@cosmwasm/ts-codegen@0.35.5...@cosmwasm/ts-codegen@0.35.6) (2024-01-19)
 
 **Note:** Version bump only for package @cosmwasm/ts-codegen
