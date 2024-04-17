@@ -38,6 +38,7 @@ TSBuilder {
     "types": {
       "aliasExecuteMsg": false,
       "enabled": true,
+      "itemsUseTuples": false,
     },
     "useShorthandCtor": true,
   },
@@ -76,6 +77,7 @@ TSBuilder {
         "types": {
           "aliasExecuteMsg": false,
           "enabled": true,
+          "itemsUseTuples": false,
         },
         "useShorthandCtor": true,
       },
@@ -115,6 +117,7 @@ TSBuilder {
         "types": {
           "aliasExecuteMsg": false,
           "enabled": true,
+          "itemsUseTuples": false,
         },
         "useShorthandCtor": true,
       },
@@ -154,6 +157,7 @@ TSBuilder {
         "types": {
           "aliasExecuteMsg": false,
           "enabled": true,
+          "itemsUseTuples": false,
         },
         "useShorthandCtor": true,
       },
@@ -193,6 +197,7 @@ TSBuilder {
         "types": {
           "aliasExecuteMsg": false,
           "enabled": true,
+          "itemsUseTuples": false,
         },
         "useShorthandCtor": true,
       },
@@ -232,6 +237,7 @@ TSBuilder {
         "types": {
           "aliasExecuteMsg": false,
           "enabled": true,
+          "itemsUseTuples": false,
         },
         "useShorthandCtor": true,
       },
@@ -273,6 +279,7 @@ TSBuilder {
         "types": {
           "aliasExecuteMsg": false,
           "enabled": true,
+          "itemsUseTuples": false,
         },
         "useShorthandCtor": true,
       },
@@ -312,6 +319,7 @@ TSBuilder {
         "types": {
           "aliasExecuteMsg": false,
           "enabled": true,
+          "itemsUseTuples": false,
         },
         "useShorthandCtor": true,
       },
@@ -363,6 +371,7 @@ TSBuilder {
     "types": {
       "aliasExecuteMsg": false,
       "enabled": true,
+      "itemsUseTuples": false,
     },
     "useShorthandCtor": true,
   },
@@ -401,6 +410,7 @@ TSBuilder {
         "types": {
           "aliasExecuteMsg": false,
           "enabled": true,
+          "itemsUseTuples": false,
         },
         "useShorthandCtor": true,
       },
@@ -440,6 +450,7 @@ TSBuilder {
         "types": {
           "aliasExecuteMsg": false,
           "enabled": true,
+          "itemsUseTuples": false,
         },
         "useShorthandCtor": true,
       },
@@ -479,6 +490,7 @@ TSBuilder {
         "types": {
           "aliasExecuteMsg": false,
           "enabled": true,
+          "itemsUseTuples": false,
         },
         "useShorthandCtor": true,
       },
@@ -518,6 +530,7 @@ TSBuilder {
         "types": {
           "aliasExecuteMsg": false,
           "enabled": true,
+          "itemsUseTuples": false,
         },
         "useShorthandCtor": true,
       },
@@ -557,6 +570,7 @@ TSBuilder {
         "types": {
           "aliasExecuteMsg": false,
           "enabled": true,
+          "itemsUseTuples": false,
         },
         "useShorthandCtor": true,
       },
@@ -598,6 +612,7 @@ TSBuilder {
         "types": {
           "aliasExecuteMsg": false,
           "enabled": true,
+          "itemsUseTuples": false,
         },
         "useShorthandCtor": true,
       },
@@ -637,6 +652,7 @@ TSBuilder {
         "types": {
           "aliasExecuteMsg": false,
           "enabled": true,
+          "itemsUseTuples": false,
         },
         "useShorthandCtor": true,
       },

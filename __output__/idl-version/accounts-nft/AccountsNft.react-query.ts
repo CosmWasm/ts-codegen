@@ -178,7 +178,7 @@ export function useAccountsNftAllPreviousOwnersQuery<TData = String>({
 export interface AccountsNftAllDebtSharesQuery<TData> extends AccountsNftReactQuery<ArrayOfSharesResponseItem, TData> {
   args: {
     limit?: number;
-    startAfter?: [string, string][];
+    startAfter?: string[][];
   };
 }
 export function useAccountsNftAllDebtSharesQuery<TData = ArrayOfSharesResponseItem>({

@@ -22,7 +22,7 @@ export interface AccountsNftReadOnlyInterface {
     startAfter
   }: {
     limit?: number;
-    startAfter?: [string, string][];
+    startAfter?: string[][];
   }) => Promise<ArrayOfSharesResponseItem>;
   allPreviousOwners: () => Promise<String>;
   ownerOf: ({
@@ -139,7 +139,7 @@ export class AccountsNftQueryClient implements AccountsNftReadOnlyInterface {
     startAfter
   }: {
     limit?: number;
-    startAfter?: [string, string][];
+    startAfter?: string[][];
   }): Promise<ArrayOfSharesResponseItem> => {
     return this.client.queryContractSmart(this.contractAddress, {
       all_debt_shares: {
