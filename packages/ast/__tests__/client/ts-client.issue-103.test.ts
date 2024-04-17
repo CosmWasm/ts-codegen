@@ -1,15 +1,20 @@
-import contract from '../../../../../__fixtures__/issues/103/schema.json';
-
 import {
     createQueryClass,
     createExecuteClass,
     createExecuteInterface,
     createTypeInterface
-} from '../client'
-import { expectCode, printCode, makeContext } from '../../../test-utils';
+} from '../../src';
 
-const queryMessage = contract.query
-const executeMessage = contract.execute
+import { expectCode, globLegacyContracts, makeContext } from '../../test-utils';
+
+const globbed = globLegacyContracts('issues/103').find(c => c.name === '/schema.json')!;
+const contract = globbed.content;
+
+
+// @ts-ignore
+const queryMessage = contract.query;
+// @ts-ignore
+const executeMessage = contract.execute;
 const queryCtx = makeContext(queryMessage);
 const executeCtx = makeContext(executeMessage);
 
@@ -34,7 +39,7 @@ describe('query', () => {
     it('query classes response', () => {
         expectCode(createTypeInterface(
             queryCtx,
-            contract.query
+            queryMessage
         ))
     });
 
@@ -80,7 +85,8 @@ describe('execute', () => {
     it('query classes response', () => {
         expectCode(createTypeInterface(
             executeCtx,
-            contract.query
+            // @ts-ignore
+            queryMessage
         ))
     });
 

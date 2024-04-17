@@ -142,7 +142,7 @@ export const createMessageComposerClass = (
 
   const blockStmt = [];
 
-  [].push.apply(blockStmt, [
+  blockStmt.push(...[
     t.expressionStatement(
       t.assignmentExpression(
         '=',
@@ -210,7 +210,7 @@ export const createMessageComposerInterface = (
     );
   });
 
-  const extendsAst = [];
+  const extendsAst: t.TSExpressionWithTypeArguments[] = [];
 
   return t.exportNamedDeclaration(
     t.tsInterfaceDeclaration(

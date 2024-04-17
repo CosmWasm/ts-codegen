@@ -2,7 +2,7 @@
 
 exports[`client 1`] = `
 "export const queryClient = selectorFamily<SG721QueryClient, QueryClientParams>({
-  key: \\"sG721QueryClient\\",
+  key: "sG721QueryClient",
   get: ({
     contractAddress
   }) => ({
@@ -16,9 +16,9 @@ exports[`client 1`] = `
 
 exports[`selector 1`] = `
 "export const governanceModulesSelector = selectorFamily<GovernanceModulesResponse, QueryClientParams & {
-  params: Parameters<SG721QueryClient[\\"governanceModules\\"]>;
+  params: Parameters<SG721QueryClient["governanceModules"]>;
 }>({
-  key: \\"sG721GovernanceModules\\",
+  key: "sG721GovernanceModules",
   get: ({
     params,
     ...queryClientParams
@@ -33,9 +33,9 @@ exports[`selector 1`] = `
 
 exports[`selectors 1`] = `
 "export const ownerOfSelector = selectorFamily<OwnerOfResponse, QueryClientParams & {
-  params: Parameters<SG721QueryClient[\\"ownerOf\\"]>;
+  params: Parameters<SG721QueryClient["ownerOf"]>;
 }>({
-  key: \\"sG721OwnerOf\\",
+  key: "sG721OwnerOf",
   get: ({
     params,
     ...queryClientParams
@@ -47,9 +47,9 @@ exports[`selectors 1`] = `
   }
 });
 export const approvalSelector = selectorFamily<ApprovalResponse, QueryClientParams & {
-  params: Parameters<SG721QueryClient[\\"approval\\"]>;
+  params: Parameters<SG721QueryClient["approval"]>;
 }>({
-  key: \\"sG721Approval\\",
+  key: "sG721Approval",
   get: ({
     params,
     ...queryClientParams
@@ -61,9 +61,9 @@ export const approvalSelector = selectorFamily<ApprovalResponse, QueryClientPara
   }
 });
 export const approvalsSelector = selectorFamily<ApprovalsResponse, QueryClientParams & {
-  params: Parameters<SG721QueryClient[\\"approvals\\"]>;
+  params: Parameters<SG721QueryClient["approvals"]>;
 }>({
-  key: \\"sG721Approvals\\",
+  key: "sG721Approvals",
   get: ({
     params,
     ...queryClientParams
@@ -75,9 +75,9 @@ export const approvalsSelector = selectorFamily<ApprovalsResponse, QueryClientPa
   }
 });
 export const allOperatorsSelector = selectorFamily<AllOperatorsResponse, QueryClientParams & {
-  params: Parameters<SG721QueryClient[\\"allOperators\\"]>;
+  params: Parameters<SG721QueryClient["allOperators"]>;
 }>({
-  key: \\"sG721AllOperators\\",
+  key: "sG721AllOperators",
   get: ({
     params,
     ...queryClientParams
@@ -89,9 +89,9 @@ export const allOperatorsSelector = selectorFamily<AllOperatorsResponse, QueryCl
   }
 });
 export const numTokensSelector = selectorFamily<NumTokensResponse, QueryClientParams & {
-  params: Parameters<SG721QueryClient[\\"numTokens\\"]>;
+  params: Parameters<SG721QueryClient["numTokens"]>;
 }>({
-  key: \\"sG721NumTokens\\",
+  key: "sG721NumTokens",
   get: ({
     params,
     ...queryClientParams
@@ -103,9 +103,9 @@ export const numTokensSelector = selectorFamily<NumTokensResponse, QueryClientPa
   }
 });
 export const contractInfoSelector = selectorFamily<ContractInfoResponse, QueryClientParams & {
-  params: Parameters<SG721QueryClient[\\"contractInfo\\"]>;
+  params: Parameters<SG721QueryClient["contractInfo"]>;
 }>({
-  key: \\"sG721ContractInfo\\",
+  key: "sG721ContractInfo",
   get: ({
     params,
     ...queryClientParams
@@ -117,9 +117,9 @@ export const contractInfoSelector = selectorFamily<ContractInfoResponse, QueryCl
   }
 });
 export const nftInfoSelector = selectorFamily<NftInfoResponse, QueryClientParams & {
-  params: Parameters<SG721QueryClient[\\"nftInfo\\"]>;
+  params: Parameters<SG721QueryClient["nftInfo"]>;
 }>({
-  key: \\"sG721NftInfo\\",
+  key: "sG721NftInfo",
   get: ({
     params,
     ...queryClientParams
@@ -131,9 +131,9 @@ export const nftInfoSelector = selectorFamily<NftInfoResponse, QueryClientParams
   }
 });
 export const allNftInfoSelector = selectorFamily<AllNftInfoResponse, QueryClientParams & {
-  params: Parameters<SG721QueryClient[\\"allNftInfo\\"]>;
+  params: Parameters<SG721QueryClient["allNftInfo"]>;
 }>({
-  key: \\"sG721AllNftInfo\\",
+  key: "sG721AllNftInfo",
   get: ({
     params,
     ...queryClientParams
@@ -145,9 +145,9 @@ export const allNftInfoSelector = selectorFamily<AllNftInfoResponse, QueryClient
   }
 });
 export const tokensSelector = selectorFamily<TokensResponse, QueryClientParams & {
-  params: Parameters<SG721QueryClient[\\"tokens\\"]>;
+  params: Parameters<SG721QueryClient["tokens"]>;
 }>({
-  key: \\"sG721Tokens\\",
+  key: "sG721Tokens",
   get: ({
     params,
     ...queryClientParams
@@ -159,9 +159,9 @@ export const tokensSelector = selectorFamily<TokensResponse, QueryClientParams &
   }
 });
 export const allTokensSelector = selectorFamily<AllTokensResponse, QueryClientParams & {
-  params: Parameters<SG721QueryClient[\\"allTokens\\"]>;
+  params: Parameters<SG721QueryClient["allTokens"]>;
 }>({
-  key: \\"sG721AllTokens\\",
+  key: "sG721AllTokens",
   get: ({
     params,
     ...queryClientParams
@@ -173,9 +173,9 @@ export const allTokensSelector = selectorFamily<AllTokensResponse, QueryClientPa
   }
 });
 export const minterSelector = selectorFamily<MinterResponse, QueryClientParams & {
-  params: Parameters<SG721QueryClient[\\"minter\\"]>;
+  params: Parameters<SG721QueryClient["minter"]>;
 }>({
-  key: \\"sG721Minter\\",
+  key: "sG721Minter",
   get: ({
     params,
     ...queryClientParams
@@ -187,9 +187,9 @@ export const minterSelector = selectorFamily<MinterResponse, QueryClientParams &
   }
 });
 export const collectionInfoSelector = selectorFamily<CollectionInfoResponse, QueryClientParams & {
-  params: Parameters<SG721QueryClient[\\"collectionInfo\\"]>;
+  params: Parameters<SG721QueryClient["collectionInfo"]>;
 }>({
-  key: \\"sG721CollectionInfo\\",
+  key: "sG721CollectionInfo",
   get: ({
     params,
     ...queryClientParams

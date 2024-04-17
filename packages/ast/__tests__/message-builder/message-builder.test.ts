@@ -1,24 +1,26 @@
-import execute_msg from '../../../../__fixtures__/basic/execute_msg_for__empty.json';
-import query_msg from '../../../../__fixtures__/basic/query_msg.json';
-import ownership from '../../../../__fixtures__/basic/ownership.json';
-
 import {
   createMessageBuilderClass,
-} from './message-builder'
-import { expectCode, makeContext } from '../../test-utils';
+} from '../../src'
+import { expectCode, getLegacyFixture, getMsgExecuteLegacyFixture, getMsgQueryLegacyFixture, makeContext } from '../../test-utils';
+
+const queryMsg = getMsgQueryLegacyFixture('basic', '/query_msg.json')
+const execMsg = getMsgExecuteLegacyFixture('basic', '/execute_msg_for__empty.json')
+const ownership = getLegacyFixture('basic', '/ownership.json')
+
 
 it('execute class', () => {
-  const ctx = makeContext(execute_msg);
-  expectCode(createMessageBuilderClass(ctx, 'SG721MessageBuilder', execute_msg))
+  const ctx = makeContext(execMsg);
+  expectCode(createMessageBuilderClass(ctx, 'SG721MessageBuilder', execMsg))
 });
 
 
 it('query class', () => {
-  const ctx = makeContext(query_msg);
-  expectCode(createMessageBuilderClass(ctx, 'SG721MessageBuilder', query_msg))
+  const ctx = makeContext(queryMsg);
+  expectCode(createMessageBuilderClass(ctx, 'SG721MessageBuilder', queryMsg))
 });
 
 it('ownership', () => {
   const ctx = makeContext(ownership);
+  // @ts-ignore
   expectCode(createMessageBuilderClass(ctx, 'Ownership', ownership))
 });

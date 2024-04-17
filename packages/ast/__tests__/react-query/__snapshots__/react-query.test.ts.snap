@@ -10,14 +10,14 @@ export function useSg721CollectionInfoQuery<TData = CollectionInfoResponse>({
   client,
   options
 }: Sg721CollectionInfoQuery<TData>) {
-  return useQuery<CollectionInfoResponse, Error, TData>([\\"sg721CollectionInfo\\", client.contractAddress], () => client.collectionInfo(), options);
+  return useQuery<CollectionInfoResponse, Error, TData>(["sg721CollectionInfo", client.contractAddress], () => client.collectionInfo(), options);
 }
 export interface Sg721MinterQuery<TData> extends Sg721ReactQuery<MinterResponse, TData> {}
 export function useSg721MinterQuery<TData = MinterResponse>({
   client,
   options
 }: Sg721MinterQuery<TData>) {
-  return useQuery<MinterResponse, Error, TData>([\\"sg721Minter\\", client.contractAddress], () => client.minter(), options);
+  return useQuery<MinterResponse, Error, TData>(["sg721Minter", client.contractAddress], () => client.minter(), options);
 }
 export interface Sg721AllTokensQuery<TData> extends Sg721ReactQuery<AllTokensResponse, TData> {
   args: {
@@ -30,7 +30,7 @@ export function useSg721AllTokensQuery<TData = AllTokensResponse>({
   args,
   options
 }: Sg721AllTokensQuery<TData>) {
-  return useQuery<AllTokensResponse, Error, TData>([\\"sg721AllTokens\\", client.contractAddress, JSON.stringify(args)], () => client.allTokens({
+  return useQuery<AllTokensResponse, Error, TData>(["sg721AllTokens", client.contractAddress, JSON.stringify(args)], () => client.allTokens({
     limit: args.limit,
     startAfter: args.startAfter
   }), options);
@@ -47,7 +47,7 @@ export function useSg721TokensQuery<TData = TokensResponse>({
   args,
   options
 }: Sg721TokensQuery<TData>) {
-  return useQuery<TokensResponse, Error, TData>([\\"sg721Tokens\\", client.contractAddress, JSON.stringify(args)], () => client.tokens({
+  return useQuery<TokensResponse, Error, TData>(["sg721Tokens", client.contractAddress, JSON.stringify(args)], () => client.tokens({
     limit: args.limit,
     owner: args.owner,
     startAfter: args.startAfter
@@ -64,7 +64,7 @@ export function useSg721AllNftInfoQuery<TData = AllNftInfoResponse>({
   args,
   options
 }: Sg721AllNftInfoQuery<TData>) {
-  return useQuery<AllNftInfoResponse, Error, TData>([\\"sg721AllNftInfo\\", client.contractAddress, JSON.stringify(args)], () => client.allNftInfo({
+  return useQuery<AllNftInfoResponse, Error, TData>(["sg721AllNftInfo", client.contractAddress, JSON.stringify(args)], () => client.allNftInfo({
     includeExpired: args.includeExpired,
     tokenId: args.tokenId
   }), options);
@@ -79,7 +79,7 @@ export function useSg721NftInfoQuery<TData = NftInfoResponse>({
   args,
   options
 }: Sg721NftInfoQuery<TData>) {
-  return useQuery<NftInfoResponse, Error, TData>([\\"sg721NftInfo\\", client.contractAddress, JSON.stringify(args)], () => client.nftInfo({
+  return useQuery<NftInfoResponse, Error, TData>(["sg721NftInfo", client.contractAddress, JSON.stringify(args)], () => client.nftInfo({
     tokenId: args.tokenId
   }), options);
 }
@@ -88,14 +88,14 @@ export function useSg721ContractInfoQuery<TData = ContractInfoResponse>({
   client,
   options
 }: Sg721ContractInfoQuery<TData>) {
-  return useQuery<ContractInfoResponse, Error, TData>([\\"sg721ContractInfo\\", client.contractAddress], () => client.contractInfo(), options);
+  return useQuery<ContractInfoResponse, Error, TData>(["sg721ContractInfo", client.contractAddress], () => client.contractInfo(), options);
 }
 export interface Sg721NumTokensQuery<TData> extends Sg721ReactQuery<NumTokensResponse, TData> {}
 export function useSg721NumTokensQuery<TData = NumTokensResponse>({
   client,
   options
 }: Sg721NumTokensQuery<TData>) {
-  return useQuery<NumTokensResponse, Error, TData>([\\"sg721NumTokens\\", client.contractAddress], () => client.numTokens(), options);
+  return useQuery<NumTokensResponse, Error, TData>(["sg721NumTokens", client.contractAddress], () => client.numTokens(), options);
 }
 export interface Sg721AllOperatorsQuery<TData> extends Sg721ReactQuery<AllOperatorsResponse, TData> {
   args: {
@@ -110,7 +110,7 @@ export function useSg721AllOperatorsQuery<TData = AllOperatorsResponse>({
   args,
   options
 }: Sg721AllOperatorsQuery<TData>) {
-  return useQuery<AllOperatorsResponse, Error, TData>([\\"sg721AllOperators\\", client.contractAddress, JSON.stringify(args)], () => client.allOperators({
+  return useQuery<AllOperatorsResponse, Error, TData>(["sg721AllOperators", client.contractAddress, JSON.stringify(args)], () => client.allOperators({
     includeExpired: args.includeExpired,
     limit: args.limit,
     owner: args.owner,
@@ -128,7 +128,7 @@ export function useSg721ApprovalsQuery<TData = ApprovalsResponse>({
   args,
   options
 }: Sg721ApprovalsQuery<TData>) {
-  return useQuery<ApprovalsResponse, Error, TData>([\\"sg721Approvals\\", client.contractAddress, JSON.stringify(args)], () => client.approvals({
+  return useQuery<ApprovalsResponse, Error, TData>(["sg721Approvals", client.contractAddress, JSON.stringify(args)], () => client.approvals({
     includeExpired: args.includeExpired,
     tokenId: args.tokenId
   }), options);
@@ -145,7 +145,7 @@ export function useSg721ApprovalQuery<TData = ApprovalResponse>({
   args,
   options
 }: Sg721ApprovalQuery<TData>) {
-  return useQuery<ApprovalResponse, Error, TData>([\\"sg721Approval\\", client.contractAddress, JSON.stringify(args)], () => client.approval({
+  return useQuery<ApprovalResponse, Error, TData>(["sg721Approval", client.contractAddress, JSON.stringify(args)], () => client.approval({
     includeExpired: args.includeExpired,
     spender: args.spender,
     tokenId: args.tokenId
@@ -162,7 +162,7 @@ export function useSg721OwnerOfQuery<TData = OwnerOfResponse>({
   args,
   options
 }: Sg721OwnerOfQuery<TData>) {
-  return useQuery<OwnerOfResponse, Error, TData>([\\"sg721OwnerOf\\", client.contractAddress, JSON.stringify(args)], () => client.ownerOf({
+  return useQuery<OwnerOfResponse, Error, TData>(["sg721OwnerOf", client.contractAddress, JSON.stringify(args)], () => client.ownerOf({
     includeExpired: args.includeExpired,
     tokenId: args.tokenId
   }), options);
@@ -179,7 +179,8 @@ export function useSg721CollectionInfoQuery<TData = CollectionInfoResponse>({
   client,
   options
 }: Sg721CollectionInfoQuery<TData>) {
-  return useQuery<CollectionInfoResponse, Error, TData>([\\"sg721CollectionInfo\\", client?.contractAddress], () => client ? client.collectionInfo() : Promise.reject(new Error(\\"Invalid client\\")), { ...options,
+  return useQuery<CollectionInfoResponse, Error, TData>(["sg721CollectionInfo", client?.contractAddress], () => client ? client.collectionInfo() : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -188,7 +189,8 @@ export function useSg721MinterQuery<TData = MinterResponse>({
   client,
   options
 }: Sg721MinterQuery<TData>) {
-  return useQuery<MinterResponse, Error, TData>([\\"sg721Minter\\", client?.contractAddress], () => client ? client.minter() : Promise.reject(new Error(\\"Invalid client\\")), { ...options,
+  return useQuery<MinterResponse, Error, TData>(["sg721Minter", client?.contractAddress], () => client ? client.minter() : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -203,10 +205,11 @@ export function useSg721AllTokensQuery<TData = AllTokensResponse>({
   args,
   options
 }: Sg721AllTokensQuery<TData>) {
-  return useQuery<AllTokensResponse, Error, TData>([\\"sg721AllTokens\\", client?.contractAddress, JSON.stringify(args)], () => client ? client.allTokens({
+  return useQuery<AllTokensResponse, Error, TData>(["sg721AllTokens", client?.contractAddress, JSON.stringify(args)], () => client ? client.allTokens({
     limit: args.limit,
     startAfter: args.startAfter
-  }) : Promise.reject(new Error(\\"Invalid client\\")), { ...options,
+  }) : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -222,11 +225,12 @@ export function useSg721TokensQuery<TData = TokensResponse>({
   args,
   options
 }: Sg721TokensQuery<TData>) {
-  return useQuery<TokensResponse, Error, TData>([\\"sg721Tokens\\", client?.contractAddress, JSON.stringify(args)], () => client ? client.tokens({
+  return useQuery<TokensResponse, Error, TData>(["sg721Tokens", client?.contractAddress, JSON.stringify(args)], () => client ? client.tokens({
     limit: args.limit,
     owner: args.owner,
     startAfter: args.startAfter
-  }) : Promise.reject(new Error(\\"Invalid client\\")), { ...options,
+  }) : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -241,10 +245,11 @@ export function useSg721AllNftInfoQuery<TData = AllNftInfoResponse>({
   args,
   options
 }: Sg721AllNftInfoQuery<TData>) {
-  return useQuery<AllNftInfoResponse, Error, TData>([\\"sg721AllNftInfo\\", client?.contractAddress, JSON.stringify(args)], () => client ? client.allNftInfo({
+  return useQuery<AllNftInfoResponse, Error, TData>(["sg721AllNftInfo", client?.contractAddress, JSON.stringify(args)], () => client ? client.allNftInfo({
     includeExpired: args.includeExpired,
     tokenId: args.tokenId
-  }) : Promise.reject(new Error(\\"Invalid client\\")), { ...options,
+  }) : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -258,9 +263,10 @@ export function useSg721NftInfoQuery<TData = NftInfoResponse>({
   args,
   options
 }: Sg721NftInfoQuery<TData>) {
-  return useQuery<NftInfoResponse, Error, TData>([\\"sg721NftInfo\\", client?.contractAddress, JSON.stringify(args)], () => client ? client.nftInfo({
+  return useQuery<NftInfoResponse, Error, TData>(["sg721NftInfo", client?.contractAddress, JSON.stringify(args)], () => client ? client.nftInfo({
     tokenId: args.tokenId
-  }) : Promise.reject(new Error(\\"Invalid client\\")), { ...options,
+  }) : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -269,7 +275,8 @@ export function useSg721ContractInfoQuery<TData = ContractInfoResponse>({
   client,
   options
 }: Sg721ContractInfoQuery<TData>) {
-  return useQuery<ContractInfoResponse, Error, TData>([\\"sg721ContractInfo\\", client?.contractAddress], () => client ? client.contractInfo() : Promise.reject(new Error(\\"Invalid client\\")), { ...options,
+  return useQuery<ContractInfoResponse, Error, TData>(["sg721ContractInfo", client?.contractAddress], () => client ? client.contractInfo() : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -278,7 +285,8 @@ export function useSg721NumTokensQuery<TData = NumTokensResponse>({
   client,
   options
 }: Sg721NumTokensQuery<TData>) {
-  return useQuery<NumTokensResponse, Error, TData>([\\"sg721NumTokens\\", client?.contractAddress], () => client ? client.numTokens() : Promise.reject(new Error(\\"Invalid client\\")), { ...options,
+  return useQuery<NumTokensResponse, Error, TData>(["sg721NumTokens", client?.contractAddress], () => client ? client.numTokens() : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -295,12 +303,13 @@ export function useSg721AllOperatorsQuery<TData = AllOperatorsResponse>({
   args,
   options
 }: Sg721AllOperatorsQuery<TData>) {
-  return useQuery<AllOperatorsResponse, Error, TData>([\\"sg721AllOperators\\", client?.contractAddress, JSON.stringify(args)], () => client ? client.allOperators({
+  return useQuery<AllOperatorsResponse, Error, TData>(["sg721AllOperators", client?.contractAddress, JSON.stringify(args)], () => client ? client.allOperators({
     includeExpired: args.includeExpired,
     limit: args.limit,
     owner: args.owner,
     startAfter: args.startAfter
-  }) : Promise.reject(new Error(\\"Invalid client\\")), { ...options,
+  }) : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -315,10 +324,11 @@ export function useSg721ApprovalsQuery<TData = ApprovalsResponse>({
   args,
   options
 }: Sg721ApprovalsQuery<TData>) {
-  return useQuery<ApprovalsResponse, Error, TData>([\\"sg721Approvals\\", client?.contractAddress, JSON.stringify(args)], () => client ? client.approvals({
+  return useQuery<ApprovalsResponse, Error, TData>(["sg721Approvals", client?.contractAddress, JSON.stringify(args)], () => client ? client.approvals({
     includeExpired: args.includeExpired,
     tokenId: args.tokenId
-  }) : Promise.reject(new Error(\\"Invalid client\\")), { ...options,
+  }) : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -334,11 +344,12 @@ export function useSg721ApprovalQuery<TData = ApprovalResponse>({
   args,
   options
 }: Sg721ApprovalQuery<TData>) {
-  return useQuery<ApprovalResponse, Error, TData>([\\"sg721Approval\\", client?.contractAddress, JSON.stringify(args)], () => client ? client.approval({
+  return useQuery<ApprovalResponse, Error, TData>(["sg721Approval", client?.contractAddress, JSON.stringify(args)], () => client ? client.approval({
     includeExpired: args.includeExpired,
     spender: args.spender,
     tokenId: args.tokenId
-  }) : Promise.reject(new Error(\\"Invalid client\\")), { ...options,
+  }) : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -353,10 +364,11 @@ export function useSg721OwnerOfQuery<TData = OwnerOfResponse>({
   args,
   options
 }: Sg721OwnerOfQuery<TData>) {
-  return useQuery<OwnerOfResponse, Error, TData>([\\"sg721OwnerOf\\", client?.contractAddress, JSON.stringify(args)], () => client ? client.ownerOf({
+  return useQuery<OwnerOfResponse, Error, TData>(["sg721OwnerOf", client?.contractAddress, JSON.stringify(args)], () => client ? client.ownerOf({
     includeExpired: args.includeExpired,
     tokenId: args.tokenId
-  }) : Promise.reject(new Error(\\"Invalid client\\")), { ...options,
+  }) : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }"
@@ -365,7 +377,7 @@ export function useSg721OwnerOfQuery<TData = OwnerOfResponse>({
 exports[`createReactQueryHooks 3`] = `
 "export interface Sg721ReactQuery<TResponse, TData = TResponse> {
   client: Sg721QueryClient;
-  options?: Omit<UseQueryOptions<TResponse, Error, TData>, \\"'queryKey' | 'queryFn' | 'initialData'\\"> & {
+  options?: Omit<UseQueryOptions<TResponse, Error, TData>, "'queryKey' | 'queryFn' | 'initialData'"> & {
     initialData?: undefined;
   };
 }
@@ -374,14 +386,14 @@ export function useSg721CollectionInfoQuery<TData = CollectionInfoResponse>({
   client,
   options
 }: Sg721CollectionInfoQuery<TData>) {
-  return useQuery<CollectionInfoResponse, Error, TData>([\\"sg721CollectionInfo\\", client.contractAddress], () => client.collectionInfo(), options);
+  return useQuery<CollectionInfoResponse, Error, TData>(["sg721CollectionInfo", client.contractAddress], () => client.collectionInfo(), options);
 }
 export interface Sg721MinterQuery<TData> extends Sg721ReactQuery<MinterResponse, TData> {}
 export function useSg721MinterQuery<TData = MinterResponse>({
   client,
   options
 }: Sg721MinterQuery<TData>) {
-  return useQuery<MinterResponse, Error, TData>([\\"sg721Minter\\", client.contractAddress], () => client.minter(), options);
+  return useQuery<MinterResponse, Error, TData>(["sg721Minter", client.contractAddress], () => client.minter(), options);
 }
 export interface Sg721AllTokensQuery<TData> extends Sg721ReactQuery<AllTokensResponse, TData> {
   args: {
@@ -394,7 +406,7 @@ export function useSg721AllTokensQuery<TData = AllTokensResponse>({
   args,
   options
 }: Sg721AllTokensQuery<TData>) {
-  return useQuery<AllTokensResponse, Error, TData>([\\"sg721AllTokens\\", client.contractAddress, JSON.stringify(args)], () => client.allTokens({
+  return useQuery<AllTokensResponse, Error, TData>(["sg721AllTokens", client.contractAddress, JSON.stringify(args)], () => client.allTokens({
     limit: args.limit,
     startAfter: args.startAfter
   }), options);
@@ -411,7 +423,7 @@ export function useSg721TokensQuery<TData = TokensResponse>({
   args,
   options
 }: Sg721TokensQuery<TData>) {
-  return useQuery<TokensResponse, Error, TData>([\\"sg721Tokens\\", client.contractAddress, JSON.stringify(args)], () => client.tokens({
+  return useQuery<TokensResponse, Error, TData>(["sg721Tokens", client.contractAddress, JSON.stringify(args)], () => client.tokens({
     limit: args.limit,
     owner: args.owner,
     startAfter: args.startAfter
@@ -428,7 +440,7 @@ export function useSg721AllNftInfoQuery<TData = AllNftInfoResponse>({
   args,
   options
 }: Sg721AllNftInfoQuery<TData>) {
-  return useQuery<AllNftInfoResponse, Error, TData>([\\"sg721AllNftInfo\\", client.contractAddress, JSON.stringify(args)], () => client.allNftInfo({
+  return useQuery<AllNftInfoResponse, Error, TData>(["sg721AllNftInfo", client.contractAddress, JSON.stringify(args)], () => client.allNftInfo({
     includeExpired: args.includeExpired,
     tokenId: args.tokenId
   }), options);
@@ -443,7 +455,7 @@ export function useSg721NftInfoQuery<TData = NftInfoResponse>({
   args,
   options
 }: Sg721NftInfoQuery<TData>) {
-  return useQuery<NftInfoResponse, Error, TData>([\\"sg721NftInfo\\", client.contractAddress, JSON.stringify(args)], () => client.nftInfo({
+  return useQuery<NftInfoResponse, Error, TData>(["sg721NftInfo", client.contractAddress, JSON.stringify(args)], () => client.nftInfo({
     tokenId: args.tokenId
   }), options);
 }
@@ -452,14 +464,14 @@ export function useSg721ContractInfoQuery<TData = ContractInfoResponse>({
   client,
   options
 }: Sg721ContractInfoQuery<TData>) {
-  return useQuery<ContractInfoResponse, Error, TData>([\\"sg721ContractInfo\\", client.contractAddress], () => client.contractInfo(), options);
+  return useQuery<ContractInfoResponse, Error, TData>(["sg721ContractInfo", client.contractAddress], () => client.contractInfo(), options);
 }
 export interface Sg721NumTokensQuery<TData> extends Sg721ReactQuery<NumTokensResponse, TData> {}
 export function useSg721NumTokensQuery<TData = NumTokensResponse>({
   client,
   options
 }: Sg721NumTokensQuery<TData>) {
-  return useQuery<NumTokensResponse, Error, TData>([\\"sg721NumTokens\\", client.contractAddress], () => client.numTokens(), options);
+  return useQuery<NumTokensResponse, Error, TData>(["sg721NumTokens", client.contractAddress], () => client.numTokens(), options);
 }
 export interface Sg721AllOperatorsQuery<TData> extends Sg721ReactQuery<AllOperatorsResponse, TData> {
   args: {
@@ -474,7 +486,7 @@ export function useSg721AllOperatorsQuery<TData = AllOperatorsResponse>({
   args,
   options
 }: Sg721AllOperatorsQuery<TData>) {
-  return useQuery<AllOperatorsResponse, Error, TData>([\\"sg721AllOperators\\", client.contractAddress, JSON.stringify(args)], () => client.allOperators({
+  return useQuery<AllOperatorsResponse, Error, TData>(["sg721AllOperators", client.contractAddress, JSON.stringify(args)], () => client.allOperators({
     includeExpired: args.includeExpired,
     limit: args.limit,
     owner: args.owner,
@@ -492,7 +504,7 @@ export function useSg721ApprovalsQuery<TData = ApprovalsResponse>({
   args,
   options
 }: Sg721ApprovalsQuery<TData>) {
-  return useQuery<ApprovalsResponse, Error, TData>([\\"sg721Approvals\\", client.contractAddress, JSON.stringify(args)], () => client.approvals({
+  return useQuery<ApprovalsResponse, Error, TData>(["sg721Approvals", client.contractAddress, JSON.stringify(args)], () => client.approvals({
     includeExpired: args.includeExpired,
     tokenId: args.tokenId
   }), options);
@@ -509,7 +521,7 @@ export function useSg721ApprovalQuery<TData = ApprovalResponse>({
   args,
   options
 }: Sg721ApprovalQuery<TData>) {
-  return useQuery<ApprovalResponse, Error, TData>([\\"sg721Approval\\", client.contractAddress, JSON.stringify(args)], () => client.approval({
+  return useQuery<ApprovalResponse, Error, TData>(["sg721Approval", client.contractAddress, JSON.stringify(args)], () => client.approval({
     includeExpired: args.includeExpired,
     spender: args.spender,
     tokenId: args.tokenId
@@ -526,7 +538,7 @@ export function useSg721OwnerOfQuery<TData = OwnerOfResponse>({
   args,
   options
 }: Sg721OwnerOfQuery<TData>) {
-  return useQuery<OwnerOfResponse, Error, TData>([\\"sg721OwnerOf\\", client.contractAddress, JSON.stringify(args)], () => client.ownerOf({
+  return useQuery<OwnerOfResponse, Error, TData>(["sg721OwnerOf", client.contractAddress, JSON.stringify(args)], () => client.ownerOf({
     includeExpired: args.includeExpired,
     tokenId: args.tokenId
   }), options);
@@ -536,7 +548,7 @@ export function useSg721OwnerOfQuery<TData = OwnerOfResponse>({
 exports[`createReactQueryHooks 4`] = `
 "export interface Sg721ReactQuery<TResponse, TData = TResponse> {
   client: Sg721QueryClient | undefined;
-  options?: Omit<UseQueryOptions<TResponse, Error, TData>, \\"'queryKey' | 'queryFn' | 'initialData'\\"> & {
+  options?: Omit<UseQueryOptions<TResponse, Error, TData>, "'queryKey' | 'queryFn' | 'initialData'"> & {
     initialData?: undefined;
   };
 }
@@ -545,7 +557,8 @@ export function useSg721CollectionInfoQuery<TData = CollectionInfoResponse>({
   client,
   options
 }: Sg721CollectionInfoQuery<TData>) {
-  return useQuery<CollectionInfoResponse, Error, TData>([\\"sg721CollectionInfo\\", client?.contractAddress], () => client ? client.collectionInfo() : Promise.reject(new Error(\\"Invalid client\\")), { ...options,
+  return useQuery<CollectionInfoResponse, Error, TData>(["sg721CollectionInfo", client?.contractAddress], () => client ? client.collectionInfo() : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -554,7 +567,8 @@ export function useSg721MinterQuery<TData = MinterResponse>({
   client,
   options
 }: Sg721MinterQuery<TData>) {
-  return useQuery<MinterResponse, Error, TData>([\\"sg721Minter\\", client?.contractAddress], () => client ? client.minter() : Promise.reject(new Error(\\"Invalid client\\")), { ...options,
+  return useQuery<MinterResponse, Error, TData>(["sg721Minter", client?.contractAddress], () => client ? client.minter() : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -569,10 +583,11 @@ export function useSg721AllTokensQuery<TData = AllTokensResponse>({
   args,
   options
 }: Sg721AllTokensQuery<TData>) {
-  return useQuery<AllTokensResponse, Error, TData>([\\"sg721AllTokens\\", client?.contractAddress, JSON.stringify(args)], () => client ? client.allTokens({
+  return useQuery<AllTokensResponse, Error, TData>(["sg721AllTokens", client?.contractAddress, JSON.stringify(args)], () => client ? client.allTokens({
     limit: args.limit,
     startAfter: args.startAfter
-  }) : Promise.reject(new Error(\\"Invalid client\\")), { ...options,
+  }) : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -588,11 +603,12 @@ export function useSg721TokensQuery<TData = TokensResponse>({
   args,
   options
 }: Sg721TokensQuery<TData>) {
-  return useQuery<TokensResponse, Error, TData>([\\"sg721Tokens\\", client?.contractAddress, JSON.stringify(args)], () => client ? client.tokens({
+  return useQuery<TokensResponse, Error, TData>(["sg721Tokens", client?.contractAddress, JSON.stringify(args)], () => client ? client.tokens({
     limit: args.limit,
     owner: args.owner,
     startAfter: args.startAfter
-  }) : Promise.reject(new Error(\\"Invalid client\\")), { ...options,
+  }) : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -607,10 +623,11 @@ export function useSg721AllNftInfoQuery<TData = AllNftInfoResponse>({
   args,
   options
 }: Sg721AllNftInfoQuery<TData>) {
-  return useQuery<AllNftInfoResponse, Error, TData>([\\"sg721AllNftInfo\\", client?.contractAddress, JSON.stringify(args)], () => client ? client.allNftInfo({
+  return useQuery<AllNftInfoResponse, Error, TData>(["sg721AllNftInfo", client?.contractAddress, JSON.stringify(args)], () => client ? client.allNftInfo({
     includeExpired: args.includeExpired,
     tokenId: args.tokenId
-  }) : Promise.reject(new Error(\\"Invalid client\\")), { ...options,
+  }) : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -624,9 +641,10 @@ export function useSg721NftInfoQuery<TData = NftInfoResponse>({
   args,
   options
 }: Sg721NftInfoQuery<TData>) {
-  return useQuery<NftInfoResponse, Error, TData>([\\"sg721NftInfo\\", client?.contractAddress, JSON.stringify(args)], () => client ? client.nftInfo({
+  return useQuery<NftInfoResponse, Error, TData>(["sg721NftInfo", client?.contractAddress, JSON.stringify(args)], () => client ? client.nftInfo({
     tokenId: args.tokenId
-  }) : Promise.reject(new Error(\\"Invalid client\\")), { ...options,
+  }) : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -635,7 +653,8 @@ export function useSg721ContractInfoQuery<TData = ContractInfoResponse>({
   client,
   options
 }: Sg721ContractInfoQuery<TData>) {
-  return useQuery<ContractInfoResponse, Error, TData>([\\"sg721ContractInfo\\", client?.contractAddress], () => client ? client.contractInfo() : Promise.reject(new Error(\\"Invalid client\\")), { ...options,
+  return useQuery<ContractInfoResponse, Error, TData>(["sg721ContractInfo", client?.contractAddress], () => client ? client.contractInfo() : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -644,7 +663,8 @@ export function useSg721NumTokensQuery<TData = NumTokensResponse>({
   client,
   options
 }: Sg721NumTokensQuery<TData>) {
-  return useQuery<NumTokensResponse, Error, TData>([\\"sg721NumTokens\\", client?.contractAddress], () => client ? client.numTokens() : Promise.reject(new Error(\\"Invalid client\\")), { ...options,
+  return useQuery<NumTokensResponse, Error, TData>(["sg721NumTokens", client?.contractAddress], () => client ? client.numTokens() : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -661,12 +681,13 @@ export function useSg721AllOperatorsQuery<TData = AllOperatorsResponse>({
   args,
   options
 }: Sg721AllOperatorsQuery<TData>) {
-  return useQuery<AllOperatorsResponse, Error, TData>([\\"sg721AllOperators\\", client?.contractAddress, JSON.stringify(args)], () => client ? client.allOperators({
+  return useQuery<AllOperatorsResponse, Error, TData>(["sg721AllOperators", client?.contractAddress, JSON.stringify(args)], () => client ? client.allOperators({
     includeExpired: args.includeExpired,
     limit: args.limit,
     owner: args.owner,
     startAfter: args.startAfter
-  }) : Promise.reject(new Error(\\"Invalid client\\")), { ...options,
+  }) : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -681,10 +702,11 @@ export function useSg721ApprovalsQuery<TData = ApprovalsResponse>({
   args,
   options
 }: Sg721ApprovalsQuery<TData>) {
-  return useQuery<ApprovalsResponse, Error, TData>([\\"sg721Approvals\\", client?.contractAddress, JSON.stringify(args)], () => client ? client.approvals({
+  return useQuery<ApprovalsResponse, Error, TData>(["sg721Approvals", client?.contractAddress, JSON.stringify(args)], () => client ? client.approvals({
     includeExpired: args.includeExpired,
     tokenId: args.tokenId
-  }) : Promise.reject(new Error(\\"Invalid client\\")), { ...options,
+  }) : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -700,11 +722,12 @@ export function useSg721ApprovalQuery<TData = ApprovalResponse>({
   args,
   options
 }: Sg721ApprovalQuery<TData>) {
-  return useQuery<ApprovalResponse, Error, TData>([\\"sg721Approval\\", client?.contractAddress, JSON.stringify(args)], () => client ? client.approval({
+  return useQuery<ApprovalResponse, Error, TData>(["sg721Approval", client?.contractAddress, JSON.stringify(args)], () => client ? client.approval({
     includeExpired: args.includeExpired,
     spender: args.spender,
     tokenId: args.tokenId
-  }) : Promise.reject(new Error(\\"Invalid client\\")), { ...options,
+  }) : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -719,10 +742,11 @@ export function useSg721OwnerOfQuery<TData = OwnerOfResponse>({
   args,
   options
 }: Sg721OwnerOfQuery<TData>) {
-  return useQuery<OwnerOfResponse, Error, TData>([\\"sg721OwnerOf\\", client?.contractAddress, JSON.stringify(args)], () => client ? client.ownerOf({
+  return useQuery<OwnerOfResponse, Error, TData>(["sg721OwnerOf", client?.contractAddress, JSON.stringify(args)], () => client ? client.ownerOf({
     includeExpired: args.includeExpired,
     tokenId: args.tokenId
-  }) : Promise.reject(new Error(\\"Invalid client\\")), { ...options,
+  }) : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }"
@@ -731,57 +755,70 @@ export function useSg721OwnerOfQuery<TData = OwnerOfResponse>({
 exports[`createReactQueryHooks 5`] = `
 "export const sg721QueryKeys = {
   contract: ([{
-    contract: \\"sg721\\"
+    contract: "sg721"
   }] as const),
-  address: (contractAddress: string | undefined) => ([{ ...sg721QueryKeys.contract[0],
+  address: (contractAddress: string | undefined) => ([{
+    ...sg721QueryKeys.contract[0],
     address: contractAddress
   }] as const),
-  ownerOf: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{ ...sg721QueryKeys.address(contractAddress)[0],
-    method: \\"owner_of\\",
+  ownerOf: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{
+    ...sg721QueryKeys.address(contractAddress)[0],
+    method: "owner_of",
     args
   }] as const),
-  approval: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{ ...sg721QueryKeys.address(contractAddress)[0],
-    method: \\"approval\\",
+  approval: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{
+    ...sg721QueryKeys.address(contractAddress)[0],
+    method: "approval",
     args
   }] as const),
-  approvals: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{ ...sg721QueryKeys.address(contractAddress)[0],
-    method: \\"approvals\\",
+  approvals: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{
+    ...sg721QueryKeys.address(contractAddress)[0],
+    method: "approvals",
     args
   }] as const),
-  allOperators: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{ ...sg721QueryKeys.address(contractAddress)[0],
-    method: \\"all_operators\\",
+  allOperators: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{
+    ...sg721QueryKeys.address(contractAddress)[0],
+    method: "all_operators",
     args
   }] as const),
-  numTokens: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{ ...sg721QueryKeys.address(contractAddress)[0],
-    method: \\"num_tokens\\",
+  numTokens: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{
+    ...sg721QueryKeys.address(contractAddress)[0],
+    method: "num_tokens",
     args
   }] as const),
-  contractInfo: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{ ...sg721QueryKeys.address(contractAddress)[0],
-    method: \\"contract_info\\",
+  contractInfo: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{
+    ...sg721QueryKeys.address(contractAddress)[0],
+    method: "contract_info",
     args
   }] as const),
-  nftInfo: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{ ...sg721QueryKeys.address(contractAddress)[0],
-    method: \\"nft_info\\",
+  nftInfo: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{
+    ...sg721QueryKeys.address(contractAddress)[0],
+    method: "nft_info",
     args
   }] as const),
-  allNftInfo: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{ ...sg721QueryKeys.address(contractAddress)[0],
-    method: \\"all_nft_info\\",
+  allNftInfo: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{
+    ...sg721QueryKeys.address(contractAddress)[0],
+    method: "all_nft_info",
     args
   }] as const),
-  tokens: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{ ...sg721QueryKeys.address(contractAddress)[0],
-    method: \\"tokens\\",
+  tokens: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{
+    ...sg721QueryKeys.address(contractAddress)[0],
+    method: "tokens",
     args
   }] as const),
-  allTokens: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{ ...sg721QueryKeys.address(contractAddress)[0],
-    method: \\"all_tokens\\",
+  allTokens: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{
+    ...sg721QueryKeys.address(contractAddress)[0],
+    method: "all_tokens",
     args
   }] as const),
-  minter: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{ ...sg721QueryKeys.address(contractAddress)[0],
-    method: \\"minter\\",
+  minter: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{
+    ...sg721QueryKeys.address(contractAddress)[0],
+    method: "minter",
     args
   }] as const),
-  collectionInfo: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{ ...sg721QueryKeys.address(contractAddress)[0],
-    method: \\"collection_info\\",
+  collectionInfo: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{
+    ...sg721QueryKeys.address(contractAddress)[0],
+    method: "collection_info",
     args
   }] as const)
 };
@@ -795,7 +832,7 @@ export const sg721Queries = {
     queryFn: () => client ? client.ownerOf({
       includeExpired: args.includeExpired,
       tokenId: args.tokenId
-    }) : Promise.reject(new Error(\\"Invalid client\\")),
+    }) : Promise.reject(new Error("Invalid client")),
     ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   }),
@@ -809,7 +846,7 @@ export const sg721Queries = {
       includeExpired: args.includeExpired,
       spender: args.spender,
       tokenId: args.tokenId
-    }) : Promise.reject(new Error(\\"Invalid client\\")),
+    }) : Promise.reject(new Error("Invalid client")),
     ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   }),
@@ -822,7 +859,7 @@ export const sg721Queries = {
     queryFn: () => client ? client.approvals({
       includeExpired: args.includeExpired,
       tokenId: args.tokenId
-    }) : Promise.reject(new Error(\\"Invalid client\\")),
+    }) : Promise.reject(new Error("Invalid client")),
     ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   }),
@@ -837,7 +874,7 @@ export const sg721Queries = {
       limit: args.limit,
       owner: args.owner,
       startAfter: args.startAfter
-    }) : Promise.reject(new Error(\\"Invalid client\\")),
+    }) : Promise.reject(new Error("Invalid client")),
     ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   }),
@@ -846,7 +883,7 @@ export const sg721Queries = {
     options
   }: Sg721NumTokensQuery<TData>): UseQueryOptions<NumTokensResponse, Error, TData> => ({
     queryKey: sg721QueryKeys.numTokens(client?.contractAddress),
-    queryFn: () => client ? client.numTokens() : Promise.reject(new Error(\\"Invalid client\\")),
+    queryFn: () => client ? client.numTokens() : Promise.reject(new Error("Invalid client")),
     ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   }),
@@ -855,7 +892,7 @@ export const sg721Queries = {
     options
   }: Sg721ContractInfoQuery<TData>): UseQueryOptions<ContractInfoResponse, Error, TData> => ({
     queryKey: sg721QueryKeys.contractInfo(client?.contractAddress),
-    queryFn: () => client ? client.contractInfo() : Promise.reject(new Error(\\"Invalid client\\")),
+    queryFn: () => client ? client.contractInfo() : Promise.reject(new Error("Invalid client")),
     ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   }),
@@ -867,7 +904,7 @@ export const sg721Queries = {
     queryKey: sg721QueryKeys.nftInfo(client?.contractAddress, args),
     queryFn: () => client ? client.nftInfo({
       tokenId: args.tokenId
-    }) : Promise.reject(new Error(\\"Invalid client\\")),
+    }) : Promise.reject(new Error("Invalid client")),
     ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   }),
@@ -880,7 +917,7 @@ export const sg721Queries = {
     queryFn: () => client ? client.allNftInfo({
       includeExpired: args.includeExpired,
       tokenId: args.tokenId
-    }) : Promise.reject(new Error(\\"Invalid client\\")),
+    }) : Promise.reject(new Error("Invalid client")),
     ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   }),
@@ -894,7 +931,7 @@ export const sg721Queries = {
       limit: args.limit,
       owner: args.owner,
       startAfter: args.startAfter
-    }) : Promise.reject(new Error(\\"Invalid client\\")),
+    }) : Promise.reject(new Error("Invalid client")),
     ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   }),
@@ -907,7 +944,7 @@ export const sg721Queries = {
     queryFn: () => client ? client.allTokens({
       limit: args.limit,
       startAfter: args.startAfter
-    }) : Promise.reject(new Error(\\"Invalid client\\")),
+    }) : Promise.reject(new Error("Invalid client")),
     ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   }),
@@ -916,7 +953,7 @@ export const sg721Queries = {
     options
   }: Sg721MinterQuery<TData>): UseQueryOptions<MinterResponse, Error, TData> => ({
     queryKey: sg721QueryKeys.minter(client?.contractAddress),
-    queryFn: () => client ? client.minter() : Promise.reject(new Error(\\"Invalid client\\")),
+    queryFn: () => client ? client.minter() : Promise.reject(new Error("Invalid client")),
     ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   }),
@@ -925,14 +962,14 @@ export const sg721Queries = {
     options
   }: Sg721CollectionInfoQuery<TData>): UseQueryOptions<CollectionInfoResponse, Error, TData> => ({
     queryKey: sg721QueryKeys.collectionInfo(client?.contractAddress),
-    queryFn: () => client ? client.collectionInfo() : Promise.reject(new Error(\\"Invalid client\\")),
+    queryFn: () => client ? client.collectionInfo() : Promise.reject(new Error("Invalid client")),
     ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   })
 };
 export interface Sg721ReactQuery<TResponse, TData = TResponse> {
   client: Sg721QueryClient | undefined;
-  options?: Omit<UseQueryOptions<TResponse, Error, TData>, \\"'queryKey' | 'queryFn' | 'initialData'\\"> & {
+  options?: Omit<UseQueryOptions<TResponse, Error, TData>, "'queryKey' | 'queryFn' | 'initialData'"> & {
     initialData?: undefined;
   };
 }
@@ -941,7 +978,8 @@ export function useSg721CollectionInfoQuery<TData = CollectionInfoResponse>({
   client,
   options
 }: Sg721CollectionInfoQuery<TData>) {
-  return useQuery<CollectionInfoResponse, Error, TData>(sg721QueryKeys.collectionInfo(client?.contractAddress), () => client ? client.collectionInfo() : Promise.reject(new Error(\\"Invalid client\\")), { ...options,
+  return useQuery<CollectionInfoResponse, Error, TData>(sg721QueryKeys.collectionInfo(client?.contractAddress), () => client ? client.collectionInfo() : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -950,7 +988,8 @@ export function useSg721MinterQuery<TData = MinterResponse>({
   client,
   options
 }: Sg721MinterQuery<TData>) {
-  return useQuery<MinterResponse, Error, TData>(sg721QueryKeys.minter(client?.contractAddress), () => client ? client.minter() : Promise.reject(new Error(\\"Invalid client\\")), { ...options,
+  return useQuery<MinterResponse, Error, TData>(sg721QueryKeys.minter(client?.contractAddress), () => client ? client.minter() : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -968,7 +1007,8 @@ export function useSg721AllTokensQuery<TData = AllTokensResponse>({
   return useQuery<AllTokensResponse, Error, TData>(sg721QueryKeys.allTokens(client?.contractAddress, args), () => client ? client.allTokens({
     limit: args.limit,
     startAfter: args.startAfter
-  }) : Promise.reject(new Error(\\"Invalid client\\")), { ...options,
+  }) : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -988,7 +1028,8 @@ export function useSg721TokensQuery<TData = TokensResponse>({
     limit: args.limit,
     owner: args.owner,
     startAfter: args.startAfter
-  }) : Promise.reject(new Error(\\"Invalid client\\")), { ...options,
+  }) : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -1006,7 +1047,8 @@ export function useSg721AllNftInfoQuery<TData = AllNftInfoResponse>({
   return useQuery<AllNftInfoResponse, Error, TData>(sg721QueryKeys.allNftInfo(client?.contractAddress, args), () => client ? client.allNftInfo({
     includeExpired: args.includeExpired,
     tokenId: args.tokenId
-  }) : Promise.reject(new Error(\\"Invalid client\\")), { ...options,
+  }) : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -1022,7 +1064,8 @@ export function useSg721NftInfoQuery<TData = NftInfoResponse>({
 }: Sg721NftInfoQuery<TData>) {
   return useQuery<NftInfoResponse, Error, TData>(sg721QueryKeys.nftInfo(client?.contractAddress, args), () => client ? client.nftInfo({
     tokenId: args.tokenId
-  }) : Promise.reject(new Error(\\"Invalid client\\")), { ...options,
+  }) : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -1031,7 +1074,8 @@ export function useSg721ContractInfoQuery<TData = ContractInfoResponse>({
   client,
   options
 }: Sg721ContractInfoQuery<TData>) {
-  return useQuery<ContractInfoResponse, Error, TData>(sg721QueryKeys.contractInfo(client?.contractAddress), () => client ? client.contractInfo() : Promise.reject(new Error(\\"Invalid client\\")), { ...options,
+  return useQuery<ContractInfoResponse, Error, TData>(sg721QueryKeys.contractInfo(client?.contractAddress), () => client ? client.contractInfo() : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -1040,7 +1084,8 @@ export function useSg721NumTokensQuery<TData = NumTokensResponse>({
   client,
   options
 }: Sg721NumTokensQuery<TData>) {
-  return useQuery<NumTokensResponse, Error, TData>(sg721QueryKeys.numTokens(client?.contractAddress), () => client ? client.numTokens() : Promise.reject(new Error(\\"Invalid client\\")), { ...options,
+  return useQuery<NumTokensResponse, Error, TData>(sg721QueryKeys.numTokens(client?.contractAddress), () => client ? client.numTokens() : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -1062,7 +1107,8 @@ export function useSg721AllOperatorsQuery<TData = AllOperatorsResponse>({
     limit: args.limit,
     owner: args.owner,
     startAfter: args.startAfter
-  }) : Promise.reject(new Error(\\"Invalid client\\")), { ...options,
+  }) : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -1080,7 +1126,8 @@ export function useSg721ApprovalsQuery<TData = ApprovalsResponse>({
   return useQuery<ApprovalsResponse, Error, TData>(sg721QueryKeys.approvals(client?.contractAddress, args), () => client ? client.approvals({
     includeExpired: args.includeExpired,
     tokenId: args.tokenId
-  }) : Promise.reject(new Error(\\"Invalid client\\")), { ...options,
+  }) : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -1100,7 +1147,8 @@ export function useSg721ApprovalQuery<TData = ApprovalResponse>({
     includeExpired: args.includeExpired,
     spender: args.spender,
     tokenId: args.tokenId
-  }) : Promise.reject(new Error(\\"Invalid client\\")), { ...options,
+  }) : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -1118,7 +1166,8 @@ export function useSg721OwnerOfQuery<TData = OwnerOfResponse>({
   return useQuery<OwnerOfResponse, Error, TData>(sg721QueryKeys.ownerOf(client?.contractAddress, args), () => client ? client.ownerOf({
     includeExpired: args.includeExpired,
     tokenId: args.tokenId
-  }) : Promise.reject(new Error(\\"Invalid client\\")), { ...options,
+  }) : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }"
@@ -1131,12 +1180,12 @@ exports[`createReactQueryHooks 6`] = `
     tokenId: string;
   };
   args?: {
-    fee?: number | StdFee | \\"auto\\";
+    fee?: number | StdFee | "auto";
     memo?: string;
     funds?: Coin[];
   };
 }
-export function useSg721BurnMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, Sg721BurnMutation>, \\"mutationFn\\">) {
+export function useSg721BurnMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, Sg721BurnMutation>, "mutationFn">) {
   return useMutation<ExecuteResult, Error, Sg721BurnMutation>(({
     client,
     msg,
@@ -1156,12 +1205,12 @@ export interface Sg721MintMutation {
     tokenUri?: string;
   };
   args?: {
-    fee?: number | StdFee | \\"auto\\";
+    fee?: number | StdFee | "auto";
     memo?: string;
     funds?: Coin[];
   };
 }
-export function useSg721MintMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, Sg721MintMutation>, \\"mutationFn\\">) {
+export function useSg721MintMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, Sg721MintMutation>, "mutationFn">) {
   return useMutation<ExecuteResult, Error, Sg721MintMutation>(({
     client,
     msg,
@@ -1178,12 +1227,12 @@ export interface Sg721RevokeAllMutation {
     operator: string;
   };
   args?: {
-    fee?: number | StdFee | \\"auto\\";
+    fee?: number | StdFee | "auto";
     memo?: string;
     funds?: Coin[];
   };
 }
-export function useSg721RevokeAllMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, Sg721RevokeAllMutation>, \\"mutationFn\\">) {
+export function useSg721RevokeAllMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, Sg721RevokeAllMutation>, "mutationFn">) {
   return useMutation<ExecuteResult, Error, Sg721RevokeAllMutation>(({
     client,
     msg,
@@ -1201,12 +1250,12 @@ export interface Sg721ApproveAllMutation {
     operator: string;
   };
   args?: {
-    fee?: number | StdFee | \\"auto\\";
+    fee?: number | StdFee | "auto";
     memo?: string;
     funds?: Coin[];
   };
 }
-export function useSg721ApproveAllMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, Sg721ApproveAllMutation>, \\"mutationFn\\">) {
+export function useSg721ApproveAllMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, Sg721ApproveAllMutation>, "mutationFn">) {
   return useMutation<ExecuteResult, Error, Sg721ApproveAllMutation>(({
     client,
     msg,
@@ -1224,12 +1273,12 @@ export interface Sg721RevokeMutation {
     tokenId: string;
   };
   args?: {
-    fee?: number | StdFee | \\"auto\\";
+    fee?: number | StdFee | "auto";
     memo?: string;
     funds?: Coin[];
   };
 }
-export function useSg721RevokeMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, Sg721RevokeMutation>, \\"mutationFn\\">) {
+export function useSg721RevokeMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, Sg721RevokeMutation>, "mutationFn">) {
   return useMutation<ExecuteResult, Error, Sg721RevokeMutation>(({
     client,
     msg,
@@ -1248,12 +1297,12 @@ export interface Sg721ApproveMutation {
     tokenId: string;
   };
   args?: {
-    fee?: number | StdFee | \\"auto\\";
+    fee?: number | StdFee | "auto";
     memo?: string;
     funds?: Coin[];
   };
 }
-export function useSg721ApproveMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, Sg721ApproveMutation>, \\"mutationFn\\">) {
+export function useSg721ApproveMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, Sg721ApproveMutation>, "mutationFn">) {
   return useMutation<ExecuteResult, Error, Sg721ApproveMutation>(({
     client,
     msg,
@@ -1272,12 +1321,12 @@ export interface Sg721SendNftMutation {
     tokenId: string;
   };
   args?: {
-    fee?: number | StdFee | \\"auto\\";
+    fee?: number | StdFee | "auto";
     memo?: string;
     funds?: Coin[];
   };
 }
-export function useSg721SendNftMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, Sg721SendNftMutation>, \\"mutationFn\\">) {
+export function useSg721SendNftMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, Sg721SendNftMutation>, "mutationFn">) {
   return useMutation<ExecuteResult, Error, Sg721SendNftMutation>(({
     client,
     msg,
@@ -1295,12 +1344,12 @@ export interface Sg721TransferNftMutation {
     tokenId: string;
   };
   args?: {
-    fee?: number | StdFee | \\"auto\\";
+    fee?: number | StdFee | "auto";
     memo?: string;
     funds?: Coin[];
   };
 }
-export function useSg721TransferNftMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, Sg721TransferNftMutation>, \\"mutationFn\\">) {
+export function useSg721TransferNftMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, Sg721TransferNftMutation>, "mutationFn">) {
   return useMutation<ExecuteResult, Error, Sg721TransferNftMutation>(({
     client,
     msg,
@@ -1318,12 +1367,12 @@ exports[`ownership 1`] = `
   client: OwnershipClient;
   msg: Action;
   args?: {
-    fee?: number | StdFee | \\"auto\\";
+    fee?: number | StdFee | "auto";
     memo?: string;
     funds?: Coin[];
   };
 }
-export function useOwnershipUpdateOwnershipMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, OwnershipUpdateOwnershipMutation>, \\"mutationFn\\">) {
+export function useOwnershipUpdateOwnershipMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, OwnershipUpdateOwnershipMutation>, "mutationFn">) {
   return useMutation<ExecuteResult, Error, OwnershipUpdateOwnershipMutation>(({
     client,
     msg,
@@ -1340,12 +1389,12 @@ export interface OwnershipSetFactoryMutation {
     newFactory: string;
   };
   args?: {
-    fee?: number | StdFee | \\"auto\\";
+    fee?: number | StdFee | "auto";
     memo?: string;
     funds?: Coin[];
   };
 }
-export function useOwnershipSetFactoryMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, OwnershipSetFactoryMutation>, \\"mutationFn\\">) {
+export function useOwnershipSetFactoryMutation(options?: Omit<UseMutationOptions<ExecuteResult, Error, OwnershipSetFactoryMutation>, "mutationFn">) {
   return useMutation<ExecuteResult, Error, OwnershipSetFactoryMutation>(({
     client,
     msg,

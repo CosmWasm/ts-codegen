@@ -1,14 +1,15 @@
-import { globContracts, makeContext } from '../../../test-utils'
+import { globLegacyContracts, makeContext } from '../../test-utils'
 import {
     createQueryClass,
     createExecuteClass,
     createExecuteInterface,
     createTypeInterface
-} from '../client'
-import { expectCode } from '../../../test-utils';
+} from '../../src'
+import { expectCode } from '../../test-utils';
 import cases from 'jest-in-case';
+import { ExecuteMsg, QueryMsg } from '@cosmology/ts-codegen-types';
 
-const contracts = globContracts('issues/71');
+const contracts = globLegacyContracts('issues/71');
 
 cases('execute_msg_for__empty', async opts => {
     const ctx = makeContext(opts.content);
@@ -24,7 +25,7 @@ cases('query classes', async opts => {
         ctx,
         'SG721QueryClient',
         'SG721ReadOnlyInstance',
-        opts.content
+        opts.content as QueryMsg
     ))
 }, contracts);
 
@@ -35,7 +36,7 @@ cases('execute class', async opts => {
         'SG721Client',
         'SG721Instance',
         null,
-        opts.content
+        opts.content as ExecuteMsg
     ))
 }, contracts);
 
@@ -45,7 +46,7 @@ cases('execute interface', async opts => {
         ctx,
         'SG721Instance',
         null,
-        opts.content
+        opts.content as ExecuteMsg
     ))
 }, contracts);
 

@@ -1,17 +1,9 @@
-import { createExecuteClass, createExecuteInterface } from '../client';
-import { expectCode, makeContext } from '../../../test-utils';
-import ownership from '../../../../../__fixtures__/basic/ownership.json';
+import { ExecuteMsg } from '@cosmology/ts-codegen-types';
+import { createExecuteClass, createExecuteInterface } from '../../src';
+import { expectCode, globLegacyContracts, makeContext } from '../../test-utils';
 
-
-// it('query classes', () => {
-//     const ctx = makeContext(cosmos_msg_for__empty);
-//     expectCode(createQueryClass(
-//         ctx,
-//         'SG721QueryClient',
-//         'SG721ReadOnlyInstance',
-//         cosmos_msg_for__empty
-//     ))
-// });
+const contract = globLegacyContracts('basic').find(c => c.name === '/ownership.json')!;
+const ownership = contract.content;
 
 it('execute interfaces no extends', () => {
   const ctx = makeContext(ownership);
@@ -19,19 +11,19 @@ it('execute interfaces no extends', () => {
     ctx,
     'OwnershipInstance',
     null,
-    ownership
+    ownership as ExecuteMsg
   ))
 });
 
 it('ownership client with tuple', () => {
-    const ctx = makeContext(ownership);
-    expectCode(createExecuteClass(
-        ctx,
-        'OwnershipClient',
-        'OwnershipInstance',
-        null,
-        ownership
-    ))
+  const ctx = makeContext(ownership);
+  expectCode(createExecuteClass(
+    ctx,
+    'OwnershipClient',
+    'OwnershipInstance',
+    null,
+    ownership as ExecuteMsg
+  ))
 });
 
 

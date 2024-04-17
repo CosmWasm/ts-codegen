@@ -1,17 +1,10 @@
-import execute_msg_for__empty from '../../../../../__fixtures__/sg721/execute_msg_for__empty.json';
 import {
-    createQueryClass,
-    createExecuteClass,
-    createExecuteInterface,
-    createTypeInterface
-} from '../client'
-import { expectCode, makeContext } from '../../../test-utils';
+    createExecuteClass
+} from '../../src'
+import { expectCode, getMsgExecuteLegacyFixture, makeContext } from '../../test-utils';
 
-const ctx = makeContext(execute_msg_for__empty);
-
-describe('exec', () => {
-
-})
+const execMsg = getMsgExecuteLegacyFixture('sg721', '/execute_msg_for__empty.json');
+const ctx = makeContext(execMsg);
 
 it('Impl, execExtends, noExtendsClass', () => {
     ctx.options.client.noImplicitOverride = false;
@@ -21,7 +14,7 @@ it('Impl, execExtends, noExtendsClass', () => {
         'SG721Client',
         'SG721Instance',
         null,
-        execute_msg_for__empty
+        execMsg
     ))
 });
 
@@ -33,7 +26,7 @@ it('Impl, execExtends, ExtendsClass', () => {
         'SG721Client',
         'SG721Instance',
         'ExtendsClassName',
-        execute_msg_for__empty
+        execMsg
     ))
 });
 
@@ -45,7 +38,7 @@ it('noImpl, execExtends, ExtendsClass', () => {
         'SG721Client',
         'SG721Instance',
         'ExtendsClassName',
-        execute_msg_for__empty
+        execMsg
     ))
 });
 
@@ -57,7 +50,7 @@ it('noImpl, noExecExtends, ExtendsClass', () => {
         'SG721Client',
         'SG721Instance',
         'ExtendsClassName',
-        execute_msg_for__empty
+        execMsg
     ))
 });
 
@@ -69,6 +62,6 @@ it('noImpl, noExecExtends, noExtendsClass', () => {
         'SG721Client',
         'SG721Instance',
         null,
-        execute_msg_for__empty
+        execMsg
     ))
 });

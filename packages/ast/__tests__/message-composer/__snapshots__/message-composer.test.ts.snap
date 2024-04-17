@@ -71,7 +71,6 @@ exports[`execute classes 1`] = `
 "export class SG721MessageComposer implements SG721Message {
   sender: string;
   contractAddress: string;
-
   constructor(sender: string, contractAddress: string) {
     this.sender = sender;
     this.contractAddress = contractAddress;
@@ -84,7 +83,6 @@ exports[`execute classes 1`] = `
     this.mint = this.mint.bind(this);
     this.burn = this.burn.bind(this);
   }
-
   transferNft = ({
     recipient,
     tokenId
@@ -93,7 +91,7 @@ exports[`execute classes 1`] = `
     tokenId: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
-      typeUrl: \\"/cosmwasm.wasm.v1.MsgExecuteContract\\",
+      typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
@@ -117,7 +115,7 @@ exports[`execute classes 1`] = `
     tokenId: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
-      typeUrl: \\"/cosmwasm.wasm.v1.MsgExecuteContract\\",
+      typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
@@ -142,7 +140,7 @@ exports[`execute classes 1`] = `
     tokenId: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
-      typeUrl: \\"/cosmwasm.wasm.v1.MsgExecuteContract\\",
+      typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
@@ -165,7 +163,7 @@ exports[`execute classes 1`] = `
     tokenId: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
-      typeUrl: \\"/cosmwasm.wasm.v1.MsgExecuteContract\\",
+      typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
@@ -187,7 +185,7 @@ exports[`execute classes 1`] = `
     operator: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
-      typeUrl: \\"/cosmwasm.wasm.v1.MsgExecuteContract\\",
+      typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
@@ -207,7 +205,7 @@ exports[`execute classes 1`] = `
     operator: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
-      typeUrl: \\"/cosmwasm.wasm.v1.MsgExecuteContract\\",
+      typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
@@ -232,7 +230,7 @@ exports[`execute classes 1`] = `
     tokenUri?: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
-      typeUrl: \\"/cosmwasm.wasm.v1.MsgExecuteContract\\",
+      typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
@@ -254,7 +252,7 @@ exports[`execute classes 1`] = `
     tokenId: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
-      typeUrl: \\"/cosmwasm.wasm.v1.MsgExecuteContract\\",
+      typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
@@ -274,21 +272,19 @@ exports[`ownershipClass 1`] = `
 "export class OwnershipMessageComposer implements OwnershipMessage {
   sender: string;
   contractAddress: string;
-
   constructor(sender: string, contractAddress: string) {
     this.sender = sender;
     this.contractAddress = contractAddress;
     this.setFactory = this.setFactory.bind(this);
     this.updateOwnership = this.updateOwnership.bind(this);
   }
-
   setFactory = ({
     newFactory
   }: {
     newFactory: string;
   }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
-      typeUrl: \\"/cosmwasm.wasm.v1.MsgExecuteContract\\",
+      typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,
@@ -303,7 +299,7 @@ exports[`ownershipClass 1`] = `
   };
   updateOwnership = (action: Action, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
-      typeUrl: \\"/cosmwasm.wasm.v1.MsgExecuteContract\\",
+      typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: this.sender,
         contract: this.contractAddress,

@@ -1,25 +1,25 @@
 import * as t from '@babel/types';
-import query_msg from '../../../../__fixtures__/basic/query_msg.json';
-import execute_msg from '../../../../__fixtures__/basic/execute_msg_for__empty.json';
-import ownership from '../../../../__fixtures__/basic/ownership.json';
-
-
 import {
   createReactQueryHooks,
   createReactQueryMutationHooks,
-} from './react-query'
-import { expectCode, makeContext } from '../../test-utils';
+} from '../../src'
+import { expectCode, getLegacyFixture, getMsgExecuteLegacyFixture, getMsgQueryLegacyFixture, globLegacyContracts, makeContext } from '../../test-utils';
+
+const queryMsg = getMsgQueryLegacyFixture('basic', '/query_msg.json')
+const execMsg = getMsgExecuteLegacyFixture('basic', '/execute_msg_for__empty.json')
+const ownership = getLegacyFixture('basic', '/ownership.json')
+
 
 it('createReactQueryHooks', () => {
   expectCode(t.program(
     createReactQueryHooks(
       {
-        context: makeContext(query_msg, {
+        context: makeContext(queryMsg, {
           reactQuery: {
             version: 'v3',
           }
         }),
-        queryMsg: query_msg,
+        queryMsg: queryMsg,
         contractName: 'Sg721',
         QueryClient: 'Sg721QueryClient'
       }
@@ -27,13 +27,13 @@ it('createReactQueryHooks', () => {
   expectCode(t.program(
     createReactQueryHooks(
       {
-        context: makeContext(query_msg, {
+        context: makeContext(queryMsg, {
           reactQuery: {
             version: 'v3',
             optionalClient: true
           }
         }),
-        queryMsg: query_msg,
+        queryMsg: queryMsg,
         contractName: 'Sg721',
         QueryClient: 'Sg721QueryClient'
       }
@@ -41,12 +41,12 @@ it('createReactQueryHooks', () => {
   expectCode(t.program(
     createReactQueryHooks(
       {
-        context: makeContext(query_msg, {
+        context: makeContext(queryMsg, {
           reactQuery: {
             version: 'v4'
           }
         }),
-        queryMsg: query_msg,
+        queryMsg: queryMsg,
         contractName: 'Sg721',
         QueryClient: 'Sg721QueryClient'
       }
@@ -54,13 +54,13 @@ it('createReactQueryHooks', () => {
   expectCode(t.program(
     createReactQueryHooks(
       {
-        context: makeContext(query_msg, {
+        context: makeContext(queryMsg, {
           reactQuery: {
             optionalClient: true,
             version: 'v4'
           }
         }),
-        queryMsg: query_msg,
+        queryMsg: queryMsg,
         contractName: 'Sg721',
         QueryClient: 'Sg721QueryClient'
       }
@@ -68,7 +68,7 @@ it('createReactQueryHooks', () => {
   expectCode(
     t.program(
       createReactQueryHooks({
-        context: makeContext(query_msg, {
+        context: makeContext(queryMsg, {
           reactQuery: {
             optionalClient: true,
             version: 'v4',
@@ -76,7 +76,7 @@ it('createReactQueryHooks', () => {
             queryFactory: true
           }
         }),
-        queryMsg: query_msg,
+        queryMsg: queryMsg,
         contractName: 'Sg721',
         QueryClient: 'Sg721QueryClient'
       })
@@ -85,12 +85,12 @@ it('createReactQueryHooks', () => {
   expectCode(t.program(
     createReactQueryMutationHooks(
       {
-        context: makeContext(execute_msg, {
+        context: makeContext(execMsg, {
           reactQuery: {
             version: 'v3'
           }
         }),
-        execMsg: execute_msg,
+        execMsg: execMsg,
         contractName: 'Sg721',
         ExecuteClient: 'Sg721Client',
       }
@@ -106,6 +106,7 @@ it('ownership', () => {
             version: 'v3'
           }
         }),
+        // @ts-ignore
         execMsg: ownership,
         contractName: 'Ownership',
         ExecuteClient: 'OwnershipClient',

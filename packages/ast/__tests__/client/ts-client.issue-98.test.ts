@@ -1,14 +1,16 @@
-import contract from '../../../../../__fixtures__/issues/98/schema.json';
-
+import { ExecuteMsg } from '@cosmology/ts-codegen-types';
 import {
     createQueryClass,
     createExecuteClass,
     createExecuteInterface,
     createTypeInterface
-} from '../client'
-import { expectCode, printCode, makeContext } from '../../../test-utils';
+} from '../../src';
 
-const message = contract.query
+import { expectCode, makeContext, globIdlBasedContracts } from '../../test-utils';
+
+const contract = globIdlBasedContracts('issues/98').find(c => c.name === '/schema.json')!;
+
+const message = contract.content.query
 const ctx = makeContext(message);
 
 it('execute_msg_for__empty', () => {
@@ -41,7 +43,8 @@ it('execute classes array types', () => {
         'SG721Client',
         'SG721Instance',
         null,
-        message
+        // @ts-ignore
+        message as ExecuteMsg
     ))
 });
 
@@ -50,6 +53,7 @@ it('execute interfaces no extends', () => {
         ctx,
         'SG721Instance',
         null,
+        // @ts-ignore
         message
     ))
 });

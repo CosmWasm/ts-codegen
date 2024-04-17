@@ -1,166 +1,166 @@
-import execute_msg_named_groups from '../../../../../__fixtures__/daodao/cw-named-groups/execute_msg.json';
-
-import query_msg from '../../../../../__fixtures__/basic/query_msg.json';
-import execute_msg from '../../../../../__fixtures__/basic/execute_msg_for__empty.json';
-import approval_response from '../../../../../__fixtures__/basic/approval_response.json';
-import all_nft_info_response from '../../../../../__fixtures__/basic/all_nft_info_response.json';
-import approvals_response from '../../../../../__fixtures__/basic/approvals_response.json';
-import collection_info_response from '../../../../../__fixtures__/basic/collection_info_response.json';
-import contract_info_response from '../../../../../__fixtures__/basic/contract_info_response.json';
-import instantiate_msg from '../../../../../__fixtures__/basic/instantiate_msg.json';
-import nft_info_response from '../../../../../__fixtures__/basic/nft_info_response.json';
-import num_tokens_response from '../../../../../__fixtures__/basic/num_tokens_response.json';
-import operators_response from '../../../../../__fixtures__/basic/operators_response.json';
-import owner_of_response from '../../../../../__fixtures__/basic/owner_of_response.json';
-import tokens_response from '../../../../../__fixtures__/basic/tokens_response.json';
-
 import {
   createQueryClass,
   createQueryInterface,
   createExecuteClass,
   createExecuteInterface,
   createTypeInterface
-} from '../client';
+} from '../../src';
+import { expectCode, getLegacyFixture, getMsgExecuteLegacyFixture, getMsgQueryLegacyFixture, makeContext } from '../../test-utils';
 
-import { expectCode, makeContext } from '../../../test-utils';
+const daodaoCwNamedGroupsExecuteMsg = getMsgExecuteLegacyFixture('daodao/cw-named-groups', '/execute_msg.json');
+
+const queryMsgData = getMsgQueryLegacyFixture('basic', '/query_msg.json');
+const executeMsgData = getMsgExecuteLegacyFixture('basic', '/execute_msg_for__empty.json');
+const approvalResponseData = getLegacyFixture('basic', '/approval_response.json');
+const allNftInfoResponseData = getLegacyFixture('basic', '/all_nft_info_response.json');
+const approvalsResponseData = getLegacyFixture('basic', '/approvals_response.json');
+const collectionInfoResponseData = getLegacyFixture('basic', '/collection_info_response.json');
+const contractInfoResponseData = getLegacyFixture('basic', '/contract_info_response.json');
+const instantiateMsgData = getLegacyFixture('basic', '/instantiate_msg.json');
+const nftInfoResponseData = getLegacyFixture('basic', '/nft_info_response.json');
+const numTokensResponseData = getLegacyFixture('basic', '/num_tokens_response.json');
+const operatorsResponseData = getLegacyFixture('basic', '/operators_response.json');
+const ownerOfResponseData = getLegacyFixture('basic', '/owner_of_response.json');
+const tokensResponseData = getLegacyFixture('basic', '/tokens_response.json');
+
 
 it('approval_response', () => {
-  const ctx = makeContext(approval_response);
+  const ctx = makeContext(approvalResponseData);
   expectCode(createTypeInterface(
     ctx,
-    approval_response
+    approvalResponseData
   ))
 });
 
 it('all_nft_info_response', () => {
-  const ctx = makeContext(all_nft_info_response);
+  const ctx = makeContext(allNftInfoResponseData);
   expectCode(createTypeInterface(
     ctx,
-    all_nft_info_response
+    allNftInfoResponseData
   ))
 })
 it('approvals_response', () => {
-  const ctx = makeContext(approvals_response);
+  const ctx = makeContext(approvalsResponseData);
   expectCode(createTypeInterface(
     ctx,
-    approvals_response
+    approvalsResponseData
   ))
 })
 it('collection_info_response', () => {
-  const ctx = makeContext(collection_info_response);
+  const ctx = makeContext(collectionInfoResponseData);
   expectCode(createTypeInterface(
     ctx,
-    collection_info_response
+    collectionInfoResponseData
   ))
 })
 it('contract_info_response', () => {
-  const ctx = makeContext(contract_info_response);
+  const ctx = makeContext(contractInfoResponseData);
   expectCode(createTypeInterface(
     ctx,
-    contract_info_response
+    contractInfoResponseData
   ))
 })
 it('instantiate_msg', () => {
-  const ctx = makeContext(instantiate_msg);
+  const ctx = makeContext(instantiateMsgData);
   expectCode(createTypeInterface(
     ctx,
-    instantiate_msg
+    instantiateMsgData
   ))
 })
 it('nft_info_response', () => {
-  const ctx = makeContext(nft_info_response);
+  const ctx = makeContext(nftInfoResponseData);
   expectCode(createTypeInterface(
     ctx,
-    nft_info_response
+    nftInfoResponseData
   ))
 })
 it('num_tokens_response', () => {
-  const ctx = makeContext(num_tokens_response);
+  const ctx = makeContext(numTokensResponseData);
   expectCode(createTypeInterface(
     ctx,
-    num_tokens_response
+    numTokensResponseData
   ))
 })
 it('operators_response', () => {
-  const ctx = makeContext(operators_response);
+  const ctx = makeContext(operatorsResponseData);
   expectCode(createTypeInterface(
     ctx,
-    operators_response
+    operatorsResponseData
   ))
 })
 it('owner_of_response', () => {
-  const ctx = makeContext(owner_of_response);
+  const ctx = makeContext(ownerOfResponseData);
   expectCode(createTypeInterface(
     ctx,
-    owner_of_response
+    ownerOfResponseData
   ))
 })
 it('tokens_response', () => {
-  const ctx = makeContext(tokens_response);
+  const ctx = makeContext(tokensResponseData);
   expectCode(createTypeInterface(
     ctx,
-    tokens_response
+    tokensResponseData
   ))
 })
 
 it('query classes', () => {
-  const ctx = makeContext(query_msg);
+  const ctx = makeContext(queryMsgData);
   expectCode(createQueryClass(
     ctx,
     'SG721QueryClient',
     'SG721ReadOnlyInstance',
-    query_msg
+    queryMsgData
   ))
 });
 
 it('execute classes', () => {
-  const ctx = makeContext(execute_msg);
+  const ctx = makeContext(executeMsgData);
   expectCode(createExecuteClass(
     ctx,
     'SG721Client',
     'SG721Instance',
     'SG721QueryClient',
-    execute_msg
+    executeMsgData
   ))
 });
 
 it('execute classes no extends', () => {
-  const ctx = makeContext(execute_msg);
+  const ctx = makeContext(executeMsgData);
   expectCode(createExecuteClass(
     ctx,
     'SG721Client',
     'SG721Instance',
     null,
-    execute_msg
+    executeMsgData
   ))
 });
 
 it('execute classes array types', () => {
-  const ctx = makeContext(execute_msg_named_groups);
+  const ctx = makeContext(daodaoCwNamedGroupsExecuteMsg);
   expectCode(createExecuteClass(
     ctx,
     'SG721Client',
     'SG721Instance',
     null,
-    execute_msg_named_groups
+    daodaoCwNamedGroupsExecuteMsg
   ))
 });
 
 it('execute interfaces no extends', () => {
-  const ctx = makeContext(execute_msg);
+  const ctx = makeContext(executeMsgData);
   expectCode(createExecuteInterface(
     ctx,
     'SG721Instance',
     null,
-    execute_msg
+    executeMsgData
   ))
 });
 
 it('query interfaces', () => {
-  const ctx = makeContext(query_msg);
+  const ctx = makeContext(queryMsgData);
   expectCode(createQueryInterface(
     ctx,
     'SG721ReadOnlyInstance',
-    query_msg
+    queryMsgData
   ))
 });

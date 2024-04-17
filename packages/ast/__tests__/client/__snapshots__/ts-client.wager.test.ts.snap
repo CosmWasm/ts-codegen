@@ -86,7 +86,6 @@ exports[`query classes 1`] = `
 "export class WagerQueryClient implements WagerReadOnlyInstance {
   client: CosmWasmClient;
   contractAddress: string;
-
   constructor(client: CosmWasmClient, contractAddress: string) {
     this.client = client;
     this.contractAddress = contractAddress;
@@ -95,7 +94,6 @@ exports[`query classes 1`] = `
     this.tokenStatus = this.tokenStatus.bind(this);
     this.config = this.config.bind(this);
   }
-
   wagers = async (): Promise<WagersResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
       wagers: {}
@@ -104,7 +102,7 @@ exports[`query classes 1`] = `
   wager = async ({
     token
   }: {
-    token: Addr[][];
+    token: [Addr, number][];
   }): Promise<WagerResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
       wager: {
@@ -115,7 +113,7 @@ exports[`query classes 1`] = `
   tokenStatus = async ({
     token
   }: {
-    token: Addr[][];
+    token: [Addr, number][];
   }): Promise<TokenStatusResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
       token_status: {

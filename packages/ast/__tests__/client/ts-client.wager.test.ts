@@ -1,11 +1,12 @@
-import wagerJson from '../../../../../__fixtures__/wager/cw-wager.json';
 import {
     createQueryClass,
     createExecuteClass,
-    createExecuteInterface,
     createTypeInterface
-} from '../client'
-import { expectCode, makeContext } from '../../../test-utils';
+} from '../../src'
+import { expectCode, globIdlBasedContracts, makeContext } from '../../test-utils';
+
+const globbed = globIdlBasedContracts('wager').find(c => c.name === '/cw-wager.json')!;
+const wagerJson = globbed.content;
 
 const queryCtx = makeContext(wagerJson.query);
 const executeCtx = makeContext(wagerJson.execute);
@@ -42,22 +43,3 @@ it('execute classes', () => {
         wagerJson.execute
     ))
 });
-
-// it('execute classes array types', () => {
-//     expectCode(createExecuteClass(
-//         ctx,
-//         'SG721Client',
-//         'SG721Instance',
-//         null,
-//         wagerJson
-//     ))
-// });
-
-// it('execute interfaces no extends', () => {
-//     expectCode(createExecuteInterface(
-//         ctx,
-//         'SG721Instance',
-//         null,
-//         wagerJson
-//     ))
-// });

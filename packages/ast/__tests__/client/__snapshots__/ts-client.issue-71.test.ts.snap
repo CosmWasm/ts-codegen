@@ -1,11 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute class /issues/71/execute_msg.json 1`] = `
+exports[`execute class /execute_msg.json 1`] = `
 "export class SG721Client implements SG721Instance {
   client: SigningCosmWasmClient;
   sender: string;
   contractAddress: string;
-
   constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
     this.client = client;
     this.sender = sender;
@@ -21,7 +20,6 @@ exports[`execute class /issues/71/execute_msg.json 1`] = `
     this.dropOwnershipProposal = this.dropOwnershipProposal.bind(this);
     this.claimOwnership = this.claimOwnership.bind(this);
   }
-
   receive = async ({
     amount,
     msg,
@@ -30,7 +28,7 @@ exports[`execute class /issues/71/execute_msg.json 1`] = `
     amount: Uint128;
     msg: Binary;
     sender: string;
-  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       receive: {
         amount,
@@ -47,7 +45,7 @@ exports[`execute class /issues/71/execute_msg.json 1`] = `
     feeCollector?: string;
     generatorAddress?: string;
     lpTokenCodeId?: number;
-  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_config: {
         fee_collector: feeCollector,
@@ -64,7 +62,7 @@ exports[`execute class /issues/71/execute_msg.json 1`] = `
     isDisabled?: boolean;
     newFeeInfo?: FeeInfo;
     poolType: PoolType;
-  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_pool_config: {
         is_disabled: isDisabled,
@@ -77,7 +75,7 @@ exports[`execute class /issues/71/execute_msg.json 1`] = `
     newPoolConfig
   }: {
     newPoolConfig: PoolConfig;
-  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       add_to_registery: {
         new_pool_config: newPoolConfig
@@ -96,7 +94,7 @@ exports[`execute class /issues/71/execute_msg.json 1`] = `
     lpTokenName?: string;
     lpTokenSymbol?: string;
     poolType: PoolType;
-  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       create_pool_instance: {
         asset_infos: assetInfos,
@@ -121,7 +119,7 @@ exports[`execute class /issues/71/execute_msg.json 1`] = `
     poolId: Uint128;
     recipient?: string;
     slippageTolerance?: Decimal;
-  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       join_pool: {
         assets,
@@ -139,7 +137,7 @@ exports[`execute class /issues/71/execute_msg.json 1`] = `
   }: {
     recipient?: string;
     swapRequest: SingleSwapRequest;
-  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       swap: {
         recipient,
@@ -153,7 +151,7 @@ exports[`execute class /issues/71/execute_msg.json 1`] = `
   }: {
     expiresIn: number;
     owner: string;
-  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       propose_new_owner: {
         expires_in: expiresIn,
@@ -161,12 +159,12 @@ exports[`execute class /issues/71/execute_msg.json 1`] = `
       }
     }, fee, memo, _funds);
   };
-  dropOwnershipProposal = async (fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  dropOwnershipProposal = async (fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       drop_ownership_proposal: {}
     }, fee, memo, _funds);
   };
-  claimOwnership = async (fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  claimOwnership = async (fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       claim_ownership: {}
     }, fee, memo, _funds);
@@ -174,7 +172,7 @@ exports[`execute class /issues/71/execute_msg.json 1`] = `
 }"
 `;
 
-exports[`execute interface /issues/71/execute_msg.json 1`] = `
+exports[`execute interface /execute_msg.json 1`] = `
 "export interface SG721Instance {
   contractAddress: string;
   sender: string;
@@ -186,7 +184,7 @@ exports[`execute interface /issues/71/execute_msg.json 1`] = `
     amount: Uint128;
     msg: Binary;
     sender: string;
-  }, fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
   updateConfig: ({
     feeCollector,
     generatorAddress,
@@ -195,7 +193,7 @@ exports[`execute interface /issues/71/execute_msg.json 1`] = `
     feeCollector?: string;
     generatorAddress?: string;
     lpTokenCodeId?: number;
-  }, fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
   updatePoolConfig: ({
     isDisabled,
     newFeeInfo,
@@ -204,12 +202,12 @@ exports[`execute interface /issues/71/execute_msg.json 1`] = `
     isDisabled?: boolean;
     newFeeInfo?: FeeInfo;
     poolType: PoolType;
-  }, fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
   addToRegistery: ({
     newPoolConfig
   }: {
     newPoolConfig: PoolConfig;
-  }, fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
   createPoolInstance: ({
     assetInfos,
     initParams,
@@ -222,7 +220,7 @@ exports[`execute interface /issues/71/execute_msg.json 1`] = `
     lpTokenName?: string;
     lpTokenSymbol?: string;
     poolType: PoolType;
-  }, fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
   joinPool: ({
     assets,
     autoStake,
@@ -237,33 +235,32 @@ exports[`execute interface /issues/71/execute_msg.json 1`] = `
     poolId: Uint128;
     recipient?: string;
     slippageTolerance?: Decimal;
-  }, fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
   swap: ({
     recipient,
     swapRequest
   }: {
     recipient?: string;
     swapRequest: SingleSwapRequest;
-  }, fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
   proposeNewOwner: ({
     expiresIn,
     owner
   }: {
     expiresIn: number;
     owner: string;
-  }, fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
-  dropOwnershipProposal: (fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
-  claimOwnership: (fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  dropOwnershipProposal: (fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  claimOwnership: (fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
 }"
 `;
 
-exports[`execute_msg_for__empty /issues/71/execute_msg.json 1`] = `"export type ExecuteMsg = ExecuteMsg;"`;
+exports[`execute_msg_for__empty /execute_msg.json 1`] = `"export type ExecuteMsg = ExecuteMsg;"`;
 
-exports[`query classes /issues/71/execute_msg.json 1`] = `
+exports[`query classes /execute_msg.json 1`] = `
 "export class SG721QueryClient implements SG721ReadOnlyInstance {
   client: CosmWasmClient;
   contractAddress: string;
-
   constructor(client: CosmWasmClient, contractAddress: string) {
     this.client = client;
     this.contractAddress = contractAddress;
@@ -278,7 +275,6 @@ exports[`query classes /issues/71/execute_msg.json 1`] = `
     this.dropOwnershipProposal = this.dropOwnershipProposal.bind(this);
     this.claimOwnership = this.claimOwnership.bind(this);
   }
-
   receive = async ({
     amount,
     msg,

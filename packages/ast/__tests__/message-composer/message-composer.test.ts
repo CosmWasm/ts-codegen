@@ -1,29 +1,28 @@
-import execute_msg from "../../../../__fixtures__/basic/execute_msg_for__empty.json";
-import ownership from "../../../../__fixtures__/basic/ownership.json";
-
 import {
   createMessageComposerClass,
   createMessageComposerInterface,
-} from "./message-composer";
-import { expectCode, makeContext } from "../../test-utils";
-import * as t from "@babel/types";
-import { createReactQueryMutationHooks } from "../react-query";
+} from "../../src";
+import { expectCode, getLegacyFixture, getMsgExecuteLegacyFixture, makeContext } from "../../test-utils";
+
+const execMsg = getMsgExecuteLegacyFixture('basic', '/execute_msg_for__empty.json')
+const ownership = getLegacyFixture('basic', '/ownership.json')
+
 
 it("execute classes", () => {
-  const ctx = makeContext(execute_msg);
+  const ctx = makeContext(execMsg);
   expectCode(
     createMessageComposerClass(
       ctx,
       "SG721MessageComposer",
       "SG721Message",
-      execute_msg
+      execMsg
     )
   );
 });
 
 it("createMessageComposerInterface", () => {
-  const ctx = makeContext(execute_msg);
-  expectCode(createMessageComposerInterface(ctx, "SG721Message", execute_msg));
+  const ctx = makeContext(execMsg);
+  expectCode(createMessageComposerInterface(ctx, "SG721Message", execMsg));
 });
 
 it("ownershipClass", () => {
@@ -33,6 +32,7 @@ it("ownershipClass", () => {
       ctx,
       "OwnershipMessageComposer",
       "OwnershipMessage",
+      // @ts-ignore
       ownership
     )
   );
@@ -41,6 +41,7 @@ it("ownershipClass", () => {
 it("ownershipInterface", () => {
   const ownershipCtx = makeContext(ownership);
   expectCode(
+    // @ts-ignore
     createMessageComposerInterface(ownershipCtx, "OwnershipMessage", ownership)
   );
 });

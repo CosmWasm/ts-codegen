@@ -1,17 +1,10 @@
 import {
   expectCode,
+  getLegacyFixture,
   makeContext,
 } from '../../test-utils';
 
-import {
-  vectisCanExecuteRelayResponse,
-  vectisCosmosMsgForEmpty,
-  vectisExecuteMsgForEmpty,
-  vectisInfoResponse,
-  vectisRelayTransaction
-} from '../../test-utils/fixtures';
-
-import { ExecuteMsg } from '../../src';
+import { ExecuteMsg } from '@cosmology/ts-codegen-types';
 
 import {
   createExecuteClass,
@@ -19,6 +12,12 @@ import {
   createQueryClass,
   createTypeInterface
 } from '../../src';
+
+const vectisCanExecuteRelayResponse = getLegacyFixture('vectis/govec', '/can_execute_relay_response.json');
+const vectisCosmosMsgForEmpty = getLegacyFixture('vectis/govec', '/cosmos_msg_for__empty.json');
+const vectisExecuteMsgForEmpty = getLegacyFixture('vectis/govec', '/execute_msg_for__empty.json');
+const vectisInfoResponse = getLegacyFixture('vectis/govec', '/info_response.json');
+const vectisRelayTransaction = getLegacyFixture('vectis/govec', '/relay_transaction.json');
 
 it('cosmos_msg_for__empty', () => {
   const ctx = makeContext(vectisCosmosMsgForEmpty);

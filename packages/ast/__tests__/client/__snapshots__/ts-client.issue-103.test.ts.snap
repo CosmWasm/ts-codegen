@@ -5,13 +5,11 @@ exports[`execute execute classes array types 1`] = `
   client: SigningCosmWasmClient;
   sender: string;
   contractAddress: string;
-
   constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
     this.client = client;
     this.sender = sender;
     this.contractAddress = contractAddress;
   }
-
 }"
 `;
 
@@ -28,12 +26,10 @@ exports[`execute query classes 1`] = `
 "export class QueryClient implements ReadOnlyInstance {
   client: CosmWasmClient;
   contractAddress: string;
-
   constructor(client: CosmWasmClient, contractAddress: string) {
     this.client = client;
     this.contractAddress = contractAddress;
   }
-
 }"
 `;
 
@@ -44,13 +40,11 @@ exports[`query execute classes array types 1`] = `
   client: SigningCosmWasmClient;
   sender: string;
   contractAddress: string;
-
   constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
     this.client = client;
     this.sender = sender;
     this.contractAddress = contractAddress;
   }
-
 }"
 `;
 
@@ -67,12 +61,10 @@ exports[`query query classes 1`] = `
 "export class QueryClient implements ReadOnlyInstance {
   client: CosmWasmClient;
   contractAddress: string;
-
   constructor(client: CosmWasmClient, contractAddress: string) {
     this.client = client;
     this.contractAddress = contractAddress;
   }
-
 }"
 `;
 

@@ -7,7 +7,7 @@ exports[`execute class 1`] = `
     tokenId
   }: CamelCasedProperties<Extract<ExecuteMsg_for_Empty, {
     transfer_nft: unknown;
-  }>[\\"transfer_nft\\"]>): ExecuteMsg_for_Empty => {
+  }>["transfer_nft"]>): ExecuteMsg_for_Empty => {
     return {
       transfer_nft: ({
         recipient,
@@ -21,7 +21,7 @@ exports[`execute class 1`] = `
     tokenId
   }: CamelCasedProperties<Extract<ExecuteMsg_for_Empty, {
     send_nft: unknown;
-  }>[\\"send_nft\\"]>): ExecuteMsg_for_Empty => {
+  }>["send_nft"]>): ExecuteMsg_for_Empty => {
     return {
       send_nft: ({
         contract,
@@ -36,7 +36,7 @@ exports[`execute class 1`] = `
     tokenId
   }: CamelCasedProperties<Extract<ExecuteMsg_for_Empty, {
     approve: unknown;
-  }>[\\"approve\\"]>): ExecuteMsg_for_Empty => {
+  }>["approve"]>): ExecuteMsg_for_Empty => {
     return {
       approve: ({
         expires,
@@ -50,7 +50,7 @@ exports[`execute class 1`] = `
     tokenId
   }: CamelCasedProperties<Extract<ExecuteMsg_for_Empty, {
     revoke: unknown;
-  }>[\\"revoke\\"]>): ExecuteMsg_for_Empty => {
+  }>["revoke"]>): ExecuteMsg_for_Empty => {
     return {
       revoke: ({
         spender,
@@ -63,7 +63,7 @@ exports[`execute class 1`] = `
     operator
   }: CamelCasedProperties<Extract<ExecuteMsg_for_Empty, {
     approve_all: unknown;
-  }>[\\"approve_all\\"]>): ExecuteMsg_for_Empty => {
+  }>["approve_all"]>): ExecuteMsg_for_Empty => {
     return {
       approve_all: ({
         expires,
@@ -75,7 +75,7 @@ exports[`execute class 1`] = `
     operator
   }: CamelCasedProperties<Extract<ExecuteMsg_for_Empty, {
     revoke_all: unknown;
-  }>[\\"revoke_all\\"]>): ExecuteMsg_for_Empty => {
+  }>["revoke_all"]>): ExecuteMsg_for_Empty => {
     return {
       revoke_all: ({
         operator
@@ -89,7 +89,7 @@ exports[`execute class 1`] = `
     tokenUri
   }: CamelCasedProperties<Extract<ExecuteMsg_for_Empty, {
     mint: unknown;
-  }>[\\"mint\\"]>): ExecuteMsg_for_Empty => {
+  }>["mint"]>): ExecuteMsg_for_Empty => {
     return {
       mint: ({
         extension,
@@ -103,7 +103,7 @@ exports[`execute class 1`] = `
     tokenId
   }: CamelCasedProperties<Extract<ExecuteMsg_for_Empty, {
     burn: unknown;
-  }>[\\"burn\\"]>): ExecuteMsg_for_Empty => {
+  }>["burn"]>): ExecuteMsg_for_Empty => {
     return {
       burn: ({
         token_id: tokenId
@@ -119,7 +119,7 @@ exports[`ownership 1`] = `
     newFactory
   }: CamelCasedProperties<Extract<ExecuteMsg, {
     set_factory: unknown;
-  }>[\\"set_factory\\"]>): ExecuteMsg => {
+  }>["set_factory"]>): ExecuteMsg => {
     return {
       set_factory: ({
         new_factory: newFactory
@@ -141,7 +141,7 @@ exports[`query class 1`] = `
     tokenId
   }: CamelCasedProperties<Extract<QueryMsg, {
     owner_of: unknown;
-  }>[\\"owner_of\\"]>): QueryMsg => {
+  }>["owner_of"]>): QueryMsg => {
     return {
       owner_of: ({
         include_expired: includeExpired,
@@ -155,7 +155,7 @@ exports[`query class 1`] = `
     tokenId
   }: CamelCasedProperties<Extract<QueryMsg, {
     approval: unknown;
-  }>[\\"approval\\"]>): QueryMsg => {
+  }>["approval"]>): QueryMsg => {
     return {
       approval: ({
         include_expired: includeExpired,
@@ -169,7 +169,7 @@ exports[`query class 1`] = `
     tokenId
   }: CamelCasedProperties<Extract<QueryMsg, {
     approvals: unknown;
-  }>[\\"approvals\\"]>): QueryMsg => {
+  }>["approvals"]>): QueryMsg => {
     return {
       approvals: ({
         include_expired: includeExpired,
@@ -184,7 +184,7 @@ exports[`query class 1`] = `
     startAfter
   }: CamelCasedProperties<Extract<QueryMsg, {
     all_operators: unknown;
-  }>[\\"all_operators\\"]>): QueryMsg => {
+  }>["all_operators"]>): QueryMsg => {
     return {
       all_operators: ({
         include_expired: includeExpired,
@@ -208,7 +208,7 @@ exports[`query class 1`] = `
     tokenId
   }: CamelCasedProperties<Extract<QueryMsg, {
     nft_info: unknown;
-  }>[\\"nft_info\\"]>): QueryMsg => {
+  }>["nft_info"]>): QueryMsg => {
     return {
       nft_info: ({
         token_id: tokenId
@@ -220,7 +220,7 @@ exports[`query class 1`] = `
     tokenId
   }: CamelCasedProperties<Extract<QueryMsg, {
     all_nft_info: unknown;
-  }>[\\"all_nft_info\\"]>): QueryMsg => {
+  }>["all_nft_info"]>): QueryMsg => {
     return {
       all_nft_info: ({
         include_expired: includeExpired,
@@ -234,7 +234,7 @@ exports[`query class 1`] = `
     startAfter
   }: CamelCasedProperties<Extract<QueryMsg, {
     tokens: unknown;
-  }>[\\"tokens\\"]>): QueryMsg => {
+  }>["tokens"]>): QueryMsg => {
     return {
       tokens: ({
         limit,
@@ -248,7 +248,7 @@ exports[`query class 1`] = `
     startAfter
   }: CamelCasedProperties<Extract<QueryMsg, {
     all_tokens: unknown;
-  }>[\\"all_tokens\\"]>): QueryMsg => {
+  }>["all_tokens"]>): QueryMsg => {
     return {
       all_tokens: ({
         limit,

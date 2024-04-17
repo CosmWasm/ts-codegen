@@ -15,7 +15,6 @@ exports[`mutation classes 1`] = `
 "export class SG721Client extends SG721QueryClient implements SG721ReadOnlyInstance {
   client: SigningCosmWasmClient;
   contractAddress: string;
-
   constructor(client: SigningCosmWasmClient, contractAddress: string) {
     super(client, contractAddress);
     this.client = client;
@@ -25,7 +24,6 @@ exports[`mutation classes 1`] = `
     this.hello = this.hello.bind(this);
     this.mintme = this.mintme.bind(this);
   }
-
   mint = async (sender: string, tokenId: string, owner: string, token_uri: string): Promise<ExecuteResult> => {
     return await this.client.execute(sender, this.contractAddress, {
       mint: {
@@ -34,7 +32,7 @@ exports[`mutation classes 1`] = `
         token_uri: token_uri,
         expression: {}
       }
-    }, \\"auto\\");
+    }, "auto");
   };
 }"
 `;
@@ -53,7 +51,6 @@ exports[`readonly classes 1`] = `
 "export class SG721QueryClient implements SG721ReadOnlyInstance {
   client: CosmWasmClient;
   contractAddress: string;
-
   constructor(client: CosmWasmClient, contractAddress: string) {
     this.client = client;
     this.contractAddress = contractAddress;
@@ -62,7 +59,6 @@ exports[`readonly classes 1`] = `
     this.hello = this.hello.bind(this);
     this.mintme = this.mintme.bind(this);
   }
-
   approval = async (owner: string, spender: string): Promise<ApprovalResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
       owner,
@@ -72,4 +68,4 @@ exports[`readonly classes 1`] = `
 }"
 `;
 
-exports[`top import 1`] = `"import { CosmWasmClient, ExecuteResult, SigningCosmWasmClient } from \\"@cosmjs/cosmwasm-stargate\\";"`;
+exports[`top import 1`] = `"import { CosmWasmClient, ExecuteResult, SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";"`;

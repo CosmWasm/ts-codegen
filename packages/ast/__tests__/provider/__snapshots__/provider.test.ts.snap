@@ -31,7 +31,6 @@ exports[`execute class 1`] = `
   }: IContractConstructor) {
     super(address, cosmWasmClient, signingCosmWasmClient, WhitelistClient, WhitelistQueryClient, WhitelistMessageComposer);
   }
-
 }"
 `;
 
@@ -44,6 +43,5 @@ exports[`execute class without message composer 1`] = `
   }: IContractConstructor) {
     super(address, cosmWasmClient, signingCosmWasmClient, WhitelistClient, WhitelistQueryClient, undefined);
   }
-
 }"
 `;

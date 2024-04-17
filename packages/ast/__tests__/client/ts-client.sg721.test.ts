@@ -1,18 +1,19 @@
-import execute_msg_for__empty from '../../../../../__fixtures__/sg721/execute_msg_for__empty.json';
 import {
     createQueryClass,
     createExecuteClass,
     createExecuteInterface,
     createTypeInterface
-} from '../client'
-import { expectCode, makeContext } from '../../../test-utils';
+} from '../../src'
+import { expectCode, getMsgExecuteLegacyFixture, getMsgQueryLegacyFixture, makeContext } from '../../test-utils';
 
-const ctx = makeContext(execute_msg_for__empty);
+const execMsg = getMsgExecuteLegacyFixture('sg721', '/execute_msg_for__empty.json');
+const queryMsg = getMsgQueryLegacyFixture('sg721', '/execute_msg_for__empty.json');
+const ctx = makeContext(execMsg);
 
 it('execute_msg_for__empty', () => {
     expectCode(createTypeInterface(
         ctx,
-        execute_msg_for__empty
+        execMsg
     ))
 })
 
@@ -22,7 +23,7 @@ it('query classes', () => {
         ctx,
         'SG721QueryClient',
         'SG721ReadOnlyInstance',
-        execute_msg_for__empty
+        queryMsg
     ))
 });
 
@@ -32,7 +33,7 @@ it('execute classes array types', () => {
         'SG721Client',
         'SG721Instance',
         null,
-        execute_msg_for__empty
+        execMsg
     ))
 });
 
@@ -41,6 +42,6 @@ it('execute interfaces no extends', () => {
         ctx,
         'SG721Instance',
         null,
-        execute_msg_for__empty
+        execMsg
     ))
 });

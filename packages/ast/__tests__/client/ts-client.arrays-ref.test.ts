@@ -1,20 +1,19 @@
-import message from '../../../../../__fixtures__/misc/schema/arrays-ref.json';
-
 import {
     createQueryClass,
     createExecuteClass,
     createExecuteInterface,
     createTypeInterface
-} from '../client'
-import { RenderContext } from '../../context';
-import { expectCode, makeContext } from '../../../test-utils';
+} from '../../src'
+import { expectCode, getMsgExecuteLegacyFixture, getMsgQueryLegacyFixture, makeContext } from '../../test-utils';
 
-const ctx = makeContext(message);
+const queryMsg = getMsgQueryLegacyFixture('misc/schema', '/arrays-ref.json');
+const execMsg = getMsgExecuteLegacyFixture('misc/schema', '/arrays-ref.json');
+const ctx = makeContext(queryMsg);
 
 it('execute_msg_for__empty', () => {
     expectCode(createTypeInterface(
         ctx,
-        message
+        queryMsg
     ))
 })
 
@@ -24,7 +23,7 @@ it('query classes', () => {
         ctx,
         'SG721QueryClient',
         'SG721ReadOnlyInstance',
-        message
+        queryMsg
     ))
 });
 
@@ -34,7 +33,7 @@ it('execute classes array types', () => {
         'SG721Client',
         'SG721Instance',
         null,
-        message
+        execMsg
     ))
 });
 
@@ -43,6 +42,6 @@ it('execute interfaces no extends', () => {
         ctx,
         'SG721Instance',
         null,
-        message
+        execMsg
     ))
 });

@@ -322,7 +322,7 @@ export const createExecuteClass = (
     );
   }
 
-  [].push.apply(blockStmt, [
+  blockStmt.push(...[
     // client/contract set
     t.expressionStatement(
       t.assignmentExpression(

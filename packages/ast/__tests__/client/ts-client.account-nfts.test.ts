@@ -5,8 +5,14 @@ import {
   createTypeInterface
 } from '../../src';
 import { expectCode, makeContext } from '../../test-utils';
-import { nftIdlVersion } from '../../test-utils/fixtures';
+import { JSONSchema } from '@cosmology/ts-codegen-types';
 
+import nftIdlVersionData from '../../../../__fixtures__/idl-version/accounts-nft/account-nft.json';
+
+// @ts-ignore
+export const nftIdlVersion: JSONSchema = nftIdlVersionData;
+
+// @ts-ignore
 const message = nftIdlVersion.query;
 const ctx = makeContext(message);
 

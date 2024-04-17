@@ -5,7 +5,6 @@ exports[`execute classes array types 1`] = `
   client: SigningCosmWasmClient;
   sender: string;
   contractAddress: string;
-
   constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
     this.client = client;
     this.sender = sender;
@@ -26,8 +25,7 @@ exports[`execute classes array types 1`] = `
     this.allTokens = this.allTokens.bind(this);
     this.minter = this.minter.bind(this);
   }
-
-  proposedNewOwner = async (fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  proposedNewOwner = async (fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       proposed_new_owner: {}
     }, fee, memo, _funds);
@@ -38,7 +36,7 @@ exports[`execute classes array types 1`] = `
   }: {
     limit?: number;
     startAfter?: VaultBase_for_String;
-  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       allowed_vaults: {
         limit,
@@ -51,8 +49,8 @@ exports[`execute classes array types 1`] = `
     startAfter
   }: {
     limit?: number;
-    startAfter?: string[][];
-  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+    startAfter?: [string, string][];
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       all_debt_shares: {
         limit,
@@ -60,7 +58,7 @@ exports[`execute classes array types 1`] = `
       }
     }, fee, memo, _funds);
   };
-  allPreviousOwners = async (fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  allPreviousOwners = async (fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       all_previous_owners: {}
     }, fee, memo, _funds);
@@ -71,7 +69,7 @@ exports[`execute classes array types 1`] = `
   }: {
     includeExpired?: boolean;
     tokenId: string;
-  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       owner_of: {
         include_expired: includeExpired,
@@ -87,7 +85,7 @@ exports[`execute classes array types 1`] = `
     includeExpired?: boolean;
     spender: string;
     tokenId: string;
-  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       approval: {
         include_expired: includeExpired,
@@ -102,7 +100,7 @@ exports[`execute classes array types 1`] = `
   }: {
     includeExpired?: boolean;
     tokenId: string;
-  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       approvals: {
         include_expired: includeExpired,
@@ -120,7 +118,7 @@ exports[`execute classes array types 1`] = `
     limit?: number;
     owner: string;
     startAfter?: string;
-  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       all_operators: {
         include_expired: includeExpired,
@@ -130,12 +128,12 @@ exports[`execute classes array types 1`] = `
       }
     }, fee, memo, _funds);
   };
-  numTokens = async (fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  numTokens = async (fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       num_tokens: {}
     }, fee, memo, _funds);
   };
-  contractInfo = async (fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  contractInfo = async (fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       contract_info: {}
     }, fee, memo, _funds);
@@ -144,7 +142,7 @@ exports[`execute classes array types 1`] = `
     tokenId
   }: {
     tokenId: string;
-  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       nft_info: {
         token_id: tokenId
@@ -157,7 +155,7 @@ exports[`execute classes array types 1`] = `
   }: {
     includeExpired?: boolean;
     tokenId: string;
-  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       all_nft_info: {
         include_expired: includeExpired,
@@ -173,7 +171,7 @@ exports[`execute classes array types 1`] = `
     limit?: number;
     owner: string;
     startAfter?: string;
-  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       tokens: {
         limit,
@@ -188,7 +186,7 @@ exports[`execute classes array types 1`] = `
   }: {
     limit?: number;
     startAfter?: string;
-  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       all_tokens: {
         limit,
@@ -196,7 +194,7 @@ exports[`execute classes array types 1`] = `
       }
     }, fee, memo, _funds);
   };
-  minter = async (fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  minter = async (fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       minter: {}
     }, fee, memo, _funds);
@@ -208,29 +206,29 @@ exports[`execute interfaces no extends 1`] = `
 "export interface SG721Instance {
   contractAddress: string;
   sender: string;
-  proposedNewOwner: (fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  proposedNewOwner: (fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
   allowedVaults: ({
     limit,
     startAfter
   }: {
     limit?: number;
     startAfter?: VaultBase_for_String;
-  }, fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
   allDebtShares: ({
     limit,
     startAfter
   }: {
     limit?: number;
-    startAfter?: string[][];
-  }, fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
-  allPreviousOwners: (fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+    startAfter?: [string, string][];
+  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  allPreviousOwners: (fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
   ownerOf: ({
     includeExpired,
     tokenId
   }: {
     includeExpired?: boolean;
     tokenId: string;
-  }, fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
   approval: ({
     includeExpired,
     spender,
@@ -239,14 +237,14 @@ exports[`execute interfaces no extends 1`] = `
     includeExpired?: boolean;
     spender: string;
     tokenId: string;
-  }, fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
   approvals: ({
     includeExpired,
     tokenId
   }: {
     includeExpired?: boolean;
     tokenId: string;
-  }, fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
   allOperators: ({
     includeExpired,
     limit,
@@ -257,21 +255,21 @@ exports[`execute interfaces no extends 1`] = `
     limit?: number;
     owner: string;
     startAfter?: string;
-  }, fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
-  numTokens: (fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
-  contractInfo: (fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  numTokens: (fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  contractInfo: (fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
   nftInfo: ({
     tokenId
   }: {
     tokenId: string;
-  }, fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
   allNftInfo: ({
     includeExpired,
     tokenId
   }: {
     includeExpired?: boolean;
     tokenId: string;
-  }, fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
   tokens: ({
     limit,
     owner,
@@ -280,15 +278,15 @@ exports[`execute interfaces no extends 1`] = `
     limit?: number;
     owner: string;
     startAfter?: string;
-  }, fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
   allTokens: ({
     limit,
     startAfter
   }: {
     limit?: number;
     startAfter?: string;
-  }, fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
-  minter: (fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  minter: (fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
 }"
 `;
 
@@ -298,7 +296,6 @@ exports[`query classes 1`] = `
 "export class SG721QueryClient implements SG721ReadOnlyInstance {
   client: CosmWasmClient;
   contractAddress: string;
-
   constructor(client: CosmWasmClient, contractAddress: string) {
     this.client = client;
     this.contractAddress = contractAddress;
@@ -318,7 +315,6 @@ exports[`query classes 1`] = `
     this.allTokens = this.allTokens.bind(this);
     this.minter = this.minter.bind(this);
   }
-
   proposedNewOwner = async (): Promise<ProposedNewOwnerResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
       proposed_new_owner: {}
@@ -343,7 +339,7 @@ exports[`query classes 1`] = `
     startAfter
   }: {
     limit?: number;
-    startAfter?: string[][];
+    startAfter?: [string, string][];
   }): Promise<AllDebtSharesResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
       all_debt_shares: {

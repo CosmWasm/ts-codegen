@@ -1,20 +1,18 @@
-import execute_msg from '../../../../../__fixtures__/daodao/cw-named-groups/execute_msg.json';
-
 import {
     createQueryClass,
     createExecuteClass,
     createExecuteInterface,
     createTypeInterface
-} from '../client'
-import { RenderContext } from '../../context';
-import { expectCode, makeContext } from '../../../test-utils';
-
-const ctx = makeContext(execute_msg);
+} from '../../src'
+import { expectCode, getMsgExecuteLegacyFixture, getMsgQueryLegacyFixture, makeContext } from '../../test-utils';
+const execMsg = getMsgExecuteLegacyFixture('daodao/cw-named-groups', '/execute_msg.json');
+const queryMsg = getMsgQueryLegacyFixture('daodao/cw-named-groups', '/execute_msg.json');
+const ctx = makeContext(execMsg);
 
 it('execute_msg', () => {
     expectCode(createTypeInterface(
         ctx,
-        execute_msg
+        execMsg
     ))
 })
 
@@ -24,7 +22,7 @@ it('query classes', () => {
         ctx,
         'SG721QueryClient',
         'SG721ReadOnlyInstance',
-        execute_msg
+        queryMsg
     ))
 });
 
@@ -34,7 +32,7 @@ it('execute classes array types', () => {
         'SG721Client',
         'SG721Instance',
         null,
-        execute_msg
+        execMsg
     ))
 });
 
@@ -43,6 +41,6 @@ it('execute interfaces no extends', () => {
         ctx,
         'SG721Instance',
         null,
-        execute_msg
+        execMsg
     ))
 });

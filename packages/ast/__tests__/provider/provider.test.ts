@@ -6,8 +6,20 @@ import {
 import { PROVIDER_TYPES } from '../../src/utils/constants';
 import { expectCode } from '../../test-utils';
 
+
+// Use 'typeof PROVIDER_TYPES[keyof typeof PROVIDER_TYPES]' to extract the values of PROVIDER_TYPES.
+type ProviderTypes = typeof PROVIDER_TYPES[keyof typeof PROVIDER_TYPES];
+interface TestProviderInfo {
+  classname: string;
+}
+
+// Use the values from PROVIDER_TYPES as the keys for TestProviderInfos
+type ProviderInfos = {
+  [key in ProviderTypes]: TestProviderInfo
+};
+
 it('execute class', () => {
-  const info = {};
+  const info: ProviderInfos = {} as ProviderInfos;
 
   info[PROVIDER_TYPES.SIGNING_CLIENT_TYPE] = {
     classname: 'WhitelistClient'
@@ -21,11 +33,12 @@ it('execute class', () => {
     classname: 'WhitelistMessageComposer'
   };
 
+  // @ts-ignore
   expectCode(createProvider('Whitelist', info));
 });
 
 it('execute class without message composer', () => {
-  const info = {};
+  const info: ProviderInfos = {};
 
   info[PROVIDER_TYPES.SIGNING_CLIENT_TYPE] = {
     classname: 'WhitelistClient'
@@ -35,14 +48,15 @@ it('execute class without message composer', () => {
     classname: 'WhitelistQueryClient'
   };
 
+  // @ts-ignore
   expectCode(createProvider('Whitelist', info));
 });
 
 it('create IContractsContext', () => {
-  const info = {
+  const info: any = {
     Whitelist: {},
     Marketplace: {}
-  };
+  }
 
   info['Whitelist'][PROVIDER_TYPES.SIGNING_CLIENT_TYPE] = {
     classname: 'WhitelistClient'
@@ -60,7 +74,7 @@ it('create IContractsContext', () => {
 });
 
 it('create getProviders', () => {
-  const info = {
+  const info: any = {
     Whitelist: {},
     Marketplace: {}
   };
