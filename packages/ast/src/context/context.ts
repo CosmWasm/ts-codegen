@@ -53,7 +53,7 @@ export const defaultOptions: RenderOptions = {
     camelize: true,
     queryKeys: false
   },
-  useContractHooks: {
+  useContractsHook: {
     enabled: false
   }
 };

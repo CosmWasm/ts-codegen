@@ -46,7 +46,7 @@ export const createHelpers = (
   const files: BuilderFile[] = [];
 
   if (
-    input.options?.useContractHooks?.enabled &&
+    input.options?.useContractsHook?.enabled &&
     Object.keys(builderContext.providers)?.length
   ) {
     const useShorthandCtor = input.options?.useShorthandCtor;

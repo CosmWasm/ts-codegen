@@ -14,7 +14,7 @@ export interface RenderOptions {
   messageBuilder?: MessageBuilderOptions;
   client?: TSClientOptions;
   reactQuery?: ReactQueryOptions;
-  useContractHooks?: UseContractsOptions;
+  useContractsHook?: UseContractsOptions;
 }
 
 export interface ProviderInfo {

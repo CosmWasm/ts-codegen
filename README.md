@@ -36,7 +36,7 @@ The quickest and easiest way to interact with CosmWasm Contracts. `@cosmwasm/ts-
     - [Recoil](#recoil)
     - [Message Composer](#message-composer)
     - [Message Builder](#message-builder)
-    - [Use Contracts Hooks](#use-contracts-hooks)
+    - [Use Contract Hooks](#use-contracts-hooks)
     - [Bundles](#bundles)
     - [CLI Usage and Examples](#cli-usage-and-examples)
     - [Advanced Usage](#advanced-usage)
@@ -97,7 +97,7 @@ codegen({
     messageBuilder: {
       enabled: false
     },
-    useContractHooks: {
+    useContractsHook: {
       enabled: false
     }
   }
@@ -190,11 +190,13 @@ Generate raw message jsons for use in your application with the `message-builder
 | `messageBuilder.enabled` | enable the messageBuilder plugin   |
 
 
-### Use Contracts Hooks
+### `useContracts` Hook
+
+Generates `useContracts` hook to easily access contracts, already equipped with a signing client
 
 | option                           | description                             |
 | -------------------------------- | --------------------------------------- |
-| `useContractHooks.enabled`      | enable the `useContracts` plugin        |
+| `useContractsHook.enabled`       | enable the `useContracts` plugin        |
 
 #### Example Output
 
