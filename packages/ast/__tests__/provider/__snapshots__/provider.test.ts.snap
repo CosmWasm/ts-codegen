@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`create IContractsContext 1`] = `
+"export interface IContractsContext {
+  whitelist: ISigningClientProvider<WhitelistClient> & IQueryClientProvider<WhitelistQueryClient>;
+  marketplace: ISigningClientProvider<MarketplaceClient>;
+}"
+`;
+
+exports[`create getProviders 1`] = `
+"export const getProviders = (address?: string, cosmWasmClient?: CosmWasmClient, signingCosmWasmClient?: SigningCosmWasmClient) => ({
+  whitelist: new Whitelist({
+    address,
+    cosmWasmClient,
+    signingCosmWasmClient
+  }),
+  marketplace: new Marketplace({
+    address,
+    cosmWasmClient,
+    signingCosmWasmClient
+  })
+});"
+`;
+
+exports[`execute class 1`] = `
+"export class Whitelist extends ContractBase<WhitelistClient, WhitelistQueryClient, WhitelistMessageComposer> {
+  constructor({
+    address,
+    cosmWasmClient,
+    signingCosmWasmClient
+  }: IContractConstructor) {
+    super(address, cosmWasmClient, signingCosmWasmClient, WhitelistClient, WhitelistQueryClient, WhitelistMessageComposer);
+  }
+}"
+`;
+
+exports[`execute class without message composer 1`] = `
+"export class Whitelist extends ContractBase<WhitelistClient, WhitelistQueryClient, IEmptyClient> {
+  constructor({
+    address,
+    cosmWasmClient,
+    signingCosmWasmClient
+  }: IContractConstructor) {
+    super(address, cosmWasmClient, signingCosmWasmClient, WhitelistClient, WhitelistQueryClient, undefined);
+  }
+}"
+`;

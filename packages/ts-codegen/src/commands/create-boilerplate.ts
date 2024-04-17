@@ -1,12 +1,13 @@
 import * as shell from 'shelljs';
 import { prompt } from '../utils/prompt';
 import dargs from 'dargs';
+import { MinimistArgs } from '@cosmology/ts-codegen-types';
 const glob = require('glob').sync;
 const fs = require('fs');
 const path = require('path');
 
 const repo = 'https://github.com/cosmology-tech/ts-codegen-module-boilerplate';
-export default async argv => {
+export default async (argv: MinimistArgs) => {
     if (!shell.which('git')) {
         shell.echo('Sorry, this script requires git');
         return shell.exit(1);

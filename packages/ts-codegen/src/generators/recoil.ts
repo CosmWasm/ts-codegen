@@ -60,9 +60,8 @@ export default async (
       QueryClient
     ));
 
-    [].push.apply(body,
-      w.createRecoilSelectors(context, name, QueryClient, QueryMsg)
-    );
+    const selectors = w.createRecoilSelectors(context, name, QueryClient, QueryMsg);
+    body.push(...selectors);
 
   }
 
@@ -72,6 +71,7 @@ export default async (
   }
   const imports = context.getImports();
   const code = header + generate(
+    // @ts-ignore
     t.program([
       ...imports,
       ...body

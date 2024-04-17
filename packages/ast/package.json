@@ -1,0 +1,42 @@
+{
+  "name": "wasm-ast-types",
+  "version": "0.26.4",
+  "description": "CosmWasm TypeScript AST generation",
+  "author": "Dan Lynch <pyramation@gmail.com>",
+  "homepage": "https://github.com/cosmwasm/ts-codegen/tree/master/packages/ast#readme",
+  "license": "SEE LICENSE IN LICENSE",
+  "main": "index.js",
+  "module": "esm/index.js",
+  "types": "index.d.ts",
+  "publishConfig": {
+    "access": "public",
+    "directory": "dist"
+  },
+  "scripts": {
+    "copy": "copyfiles -f LICENSE-Apache LICENSE-MIT README.md package.json dist",
+    "clean": "del dist/**",
+    "prepare": "npm run build",
+    "codegen": "ts-node ./scripts/build.ts",
+    "build": "npm run clean; tsc; tsc -p tsconfig.esm.json; npm run copy",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:ast": "ts-node scripts/test-ast.ts",
+    "dev": "ts-node src/ts-codegen",
+    "file": "ts-node src/file"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cosmwasm/ts-codegen"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/cosmwasm/ts-codegen/issues"
+  },
+  "dependencies": {
+    "@babel/types": "7.18.10",
+    "@cosmology/ts-codegen-types": "0.26.4",
+    "ast-stringify": "0.1.0",
+    "case": "1.6.3",
+    "deepmerge": "4.2.2"
+  }
+}

@@ -1,4 +1,4 @@
-export const clean = (obj) => {
+export const clean = (obj: any): any => {
     var copy;
     // Handle the 3 simple types, and null or undefined
     if (null == obj || 'object' != typeof obj) return obj;
@@ -32,9 +32,11 @@ export const clean = (obj) => {
                     case 'end':
                         break;
                     default:
+                        // @ts-ignore
                         copy[attr] = clean(obj[attr]);
                 }
             } else {
+                // @ts-ignore
                 copy[attr] = clean(obj[attr]);
             }
         }

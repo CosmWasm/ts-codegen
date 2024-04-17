@@ -3,28 +3,28 @@
 exports[`options tsClient.enabled 1`] = `
 TSBuilder {
   "builderContext": BuilderContext {
-    "providers": Object {},
+    "providers": {},
   },
-  "files": Array [],
-  "options": Object {
-    "bundle": Object {
+  "files": [],
+  "options": {
+    "bundle": {
       "bundleFile": "bundle.ts",
       "enabled": true,
       "scope": "contracts",
     },
-    "client": Object {
+    "client": {
       "enabled": true,
       "execExtendsQuery": true,
       "noImplicitOverride": false,
     },
     "enabled": true,
-    "messageBuilder": Object {
+    "messageBuilder": {
       "enabled": false,
     },
-    "messageComposer": Object {
+    "messageComposer": {
       "enabled": false,
     },
-    "reactQuery": Object {
+    "reactQuery": {
       "camelize": true,
       "enabled": true,
       "mutations": false,
@@ -32,37 +32,38 @@ TSBuilder {
       "queryKeys": false,
       "version": "v4",
     },
-    "recoil": Object {
+    "recoil": {
       "enabled": false,
     },
-    "types": Object {
+    "types": {
       "aliasExecuteMsg": false,
       "enabled": true,
+      "itemsUseTuples": false,
     },
     "useShorthandCtor": true,
   },
-  "plugins": Array [
+  "plugins": [
     TypesPlugin {
       "builder": [Circular],
-      "option": Object {
-        "bundle": Object {
+      "option": {
+        "bundle": {
           "bundleFile": "bundle.ts",
           "enabled": true,
           "scope": "contracts",
         },
-        "client": Object {
+        "client": {
           "enabled": true,
           "execExtendsQuery": true,
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageBuilder": Object {
+        "messageBuilder": {
           "enabled": false,
         },
-        "messageComposer": Object {
+        "messageComposer": {
           "enabled": false,
         },
-        "reactQuery": Object {
+        "reactQuery": {
           "camelize": true,
           "enabled": true,
           "mutations": false,
@@ -70,12 +71,13 @@ TSBuilder {
           "queryKeys": false,
           "version": "v4",
         },
-        "recoil": Object {
+        "recoil": {
           "enabled": false,
         },
-        "types": Object {
+        "types": {
           "aliasExecuteMsg": false,
           "enabled": true,
+          "itemsUseTuples": false,
         },
         "useShorthandCtor": true,
       },
@@ -83,25 +85,25 @@ TSBuilder {
     },
     ClientPlugin {
       "builder": [Circular],
-      "option": Object {
-        "bundle": Object {
+      "option": {
+        "bundle": {
           "bundleFile": "bundle.ts",
           "enabled": true,
           "scope": "contracts",
         },
-        "client": Object {
+        "client": {
           "enabled": true,
           "execExtendsQuery": true,
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageBuilder": Object {
+        "messageBuilder": {
           "enabled": false,
         },
-        "messageComposer": Object {
+        "messageComposer": {
           "enabled": false,
         },
-        "reactQuery": Object {
+        "reactQuery": {
           "camelize": true,
           "enabled": true,
           "mutations": false,
@@ -109,12 +111,13 @@ TSBuilder {
           "queryKeys": false,
           "version": "v4",
         },
-        "recoil": Object {
+        "recoil": {
           "enabled": false,
         },
-        "types": Object {
+        "types": {
           "aliasExecuteMsg": false,
           "enabled": true,
+          "itemsUseTuples": false,
         },
         "useShorthandCtor": true,
       },
@@ -122,25 +125,25 @@ TSBuilder {
     },
     MessageComposerPlugin {
       "builder": [Circular],
-      "option": Object {
-        "bundle": Object {
+      "option": {
+        "bundle": {
           "bundleFile": "bundle.ts",
           "enabled": true,
           "scope": "contracts",
         },
-        "client": Object {
+        "client": {
           "enabled": true,
           "execExtendsQuery": true,
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageBuilder": Object {
+        "messageBuilder": {
           "enabled": false,
         },
-        "messageComposer": Object {
+        "messageComposer": {
           "enabled": false,
         },
-        "reactQuery": Object {
+        "reactQuery": {
           "camelize": true,
           "enabled": true,
           "mutations": false,
@@ -148,12 +151,13 @@ TSBuilder {
           "queryKeys": false,
           "version": "v4",
         },
-        "recoil": Object {
+        "recoil": {
           "enabled": false,
         },
-        "types": Object {
+        "types": {
           "aliasExecuteMsg": false,
           "enabled": true,
+          "itemsUseTuples": false,
         },
         "useShorthandCtor": true,
       },
@@ -161,25 +165,25 @@ TSBuilder {
     },
     ReactQueryPlugin {
       "builder": [Circular],
-      "option": Object {
-        "bundle": Object {
+      "option": {
+        "bundle": {
           "bundleFile": "bundle.ts",
           "enabled": true,
           "scope": "contracts",
         },
-        "client": Object {
+        "client": {
           "enabled": true,
           "execExtendsQuery": true,
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageBuilder": Object {
+        "messageBuilder": {
           "enabled": false,
         },
-        "messageComposer": Object {
+        "messageComposer": {
           "enabled": false,
         },
-        "reactQuery": Object {
+        "reactQuery": {
           "camelize": true,
           "enabled": true,
           "mutations": false,
@@ -187,12 +191,13 @@ TSBuilder {
           "queryKeys": false,
           "version": "v4",
         },
-        "recoil": Object {
+        "recoil": {
           "enabled": false,
         },
-        "types": Object {
+        "types": {
           "aliasExecuteMsg": false,
           "enabled": true,
+          "itemsUseTuples": false,
         },
         "useShorthandCtor": true,
       },
@@ -200,25 +205,25 @@ TSBuilder {
     },
     RecoilPlugin {
       "builder": [Circular],
-      "option": Object {
-        "bundle": Object {
+      "option": {
+        "bundle": {
           "bundleFile": "bundle.ts",
           "enabled": true,
           "scope": "contracts",
         },
-        "client": Object {
+        "client": {
           "enabled": true,
           "execExtendsQuery": true,
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageBuilder": Object {
+        "messageBuilder": {
           "enabled": false,
         },
-        "messageComposer": Object {
+        "messageComposer": {
           "enabled": false,
         },
-        "reactQuery": Object {
+        "reactQuery": {
           "camelize": true,
           "enabled": true,
           "mutations": false,
@@ -226,40 +231,41 @@ TSBuilder {
           "queryKeys": false,
           "version": "v4",
         },
-        "recoil": Object {
+        "recoil": {
           "enabled": false,
         },
-        "types": Object {
+        "types": {
           "aliasExecuteMsg": false,
           "enabled": true,
+          "itemsUseTuples": false,
         },
         "useShorthandCtor": true,
       },
-      "utils": Object {
+      "utils": {
         "selectorFamily": "recoil",
       },
     },
     MessageBuilderPlugin {
       "builder": [Circular],
-      "option": Object {
-        "bundle": Object {
+      "option": {
+        "bundle": {
           "bundleFile": "bundle.ts",
           "enabled": true,
           "scope": "contracts",
         },
-        "client": Object {
+        "client": {
           "enabled": true,
           "execExtendsQuery": true,
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageBuilder": Object {
+        "messageBuilder": {
           "enabled": false,
         },
-        "messageComposer": Object {
+        "messageComposer": {
           "enabled": false,
         },
-        "reactQuery": Object {
+        "reactQuery": {
           "camelize": true,
           "enabled": true,
           "mutations": false,
@@ -267,12 +273,13 @@ TSBuilder {
           "queryKeys": false,
           "version": "v4",
         },
-        "recoil": Object {
+        "recoil": {
           "enabled": false,
         },
-        "types": Object {
+        "types": {
           "aliasExecuteMsg": false,
           "enabled": true,
+          "itemsUseTuples": false,
         },
         "useShorthandCtor": true,
       },
@@ -280,25 +287,25 @@ TSBuilder {
     },
     ContractsContextProviderPlugin {
       "builder": [Circular],
-      "option": Object {
-        "bundle": Object {
+      "option": {
+        "bundle": {
           "bundleFile": "bundle.ts",
           "enabled": true,
           "scope": "contracts",
         },
-        "client": Object {
+        "client": {
           "enabled": true,
           "execExtendsQuery": true,
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageBuilder": Object {
+        "messageBuilder": {
           "enabled": false,
         },
-        "messageComposer": Object {
+        "messageComposer": {
           "enabled": false,
         },
-        "reactQuery": Object {
+        "reactQuery": {
           "camelize": true,
           "enabled": true,
           "mutations": false,
@@ -306,16 +313,17 @@ TSBuilder {
           "queryKeys": false,
           "version": "v4",
         },
-        "recoil": Object {
+        "recoil": {
           "enabled": false,
         },
-        "types": Object {
+        "types": {
           "aliasExecuteMsg": false,
           "enabled": true,
+          "itemsUseTuples": false,
         },
         "useShorthandCtor": true,
       },
-      "utils": Object {
+      "utils": {
         "ContractBase": "__contractContextBase__",
         "IContractConstructor": "__contractContextBase__",
         "IEmptyClient": "__contractContextBase__",
@@ -328,28 +336,28 @@ TSBuilder {
 exports[`options undefined 1`] = `
 TSBuilder {
   "builderContext": BuilderContext {
-    "providers": Object {},
+    "providers": {},
   },
-  "files": Array [],
-  "options": Object {
-    "bundle": Object {
+  "files": [],
+  "options": {
+    "bundle": {
       "bundleFile": "bundle.ts",
       "enabled": true,
       "scope": "contracts",
     },
-    "client": Object {
+    "client": {
       "enabled": true,
       "execExtendsQuery": true,
       "noImplicitOverride": false,
     },
     "enabled": true,
-    "messageBuilder": Object {
+    "messageBuilder": {
       "enabled": false,
     },
-    "messageComposer": Object {
+    "messageComposer": {
       "enabled": false,
     },
-    "reactQuery": Object {
+    "reactQuery": {
       "camelize": true,
       "enabled": false,
       "mutations": false,
@@ -357,37 +365,38 @@ TSBuilder {
       "queryKeys": false,
       "version": "v4",
     },
-    "recoil": Object {
+    "recoil": {
       "enabled": false,
     },
-    "types": Object {
+    "types": {
       "aliasExecuteMsg": false,
       "enabled": true,
+      "itemsUseTuples": false,
     },
     "useShorthandCtor": true,
   },
-  "plugins": Array [
+  "plugins": [
     TypesPlugin {
       "builder": [Circular],
-      "option": Object {
-        "bundle": Object {
+      "option": {
+        "bundle": {
           "bundleFile": "bundle.ts",
           "enabled": true,
           "scope": "contracts",
         },
-        "client": Object {
+        "client": {
           "enabled": true,
           "execExtendsQuery": true,
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageBuilder": Object {
+        "messageBuilder": {
           "enabled": false,
         },
-        "messageComposer": Object {
+        "messageComposer": {
           "enabled": false,
         },
-        "reactQuery": Object {
+        "reactQuery": {
           "camelize": true,
           "enabled": false,
           "mutations": false,
@@ -395,12 +404,13 @@ TSBuilder {
           "queryKeys": false,
           "version": "v4",
         },
-        "recoil": Object {
+        "recoil": {
           "enabled": false,
         },
-        "types": Object {
+        "types": {
           "aliasExecuteMsg": false,
           "enabled": true,
+          "itemsUseTuples": false,
         },
         "useShorthandCtor": true,
       },
@@ -408,25 +418,25 @@ TSBuilder {
     },
     ClientPlugin {
       "builder": [Circular],
-      "option": Object {
-        "bundle": Object {
+      "option": {
+        "bundle": {
           "bundleFile": "bundle.ts",
           "enabled": true,
           "scope": "contracts",
         },
-        "client": Object {
+        "client": {
           "enabled": true,
           "execExtendsQuery": true,
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageBuilder": Object {
+        "messageBuilder": {
           "enabled": false,
         },
-        "messageComposer": Object {
+        "messageComposer": {
           "enabled": false,
         },
-        "reactQuery": Object {
+        "reactQuery": {
           "camelize": true,
           "enabled": false,
           "mutations": false,
@@ -434,12 +444,13 @@ TSBuilder {
           "queryKeys": false,
           "version": "v4",
         },
-        "recoil": Object {
+        "recoil": {
           "enabled": false,
         },
-        "types": Object {
+        "types": {
           "aliasExecuteMsg": false,
           "enabled": true,
+          "itemsUseTuples": false,
         },
         "useShorthandCtor": true,
       },
@@ -447,25 +458,25 @@ TSBuilder {
     },
     MessageComposerPlugin {
       "builder": [Circular],
-      "option": Object {
-        "bundle": Object {
+      "option": {
+        "bundle": {
           "bundleFile": "bundle.ts",
           "enabled": true,
           "scope": "contracts",
         },
-        "client": Object {
+        "client": {
           "enabled": true,
           "execExtendsQuery": true,
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageBuilder": Object {
+        "messageBuilder": {
           "enabled": false,
         },
-        "messageComposer": Object {
+        "messageComposer": {
           "enabled": false,
         },
-        "reactQuery": Object {
+        "reactQuery": {
           "camelize": true,
           "enabled": false,
           "mutations": false,
@@ -473,12 +484,13 @@ TSBuilder {
           "queryKeys": false,
           "version": "v4",
         },
-        "recoil": Object {
+        "recoil": {
           "enabled": false,
         },
-        "types": Object {
+        "types": {
           "aliasExecuteMsg": false,
           "enabled": true,
+          "itemsUseTuples": false,
         },
         "useShorthandCtor": true,
       },
@@ -486,25 +498,25 @@ TSBuilder {
     },
     ReactQueryPlugin {
       "builder": [Circular],
-      "option": Object {
-        "bundle": Object {
+      "option": {
+        "bundle": {
           "bundleFile": "bundle.ts",
           "enabled": true,
           "scope": "contracts",
         },
-        "client": Object {
+        "client": {
           "enabled": true,
           "execExtendsQuery": true,
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageBuilder": Object {
+        "messageBuilder": {
           "enabled": false,
         },
-        "messageComposer": Object {
+        "messageComposer": {
           "enabled": false,
         },
-        "reactQuery": Object {
+        "reactQuery": {
           "camelize": true,
           "enabled": false,
           "mutations": false,
@@ -512,12 +524,13 @@ TSBuilder {
           "queryKeys": false,
           "version": "v4",
         },
-        "recoil": Object {
+        "recoil": {
           "enabled": false,
         },
-        "types": Object {
+        "types": {
           "aliasExecuteMsg": false,
           "enabled": true,
+          "itemsUseTuples": false,
         },
         "useShorthandCtor": true,
       },
@@ -525,25 +538,25 @@ TSBuilder {
     },
     RecoilPlugin {
       "builder": [Circular],
-      "option": Object {
-        "bundle": Object {
+      "option": {
+        "bundle": {
           "bundleFile": "bundle.ts",
           "enabled": true,
           "scope": "contracts",
         },
-        "client": Object {
+        "client": {
           "enabled": true,
           "execExtendsQuery": true,
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageBuilder": Object {
+        "messageBuilder": {
           "enabled": false,
         },
-        "messageComposer": Object {
+        "messageComposer": {
           "enabled": false,
         },
-        "reactQuery": Object {
+        "reactQuery": {
           "camelize": true,
           "enabled": false,
           "mutations": false,
@@ -551,40 +564,41 @@ TSBuilder {
           "queryKeys": false,
           "version": "v4",
         },
-        "recoil": Object {
+        "recoil": {
           "enabled": false,
         },
-        "types": Object {
+        "types": {
           "aliasExecuteMsg": false,
           "enabled": true,
+          "itemsUseTuples": false,
         },
         "useShorthandCtor": true,
       },
-      "utils": Object {
+      "utils": {
         "selectorFamily": "recoil",
       },
     },
     MessageBuilderPlugin {
       "builder": [Circular],
-      "option": Object {
-        "bundle": Object {
+      "option": {
+        "bundle": {
           "bundleFile": "bundle.ts",
           "enabled": true,
           "scope": "contracts",
         },
-        "client": Object {
+        "client": {
           "enabled": true,
           "execExtendsQuery": true,
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageBuilder": Object {
+        "messageBuilder": {
           "enabled": false,
         },
-        "messageComposer": Object {
+        "messageComposer": {
           "enabled": false,
         },
-        "reactQuery": Object {
+        "reactQuery": {
           "camelize": true,
           "enabled": false,
           "mutations": false,
@@ -592,12 +606,13 @@ TSBuilder {
           "queryKeys": false,
           "version": "v4",
         },
-        "recoil": Object {
+        "recoil": {
           "enabled": false,
         },
-        "types": Object {
+        "types": {
           "aliasExecuteMsg": false,
           "enabled": true,
+          "itemsUseTuples": false,
         },
         "useShorthandCtor": true,
       },
@@ -605,25 +620,25 @@ TSBuilder {
     },
     ContractsContextProviderPlugin {
       "builder": [Circular],
-      "option": Object {
-        "bundle": Object {
+      "option": {
+        "bundle": {
           "bundleFile": "bundle.ts",
           "enabled": true,
           "scope": "contracts",
         },
-        "client": Object {
+        "client": {
           "enabled": true,
           "execExtendsQuery": true,
           "noImplicitOverride": false,
         },
         "enabled": true,
-        "messageBuilder": Object {
+        "messageBuilder": {
           "enabled": false,
         },
-        "messageComposer": Object {
+        "messageComposer": {
           "enabled": false,
         },
-        "reactQuery": Object {
+        "reactQuery": {
           "camelize": true,
           "enabled": false,
           "mutations": false,
@@ -631,16 +646,17 @@ TSBuilder {
           "queryKeys": false,
           "version": "v4",
         },
-        "recoil": Object {
+        "recoil": {
           "enabled": false,
         },
-        "types": Object {
+        "types": {
           "aliasExecuteMsg": false,
           "enabled": true,
+          "itemsUseTuples": false,
         },
         "useShorthandCtor": true,
       },
-      "utils": Object {
+      "utils": {
         "ContractBase": "__contractContextBase__",
         "IContractConstructor": "__contractContextBase__",
         "IEmptyClient": "__contractContextBase__",

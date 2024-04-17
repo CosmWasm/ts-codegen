@@ -1,6 +1,6 @@
 import { pascal } from "case";
 
-const cleanFor = (str) => {
+const cleanFor = (str: string) => {
     /*
         1. look at first char after _for_
         2. ONLY if you find capitals after, modify it
@@ -13,7 +13,7 @@ const cleanFor = (str) => {
     return str;
 };
 
-const cleanNullable = (str) => {
+const cleanNullable = (str: string) => {
     if (/^Nullable_/.test(str)) {
         str = str.replace(/^Nullable_/, 'Nullable');
     }
@@ -21,7 +21,7 @@ const cleanNullable = (str) => {
     return str;
 };
 
-export const cleanse = (obj) => {
+export const cleanse = (obj: any): any => {
     var copy;
     // Handle the 3 simple types, and null or undefined
     if (null == obj || 'object' != typeof obj) return obj;
@@ -58,27 +58,33 @@ export const cleanse = (obj) => {
             if (obj.hasOwnProperty(attr)) {
 
                 if (/_for_/.test(attr)) {
+                    // @ts-ignore
                     copy[cleanFor(attr)] = cleanse(obj[attr]);
                 } else if (/^Nullable_/.test(attr)) {
+                    // @ts-ignore
                     copy[cleanNullable(attr)] = cleanse(obj[attr]);
                 } else {
                     switch (attr) {
                         case 'title':
                         case '$ref':
                             if (typeof obj[attr] === 'string') {
+                                // @ts-ignore
                                 copy[attr] = cleanse(
                                     cleanNullable(cleanFor(obj[attr]))
                                 );
                             } else {
+                                // @ts-ignore
                                 copy[attr] = cleanse(obj[attr]);
                             }
                             break;
                         default:
+                            // @ts-ignore
                             copy[attr] = cleanse(obj[attr]);
                     }
                 }
 
             } else {
+                // @ts-ignore
                 copy[attr] = cleanse(obj[attr]);
             }
         }

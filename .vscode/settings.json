@@ -1,16 +1,16 @@
 {
+  "editor.defaultFormatter": "vscode.typescript-language-features",
   "editor.formatOnSave": true,
-  "[javascriptreact]": {
-      "editor.formatOnSave": false
-  },
-  "[javascript]": {
-      "editor.formatOnSave": false
-  },
   "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": true
+    "source.fixAll.eslint": "explicit"
   },
   "eslint.validate": [
-      "javascript",
-      "javascriptreact"
-  ]
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "eslint.format.enable": false,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "editor.tabSize": 2
 }

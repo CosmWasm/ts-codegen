@@ -2,14 +2,21 @@ import generate from '@babel/generator';
 import cases from 'jest-in-case'
 import * as t from '@babel/types';
 import {
+    BundleData,
     recursiveModuleBundle
 } from '../src/bundler';
 
-const preview = (ast) => {
+const preview = (ast: any) => {
+    // @ts-ignore
     return generate(t.program(ast)).code;
 }
 
-cases(`recursiveModuleBundle`, opts => {
+interface JestBundleData {
+    name: string;
+    data: BundleData
+}
+
+cases(`recursiveModuleBundle`, (opts: JestBundleData) => {
     expect(preview(recursiveModuleBundle(opts.data))).toMatchSnapshot();
 }, [
     {

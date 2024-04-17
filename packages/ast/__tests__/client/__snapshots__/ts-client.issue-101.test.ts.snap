@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute interfaces no extends 1`] = `
+"export interface OwnershipInstance {
+  contractAddress: string;
+  sender: string;
+  setFactory: ({
+    newFactory
+  }: {
+    newFactory: string;
+  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  updateOwnership: (action: Action, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+}"
+`;
+
+exports[`ownership client with tuple 1`] = `
+"export class OwnershipClient implements OwnershipInstance {
+  client: SigningCosmWasmClient;
+  sender: string;
+  contractAddress: string;
+  constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
+    this.client = client;
+    this.sender = sender;
+    this.contractAddress = contractAddress;
+    this.setFactory = this.setFactory.bind(this);
+    this.updateOwnership = this.updateOwnership.bind(this);
+  }
+  setFactory = async ({
+    newFactory
+  }: {
+    newFactory: string;
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+    return await this.client.execute(this.sender, this.contractAddress, {
+      set_factory: {
+        new_factory: newFactory
+      }
+    }, fee, memo, _funds);
+  };
+  updateOwnership = async (action: Action, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+    return await this.client.execute(this.sender, this.contractAddress, {
+      update_ownership: action
+    }, fee, memo, _funds);
+  };
+}"
+`;

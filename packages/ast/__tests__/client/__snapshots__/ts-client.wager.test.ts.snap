@@ -1,0 +1,128 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute 1`] = `"export type ExecuteMsg = ExecuteMsg;"`;
+
+exports[`execute classes 1`] = `
+"export class WagerClient implements WagerInstance {
+  client: SigningCosmWasmClient;
+  sender: string;
+  contractAddress: string;
+  constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
+    this.client = client;
+    this.sender = sender;
+    this.contractAddress = contractAddress;
+    this.updateConfig = this.updateConfig.bind(this);
+    this.setWinner = this.setWinner.bind(this);
+    this.wager = this.wager.bind(this);
+    this.cancel = this.cancel.bind(this);
+  }
+  updateConfig = async ({
+    params
+  }: {
+    params: ParamInfo;
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+    return await this.client.execute(this.sender, this.contractAddress, {
+      update_config: {
+        params
+      }
+    }, fee, memo, _funds);
+  };
+  setWinner = async ({
+    currentPrices,
+    prevPrices,
+    wagerKey
+  }: {
+    currentPrices: number[][];
+    prevPrices: number[][];
+    wagerKey: Addr[][];
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+    return await this.client.execute(this.sender, this.contractAddress, {
+      set_winner: {
+        current_prices: currentPrices,
+        prev_prices: prevPrices,
+        wager_key: wagerKey
+      }
+    }, fee, memo, _funds);
+  };
+  wager = async ({
+    againstCurrencies,
+    currency,
+    expiry,
+    token
+  }: {
+    againstCurrencies: Currency[];
+    currency: Currency;
+    expiry: number;
+    token: Addr[][];
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+    return await this.client.execute(this.sender, this.contractAddress, {
+      wager: {
+        against_currencies: againstCurrencies,
+        currency,
+        expiry,
+        token
+      }
+    }, fee, memo, _funds);
+  };
+  cancel = async ({
+    token
+  }: {
+    token: Addr[][];
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+    return await this.client.execute(this.sender, this.contractAddress, {
+      cancel: {
+        token
+      }
+    }, fee, memo, _funds);
+  };
+}"
+`;
+
+exports[`query 1`] = `"export type QueryMsg = QueryMsg;"`;
+
+exports[`query classes 1`] = `
+"export class WagerQueryClient implements WagerReadOnlyInstance {
+  client: CosmWasmClient;
+  contractAddress: string;
+  constructor(client: CosmWasmClient, contractAddress: string) {
+    this.client = client;
+    this.contractAddress = contractAddress;
+    this.wagers = this.wagers.bind(this);
+    this.wager = this.wager.bind(this);
+    this.tokenStatus = this.tokenStatus.bind(this);
+    this.config = this.config.bind(this);
+  }
+  wagers = async (): Promise<WagersResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      wagers: {}
+    });
+  };
+  wager = async ({
+    token
+  }: {
+    token: Addr[][];
+  }): Promise<WagerResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      wager: {
+        token
+      }
+    });
+  };
+  tokenStatus = async ({
+    token
+  }: {
+    token: Addr[][];
+  }): Promise<TokenStatusResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      token_status: {
+        token
+      }
+    });
+  };
+  config = async (): Promise<ConfigResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      config: {}
+    });
+  };
+}"
+`;

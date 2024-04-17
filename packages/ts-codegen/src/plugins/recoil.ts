@@ -10,6 +10,7 @@ import {
 } from 'wasm-ast-types';
 import { BuilderFileType } from '../builder';
 import { BuilderPluginBase } from './plugin-base';
+import { JSONSchema } from '@pyramation/json-schema-to-typescript';
 
 export class RecoilPlugin extends BuilderPluginBase<RenderOptions> {
   utils: UtilMapping = {
@@ -67,10 +68,9 @@ export class RecoilPlugin extends BuilderPluginBase<RenderOptions> {
       body.push(w.createRecoilQueryClientType());
       body.push(w.createRecoilQueryClient(context, name, QueryClient));
 
-      [].push.apply(
-        body,
-        w.createRecoilSelectors(context, name, QueryClient, QueryMsg)
-      );
+      const selectors = w.createRecoilSelectors(context, name, QueryClient, QueryMsg);
+
+      body.push(...selectors);
     }
 
     if (typeHash.hasOwnProperty('Coin')) {

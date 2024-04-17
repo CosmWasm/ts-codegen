@@ -4,10 +4,10 @@ import { ContractInfo, RenderContextBase, RenderContext } from "wasm-ast-types";
 import { BuilderFileType, TSBuilderOptions } from "../builder";
 import { BuilderPluginBase } from "./plugin-base";
 
-export const GetLocalNameByContractName = (name) =>
+export const GetLocalNameByContractName = (name: string) =>
   `${pascal(name)}.provider.ts`;
 
-export const GetLocalBaseNameByContractName = (name) =>
+export const GetLocalBaseNameByContractName = (name: string) =>
   `${pascal(name)}.provider`;
 
 export class ContractsContextProviderPlugin extends BuilderPluginBase<TSBuilderOptions> {

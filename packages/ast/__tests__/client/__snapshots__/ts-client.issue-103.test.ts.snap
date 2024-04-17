@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute execute classes array types 1`] = `
+"export class Client implements Instance {
+  client: SigningCosmWasmClient;
+  sender: string;
+  contractAddress: string;
+  constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
+    this.client = client;
+    this.sender = sender;
+    this.contractAddress = contractAddress;
+  }
+}"
+`;
+
+exports[`execute execute interfaces no extends 1`] = `
+"export interface SG721Instance {
+  contractAddress: string;
+  sender: string;
+}"
+`;
+
+exports[`execute execute_msg_for__empty 1`] = `"export type ExecuteMsg = ExecuteMsg;"`;
+
+exports[`execute query classes 1`] = `
+"export class QueryClient implements ReadOnlyInstance {
+  client: CosmWasmClient;
+  contractAddress: string;
+  constructor(client: CosmWasmClient, contractAddress: string) {
+    this.client = client;
+    this.contractAddress = contractAddress;
+  }
+}"
+`;
+
+exports[`execute query classes response 1`] = `"export type QueryMsg = QueryMsg;"`;
+
+exports[`query execute classes array types 1`] = `
+"export class Client implements Instance {
+  client: SigningCosmWasmClient;
+  sender: string;
+  contractAddress: string;
+  constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
+    this.client = client;
+    this.sender = sender;
+    this.contractAddress = contractAddress;
+  }
+}"
+`;
+
+exports[`query execute interfaces no extends 1`] = `
+"export interface SG721Instance {
+  contractAddress: string;
+  sender: string;
+}"
+`;
+
+exports[`query execute_msg_for__empty 1`] = `"export type QueryMsg = QueryMsg;"`;
+
+exports[`query query classes 1`] = `
+"export class QueryClient implements ReadOnlyInstance {
+  client: CosmWasmClient;
+  contractAddress: string;
+  constructor(client: CosmWasmClient, contractAddress: string) {
+    this.client = client;
+    this.contractAddress = contractAddress;
+  }
+}"
+`;
+
+exports[`query query classes response 1`] = `"export type QueryMsg = QueryMsg;"`;

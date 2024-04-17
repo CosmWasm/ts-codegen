@@ -7,20 +7,21 @@ import { prompt } from '../utils/prompt';
 import { parse } from 'parse-package-name';
 import { tmpdir } from 'os';
 import { readFileSync, writeFileSync } from 'fs';
+import { MinimistArgs } from '@cosmology/ts-codegen-types';
 
 const TMPDIR = tmpdir();
 const rnd = () =>
     Math.random().toString(36).substring(2, 15) +
     Math.random().toString(36).substring(2, 15);
 
-const getPackages = (names) => {
+const getPackages = (names: string[]) => {
     return names.map(pkg => {
         const { name, version } = parse(pkg);
         return `${name}@${version}`
     }).join(' ');
 };
 
-export default async (argv) => {
+export default async (argv: MinimistArgs) => {
 
     // don't prompt if we got this...
     if (argv._.length) {
