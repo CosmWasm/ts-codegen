@@ -182,7 +182,7 @@ Generate pure message objects with the proper `utf8` encoding and `typeUrl` conf
 
 Generate raw message jsons for use in your application with the `message-builder` command.
 
-[see example output code](https://gist.github.com/adairrr/b394e62beb9856b0351883f776650f26)
+[see example output code](https://github.com/CosmWasm/ts-codegen/blob/main/__output__/sg721/Sg721.message-builder.ts)
 
 #### Message Builder Options
 
