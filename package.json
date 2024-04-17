@@ -8,7 +8,7 @@
   "scripts": {
     "clean": "lerna run clean",
     "build": "lerna run build",
-    "symlink": "symlink-workspace --logLevel info",
+    "symlink": "symlink-workspace --logLevel error",
     "postinstall": "yarn symlink"
   },
   "devDependencies": {
