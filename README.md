@@ -40,7 +40,6 @@ The quickest and easiest way to interact with CosmWasm Contracts. `@cosmwasm/ts-
     - [Bundles](#bundles)
     - [CLI Usage and Examples](#cli-usage-and-examples)
     - [Advanced Usage](#advanced-usage)
-- [Example Output](#example-output)
 - [JSON Schema](#json-schema)
     - [JSON Schema Generation](#json-schema-generation)
     - [Exporting Schemas](#exporting-schemas)
