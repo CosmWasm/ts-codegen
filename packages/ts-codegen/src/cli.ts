@@ -1,5 +1,6 @@
 import { prompt } from './utils/prompt';
 import { Commands as commands } from './cmds';
+import { MinimistArgs } from '@cosmology/ts-codegen-types';
 
 const question = [
   {
@@ -11,7 +12,7 @@ const question = [
   }
 ];
 
-export const cli = async (argv) => {
+export const cli = async (argv: MinimistArgs) => {
   var { cmd } = await prompt(question, argv);
   if (typeof commands[cmd] === 'function') {
     await commands[cmd](argv);

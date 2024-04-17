@@ -4,7 +4,13 @@ const glob = require('glob').sync;
 const Case = require('case');
 const srcDir = path.resolve(`${__dirname}/../src/commands`);
 
-const paths = glob(`${srcDir}/**.[j|t]s`).map((file) => {
+interface PathObj {
+  name: string;
+  param: string;
+  safe: string;
+  path: string
+}
+const paths: PathObj[] = glob(`${srcDir}/**.[j|t]s`).map((file: string) => {
   const [, name] = file.match(/\/(.*)\.[j|t]s$/);
   return {
     name: path.basename(name),
@@ -25,7 +31,7 @@ const imports = paths
 
 const out = `
 ${imports}
-const Commands = {};
+const Commands: any = {};
 ${paths
     .map((a) => {
       return `Commands['${a.param}'] = _${a.safe};`;
