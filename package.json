@@ -8,6 +8,7 @@
   "scripts": {
     "clean": "lerna run clean",
     "build": "lerna run build",
+    "test": "lerna run test --scope \"@cosmwasm/ts-codegen\" --scope \"wasm-ast-types\"",
     "symlink": "symlink-workspace --logLevel error",
     "postinstall": "yarn symlink"
   },

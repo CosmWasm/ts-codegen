@@ -1,10 +1,5 @@
 import { readSchemas } from '../src/utils';
-import generateTypes from '../src/generators/types';
-import generateClient from '../src/generators/client';
-import generateMessageComposer from '../src/generators/message-composer';
-import generateMessageBuilder from '../src/generators/message-builder';
-import generateReactQuery from '../src/generators/react-query';
-import generateRecoil from '../src/generators/recoil';
+import { generateReactQuery, generateClient, generateMessageComposer, generateMessageBuilder, generateRecoil, generateTypes } from '../test-utils';
 
 const FIXTURE_DIR = __dirname + '/../../../__fixtures__';
 const OUTPUT_DIR = __dirname + '/../../../__output__';
