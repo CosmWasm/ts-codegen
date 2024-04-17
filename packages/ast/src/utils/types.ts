@@ -42,7 +42,6 @@ export const getTypeOrRef = (obj: JSONSchema): t.TSType => {
     return getType(obj.type);
   } else if (Array.isArray(obj.type)) {
     // Handle array of types by creating a union type
-    console.log(obj.type);
     const types = obj.type.map(t => getType(t));
     return t.tsUnionType(types);
   } else {
@@ -143,7 +142,6 @@ export const getTypeInfo = (
     }
     optional = true;
   } else if (typeof info.type === 'string') {
-    console.log('is string')
     // Process type when it's explicitly defined
     if (info.type === 'array') {
       if (typeof info.items === 'object' && !Array.isArray(info.items)) {
@@ -170,7 +168,6 @@ export const getTypeInfo = (
       optional = detect.optional;
     }
   } else if (Array.isArray(info.type)) {
-    console.log('is arr', info.type)
     // Handle multiple types, typically nullable types
     if (info.type.length !== 2) {
       throw new Error('please report this to maintainers (field type): ' + JSON.stringify(info, null, 2));
@@ -184,7 +181,6 @@ export const getTypeInfo = (
       if (info.items.type) {
         const detect = detectType(info.items.type);
         if (detect.type === 'array') {
-          console.log('items type')
           type = t.tsArrayType(getArrayTypeFromItems(context, info.items));
         } else {
           type = t.tsArrayType(getType(detect.type));
@@ -209,8 +205,6 @@ export const getTypeInfo = (
 
     optional = true;  // Ensure optional is set for nullable types
   }
-  console.log({ type })
-
   return {
     type,
     optional
@@ -258,7 +252,6 @@ export const getPropertyType = (
     optional = typeInfo.optional;
   }
   if (typeof typeInfo.type !== 'undefined') {
-    console.log(JSON.stringify(typeInfo, null, 2))
     type = typeInfo.type;
   }
 
