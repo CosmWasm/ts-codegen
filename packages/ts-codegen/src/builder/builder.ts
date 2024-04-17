@@ -48,10 +48,6 @@ export interface BundleOptions {
     bundlePath?: string;
 };
 
-export interface UseContractsOptions {
-    enabled?: boolean;
-};
-
 export type TSBuilderOptions = {
     bundle?: BundleOptions;
     /**
@@ -59,7 +55,6 @@ export type TSBuilderOptions = {
      * Default: true
      */
     useShorthandCtor?: boolean;
-    useContractHooks?: UseContractsOptions;
 } & RenderOptions;
 
 export type BuilderFileType = 'type' | 'client' | 'recoil' | 'react-query' | 'message-composer' | 'message-builder' | 'plugin';

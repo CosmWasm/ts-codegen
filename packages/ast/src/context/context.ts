@@ -1,64 +1,10 @@
 import * as t from '@babel/types';
-import { JSONSchema, IDLObject } from "@cosmology/ts-codegen-types";
+import { JSONSchema } from "@cosmology/ts-codegen-types";
 import { refLookup } from "../utils";
 import { convertUtilsToImportList, getImportStatements, UtilMapping } from "./imports";
 import deepmerge from "deepmerge";
 import { basename, extname } from 'path'
-
-/// Plugin Types
-export interface ReactQueryOptions {
-  enabled?: boolean;
-  optionalClient?: boolean;
-  version?: 'v3' | 'v4';
-  mutations?: boolean;
-  camelize?: boolean;
-  queryKeys?: boolean
-  queryFactory?: boolean
-}
-
-export interface TSClientOptions {
-  enabled?: boolean;
-  execExtendsQuery?: boolean;
-  noImplicitOverride?: boolean;
-}
-export interface MessageComposerOptions {
-  enabled?: boolean;
-}
-export interface MessageBuilderOptions {
-  enabled?: boolean;
-}
-export interface RecoilOptions {
-  enabled?: boolean;
-}
-export interface TSTypesOptions {
-  enabled?: boolean;
-  itemsUseTuples?: boolean;
-  // deprecated
-  aliasExecuteMsg?: boolean;
-  aliasEntryPoints?: boolean;
-}
-
-/// END Plugin Types
-export interface ContractInfo {
-  schemas: JSONSchema[];
-  responses?: Record<string, JSONSchema>;
-  idlObject?: Partial<IDLObject>;
-};
-export interface RenderOptions {
-  enabled?: boolean;
-  types?: TSTypesOptions;
-  recoil?: RecoilOptions;
-  messageComposer?: MessageComposerOptions;
-  messageBuilder?: MessageBuilderOptions;
-  client?: TSClientOptions;
-  reactQuery?: ReactQueryOptions;
-}
-
-export interface ProviderInfo {
-  classname: string,
-  filename: string,
-  basename: string,
-}
+import { ContractInfo, ProviderInfo, RenderOptions } from '../types';
 
 export interface IContext {
   refLookup($ref: string): JSONSchema;
@@ -106,6 +52,9 @@ export const defaultOptions: RenderOptions = {
     mutations: false,
     camelize: true,
     queryKeys: false
+  },
+  useContractHooks: {
+    enabled: false
   }
 };
 
