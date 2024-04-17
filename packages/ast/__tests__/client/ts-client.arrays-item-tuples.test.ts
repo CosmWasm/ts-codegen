@@ -11,7 +11,6 @@ const ctx = makeContext(queryMsg, {
     itemsUseTuples: true
   }
 });
-console.log(JSON.stringify(ctx, null, 2))
 
 it('query classes', () => {
   expectCode(createQueryClass(
