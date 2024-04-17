@@ -11,8 +11,6 @@ import {
 import { BuilderFileType } from "../builder";
 import { BuilderPluginBase } from "./plugin-base";
 
-export const TYPE = "client";
-
 export class ClientPlugin extends BuilderPluginBase<RenderOptions> {
   initContext(
     contract: ContractInfo,
@@ -115,7 +113,7 @@ export class ClientPlugin extends BuilderPluginBase<RenderOptions> {
 
     return [
       {
-        type: TYPE,
+        type:  "client",
         localname,
         body,
       },

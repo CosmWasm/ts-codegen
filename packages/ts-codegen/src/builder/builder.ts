@@ -22,7 +22,7 @@ import { MessageComposerPlugin } from "../plugins/message-composer";
 import { ClientPlugin } from "../plugins/client";
 import { TypesPlugin } from "../plugins/types";
 import { ContractsContextProviderPlugin } from "../plugins/provider";
-import { createHelpers } from "../generators/create-helpers";
+import { createHelpers } from "../helpers/create-helpers";
 import { ContractsProviderBundlePlugin } from "../plugins/provider-bundle";
 
 const defaultOpts: TSBuilderOptions = {
@@ -107,6 +107,7 @@ export class TSBuilder {
             new RecoilPlugin(this.options),
             new MessageBuilderPlugin(this.options),
             new ContractsContextProviderPlugin(this.options),
+            new ContractsProviderBundlePlugin(this.options)
         );
     }
 
@@ -150,7 +151,7 @@ export class TSBuilder {
     }
 
     private async render(name: string, contractInfo: ContractInfo) {
-        for (const plugin of this.plugins) {
+        for (const plugin of this.plugins.filter(p => !p.lifecycle || p.lifecycle === 'main')) {
             let files = await plugin.render(name, contractInfo, this.outPath);
             if (files && files.length) {
                 this.files.push(...files);
@@ -159,22 +160,14 @@ export class TSBuilder {
     }
 
     private async after() {
-
-        //create useContracts bundle file
-        const contractsProviderBundlePlugin = new ContractsProviderBundlePlugin(this.options);
-        contractsProviderBundlePlugin.setBuilder(this);
-
-        //contractContextProviders.ts
-        const files = await contractsProviderBundlePlugin.render(
-            "contractContextProviders",
-            {
+        for (const plugin of this.plugins.filter(p => p.lifecycle === 'after')) {
+          let files = await plugin.render(plugin.defaultContractName!,
+              {
                 schemas: [],
-            },
-            this.outPath
-        );
-
-        if (files && files.length) {
-            this.files.push(...files);
+              }, this.outPath);
+          if (files && files.length) {
+              this.files.push(...files);
+          }
         }
 
         const helpers = createHelpers({

@@ -12,8 +12,6 @@ import {
 import { BuilderFileType } from "../builder";
 import { BuilderPluginBase } from "./plugin-base";
 
-export const TYPE = "message-composer";
-
 export class MessageComposerPlugin extends BuilderPluginBase<RenderOptions> {
   initContext(
     contract: ContractInfo,
@@ -80,7 +78,7 @@ export class MessageComposerPlugin extends BuilderPluginBase<RenderOptions> {
 
     return [
       {
-        type: TYPE,
+        type: "message-composer",
         localname,
         body,
       },

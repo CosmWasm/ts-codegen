@@ -525,12 +525,18 @@ for lower-level access, you can import the various plugins directly:
 
 ```ts
 import {
-  generateTypes,
-  generateClient,
-  generateReactQuery,
-  generateRecoil,
-  generateMessageComposer
+  TypesPlugin,
+  ReactQueryPlugin,
+  ...
 } from '@cosmwasm/ts-codegen';
+
+// render customized contractInfo into outPath
+await new ReactQueryPlugin(opts ?? {}).render(
+    contractName,
+    contractInfo,
+    outPath
+  );
+
 ```
 
 ### JSON Schema

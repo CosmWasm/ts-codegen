@@ -26,6 +26,13 @@ export interface IBuilderPlugin {
   setBuilder(builder: TSBuilder): void;
 
   /**
+   * prop to indicate to execute the render function in the lifecycle of main process or after
+   */
+  lifecycle?: "main" | "after";
+
+  defaultContractName?: string;
+
+  /**
    * render generated cdoe.
    * @param name the name of contract
    * @param contractInfo contract
@@ -47,6 +54,12 @@ export abstract class BuilderPluginBase<TOpt extends { enabled?: boolean }>
   builder?: TSBuilder;
   option: TOpt;
   utils: UtilMapping;
+    /**
+   * prop to indicate to execute the render function in the lifecycle of main process or after
+   */
+  lifecycle?: "main" | "after";
+
+  defaultContractName?: string;
 
   constructor(opt: TOpt, builder?: TSBuilder) {
     this.option = opt;

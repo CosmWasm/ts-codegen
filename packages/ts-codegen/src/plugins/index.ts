@@ -1,1 +1,7 @@
 export * from "./plugin-base"
+export * from "./client"
+export * from "./react-query"
+export * from "./recoil"
+export * from "./message-builder"
+export * from "./message-composer"
+export * from "./types"

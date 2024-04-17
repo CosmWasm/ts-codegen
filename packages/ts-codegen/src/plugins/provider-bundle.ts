@@ -9,6 +9,10 @@ export class ContractsProviderBundlePlugin extends BuilderPluginBase<TSBuilderOp
   constructor(opt: TSBuilderOptions) {
     super(opt);
 
+    this.lifecycle = "after";
+
+    this.defaultContractName = "contractContextProviders";
+
     this.utils = {
       CosmWasmClient: "@cosmjs/cosmwasm-stargate",
       SigningCosmWasmClient: "@cosmjs/cosmwasm-stargate",

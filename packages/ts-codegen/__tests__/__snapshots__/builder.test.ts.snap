@@ -48,6 +48,8 @@ TSBuilder {
   "plugins": [
     TypesPlugin {
       "builder": [Circular],
+      "defaultContractName": undefined,
+      "lifecycle": undefined,
       "option": {
         "bundle": {
           "bundleFile": "bundle.ts",
@@ -91,6 +93,8 @@ TSBuilder {
     },
     ClientPlugin {
       "builder": [Circular],
+      "defaultContractName": undefined,
+      "lifecycle": undefined,
       "option": {
         "bundle": {
           "bundleFile": "bundle.ts",
@@ -134,6 +138,8 @@ TSBuilder {
     },
     MessageComposerPlugin {
       "builder": [Circular],
+      "defaultContractName": undefined,
+      "lifecycle": undefined,
       "option": {
         "bundle": {
           "bundleFile": "bundle.ts",
@@ -177,6 +183,8 @@ TSBuilder {
     },
     ReactQueryPlugin {
       "builder": [Circular],
+      "defaultContractName": undefined,
+      "lifecycle": undefined,
       "option": {
         "bundle": {
           "bundleFile": "bundle.ts",
@@ -220,6 +228,8 @@ TSBuilder {
     },
     RecoilPlugin {
       "builder": [Circular],
+      "defaultContractName": undefined,
+      "lifecycle": undefined,
       "option": {
         "bundle": {
           "bundleFile": "bundle.ts",
@@ -265,6 +275,8 @@ TSBuilder {
     },
     MessageBuilderPlugin {
       "builder": [Circular],
+      "defaultContractName": undefined,
+      "lifecycle": undefined,
       "option": {
         "bundle": {
           "bundleFile": "bundle.ts",
@@ -308,6 +320,8 @@ TSBuilder {
     },
     ContractsContextProviderPlugin {
       "builder": [Circular],
+      "defaultContractName": undefined,
+      "lifecycle": undefined,
       "option": {
         "bundle": {
           "bundleFile": "bundle.ts",
@@ -351,6 +365,57 @@ TSBuilder {
         "ContractBase": "__contractContextBase__",
         "IContractConstructor": "__contractContextBase__",
         "IEmptyClient": "__contractContextBase__",
+      },
+    },
+    ContractsProviderBundlePlugin {
+      "builder": [Circular],
+      "defaultContractName": "contractContextProviders",
+      "lifecycle": "after",
+      "option": {
+        "bundle": {
+          "bundleFile": "bundle.ts",
+          "enabled": true,
+          "scope": "contracts",
+        },
+        "client": {
+          "enabled": true,
+          "execExtendsQuery": true,
+          "noImplicitOverride": false,
+        },
+        "enabled": true,
+        "messageBuilder": {
+          "enabled": false,
+        },
+        "messageComposer": {
+          "enabled": false,
+        },
+        "reactQuery": {
+          "camelize": true,
+          "enabled": true,
+          "mutations": false,
+          "optionalClient": false,
+          "queryKeys": false,
+          "version": "v4",
+        },
+        "recoil": {
+          "enabled": false,
+        },
+        "types": {
+          "aliasExecuteMsg": false,
+          "enabled": true,
+          "itemsUseTuples": false,
+        },
+        "useContractsHook": {
+          "enabled": false,
+        },
+        "useShorthandCtor": true,
+      },
+      "utils": {
+        "CosmWasmClient": "@cosmjs/cosmwasm-stargate",
+        "IMessageComposerProvider": "__contractContextBase__",
+        "IQueryClientProvider": "__contractContextBase__",
+        "ISigningClientProvider": "__contractContextBase__",
+        "SigningCosmWasmClient": "@cosmjs/cosmwasm-stargate",
       },
     },
   ],
@@ -405,6 +470,8 @@ TSBuilder {
   "plugins": [
     TypesPlugin {
       "builder": [Circular],
+      "defaultContractName": undefined,
+      "lifecycle": undefined,
       "option": {
         "bundle": {
           "bundleFile": "bundle.ts",
@@ -448,6 +515,8 @@ TSBuilder {
     },
     ClientPlugin {
       "builder": [Circular],
+      "defaultContractName": undefined,
+      "lifecycle": undefined,
       "option": {
         "bundle": {
           "bundleFile": "bundle.ts",
@@ -491,6 +560,8 @@ TSBuilder {
     },
     MessageComposerPlugin {
       "builder": [Circular],
+      "defaultContractName": undefined,
+      "lifecycle": undefined,
       "option": {
         "bundle": {
           "bundleFile": "bundle.ts",
@@ -534,6 +605,8 @@ TSBuilder {
     },
     ReactQueryPlugin {
       "builder": [Circular],
+      "defaultContractName": undefined,
+      "lifecycle": undefined,
       "option": {
         "bundle": {
           "bundleFile": "bundle.ts",
@@ -577,6 +650,8 @@ TSBuilder {
     },
     RecoilPlugin {
       "builder": [Circular],
+      "defaultContractName": undefined,
+      "lifecycle": undefined,
       "option": {
         "bundle": {
           "bundleFile": "bundle.ts",
@@ -622,6 +697,8 @@ TSBuilder {
     },
     MessageBuilderPlugin {
       "builder": [Circular],
+      "defaultContractName": undefined,
+      "lifecycle": undefined,
       "option": {
         "bundle": {
           "bundleFile": "bundle.ts",
@@ -665,6 +742,8 @@ TSBuilder {
     },
     ContractsContextProviderPlugin {
       "builder": [Circular],
+      "defaultContractName": undefined,
+      "lifecycle": undefined,
       "option": {
         "bundle": {
           "bundleFile": "bundle.ts",
@@ -708,6 +787,57 @@ TSBuilder {
         "ContractBase": "__contractContextBase__",
         "IContractConstructor": "__contractContextBase__",
         "IEmptyClient": "__contractContextBase__",
+      },
+    },
+    ContractsProviderBundlePlugin {
+      "builder": [Circular],
+      "defaultContractName": "contractContextProviders",
+      "lifecycle": "after",
+      "option": {
+        "bundle": {
+          "bundleFile": "bundle.ts",
+          "enabled": true,
+          "scope": "contracts",
+        },
+        "client": {
+          "enabled": true,
+          "execExtendsQuery": true,
+          "noImplicitOverride": false,
+        },
+        "enabled": true,
+        "messageBuilder": {
+          "enabled": false,
+        },
+        "messageComposer": {
+          "enabled": false,
+        },
+        "reactQuery": {
+          "camelize": true,
+          "enabled": false,
+          "mutations": false,
+          "optionalClient": false,
+          "queryKeys": false,
+          "version": "v4",
+        },
+        "recoil": {
+          "enabled": false,
+        },
+        "types": {
+          "aliasExecuteMsg": false,
+          "enabled": true,
+          "itemsUseTuples": false,
+        },
+        "useContractsHook": {
+          "enabled": false,
+        },
+        "useShorthandCtor": true,
+      },
+      "utils": {
+        "CosmWasmClient": "@cosmjs/cosmwasm-stargate",
+        "IMessageComposerProvider": "__contractContextBase__",
+        "IQueryClientProvider": "__contractContextBase__",
+        "ISigningClientProvider": "__contractContextBase__",
+        "SigningCosmWasmClient": "@cosmjs/cosmwasm-stargate",
       },
     },
   ],
