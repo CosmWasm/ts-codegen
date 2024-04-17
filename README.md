@@ -344,7 +344,7 @@ Clone your project and `cd` into your contracts folder
 
 ```sh
 git clone https://github.com/public-awesome/launchpad.git
-cd launchpad/contracts/whitelists/
+cd launchpad/contracts/whitelists/whitelist
 ```
 
 Run `cosmwasm-ts-codegen` to generate your code.
