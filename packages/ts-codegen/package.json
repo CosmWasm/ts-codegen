@@ -38,7 +38,9 @@
     "ast-stringify": "0.1.0"
   },
   "dependencies": {
-    "@babel/types": "7.18.10",
+    "@babel/generator": "7.24.4",
+    "@babel/traverse": "7.24.1",
+    "@babel/types": "7.24.0",
     "@cosmology/ts-codegen-types": "^1.1.0",
     "@pyramation/json-schema-to-typescript": " 11.0.4",
     "@types/rimraf": "3.0.2",

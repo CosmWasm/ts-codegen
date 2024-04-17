@@ -98,7 +98,7 @@ codegen({
     messageBuilder: {
       enabled: false
     },
-    useContractsHooks: {
+    useContractHooks: {
       enabled: false
     }
   }
@@ -195,7 +195,7 @@ Generate raw message jsons for use in your application with the `message-builder
 
 | option                           | description                             |
 | -------------------------------- | --------------------------------------- |
-| `useContractsHooks.enabled`      | enable the `useContracts` plugin        |
+| `useContractHooks.enabled`      | enable the `useContracts` plugin        |
 
 #### Use Contracts Provider Usage
 

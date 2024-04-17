@@ -39,7 +39,7 @@ export class ContractsContextProviderPlugin extends BuilderPluginBase<TSBuilderO
       body: any[];
     }[]
   > {
-    if (!this.option?.useContractsHooks?.enabled) {
+    if (!this.option?.useContractHooks?.enabled) {
       return;
     }
 

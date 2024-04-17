@@ -59,7 +59,7 @@ export type TSBuilderOptions = {
      * Default: true
      */
     useShorthandCtor?: boolean;
-    useContractsHooks?: UseContractsOptions;
+    useContractHooks?: UseContractsOptions;
 } & RenderOptions;
 
 export type BuilderFileType = 'type' | 'client' | 'recoil' | 'react-query' | 'message-composer' | 'message-builder' | 'plugin';

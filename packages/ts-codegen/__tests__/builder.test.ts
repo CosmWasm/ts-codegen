@@ -118,7 +118,7 @@ it('builder default', async () => {
             messageBuilder: {
                 enabled: true
             },
-            useContractsHooks: {
+            useContractHooks: {
                 enabled: true,
             }
         }
@@ -206,7 +206,7 @@ it('builder set bundler path', async () => {
             messageComposer: {
                 enabled: true
             },
-            useContractsHooks: {
+            useContractHooks: {
                 enabled: true,
             }
         }
