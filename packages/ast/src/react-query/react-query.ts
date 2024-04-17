@@ -22,9 +22,10 @@ import {
   getPropertyType,
   getResponseType
 } from '../utils/types';
-import { ReactQueryOptions, RenderContext } from '../context';
+import { RenderContext } from '../context';
 import { ArrowFunctionExpression } from '@babel/types';
 import { OPTIONAL_FEE_PARAM, OPTIONAL_MEMO_PARAM } from '../utils/constants';
+import { ReactQueryOptions } from '../types';
 
 interface ReactQueryHookQuery {
   context: RenderContext;

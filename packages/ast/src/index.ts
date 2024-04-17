@@ -6,3 +6,4 @@ export * from './message-composer';
 export * from './react-query';
 export * from './message-builder';
 export * from './provider';
+export * from './types';

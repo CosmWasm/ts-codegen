@@ -1,8 +1,8 @@
 import * as t from "@babel/types";
 import { camel, pascal } from "case";
-import { ProviderInfo } from "../context";
 import { PROVIDER_TYPES } from "../utils/constants";
 import { identifier, tsObjectPattern } from "../utils";
+import { ProviderInfo } from "../types";
 
 export const createProvider = (
   name: string,
