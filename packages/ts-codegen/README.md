@@ -36,7 +36,7 @@ The quickest and easiest way to interact with CosmWasm Contracts. `@cosmwasm/ts-
     - [Recoil](#recoil)
     - [Message Composer](#message-composer)
     - [Message Builder](#message-builder)
-    - [Use Contract Hooks](#use-contracts-hooks)
+    - [Use Contracts Hook](#use-contracts-hooks-usage)
     - [Bundles](#bundles)
     - [CLI Usage and Examples](#cli-usage-and-examples)
     - [Advanced Usage](#advanced-usage)
