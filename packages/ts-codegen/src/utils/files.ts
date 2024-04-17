@@ -16,7 +16,7 @@ export const writeAstToFile = (
   isEslintDisable = false
 ) => {
   const ast = t.program(program);
-  const content = generate(ast).code;
+  const content = generate(ast as any).code;
 
   if (removeUnusedImports) {
     const plugins: ParserPlugin[] = ["typescript"];
@@ -24,8 +24,8 @@ export const writeAstToFile = (
       sourceType: "module",
       plugins,
     });
-    traverse(newAst, unused);
-    const content2 = generate(newAst).code;
+    traverse(newAst as any, unused);
+    const content2 = generate(newAst as any).code;
     writeContentToFile(
       outPath,
       content2,

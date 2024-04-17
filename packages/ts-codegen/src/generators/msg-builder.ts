@@ -62,6 +62,7 @@ export default async (
     delete context.utils.Coin;
   }
   const imports = context.getImports();
+  // @ts-ignore
   const code = header + generate(t.program([...imports, ...body])).code;
 
   mkdirp(outPath);

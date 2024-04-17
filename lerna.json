@@ -1,6 +1,5 @@
 {
-  "lerna": "3.4.2",
-  "useWorkspaces": true,
+  "lerna": "6",
   "conventionalCommits": true,
   "npmClient": "yarn",
   "npmClientArgs": [
@@ -13,7 +12,7 @@
   "registry": "https://registry.npmjs.org",
   "command": {
     "create": {
-      "homepage": "https://github.com/pyramation/cosmwasm-typescript-gen",
+      "homepage": "https://github.com/cosmwasm/ts-codegen",
       "license": "SEE LICENSE IN LICENSE",
       "access": "restricted"
     },

@@ -3,7 +3,8 @@ import { readFileSync } from 'fs';
 import { cleanse } from './cleanse';
 import { compile } from '@pyramation/json-schema-to-typescript';
 import { parser } from './parse';
-import { ContractInfo, JSONSchema } from 'wasm-ast-types';
+import { ContractInfo } from 'wasm-ast-types';
+import { ExecuteMsg, IDLObject, JSONSchema, QueryMsg } from '@cosmology/ts-codegen-types';
 interface ReadSchemaOpts {
     schemaDir: string;
     clean?: boolean;
@@ -12,11 +13,11 @@ interface ReadSchemaOpts {
 export const readSchemas = async ({
     schemaDir, clean = true
 }: ReadSchemaOpts): Promise<ContractInfo> => {
-    const fn = clean ? cleanse : (str) => str;
+    const fn = clean ? cleanse : (schema: JSONSchema[] | Partial<IDLObject>) => schema;
     const files = glob(schemaDir + '/**/*.json')
         .filter(file => !file.match(/\/raw\//));
 
-    const schemas = files
+    const schemas: JSONSchema[] = files
         .map(file => JSON.parse(readFileSync(file, 'utf-8')));
 
     if (schemas.length > 1) {
@@ -35,7 +36,7 @@ export const readSchemas = async ({
         throw new Error('Error [too many files]: CosmWasm v1.1 schemas supports one file');
     }
 
-    const idlObject = schemas[0];
+    const idlObject: Partial<IDLObject> = schemas[0] as Partial<IDLObject>;
     const {
         contract_name,
         contract_version,
@@ -56,15 +57,16 @@ export const readSchemas = async ({
     }
 
     // TODO use contract_name, etc.
+    const idl: Partial<IDLObject> = {
+        instantiate,
+        execute,
+        query,
+        migrate,
+        sudo
+    };
     return {
         schemas: [
-            ...Object.values(fn({
-                instantiate,
-                execute,
-                query,
-                migrate,
-                sudo
-            })).filter(Boolean),
+            ...Object.values(fn(idl)).filter(Boolean),
             ...Object.values(fn({ ...responses })).filter(Boolean)
         ],
         responses,
@@ -72,19 +74,19 @@ export const readSchemas = async ({
     };
 };
 
-export const findQueryMsg = (schemas) => {
-    const QueryMsg = schemas.find(schema => schema.title === 'QueryMsg');
-    return QueryMsg;
+export const findQueryMsg = (schemas: JSONSchema[]): QueryMsg => {
+    const queryMsg = schemas.find(schema => schema.title === 'QueryMsg');
+    return queryMsg as QueryMsg;
 };
 
-export const findExecuteMsg = (schemas) => {
-    const ExecuteMsg = schemas.find(schema =>
-      schema.title.startsWith('ExecuteMsg')
+export const findExecuteMsg = (schemas: JSONSchema[]): ExecuteMsg => {
+    const executeMsg = schemas.find(schema =>
+        schema.title.startsWith('ExecuteMsg')
     );
-    return ExecuteMsg;
+    return executeMsg as ExecuteMsg;
 };
 
-export const findAndParseTypes = async (schemas) => {
+export const findAndParseTypes = async (schemas: JSONSchema[]) => {
     const Types = schemas;
     const allTypes = [];
     for (const typ in Types) {
@@ -94,7 +96,7 @@ export const findAndParseTypes = async (schemas) => {
                 Types[typ].definitions[key].title = key;
             }
         }
-        const result = await compile(Types[typ], Types[typ].title);
+        const result = await compile(Types[typ] as any, Types[typ].title);
         allTypes.push(result);
     }
     const typeHash = parser(allTypes);

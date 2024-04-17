@@ -4,6 +4,5 @@ export * from './context';
 export * from './recoil';
 export * from './message-composer';
 export * from './react-query';
-export * from './types';
 export * from './message-builder';
 export * from './provider';

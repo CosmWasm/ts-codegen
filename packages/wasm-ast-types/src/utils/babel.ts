@@ -1,8 +1,9 @@
 import * as t from '@babel/types';
 import { snake } from "case";
-import { Field, QueryMsg, ExecuteMsg } from '../types';
+import { Field } from '@cosmology/ts-codegen-types';
 import { TSTypeAnnotation, TSExpressionWithTypeArguments, Noop, TypeAnnotation } from '@babel/types';
 import { refLookup } from './ref';
+import { JSONSchema } from '@cosmology/ts-codegen-types';
 
 // t.TSPropertySignature - kind?
 export const propertySignature = (
@@ -13,7 +14,7 @@ export const propertySignature = (
     return {
         type: 'TSPropertySignature',
         key: t.identifier(name),
-      kind: 'get',
+        kind: 'get',
         typeAnnotation,
         optional
     }
@@ -32,25 +33,25 @@ export const tsTypeOperator = (typeAnnotation: t.TSType, operator: string) => {
     return obj;
 };
 
-export const getMessageProperties = (msg) => {
-    let results = [];
-    let objs = [];
+export const getMessageProperties = (msg: JSONSchema): JSONSchema[] => {
+    let results: JSONSchema[] = [];
+    let objs: JSONSchema[] = [];
     if (msg.anyOf) { objs = msg.anyOf; }
     else if (msg.oneOf) { objs = msg.oneOf; }
     else if (msg.allOf) { objs = msg.allOf; }
 
     for (const obj of objs) {
-      if(obj.properties){
-        results.push(obj);
-      } else{
-        if(obj.$ref){
-          const ref = refLookup(obj.$ref, msg)
+        if (obj.properties) {
+            results.push(obj);
+        } else {
+            if (obj.$ref) {
+                const ref = refLookup(obj.$ref, msg)
 
-          const refProps = getMessageProperties(ref);
+                const refProps = getMessageProperties(ref);
 
-          results = [...results, ...refProps];
+                results = [...results, ...refProps];
+            }
         }
-      }
     }
 
     return results;
@@ -118,7 +119,7 @@ export const typedIdentifier = (name: string, typeAnnotation: TSTypeAnnotation, 
     return type;
 }
 
-export const promiseTypeAnnotation = (name) => {
+export const promiseTypeAnnotation = (name: string): t.TSTypeAnnotation => {
     return t.tsTypeAnnotation(
         t.tsTypeReference(
             t.identifier('Promise'),
@@ -132,14 +133,14 @@ export const promiseTypeAnnotation = (name) => {
 }
 
 export const abstractClassDeclaration = (name: string, body: any[], implementsExressions: TSExpressionWithTypeArguments[] = [], superClass: t.Identifier = null) => {
-  const declaration = classDeclaration(
-    name,
-    body,
-    implementsExressions,
-    superClass
-  );
-  declaration.abstract = true
-  return declaration;
+    const declaration = classDeclaration(
+        name,
+        body,
+        implementsExressions,
+        superClass
+    );
+    declaration.abstract = true
+    return declaration;
 };
 
 export const classDeclaration = (name: string, body: any[], implementsExressions: TSExpressionWithTypeArguments[] = [], superClass: t.Identifier = null) => {
@@ -182,7 +183,7 @@ export const arrowFunctionExpression = (
 };
 
 
-export const recursiveNamespace = (names, moduleBlockBody) => {
+export const recursiveNamespace = (names: string[], moduleBlockBody: any): t.ExportNamedDeclaration[] => {
     if (!names || !names.length) return moduleBlockBody;
     const name = names.pop();
     const body = [
@@ -196,7 +197,7 @@ export const recursiveNamespace = (names, moduleBlockBody) => {
     return body;
 };
 
-export const arrayTypeNDimensions = (body, n) => {
+export const arrayTypeNDimensions = (body: any, n: number): t.TSArrayType => {
     if (!n) return t.tsArrayType(body);
     return t.tsArrayType(
         arrayTypeNDimensions(body, n - 1)
@@ -207,8 +208,9 @@ export const FieldTypeAsts = {
     string: () => {
         return t.tsStringKeyword()
     },
-    array: (type) => {
-        return t.tsArrayType(FieldTypeAsts[type]())
+    array: (type: 'string' | 'Duration' | 'Height' | 'Coin' | 'Long'): t.TSArrayType => {
+        const result = FieldTypeAsts[type]();
+        return t.tsArrayType(result)
     },
     Duration: () => {
         return t.tsTypeReference(t.identifier('Duration'))
@@ -224,17 +226,17 @@ export const FieldTypeAsts = {
     }
 };
 
-export const shorthandProperty = (prop: string) => {
+export const shorthandProperty = (prop: string): t.ObjectProperty => {
     return t.objectProperty(t.identifier(prop), t.identifier(prop), false, true);
 };
 
-export const importStmt = (names: string[], path: string) => {
+export const importStmt = (names: string[], path: string): t.ImportDeclaration => {
     return t.importDeclaration(
         names.map(name => t.importSpecifier(t.identifier(name), t.identifier(name))),
         t.stringLiteral(path));
 };
 
-export const importAs = (name: string, importAs: string, importPath: string) => {
+export const importAs = (name: string, importAs: string, importPath: string): t.ImportDeclaration => {
     return t.importDeclaration(
         [
             t.importSpecifier(
@@ -246,7 +248,7 @@ export const importAs = (name: string, importAs: string, importPath: string) => 
     )
 };
 
-export const importAminoMsg = () => {
+export const importAminoMsg = (): t.ImportDeclaration => {
     return importStmt(['AminoMsg'], '@cosmjs/amino');
 };
 
@@ -265,7 +267,7 @@ export const getFieldDimensionality = (field: Field) => {
     };
 }
 
-export const memberExpressionOrIdentifier = (names) => {
+export const memberExpressionOrIdentifier = (names: string[]): t.MemberExpression | t.Identifier => {
     if (names.length === 1) {
         return t.identifier(names[0])
     }
@@ -284,7 +286,7 @@ export const memberExpressionOrIdentifier = (names) => {
     )
 };
 
-export const memberExpressionOrIdentifierSnake = (names) => {
+export const memberExpressionOrIdentifierSnake = (names: string[]): t.MemberExpression | t.Identifier => {
     if (names.length === 1) {
         return t.identifier(snake(names[0]))
     }

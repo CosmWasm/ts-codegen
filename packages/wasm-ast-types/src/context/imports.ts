@@ -14,12 +14,12 @@ export interface ImportObj {
 export type GetUtilFn = (<TContext = RenderContext>(...args: any[]) => (context: TContext) => ImportObj);
 export type UtilMapping = {
   [key: string]:
-    | ImportObj
-    | string
-    | GetUtilFn
+  | ImportObj
+  | string
+  | GetUtilFn
 };
 
-const makeReactQuerySwitch = (varName) => {
+const makeReactQuerySwitch = (varName: string) => {
   return (context: RenderContext) => {
     switch (context.options.reactQuery.version) {
       case 'v4':
@@ -70,7 +70,7 @@ export const convertUtilsToImportList = (
   return utils.map((util) => {
     let result = null;
 
-    if(registeredUtils){
+    if (registeredUtils) {
       result = convertUtil(context, util, registeredUtils);
 
       if (result) {
@@ -91,7 +91,7 @@ export const convertUtilsToImportList = (
 export const convertUtil = (
   context: RenderContext,
   util: string,
-  registeredUtils: object
+  registeredUtils: any
 ): ImportObj => {
   if (!registeredUtils.hasOwnProperty(util)) return null;
   if (typeof registeredUtils[util] === 'string') {
@@ -112,79 +112,79 @@ export const convertUtil = (
 export const getImportStatements = (
   list: ImportObj[],
   filepath?: string
-) => {
+): (t.ImportNamespaceSpecifier | t.ImportDeclaration | t.ImportDefaultSpecifier)[] => {
 
   // swap helpers with helpers file...
   const modifiedImports = list.map(imp => {
-      if (filepath && UTIL_HELPERS.includes(imp.path)) {
-          const name = imp.path.replace(/__/g, '');
-          return {
-              ...imp,
-              path: getRelativePath(filepath, `./${name}`)
-          }
+    if (filepath && UTIL_HELPERS.includes(imp.path)) {
+      const name = imp.path.replace(/__/g, '');
+      return {
+        ...imp,
+        path: getRelativePath(filepath, `./${name}`)
       }
-      return imp;
+    }
+    return imp;
   });
 
-  const imports = modifiedImports.reduce((m, obj) => {
-      m[obj.path] = m[obj.path] || [];
-      const exists = m[obj.path].find(el =>
-          el.type === obj.type && el.path === obj.path && el.name === obj.name);
+  const imports = modifiedImports.reduce((m: Record<string, ImportObj[]>, obj) => {
+    m[obj.path] = m[obj.path] || [];
+    const exists = m[obj.path].find((el: ImportObj) =>
+      el.type === obj.type && el.path === obj.path && el.name === obj.name);
 
-      // MARKED AS NOT DRY [google.protobuf names]
-      // TODO some have google.protobuf.Any shows up... figure out the better way to handle this
-      if (/\./.test(obj.name)) {
-          obj.name = obj.name.split('.')[obj.name.split('.').length - 1];
-      }
+    // MARKED AS NOT DRY [google.protobuf names]
+    // TODO some have google.protobuf.Any shows up... figure out the better way to handle this
+    if (/\./.test(obj.name)) {
+      obj.name = obj.name.split('.')[obj.name.split('.').length - 1];
+    }
 
-      if (!exists) {
-          m[obj.path].push(obj);
-      }
-      return m;
+    if (!exists) {
+      m[obj.path].push(obj);
+    }
+    return m;
   }, {})
 
 
   return Object.entries(imports)
-      .reduce((m, [importPath, imports]: [string, ImportObj[]]) => {
-          const defaultImports = imports.filter(a => a.type === 'default');
-          if (defaultImports.length) {
-              if (defaultImports.length > 1) throw new Error('more than one default name NOT allowed.')
-              m.push(
-                  t.importDeclaration(
-                      [
-                          t.importDefaultSpecifier(
-                              t.identifier(defaultImports[0].name)
-                          )
-                      ],
-                      t.stringLiteral(defaultImports[0].path)
-                  )
+    .reduce((m, [importPath, imports]: [string, ImportObj[]]) => {
+      const defaultImports = imports.filter(a => a.type === 'default');
+      if (defaultImports.length) {
+        if (defaultImports.length > 1) throw new Error('more than one default name NOT allowed.')
+        m.push(
+          t.importDeclaration(
+            [
+              t.importDefaultSpecifier(
+                t.identifier(defaultImports[0].name)
               )
-          }
-          const namedImports = imports.filter(a => a.type === 'import' && (!a.importAs || (a.name === a.importAs)));
-          if (namedImports.length) {
-              m.push(importStmt(namedImports.map(i => i.name), namedImports[0].path));
-          }
-          const aliasNamedImports = imports.filter(a => a.type === 'import' && (a.importAs && (a.name !== a.importAs)));
-          aliasNamedImports.forEach(imp => {
-              m.push(importAs(imp.name, imp.importAs, imp.path));
-          });
+            ],
+            t.stringLiteral(defaultImports[0].path)
+          )
+        )
+      }
+      const namedImports = imports.filter(a => a.type === 'import' && (!a.importAs || (a.name === a.importAs)));
+      if (namedImports.length) {
+        m.push(importStmt(namedImports.map(i => i.name), namedImports[0].path));
+      }
+      const aliasNamedImports = imports.filter(a => a.type === 'import' && (a.importAs && (a.name !== a.importAs)));
+      aliasNamedImports.forEach(imp => {
+        m.push(importAs(imp.name, imp.importAs, imp.path));
+      });
 
-          const namespaced = imports.filter(a => a.type === 'namespace');
-          if (namespaced.length) {
-              if (namespaced.length > 1) throw new Error('more than one namespaced name NOT allowed.')
-              m.push(
-                  t.importDeclaration(
-                      [
-                          t.importNamespaceSpecifier(
-                              t.identifier(namespaced[0].name)
-                          )
-                      ],
-                      t.stringLiteral(namespaced[0].path)
-                  )
+      const namespaced = imports.filter(a => a.type === 'namespace');
+      if (namespaced.length) {
+        if (namespaced.length > 1) throw new Error('more than one namespaced name NOT allowed.')
+        m.push(
+          t.importDeclaration(
+            [
+              t.importNamespaceSpecifier(
+                t.identifier(namespaced[0].name)
               )
-          }
-          return m;
-      }, [])
+            ],
+            t.stringLiteral(namespaced[0].path)
+          )
+        )
+      }
+      return m;
+    }, [])
 };
 
 export const getRelativePath = (f1: string, f2: string) => {

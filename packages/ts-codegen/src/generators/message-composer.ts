@@ -66,6 +66,7 @@ export default async (
   }
   const imports = context.getImports();
   const code = header + generate(
+    // @ts-ignore
     t.program([
       ...imports,
       ...body

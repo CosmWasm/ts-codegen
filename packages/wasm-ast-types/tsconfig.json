@@ -1,20 +1,9 @@
 {
-    "compilerOptions": {
-        "allowJs": true,
-        "declaration": true,
-        "declarationDir": "./types",
-        "emitDeclarationOnly": true,
-        "esModuleInterop": true,
-        "isolatedModules": true,
-        "resolveJsonModule": true
-    },
-    "include": [
-        "src/**/*"
-    ],
-    "exclude": [
-        "node_modules",
-        "test-utils",
-        "src/**/*.spec.ts",
-        "src/**/*.test.ts"
-    ]
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src/"
+  },
+  "include": ["src/**/*.ts", "__tests__/babel/babel.spec.ts", "__tests__/recoil/recoil.spec.ts", "__tests__/provider/provider.spec.ts"],
+  "exclude": ["dist", "node_modules", "**/*.spec.*", "**/*.test.*"]
 }

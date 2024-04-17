@@ -1,11 +1,10 @@
 import type { Expression } from '@babel/types';
 import * as t from '@babel/types';
 import { camel, pascal } from 'case';
-import { ExecuteMsg, QueryMsg } from '../types';
+import { JSONSchema, ExecuteMsg, QueryMsg } from '@cosmology/ts-codegen-types';
 import {
   callExpression,
   createTypedObjectParams,
-  FIXED_EXECUTE_PARAMS,
   getMessageProperties,
   identifier,
   OPTIONAL_FUNDS_PARAM,
@@ -20,13 +19,11 @@ import {
   shorthandProperty
 } from '../utils/babel';
 import {
-  getParamsTypeAnnotation,
   getPropertyType,
   getResponseType
 } from '../utils/types';
 import { ReactQueryOptions, RenderContext } from '../context';
-import { JSONSchema } from '../types';
-import { ArrowFunctionExpression, objectExpression } from '@babel/types';
+import { ArrowFunctionExpression } from '@babel/types';
 import { OPTIONAL_FEE_PARAM, OPTIONAL_MEMO_PARAM } from '../utils/constants';
 
 interface ReactQueryHookQuery {
@@ -183,7 +180,7 @@ function buildQueryFn(
   options: ReactQueryOptions
 ): ArrowFunctionExpression {
   const keys = Object.keys(jsonschema.properties ?? {});
-  let args = [];
+  let args: t.ObjectExpression[] = [];
   if (keys.length) {
     args = [
       t.objectExpression([
@@ -247,36 +244,36 @@ const ENABLED_QUERY_OPTION = t.objectProperty(
 function buildQueryOptions(options: ReactQueryOptions) {
   return options.optionalClient
     ? t.objectExpression([
-        t.spreadElement(t.identifier('options')),
-        t.objectProperty(
-          t.identifier('enabled'),
-          t.logicalExpression(
-            '&&',
-            t.unaryExpression(
-              '!',
-              t.unaryExpression('!', t.identifier('client'))
-            ),
-            t.conditionalExpression(
-              // explicitly check for undefined
-              t.binaryExpression(
-                '!=',
-                t.optionalMemberExpression(
-                  t.identifier('options'),
-                  t.identifier('enabled'),
-                  false,
-                  true
-                ),
-                t.identifier('undefined')
-              ),
-              t.memberExpression(
+      t.spreadElement(t.identifier('options')),
+      t.objectProperty(
+        t.identifier('enabled'),
+        t.logicalExpression(
+          '&&',
+          t.unaryExpression(
+            '!',
+            t.unaryExpression('!', t.identifier('client'))
+          ),
+          t.conditionalExpression(
+            // explicitly check for undefined
+            t.binaryExpression(
+              '!=',
+              t.optionalMemberExpression(
                 t.identifier('options'),
-                t.identifier('enabled')
+                t.identifier('enabled'),
+                false,
+                true
               ),
-              t.booleanLiteral(true)
-            )
+              t.identifier('undefined')
+            ),
+            t.memberExpression(
+              t.identifier('options'),
+              t.identifier('enabled')
+            ),
+            t.booleanLiteral(true)
           )
         )
-      ])
+      )
+    ])
     : t.identifier('options');
 }
 
@@ -896,9 +893,9 @@ function createReactQueryHookGenericInterface({
       t.tsTypeAnnotation(
         options.optionalClient
           ? t.tsUnionType([
-              t.tsTypeReference(t.identifier(QueryClient)),
-              t.tsUndefinedKeyword()
-            ])
+            t.tsTypeReference(t.identifier(QueryClient)),
+            t.tsUndefinedKeyword()
+          ])
           : t.tsTypeReference(t.identifier(QueryClient))
       ),
       false
@@ -908,17 +905,17 @@ function createReactQueryHookGenericInterface({
       t.tsTypeAnnotation(
         options.version === 'v4'
           ? t.tSIntersectionType([
-              omitTypeReference(
-                typedUseQueryOptions,
-                "'queryKey' | 'queryFn' | 'initialData'"
-              ),
-              t.tSTypeLiteral([
-                t.tsPropertySignature(
-                  t.identifier('initialData?'),
-                  t.tsTypeAnnotation(t.tsUndefinedKeyword())
-                )
-              ])
+            omitTypeReference(
+              typedUseQueryOptions,
+              "'queryKey' | 'queryFn' | 'initialData'"
+            ),
+            t.tSTypeLiteral([
+              t.tsPropertySignature(
+                t.identifier('initialData?'),
+                t.tsTypeAnnotation(t.tsUndefinedKeyword())
+              )
             ])
+          ])
           : typedUseQueryOptions
       ),
       true

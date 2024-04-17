@@ -1,4 +1,4 @@
-# wasm-ast-types
+# ast
 
 ## working with ASTs
 

@@ -1,9 +1,9 @@
 import babelTraverse from '@babel/traverse';
 import { parse, ParserPlugin } from '@babel/parser';
 
-export const parser = (codes) => {
+export const parser = (codes: string[]) => {
 
-    const hash = {};
+    const hash: Record<string, any> = {};
     codes.forEach(code => {
 
         const plugins: ParserPlugin[] = [
@@ -16,19 +16,19 @@ export const parser = (codes) => {
         });
 
         const visitor = visitorFn({
-            addType(key, node) {
+            addType(key: string, node: any) {
                 hash[key] = node;
             }
         })
-        babelTraverse(ast, visitor);
+        babelTraverse(ast as any, visitor);
     });
 
     return hash;
 
 }
 
-const visitorFn = (parser) => ({
-    TSTypeAliasDeclaration(path) {
+const visitorFn = (parser: any) => ({
+    TSTypeAliasDeclaration(path: any) {
         parser.addType(path.node.id.name, path.parentPath.node);
         // if (path.node.id.name.endsWith('For_Empty')) {
         //     const newName = path.node.id.name.replace(/For_Empty$/, '_for_Empty');
@@ -38,7 +38,7 @@ const visitorFn = (parser) => ({
         //     parser.addType(path.node.id.name, path.parentPath.node);
         // }
     },
-    TSInterfaceDeclaration(path) {
+    TSInterfaceDeclaration(path: any) {
         parser.addType(path.node.id.name, path.parentPath.node);
     }
 });

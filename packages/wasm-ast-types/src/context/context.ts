@@ -1,4 +1,5 @@
-import { JSONSchema } from "../types";
+import * as t from '@babel/types';
+import { JSONSchema, IDLObject } from "@cosmology/ts-codegen-types";
 import { refLookup } from "../utils";
 import { convertUtilsToImportList, getImportStatements, UtilMapping } from "./imports";
 import deepmerge from "deepmerge";
@@ -37,26 +38,10 @@ export interface TSTypesOptions {
 }
 
 /// END Plugin Types
-
-interface KeyedSchema {
-  [key: string]: JSONSchema;
-}
-export interface IDLObject {
-  contract_name: string;
-  contract_version: string;
-  idl_version: string;
-  instantiate: JSONSchema;
-  execute: JSONSchema;
-  query: JSONSchema;
-  migrate: JSONSchema;
-  sudo: JSONSchema;
-  responses: KeyedSchema;
-}
-
 export interface ContractInfo {
   schemas: JSONSchema[];
   responses?: Record<string, JSONSchema>;
-  idlObject?: IDLObject;
+  idlObject?: Partial<IDLObject>;
 };
 export interface RenderOptions {
   enabled?: boolean;
@@ -75,9 +60,9 @@ export interface ProviderInfo {
 }
 
 export interface IContext {
-  refLookup($ref: string);
-  addUtil(util: string);
-  getImports(registeredUtils?: UtilMapping, filepath?: string);
+  refLookup($ref: string): JSONSchema;
+  addUtil(util: string): void;
+  getImports(registeredUtils?: UtilMapping, filepath?: string): (t.ImportNamespaceSpecifier | t.ImportDeclaration | t.ImportDefaultSpecifier)[];
 }
 
 export interface IRenderContext<TOpt = RenderOptions> extends IContext {
@@ -175,7 +160,7 @@ export class BuilderContext {
 export abstract class RenderContextBase<TOpt = RenderOptions> implements IRenderContext<TOpt> {
   builderContext: BuilderContext;
   contract: ContractInfo;
-  utils: string[] = [];
+  utils: Record<string, boolean> = {};
   schema: JSONSchema;
   options: TOpt;
 
@@ -194,10 +179,10 @@ export abstract class RenderContextBase<TOpt = RenderOptions> implements IRender
    * @param options
    */
   abstract mergeDefaultOpt(options: TOpt): TOpt;
-  refLookup($ref: string) {
+  refLookup($ref: string): JSONSchema {
     return refLookup($ref, this.schema)
   }
-  addUtil(util: string) {
+  addUtil(util: string): void {
     this.utils[util] = true;
   }
   addProviderInfo(contractName: string, type: string, classname: string, filename: string): void {
@@ -210,7 +195,7 @@ export abstract class RenderContextBase<TOpt = RenderOptions> implements IRender
   } {
     return this.builderContext.providers;
   }
-  getImports(registeredUtils?: UtilMapping, filepath?: string) {
+  getImports(registeredUtils?: UtilMapping, filepath?: string): (t.ImportNamespaceSpecifier | t.ImportDeclaration | t.ImportDefaultSpecifier)[] {
     return getImportStatements(
       convertUtilsToImportList(
         this,

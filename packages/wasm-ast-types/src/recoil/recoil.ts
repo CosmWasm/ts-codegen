@@ -5,7 +5,7 @@ import {
   getMessageProperties,
   getResponseType
 } from '../utils';
-import { QueryMsg } from '../types';
+import { JSONSchema, QueryMsg } from '@cosmology/ts-codegen-types';
 import { RenderContext } from '../context';
 
 export const createRecoilSelector = (
@@ -159,9 +159,9 @@ export const createRecoilSelectors = (
   keyPrefix: string,
   QueryClient: string,
   queryMsg: QueryMsg
-) => {
+): t.ExportNamedDeclaration[] => {
   return getMessageProperties(queryMsg)
-    .map(schema => {
+    .map((schema: JSONSchema) => {
 
       const underscoreName = Object.keys(schema.properties)[0];
       const methodName = camel(underscoreName);

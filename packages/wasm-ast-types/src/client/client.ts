@@ -12,7 +12,7 @@ import {
   typedIdentifier
 } from '../utils';
 
-import { ExecuteMsg, JSONSchema, QueryMsg } from '../types';
+import { ExecuteMsg, JSONSchema, QueryMsg } from '@cosmology/ts-codegen-types';
 
 import {
   createTypedObjectParams,
@@ -245,10 +245,10 @@ export const createWasmExecMethod = (
     arrowFunctionExpression(
       param
         ? [
-            // props
-            param,
-            ...CONSTANT_EXEC_PARAMS
-          ]
+          // props
+          param,
+          ...CONSTANT_EXEC_PARAMS
+        ]
         : CONSTANT_EXEC_PARAMS,
       t.blockStatement([
         t.returnStatement(

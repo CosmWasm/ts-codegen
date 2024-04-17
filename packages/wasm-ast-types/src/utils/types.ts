@@ -1,9 +1,8 @@
 import * as t from '@babel/types';
-import { camel, pascal, snake } from 'case';
+import { camel, pascal } from 'case';
 import { propertySignature } from './babel';
-import { TSTypeAnnotation } from '@babel/types';
 import { RenderContext } from '../context';
-import { JSONSchema } from '../types';
+import { JSONSchema } from '@cosmology/ts-codegen-types';
 
 export function getResponseType(
   context: RenderContext,
@@ -18,24 +17,24 @@ export function getResponseType(
   );
 };
 
-const getTypeStrFromRef = ($ref) => {
+const getTypeStrFromRef = ($ref: string): string => {
   if ($ref?.startsWith('#/definitions/')) {
     return $ref.replace('#/definitions/', '');
   }
   throw new Error('what is $ref: ' + $ref);
 }
 
-export const getTypeFromRef = ($ref) => {
+export const getTypeFromRef = ($ref: string) => {
   return t.tsTypeReference(t.identifier(getTypeStrFromRef($ref)))
 }
 
-const getArrayTypeFromRef = ($ref) => {
+const getArrayTypeFromRef = ($ref: string) => {
   return t.tsArrayType(
     getTypeFromRef($ref)
   );
 }
 
-const getTypeOrRef = (obj) => {
+const getTypeOrRef = (obj: JSONSchema): t.TSType => {
   if (obj.type) {
     return getType(obj.type)
   }
@@ -45,18 +44,15 @@ const getTypeOrRef = (obj) => {
   throw new Error('contact maintainers cannot find type for ' + obj)
 }
 
-const getArrayTypeFromItems = (items) => {
-  // passing in [{"type":"string"}]
+
+const getArrayTypeFromItems = (items: JSONSchema | JSONSchema[]): t.TSArrayType => {
   if (Array.isArray(items)) {
-    if (items[0]?.type === 'array') {
-      return getArrayTypeFromItems(
-        items[0]
-      );
-    }
     return t.tsArrayType(
-      t.tsArrayType(
-        getTypeOrRef(items[0])
-      )
+      t.tsTupleType(items.map(item => getTypeOrRef(item)))
+    );
+  } else if (items.type === 'array' && items.items) {
+    return t.tsArrayType(
+      getArrayTypeFromItems(items.items)
     );
   }
 
@@ -79,11 +75,10 @@ const getArrayTypeFromItems = (items) => {
     }
   }
 
-
   return t.tsArrayType(
     getType(detect.type)
   );
-}
+};
 
 
 export const detectType = (type: string | string[]) => {

@@ -1,7 +1,7 @@
 import * as t from '@babel/types';
 import { camel } from 'case';
 import { abstractClassDeclaration, arrowFunctionExpression, getMessageProperties } from '../utils';
-import { ExecuteMsg, QueryMsg } from '../types';
+import { ExecuteMsg, QueryMsg } from '@cosmology/ts-codegen-types';
 import { createTypedObjectParams } from '../utils/types';
 import { RenderContext } from '../context';
 import { getWasmMethodArgs } from '../client/client';

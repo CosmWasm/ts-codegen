@@ -1,4 +1,4 @@
-import { RenderOptions, defaultOptions, RenderContext, ContractInfo, MessageComposerOptions, BuilderContext } from "wasm-ast-types";
+import { RenderOptions, defaultOptions, ContractInfo, BuilderContext } from "wasm-ast-types";
 
 import { header } from '../utils/header';
 import { join } from "path";
@@ -79,7 +79,7 @@ export interface ContractFile {
     dir: string;
 }
 
-function getContract(contractOpt): ContractFile {
+function getContract(contractOpt: ContractFile | string): ContractFile {
     if (typeof contractOpt === 'string') {
         const name = basename(contractOpt);
         const contractName = pascal(name);
@@ -104,7 +104,7 @@ export class TSBuilder {
     protected files: BuilderFile[] = [];
 
     loadDefaultPlugins() {
-        [].push.apply(this.plugins, [
+        this.plugins.push(
             new TypesPlugin(this.options),
             new ClientPlugin(this.options),
             new MessageComposerPlugin(this.options),
@@ -112,7 +112,7 @@ export class TSBuilder {
             new RecoilPlugin(this.options),
             new MessageBuilderPlugin(this.options),
             new ContractsContextProviderPlugin(this.options),
-        ]);
+        );
     }
 
     constructor({ contracts, outPath, options, plugins }: TSBuilderInput) {
@@ -129,7 +129,7 @@ export class TSBuilder {
         this.loadDefaultPlugins();
 
         if (plugins && plugins.length) {
-            [].push.apply(this.plugins, plugins);
+            this.plugins.push(...plugins);
         }
 
         this.plugins.forEach(plugin => plugin.setBuilder(this))
@@ -158,7 +158,7 @@ export class TSBuilder {
         for (const plugin of this.plugins) {
             let files = await plugin.render(name, contractInfo, this.outPath);
             if (files && files.length) {
-                [].push.apply(this.files, files);
+                this.files.push(...files);
             }
         }
     }
@@ -179,7 +179,7 @@ export class TSBuilder {
         );
 
         if (files && files.length) {
-            [].push.apply(this.files, files);
+            this.files.push(...files);
         }
 
         const helpers = createHelpers({
@@ -190,7 +190,7 @@ export class TSBuilder {
         }, this.builderContext);
 
         if (helpers && helpers.length) {
-            [].push.apply(this.files, helpers);
+            this.files.push(...helpers);
         }
 
         if (this.options.bundle.enabled) {
@@ -207,7 +207,7 @@ export class TSBuilder {
             bundleFile
         );
         const bundleVariables = {};
-        const importPaths = [];
+        const importPaths: (t.ImportDeclaration | t.ImportDefaultSpecifier | t.ImportNamespaceSpecifier)[] = [];
 
         allFiles.forEach(file => {
             createFileBundle(
@@ -221,11 +221,14 @@ export class TSBuilder {
         });
 
         const ast = recursiveModuleBundle(bundleVariables);
+        const nodes = [
+            ...importPaths,
+            ...ast
+        ];
+        // @ts-ignore
         let code = generate(t.program(
-            [
-                ...importPaths,
-                ...ast
-            ]
+            // @ts-ignore
+            nodes
         )).code;
 
         if (this.options?.bundle?.bundlePath) {

@@ -1,8 +1,10 @@
+// @ts-nocheck
 import { prompt } from '../utils/prompt';
 import codegen from '../index';
 import { TSBuilderOptions } from '../builder';
+import { MinimistArgs } from '../types';
 
-export default async (argv) => {
+export default async (argv: MinimistArgs) => {
     const questions = [
         {
             _: true,
@@ -53,6 +55,7 @@ export default async (argv) => {
     ///////// REACT QUERY
     const questions2 = [];
     if (plugin.includes('react-query')) {
+        // @ts-ignore
         [].push.apply(questions2, [
             {
                 type: 'confirm',

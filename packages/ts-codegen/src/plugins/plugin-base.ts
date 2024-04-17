@@ -23,7 +23,7 @@ export interface IBuilderPlugin {
 
   builder?: TSBuilder;
 
-  setBuilder(builder: TSBuilder);
+  setBuilder(builder: TSBuilder): void;
 
   /**
    * render generated cdoe.
@@ -43,8 +43,7 @@ export interface IBuilderPlugin {
  * BuilderPluginBase enable ts-codegen users implement their own plugins by only implement a few functions.
  */
 export abstract class BuilderPluginBase<TOpt extends { enabled?: boolean }>
-  implements IBuilderPlugin
-{
+  implements IBuilderPlugin {
   builder?: TSBuilder;
   option: TOpt;
   utils: UtilMapping;
@@ -54,7 +53,7 @@ export abstract class BuilderPluginBase<TOpt extends { enabled?: boolean }>
     this.builder = builder;
   }
 
-  setBuilder(builder: TSBuilder) {
+  setBuilder(builder: TSBuilder): void {
     this.builder = builder;
   }
 
@@ -79,8 +78,8 @@ export abstract class BuilderPluginBase<TOpt extends { enabled?: boolean }>
 
     return results.map((result) => {
       const imports = context.getImports(this.utils, result.localname);
-      const code =
-        header + generate(t.program([...imports, ...result.body])).code;
+      // @ts-ignore
+      const code = header + generate(t.program([...imports, ...result.body])).code;
 
       mkdirp(outPath);
       const filename = join(outPath, result.localname);

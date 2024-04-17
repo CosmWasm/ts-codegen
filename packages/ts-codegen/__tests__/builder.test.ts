@@ -14,7 +14,9 @@ it('options undefined', async () => {
         outPath,
         options: undefined
     });
+    // @ts-ignore
     delete builder.contracts;
+    // @ts-ignore
     delete builder.outPath;
     expect(builder).toMatchSnapshot();
 });
@@ -39,14 +41,16 @@ it('options tsClient.enabled', async () => {
             }
         }
     });
+    // @ts-ignore
     delete builder.contracts;
+    // @ts-ignore
     delete builder.outPath;
     expect(builder).toMatchSnapshot();
 });
 
 it('builder invoke', async () => {
     const outPath = OUTPUT_DIR + '/invoke/';
-    const s = (str) => FIXTURE_DIR + str;
+    const s = (str: string) => FIXTURE_DIR + str;
     const builder = new TSBuilder({
         contracts: [
             s('/vectis/factory'),
@@ -76,7 +80,7 @@ it('builder invoke', async () => {
 
 it('builder default', async () => {
     const outPath = OUTPUT_DIR + '/default/';
-    const s = (str) => FIXTURE_DIR + str;
+    const s = (str: string) => FIXTURE_DIR + str;
     await codegen({
         contracts: [
             s('/vectis/factory'),
@@ -123,7 +127,7 @@ it('builder default', async () => {
 
 it('builder no extends', async () => {
     const outPath = OUTPUT_DIR + '/no-extends/';
-    const s = (str) => FIXTURE_DIR + str;
+    const s = (str: string) => FIXTURE_DIR + str;
     await codegen({
         contracts: [
             s('/vectis/factory'),
@@ -167,7 +171,7 @@ it('builder no extends', async () => {
 it('builder set bundler path', async () => {
     const outPath = OUTPUT_DIR + '/bundler_test/contracts';
     const bundlerPath = OUTPUT_DIR + '/bundler_test/';
-    const s = (str) => FIXTURE_DIR + str;
+    const s = (str: string) => FIXTURE_DIR + str;
     await codegen({
         contracts: [
             s('/vectis/factory'),

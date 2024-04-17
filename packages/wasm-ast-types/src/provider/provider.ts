@@ -1,6 +1,6 @@
 import * as t from "@babel/types";
 import { camel, pascal } from "case";
-import { ProviderInfo, RenderContext } from "../context";
+import { ProviderInfo } from "../context";
 import { PROVIDER_TYPES } from "../utils/constants";
 import { identifier, tsObjectPattern } from "../utils";
 
@@ -63,7 +63,7 @@ export const createProvider = (
               t.identifier(
                 providerInfos[PROVIDER_TYPES.MESSAGE_COMPOSER_TYPE]
                   ? providerInfos[PROVIDER_TYPES.MESSAGE_COMPOSER_TYPE]
-                      .classname
+                    .classname
                   : "undefined"
               ),
             ])
@@ -125,7 +125,7 @@ export const createIContractsContext = (providerInfos: {
   );
 };
 
-let PROVIDER_MAPPING = {};
+let PROVIDER_MAPPING: Record<string, string> = {};
 
 PROVIDER_MAPPING[PROVIDER_TYPES.SIGNING_CLIENT_TYPE] = "ISigningClientProvider";
 PROVIDER_MAPPING[PROVIDER_TYPES.QUERY_CLIENT_TYPE] = "IQueryClientProvider";

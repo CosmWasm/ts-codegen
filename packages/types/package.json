@@ -1,0 +1,74 @@
+{
+  "name": "@cosmology/ts-codegen-types",
+  "version": "0.26.4",
+  "description": "CosmWasm TSCodegen Types",
+  "author": "Dan Lynch <pyramation@gmail.com>",
+  "homepage": "https://github.com/cosmwasm/ts-codegen/tree/master/packages/types#readme",
+  "license": "SEE LICENSE IN LICENSE",
+  "main": "index.js",
+  "module": "esm/index.js",
+  "types": "index.d.ts",
+  "publishConfig": {
+    "access": "public",
+    "directory": "dist"
+  },
+  "scripts": {
+    "copy": "copyfiles -f LICENSE-Apache LICENSE-MIT README.md package.json dist",
+    "clean": "del dist/**",
+    "prepare": "npm run build",
+    "codegen": "ts-node ./scripts/build.ts",
+    "build": "npm run clean; tsc; tsc -p tsconfig.esm.json; npm run copy",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:ast": "cross-env NODE_ENV=development babel-node scripts/test-ast.js",
+    "dev": "ts-node src/ts-codegen",
+    "file": "ts-node src/file"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cosmwasm/ts-codegen"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/cosmwasm/ts-codegen/issues"
+  },
+  "devDependencies": {
+    "@babel/cli": "7.18.10",
+    "@babel/core": "7.18.10",
+    "@babel/eslint-parser": "^7.18.9",
+    "@babel/generator": "7.18.12",
+    "@babel/node": "^7.18.10",
+    "@babel/parser": "^7.18.11",
+    "@babel/plugin-proposal-class-properties": "7.18.6",
+    "@babel/plugin-proposal-export-default-from": "7.18.10",
+    "@babel/plugin-proposal-object-rest-spread": "7.18.9",
+    "@babel/plugin-transform-runtime": "7.18.10",
+    "@babel/preset-env": "7.18.10",
+    "@babel/preset-typescript": "^7.18.6",
+    "@babel/traverse": "7.18.11",
+    "@types/jest": "^28.1.6",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-jest": "^28.1.3",
+    "babel-watch": "^7.0.0",
+    "cross-env": "^7.0.2",
+    "eslint": "8.21.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "glob": "8.0.3",
+    "jest": "28.1.3",
+    "jest-in-case": "^1.0.2",
+    "mkdirp": "1.0.4",
+    "prettier": "^2.7.1",
+    "regenerator-runtime": "^0.13.7",
+    "ts-jest": "^28.0.7",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.18.9",
+    "@babel/types": "7.18.10",
+    "@jest/transform": "28.1.3",
+    "ast-stringify": "0.1.0",
+    "case": "1.6.3",
+    "deepmerge": "4.2.2"
+  }
+}
