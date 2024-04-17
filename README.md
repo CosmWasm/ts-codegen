@@ -343,7 +343,7 @@ npm install @cosmwasm/ts-codegen
 Clone your project and `cd` into your contracts folder
 
 ```sh
-git clone https://github.com/public-awesome/launchpad.git
+git clone https://github.com/cosmology-tech/launchpad.git
 cd launchpad/contracts/whitelists/whitelist
 ```
 
