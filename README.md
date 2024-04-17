@@ -524,32 +524,6 @@ import {
   generateMessageComposer
 } from '@cosmwasm/ts-codegen';
 ```
-### Example Output
-
-- `cosmwasm-ts-codegen generate --typesOnly`
-
-https://gist.github.com/pyramation/107d4e8e30dc5eb3ffc07bc3000f4dd0
-
-- `cosmwasm-ts-codegen generate --plugin client`
-
-https://gist.github.com/pyramation/30508678b7563e286f06ccc5ac384817
-
-- `cosmwasm-ts-codegen generate --plugin react-query`
-
-https://gist.github.com/pyramation/70aef28fd3af0ee164f7711704d3dfc0
-
-- `cosmwasm-ts-codegen generate --plugin recoil`
-
-https://gist.github.com/pyramation/a9520ccf131177b1841e02a97d7d3731
-
-- `cosmwasm-ts-codegen generate --plugin message-composer`
-
-https://gist.github.com/pyramation/43320e8b952751a0bd5a77dbc5b601f4
-
-- `cosmwasm-ts-codegen generate --plugin message-builder`
-
-https://gist.github.com/adairrr/b394e62beb9856b0351883f776650f26
-
 
 ### JSON Schema
 
