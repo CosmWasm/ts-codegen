@@ -26,7 +26,6 @@ export interface 98ReadOnlyInterface {
 export class 98QueryClient implements 98ReadOnlyInterface {
   client: CosmWasmClient;
   contractAddress: string;
-
   constructor(client: CosmWasmClient, contractAddress: string) {
     this.client = client;
     this.contractAddress = contractAddress;
@@ -34,7 +33,6 @@ export class 98QueryClient implements 98ReadOnlyInterface {
     this.getPlugins = this.getPlugins.bind(this);
     this.getPluginById = this.getPluginById.bind(this);
   }
-
   getConfig = async (): Promise<ConfigResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
       get_config: {}
@@ -128,7 +126,6 @@ export class 98Client extends 98QueryClient implements 98Interface {
   client: SigningCosmWasmClient;
   sender: string;
   contractAddress: string;
-
   constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
     super(client, contractAddress);
     this.client = client;
@@ -141,7 +138,6 @@ export class 98Client extends 98QueryClient implements 98Interface {
     this.updateRegistryFee = this.updateRegistryFee.bind(this);
     this.updateDaoAddr = this.updateDaoAddr.bind(this);
   }
-
   proxyInstallPlugin = async ({
     id,
     instantiateMsg

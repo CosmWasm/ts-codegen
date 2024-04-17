@@ -37,7 +37,6 @@ export interface FactoryReadOnlyInterface {
 export class FactoryQueryClient implements FactoryReadOnlyInterface {
   client: CosmWasmClient;
   contractAddress: string;
-
   constructor(client: CosmWasmClient, contractAddress: string) {
     this.client = client;
     this.contractAddress = contractAddress;
@@ -48,7 +47,6 @@ export class FactoryQueryClient implements FactoryReadOnlyInterface {
     this.govecAddr = this.govecAddr.bind(this);
     this.adminAddr = this.adminAddr.bind(this);
   }
-
   wallets = async ({
     limit,
     startAfter
@@ -156,7 +154,6 @@ export class FactoryClient implements FactoryInterface {
   client: SigningCosmWasmClient;
   sender: string;
   contractAddress: string;
-
   constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
     this.client = client;
     this.sender = sender;
@@ -169,7 +166,6 @@ export class FactoryClient implements FactoryInterface {
     this.updateGovecAddr = this.updateGovecAddr.bind(this);
     this.updateAdmin = this.updateAdmin.bind(this);
   }
-
   createWallet = async ({
     createWalletMsg
   }: {

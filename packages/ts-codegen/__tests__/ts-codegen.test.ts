@@ -2,6 +2,7 @@ import { readSchemas } from '../src/utils';
 import generateTypes from '../src/generators/types';
 import generateClient from '../src/generators/client';
 import generateMessageComposer from '../src/generators/message-composer';
+import generateMessageBuilder from '../src/generators/message-builder';
 import generateReactQuery from '../src/generators/react-query';
 import generateRecoil from '../src/generators/recoil';
 
@@ -36,12 +37,12 @@ it('queryKeys', async () => {
 })
 
 it('queryFactory', async () => {
-  const outopt = OUTPUT_DIR + '/vectis/factory-query-keys';
-  const schemaDir = FIXTURE_DIR + '/vectis/factory/';
-  const contractInfo = await readSchemas({
-    schemaDir
-  });
-  await generateReactQuery('Factory', contractInfo, outopt, { queryKeys: true, queryFactory: true });
+    const outopt = OUTPUT_DIR + '/vectis/factory-query-keys';
+    const schemaDir = FIXTURE_DIR + '/vectis/factory/';
+    const contractInfo = await readSchemas({
+        schemaDir
+    });
+    await generateReactQuery('Factory', contractInfo, outopt, { queryKeys: true, queryFactory: true });
 })
 
 
@@ -129,6 +130,7 @@ it('sg721', async () => {
     await generateTypes('Sg721', contractInfo, out);
     await generateClient('Sg721', contractInfo, out);
     await generateMessageComposer('Sg721', contractInfo, out);
+    await generateMessageBuilder('Sg721', contractInfo, out);
     await generateRecoil('Sg721', contractInfo, out);
     await generateReactQuery('Sg721', contractInfo, out);
 })

@@ -53,7 +53,6 @@ export interface GovecMessage {
 export class GovecMessageComposer implements GovecMessage {
   sender: string;
   contractAddress: string;
-
   constructor(sender: string, contractAddress: string) {
     this.sender = sender;
     this.contractAddress = contractAddress;
@@ -66,7 +65,6 @@ export class GovecMessageComposer implements GovecMessage {
     this.updateGuardians = this.updateGuardians.bind(this);
     this.updateLabel = this.updateLabel.bind(this);
   }
-
   execute = ({
     msgs
   }: {

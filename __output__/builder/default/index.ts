@@ -44,7 +44,8 @@ import * as _51 from "./contractContextBase";
 import * as _52 from "./contracts-context";
 export namespace smart {
   export namespace contracts {
-    export const Factory = { ..._15,
+    export const Factory = {
+      ..._15,
       ..._16,
       ..._17,
       ..._18,
@@ -52,7 +53,8 @@ export namespace smart {
       ..._20,
       ..._21
     };
-    export const Minter = { ..._22,
+    export const Minter = {
+      ..._22,
       ..._23,
       ..._24,
       ..._25,
@@ -60,7 +62,8 @@ export namespace smart {
       ..._27,
       ..._28
     };
-    export const CwAdminFactory = { ..._29,
+    export const CwAdminFactory = {
+      ..._29,
       ..._30,
       ..._31,
       ..._32,
@@ -68,7 +71,8 @@ export namespace smart {
       ..._34,
       ..._35
     };
-    export const CwCodeIdRegistry = { ..._36,
+    export const CwCodeIdRegistry = {
+      ..._36,
       ..._37,
       ..._38,
       ..._39,
@@ -76,7 +80,8 @@ export namespace smart {
       ..._41,
       ..._42
     };
-    export const CwSingle = { ..._43,
+    export const CwSingle = {
+      ..._43,
       ..._44,
       ..._45,
       ..._46,
@@ -84,11 +89,14 @@ export namespace smart {
       ..._48,
       ..._49
     };
-    export const contractContextProviders = { ..._50
+    export const contractContextProviders = {
+      ..._50
     };
-    export const contractContextBase = { ..._51
+    export const contractContextBase = {
+      ..._51
     };
-    export const contractsContext = { ..._52
+    export const contractsContext = {
+      ..._52
     };
   }
 }

@@ -27,7 +27,6 @@ export interface HackAtomMessage {
 export class HackAtomMessageComposer implements HackAtomMessage {
   sender: string;
   contractAddress: string;
-
   constructor(sender: string, contractAddress: string) {
     this.sender = sender;
     this.contractAddress = contractAddress;
@@ -40,7 +39,6 @@ export class HackAtomMessageComposer implements HackAtomMessage {
     this.panic = this.panic.bind(this);
     this.userErrorsInApiCalls = this.userErrorsInApiCalls.bind(this);
   }
-
   release = (_funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",

@@ -37,7 +37,6 @@ export interface CwCodeIdRegistryReadOnlyInterface {
 export class CwCodeIdRegistryQueryClient implements CwCodeIdRegistryReadOnlyInterface {
   client: CosmWasmClient;
   contractAddress: string;
-
   constructor(client: CosmWasmClient, contractAddress: string) {
     this.client = client;
     this.contractAddress = contractAddress;
@@ -46,7 +45,6 @@ export class CwCodeIdRegistryQueryClient implements CwCodeIdRegistryReadOnlyInte
     this.infoForCodeId = this.infoForCodeId.bind(this);
     this.listRegistrations = this.listRegistrations.bind(this);
   }
-
   config = async (): Promise<ConfigResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
       config: {}
@@ -151,7 +149,6 @@ export class CwCodeIdRegistryClient extends CwCodeIdRegistryQueryClient implemen
   client: SigningCosmWasmClient;
   sender: string;
   contractAddress: string;
-
   constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
     super(client, contractAddress);
     this.client = client;
@@ -163,7 +160,6 @@ export class CwCodeIdRegistryClient extends CwCodeIdRegistryQueryClient implemen
     this.unregister = this.unregister.bind(this);
     this.updateConfig = this.updateConfig.bind(this);
   }
-
   receive = async ({
     amount,
     msg,

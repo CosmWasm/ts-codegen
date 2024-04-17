@@ -15,5 +15,4 @@ export class Minter extends ContractBase<MinterClient, MinterQueryClient, Minter
   }: IContractConstructor) {
     super(address, cosmWasmClient, signingCosmWasmClient, MinterClient, MinterQueryClient, MinterMsgComposer);
   }
-
 }

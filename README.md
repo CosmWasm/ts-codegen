@@ -18,7 +18,7 @@ Generate TypeScript SDKs for your CosmWasm smart contracts
 
 
 ```
-npm install -g @cosmwasm/ts-codegen
+npm install @cosmwasm/ts-codegen
 ```
 
 The quickest and easiest way to interact with CosmWasm Contracts. `@cosmwasm/ts-codegen` converts your CosmWasm smart contracts into dev-friendly TypeScript classes so you can focus on shipping code.
@@ -28,7 +28,6 @@ The quickest and easiest way to interact with CosmWasm Contracts. `@cosmwasm/ts-
 
 - [@cosmwasm/ts-codegen](#cosmwasmts-codegen)
   - [Table of contents](#table-of-contents)
-- [QuickStart](#quickstart)
 - [Usage](#usage)
     - [Programmatic Usage](#programmatic-usage)
     - [Types](#types)
@@ -47,35 +46,9 @@ The quickest and easiest way to interact with CosmWasm Contracts. `@cosmwasm/ts-
     - [Exporting Schemas](#exporting-schemas)
 - [Developing](#developing)
 - [Related](#related)
-## Quickstart
-
-Clone your project and `cd` into your contracts folder
-
-```sh
-git clone https://github.com/public-awesome/launchpad.git
-cd launchpad/contracts/sg721-base/
-```
-
-Run `cosmwasm-ts-codegen` to generate your code.
-
-```sh
-cosmwasm-ts-codegen generate \
-          --plugin client \
-          --schema ./schema \
-          --out ./ts \
-          --name SG721 \
-          --no-bundle
-```
-
-The output will be in the folder specified by `--out`, enjoy!
 
 ## Usage
 
-You can get started quickly using our `cli` by globally installing via npm:
-
-```
-npm install -g @cosmwasm/ts-codegen
-```
 ### Programmatic Usage
 
 For production usage, we recommend setting up a build script that uses the main entry point:
@@ -137,7 +110,7 @@ codegen({
 
 Typescript types and interfaces are generated in separate files so they can be imported into various generated plugins.
 
-[see example output code](https://gist.github.com/pyramation/107d4e8e30dc5eb3ffc07bc3000f4dd0)
+[see example output code](https://github.com/CosmWasm/ts-codegen/blob/main/__output__/sg721/Sg721.types.ts)
 
 #### Types Options
 
@@ -151,7 +124,7 @@ Typescript types and interfaces are generated in separate files so they can be i
 
 The `client` plugin will generate TS client classes for your contracts. This option generates a `QueryClient` for queries as well as a `Client` for queries and mutations.
 
-[see example output code](https://gist.github.com/pyramation/30508678b7563e286f06ccc5ac384817)
+[see example output code](https://github.com/CosmWasm/ts-codegen/blob/main/__output__/sg721/Sg721.client.ts )
 
 #### Client Options
 
@@ -161,20 +134,12 @@ The `client` plugin will generate TS client classes for your contracts. This opt
 | `client.execExtendsQuery`               | execute should extend query message clients          |
 | `client.noImplicitOverride`             | should match your tsconfig noImplicitOverride option |
 
-#### Client via CLI
 
-```sh
-cosmwasm-ts-codegen generate \
-    --plugin client
-    --schema ./schema \
-    --out ./ts \
-    --name MyContractName
- ```
 ### React Query
 
 Generate [react-query v3](https://react-query-v3.tanstack.com/) or [react-query v4](https://tanstack.com/query/v4/) bindings for your contracts with the `react-query` command.
 
-[see example output code](https://gist.github.com/pyramation/70aef28fd3af0ee164f7711704d3dfc0)
+[see example output code](https://github.com/CosmWasm/ts-codegen/blob/main/__output__/sg721/Sg721.react-query.ts)
 
 #### React Query Options
 
@@ -189,50 +154,11 @@ Generate [react-query v3](https://react-query-v3.tanstack.com/) or [react-query 
 | `reactQuery.camelize`       | use camelCase style for property names                                       |
 
 
-#### React Query via CLI
-
-Here is an example without optional client, using v3 for `react-query`, without mutations:
-
-```sh
-cosmwasm-ts-codegen generate \
-    --plugin client \
-    --plugin react-query \
-    --schema ./schema \
-    --out ./ts \
-    --name MyContractName \
-    --version v3 \
-    --no-optionalClient \
-    --no-mutations
-```
-
-Example with optional client, using v4, with mutations:
-
-```sh
-cosmwasm-ts-codegen generate \
-    --plugin react-query \
-    --schema ./schema \
-    --out ./ts \
-    --name MyContractName \
-    --optionalClient \
-    --version v4 \
-    --mutations
-```
-
 ### Recoil
 
 Generate [recoil](https://recoiljs.org/) bindings for your contracts with the `recoil` command.
 
-[see example output code](https://gist.github.com/pyramation/a9520ccf131177b1841e02a97d7d3731)
-
-#### Recoil via CLI
-
-```sh
-cosmwasm-ts-codegen generate \
-    --plugin recoil \
-    --schema ./schema \
-    --out ./ts \
-    --name MyContractName
-```
+[see example output code](https://github.com/CosmWasm/ts-codegen/blob/main/__output__/sg721/Sg721.recoil.ts)
 
 #### Recoil Options
 
@@ -244,17 +170,8 @@ cosmwasm-ts-codegen generate \
 
 Generate pure message objects with the proper `utf8` encoding and `typeUrl` configured that you can broadcast yourself via `cosmjs` with the `message-composer` command.
 
-[see example output code](https://gist.github.com/pyramation/43320e8b952751a0bd5a77dbc5b601f4)
+[see example output code](https://github.com/CosmWasm/ts-codegen/blob/main/__output__/sg721/Sg721.message-composer.ts)
 
-#### Message Composer via CLI
-
-```sh
-cosmwasm-ts-codegen generate \
-    --plugin message-composer \
-    --schema ./schema \
-    --out ./ts \
-    --name MyContractName
-```
 #### Message Composer Options
 
 | option                         | description                                                         |
@@ -267,15 +184,6 @@ Generate raw message jsons for use in your application with the `message-builder
 
 [see example output code](https://gist.github.com/adairrr/b394e62beb9856b0351883f776650f26)
 
-#### Message Builder via CLI
-
-```sh
-cosmwasm-ts-codegen generate \
-    --plugin message-builder \
-    --schema ./schema \
-    --out ./ts \
-    --name MyContractName
-```
 #### Message Builder Options
 
 | option                   | description                        |
@@ -426,6 +334,32 @@ Without using shorthand constructor:
 
 ### CLI Usage and Examples
 
+You can get started quickly using our `cli` by globally installing via npm:
+
+```
+npm install @cosmwasm/ts-codegen
+```
+
+Clone your project and `cd` into your contracts folder
+
+```sh
+git clone https://github.com/public-awesome/launchpad.git
+cd launchpad/contracts/whitelists/
+```
+
+Run `cosmwasm-ts-codegen` to generate your code.
+
+```sh
+cosmwasm-ts-codegen generate \
+          --plugin client \
+          --schema ./schema \
+          --out ./ts \
+          --name Whitelist \
+          --no-bundle
+```
+
+The output will be in the folder specified by `--out`, enjoy!
+
 #### Interactive prompt
 
 The CLI is interactive, and if you don't specify an option, it will interactively prompt you.
@@ -505,6 +439,77 @@ cosmwasm-ts-codegen generate \
           --out ./ts \
           --name SG721
 ```
+
+#### Client via CLI
+
+```sh
+cosmwasm-ts-codegen generate \
+    --plugin client
+    --schema ./schema \
+    --out ./ts \
+    --name MyContractName
+```
+
+
+#### React Query via CLI
+
+Here is an example without optional client, using v3 for `react-query`, without mutations:
+
+```sh
+cosmwasm-ts-codegen generate \
+    --plugin client \
+    --plugin react-query \
+    --schema ./schema \
+    --out ./ts \
+    --name MyContractName \
+    --version v3 \
+    --no-optionalClient \
+    --no-mutations
+```
+
+Example with optional client, using v4, with mutations:
+
+```sh
+cosmwasm-ts-codegen generate \
+    --plugin react-query \
+    --schema ./schema \
+    --out ./ts \
+    --name MyContractName \
+    --optionalClient \
+    --version v4 \
+    --mutations
+```
+
+#### Recoil via CLI
+
+```sh
+cosmwasm-ts-codegen generate \
+    --plugin recoil \
+    --schema ./schema \
+    --out ./ts \
+    --name MyContractName
+```
+
+#### Message Composer via CLI
+
+```sh
+cosmwasm-ts-codegen generate \
+    --plugin message-composer \
+    --schema ./schema \
+    --out ./ts \
+    --name MyContractName
+```
+
+#### Message Builder via CLI
+
+```sh
+cosmwasm-ts-codegen generate \
+    --plugin message-builder \
+    --schema ./schema \
+    --out ./ts \
+    --name MyContractName
+```
+
 
 ### Advanced Usage
 

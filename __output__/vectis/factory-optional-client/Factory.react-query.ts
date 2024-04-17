@@ -18,7 +18,8 @@ export function useFactoryAdminAddrQuery<TData = AdminAddrResponse>({
   client,
   options
 }: FactoryAdminAddrQuery<TData>) {
-  return useQuery<AdminAddrResponse, Error, TData>(["factoryAdminAddr", client?.contractAddress], () => client ? client.adminAddr() : Promise.reject(new Error("Invalid client")), { ...options,
+  return useQuery<AdminAddrResponse, Error, TData>(["factoryAdminAddr", client?.contractAddress], () => client ? client.adminAddr() : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -27,7 +28,8 @@ export function useFactoryGovecAddrQuery<TData = GovecAddrResponse>({
   client,
   options
 }: FactoryGovecAddrQuery<TData>) {
-  return useQuery<GovecAddrResponse, Error, TData>(["factoryGovecAddr", client?.contractAddress], () => client ? client.govecAddr() : Promise.reject(new Error("Invalid client")), { ...options,
+  return useQuery<GovecAddrResponse, Error, TData>(["factoryGovecAddr", client?.contractAddress], () => client ? client.govecAddr() : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -36,7 +38,8 @@ export function useFactoryFeeQuery<TData = FeeResponse>({
   client,
   options
 }: FactoryFeeQuery<TData>) {
-  return useQuery<FeeResponse, Error, TData>(["factoryFee", client?.contractAddress], () => client ? client.fee() : Promise.reject(new Error("Invalid client")), { ...options,
+  return useQuery<FeeResponse, Error, TData>(["factoryFee", client?.contractAddress], () => client ? client.fee() : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -52,7 +55,8 @@ export function useFactoryCodeIdQuery<TData = CodeIdResponse>({
 }: FactoryCodeIdQuery<TData>) {
   return useQuery<CodeIdResponse, Error, TData>(["factoryCodeId", client?.contractAddress, JSON.stringify(args)], () => client ? client.codeId({
     ty: args.ty
-  }) : Promise.reject(new Error("Invalid client")), { ...options,
+  }) : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -72,7 +76,8 @@ export function useFactoryWalletsOfQuery<TData = WalletsOfResponse>({
     limit: args.limit,
     startAfter: args.startAfter,
     user: args.user
-  }) : Promise.reject(new Error("Invalid client")), { ...options,
+  }) : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -90,7 +95,8 @@ export function useFactoryWalletsQuery<TData = WalletsResponse>({
   return useQuery<WalletsResponse, Error, TData>(["factoryWallets", client?.contractAddress, JSON.stringify(args)], () => client ? client.wallets({
     limit: args.limit,
     startAfter: args.startAfter
-  }) : Promise.reject(new Error("Invalid client")), { ...options,
+  }) : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }

@@ -15,5 +15,4 @@ export class CwSingle extends ContractBase<CwSingleClient, CwSingleQueryClient, 
   }: IContractConstructor) {
     super(address, cosmWasmClient, signingCosmWasmClient, CwSingleClient, CwSingleQueryClient, CwSingleMsgComposer);
   }
-
 }

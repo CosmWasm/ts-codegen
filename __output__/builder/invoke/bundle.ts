@@ -20,23 +20,28 @@ import * as _12 from "./CwSingle.types";
 import * as _13 from "./CwSingle.client";
 import * as _14 from "./CwSingle.react-query";
 export namespace contracts {
-  export const Factory = { ..._0,
+  export const Factory = {
+    ..._0,
     ..._1,
     ..._2
   };
-  export const Minter = { ..._3,
+  export const Minter = {
+    ..._3,
     ..._4,
     ..._5
   };
-  export const CwAdminFactory = { ..._6,
+  export const CwAdminFactory = {
+    ..._6,
     ..._7,
     ..._8
   };
-  export const CwCodeIdRegistry = { ..._9,
+  export const CwCodeIdRegistry = {
+    ..._9,
     ..._10,
     ..._11
   };
-  export const CwSingle = { ..._12,
+  export const CwSingle = {
+    ..._12,
     ..._13,
     ..._14
   };

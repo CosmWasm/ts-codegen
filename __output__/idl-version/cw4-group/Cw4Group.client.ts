@@ -30,7 +30,6 @@ export interface Cw4GroupReadOnlyInterface {
 export class Cw4GroupQueryClient implements Cw4GroupReadOnlyInterface {
   client: CosmWasmClient;
   contractAddress: string;
-
   constructor(client: CosmWasmClient, contractAddress: string) {
     this.client = client;
     this.contractAddress = contractAddress;
@@ -40,7 +39,6 @@ export class Cw4GroupQueryClient implements Cw4GroupReadOnlyInterface {
     this.member = this.member.bind(this);
     this.hooks = this.hooks.bind(this);
   }
-
   admin = async (): Promise<AdminResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
       admin: {}
@@ -115,7 +113,6 @@ export class Cw4GroupClient extends Cw4GroupQueryClient implements Cw4GroupInter
   client: SigningCosmWasmClient;
   sender: string;
   contractAddress: string;
-
   constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
     super(client, contractAddress);
     this.client = client;
@@ -126,7 +123,6 @@ export class Cw4GroupClient extends Cw4GroupQueryClient implements Cw4GroupInter
     this.addHook = this.addHook.bind(this);
     this.removeHook = this.removeHook.bind(this);
   }
-
   updateAdmin = async ({
     admin
   }: {

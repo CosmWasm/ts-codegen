@@ -11,30 +11,37 @@ export const factoryQueryKeys = {
   contract: ([{
     contract: "factory"
   }] as const),
-  address: (contractAddress: string | undefined) => ([{ ...factoryQueryKeys.contract[0],
+  address: (contractAddress: string | undefined) => ([{
+    ...factoryQueryKeys.contract[0],
     address: contractAddress
   }] as const),
-  wallets: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{ ...factoryQueryKeys.address(contractAddress)[0],
+  wallets: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{
+    ...factoryQueryKeys.address(contractAddress)[0],
     method: "wallets",
     args
   }] as const),
-  walletsOf: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{ ...factoryQueryKeys.address(contractAddress)[0],
+  walletsOf: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{
+    ...factoryQueryKeys.address(contractAddress)[0],
     method: "wallets_of",
     args
   }] as const),
-  codeId: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{ ...factoryQueryKeys.address(contractAddress)[0],
+  codeId: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{
+    ...factoryQueryKeys.address(contractAddress)[0],
     method: "code_id",
     args
   }] as const),
-  fee: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{ ...factoryQueryKeys.address(contractAddress)[0],
+  fee: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{
+    ...factoryQueryKeys.address(contractAddress)[0],
     method: "fee",
     args
   }] as const),
-  govecAddr: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{ ...factoryQueryKeys.address(contractAddress)[0],
+  govecAddr: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{
+    ...factoryQueryKeys.address(contractAddress)[0],
     method: "govec_addr",
     args
   }] as const),
-  adminAddr: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{ ...factoryQueryKeys.address(contractAddress)[0],
+  adminAddr: (contractAddress: string | undefined, args?: Record<string, unknown>) => ([{
+    ...factoryQueryKeys.address(contractAddress)[0],
     method: "admin_addr",
     args
   }] as const)
@@ -50,7 +57,8 @@ export function useFactoryAdminAddrQuery<TData = AdminAddrResponse>({
   client,
   options
 }: FactoryAdminAddrQuery<TData>) {
-  return useQuery<AdminAddrResponse, Error, TData>(factoryQueryKeys.adminAddr(client?.contractAddress), () => client ? client.adminAddr() : Promise.reject(new Error("Invalid client")), { ...options,
+  return useQuery<AdminAddrResponse, Error, TData>(factoryQueryKeys.adminAddr(client?.contractAddress), () => client ? client.adminAddr() : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -59,7 +67,8 @@ export function useFactoryGovecAddrQuery<TData = GovecAddrResponse>({
   client,
   options
 }: FactoryGovecAddrQuery<TData>) {
-  return useQuery<GovecAddrResponse, Error, TData>(factoryQueryKeys.govecAddr(client?.contractAddress), () => client ? client.govecAddr() : Promise.reject(new Error("Invalid client")), { ...options,
+  return useQuery<GovecAddrResponse, Error, TData>(factoryQueryKeys.govecAddr(client?.contractAddress), () => client ? client.govecAddr() : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -68,7 +77,8 @@ export function useFactoryFeeQuery<TData = FeeResponse>({
   client,
   options
 }: FactoryFeeQuery<TData>) {
-  return useQuery<FeeResponse, Error, TData>(factoryQueryKeys.fee(client?.contractAddress), () => client ? client.fee() : Promise.reject(new Error("Invalid client")), { ...options,
+  return useQuery<FeeResponse, Error, TData>(factoryQueryKeys.fee(client?.contractAddress), () => client ? client.fee() : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -84,7 +94,8 @@ export function useFactoryCodeIdQuery<TData = CodeIdResponse>({
 }: FactoryCodeIdQuery<TData>) {
   return useQuery<CodeIdResponse, Error, TData>(factoryQueryKeys.codeId(client?.contractAddress, args), () => client ? client.codeId({
     ty: args.ty
-  }) : Promise.reject(new Error("Invalid client")), { ...options,
+  }) : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -104,7 +115,8 @@ export function useFactoryWalletsOfQuery<TData = WalletsOfResponse>({
     limit: args.limit,
     startAfter: args.startAfter,
     user: args.user
-  }) : Promise.reject(new Error("Invalid client")), { ...options,
+  }) : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }
@@ -122,7 +134,8 @@ export function useFactoryWalletsQuery<TData = WalletsResponse>({
   return useQuery<WalletsResponse, Error, TData>(factoryQueryKeys.wallets(client?.contractAddress, args), () => client ? client.wallets({
     limit: args.limit,
     startAfter: args.startAfter
-  }) : Promise.reject(new Error("Invalid client")), { ...options,
+  }) : Promise.reject(new Error("Invalid client")), {
+    ...options,
     enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
   });
 }

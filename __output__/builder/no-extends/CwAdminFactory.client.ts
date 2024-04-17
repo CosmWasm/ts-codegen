@@ -13,12 +13,10 @@ export interface CwAdminFactoryReadOnlyInterface {
 export class CwAdminFactoryQueryClient implements CwAdminFactoryReadOnlyInterface {
   client: CosmWasmClient;
   contractAddress: string;
-
   constructor(client: CosmWasmClient, contractAddress: string) {
     this.client = client;
     this.contractAddress = contractAddress;
   }
-
 }
 export interface CwAdminFactoryInterface {
   contractAddress: string;
@@ -37,14 +35,12 @@ export class CwAdminFactoryClient implements CwAdminFactoryInterface {
   client: SigningCosmWasmClient;
   sender: string;
   contractAddress: string;
-
   constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
     this.client = client;
     this.sender = sender;
     this.contractAddress = contractAddress;
     this.instantiateContractWithSelfAdmin = this.instantiateContractWithSelfAdmin.bind(this);
   }
-
   instantiateContractWithSelfAdmin = async ({
     codeId,
     instantiateMsg,

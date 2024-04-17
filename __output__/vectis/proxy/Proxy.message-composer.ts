@@ -53,7 +53,6 @@ export interface ProxyMessage {
 export class ProxyMessageComposer implements ProxyMessage {
   sender: string;
   contractAddress: string;
-
   constructor(sender: string, contractAddress: string) {
     this.sender = sender;
     this.contractAddress = contractAddress;
@@ -66,7 +65,6 @@ export class ProxyMessageComposer implements ProxyMessage {
     this.updateGuardians = this.updateGuardians.bind(this);
     this.updateLabel = this.updateLabel.bind(this);
   }
-
   execute = ({
     msgs
   }: {

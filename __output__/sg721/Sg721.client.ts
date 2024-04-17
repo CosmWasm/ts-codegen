@@ -79,7 +79,6 @@ export interface Sg721ReadOnlyInterface {
 export class Sg721QueryClient implements Sg721ReadOnlyInterface {
   client: CosmWasmClient;
   contractAddress: string;
-
   constructor(client: CosmWasmClient, contractAddress: string) {
     this.client = client;
     this.contractAddress = contractAddress;
@@ -96,7 +95,6 @@ export class Sg721QueryClient implements Sg721ReadOnlyInterface {
     this.minter = this.minter.bind(this);
     this.collectionInfo = this.collectionInfo.bind(this);
   }
-
   ownerOf = async ({
     includeExpired,
     tokenId
@@ -307,7 +305,6 @@ export class Sg721Client extends Sg721QueryClient implements Sg721Interface {
   client: SigningCosmWasmClient;
   sender: string;
   contractAddress: string;
-
   constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
     super(client, contractAddress);
     this.client = client;
@@ -322,7 +319,6 @@ export class Sg721Client extends Sg721QueryClient implements Sg721Interface {
     this.mint = this.mint.bind(this);
     this.burn = this.burn.bind(this);
   }
-
   transferNft = async ({
     recipient,
     tokenId

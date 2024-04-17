@@ -27,7 +27,6 @@ export interface HackAtomReadOnlyInterface {
 export class HackAtomQueryClient implements HackAtomReadOnlyInterface {
   client: CosmWasmClient;
   contractAddress: string;
-
   constructor(client: CosmWasmClient, contractAddress: string) {
     this.client = client;
     this.contractAddress = contractAddress;
@@ -36,7 +35,6 @@ export class HackAtomQueryClient implements HackAtomReadOnlyInterface {
     this.recurse = this.recurse.bind(this);
     this.getInt = this.getInt.bind(this);
   }
-
   verifier = async (): Promise<VerifierResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
       verifier: {}
@@ -93,7 +91,6 @@ export class HackAtomClient extends HackAtomQueryClient implements HackAtomInter
   client: SigningCosmWasmClient;
   sender: string;
   contractAddress: string;
-
   constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
     super(client, contractAddress);
     this.client = client;
@@ -108,7 +105,6 @@ export class HackAtomClient extends HackAtomQueryClient implements HackAtomInter
     this.panic = this.panic.bind(this);
     this.userErrorsInApiCalls = this.userErrorsInApiCalls.bind(this);
   }
-
   release = async (fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       release: {}
