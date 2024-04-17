@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/cosmwasm/ts-codegen/compare/wasm-ast-types@1.3.0...wasm-ast-types@1.4.0) (2024-04-17)
+
+**Note:** Version bump only for package wasm-ast-types
+
+
+
+
+
 # [1.3.0](https://github.com/cosmwasm/ts-codegen/compare/wasm-ast-types@1.2.0...wasm-ast-types@1.3.0) (2024-04-17)
 
 **Note:** Version bump only for package wasm-ast-types
