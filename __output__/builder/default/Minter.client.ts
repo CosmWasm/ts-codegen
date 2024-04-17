@@ -22,7 +22,6 @@ export interface MinterReadOnlyInterface {
 export class MinterQueryClient implements MinterReadOnlyInterface {
   client: CosmWasmClient;
   contractAddress: string;
-
   constructor(client: CosmWasmClient, contractAddress: string) {
     this.client = client;
     this.contractAddress = contractAddress;
@@ -32,7 +31,6 @@ export class MinterQueryClient implements MinterReadOnlyInterface {
     this.mintPrice = this.mintPrice.bind(this);
     this.mintCount = this.mintCount.bind(this);
   }
-
   config = async (): Promise<ConfigResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
       config: {}
@@ -98,7 +96,6 @@ export class MinterClient extends MinterQueryClient implements MinterInterface {
   client: SigningCosmWasmClient;
   sender: string;
   contractAddress: string;
-
   constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
     super(client, contractAddress);
     this.client = client;
@@ -112,7 +109,6 @@ export class MinterClient extends MinterQueryClient implements MinterInterface {
     this.mintFor = this.mintFor.bind(this);
     this.withdraw = this.withdraw.bind(this);
   }
-
   mint = async (fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       mint: {}

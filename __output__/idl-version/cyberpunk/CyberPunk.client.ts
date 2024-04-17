@@ -14,13 +14,11 @@ export interface CyberPunkReadOnlyInterface {
 export class CyberPunkQueryClient implements CyberPunkReadOnlyInterface {
   client: CosmWasmClient;
   contractAddress: string;
-
   constructor(client: CosmWasmClient, contractAddress: string) {
     this.client = client;
     this.contractAddress = contractAddress;
     this.mirrorEnv = this.mirrorEnv.bind(this);
   }
-
   mirrorEnv = async (): Promise<Env> => {
     return this.client.queryContractSmart(this.contractAddress, {
       mirror_env: {}
@@ -43,7 +41,6 @@ export class CyberPunkClient extends CyberPunkQueryClient implements CyberPunkIn
   client: SigningCosmWasmClient;
   sender: string;
   contractAddress: string;
-
   constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
     super(client, contractAddress);
     this.client = client;
@@ -52,7 +49,6 @@ export class CyberPunkClient extends CyberPunkQueryClient implements CyberPunkIn
     this.argon2 = this.argon2.bind(this);
     this.mirrorEnv = this.mirrorEnv.bind(this);
   }
-
   argon2 = async ({
     memCost,
     timeCost

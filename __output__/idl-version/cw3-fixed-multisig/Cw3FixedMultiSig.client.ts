@@ -61,7 +61,6 @@ export interface Cw3FixedMultiSigReadOnlyInterface {
 export class Cw3FixedMultiSigQueryClient implements Cw3FixedMultiSigReadOnlyInterface {
   client: CosmWasmClient;
   contractAddress: string;
-
   constructor(client: CosmWasmClient, contractAddress: string) {
     this.client = client;
     this.contractAddress = contractAddress;
@@ -74,7 +73,6 @@ export class Cw3FixedMultiSigQueryClient implements Cw3FixedMultiSigReadOnlyInte
     this.voter = this.voter.bind(this);
     this.listVoters = this.listVoters.bind(this);
   }
-
   threshold = async (): Promise<ThresholdResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
       threshold: {}
@@ -212,7 +210,6 @@ export class Cw3FixedMultiSigClient extends Cw3FixedMultiSigQueryClient implemen
   client: SigningCosmWasmClient;
   sender: string;
   contractAddress: string;
-
   constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
     super(client, contractAddress);
     this.client = client;
@@ -223,7 +220,6 @@ export class Cw3FixedMultiSigClient extends Cw3FixedMultiSigQueryClient implemen
     this.execute = this.execute.bind(this);
     this.close = this.close.bind(this);
   }
-
   propose = async ({
     description,
     latest,

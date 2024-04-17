@@ -76,7 +76,6 @@ export interface Sg721Message {
 export class Sg721MessageComposer implements Sg721Message {
   sender: string;
   contractAddress: string;
-
   constructor(sender: string, contractAddress: string) {
     this.sender = sender;
     this.contractAddress = contractAddress;
@@ -89,7 +88,6 @@ export class Sg721MessageComposer implements Sg721Message {
     this.mint = this.mint.bind(this);
     this.burn = this.burn.bind(this);
   }
-
   transferNft = ({
     recipient,
     tokenId

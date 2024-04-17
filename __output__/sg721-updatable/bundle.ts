@@ -9,7 +9,8 @@ import * as _1 from "./Sg721Updatable.client";
 import * as _2 from "./Sg721Updatable.message-composer";
 import * as _3 from "./Sg721Updatable.react-query";
 export namespace contracts {
-  export const Sg721Updatable = { ..._0,
+  export const Sg721Updatable = {
+    ..._0,
     ..._1,
     ..._2,
     ..._3

@@ -78,7 +78,6 @@ export interface CwProposalSingleMessage {
 export class CwProposalSingleMessageComposer implements CwProposalSingleMessage {
   sender: string;
   contractAddress: string;
-
   constructor(sender: string, contractAddress: string) {
     this.sender = sender;
     this.contractAddress = contractAddress;
@@ -92,7 +91,6 @@ export class CwProposalSingleMessageComposer implements CwProposalSingleMessage 
     this.addVoteHook = this.addVoteHook.bind(this);
     this.removeVoteHook = this.removeVoteHook.bind(this);
   }
-
   propose = ({
     description,
     msgs,

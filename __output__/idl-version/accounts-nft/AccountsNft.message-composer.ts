@@ -76,7 +76,6 @@ export interface AccountsNftMessage {
 export class AccountsNftMessageComposer implements AccountsNftMessage {
   sender: string;
   contractAddress: string;
-
   constructor(sender: string, contractAddress: string) {
     this.sender = sender;
     this.contractAddress = contractAddress;
@@ -91,7 +90,6 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
     this.revokeAll = this.revokeAll.bind(this);
     this.burn = this.burn.bind(this);
   }
-
   proposeNewOwner = ({
     newOwner
   }: {

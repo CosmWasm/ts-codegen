@@ -38,7 +38,6 @@ export interface Cw4GroupMessage {
 export class Cw4GroupMessageComposer implements Cw4GroupMessage {
   sender: string;
   contractAddress: string;
-
   constructor(sender: string, contractAddress: string) {
     this.sender = sender;
     this.contractAddress = contractAddress;
@@ -47,7 +46,6 @@ export class Cw4GroupMessageComposer implements Cw4GroupMessage {
     this.addHook = this.addHook.bind(this);
     this.removeHook = this.removeHook.bind(this);
   }
-
   updateAdmin = ({
     admin
   }: {

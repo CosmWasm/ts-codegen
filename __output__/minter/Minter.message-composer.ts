@@ -40,7 +40,6 @@ export interface MinterMessage {
 export class MinterMessageComposer implements MinterMessage {
   sender: string;
   contractAddress: string;
-
   constructor(sender: string, contractAddress: string) {
     this.sender = sender;
     this.contractAddress = contractAddress;
@@ -52,7 +51,6 @@ export class MinterMessageComposer implements MinterMessage {
     this.mintFor = this.mintFor.bind(this);
     this.withdraw = this.withdraw.bind(this);
   }
-
   mint = (_funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",

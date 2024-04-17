@@ -15,5 +15,4 @@ export class Factory extends ContractBase<FactoryClient, FactoryQueryClient, Fac
   }: IContractConstructor) {
     super(address, cosmWasmClient, signingCosmWasmClient, FactoryClient, FactoryQueryClient, FactoryMsgComposer);
   }
-
 }

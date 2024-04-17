@@ -35,7 +35,6 @@ export interface CwNamedGroupsMessage {
 export class CwNamedGroupsMessageComposer implements CwNamedGroupsMessage {
   sender: string;
   contractAddress: string;
-
   constructor(sender: string, contractAddress: string) {
     this.sender = sender;
     this.contractAddress = contractAddress;
@@ -43,7 +42,6 @@ export class CwNamedGroupsMessageComposer implements CwNamedGroupsMessage {
     this.removeGroup = this.removeGroup.bind(this);
     this.updateOwner = this.updateOwner.bind(this);
   }
-
   update = ({
     addressesToAdd,
     addressesToRemove,

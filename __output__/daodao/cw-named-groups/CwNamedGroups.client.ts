@@ -39,7 +39,6 @@ export interface CwNamedGroupsReadOnlyInterface {
 export class CwNamedGroupsQueryClient implements CwNamedGroupsReadOnlyInterface {
   client: CosmWasmClient;
   contractAddress: string;
-
   constructor(client: CosmWasmClient, contractAddress: string) {
     this.client = client;
     this.contractAddress = contractAddress;
@@ -48,7 +47,6 @@ export class CwNamedGroupsQueryClient implements CwNamedGroupsReadOnlyInterface 
     this.listAddresses = this.listAddresses.bind(this);
     this.isAddressInGroup = this.isAddressInGroup.bind(this);
   }
-
   dump = async (): Promise<DumpResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
       dump: {}
@@ -130,7 +128,6 @@ export class CwNamedGroupsClient extends CwNamedGroupsQueryClient implements CwN
   client: SigningCosmWasmClient;
   sender: string;
   contractAddress: string;
-
   constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
     super(client, contractAddress);
     this.client = client;
@@ -140,7 +137,6 @@ export class CwNamedGroupsClient extends CwNamedGroupsQueryClient implements CwN
     this.removeGroup = this.removeGroup.bind(this);
     this.updateOwner = this.updateOwner.bind(this);
   }
-
   update = async ({
     addressesToAdd,
     addressesToRemove,

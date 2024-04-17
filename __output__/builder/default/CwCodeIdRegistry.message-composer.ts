@@ -61,7 +61,6 @@ export interface CwCodeIdRegistryMsg {
 export class CwCodeIdRegistryMsgComposer implements CwCodeIdRegistryMsg {
   sender: string;
   contractAddress: string;
-
   constructor(sender: string, contractAddress: string) {
     this.sender = sender;
     this.contractAddress = contractAddress;
@@ -71,7 +70,6 @@ export class CwCodeIdRegistryMsgComposer implements CwCodeIdRegistryMsg {
     this.unregister = this.unregister.bind(this);
     this.updateConfig = this.updateConfig.bind(this);
   }
-
   receive = ({
     amount,
     msg,

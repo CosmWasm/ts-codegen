@@ -94,7 +94,6 @@ export interface AccountsNftReadOnlyInterface {
 export class AccountsNftQueryClient implements AccountsNftReadOnlyInterface {
   client: CosmWasmClient;
   contractAddress: string;
-
   constructor(client: CosmWasmClient, contractAddress: string) {
     this.client = client;
     this.contractAddress = contractAddress;
@@ -114,7 +113,6 @@ export class AccountsNftQueryClient implements AccountsNftReadOnlyInterface {
     this.allTokens = this.allTokens.bind(this);
     this.minter = this.minter.bind(this);
   }
-
   proposedNewOwner = async (): Promise<String> => {
     return this.client.queryContractSmart(this.contractAddress, {
       proposed_new_owner: {}
@@ -358,7 +356,6 @@ export class AccountsNftClient extends AccountsNftQueryClient implements Account
   client: SigningCosmWasmClient;
   sender: string;
   contractAddress: string;
-
   constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
     super(client, contractAddress);
     this.client = client;
@@ -375,7 +372,6 @@ export class AccountsNftClient extends AccountsNftQueryClient implements Account
     this.revokeAll = this.revokeAll.bind(this);
     this.burn = this.burn.bind(this);
   }
-
   proposeNewOwner = async ({
     newOwner
   }: {

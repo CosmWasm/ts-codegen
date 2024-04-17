@@ -97,7 +97,6 @@ export interface Sg721UpdatableMsg {
 export class Sg721UpdatableMsgComposer implements Sg721UpdatableMsg {
   sender: string;
   contractAddress: string;
-
   constructor(sender: string, contractAddress: string) {
     this.sender = sender;
     this.contractAddress = contractAddress;
@@ -117,7 +116,6 @@ export class Sg721UpdatableMsgComposer implements Sg721UpdatableMsg {
     this.mint = this.mint.bind(this);
     this.extension = this.extension.bind(this);
   }
-
   freezeTokenMetadata = (_funds?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",

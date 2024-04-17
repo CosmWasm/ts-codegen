@@ -19,14 +19,12 @@ export interface ProxyReadOnlyInterface {
 export class ProxyQueryClient implements ProxyReadOnlyInterface {
   client: CosmWasmClient;
   contractAddress: string;
-
   constructor(client: CosmWasmClient, contractAddress: string) {
     this.client = client;
     this.contractAddress = contractAddress;
     this.info = this.info.bind(this);
     this.canExecuteRelay = this.canExecuteRelay.bind(this);
   }
-
   info = async (): Promise<InfoResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
       info: {}
@@ -90,7 +88,6 @@ export class ProxyClient extends ProxyQueryClient implements ProxyInterface {
   client: SigningCosmWasmClient;
   sender: string;
   contractAddress: string;
-
   constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
     super(client, contractAddress);
     this.client = client;
@@ -105,7 +102,6 @@ export class ProxyClient extends ProxyQueryClient implements ProxyInterface {
     this.updateGuardians = this.updateGuardians.bind(this);
     this.updateLabel = this.updateLabel.bind(this);
   }
-
   execute = async ({
     msgs
   }: {

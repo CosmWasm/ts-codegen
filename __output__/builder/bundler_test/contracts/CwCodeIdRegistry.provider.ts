@@ -15,5 +15,4 @@ export class CwCodeIdRegistry extends ContractBase<CwCodeIdRegistryClient, CwCod
   }: IContractConstructor) {
     super(address, cosmWasmClient, signingCosmWasmClient, CwCodeIdRegistryClient, CwCodeIdRegistryQueryClient, CwCodeIdRegistryMsgComposer);
   }
-
 }

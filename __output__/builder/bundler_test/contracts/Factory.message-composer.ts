@@ -56,7 +56,6 @@ export interface FactoryMsg {
 export class FactoryMsgComposer implements FactoryMsg {
   sender: string;
   contractAddress: string;
-
   constructor(sender: string, contractAddress: string) {
     this.sender = sender;
     this.contractAddress = contractAddress;
@@ -68,7 +67,6 @@ export class FactoryMsgComposer implements FactoryMsg {
     this.updateGovecAddr = this.updateGovecAddr.bind(this);
     this.updateAdmin = this.updateAdmin.bind(this);
   }
-
   createWallet = ({
     createWalletMsg
   }: {

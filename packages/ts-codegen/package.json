@@ -13,7 +13,7 @@
     "directory": "dist"
   },
   "bin": {
-    "cosmwasm-ts-codegen": "main/ts-codegen.js"
+    "cosmwasm-ts-codegen": "ts-codegen.js"
   },
   "scripts": {
     "copy": "copyfiles -f LICENSE-Apache LICENSE-MIT README.md package.json dist",
@@ -38,17 +38,6 @@
     "ast-stringify": "0.1.0"
   },
   "dependencies": {
-    "@babel/core": "7.18.10",
-    "@babel/generator": "7.18.12",
-    "@babel/parser": "7.18.11",
-    "@babel/plugin-proposal-class-properties": "7.18.6",
-    "@babel/plugin-proposal-export-default-from": "7.18.10",
-    "@babel/plugin-proposal-object-rest-spread": "7.18.9",
-    "@babel/plugin-transform-runtime": "7.18.10",
-    "@babel/preset-env": "7.18.10",
-    "@babel/preset-typescript": "^7.18.6",
-    "@babel/runtime": "^7.18.9",
-    "@babel/traverse": "7.18.11",
     "@babel/types": "7.18.10",
     "@cosmology/ts-codegen-types": "^1.0.0",
     "@pyramation/json-schema-to-typescript": " 11.0.4",

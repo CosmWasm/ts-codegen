@@ -79,7 +79,6 @@ export interface Sg721UpdatableReadOnlyInterface {
 export class Sg721UpdatableQueryClient implements Sg721UpdatableReadOnlyInterface {
   client: CosmWasmClient;
   contractAddress: string;
-
   constructor(client: CosmWasmClient, contractAddress: string) {
     this.client = client;
     this.contractAddress = contractAddress;
@@ -96,7 +95,6 @@ export class Sg721UpdatableQueryClient implements Sg721UpdatableReadOnlyInterfac
     this.minter = this.minter.bind(this);
     this.collectionInfo = this.collectionInfo.bind(this);
   }
-
   ownerOf = async ({
     includeExpired,
     tokenId
@@ -328,7 +326,6 @@ export class Sg721UpdatableClient extends Sg721UpdatableQueryClient implements S
   client: SigningCosmWasmClient;
   sender: string;
   contractAddress: string;
-
   constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
     super(client, contractAddress);
     this.client = client;
@@ -350,7 +347,6 @@ export class Sg721UpdatableClient extends Sg721UpdatableQueryClient implements S
     this.mint = this.mint.bind(this);
     this.extension = this.extension.bind(this);
   }
-
   freezeTokenMetadata = async (fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       freeze_token_metadata: {}

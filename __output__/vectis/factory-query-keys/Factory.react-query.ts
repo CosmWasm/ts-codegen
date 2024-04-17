@@ -11,30 +11,37 @@ export const factoryQueryKeys = {
   contract: ([{
     contract: "factory"
   }] as const),
-  address: (contractAddress: string) => ([{ ...factoryQueryKeys.contract[0],
+  address: (contractAddress: string) => ([{
+    ...factoryQueryKeys.contract[0],
     address: contractAddress
   }] as const),
-  wallets: (contractAddress: string, args?: Record<string, unknown>) => ([{ ...factoryQueryKeys.address(contractAddress)[0],
+  wallets: (contractAddress: string, args?: Record<string, unknown>) => ([{
+    ...factoryQueryKeys.address(contractAddress)[0],
     method: "wallets",
     args
   }] as const),
-  walletsOf: (contractAddress: string, args?: Record<string, unknown>) => ([{ ...factoryQueryKeys.address(contractAddress)[0],
+  walletsOf: (contractAddress: string, args?: Record<string, unknown>) => ([{
+    ...factoryQueryKeys.address(contractAddress)[0],
     method: "wallets_of",
     args
   }] as const),
-  codeId: (contractAddress: string, args?: Record<string, unknown>) => ([{ ...factoryQueryKeys.address(contractAddress)[0],
+  codeId: (contractAddress: string, args?: Record<string, unknown>) => ([{
+    ...factoryQueryKeys.address(contractAddress)[0],
     method: "code_id",
     args
   }] as const),
-  fee: (contractAddress: string, args?: Record<string, unknown>) => ([{ ...factoryQueryKeys.address(contractAddress)[0],
+  fee: (contractAddress: string, args?: Record<string, unknown>) => ([{
+    ...factoryQueryKeys.address(contractAddress)[0],
     method: "fee",
     args
   }] as const),
-  govecAddr: (contractAddress: string, args?: Record<string, unknown>) => ([{ ...factoryQueryKeys.address(contractAddress)[0],
+  govecAddr: (contractAddress: string, args?: Record<string, unknown>) => ([{
+    ...factoryQueryKeys.address(contractAddress)[0],
     method: "govec_addr",
     args
   }] as const),
-  adminAddr: (contractAddress: string, args?: Record<string, unknown>) => ([{ ...factoryQueryKeys.address(contractAddress)[0],
+  adminAddr: (contractAddress: string, args?: Record<string, unknown>) => ([{
+    ...factoryQueryKeys.address(contractAddress)[0],
     method: "admin_addr",
     args
   }] as const)

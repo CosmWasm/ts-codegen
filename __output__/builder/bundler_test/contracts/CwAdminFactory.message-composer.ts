@@ -25,13 +25,11 @@ export interface CwAdminFactoryMsg {
 export class CwAdminFactoryMsgComposer implements CwAdminFactoryMsg {
   sender: string;
   contractAddress: string;
-
   constructor(sender: string, contractAddress: string) {
     this.sender = sender;
     this.contractAddress = contractAddress;
     this.instantiateContractWithSelfAdmin = this.instantiateContractWithSelfAdmin.bind(this);
   }
-
   instantiateContractWithSelfAdmin = ({
     codeId,
     instantiateMsg,

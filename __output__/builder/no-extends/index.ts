@@ -36,35 +36,40 @@ import * as _81 from "./CwSingle.recoil";
 import * as _82 from "./CwSingle.message-builder";
 export namespace smart {
   export namespace contracts {
-    export const Factory = { ..._53,
+    export const Factory = {
+      ..._53,
       ..._54,
       ..._55,
       ..._56,
       ..._57,
       ..._58
     };
-    export const Minter = { ..._59,
+    export const Minter = {
+      ..._59,
       ..._60,
       ..._61,
       ..._62,
       ..._63,
       ..._64
     };
-    export const CwAdminFactory = { ..._65,
+    export const CwAdminFactory = {
+      ..._65,
       ..._66,
       ..._67,
       ..._68,
       ..._69,
       ..._70
     };
-    export const CwCodeIdRegistry = { ..._71,
+    export const CwCodeIdRegistry = {
+      ..._71,
       ..._72,
       ..._73,
       ..._74,
       ..._75,
       ..._76
     };
-    export const CwSingle = { ..._77,
+    export const CwSingle = {
+      ..._77,
       ..._78,
       ..._79,
       ..._80,

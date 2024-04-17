@@ -43,7 +43,6 @@ export interface Cw3FixedMultiSigMessage {
 export class Cw3FixedMultiSigMessageComposer implements Cw3FixedMultiSigMessage {
   sender: string;
   contractAddress: string;
-
   constructor(sender: string, contractAddress: string) {
     this.sender = sender;
     this.contractAddress = contractAddress;
@@ -52,7 +51,6 @@ export class Cw3FixedMultiSigMessageComposer implements Cw3FixedMultiSigMessage 
     this.execute = this.execute.bind(this);
     this.close = this.close.bind(this);
   }
-
   propose = ({
     description,
     latest,

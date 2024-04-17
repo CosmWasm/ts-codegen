@@ -24,14 +24,12 @@ export interface CyberPunkMessage {
 export class CyberPunkMessageComposer implements CyberPunkMessage {
   sender: string;
   contractAddress: string;
-
   constructor(sender: string, contractAddress: string) {
     this.sender = sender;
     this.contractAddress = contractAddress;
     this.argon2 = this.argon2.bind(this);
     this.mirrorEnv = this.mirrorEnv.bind(this);
   }
-
   argon2 = ({
     memCost,
     timeCost

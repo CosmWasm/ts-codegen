@@ -15,5 +15,4 @@ export class CwAdminFactory extends ContractBase<CwAdminFactoryClient, CwAdminFa
   }: IContractConstructor) {
     super(address, cosmWasmClient, signingCosmWasmClient, CwAdminFactoryClient, CwAdminFactoryQueryClient, CwAdminFactoryMsgComposer);
   }
-
 }

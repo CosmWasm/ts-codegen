@@ -53,7 +53,6 @@ export interface CwProposalSingleReadOnlyInterface {
 export class CwProposalSingleQueryClient implements CwProposalSingleReadOnlyInterface {
   client: CosmWasmClient;
   contractAddress: string;
-
   constructor(client: CosmWasmClient, contractAddress: string) {
     this.client = client;
     this.contractAddress = contractAddress;
@@ -68,7 +67,6 @@ export class CwProposalSingleQueryClient implements CwProposalSingleReadOnlyInte
     this.voteHooks = this.voteHooks.bind(this);
     this.info = this.info.bind(this);
   }
-
   config = async (): Promise<ConfigResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
       config: {}
@@ -236,7 +234,6 @@ export class CwProposalSingleClient extends CwProposalSingleQueryClient implemen
   client: SigningCosmWasmClient;
   sender: string;
   contractAddress: string;
-
   constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
     super(client, contractAddress);
     this.client = client;
@@ -252,7 +249,6 @@ export class CwProposalSingleClient extends CwProposalSingleQueryClient implemen
     this.addVoteHook = this.addVoteHook.bind(this);
     this.removeVoteHook = this.removeVoteHook.bind(this);
   }
-
   propose = async ({
     description,
     msgs,
