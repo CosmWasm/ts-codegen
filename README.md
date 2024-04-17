@@ -198,10 +198,10 @@ Generate raw message jsons for use in your application with the `message-builder
 
 #### Example Output
 
-[Provider](https://github.com/CosmWasm/ts-codegen/blob/main/__output__/builder/bundler_test/contracts/Factory.provider.ts)
-[Contract Providers](https://github.com/CosmWasm/ts-codegen/blob/main/__output__/builder/bundler_test/contracts/contractContextProviders.ts)
-[Contract Context](https://github.com/CosmWasm/ts-codegen/blob/main/__output__/builder/bundler_test/contracts/contracts-context.tsx)
-[Context Base](https://github.com/CosmWasm/ts-codegen/blob/main/__output__/builder/bundler_test/contracts/contractContextBase.ts)
+- [Provider](https://github.com/CosmWasm/ts-codegen/blob/main/__output__/builder/bundler_test/contracts/Factory.provider.ts)
+- [Contract Providers](https://github.com/CosmWasm/ts-codegen/blob/main/__output__/builder/bundler_test/contracts/contractContextProviders.ts)
+- [Contract Context](https://github.com/CosmWasm/ts-codegen/blob/main/__output__/builder/bundler_test/contracts/contracts-context.tsx)
+- [Context Base](https://github.com/CosmWasm/ts-codegen/blob/main/__output__/builder/bundler_test/contracts/contractContextBase.ts)
 
 #### Use Contracts Provider Usage
 
