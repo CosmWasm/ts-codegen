@@ -7,7 +7,6 @@ exports[`execute classes 1`] = `
   client: SigningCosmWasmClient;
   sender: string;
   contractAddress: string;
-
   constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
     this.client = client;
     this.sender = sender;
@@ -17,12 +16,11 @@ exports[`execute classes 1`] = `
     this.wager = this.wager.bind(this);
     this.cancel = this.cancel.bind(this);
   }
-
   updateConfig = async ({
     params
   }: {
     params: ParamInfo;
-  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_config: {
         params
@@ -37,7 +35,7 @@ exports[`execute classes 1`] = `
     currentPrices: number[][];
     prevPrices: number[][];
     wagerKey: Addr[][];
-  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       set_winner: {
         current_prices: currentPrices,
@@ -56,7 +54,7 @@ exports[`execute classes 1`] = `
     currency: Currency;
     expiry: number;
     token: Addr[][];
-  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       wager: {
         against_currencies: againstCurrencies,
@@ -70,7 +68,7 @@ exports[`execute classes 1`] = `
     token
   }: {
     token: Addr[][];
-  }, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       cancel: {
         token
@@ -102,7 +100,7 @@ exports[`query classes 1`] = `
   wager = async ({
     token
   }: {
-    token: [Addr, number][];
+    token: Addr[][];
   }): Promise<WagerResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
       wager: {
@@ -113,7 +111,7 @@ exports[`query classes 1`] = `
   tokenStatus = async ({
     token
   }: {
-    token: [Addr, number][];
+    token: Addr[][];
   }): Promise<TokenStatusResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
       token_status: {

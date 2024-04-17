@@ -49,7 +49,7 @@ exports[`execute classes array types 1`] = `
     startAfter
   }: {
     limit?: number;
-    startAfter?: [string, string][];
+    startAfter?: string[][];
   }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       all_debt_shares: {
@@ -219,7 +219,7 @@ exports[`execute interfaces no extends 1`] = `
     startAfter
   }: {
     limit?: number;
-    startAfter?: [string, string][];
+    startAfter?: string[][];
   }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
   allPreviousOwners: (fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
   ownerOf: ({
@@ -339,7 +339,7 @@ exports[`query classes 1`] = `
     startAfter
   }: {
     limit?: number;
-    startAfter?: [string, string][];
+    startAfter?: string[][];
   }): Promise<AllDebtSharesResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
       all_debt_shares: {

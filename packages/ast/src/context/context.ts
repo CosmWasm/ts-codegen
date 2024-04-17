@@ -32,6 +32,7 @@ export interface RecoilOptions {
 }
 export interface TSTypesOptions {
   enabled?: boolean;
+  itemsUseTuples?: boolean;
   // deprecated
   aliasExecuteMsg?: boolean;
   aliasEntryPoints?: boolean;
@@ -81,6 +82,7 @@ export const defaultOptions: RenderOptions = {
   enabled: true,
   types: {
     enabled: true,
+    itemsUseTuples: false,
     aliasExecuteMsg: false
   },
   client: {

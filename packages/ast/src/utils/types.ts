@@ -34,52 +34,64 @@ const getArrayTypeFromRef = ($ref: string) => {
   );
 }
 
-const getTypeOrRef = (obj: JSONSchema): t.TSType => {
-  if (obj.type) {
-    return getType(obj.type)
-  }
+
+export const getTypeOrRef = (obj: JSONSchema): t.TSType => {
   if (obj.$ref) {
     return getTypeFromRef(obj.$ref);
+  } else if (typeof obj.type === 'string') {
+    return getType(obj.type);
+  } else if (Array.isArray(obj.type)) {
+    // Handle array of types by creating a union type
+    console.log(obj.type);
+    const types = obj.type.map(t => getType(t));
+    return t.tsUnionType(types);
+  } else {
+    throw new Error('Type definition not supported or missing: ' + JSON.stringify(obj));
   }
-  throw new Error('contact maintainers cannot find type for ' + obj)
-}
-
-
-const getArrayTypeFromItems = (items: JSONSchema | JSONSchema[]): t.TSArrayType => {
-  if (Array.isArray(items)) {
-    return t.tsArrayType(
-      t.tsTupleType(items.map(item => getTypeOrRef(item)))
-    );
-  } else if (items.type === 'array' && items.items) {
-    return t.tsArrayType(
-      getArrayTypeFromItems(items.items)
-    );
-  }
-
-  // passing in {"items": [{"type":"string"}]}
-  const detect = detectType(items.type);
-
-  if (detect.type === 'array') {
-    if (Array.isArray(items.items)) {
-      return t.tsArrayType(
-        t.tsArrayType(
-          getTypeOrRef(items.items[0])
-        )
-      );
-    } else {
-      return t.tsArrayType(
-        getArrayTypeFromItems(
-          items.items
-        )
-      );
-    }
-  }
-
-  return t.tsArrayType(
-    getType(detect.type)
-  );
 };
 
+const getArrayTypeFromItems = (
+  context: RenderContext,
+  items: JSONSchema | JSONSchema[]
+): t.TSArrayType => {
+  if (Array.isArray(items)) {
+    // if (context.options.types.itemsUseTuples === true) {
+    // Using the modified method with tsTupleType
+    // return t.tsArrayType(
+    // t.tsTupleType(items.map(item => getTypeOrRef(item)))
+    // );
+    // } else {
+    // Using the original method with nested arrays
+    if (items.length > 0 && items[0].type === 'array') {
+      return getArrayTypeFromItems(context, items[0]);
+    }
+    return items.length > 0 ? t.tsArrayType(t.tsArrayType(getTypeOrRef(items[0]))) : t.tsArrayType(t.tsArrayType(t.tsAnyKeyword()));
+    // }
+  } else {
+    const detect = detectType(items.type);
+
+    if (detect.type === 'array') {
+      if (Array.isArray(items.items)) {
+        return t.tsArrayType(
+          t.tsArrayType(
+            getTypeOrRef(items.items[0])
+          )
+        );
+      } else if (items.items) {
+        return t.tsArrayType(
+          getArrayTypeFromItems(context, items.items)
+        );
+      } else {
+        // Handle the case where items.items is undefined for array types
+        return t.tsArrayType(t.tsAnyKeyword())
+      }
+    }
+
+    return t.tsArrayType(
+      getType(detect.type)
+    );
+  }
+};
 
 export const detectType = (type: string | string[]) => {
   let optional = false;
@@ -104,56 +116,52 @@ export const detectType = (type: string | string[]) => {
   };
 }
 
-export const getTypeInfo = (info: JSONSchema) => {
+export const getTypeInfo = (
+  context: RenderContext,
+  info: JSONSchema
+) => {
   let type = undefined;
   let optional = undefined;
 
+  // Handle nullable types using 'anyOf' schema
   if (Array.isArray(info.anyOf)) {
-    // assuming 2nd is null, but let's check to ensure
     if (info.anyOf.length !== 2) {
-      throw new Error('case not handled by transpiler. contact maintainers.')
+      throw new Error('case not handled by transpiler. contact maintainers.');
     }
     const [nullableType, nullType] = info.anyOf;
     if (nullType?.type !== 'null') {
-      throw new Error('[nullableType.type]: case not handled by transpiler. contact maintainers.')
+      throw new Error('[nullableType.type]: case not handled by transpiler. contact maintainers.');
     }
     if (!nullableType?.$ref) {
       if (nullableType.title) {
         type = t.tsTypeReference(t.identifier(nullableType.title));
       } else {
-        throw new Error('[nullableType.title] case not handled by transpiler. contact maintainers.')
+        throw new Error('[nullableType.title] case not handled by transpiler. contact maintainers.');
       }
     } else {
-      type = getTypeFromRef(nullableType?.$ref);
+      type = getTypeFromRef(nullableType.$ref);
     }
     optional = true;
-  }
-
-
-  if (typeof info.type === 'string') {
+  } else if (typeof info.type === 'string') {
+    console.log('is string')
+    // Process type when it's explicitly defined
     if (info.type === 'array') {
       if (typeof info.items === 'object' && !Array.isArray(info.items)) {
         if (info.items.$ref) {
           type = getArrayTypeFromRef(info.items.$ref);
         } else if (info.items.title) {
-          type = t.tsArrayType(
-            t.tsTypeReference(
-              t.identifier(info.items.title)
-            )
-          );
+          type = t.tsArrayType(t.tsTypeReference(t.identifier(info.items.title)));
         } else if (info.items.type) {
-          type = getArrayTypeFromItems(info.items);
+          type = getArrayTypeFromItems(context, info.items);
         } else {
-          throw new Error('[info.items] case not handled by transpiler. contact maintainers.')
+          throw new Error('[info.items] case not handled by transpiler. contact maintainers.');
         }
+        // type = getArrayTypeFromItems(context, info.items);
       } else {
         if (Array.isArray(info.items)) {
-          type = getArrayTypeFromItems(info.items);
-          // console.log(typeof info.items === 'object');
-          // console.log(Array.isArray(info.items));
-          // console.log(info);
+          type = getArrayTypeFromItems(context, info.items);
         } else {
-          throw new Error('[info.items] case not handled by transpiler. contact maintainers.')
+          throw new Error('[info.items] case not handled by transpiler. contact maintainers.');
         }
       }
     } else {
@@ -161,70 +169,53 @@ export const getTypeInfo = (info: JSONSchema) => {
       type = getType(detect.type);
       optional = detect.optional;
     }
-  }
-
-  if (Array.isArray(info.type)) {
-    // assuming 2nd is null, but let's check to ensure
+  } else if (Array.isArray(info.type)) {
+    console.log('is arr', info.type)
+    // Handle multiple types, typically nullable types
     if (info.type.length !== 2) {
-      throw new Error('please report this to maintainers (field type): ' + JSON.stringify(info, null, 2))
+      throw new Error('please report this to maintainers (field type): ' + JSON.stringify(info, null, 2));
     }
     const [nullableType, nullType] = info.type;
     if (nullType !== 'null') {
-      throw new Error('please report this to maintainers (field type): ' + JSON.stringify(info, null, 2))
+      throw new Error('please report this to maintainers (field type): ' + JSON.stringify(info, null, 2));
     }
 
     if (nullableType === 'array' && typeof info.items === 'object' && !Array.isArray(info.items)) {
-
       if (info.items.type) {
         const detect = detectType(info.items.type);
         if (detect.type === 'array') {
-          // wen recursion?
-          type = t.tsArrayType(
-            getArrayTypeFromItems(info.items)
-          );
+          console.log('items type')
+          type = t.tsArrayType(getArrayTypeFromItems(context, info.items));
         } else {
-          type = t.tsArrayType(
-            getType(detect.type)
-          );
+          type = t.tsArrayType(getType(detect.type));
         }
         optional = detect.optional;
       } else if (info.items.$ref) {
         type = getArrayTypeFromRef(info.items.$ref);
-        // } else if (info.items.title) {
-        //   type = t.tsArrayType(
-        //     t.tsTypeReference(
-        //       t.identifier(info.items.title)
-        //     )
-        //   );
       } else if (info.items.type) {
-        type = getArrayTypeFromItems(info.items);
+        type = getArrayTypeFromItems(context, info.items);
       } else {
-        throw new Error('[info.items] case not handled by transpiler. contact maintainers.')
+        throw new Error('[info.items] case not handled by transpiler. contact maintainers.');
       }
-
     } else {
       const detect = detectType(nullableType);
       optional = detect.optional;
       if (detect.type === 'array') {
-        type = getArrayTypeFromItems(
-          info.items
-        );
+        type = getArrayTypeFromItems(context, info.items);
       } else {
         type = getType(detect.type);
       }
-
     }
 
-    optional = true;
+    optional = true;  // Ensure optional is set for nullable types
   }
+  console.log({ type })
 
   return {
     type,
     optional
   };
-
-}
-
+};
 
 export const getType = (type: string) => {
   switch (type) {
@@ -233,6 +224,10 @@ export const getType = (type: string) => {
     case 'boolean':
       return t.tSBooleanKeyword();
     case 'integer':
+      return t.tsNumberKeyword();
+    case 'null':
+      return t.tsNullKeyword();
+    case 'number':
       return t.tsNumberKeyword();
     default:
       throw new Error('contact maintainers [unknown type]: ' + type);
@@ -258,11 +253,12 @@ export const getPropertyType = (
     type = getTypeFromRef(info.$ref)
   }
 
-  const typeInfo = getTypeInfo(info);
+  const typeInfo = getTypeInfo(context, info);
   if (typeof typeInfo.optional !== 'undefined') {
     optional = typeInfo.optional;
   }
   if (typeof typeInfo.type !== 'undefined') {
+    console.log(JSON.stringify(typeInfo, null, 2))
     type = typeInfo.type;
   }
 
@@ -303,7 +299,10 @@ export function getPropertySignatureFromProp(
       if (el.title) return el.title;
       if (el.$ref) return getTypeStrFromRef(el.$ref);
       return el.type;
-    });
+    }).filter(a => typeof a === 'string');
+    // ONLY SUPPORT string types for now!
+    // e.g. NOT supporting nullable types or type: string[] yet
+
     // @ts-ignore:next-line
     const uniqUnionTypes = [...new Set(unionTypes)];
 
@@ -312,7 +311,7 @@ export function getPropertySignatureFromProp(
         camelize ? camel(prop) : prop,
         t.tsTypeAnnotation(
           t.tsTypeReference(
-            t.identifier(uniqUnionTypes[0])
+            t.identifier(uniqUnionTypes[0] as string)
           )
         ),
         isOptional
@@ -324,7 +323,7 @@ export function getPropertySignatureFromProp(
           t.tsUnionType(
             uniqUnionTypes.map(typ =>
               t.tsTypeReference(
-                t.identifier(typ)
+                t.identifier(typ as string)
               )
             )
           )
@@ -338,15 +337,17 @@ export function getPropertySignatureFromProp(
       if (el.title) return el.title;
       if (el.$ref) return getTypeStrFromRef(el.$ref);
       return el.type;
-    });
-    // @ts-ignore:next-line
+    }).filter(a => typeof a === 'string');
+    // ONLY SUPPORT string types for now!
+    // e.g. NOT supporting nullable types or type: string[] yet
+
     const uniqUnionTypes = [...new Set(unionTypes)];
     if (uniqUnionTypes.length === 1) {
       return propertySignature(
         camelize ? camel(prop) : prop,
         t.tsTypeAnnotation(
           t.tsTypeReference(
-            t.identifier(uniqUnionTypes[0])
+            t.identifier(uniqUnionTypes[0] as string)
           )
         ),
         isOptional
@@ -358,7 +359,7 @@ export function getPropertySignatureFromProp(
           t.tsUnionType(
             uniqUnionTypes.map(typ =>
               t.tsTypeReference(
-                t.identifier(typ)
+                t.identifier(typ as string)
               )
             )
           )

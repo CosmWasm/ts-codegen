@@ -40,7 +40,7 @@ export interface JSONSchema {
   additionalItems?: JSONSchema;
   required?: string[];
   title?: string;
-  type?: string;
+  type?: string | string[]
 }
 
 

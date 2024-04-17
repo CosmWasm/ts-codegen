@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`nested 1`] = `
+"export interface Type {
+  prop1?: number[][][];
+}"
+`;
+
+exports[`nested ctx 1`] = `
+"export interface Type {
+  prop1?: number[][][];
+}"
+`;
+
+exports[`top level 1`] = `"export type Type = number | string | null;"`;

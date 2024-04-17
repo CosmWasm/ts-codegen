@@ -9,7 +9,8 @@ import {
   getMessageProperties,
   OPTIONAL_FUNDS_PARAM,
   promiseTypeAnnotation,
-  typedIdentifier
+  typedIdentifier,
+  getTypeOrRef
 } from '../utils';
 
 import { ExecuteMsg, JSONSchema, QueryMsg } from '@cosmology/ts-codegen-types';
@@ -538,25 +539,33 @@ export const createTypeOrInterface = (
   Type: string,
   jsonschema: JSONSchema
 ) => {
+  // Handle non-object and potentially union or referenced types
   if (jsonschema.type !== 'object') {
     if (!jsonschema.type) {
-      return t.exportNamedDeclaration(
-        t.tsTypeAliasDeclaration(
-          t.identifier(Type),
-          null,
-          t.tsTypeReference(t.identifier(jsonschema.title))
-        )
-      );
+      if (jsonschema.title) {
+        return t.exportNamedDeclaration(
+          t.tsTypeAliasDeclaration(
+            t.identifier(Type),
+            null,
+            t.tsTypeReference(t.identifier(jsonschema.title))
+          )
+        );
+      } else {
+        throw new Error('Schema must have a type or title!');
+      }
     }
 
+    // Use getTypeOrRef to handle string, array of strings, or $ref
+    const typeAnnotation = getTypeOrRef(jsonschema);
     return t.exportNamedDeclaration(
       t.tsTypeAliasDeclaration(
         t.identifier(Type),
         null,
-        getType(jsonschema.type)
+        typeAnnotation
       )
     );
   }
+  // Handle object type schemas
   const props = Object.keys(jsonschema.properties ?? {}).map((prop) => {
     const { type, optional } = getPropertyType(context, jsonschema, prop);
     return propertySignature(camel(prop), t.tsTypeAnnotation(type), optional);
@@ -568,7 +577,6 @@ export const createTypeOrInterface = (
       null,
       [],
       t.tsInterfaceBody(
-        // @ts-ignore:next-line
         [...props]
       )
     )
