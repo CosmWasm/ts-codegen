@@ -21,6 +21,7 @@ import {
   TestMessageComposerPlugin,
   TestContractsProviderBundlePlugin,
 } from "./testPlugins";
+import deepmerge from "deepmerge";
 
 export const testDefaultOptions: RenderOptions = {
   enabled: true,
@@ -63,8 +64,9 @@ export async function generateReactQuery(
   opts?: ReactQueryOptions
 ) {
   const options = opts
-    ? { ...testDefaultOptions, ...opts }
+    ? deepmerge(testDefaultOptions, { reactQuery: opts })
     : testDefaultOptions;
+
   await new ReactQueryPlugin(options).render(
     outPath,
     contractName,

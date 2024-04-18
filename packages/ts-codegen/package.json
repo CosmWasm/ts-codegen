@@ -13,7 +13,8 @@
     "directory": "dist"
   },
   "bin": {
-    "cosmwasm-ts-codegen": "ts-codegen.js"
+    "cosmwasm-ts-codegen": "ts-codegen.js",
+    "ts-codegen": "ts-codegen.js"
   },
   "scripts": {
     "copy": "copyfiles -f LICENSE-Apache LICENSE-MIT README.md package.json dist",
