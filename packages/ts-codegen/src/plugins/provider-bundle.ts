@@ -6,7 +6,7 @@ import { BuilderPluginBase } from "./plugin-base";
 import { GetLocalBaseNameByContractName } from "./provider";
 
 export class ContractsProviderBundlePlugin extends BuilderPluginBase<TSBuilderOptions> {
-  constructor(opt: TSBuilderOptions) {
+  constructor(opt?: TSBuilderOptions) {
     super(opt);
 
     this.lifecycle = "after";
@@ -26,7 +26,7 @@ export class ContractsProviderBundlePlugin extends BuilderPluginBase<TSBuilderOp
     contract: ContractInfo,
     options?: TSBuilderOptions
   ): RenderContextBase<TSBuilderOptions> {
-    return new RenderContext(contract, options, this.builder.builderContext);
+    return new RenderContext(contract, options, this.builder?.builderContext);
   }
 
   async doRender(
@@ -40,7 +40,7 @@ export class ContractsProviderBundlePlugin extends BuilderPluginBase<TSBuilderOp
       body: any[];
     }[]
   > {
-    if (!this.option?.useContractsHook?.enabled) {
+    if (!this.options?.useContractsHook?.enabled) {
       return;
     }
 

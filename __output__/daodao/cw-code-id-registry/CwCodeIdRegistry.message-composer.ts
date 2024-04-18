@@ -9,7 +9,7 @@ import { MsgExecuteContractEncodeObject } from "@cosmjs/cosmwasm-stargate";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
 import { Addr, PaymentInfo, Uint128, ConfigResponse, ExecuteMsg, Binary, Cw20ReceiveMsg, GetRegistrationResponse, Registration, InfoForCodeIdResponse, InstantiateMsg, ListRegistrationsResponse, QueryMsg, ReceiveMsg } from "./CwCodeIdRegistry.types";
-export interface CwCodeIdRegistryMessage {
+export interface CwCodeIdRegistryMsg {
   contractAddress: string;
   sender: string;
   receive: ({
@@ -58,7 +58,7 @@ export interface CwCodeIdRegistryMessage {
     paymentInfo?: PaymentInfo;
   }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
 }
-export class CwCodeIdRegistryMessageComposer implements CwCodeIdRegistryMessage {
+export class CwCodeIdRegistryMsgComposer implements CwCodeIdRegistryMsg {
   sender: string;
   contractAddress: string;
   constructor(sender: string, contractAddress: string) {

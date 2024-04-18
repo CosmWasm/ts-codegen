@@ -8,7 +8,7 @@ import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { AdminAddrResponse, CodeIdResponse, CodeIdType, Uint128, Binary, CreateWalletMsg, Guardians, MultiSig, Coin, Cw20Coin, ExecuteMsg, Addr, ProxyMigrationTxMsg, WalletAddr, CanonicalAddr, RelayTransaction, FeeResponse, GovecAddrResponse, InstantiateMsg, QueryMsg, WalletQueryPrefix, Duration, StakingOptions, WalletInfo, ContractVersion, WalletsOfResponse, WalletsResponse } from "./Factory.types";
 import { FactoryQueryClient } from "./Factory.client";
 export interface FactoryReactQuery<TResponse, TData = TResponse> {
-  client: FactoryQueryClient | undefined;
+  client: FactoryQueryClient;
   options?: Omit<UseQueryOptions<TResponse, Error, TData>, "'queryKey' | 'queryFn' | 'initialData'"> & {
     initialData?: undefined;
   };
@@ -18,30 +18,21 @@ export function useFactoryAdminAddrQuery<TData = AdminAddrResponse>({
   client,
   options
 }: FactoryAdminAddrQuery<TData>) {
-  return useQuery<AdminAddrResponse, Error, TData>(["factoryAdminAddr", client?.contractAddress], () => client ? client.adminAddr() : Promise.reject(new Error("Invalid client")), {
-    ...options,
-    enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
-  });
+  return useQuery<AdminAddrResponse, Error, TData>(["factoryAdminAddr", client.contractAddress], () => client.adminAddr(), options);
 }
 export interface FactoryGovecAddrQuery<TData> extends FactoryReactQuery<GovecAddrResponse, TData> {}
 export function useFactoryGovecAddrQuery<TData = GovecAddrResponse>({
   client,
   options
 }: FactoryGovecAddrQuery<TData>) {
-  return useQuery<GovecAddrResponse, Error, TData>(["factoryGovecAddr", client?.contractAddress], () => client ? client.govecAddr() : Promise.reject(new Error("Invalid client")), {
-    ...options,
-    enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
-  });
+  return useQuery<GovecAddrResponse, Error, TData>(["factoryGovecAddr", client.contractAddress], () => client.govecAddr(), options);
 }
 export interface FactoryFeeQuery<TData> extends FactoryReactQuery<FeeResponse, TData> {}
 export function useFactoryFeeQuery<TData = FeeResponse>({
   client,
   options
 }: FactoryFeeQuery<TData>) {
-  return useQuery<FeeResponse, Error, TData>(["factoryFee", client?.contractAddress], () => client ? client.fee() : Promise.reject(new Error("Invalid client")), {
-    ...options,
-    enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
-  });
+  return useQuery<FeeResponse, Error, TData>(["factoryFee", client.contractAddress], () => client.fee(), options);
 }
 export interface FactoryCodeIdQuery<TData> extends FactoryReactQuery<CodeIdResponse, TData> {
   args: {
@@ -53,12 +44,9 @@ export function useFactoryCodeIdQuery<TData = CodeIdResponse>({
   args,
   options
 }: FactoryCodeIdQuery<TData>) {
-  return useQuery<CodeIdResponse, Error, TData>(["factoryCodeId", client?.contractAddress, JSON.stringify(args)], () => client ? client.codeId({
+  return useQuery<CodeIdResponse, Error, TData>(["factoryCodeId", client.contractAddress, JSON.stringify(args)], () => client.codeId({
     ty: args.ty
-  }) : Promise.reject(new Error("Invalid client")), {
-    ...options,
-    enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
-  });
+  }), options);
 }
 export interface FactoryWalletsOfQuery<TData> extends FactoryReactQuery<WalletsOfResponse, TData> {
   args: {
@@ -72,14 +60,11 @@ export function useFactoryWalletsOfQuery<TData = WalletsOfResponse>({
   args,
   options
 }: FactoryWalletsOfQuery<TData>) {
-  return useQuery<WalletsOfResponse, Error, TData>(["factoryWalletsOf", client?.contractAddress, JSON.stringify(args)], () => client ? client.walletsOf({
+  return useQuery<WalletsOfResponse, Error, TData>(["factoryWalletsOf", client.contractAddress, JSON.stringify(args)], () => client.walletsOf({
     limit: args.limit,
     startAfter: args.startAfter,
     user: args.user
-  }) : Promise.reject(new Error("Invalid client")), {
-    ...options,
-    enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
-  });
+  }), options);
 }
 export interface FactoryWalletsQuery<TData> extends FactoryReactQuery<WalletsResponse, TData> {
   args: {
@@ -92,11 +77,8 @@ export function useFactoryWalletsQuery<TData = WalletsResponse>({
   args,
   options
 }: FactoryWalletsQuery<TData>) {
-  return useQuery<WalletsResponse, Error, TData>(["factoryWallets", client?.contractAddress, JSON.stringify(args)], () => client ? client.wallets({
+  return useQuery<WalletsResponse, Error, TData>(["factoryWallets", client.contractAddress, JSON.stringify(args)], () => client.wallets({
     limit: args.limit,
     startAfter: args.startAfter
-  }) : Promise.reject(new Error("Invalid client")), {
-    ...options,
-    enabled: !!client && (options?.enabled != undefined ? options.enabled : true)
-  });
+  }), options);
 }

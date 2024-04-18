@@ -16,7 +16,7 @@ export class TypesPlugin extends BuilderPluginBase<RenderOptions> {
     contract: ContractInfo,
     options?: RenderOptions
   ): RenderContextBase<RenderOptions> {
-    return new RenderContext(contract, options, this.builder.builderContext);
+    return new RenderContext(contract, options, this.builder?.builderContext);
   }
 
   async doRender(
@@ -30,14 +30,14 @@ export class TypesPlugin extends BuilderPluginBase<RenderOptions> {
       body: any[];
     }[]
   > {
-    const { enabled } = this.option.types;
+    const { enabled } = this.options.types;
 
     if (!enabled) {
       return;
     }
 
     const { schemas } = context.contract;
-    const options = this.option.types;
+    const options = this.options.types;
 
     const localname = pascal(name) + '.types.ts';
     const ExecuteMsg = findExecuteMsg(schemas);

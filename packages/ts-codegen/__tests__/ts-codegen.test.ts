@@ -1,5 +1,7 @@
+import { BuilderContext } from 'wasm-ast-types';
+import { TSBuilder } from '../src';
 import { readSchemas } from '../src/utils';
-import { generateReactQuery, generateClient, generateMessageComposer, generateMessageBuilder, generateRecoil, generateTypes } from '../test-utils';
+import { generateReactQuery, generateClient, generateMessageComposer, generateMessageBuilder, generateRecoil, generateTypes, generateContractHooks } from '../test-utils';
 
 const FIXTURE_DIR = __dirname + '/../../../__fixtures__';
 const OUTPUT_DIR = __dirname + '/../../../__output__';
@@ -122,12 +124,16 @@ it('sg721', async () => {
     const contractInfo = await readSchemas({
         schemaDir
     });
+
+    const builderContext = new BuilderContext();
+
     await generateTypes('Sg721', contractInfo, out);
-    await generateClient('Sg721', contractInfo, out);
-    await generateMessageComposer('Sg721', contractInfo, out);
+    await generateClient('Sg721', contractInfo, out, builderContext);
+    await generateMessageComposer('Sg721', contractInfo, out, builderContext);
     await generateMessageBuilder('Sg721', contractInfo, out);
     await generateRecoil('Sg721', contractInfo, out);
     await generateReactQuery('Sg721', contractInfo, out);
+    await generateContractHooks('Sg721', contractInfo, out, builderContext);
 })
 
 it('cw-named-groups', async () => {

@@ -9,7 +9,7 @@ import { MsgExecuteContractEncodeObject } from "@cosmjs/cosmwasm-stargate";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
 import { Expiration, Timestamp, Uint64, AllNftInfoResponse, OwnerOfResponse, Approval, NftInfoResponseForEmpty, Empty, AllOperatorsResponse, AllTokensResponse, ApprovalResponse, ApprovalsResponse, Decimal, CollectionInfoResponse, RoyaltyInfoResponse, ContractInfoResponse, ExecuteMsgForEmpty, Binary, MintMsgForEmpty, InstantiateMsg, CollectionInfoForRoyaltyInfoResponse, MinterResponse, NftInfoResponse, NumTokensResponse, OperatorsResponse, QueryMsg, TokensResponse } from "./Sg721.types";
-export interface Sg721Message {
+export interface Sg721Msg {
   contractAddress: string;
   sender: string;
   transferNft: ({
@@ -73,7 +73,7 @@ export interface Sg721Message {
     tokenId: string;
   }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
 }
-export class Sg721MessageComposer implements Sg721Message {
+export class Sg721MsgComposer implements Sg721Msg {
   sender: string;
   contractAddress: string;
   constructor(sender: string, contractAddress: string) {

@@ -20,7 +20,7 @@ export class RecoilPlugin extends BuilderPluginBase<RenderOptions> {
     contract: ContractInfo,
     options?: RenderOptions
   ): RenderContextBase<RenderOptions> {
-    return new RenderContext(contract, options, this.builder.builderContext);
+    return new RenderContext(contract, options, this.builder?.builderContext);
   }
 
   async doRender(
@@ -34,7 +34,7 @@ export class RecoilPlugin extends BuilderPluginBase<RenderOptions> {
       body: any[];
     }[]
   > {
-    const { enabled } = this.option.recoil;
+    const { enabled } = this.options.recoil;
 
     if (!enabled) {
       return;

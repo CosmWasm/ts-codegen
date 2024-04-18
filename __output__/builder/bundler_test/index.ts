@@ -79,7 +79,7 @@ export namespace smart {
       ..._111,
       ..._112
     };
-    export const contractContextProviders = {
+    export const undefined = {
       ..._113
     };
     export const contractContextBase = {

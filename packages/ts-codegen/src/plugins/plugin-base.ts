@@ -2,15 +2,15 @@ import { sync as mkdirp } from "mkdirp";
 import { join } from "path";
 import { writeFileSync } from "fs";
 import { header } from "../utils/header";
-import { ContractInfo, UtilMapping, IContext } from "wasm-ast-types";
+import { ContractInfo, UtilMapping, IContext, defaultOptions } from "wasm-ast-types";
 import generate from "@babel/generator";
 import * as t from "@babel/types";
 import {
   BuilderFile,
   BuilderFileType,
   TSBuilder,
-  TSBuilderOptions,
 } from "../builder";
+import deepmerge from "deepmerge";
 
 /**
  * IBuilderPlugin is a common plugin that render generated code.
@@ -28,7 +28,7 @@ export interface IBuilderPlugin {
   /**
    * prop to indicate to execute the render function in the lifecycle of main process or after
    */
-  lifecycle?: "main" | "after";
+  readonly lifecycle: "main" | "after";
 
   defaultContractName?: string;
 
@@ -40,9 +40,9 @@ export interface IBuilderPlugin {
    * @returns info of generated files.
    */
   render(
-    name: string,
-    contractInfo: ContractInfo,
-    outPath: string
+    outPath: string,
+    name?: string,
+    contractInfo?: ContractInfo,
   ): Promise<BuilderFile[]>;
 }
 
@@ -52,18 +52,19 @@ export interface IBuilderPlugin {
 export abstract class BuilderPluginBase<TOpt extends { enabled?: boolean }>
   implements IBuilderPlugin {
   builder?: TSBuilder;
-  option: TOpt;
+  options: TOpt;
   utils: UtilMapping;
-    /**
+  /**
    * prop to indicate to execute the render function in the lifecycle of main process or after
    */
-  lifecycle?: "main" | "after";
+  lifecycle: "main" | "after";
 
   defaultContractName?: string;
 
-  constructor(opt: TOpt, builder?: TSBuilder) {
-    this.option = opt;
+  constructor(opts?: TOpt, builder?: TSBuilder) {
+    this.options = opts;
     this.builder = builder;
+    this.lifecycle = "main";
   }
 
   setBuilder(builder: TSBuilder): void {
@@ -71,17 +72,21 @@ export abstract class BuilderPluginBase<TOpt extends { enabled?: boolean }>
   }
 
   async render(
-    name: string,
-    contractInfo: ContractInfo,
-    outPath: string
+    outPath: string,
+    name?: string,
+    contractInfo?: ContractInfo,
   ): Promise<BuilderFile[]> {
-    const { enabled } = this.option;
+    if(!this.options){
+      this.options = this.getDefaultOptions(this.options);
+    }
+
+    const { enabled } = this.options;
 
     if (!enabled) {
       return;
     }
 
-    const context = this.initContext(contractInfo, this.option);
+    const context = this.initContext(contractInfo, this.options);
 
     const results = await this.doRender(name, context);
 
@@ -131,4 +136,11 @@ export abstract class BuilderPluginBase<TOpt extends { enabled?: boolean }>
       body: any[];
     }[]
   >;
+
+  /**
+   * get default options
+   */
+  getDefaultOptions(opts: TOpt): any {
+    return deepmerge(defaultOptions, opts ?? {});
+  }
 }

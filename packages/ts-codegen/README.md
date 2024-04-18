@@ -518,27 +518,6 @@ cosmwasm-ts-codegen generate \
     --name MyContractName
 ```
 
-
-### Advanced Usage
-
-for lower-level access, you can import the various plugins directly:
-
-```ts
-import {
-  TypesPlugin,
-  ReactQueryPlugin,
-  ...
-} from '@cosmwasm/ts-codegen';
-
-// render customized contractInfo into outPath
-await new ReactQueryPlugin(opts ?? {}).render(
-    contractName,
-    contractInfo,
-    outPath
-  );
-
-```
-
 ### JSON Schema
 
 We generate code from the [JSON Schema](https://json-schema.org/) exported from CosmWasm smart contracts.

@@ -49,8 +49,8 @@ TSBuilder {
     TypesPlugin {
       "builder": [Circular],
       "defaultContractName": undefined,
-      "lifecycle": undefined,
-      "option": {
+      "lifecycle": "main",
+      "options": {
         "bundle": {
           "bundleFile": "bundle.ts",
           "enabled": true,
@@ -94,8 +94,8 @@ TSBuilder {
     ClientPlugin {
       "builder": [Circular],
       "defaultContractName": undefined,
-      "lifecycle": undefined,
-      "option": {
+      "lifecycle": "main",
+      "options": {
         "bundle": {
           "bundleFile": "bundle.ts",
           "enabled": true,
@@ -139,8 +139,8 @@ TSBuilder {
     MessageComposerPlugin {
       "builder": [Circular],
       "defaultContractName": undefined,
-      "lifecycle": undefined,
-      "option": {
+      "lifecycle": "main",
+      "options": {
         "bundle": {
           "bundleFile": "bundle.ts",
           "enabled": true,
@@ -184,8 +184,8 @@ TSBuilder {
     ReactQueryPlugin {
       "builder": [Circular],
       "defaultContractName": undefined,
-      "lifecycle": undefined,
-      "option": {
+      "lifecycle": "main",
+      "options": {
         "bundle": {
           "bundleFile": "bundle.ts",
           "enabled": true,
@@ -229,8 +229,8 @@ TSBuilder {
     RecoilPlugin {
       "builder": [Circular],
       "defaultContractName": undefined,
-      "lifecycle": undefined,
-      "option": {
+      "lifecycle": "main",
+      "options": {
         "bundle": {
           "bundleFile": "bundle.ts",
           "enabled": true,
@@ -276,8 +276,8 @@ TSBuilder {
     MessageBuilderPlugin {
       "builder": [Circular],
       "defaultContractName": undefined,
-      "lifecycle": undefined,
-      "option": {
+      "lifecycle": "main",
+      "options": {
         "bundle": {
           "bundleFile": "bundle.ts",
           "enabled": true,
@@ -321,8 +321,8 @@ TSBuilder {
     ContractsContextProviderPlugin {
       "builder": [Circular],
       "defaultContractName": undefined,
-      "lifecycle": undefined,
-      "option": {
+      "lifecycle": "main",
+      "options": {
         "bundle": {
           "bundleFile": "bundle.ts",
           "enabled": true,
@@ -371,7 +371,7 @@ TSBuilder {
       "builder": [Circular],
       "defaultContractName": "contractContextProviders",
       "lifecycle": "after",
-      "option": {
+      "options": {
         "bundle": {
           "bundleFile": "bundle.ts",
           "enabled": true,
@@ -471,8 +471,8 @@ TSBuilder {
     TypesPlugin {
       "builder": [Circular],
       "defaultContractName": undefined,
-      "lifecycle": undefined,
-      "option": {
+      "lifecycle": "main",
+      "options": {
         "bundle": {
           "bundleFile": "bundle.ts",
           "enabled": true,
@@ -516,8 +516,8 @@ TSBuilder {
     ClientPlugin {
       "builder": [Circular],
       "defaultContractName": undefined,
-      "lifecycle": undefined,
-      "option": {
+      "lifecycle": "main",
+      "options": {
         "bundle": {
           "bundleFile": "bundle.ts",
           "enabled": true,
@@ -561,8 +561,8 @@ TSBuilder {
     MessageComposerPlugin {
       "builder": [Circular],
       "defaultContractName": undefined,
-      "lifecycle": undefined,
-      "option": {
+      "lifecycle": "main",
+      "options": {
         "bundle": {
           "bundleFile": "bundle.ts",
           "enabled": true,
@@ -606,8 +606,8 @@ TSBuilder {
     ReactQueryPlugin {
       "builder": [Circular],
       "defaultContractName": undefined,
-      "lifecycle": undefined,
-      "option": {
+      "lifecycle": "main",
+      "options": {
         "bundle": {
           "bundleFile": "bundle.ts",
           "enabled": true,
@@ -651,8 +651,8 @@ TSBuilder {
     RecoilPlugin {
       "builder": [Circular],
       "defaultContractName": undefined,
-      "lifecycle": undefined,
-      "option": {
+      "lifecycle": "main",
+      "options": {
         "bundle": {
           "bundleFile": "bundle.ts",
           "enabled": true,
@@ -698,8 +698,8 @@ TSBuilder {
     MessageBuilderPlugin {
       "builder": [Circular],
       "defaultContractName": undefined,
-      "lifecycle": undefined,
-      "option": {
+      "lifecycle": "main",
+      "options": {
         "bundle": {
           "bundleFile": "bundle.ts",
           "enabled": true,
@@ -743,8 +743,8 @@ TSBuilder {
     ContractsContextProviderPlugin {
       "builder": [Circular],
       "defaultContractName": undefined,
-      "lifecycle": undefined,
-      "option": {
+      "lifecycle": "main",
+      "options": {
         "bundle": {
           "bundleFile": "bundle.ts",
           "enabled": true,
@@ -793,7 +793,7 @@ TSBuilder {
       "builder": [Circular],
       "defaultContractName": "contractContextProviders",
       "lifecycle": "after",
-      "option": {
+      "options": {
         "bundle": {
           "bundleFile": "bundle.ts",
           "enabled": true,

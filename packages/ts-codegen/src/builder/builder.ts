@@ -24,6 +24,7 @@ import { TypesPlugin } from "../plugins/types";
 import { ContractsContextProviderPlugin } from "../plugins/provider";
 import { createHelpers } from "../helpers/create-helpers";
 import { ContractsProviderBundlePlugin } from "../plugins/provider-bundle";
+import { createDefaultContractInfo } from "../utils/contracts";
 
 const defaultOpts: TSBuilderOptions = {
     bundle: {
@@ -146,29 +147,35 @@ export class TSBuilder {
             });
 
             //lifecycle and plugins.
-            await this.render(contract.name, contractInfo);
+            await this.render('main', contract.name, contractInfo);
         }
     }
 
-    private async render(name: string, contractInfo: ContractInfo) {
-        for (const plugin of this.plugins.filter(p => !p.lifecycle || p.lifecycle === 'main')) {
-            let files = await plugin.render(name, contractInfo, this.outPath);
-            if (files && files.length) {
-                this.files.push(...files);
-            }
+    private async render(
+      lifecycle?: string,
+      name?: string,
+      contractInfo?: ContractInfo
+    ) {
+      const plugins = lifecycle
+        ? this.plugins.filter((p) =>
+            p.lifecycle === lifecycle
+          )
+        : this.plugins;
+
+      for (const plugin of plugins) {
+        let files = await plugin.render(
+          this.outPath,
+          name,
+          contractInfo ?? createDefaultContractInfo()
+        );
+        if (files && files.length) {
+          this.files.push(...files);
         }
+      }
     }
 
     private async after() {
-        for (const plugin of this.plugins.filter(p => p.lifecycle === 'after')) {
-          let files = await plugin.render(plugin.defaultContractName!,
-              {
-                schemas: [],
-              }, this.outPath);
-          if (files && files.length) {
-              this.files.push(...files);
-          }
-        }
+        await this.render('after');
 
         const helpers = createHelpers({
             outPath: this.outPath,

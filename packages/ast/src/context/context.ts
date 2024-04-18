@@ -123,7 +123,7 @@ export abstract class RenderContextBase<TOpt = RenderOptions> implements IRender
     this.contract = contract;
     this.schema = getDefinitionSchema(contract.schemas);
     this.options = this.mergeDefaultOpt(options);
-    this.builderContext = builderContext;
+    this.builderContext = builderContext ?? new BuilderContext();
   }
   /**
    * merge options and default options
