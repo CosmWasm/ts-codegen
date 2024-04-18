@@ -78,7 +78,7 @@ export async function generateTypes(
   contractName: string,
   contractInfo: ContractInfo,
   outPath: string,
-  opts?: TSTypesOptions
+  opts?: RenderOptions
 ) {
   await new TypesPlugin(opts ?? testDefaultOptions).render(
     outPath,
