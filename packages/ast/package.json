@@ -1,6 +1,6 @@
 {
   "name": "@cosmwasm/ts-codegen-ast",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "CosmWasm TypeScript AST generation",
   "author": "Dan Lynch <pyramation@gmail.com>",
   "homepage": "https://github.com/cosmwasm/ts-codegen/tree/master/packages/ast#readme",
