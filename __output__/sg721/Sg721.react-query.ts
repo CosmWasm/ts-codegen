@@ -4,9 +4,10 @@
 * and run the @cosmwasm/ts-codegen generate command to regenerate this file.
 */
 
-import { UseQueryOptions, useQuery } from "@tanstack/react-query";
-import { Expiration, Timestamp, Uint64, AllNftInfoResponse, OwnerOfResponse, Approval, NftInfoResponseForEmpty, Empty, AllOperatorsResponse, AllTokensResponse, ApprovalResponse, ApprovalsResponse, Decimal, CollectionInfoResponse, RoyaltyInfoResponse, ContractInfoResponse, ExecuteMsgForEmpty, Binary, MintMsgForEmpty, InstantiateMsg, CollectionInfoForRoyaltyInfoResponse, MinterResponse, NftInfoResponse, NumTokensResponse, OperatorsResponse, QueryMsg, TokensResponse } from "./Sg721.types";
+import { useQuery,UseQueryOptions } from "@tanstack/react-query";
+
 import { Sg721QueryClient } from "./Sg721.client";
+import { AllNftInfoResponse, AllOperatorsResponse, AllTokensResponse, ApprovalResponse, ApprovalsResponse, CollectionInfoResponse, ContractInfoResponse, MinterResponse, NftInfoResponse, NumTokensResponse, OwnerOfResponse, TokensResponse } from "./Sg721.types";
 export interface Sg721ReactQuery<TResponse, TData = TResponse> {
   client: Sg721QueryClient;
   options?: Omit<UseQueryOptions<TResponse, Error, TData>, "'queryKey' | 'queryFn' | 'initialData'"> & {
@@ -18,14 +19,21 @@ export function useSg721CollectionInfoQuery<TData = CollectionInfoResponse>({
   client,
   options
 }: Sg721CollectionInfoQuery<TData>) {
-  return useQuery<CollectionInfoResponse, Error, TData>(["sg721CollectionInfo", client.contractAddress], () => client.collectionInfo(), options);
+  return useQuery<CollectionInfoResponse, Error, TData>({
+    queryKey: ["sg721CollectionInfo", client.contractAddress],
+    queryFn: () => client.collectionInfo(), 
+    ...options});
 }
 export interface Sg721MinterQuery<TData> extends Sg721ReactQuery<MinterResponse, TData> {}
 export function useSg721MinterQuery<TData = MinterResponse>({
   client,
   options
 }: Sg721MinterQuery<TData>) {
-  return useQuery<MinterResponse, Error, TData>(["sg721Minter", client.contractAddress], () => client.minter(), options);
+  return useQuery<MinterResponse, Error, TData>({
+    queryKey: ["sg721Minter", client.contractAddress],
+    queryFn: () => client.minter(),
+    ...options
+  });
 }
 export interface Sg721AllTokensQuery<TData> extends Sg721ReactQuery<AllTokensResponse, TData> {
   args: {
@@ -38,10 +46,14 @@ export function useSg721AllTokensQuery<TData = AllTokensResponse>({
   args,
   options
 }: Sg721AllTokensQuery<TData>) {
-  return useQuery<AllTokensResponse, Error, TData>(["sg721AllTokens", client.contractAddress, JSON.stringify(args)], () => client.allTokens({
-    limit: args.limit,
-    startAfter: args.startAfter
-  }), options);
+  return useQuery<AllTokensResponse, Error, TData>({
+    queryKey: ["sg721AllTokens", client.contractAddress, JSON.stringify(args)],
+    queryFn: () => client.allTokens({
+      limit: args.limit,
+      startAfter: args.startAfter
+    }),
+    ...options
+  });
 }
 export interface Sg721TokensQuery<TData> extends Sg721ReactQuery<TokensResponse, TData> {
   args: {
@@ -55,11 +67,15 @@ export function useSg721TokensQuery<TData = TokensResponse>({
   args,
   options
 }: Sg721TokensQuery<TData>) {
-  return useQuery<TokensResponse, Error, TData>(["sg721Tokens", client.contractAddress, JSON.stringify(args)], () => client.tokens({
-    limit: args.limit,
-    owner: args.owner,
-    startAfter: args.startAfter
-  }), options);
+  return useQuery<TokensResponse, Error, TData>({
+    queryKey: ["sg721Tokens", client.contractAddress, JSON.stringify(args)],
+    queryFn: () => client.tokens({
+      limit: args.limit,
+      owner: args.owner,
+      startAfter: args.startAfter
+    }),
+    ...options
+  });
 }
 export interface Sg721AllNftInfoQuery<TData> extends Sg721ReactQuery<AllNftInfoResponse, TData> {
   args: {
@@ -72,10 +88,14 @@ export function useSg721AllNftInfoQuery<TData = AllNftInfoResponse>({
   args,
   options
 }: Sg721AllNftInfoQuery<TData>) {
-  return useQuery<AllNftInfoResponse, Error, TData>(["sg721AllNftInfo", client.contractAddress, JSON.stringify(args)], () => client.allNftInfo({
-    includeExpired: args.includeExpired,
-    tokenId: args.tokenId
-  }), options);
+  return useQuery<AllNftInfoResponse, Error, TData>({
+    queryKey: ["sg721AllNftInfo", client.contractAddress, JSON.stringify(args)],
+    queryFn: () => client.allNftInfo({
+      includeExpired: args.includeExpired,
+      tokenId: args.tokenId
+    }),
+    ...options
+  });
 }
 export interface Sg721NftInfoQuery<TData> extends Sg721ReactQuery<NftInfoResponse, TData> {
   args: {
@@ -87,23 +107,35 @@ export function useSg721NftInfoQuery<TData = NftInfoResponse>({
   args,
   options
 }: Sg721NftInfoQuery<TData>) {
-  return useQuery<NftInfoResponse, Error, TData>(["sg721NftInfo", client.contractAddress, JSON.stringify(args)], () => client.nftInfo({
-    tokenId: args.tokenId
-  }), options);
+  return useQuery<NftInfoResponse, Error, TData>({
+    queryKey: ["sg721NftInfo", client.contractAddress, JSON.stringify(args)],
+    queryFn: () => client.nftInfo({
+      tokenId: args.tokenId
+    }),
+    ...options
+  });
 }
 export interface Sg721ContractInfoQuery<TData> extends Sg721ReactQuery<ContractInfoResponse, TData> {}
 export function useSg721ContractInfoQuery<TData = ContractInfoResponse>({
   client,
   options
 }: Sg721ContractInfoQuery<TData>) {
-  return useQuery<ContractInfoResponse, Error, TData>(["sg721ContractInfo", client.contractAddress], () => client.contractInfo(), options);
+  return useQuery<ContractInfoResponse, Error, TData>({
+    queryKey: ["sg721ContractInfo", client.contractAddress],
+    queryFn: () => client.contractInfo(),
+    ...options
+  });
 }
 export interface Sg721NumTokensQuery<TData> extends Sg721ReactQuery<NumTokensResponse, TData> {}
 export function useSg721NumTokensQuery<TData = NumTokensResponse>({
   client,
   options
 }: Sg721NumTokensQuery<TData>) {
-  return useQuery<NumTokensResponse, Error, TData>(["sg721NumTokens", client.contractAddress], () => client.numTokens(), options);
+  return useQuery<NumTokensResponse, Error, TData>({
+    queryKey: ["sg721NumTokens", client.contractAddress],
+    queryFn: () => client.numTokens(),
+    ...options
+  });
 }
 export interface Sg721AllOperatorsQuery<TData> extends Sg721ReactQuery<AllOperatorsResponse, TData> {
   args: {
@@ -118,12 +150,16 @@ export function useSg721AllOperatorsQuery<TData = AllOperatorsResponse>({
   args,
   options
 }: Sg721AllOperatorsQuery<TData>) {
-  return useQuery<AllOperatorsResponse, Error, TData>(["sg721AllOperators", client.contractAddress, JSON.stringify(args)], () => client.allOperators({
-    includeExpired: args.includeExpired,
-    limit: args.limit,
-    owner: args.owner,
-    startAfter: args.startAfter
-  }), options);
+  return useQuery<AllOperatorsResponse, Error, TData>({
+    queryKey: ["sg721AllOperators", client.contractAddress, JSON.stringify(args)],
+    queryFn: () => client.allOperators({
+      includeExpired: args.includeExpired,
+      limit: args.limit,
+      owner: args.owner,
+      startAfter: args.startAfter
+    }),
+    ...options
+  });
 }
 export interface Sg721ApprovalsQuery<TData> extends Sg721ReactQuery<ApprovalsResponse, TData> {
   args: {
@@ -136,10 +172,14 @@ export function useSg721ApprovalsQuery<TData = ApprovalsResponse>({
   args,
   options
 }: Sg721ApprovalsQuery<TData>) {
-  return useQuery<ApprovalsResponse, Error, TData>(["sg721Approvals", client.contractAddress, JSON.stringify(args)], () => client.approvals({
-    includeExpired: args.includeExpired,
-    tokenId: args.tokenId
-  }), options);
+  return useQuery<ApprovalsResponse, Error, TData>({
+    queryKey: ["sg721Approvals", client.contractAddress, JSON.stringify(args)],
+    queryFn: () => client.approvals({
+      includeExpired: args.includeExpired,
+      tokenId: args.tokenId
+    }),
+    ...options
+  });
 }
 export interface Sg721ApprovalQuery<TData> extends Sg721ReactQuery<ApprovalResponse, TData> {
   args: {
@@ -153,11 +193,15 @@ export function useSg721ApprovalQuery<TData = ApprovalResponse>({
   args,
   options
 }: Sg721ApprovalQuery<TData>) {
-  return useQuery<ApprovalResponse, Error, TData>(["sg721Approval", client.contractAddress, JSON.stringify(args)], () => client.approval({
-    includeExpired: args.includeExpired,
-    spender: args.spender,
-    tokenId: args.tokenId
-  }), options);
+  return useQuery<ApprovalResponse, Error, TData>({
+    queryKey: ["sg721Approval", client.contractAddress, JSON.stringify(args)],
+    queryFn: () => client.approval({
+      includeExpired: args.includeExpired,
+      spender: args.spender,
+      tokenId: args.tokenId
+    }),
+    ...options
+  });
 }
 export interface Sg721OwnerOfQuery<TData> extends Sg721ReactQuery<OwnerOfResponse, TData> {
   args: {
@@ -170,8 +214,12 @@ export function useSg721OwnerOfQuery<TData = OwnerOfResponse>({
   args,
   options
 }: Sg721OwnerOfQuery<TData>) {
-  return useQuery<OwnerOfResponse, Error, TData>(["sg721OwnerOf", client.contractAddress, JSON.stringify(args)], () => client.ownerOf({
-    includeExpired: args.includeExpired,
-    tokenId: args.tokenId
-  }), options);
+  return useQuery<OwnerOfResponse, Error, TData>({
+    queryKey: ["sg721OwnerOf", client.contractAddress, JSON.stringify(args)],
+    queryFn: () => client.ownerOf({
+      includeExpired: args.includeExpired,
+      tokenId: args.tokenId
+    }),
+    ...options
+  });
 }
