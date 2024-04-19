@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@babel/types": "7.24.0",
-    "@cosmology/ts-codegen-types": "^1.1.1",
+    "@cosmwasm/ts-codegen-types": "^1.1.1",
     "ast-stringify": "0.1.0",
     "case": "1.6.3",
     "deepmerge": "4.2.2"

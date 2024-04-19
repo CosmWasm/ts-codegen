@@ -2,7 +2,7 @@ import * as t from '@babel/types';
 import { camel, pascal } from 'case';
 import { propertySignature } from './babel';
 import { RenderContext } from '../context';
-import { JSONSchema } from '@cosmology/ts-codegen-types';
+import { JSONSchema } from '@cosmwasm/ts-codegen-types';
 
 export function getResponseType(
   context: RenderContext,

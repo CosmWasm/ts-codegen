@@ -10,7 +10,7 @@ import {
   OPTIONAL_FUNDS_PARAM,
   typedIdentifier
 } from '../utils';
-import { ExecuteMsg, JSONSchema } from '@cosmology/ts-codegen-types';
+import { ExecuteMsg, JSONSchema } from '@cosmwasm/ts-codegen-types';
 import { createTypedObjectParams } from '../utils/types';
 import { RenderContext } from '../context';
 import { getWasmMethodArgs } from '../client/client';

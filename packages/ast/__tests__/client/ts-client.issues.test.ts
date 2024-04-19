@@ -1,4 +1,4 @@
-import { ExecuteMsg, QueryMsg } from '@cosmology/ts-codegen-types';
+import { ExecuteMsg, QueryMsg } from '@cosmwasm/ts-codegen-types';
 import {
     createQueryClass,
     createExecuteClass,

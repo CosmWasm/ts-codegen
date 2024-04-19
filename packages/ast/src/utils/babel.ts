@@ -1,9 +1,9 @@
 import * as t from '@babel/types';
 import { snake } from "case";
-import { Field } from '@cosmology/ts-codegen-types';
+import { Field } from '@cosmwasm/ts-codegen-types';
 import { TSTypeAnnotation, TSExpressionWithTypeArguments, Noop, TypeAnnotation } from '@babel/types';
 import { refLookup } from './ref';
-import { JSONSchema } from '@cosmology/ts-codegen-types';
+import { JSONSchema } from '@cosmwasm/ts-codegen-types';
 
 // t.TSPropertySignature - kind?
 export const propertySignature = (

@@ -1,4 +1,4 @@
-import { IDLObject, JSONSchema } from "@cosmology/ts-codegen-types";
+import { IDLObject, JSONSchema } from "@cosmwasm/ts-codegen-types";
 import { MessageBuilderOptions, MessageComposerOptions, ReactQueryOptions, RecoilOptions, TSClientOptions, TSTypesOptions, UseContractsOptions } from "./plugins";
 
 export interface ContractInfo {

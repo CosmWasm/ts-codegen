@@ -1,6 +1,6 @@
 import { prompt } from './utils/prompt';
 import { Commands as commands } from './cmds';
-import { MinimistArgs } from '@cosmology/ts-codegen-types';
+import { MinimistArgs } from '@cosmwasm/ts-codegen-types';
 
 const question = [
   {

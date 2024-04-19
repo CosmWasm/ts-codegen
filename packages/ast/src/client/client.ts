@@ -13,7 +13,7 @@ import {
   getTypeOrRef
 } from '../utils';
 
-import { ExecuteMsg, JSONSchema, QueryMsg } from '@cosmology/ts-codegen-types';
+import { ExecuteMsg, JSONSchema, QueryMsg } from '@cosmwasm/ts-codegen-types';
 
 import {
   createTypedObjectParams,

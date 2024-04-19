@@ -42,7 +42,7 @@
     "@babel/generator": "7.24.4",
     "@babel/traverse": "7.24.1",
     "@babel/types": "7.24.0",
-    "@cosmology/ts-codegen-types": "^1.1.1",
+    "@cosmwasm/ts-codegen-types": "^1.1.1",
     "@pyramation/json-schema-to-typescript": " 11.0.4",
     "@types/rimraf": "3.0.2",
     "@types/shelljs": "0.8.15",
