@@ -1,6 +1,6 @@
 {
   "name": "wasm-ast-types",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "CosmWasm TypeScript AST generation",
   "author": "Dan Lynch <pyramation@gmail.com>",
   "homepage": "https://github.com/cosmwasm/ts-codegen/tree/master/packages/ast#readme",
@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@babel/types": "7.24.0",
-    "@cosmology/ts-codegen-types": "^1.1.0",
+    "@cosmology/ts-codegen-types": "^1.1.1",
     "ast-stringify": "0.1.0",
     "case": "1.6.3",
     "deepmerge": "4.2.2"
