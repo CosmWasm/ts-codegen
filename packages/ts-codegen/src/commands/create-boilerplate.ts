@@ -1,7 +1,7 @@
 import * as shell from 'shelljs';
 import { prompt } from '../utils/prompt';
 import dargs from 'dargs';
-import { MinimistArgs } from '@cosmology/ts-codegen-types';
+import { MinimistArgs } from '@cosmwasm/ts-codegen-types';
 const glob = require('glob').sync;
 const fs = require('fs');
 const path = require('path');

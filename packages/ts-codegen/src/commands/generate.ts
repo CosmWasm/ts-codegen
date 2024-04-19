@@ -2,7 +2,7 @@
 import { prompt } from '../utils/prompt';
 import codegen from '../index';
 import { TSBuilderOptions } from '../builder';
-import { MinimistArgs } from '@cosmology/ts-codegen-types';
+import { MinimistArgs } from '@cosmwasm/ts-codegen-types';
 
 export default async (argv: MinimistArgs) => {
     const questions = [

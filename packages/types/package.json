@@ -1,5 +1,5 @@
 {
-  "name": "@cosmology/ts-codegen-types",
+  "name": "@cosmwasm/ts-codegen-types",
   "version": "1.1.1",
   "description": "CosmWasm TSCodegen Types",
   "author": "Dan Lynch <pyramation@gmail.com>",

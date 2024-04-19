@@ -5,7 +5,7 @@ import {
   getMessageProperties,
   getResponseType
 } from '../utils';
-import { JSONSchema, QueryMsg } from '@cosmology/ts-codegen-types';
+import { JSONSchema, QueryMsg } from '@cosmwasm/ts-codegen-types';
 import { RenderContext } from '../context';
 
 export const createRecoilSelector = (

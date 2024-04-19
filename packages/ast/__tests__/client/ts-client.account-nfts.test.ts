@@ -5,7 +5,7 @@ import {
   createTypeInterface
 } from '../../src';
 import { expectCode, makeContext } from '../../test-utils';
-import { JSONSchema } from '@cosmology/ts-codegen-types';
+import { JSONSchema } from '@cosmwasm/ts-codegen-types';
 
 import nftIdlVersionData from '../../../../__fixtures__/idl-version/accounts-nft/account-nft.json';
 

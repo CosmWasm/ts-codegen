@@ -1,7 +1,7 @@
 import type { Expression } from '@babel/types';
 import * as t from '@babel/types';
 import { camel, pascal } from 'case';
-import { JSONSchema, ExecuteMsg, QueryMsg } from '@cosmology/ts-codegen-types';
+import { JSONSchema, ExecuteMsg, QueryMsg } from '@cosmwasm/ts-codegen-types';
 import {
   callExpression,
   createTypedObjectParams,

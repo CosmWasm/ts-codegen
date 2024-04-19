@@ -1,4 +1,4 @@
-# @cosmology/ts-codegen-types
+# @cosmwasm/ts-codegen-types
 
 Types for [@cosmwasm/ts-codegen](https://github.com/CosmWasm/ts-codegen)
 

@@ -7,7 +7,7 @@ import { prompt } from '../utils/prompt';
 import { parse } from 'parse-package-name';
 import { tmpdir } from 'os';
 import { readFileSync, writeFileSync } from 'fs';
-import { MinimistArgs } from '@cosmology/ts-codegen-types';
+import { MinimistArgs } from '@cosmwasm/ts-codegen-types';
 
 const TMPDIR = tmpdir();
 const rnd = () =>

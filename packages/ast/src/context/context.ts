@@ -1,5 +1,5 @@
 import * as t from '@babel/types';
-import { JSONSchema } from "@cosmology/ts-codegen-types";
+import { JSONSchema } from "@cosmwasm/ts-codegen-types";
 import { refLookup } from "../utils";
 import { convertUtilsToImportList, getImportStatements, UtilMapping } from "./imports";
 import deepmerge from "deepmerge";

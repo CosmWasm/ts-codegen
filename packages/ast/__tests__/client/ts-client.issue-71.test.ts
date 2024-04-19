@@ -7,7 +7,7 @@ import {
 } from '../../src'
 import { expectCode } from '../../test-utils';
 import cases from 'jest-in-case';
-import { ExecuteMsg, QueryMsg } from '@cosmology/ts-codegen-types';
+import { ExecuteMsg, QueryMsg } from '@cosmwasm/ts-codegen-types';
 
 const contracts = globLegacyContracts('issues/71');
 
