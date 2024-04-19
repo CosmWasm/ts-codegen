@@ -16,7 +16,7 @@ export class MessageBuilderPlugin extends BuilderPluginBase<RenderOptions> {
     contract: ContractInfo,
     options?: RenderOptions
   ): RenderContextBase<RenderOptions> {
-    return new RenderContext(contract, options, this.builder.builderContext);
+    return new RenderContext(contract, options, this.builder?.builderContext);
   }
 
   async doRender(
@@ -30,7 +30,7 @@ export class MessageBuilderPlugin extends BuilderPluginBase<RenderOptions> {
       body: any[];
     }[]
   > {
-    const { enabled } = this.option.messageBuilder;
+    const { enabled } = this.options.messageBuilder;
 
     if (!enabled) {
       return;

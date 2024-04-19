@@ -9,7 +9,7 @@ import { MsgExecuteContractEncodeObject } from "@cosmjs/cosmwasm-stargate";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
 import { DumpResponse, Group, ExecuteMsg, InstantiateMsg, Addr, ListAddressesResponse, ListGroupsResponse, QueryMsg } from "./CwNamedGroups.types";
-export interface CwNamedGroupsMessage {
+export interface CwNamedGroupsMsg {
   contractAddress: string;
   sender: string;
   update: ({
@@ -32,7 +32,7 @@ export interface CwNamedGroupsMessage {
     owner: string;
   }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
 }
-export class CwNamedGroupsMessageComposer implements CwNamedGroupsMessage {
+export class CwNamedGroupsMsgComposer implements CwNamedGroupsMsg {
   sender: string;
   contractAddress: string;
   constructor(sender: string, contractAddress: string) {

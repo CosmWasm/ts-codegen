@@ -22,8 +22,9 @@ import { MessageComposerPlugin } from "../plugins/message-composer";
 import { ClientPlugin } from "../plugins/client";
 import { TypesPlugin } from "../plugins/types";
 import { ContractsContextProviderPlugin } from "../plugins/provider";
-import { createHelpers } from "../generators/create-helpers";
+import { createHelpers } from "../helpers/create-helpers";
 import { ContractsProviderBundlePlugin } from "../plugins/provider-bundle";
+import { createDefaultContractInfo } from "../utils/contracts";
 
 const defaultOpts: TSBuilderOptions = {
     bundle: {
@@ -107,6 +108,7 @@ export class TSBuilder {
             new RecoilPlugin(this.options),
             new MessageBuilderPlugin(this.options),
             new ContractsContextProviderPlugin(this.options),
+            new ContractsProviderBundlePlugin(this.options)
         );
     }
 
@@ -145,37 +147,35 @@ export class TSBuilder {
             });
 
             //lifecycle and plugins.
-            await this.render(contract.name, contractInfo);
+            await this.render('main', contract.name, contractInfo);
         }
     }
 
-    private async render(name: string, contractInfo: ContractInfo) {
-        for (const plugin of this.plugins) {
-            let files = await plugin.render(name, contractInfo, this.outPath);
-            if (files && files.length) {
-                this.files.push(...files);
-            }
+    private async render(
+      lifecycle?: string,
+      name?: string,
+      contractInfo?: ContractInfo
+    ) {
+      const plugins = lifecycle
+        ? this.plugins.filter((p) =>
+            p.lifecycle === lifecycle
+          )
+        : this.plugins;
+
+      for (const plugin of plugins) {
+        let files = await plugin.render(
+          this.outPath,
+          name,
+          contractInfo ?? createDefaultContractInfo()
+        );
+        if (files && files.length) {
+          this.files.push(...files);
         }
+      }
     }
 
     private async after() {
-
-        //create useContracts bundle file
-        const contractsProviderBundlePlugin = new ContractsProviderBundlePlugin(this.options);
-        contractsProviderBundlePlugin.setBuilder(this);
-
-        //contractContextProviders.ts
-        const files = await contractsProviderBundlePlugin.render(
-            "contractContextProviders",
-            {
-                schemas: [],
-            },
-            this.outPath
-        );
-
-        if (files && files.length) {
-            this.files.push(...files);
-        }
+        await this.render('after');
 
         const helpers = createHelpers({
             outPath: this.outPath,

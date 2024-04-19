@@ -11,14 +11,12 @@ import {
 import { BuilderFileType } from "../builder";
 import { BuilderPluginBase } from "./plugin-base";
 
-export const TYPE = "client";
-
 export class ClientPlugin extends BuilderPluginBase<RenderOptions> {
   initContext(
     contract: ContractInfo,
     options?: RenderOptions
   ): RenderContextBase<RenderOptions> {
-    return new RenderContext(contract, options, this.builder.builderContext);
+    return new RenderContext(contract, options, this.builder?.builderContext);
   }
 
   async doRender(
@@ -32,7 +30,7 @@ export class ClientPlugin extends BuilderPluginBase<RenderOptions> {
       body: any[];
     }[]
   > {
-    const { enabled } = this.option.client;
+    const { enabled } = this.options.client;
 
     if (!enabled) {
       return;
@@ -84,7 +82,7 @@ export class ClientPlugin extends BuilderPluginBase<RenderOptions> {
           w.createExecuteInterface(
             context,
             Instance,
-            this.option.client.execExtendsQuery ? ReadOnlyInstance : null,
+            this.options.client.execExtendsQuery ? ReadOnlyInstance : null,
             ExecuteMsg
           )
         );
@@ -94,7 +92,7 @@ export class ClientPlugin extends BuilderPluginBase<RenderOptions> {
             context,
             Client,
             Instance,
-            this.option.client.execExtendsQuery ? QueryClient : null,
+            this.options.client.execExtendsQuery ? QueryClient : null,
             ExecuteMsg
           )
         );
@@ -115,7 +113,7 @@ export class ClientPlugin extends BuilderPluginBase<RenderOptions> {
 
     return [
       {
-        type: TYPE,
+        type:  "client",
         localname,
         body,
       },

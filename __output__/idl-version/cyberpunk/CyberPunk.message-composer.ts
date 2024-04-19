@@ -9,7 +9,7 @@ import { MsgExecuteContractEncodeObject } from "@cosmjs/cosmwasm-stargate";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
 import { InstantiateMsg, ExecuteMsg, QueryMsg, Timestamp, Uint64, Addr, Env, BlockInfo, ContractInfo, TransactionInfo } from "./CyberPunk.types";
-export interface CyberPunkMessage {
+export interface CyberPunkMsg {
   contractAddress: string;
   sender: string;
   argon2: ({
@@ -21,7 +21,7 @@ export interface CyberPunkMessage {
   }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
   mirrorEnv: (_funds?: Coin[]) => MsgExecuteContractEncodeObject;
 }
-export class CyberPunkMessageComposer implements CyberPunkMessage {
+export class CyberPunkMsgComposer implements CyberPunkMsg {
   sender: string;
   contractAddress: string;
   constructor(sender: string, contractAddress: string) {

@@ -25,7 +25,7 @@ export class ContractsContextProviderPlugin extends BuilderPluginBase<TSBuilderO
     contract: ContractInfo,
     options?: TSBuilderOptions
   ): RenderContextBase<TSBuilderOptions> {
-    return new RenderContext(contract, options, this.builder.builderContext);
+    return new RenderContext(contract, options, this.builder?.builderContext);
   }
 
   async doRender(
@@ -39,7 +39,7 @@ export class ContractsContextProviderPlugin extends BuilderPluginBase<TSBuilderO
       body: any[];
     }[]
   > {
-    if (!this.option?.useContractsHook?.enabled) {
+    if (!this.options?.useContractsHook?.enabled) {
       return;
     }
 

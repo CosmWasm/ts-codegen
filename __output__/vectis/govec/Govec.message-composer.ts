@@ -8,7 +8,7 @@ import { MsgExecuteContractEncodeObject } from "@cosmjs/cosmwasm-stargate";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
 import { CanExecuteRelayResponse, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, WasmMsg, Binary, Coin, Empty, ExecuteMsgForEmpty, Addr, RelayTransaction, Guardians, MultiSig, InfoResponse, ContractVersion, InstantiateMsg, CreateWalletMsg, QueryMsg, Uint64 } from "./Govec.types";
-export interface GovecMessage {
+export interface GovecMsg {
   contractAddress: string;
   sender: string;
   execute: ({
@@ -50,7 +50,7 @@ export interface GovecMessage {
     newLabel: string;
   }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
 }
-export class GovecMessageComposer implements GovecMessage {
+export class GovecMsgComposer implements GovecMsg {
   sender: string;
   contractAddress: string;
   constructor(sender: string, contractAddress: string) {

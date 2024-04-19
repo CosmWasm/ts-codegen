@@ -12,14 +12,12 @@ import {
 import { BuilderFileType } from "../builder";
 import { BuilderPluginBase } from "./plugin-base";
 
-export const TYPE = "message-composer";
-
 export class MessageComposerPlugin extends BuilderPluginBase<RenderOptions> {
   initContext(
     contract: ContractInfo,
     options?: RenderOptions
   ): RenderContextBase<RenderOptions> {
-    return new RenderContext(contract, options, this.builder.builderContext);
+    return new RenderContext(contract, options, this.builder?.builderContext);
   }
 
   async doRender(
@@ -33,7 +31,7 @@ export class MessageComposerPlugin extends BuilderPluginBase<RenderOptions> {
       body: any[];
     }[]
   > {
-    const { enabled } = this.option.messageComposer;
+    const { enabled } = this.options.messageComposer;
 
     if (!enabled) {
       return;
@@ -80,7 +78,7 @@ export class MessageComposerPlugin extends BuilderPluginBase<RenderOptions> {
 
     return [
       {
-        type: TYPE,
+        type: "message-composer",
         localname,
         body,
       },

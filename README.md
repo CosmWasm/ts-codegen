@@ -355,10 +355,10 @@ git clone https://github.com/cosmology-tech/launchpad.git
 cd launchpad/contracts/whitelists/whitelist
 ```
 
-Run `cosmwasm-ts-codegen` to generate your code.
+Run `ts-codegen` or `cosmwasm-ts-codegen` to generate your code.
 
 ```sh
-cosmwasm-ts-codegen generate \
+ts-codegen generate \
           --plugin client \
           --schema ./schema \
           --out ./ts \
@@ -387,7 +387,7 @@ In this example, you can press space bar to select a number of plugins you wish 
 Additionally, it will also show you the name of the field (in this case `plugin`) so you can specify the parameter (for example when using CI/CD) on the comand line. Here is an exampl with `--plugin` set to `client` via CLI:
 
 ```sh
-cosmwasm-ts-codegen generate \
+ts-codegen generate \
     --plugin client
     --schema ./schema \
     --out ./ts \
@@ -397,7 +397,7 @@ cosmwasm-ts-codegen generate \
 You can specify multiple `--plugin` options using the `generate` command:
 
 ```sh
-cosmwasm-ts-codegen generate \
+ts-codegen generate \
           --plugin client \
           --plugin recoil \
           --schema ./schema \
@@ -412,7 +412,7 @@ All options can be provided so you can bypass the prompt.
 For confirm options, you can pass `--no-<name>` to set the value to false. Here is an example without optional client, using v3 for `react-query`, without mutations:
 
 ```sh
-cosmwasm-ts-codegen generate \
+ts-codegen generate \
     --plugin client \
     --plugin react-query \
     --schema ./schema \
@@ -426,7 +426,7 @@ cosmwasm-ts-codegen generate \
 Example with optional client, using v4, with mutations:
 
 ```sh
-cosmwasm-ts-codegen generate \
+ts-codegen generate \
     --plugin react-query \
     --schema ./schema \
     --out ./ts \
@@ -441,7 +441,7 @@ cosmwasm-ts-codegen generate \
 If needed, you can generate only the types with the `typesOnly` option;
 
 ```sh
-cosmwasm-ts-codegen generate \
+ts-codegen generate \
           --typesOnly \
           --schema ./schema \
           --out ./ts \
@@ -451,7 +451,7 @@ cosmwasm-ts-codegen generate \
 #### Client via CLI
 
 ```sh
-cosmwasm-ts-codegen generate \
+ts-codegen generate \
     --plugin client
     --schema ./schema \
     --out ./ts \
@@ -464,7 +464,7 @@ cosmwasm-ts-codegen generate \
 Here is an example without optional client, using v3 for `react-query`, without mutations:
 
 ```sh
-cosmwasm-ts-codegen generate \
+ts-codegen generate \
     --plugin client \
     --plugin react-query \
     --schema ./schema \
@@ -478,7 +478,7 @@ cosmwasm-ts-codegen generate \
 Example with optional client, using v4, with mutations:
 
 ```sh
-cosmwasm-ts-codegen generate \
+ts-codegen generate \
     --plugin react-query \
     --schema ./schema \
     --out ./ts \
@@ -491,7 +491,7 @@ cosmwasm-ts-codegen generate \
 #### Recoil via CLI
 
 ```sh
-cosmwasm-ts-codegen generate \
+ts-codegen generate \
     --plugin recoil \
     --schema ./schema \
     --out ./ts \
@@ -501,7 +501,7 @@ cosmwasm-ts-codegen generate \
 #### Message Composer via CLI
 
 ```sh
-cosmwasm-ts-codegen generate \
+ts-codegen generate \
     --plugin message-composer \
     --schema ./schema \
     --out ./ts \
@@ -511,26 +511,11 @@ cosmwasm-ts-codegen generate \
 #### Message Builder via CLI
 
 ```sh
-cosmwasm-ts-codegen generate \
+ts-codegen generate \
     --plugin message-builder \
     --schema ./schema \
     --out ./ts \
     --name MyContractName
-```
-
-
-### Advanced Usage
-
-for lower-level access, you can import the various plugins directly:
-
-```ts
-import {
-  generateTypes,
-  generateClient,
-  generateReactQuery,
-  generateRecoil,
-  generateMessageComposer
-} from '@cosmwasm/ts-codegen';
 ```
 
 ### JSON Schema

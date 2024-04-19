@@ -8,7 +8,7 @@ import { MsgExecuteContractEncodeObject } from "@cosmjs/cosmwasm-stargate";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
 import { Addr, Uint128, Duration, Threshold, PercentageThreshold, Decimal, ConfigResponse, CheckedDepositInfo, ExecuteMsg, CosmosMsgForEmpty, BankMsg, StakingMsg, DistributionMsg, Binary, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Vote, DepositToken, Coin, Empty, IbcTimeout, IbcTimeoutBlock, DepositInfo, GovernanceModulesResponse, InfoResponse, ContractVersion, InstantiateMsg, Expiration, Status, ListProposalsResponse, ProposalResponse, Proposal, Votes, ListVotesResponse, VoteInfo, MigrateMsg, ProposalCountResponse, ProposalHooksResponse, QueryMsg, ReverseProposalsResponse, VoteHooksResponse, VoteResponse } from "./CwProposalSingle.types";
-export interface CwProposalSingleMessage {
+export interface CwProposalSingleMsg {
   contractAddress: string;
   sender: string;
   propose: ({
@@ -75,7 +75,7 @@ export interface CwProposalSingleMessage {
     address: string;
   }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
 }
-export class CwProposalSingleMessageComposer implements CwProposalSingleMessage {
+export class CwProposalSingleMsgComposer implements CwProposalSingleMsg {
   sender: string;
   contractAddress: string;
   constructor(sender: string, contractAddress: string) {

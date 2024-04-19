@@ -9,7 +9,7 @@ import { MsgExecuteContractEncodeObject } from "@cosmjs/cosmwasm-stargate";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
 import { InstantiateMsg, ExecuteMsg, Binary, Expiration, Timestamp, Uint64, QueryMsg, VaultBaseForString, Uint128, ArrayOfSharesResponseItem, SharesResponseItem, AllNftInfoResponseForEmpty, OwnerOfResponse, Approval, NftInfoResponseForEmpty, Empty, OperatorsResponse, String, TokensResponse, ArrayOfVaultBaseForString, ApprovalResponse, ApprovalsResponse, ContractInfoResponse, MinterResponse, NumTokensResponse } from "./AccountsNft.types";
-export interface AccountsNftMessage {
+export interface AccountsNftMsg {
   contractAddress: string;
   sender: string;
   proposeNewOwner: ({
@@ -73,7 +73,7 @@ export interface AccountsNftMessage {
     tokenId: string;
   }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
 }
-export class AccountsNftMessageComposer implements AccountsNftMessage {
+export class AccountsNftMsgComposer implements AccountsNftMsg {
   sender: string;
   contractAddress: string;
   constructor(sender: string, contractAddress: string) {

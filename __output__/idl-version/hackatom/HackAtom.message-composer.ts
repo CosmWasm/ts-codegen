@@ -8,7 +8,7 @@ import { MsgExecuteContractEncodeObject } from "@cosmjs/cosmwasm-stargate";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
 import { InstantiateMsg, ExecuteMsg, QueryMsg, MigrateMsg, SudoMsg, Uint128, Coin, IntResponse, AllBalanceResponse, Binary, RecurseResponse, VerifierResponse } from "./HackAtom.types";
-export interface HackAtomMessage {
+export interface HackAtomMsg {
   contractAddress: string;
   sender: string;
   release: (_funds?: Coin[]) => MsgExecuteContractEncodeObject;
@@ -24,7 +24,7 @@ export interface HackAtomMessage {
   panic: (_funds?: Coin[]) => MsgExecuteContractEncodeObject;
   userErrorsInApiCalls: (_funds?: Coin[]) => MsgExecuteContractEncodeObject;
 }
-export class HackAtomMessageComposer implements HackAtomMessage {
+export class HackAtomMsgComposer implements HackAtomMsg {
   sender: string;
   contractAddress: string;
   constructor(sender: string, contractAddress: string) {

@@ -16,7 +16,7 @@ export class ReactQueryPlugin extends BuilderPluginBase<RenderOptions> {
     contract: ContractInfo,
     options?: RenderOptions
   ): RenderContextBase<RenderOptions> {
-    return new RenderContext(contract, options, this.builder.builderContext);
+    return new RenderContext(contract, options, this.builder?.builderContext);
   }
 
   async doRender(
@@ -30,7 +30,7 @@ export class ReactQueryPlugin extends BuilderPluginBase<RenderOptions> {
       body: any[];
     }[]
   > {
-    const options = this.option.reactQuery;
+    const options = this.options.reactQuery;
 
     const { enabled } = options;
 
