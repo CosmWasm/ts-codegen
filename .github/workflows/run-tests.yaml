@@ -29,5 +29,5 @@ jobs:
       - name: Test @cosmwasm/ts-codegen
         run: cd packages/ts-codegen && yarn test
       
-      - name: Test ast
+      - name: Test @cosmwasm/ts-codegen-ast
         run: cd ./packages/ast && yarn test
