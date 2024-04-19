@@ -1,5 +1,5 @@
 import { pascal } from "case";
-import * as w from "wasm-ast-types";
+import * as w from "@cosmwasm/ts-codegen-ast";
 import { findAndParseTypes, findExecuteMsg } from "../utils";
 import {
   MessageComposerOptions,
@@ -8,7 +8,7 @@ import {
   RenderContextBase,
   RenderContext,
   RenderOptions,
-} from "wasm-ast-types";
+} from "@cosmwasm/ts-codegen-ast";
 import { BuilderFileType } from "../builder";
 import { BuilderPluginBase } from "./plugin-base";
 

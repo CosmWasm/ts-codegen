@@ -7,7 +7,7 @@ import {
   contractContextBaseShortHandCtor,
   contractsContextTSX,
 } from "../helpers";
-import { BuilderContext } from "wasm-ast-types";
+import { BuilderContext } from "@cosmwasm/ts-codegen-ast";
 import { header } from "../utils/header";
 
 const write = (

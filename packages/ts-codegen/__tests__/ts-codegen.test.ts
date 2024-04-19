@@ -1,4 +1,4 @@
-import { BuilderContext } from 'wasm-ast-types';
+import { BuilderContext } from '@cosmwasm/ts-codegen-ast';
 import { TSBuilder } from '../src';
 import { readSchemas } from '../src/utils';
 import { generateReactQuery, generateClient, generateMessageComposer, generateMessageBuilder, generateRecoil, generateTypes, generateContractHooks } from '../test-utils';

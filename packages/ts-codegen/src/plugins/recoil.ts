@@ -1,5 +1,5 @@
 import { pascal } from 'case';
-import * as w from 'wasm-ast-types';
+import * as w from '@cosmwasm/ts-codegen-ast';
 import { findAndParseTypes, findQueryMsg } from '../utils';
 import {
   ContractInfo,
@@ -7,7 +7,7 @@ import {
   RenderContextBase,
   UtilMapping,
   RenderOptions
-} from 'wasm-ast-types';
+} from '@cosmwasm/ts-codegen-ast';
 import { BuilderFileType } from '../builder';
 import { BuilderPluginBase } from './plugin-base';
 import { JSONSchema } from '@pyramation/json-schema-to-typescript';

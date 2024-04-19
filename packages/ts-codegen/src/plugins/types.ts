@@ -7,7 +7,7 @@ import {
   RenderContext,
   RenderContextBase,
   RenderOptions
-} from 'wasm-ast-types';
+} from '@cosmwasm/ts-codegen-ast';
 import { BuilderFileType } from '../builder';
 import { BuilderPluginBase } from './plugin-base';
 

@@ -2,7 +2,7 @@ import { sync as mkdirp } from "mkdirp";
 import { join } from "path";
 import { writeFileSync } from "fs";
 import { header } from "../utils/header";
-import { ContractInfo, UtilMapping, IContext, defaultOptions } from "wasm-ast-types";
+import { ContractInfo, UtilMapping, IContext, defaultOptions } from "@cosmwasm/ts-codegen-ast";
 import generate from "@babel/generator";
 import * as t from "@babel/types";
 import {
@@ -76,7 +76,7 @@ export abstract class BuilderPluginBase<TOpt extends { enabled?: boolean }>
     name?: string,
     contractInfo?: ContractInfo,
   ): Promise<BuilderFile[]> {
-    if(!this.options){
+    if (!this.options) {
       this.options = this.getDefaultOptions(this.options);
     }
 

@@ -3,7 +3,7 @@ import { readFileSync } from 'fs';
 import { cleanse } from './cleanse';
 import { compile } from '@pyramation/json-schema-to-typescript';
 import { parser } from './parse';
-import { ContractInfo } from 'wasm-ast-types';
+import { ContractInfo } from '@cosmwasm/ts-codegen-ast';
 import { ExecuteMsg, IDLObject, JSONSchema, QueryMsg } from '@cosmwasm/ts-codegen-types';
 interface ReadSchemaOpts {
     schemaDir: string;

@@ -4,7 +4,7 @@ import { readFileSync } from 'fs';
 import { join } from 'path';
 import { ExecuteMsg, IDLObject, JSONSchema, QueryMsg } from '@cosmwasm/ts-codegen-types';
 import { RenderContext } from '../src/context';
-import { RenderOptions } from 'wasm-ast-types/types';
+import { RenderOptions } from '@cosmwasm/ts-codegen-ast/types';
 
 export const expectCode = (ast: any): void => {
   expect(

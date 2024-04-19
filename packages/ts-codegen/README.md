@@ -601,7 +601,7 @@ yarn test:watch
 
 ### Working with ASTs
 
-See the [docs](https://github.com/CosmWasm/ts-codegen/blob/main/packages/ast/README.md) in the `wasm-ast-types` package.
+See the [docs](https://github.com/CosmWasm/ts-codegen/blob/main/packages/ast/README.md) in the `@cosmwasm/ts-codegen-ast` package.
 
 ## Related
 

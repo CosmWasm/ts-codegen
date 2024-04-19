@@ -4,7 +4,7 @@ import {
   ReactQueryOptions,
   RenderOptions,
   TSTypesOptions,
-} from "wasm-ast-types";
+} from "@cosmwasm/ts-codegen-ast";
 import { ReactQueryPlugin } from "../src/plugins/react-query";
 import { TypesPlugin } from "../src/plugins/types";
 import { ClientPlugin } from "../src/plugins/client";

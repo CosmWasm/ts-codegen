@@ -4,7 +4,7 @@ import {
   RenderContext,
   RenderContextBase,
   RenderOptions,
-} from "wasm-ast-types";
+} from "@cosmwasm/ts-codegen-ast";
 import { ClientPlugin, MessageComposerPlugin, TSBuilderOptions } from "../src";
 import { ContractsContextProviderPlugin } from "../src/plugins/provider";
 import { ContractsProviderBundlePlugin } from "../src/plugins/provider-bundle";

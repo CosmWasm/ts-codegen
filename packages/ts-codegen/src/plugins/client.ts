@@ -1,5 +1,5 @@
 import { pascal } from "case";
-import * as w from "wasm-ast-types";
+import * as w from "@cosmwasm/ts-codegen-ast";
 import { findExecuteMsg, findAndParseTypes, findQueryMsg } from "../utils";
 import {
   RenderContext,
@@ -7,7 +7,7 @@ import {
   RenderContextBase,
   getMessageProperties,
   RenderOptions,
-} from "wasm-ast-types";
+} from "@cosmwasm/ts-codegen-ast";
 import { BuilderFileType } from "../builder";
 import { BuilderPluginBase } from "./plugin-base";
 
@@ -113,7 +113,7 @@ export class ClientPlugin extends BuilderPluginBase<RenderOptions> {
 
     return [
       {
-        type:  "client",
+        type: "client",
         localname,
         body,
       },

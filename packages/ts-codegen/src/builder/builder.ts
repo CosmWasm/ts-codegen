@@ -1,4 +1,4 @@
-import { RenderOptions, defaultOptions, ContractInfo, BuilderContext } from "wasm-ast-types";
+import { RenderOptions, defaultOptions, ContractInfo, BuilderContext } from "@cosmwasm/ts-codegen-ast";
 
 import { header } from '../utils/header';
 import { join } from "path";
@@ -152,26 +152,26 @@ export class TSBuilder {
     }
 
     private async render(
-      lifecycle?: string,
-      name?: string,
-      contractInfo?: ContractInfo
+        lifecycle?: string,
+        name?: string,
+        contractInfo?: ContractInfo
     ) {
-      const plugins = lifecycle
-        ? this.plugins.filter((p) =>
-            p.lifecycle === lifecycle
-          )
-        : this.plugins;
+        const plugins = lifecycle
+            ? this.plugins.filter((p) =>
+                p.lifecycle === lifecycle
+            )
+            : this.plugins;
 
-      for (const plugin of plugins) {
-        let files = await plugin.render(
-          this.outPath,
-          name,
-          contractInfo ?? createDefaultContractInfo()
-        );
-        if (files && files.length) {
-          this.files.push(...files);
+        for (const plugin of plugins) {
+            let files = await plugin.render(
+                this.outPath,
+                name,
+                contractInfo ?? createDefaultContractInfo()
+            );
+            if (files && files.length) {
+                this.files.push(...files);
+            }
         }
-      }
     }
 
     private async after() {

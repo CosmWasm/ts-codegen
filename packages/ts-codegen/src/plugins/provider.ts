@@ -1,6 +1,6 @@
 import { pascal } from "case";
-import * as w from "wasm-ast-types";
-import { ContractInfo, RenderContextBase, RenderContext } from "wasm-ast-types";
+import * as w from "@cosmwasm/ts-codegen-ast";
+import { ContractInfo, RenderContextBase, RenderContext } from "@cosmwasm/ts-codegen-ast";
 import { BuilderFileType, TSBuilderOptions } from "../builder";
 import { BuilderPluginBase } from "./plugin-base";
 
