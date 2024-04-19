@@ -23,7 +23,7 @@ npm install @cosmwasm/ts-codegen
 
 The quickest and easiest way to interact with CosmWasm Contracts. `@cosmwasm/ts-codegen` converts your CosmWasm smart contracts into dev-friendly TypeScript classes so you can focus on shipping code.
 
-🎥 [Checkout our video playlist](https://www.youtube.com/watch?v=D_A5V2PfNLA&list=PL-lMkVv7GZwz1KO3jANwr5W4MoziruXwK) to learn how to use `ts-codegen`!
+🎥 [Checkout our video playlist](https://cosmology.zone/learn/ts-codegen) to learn how to use `ts-codegen`!
 ## Table of contents
 
 - [@cosmwasm/ts-codegen](#cosmwasmts-codegen)
