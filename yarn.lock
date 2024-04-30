@@ -7169,10 +7169,10 @@ symbol-observable@^2.0.3:
   resolved "https://registry.yarnpkg.com/symbol-observable/-/symbol-observable-2.0.3.tgz#5b521d3d07a43c351055fa43b8355b62d33fd16a"
   integrity sha512-sQV7phh2WCYAn81oAkakC5qjq2Ml0g8ozqz03wOGnx9dDlG1de6yrF+0RAzSJD8fPUow3PTSMf2SAbOGxb93BA==
 
-symlink-workspace@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/symlink-workspace/-/symlink-workspace-1.1.0.tgz#476811e1fb5a00c529e44c8b37765dbefff77e19"
-  integrity sha512-7kF6g/7bpDRCi7KdJNPnMrXURehpb6Sd5yHePSnHT+8pD2uec5Se3KPHwyUFFK/vEYhgKX6qabtr1Qmrtzjr8g==
+symlink-workspace@^1.9.0:
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/symlink-workspace/-/symlink-workspace-1.9.0.tgz#df4c5ce48bd55e54580e813126c643a86e29e759"
+  integrity sha512-eKSISj/3r5gLU4NCY5Ir16PLPavHYb2s2DMN7wGheaZAMlUGEuq8qUhlmbBMR8J32Yq9PCtcA+yritgHpwUDfw==
   dependencies:
     chalk "4.1.2"
     glob "8.1.0"
