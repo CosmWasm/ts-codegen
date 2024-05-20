@@ -188,7 +188,6 @@ export const getWasmMethodArgs = (
     // tuple struct or otherwise, use the name of the reference
     if (!keys.length && obj?.oneOf) {
       // TODO????? ADAIR
-      console.warn("We are unsure how to handle this scenario in getWasmMethodArgs", obj.oneOf)
     }
   }
 
