@@ -43,7 +43,7 @@ export function useEtfStateQuery<TData = StateResponse>({
   client,
   options
 }: EtfStateQuery<TData>) {
-  return useQuery<StateResponse, Error, TData>(etfQueryKeys.state(client.moduleId), () => client.state(), options);
+  return useQuery<StateResponse, Error, TData>(etfQueryKeys.state(client._moduleAddress), () => client.state(), options);
 }
 export interface EtfSetFeeMutation {
   client: EtfAppClient;

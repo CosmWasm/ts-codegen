@@ -6,7 +6,7 @@
 
 import { CamelCasedProperties } from "type-fest";
 import { SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
-import { AbstractQueryClient, AbstractAccountQueryClient, AbstractAccountClient, AppExecuteMsg, AppExecuteMsgFactory, AbstractClient } from "@abstract-money/abstract.js";
+import { AbstractQueryClient, AbstractAccountQueryClient, AbstractAccountClient, AppExecuteMsg, AppExecuteMsgFactory, AbstractClient, AbstractAccountId } from "@abstract-money/abstract.js";
 import { StdFee, Coin } from "@cosmjs/amino";
 import { Decimal, InstantiateMsg, ExecuteMsg, Uint128, AssetInfoBaseForString, AssetBaseForString, QueryMsg, MigrateMsg, StateResponse } from "./Etf.types";
 import { EtfQueryMsgBuilder, EtfExecuteMsgBuilder } from "./Etf.message-builder";
@@ -51,7 +51,13 @@ export class EtfTestQueryClient implements IEtfTestQueryClient {
   };
   getAddress = async (): Promise<string> => {
     if (!this._moduleAddress) {
-      this._moduleAddress = await this.accountQueryClient.getModuleAddress(this.moduleId);
+      const address = await this.accountQueryClient.getModuleAddress(this.moduleId);
+
+      if (address === null) {
+        throw new Error(`Module ${this.moduleId} not installed`);
+      }
+
+      this._moduleAddress = address;
     }
 
     return this._moduleAddress!;

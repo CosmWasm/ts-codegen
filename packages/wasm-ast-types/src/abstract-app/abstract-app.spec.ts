@@ -1,4 +1,5 @@
 import autocompounder_schema from '../../../../__fixtures__/abstract/apps/autocompounder.json';
+import ibcmailclient_schema from '../../../../__fixtures__/abstract/apps/ibcmail/client.json';
 import { expectCode, makeContext } from '../../test-utils';
 import {
   createAppExecuteClass,
@@ -8,7 +9,7 @@ import {
 } from './abstract-app';
 
 it('IAutocompounderAppQueryClient', () => {
-  const ctx = makeContext(autocompounder_schema);
+  const ctx = makeContext(autocompounder_schema.query);
 
   expectCode(
     createAppQueryInterface(
@@ -21,7 +22,7 @@ it('IAutocompounderAppQueryClient', () => {
 });
 
 it('AutocompounderAppQueryClient', () => {
-  const ctx = makeContext(autocompounder_schema);
+  const ctx = makeContext(autocompounder_schema.query);
 
   expectCode(
     createAppQueryClass(
@@ -35,7 +36,7 @@ it('AutocompounderAppQueryClient', () => {
 });
 
 it('IAutocompounderAppClient', () => {
-  const ctx = makeContext(autocompounder_schema);
+  const ctx = makeContext(autocompounder_schema.execute);
 
   expectCode(
     createAppExecuteInterface(
@@ -49,7 +50,7 @@ it('IAutocompounderAppClient', () => {
 });
 
 it('AutocompounderAppClient', () => {
-  const ctx = makeContext(autocompounder_schema);
+  const ctx = makeContext(autocompounder_schema.execute);
 
   expectCode(
     createAppExecuteClass(
@@ -59,6 +60,21 @@ it('AutocompounderAppClient', () => {
       'IAutocompounderAppClient',
       'AutocompounderAppQueryClient',
       autocompounder_schema.execute
+    )
+  );
+});
+
+it('IbcMailClientAppClient', () => {
+  const ctx = makeContext(ibcmailclient_schema.execute);
+
+  expectCode(
+    createAppExecuteClass(
+      ctx,
+      'IbcMailClient',
+      'IbcMailClientAppClient',
+      'IIbcMailClientAppClient',
+      'IbcMailClientAppQueryClient',
+      ibcmailclient_schema.execute
     )
   );
 });

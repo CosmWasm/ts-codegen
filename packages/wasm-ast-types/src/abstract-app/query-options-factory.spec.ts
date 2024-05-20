@@ -2,6 +2,7 @@ import { expectCode, makeContext } from '../../test-utils';
 import { query as etfQuery } from '../../../../__fixtures__/abstract/apps/etf.json';
 import { query as subscriptionQuery } from '../../../../__fixtures__/abstract/apps/subscription.json';
 import { query as autocompounderQuery } from '../../../../__fixtures__/abstract/apps/autocompounder.json';
+import { query as ibcmailClientQuery } from '../../../../__fixtures__/abstract/apps/ibcmail/client.json';
 import { createQueryOptionsFactory } from './query-options-factory';
 import query_msg from '../../../../__fixtures__/basic/query_msg.json';
 
@@ -29,6 +30,18 @@ it('autocompounderQueryMsg', () => {
       ctx,
       'Autocompounder',
       autocompounderQuery,
+      'contract'
+    )
+  );
+});
+
+it('ibcmailClientQueryMsg', () => {
+  const ctx = makeContext(ibcmailClientQuery);
+  expectCode(
+    createQueryOptionsFactory(
+      ctx,
+      'IbcMailClient',
+      ibcmailClientQuery,
       'contract'
     )
   );

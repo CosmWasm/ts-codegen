@@ -67,6 +67,33 @@ exports[`etf 1`] = `
 });"
 `;
 
+exports[`ibcmailClientQueryMsg 1`] = `
+"export const ibcMailClientQueries = createQueryKeys(\\"IbcMailClient\\", {
+  listMessages: (queryClient: AutocompounderQueryClient, params: CamelCasedProperties<Extract<QueryMsg, {
+    list_messages: unknown;
+  }>[\\"list_messages\\"]>) => ({
+    queryKey: [{
+      address: queryClient.contractAddress
+    }, params],
+    queryFn: ctx => queryClient.listMessages(params)
+  }),
+  messages: (queryClient: AutocompounderQueryClient, params: CamelCasedProperties<Extract<QueryMsg, {
+    messages: unknown;
+  }>[\\"messages\\"]>) => ({
+    queryKey: [{
+      address: queryClient.contractAddress
+    }, params],
+    queryFn: ctx => queryClient.messages(params)
+  }),
+  config: (queryClient: AutocompounderQueryClient) => ({
+    queryKey: [{
+      address: queryClient.contractAddress
+    }],
+    queryFn: ctx => queryClient.config()
+  })
+});"
+`;
+
 exports[`queryMsg 1`] = `
 "export const contractQueries = createQueryKeys(\\"Contract\\", {
   ownerOf: (queryClient: AutocompounderQueryClient, params: CamelCasedProperties<Extract<QueryMsg, {
