@@ -6,7 +6,7 @@
 
 import { CamelCasedProperties } from "type-fest";
 import { SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
-import { AbstractQueryClient, AbstractAccountQueryClient, AbstractAccountClient, AppExecuteMsg, AppExecuteMsgFactory, AbstractClient } from "@abstract-money/abstract.js";
+import { AbstractQueryClient, AbstractAccountQueryClient, AbstractAccountClient, AppExecuteMsg, AppExecuteMsgFactory, AbstractClient, AbstractAccountId } from "@abstract-money/abstract.js";
 import { StdFee, Coin } from "@cosmjs/amino";
 import { Decimal, AssetEntry, BondingPeriodSelector, Duration, InstantiateMsg, ExecuteMsg, Uint128, AnsAsset, QueryMsg, MigrateMsg, Expiration, Timestamp, Uint64, ArrayOfTupleOfStringAndArrayOfClaim, Claim, ArrayOfClaim, Addr, PoolAddressBaseForAddr, AssetInfoBaseForAddr, PoolType, Config, PoolMetadata } from "./Autocompounder.types";
 import { AutocompounderQueryMsgBuilder, AutocompounderExecuteMsgBuilder } from "./Autocompounder.message-builder";
@@ -97,7 +97,13 @@ export class AutocompounderAppQueryClient implements IAutocompounderAppQueryClie
   };
   getAddress = async (): Promise<string> => {
     if (!this._moduleAddress) {
-      this._moduleAddress = await this.accountQueryClient.getModuleAddress(this.moduleId);
+      const address = await this.accountQueryClient.getModuleAddress(this.moduleId);
+
+      if (address === null) {
+        throw new Error(`Module ${this.moduleId} not installed`);
+      }
+
+      this._moduleAddress = address;
     }
 
     return this._moduleAddress!;

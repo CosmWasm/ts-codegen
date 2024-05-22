@@ -9187,7 +9187,7 @@ walker@^1.0.8:
     makeerror "1.0.12"
 
 "wasm-ast-types@file:packages/wasm-ast-types":
-  version "0.26.2"
+  version "0.26.3"
   dependencies:
     "@babel/runtime" "^7.18.9"
     "@babel/types" "7.18.10"

@@ -193,3 +193,51 @@ exports[`IAutocompounderAppQueryClient 1`] = `
   getAddress: () => Promise<string>;
 }"
 `;
+
+exports[`IbcMailClientAppClient 1`] = `
+"export class IbcMailClientAppClient extends IbcMailClientAppQueryClient implements IIbcMailClientAppClient {
+  accountClient: AbstractAccountClient;
+
+  constructor({
+    abstractClient,
+    accountId,
+    managerAddress,
+    proxyAddress,
+    moduleId
+  }: {
+    abstractClient: AbstractClient;
+    accountId: AbstractAccountId;
+    managerAddress: string;
+    proxyAddress: string;
+    moduleId: string;
+  }) {
+    super({
+      abstractQueryClient: abstractClient,
+      accountId,
+      managerAddress,
+      proxyAddress,
+      moduleId
+    });
+    this.accountClient = AbstractAccountClient.fromQueryClient(this.accountQueryClient, abstractClient);
+    this.sendMessage = this.sendMessage.bind(this);
+    this.receiveMessage = this.receiveMessage.bind(this);
+    this.updateConfig = this.updateConfig.bind(this);
+  }
+
+  sendMessage = async (params: CamelCasedProperties<Extract<ExecuteMsg, {
+    send_message: unknown;
+  }>[\\"send_message\\"]>, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+    return this._execute(IbcMailClientExecuteMsgBuilder.sendMessage(params), fee, memo, _funds);
+  };
+  receiveMessage = async (message: Message, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+    return this._execute(IbcMailClientExecuteMsgBuilder.receiveMessage(message), fee, memo, _funds);
+  };
+  updateConfig = async (fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+    return this._execute(IbcMailClientExecuteMsgBuilder.updateConfig(), fee, memo, _funds);
+  };
+  _execute = async (msg: ExecuteMsg, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+    const moduleMsg: AppExecuteMsg<ExecuteMsg> = AppExecuteMsgFactory.executeApp(msg);
+    return await this.accountClient.abstract.client.execute(this.accountClient.sender, await this.getAddress(), moduleMsg, fee, memo, _funds);
+  };
+}"
+`;

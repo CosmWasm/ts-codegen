@@ -234,10 +234,10 @@ export const createWasmExecMethod = (
     arrowFunctionExpression(
       param
         ? [
-            // props
-            param,
-            ...CONSTANT_EXEC_PARAMS
-          ]
+          // props
+          param,
+          ...CONSTANT_EXEC_PARAMS
+        ]
         : CONSTANT_EXEC_PARAMS,
       t.blockStatement([
         t.returnStatement(

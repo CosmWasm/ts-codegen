@@ -248,36 +248,36 @@ const ENABLED_QUERY_OPTION = t.objectProperty(
 function buildQueryOptions(options: ReactQueryOptions) {
   return options.optionalClient
     ? t.objectExpression([
-        t.spreadElement(t.identifier('options')),
-        t.objectProperty(
-          t.identifier('enabled'),
-          t.logicalExpression(
-            '&&',
-            t.unaryExpression(
-              '!',
-              t.unaryExpression('!', t.identifier('client'))
-            ),
-            t.conditionalExpression(
-              // explicitly check for undefined
-              t.binaryExpression(
-                '!=',
-                t.optionalMemberExpression(
-                  t.identifier('options'),
-                  t.identifier('enabled'),
-                  false,
-                  true
-                ),
-                t.identifier('undefined')
-              ),
-              t.memberExpression(
+      t.spreadElement(t.identifier('options')),
+      t.objectProperty(
+        t.identifier('enabled'),
+        t.logicalExpression(
+          '&&',
+          t.unaryExpression(
+            '!',
+            t.unaryExpression('!', t.identifier('client'))
+          ),
+          t.conditionalExpression(
+            // explicitly check for undefined
+            t.binaryExpression(
+              '!=',
+              t.optionalMemberExpression(
                 t.identifier('options'),
-                t.identifier('enabled')
+                t.identifier('enabled'),
+                false,
+                true
               ),
-              t.booleanLiteral(true)
-            )
+              t.identifier('undefined')
+            ),
+            t.memberExpression(
+              t.identifier('options'),
+              t.identifier('enabled')
+            ),
+            t.booleanLiteral(true)
           )
         )
-      ])
+      )
+    ])
     : t.identifier('options');
 }
 
@@ -1035,7 +1035,7 @@ const generateUseQueryQueryKey = ({
 
   const contractAddressExpression = t.optionalMemberExpression(
     t.identifier('client'),
-    t.identifier(isAbstractApp ? 'moduleId' : 'contractAddress'),
+    t.identifier(isAbstractApp ? '_moduleAddress' : 'contractAddress'),
     false,
     optionalClient
   );
