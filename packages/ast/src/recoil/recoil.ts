@@ -1,12 +1,13 @@
 import * as t from '@babel/types';
+import { JSONSchema, QueryMsg } from '@cosmwasm/ts-codegen-types';
 import { camel, pascal } from 'case';
+
+import { RenderContext } from '../context';
 import {
   callExpression,
   getMessageProperties,
   getResponseType
 } from '../utils';
-import { JSONSchema, QueryMsg } from '@cosmwasm/ts-codegen-types';
-import { RenderContext } from '../context';
 
 export const createRecoilSelector = (
   context: RenderContext,
@@ -179,25 +180,25 @@ export const createRecoilSelectors = (
 };
 
 export const createRecoilQueryClientType = () => ({
-  "type": "TSTypeAliasDeclaration",
-  "id": {
-    "type": "Identifier",
-    "name": "QueryClientParams"
+  'type': 'TSTypeAliasDeclaration',
+  'id': {
+    'type': 'Identifier',
+    'name': 'QueryClientParams'
   },
-  "typeAnnotation": {
-    "type": "TSTypeLiteral",
-    "members": [
+  'typeAnnotation': {
+    'type': 'TSTypeLiteral',
+    'members': [
       {
-        "type": "TSPropertySignature",
-        "key": {
-          "type": "Identifier",
-          "name": "contractAddress"
+        'type': 'TSPropertySignature',
+        'key': {
+          'type': 'Identifier',
+          'name': 'contractAddress'
         },
-        "computed": false,
-        "typeAnnotation": {
-          "type": "TSTypeAnnotation",
-          "typeAnnotation": {
-            "type": "TSStringKeyword"
+        'computed': false,
+        'typeAnnotation': {
+          'type': 'TSTypeAnnotation',
+          'typeAnnotation': {
+            'type': 'TSStringKeyword'
           }
         }
       }

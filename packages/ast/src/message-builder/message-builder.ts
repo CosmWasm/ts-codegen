@@ -1,11 +1,12 @@
 import * as t from '@babel/types';
-import { camel } from 'case';
-import { abstractClassDeclaration, arrowFunctionExpression, getMessageProperties } from '../utils';
-import { ExecuteMsg, QueryMsg } from '@cosmwasm/ts-codegen-types';
-import { createTypedObjectParams } from '../utils/types';
-import { RenderContext } from '../context';
-import { getWasmMethodArgs } from '../client/client';
 import { Expression } from '@babel/types';
+import { ExecuteMsg, QueryMsg } from '@cosmwasm/ts-codegen-types';
+import { camel } from 'case';
+
+import { getWasmMethodArgs } from '../client/client';
+import { RenderContext } from '../context';
+import { abstractClassDeclaration, arrowFunctionExpression, getMessageProperties } from '../utils';
+import { createTypedObjectParams } from '../utils/types';
 
 export const createMessageBuilderClass = (
   context: RenderContext,

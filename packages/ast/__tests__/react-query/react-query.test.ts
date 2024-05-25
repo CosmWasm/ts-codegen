@@ -1,9 +1,10 @@
 import * as t from '@babel/types';
+
 import {
   createReactQueryHooks,
   createReactQueryMutationHooks,
 } from '../../src'
-import { expectCode, getLegacyFixture, getMsgExecuteLegacyFixture, getMsgQueryLegacyFixture, globLegacyContracts, makeContext } from '../../test-utils';
+import { expectCode, getLegacyFixture, getMsgExecuteLegacyFixture, getMsgQueryLegacyFixture, makeContext } from '../../test-utils';
 
 const queryMsg = getMsgQueryLegacyFixture('basic', '/query_msg.json')
 const execMsg = getMsgExecuteLegacyFixture('basic', '/execute_msg_for__empty.json')

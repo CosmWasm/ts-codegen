@@ -1,8 +1,7 @@
 import {
-  createQueryClass,
   createExecuteClass,
-  createExecuteInterface
-} from '../../src'
+  createExecuteInterface,
+  createQueryClass} from '../../src'
 import { expectCode, getMsgExecuteLegacyFixture, getMsgQueryLegacyFixture, makeContext } from '../../test-utils';
 const queryMsg = getMsgQueryLegacyFixture('misc/schema', '/arrays.json');
 const execMsg = getMsgExecuteLegacyFixture('misc/schema', '/arrays.json');

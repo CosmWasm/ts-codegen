@@ -1,8 +1,9 @@
-import * as t from "@babel/types";
-import { camel, pascal } from "case";
-import { PROVIDER_TYPES } from "../utils/constants";
-import { identifier, tsObjectPattern } from "../utils";
-import { ProviderInfo } from "../types";
+import * as t from '@babel/types';
+import { camel, pascal } from 'case';
+
+import { ProviderInfo } from '../types';
+import { identifier, tsObjectPattern } from '../utils';
+import { PROVIDER_TYPES } from '../utils/constants';
 
 export const createProvider = (
   name: string,
@@ -12,59 +13,59 @@ export const createProvider = (
 ) => {
   const classDeclaration = t.classDeclaration(
     t.identifier(name),
-    t.identifier("ContractBase"),
+    t.identifier('ContractBase'),
     t.classBody([
       t.classMethod(
-        "constructor",
-        t.identifier("constructor"),
+        'constructor',
+        t.identifier('constructor'),
         [
           tsObjectPattern(
             [
               t.objectProperty(
-                t.identifier("address"),
-                t.identifier("address"),
+                t.identifier('address'),
+                t.identifier('address'),
                 false,
                 true
               ),
               t.objectProperty(
-                t.identifier("cosmWasmClient"),
-                t.identifier("cosmWasmClient"),
+                t.identifier('cosmWasmClient'),
+                t.identifier('cosmWasmClient'),
                 false,
                 true
               ),
               t.objectProperty(
-                t.identifier("signingCosmWasmClient"),
-                t.identifier("signingCosmWasmClient"),
+                t.identifier('signingCosmWasmClient'),
+                t.identifier('signingCosmWasmClient'),
                 false,
                 true
               ),
             ],
             t.tsTypeAnnotation(
-              t.tsTypeReference(t.identifier("IContractConstructor"))
+              t.tsTypeReference(t.identifier('IContractConstructor'))
             )
           ),
         ],
         t.blockStatement([
           t.expressionStatement(
             t.callExpression(t.super(), [
-              t.identifier("address"),
-              t.identifier("cosmWasmClient"),
-              t.identifier("signingCosmWasmClient"),
+              t.identifier('address'),
+              t.identifier('cosmWasmClient'),
+              t.identifier('signingCosmWasmClient'),
               t.identifier(
                 providerInfos[PROVIDER_TYPES.SIGNING_CLIENT_TYPE]
                   ? providerInfos[PROVIDER_TYPES.SIGNING_CLIENT_TYPE].classname
-                  : "undefined"
+                  : 'undefined'
               ),
               t.identifier(
                 providerInfos[PROVIDER_TYPES.QUERY_CLIENT_TYPE]
                   ? providerInfos[PROVIDER_TYPES.QUERY_CLIENT_TYPE].classname
-                  : "undefined"
+                  : 'undefined'
               ),
               t.identifier(
                 providerInfos[PROVIDER_TYPES.MESSAGE_COMPOSER_TYPE]
                   ? providerInfos[PROVIDER_TYPES.MESSAGE_COMPOSER_TYPE]
                     .classname
-                  : "undefined"
+                  : 'undefined'
               ),
             ])
           ),
@@ -78,21 +79,21 @@ export const createProvider = (
       t.identifier(
         providerInfos[PROVIDER_TYPES.SIGNING_CLIENT_TYPE]
           ? providerInfos[PROVIDER_TYPES.SIGNING_CLIENT_TYPE].classname
-          : "IEmptyClient"
+          : 'IEmptyClient'
       )
     ),
     t.tsTypeReference(
       t.identifier(
         providerInfos[PROVIDER_TYPES.QUERY_CLIENT_TYPE]
           ? providerInfos[PROVIDER_TYPES.QUERY_CLIENT_TYPE].classname
-          : "IEmptyClient"
+          : 'IEmptyClient'
       )
     ),
     t.tsTypeReference(
       t.identifier(
         providerInfos[PROVIDER_TYPES.MESSAGE_COMPOSER_TYPE]
           ? providerInfos[PROVIDER_TYPES.MESSAGE_COMPOSER_TYPE].classname
-          : "IEmptyClient"
+          : 'IEmptyClient'
       )
     ),
   ]);
@@ -117,7 +118,7 @@ export const createIContractsContext = (providerInfos: {
 
   return t.exportNamedDeclaration(
     t.tsInterfaceDeclaration(
-      t.identifier("IContractsContext"),
+      t.identifier('IContractsContext'),
       null,
       null,
       t.tsInterfaceBody(properties)
@@ -127,10 +128,10 @@ export const createIContractsContext = (providerInfos: {
 
 let PROVIDER_MAPPING: Record<string, string> = {};
 
-PROVIDER_MAPPING[PROVIDER_TYPES.SIGNING_CLIENT_TYPE] = "ISigningClientProvider";
-PROVIDER_MAPPING[PROVIDER_TYPES.QUERY_CLIENT_TYPE] = "IQueryClientProvider";
+PROVIDER_MAPPING[PROVIDER_TYPES.SIGNING_CLIENT_TYPE] = 'ISigningClientProvider';
+PROVIDER_MAPPING[PROVIDER_TYPES.QUERY_CLIENT_TYPE] = 'IQueryClientProvider';
 PROVIDER_MAPPING[PROVIDER_TYPES.MESSAGE_COMPOSER_TYPE] =
-  "IMessageComposerProvider";
+  'IMessageComposerProvider';
 
 export const createProperty = (
   name: string,
@@ -187,20 +188,20 @@ export const createGettingProviders = (providerInfos: {
         t.newExpression(t.identifier(pascal(key)), [
           t.objectExpression([
             t.objectProperty(
-              t.identifier("address"),
-              t.identifier("address"),
+              t.identifier('address'),
+              t.identifier('address'),
               false,
               true
             ),
             t.objectProperty(
-              t.identifier("cosmWasmClient"),
-              t.identifier("cosmWasmClient"),
+              t.identifier('cosmWasmClient'),
+              t.identifier('cosmWasmClient'),
               false,
               true
             ),
             t.objectProperty(
-              t.identifier("signingCosmWasmClient"),
-              t.identifier("signingCosmWasmClient"),
+              t.identifier('signingCosmWasmClient'),
+              t.identifier('signingCosmWasmClient'),
               false,
               true
             ),
@@ -211,22 +212,22 @@ export const createGettingProviders = (providerInfos: {
   }
 
   return t.exportNamedDeclaration(
-    t.variableDeclaration("const", [
+    t.variableDeclaration('const', [
       t.variableDeclarator(
-        t.identifier("getProviders"),
+        t.identifier('getProviders'),
         t.arrowFunctionExpression(
           [
             identifier(
-              "address?",
-              t.tsTypeAnnotation(t.tsTypeReference(t.identifier("string")))
+              'address?',
+              t.tsTypeAnnotation(t.tsTypeReference(t.identifier('string')))
             ),
             identifier(
-              "cosmWasmClient?",
-              t.tsTypeAnnotation(t.tsTypeReference(t.identifier("CosmWasmClient")))
+              'cosmWasmClient?',
+              t.tsTypeAnnotation(t.tsTypeReference(t.identifier('CosmWasmClient')))
             ),
             identifier(
-              "signingCosmWasmClient?",
-              t.tsTypeAnnotation(t.tsTypeReference(t.identifier("SigningCosmWasmClient")))
+              'signingCosmWasmClient?',
+              t.tsTypeAnnotation(t.tsTypeReference(t.identifier('SigningCosmWasmClient')))
             ),
           ],
           t.objectExpression(properties)

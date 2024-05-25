@@ -1,16 +1,16 @@
-import { pascal } from "case";
-import * as w from "@cosmwasm/ts-codegen-ast";
-import { findAndParseTypes, findExecuteMsg } from "../utils";
+import * as w from '@cosmwasm/ts-codegen-ast';
 import {
-  MessageComposerOptions,
-  getMessageProperties,
   ContractInfo,
-  RenderContextBase,
+  getMessageProperties,
   RenderContext,
+  RenderContextBase,
   RenderOptions,
-} from "@cosmwasm/ts-codegen-ast";
-import { BuilderFileType } from "../builder";
-import { BuilderPluginBase } from "./plugin-base";
+} from '@cosmwasm/ts-codegen-ast';
+import { pascal } from 'case';
+
+import { BuilderFileType } from '../builder';
+import { findAndParseTypes, findExecuteMsg } from '../utils';
+import { BuilderPluginBase } from './plugin-base';
 
 export class MessageComposerPlugin extends BuilderPluginBase<RenderOptions> {
   initContext(
@@ -39,8 +39,8 @@ export class MessageComposerPlugin extends BuilderPluginBase<RenderOptions> {
 
     const { schemas } = context.contract;
 
-    const localname = pascal(name) + ".message-composer.ts";
-    const TypesFile = pascal(name) + ".types";
+    const localname = pascal(name) + '.message-composer.ts';
+    const TypesFile = pascal(name) + '.types';
     const ExecuteMsg = findExecuteMsg(schemas);
     const typeHash = await findAndParseTypes(schemas);
 
@@ -71,14 +71,14 @@ export class MessageComposerPlugin extends BuilderPluginBase<RenderOptions> {
       }
     }
 
-    if (typeHash.hasOwnProperty("Coin")) {
+    if (typeHash.hasOwnProperty('Coin')) {
       // @ts-ignore
       delete context.utils.Coin;
     }
 
     return [
       {
-        type: "message-composer",
+        type: 'message-composer',
         localname,
         body,
       },

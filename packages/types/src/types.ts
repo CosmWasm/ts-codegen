@@ -11,7 +11,7 @@ export interface Interface {
 
 export interface QueryMsg {
   $schema: string;
-  title: "QueryMsg";
+  title: 'QueryMsg';
   oneOf?: any;
   allOf?: any;
   anyOf?: any;
@@ -19,7 +19,7 @@ export interface QueryMsg {
 
 export interface ExecuteMsg {
   $schema: string;
-  title: "ExecuteMsg" | "ExecuteMsg_for_Empty";
+  title: 'ExecuteMsg' | 'ExecuteMsg_for_Empty';
   oneOf?: any;
   allOf?: any;
   anyOf?: any;

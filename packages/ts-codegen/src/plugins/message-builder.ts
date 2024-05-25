@@ -1,14 +1,15 @@
-import { pascal } from 'case';
 import * as w from '@cosmwasm/ts-codegen-ast';
-import { findAndParseTypes, findQueryMsg, findExecuteMsg } from '../utils';
 import {
+  ContractInfo,
   getMessageProperties,
   RenderContext,
   RenderContextBase,
-  ContractInfo,
   RenderOptions
 } from '@cosmwasm/ts-codegen-ast';
+import { pascal } from 'case';
+
 import { BuilderFileType } from '../builder';
+import { findAndParseTypes, findExecuteMsg,findQueryMsg } from '../utils';
 import { BuilderPluginBase } from './plugin-base';
 
 export class MessageBuilderPlugin extends BuilderPluginBase<RenderOptions> {

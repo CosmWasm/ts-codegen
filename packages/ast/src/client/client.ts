@@ -1,5 +1,8 @@
 import * as t from '@babel/types';
+import { ExecuteMsg, JSONSchema, QueryMsg } from '@cosmwasm/ts-codegen-types';
 import { camel } from 'case';
+
+import { RenderContext } from '../context';
 import {
   arrowFunctionExpression,
   bindMethod,
@@ -7,22 +10,16 @@ import {
   classProperty,
   FIXED_EXECUTE_PARAMS,
   getMessageProperties,
+  getTypeOrRef,
   OPTIONAL_FUNDS_PARAM,
   promiseTypeAnnotation,
-  typedIdentifier,
-  getTypeOrRef
-} from '../utils';
-
-import { ExecuteMsg, JSONSchema, QueryMsg } from '@cosmwasm/ts-codegen-types';
-
+  typedIdentifier} from '../utils';
+import { identifier, propertySignature } from '../utils/babel';
 import {
   createTypedObjectParams,
   getPropertyType,
-  getResponseType,
-  getType
+  getResponseType
 } from '../utils/types';
-import { RenderContext } from '../context';
-import { identifier, propertySignature } from '../utils/babel';
 
 export const CONSTANT_EXEC_PARAMS = [
   t.assignmentPattern(

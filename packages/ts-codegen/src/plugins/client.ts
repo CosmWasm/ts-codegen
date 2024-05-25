@@ -1,15 +1,16 @@
-import { pascal } from "case";
-import * as w from "@cosmwasm/ts-codegen-ast";
-import { findExecuteMsg, findAndParseTypes, findQueryMsg } from "../utils";
+import * as w from '@cosmwasm/ts-codegen-ast';
 import {
-  RenderContext,
   ContractInfo,
-  RenderContextBase,
   getMessageProperties,
+  RenderContext,
+  RenderContextBase,
   RenderOptions,
-} from "@cosmwasm/ts-codegen-ast";
-import { BuilderFileType } from "../builder";
-import { BuilderPluginBase } from "./plugin-base";
+} from '@cosmwasm/ts-codegen-ast';
+import { pascal } from 'case';
+
+import { BuilderFileType } from '../builder';
+import { findAndParseTypes, findExecuteMsg, findQueryMsg } from '../utils';
+import { BuilderPluginBase } from './plugin-base';
 
 export class ClientPlugin extends BuilderPluginBase<RenderOptions> {
   initContext(
@@ -38,8 +39,8 @@ export class ClientPlugin extends BuilderPluginBase<RenderOptions> {
 
     const { schemas } = context.contract;
 
-    const localname = pascal(name) + ".client.ts";
-    const TypesFile = pascal(name) + ".types";
+    const localname = pascal(name) + '.client.ts';
+    const TypesFile = pascal(name) + '.types';
     const QueryMsg = findQueryMsg(schemas);
     const ExecuteMsg = findExecuteMsg(schemas);
     const typeHash = await findAndParseTypes(schemas);
@@ -106,14 +107,14 @@ export class ClientPlugin extends BuilderPluginBase<RenderOptions> {
       }
     }
 
-    if (typeHash.hasOwnProperty("Coin")) {
+    if (typeHash.hasOwnProperty('Coin')) {
       // @ts-ignore
       delete context.utils.Coin;
     }
 
     return [
       {
-        type: "client",
+        type: 'client',
         localname,
         body,
       },

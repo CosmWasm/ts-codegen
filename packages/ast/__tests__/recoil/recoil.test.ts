@@ -1,4 +1,5 @@
 import * as t from '@babel/types';
+import { QueryMsg } from '@cosmwasm/ts-codegen-types';
 
 import {
   createRecoilQueryClient,
@@ -6,7 +7,6 @@ import {
   createRecoilSelectors
 } from '../../src/recoil/recoil';
 import { expectCode, globLegacyContracts, makeContext } from '../../test-utils';
-import { QueryMsg } from '@cosmwasm/ts-codegen-types';
 
 const globbed = globLegacyContracts('basic').find(c => c.name === '/query_msg.json');
 const queryMsg = globbed.content as QueryMsg;

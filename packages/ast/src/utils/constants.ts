@@ -1,5 +1,6 @@
-import { identifier } from './babel';
 import * as t from '@babel/types';
+
+import { identifier } from './babel';
 
 export const OPTIONAL_FUNDS_PARAM = identifier(
   '_funds',
@@ -30,8 +31,8 @@ export const FIXED_EXECUTE_PARAMS = [
 ];
 
 export const PROVIDER_TYPES = {
-  SIGNING_CLIENT_TYPE: "client",
-  QUERY_CLIENT_TYPE: "queryClient",
+  SIGNING_CLIENT_TYPE: 'client',
+  QUERY_CLIENT_TYPE: 'queryClient',
   MESSAGE_COMPOSER_TYPE : 'message-composer',
   PROVIDER_TYPE : 'provider'
 };

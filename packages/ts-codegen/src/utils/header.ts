@@ -1,4 +1,4 @@
-import { readAndParsePackageJson } from "./package";
+import { readAndParsePackageJson } from './package';
 
 const pkg = readAndParsePackageJson();
 

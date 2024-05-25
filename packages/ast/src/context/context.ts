@@ -1,10 +1,11 @@
 import * as t from '@babel/types';
-import { JSONSchema } from "@cosmwasm/ts-codegen-types";
-import { refLookup } from "../utils";
-import { convertUtilsToImportList, getImportStatements, UtilMapping } from "./imports";
-import deepmerge from "deepmerge";
+import { JSONSchema } from '@cosmwasm/ts-codegen-types';
+import deepmerge from 'deepmerge';
 import { basename, extname } from 'path'
+
 import { ContractInfo, ProviderInfo, RenderOptions } from '../types';
+import { refLookup } from '../utils';
+import { convertUtilsToImportList, getImportStatements, UtilMapping } from './imports';
 
 export interface IContext {
   refLookup($ref: string): JSONSchema;
@@ -98,7 +99,7 @@ export class BuilderContext {
     [key: string]: {
       [key: string]: ProviderInfo;
     };
-  } {
+    } {
     return this.providers;
   }
 }
@@ -143,7 +144,7 @@ export abstract class RenderContextBase<TOpt = RenderOptions> implements IRender
     [key: string]: {
       [key: string]: ProviderInfo;
     };
-  } {
+    } {
     return this.builderContext.providers;
   }
   getImports(registeredUtils?: UtilMapping, filepath?: string): (t.ImportNamespaceSpecifier | t.ImportDeclaration | t.ImportDefaultSpecifier)[] {

@@ -1,7 +1,6 @@
-import * as t from '@babel/types';
 
-import { expectCode, getLegacyFixture, makeContext } from '../../test-utils';
 import { createTypeOrInterface } from '../../src';
+import { expectCode, getLegacyFixture, makeContext } from '../../test-utils';
 
 const topLevel = getLegacyFixture('misc/schema', '/arrays-top-level.json');
 const nested = getLegacyFixture('misc/schema', '/arrays-nested.json');

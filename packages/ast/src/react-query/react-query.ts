@@ -1,7 +1,11 @@
 import type { Expression } from '@babel/types';
 import * as t from '@babel/types';
+import { ArrowFunctionExpression } from '@babel/types';
+import { ExecuteMsg, JSONSchema, QueryMsg } from '@cosmwasm/ts-codegen-types';
 import { camel, pascal } from 'case';
-import { JSONSchema, ExecuteMsg, QueryMsg } from '@cosmwasm/ts-codegen-types';
+
+import { RenderContext } from '../context';
+import { ReactQueryOptions } from '../types';
 import {
   callExpression,
   createTypedObjectParams,
@@ -11,21 +15,17 @@ import {
   tsObjectPattern,
   tsPropertySignature
 } from '../utils';
-
 import {
   omitTypeReference,
   optionalConditionalExpression,
   propertySignature,
   shorthandProperty
 } from '../utils/babel';
+import { OPTIONAL_FEE_PARAM, OPTIONAL_MEMO_PARAM } from '../utils/constants';
 import {
   getPropertyType,
   getResponseType
 } from '../utils/types';
-import { RenderContext } from '../context';
-import { ArrowFunctionExpression } from '@babel/types';
-import { OPTIONAL_FEE_PARAM, OPTIONAL_MEMO_PARAM } from '../utils/constants';
-import { ReactQueryOptions } from '../types';
 
 interface ReactQueryHookQuery {
   context: RenderContext;

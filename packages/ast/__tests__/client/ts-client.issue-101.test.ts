@@ -1,4 +1,5 @@
 import { ExecuteMsg } from '@cosmwasm/ts-codegen-types';
+
 import { createExecuteClass, createExecuteInterface } from '../../src';
 import { expectCode, globLegacyContracts, makeContext } from '../../test-utils';
 

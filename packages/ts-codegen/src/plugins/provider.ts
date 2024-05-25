@@ -1,8 +1,9 @@
-import { pascal } from "case";
-import * as w from "@cosmwasm/ts-codegen-ast";
-import { ContractInfo, RenderContextBase, RenderContext } from "@cosmwasm/ts-codegen-ast";
-import { BuilderFileType, TSBuilderOptions } from "../builder";
-import { BuilderPluginBase } from "./plugin-base";
+import * as w from '@cosmwasm/ts-codegen-ast';
+import { ContractInfo, RenderContext,RenderContextBase } from '@cosmwasm/ts-codegen-ast';
+import { pascal } from 'case';
+
+import { BuilderFileType, TSBuilderOptions } from '../builder';
+import { BuilderPluginBase } from './plugin-base';
 
 export const GetLocalNameByContractName = (name: string) =>
   `${pascal(name)}.provider.ts`;
@@ -15,9 +16,9 @@ export class ContractsContextProviderPlugin extends BuilderPluginBase<TSBuilderO
     super(opt);
 
     this.utils = {
-      ContractBase: "__contractContextBase__",
-      IContractConstructor: "__contractContextBase__",
-      IEmptyClient: "__contractContextBase__",
+      ContractBase: '__contractContextBase__',
+      IContractConstructor: '__contractContextBase__',
+      IEmptyClient: '__contractContextBase__',
     };
   }
 
@@ -49,8 +50,8 @@ export class ContractsContextProviderPlugin extends BuilderPluginBase<TSBuilderO
       return;
     }
 
-    context.addUtil("ContractBase");
-    context.addUtil("IContractConstructor");
+    context.addUtil('ContractBase');
+    context.addUtil('IContractConstructor');
 
     const localname = GetLocalNameByContractName(name);
     let needEmptyClientType = false;
@@ -98,15 +99,15 @@ export class ContractsContextProviderPlugin extends BuilderPluginBase<TSBuilderO
     }
 
     if (needEmptyClientType) {
-      context.addUtil("IEmptyClient");
+      context.addUtil('IEmptyClient');
     }
 
     body.push(w.createProvider(name, providerInfo));
 
     return [
       {
-        type: "plugin",
-        pluginType: "provider",
+        type: 'plugin',
+        pluginType: 'provider',
         localname,
         body,
       },

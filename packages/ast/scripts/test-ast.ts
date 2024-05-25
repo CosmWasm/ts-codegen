@@ -1,5 +1,5 @@
-import { stringify } from 'ast-stringify';
 import { parse } from '@babel/parser';
+import { stringify } from 'ast-stringify';
 import { readFileSync, writeFileSync } from 'fs';
 
 const main = async () => {

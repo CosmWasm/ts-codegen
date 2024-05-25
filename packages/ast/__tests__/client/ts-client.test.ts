@@ -1,8 +1,8 @@
 import {
-  createQueryClass,
-  createQueryInterface,
   createExecuteClass,
   createExecuteInterface,
+  createQueryClass,
+  createQueryInterface,
   createTypeInterface
 } from '../../src';
 import { expectCode, getLegacyFixture, getMsgExecuteLegacyFixture, getMsgQueryLegacyFixture, makeContext } from '../../test-utils';

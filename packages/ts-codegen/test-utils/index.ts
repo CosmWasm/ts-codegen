@@ -3,25 +3,22 @@ import {
   ContractInfo,
   ReactQueryOptions,
   RenderOptions,
-  TSTypesOptions,
-} from "@cosmwasm/ts-codegen-ast";
-import { ReactQueryPlugin } from "../src/plugins/react-query";
-import { TypesPlugin } from "../src/plugins/types";
-import { ClientPlugin } from "../src/plugins/client";
-import { MessageComposerPlugin } from "../src/plugins/message-composer";
-import { RecoilPlugin } from "../src/plugins/recoil";
-import { MessageBuilderPlugin } from "../src/plugins/message-builder";
-import { ContractsContextProviderPlugin } from "../src/plugins/provider";
-import { ContractsProviderBundlePlugin } from "../src/plugins/provider-bundle";
-import { TSBuilderOptions } from "../src/builder";
-import { createDefaultContractInfo } from "../src/utils/contracts";
+} from '@cosmwasm/ts-codegen-ast';
+import deepmerge from 'deepmerge';
+
+import { ClientPlugin } from '../src/plugins/client';
+import { MessageBuilderPlugin } from '../src/plugins/message-builder';
+import { MessageComposerPlugin } from '../src/plugins/message-composer';
+import { ReactQueryPlugin } from '../src/plugins/react-query';
+import { RecoilPlugin } from '../src/plugins/recoil';
+import { TypesPlugin } from '../src/plugins/types';
+import { createDefaultContractInfo } from '../src/utils/contracts';
 import {
-  TestContractsContextProviderPlugin,
   TestClientPlugin,
-  TestMessageComposerPlugin,
+  TestContractsContextProviderPlugin,
   TestContractsProviderBundlePlugin,
-} from "./testPlugins";
-import deepmerge from "deepmerge";
+  TestMessageComposerPlugin,
+} from './testPlugins';
 
 export const testDefaultOptions: RenderOptions = {
   enabled: true,
@@ -47,7 +44,7 @@ export const testDefaultOptions: RenderOptions = {
   reactQuery: {
     enabled: true,
     optionalClient: false,
-    version: "v4",
+    version: 'v4',
     mutations: false,
     camelize: true,
     queryKeys: false,

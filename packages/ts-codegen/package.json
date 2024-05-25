@@ -22,6 +22,7 @@
     "prepare": "npm run build",
     "cmds": "ts-node ./scripts/cmds.ts",
     "build": "npm run clean; tsc; tsc -p tsconfig.esm.json; npm run copy",
+    "lint": "eslint . --fix",
     "test": "jest",
     "test:watch": "jest --watch",
     "dev": "ts-node src/ts-codegen",

@@ -1,4 +1,4 @@
-import { ExecuteMsg, JSONSchema, QueryMsg } from "./types";
+import { ExecuteMsg, JSONSchema, QueryMsg } from './types';
 
 export interface KeyedSchema {
   [key: string]: JSONSchema;

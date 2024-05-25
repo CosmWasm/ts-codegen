@@ -1,11 +1,12 @@
-import * as t from "@babel/types";
-import { parse, ParserPlugin } from "@babel/parser";
-import { sync as mkdirp } from "mkdirp";
-import { writeFileSync } from "fs";
-import { dirname } from "path";
-import generate from "@babel/generator";
-import { unused } from "./unused";
-import traverse from "@babel/traverse";
+import generate from '@babel/generator';
+import { parse, ParserPlugin } from '@babel/parser';
+import traverse from '@babel/traverse';
+import * as t from '@babel/types';
+import { writeFileSync } from 'fs';
+import { sync as mkdirp } from 'mkdirp';
+import { dirname } from 'path';
+
+import { unused } from './unused';
 
 export const writeAstToFile = (
   outPath: string,
@@ -19,9 +20,9 @@ export const writeAstToFile = (
   const content = generate(ast as any).code;
 
   if (removeUnusedImports) {
-    const plugins: ParserPlugin[] = ["typescript"];
+    const plugins: ParserPlugin[] = ['typescript'];
     const newAst = parse(content, {
-      sourceType: "module",
+      sourceType: 'module',
       plugins,
     });
     traverse(newAst as any, unused);
@@ -51,13 +52,13 @@ export const writeContentToFile = (
   isTsDisable = false,
   isEslintDisable = false
 ) => {
-  let esLintPrefix = "";
-  let tsLintPrefix = "";
+  let esLintPrefix = '';
+  let tsLintPrefix = '';
 
-  let nameWithoutPath = filename.replace(outPath, "");
+  let nameWithoutPath = filename.replace(outPath, '');
   // strip off leading slash
-  if (nameWithoutPath.startsWith("/"))
-    nameWithoutPath = nameWithoutPath.replace(/^\//, "");
+  if (nameWithoutPath.startsWith('/'))
+    nameWithoutPath = nameWithoutPath.replace(/^\//, '');
 
   if (isTsDisable) {
     tsLintPrefix = `//@ts-nocheck\n`;
