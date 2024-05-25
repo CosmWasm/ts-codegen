@@ -27,6 +27,7 @@
       2
     ],
     "quotes": ["error", "single", { "avoidEscape": true, "allowTemplateLiterals": true }],
+    "quote-props": ["error", "as-needed"],
     "simple-import-sort/imports": 1,
     "simple-import-sort/exports": 1,
     "unused-imports/no-unused-imports": 1,
