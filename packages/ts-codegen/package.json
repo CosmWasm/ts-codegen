@@ -18,7 +18,7 @@
   },
   "scripts": {
     "copy": "copyfiles -f LICENSE-Apache LICENSE-MIT README.md package.json dist",
-    "clean": "del dist/**",
+    "clean": "rimraf dist/**",
     "prepare": "npm run build",
     "cmds": "ts-node ./scripts/cmds.ts",
     "build": "npm run clean; tsc; tsc -p tsconfig.esm.json; npm run copy",
