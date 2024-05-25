@@ -3,12 +3,12 @@ import * as t from '@babel/types';
 import {
   createReactQueryHooks,
   createReactQueryMutationHooks,
-} from '../../src'
+} from '../../src';
 import { expectCode, getLegacyFixture, getMsgExecuteLegacyFixture, getMsgQueryLegacyFixture, makeContext } from '../../test-utils';
 
-const queryMsg = getMsgQueryLegacyFixture('basic', '/query_msg.json')
-const execMsg = getMsgExecuteLegacyFixture('basic', '/execute_msg_for__empty.json')
-const ownership = getLegacyFixture('basic', '/ownership.json')
+const queryMsg = getMsgQueryLegacyFixture('basic', '/query_msg.json');
+const execMsg = getMsgExecuteLegacyFixture('basic', '/execute_msg_for__empty.json');
+const ownership = getLegacyFixture('basic', '/ownership.json');
 
 
 it('createReactQueryHooks', () => {
@@ -24,7 +24,7 @@ it('createReactQueryHooks', () => {
         contractName: 'Sg721',
         QueryClient: 'Sg721QueryClient'
       }
-    )))
+    )));
   expectCode(t.program(
     createReactQueryHooks(
       {
@@ -38,7 +38,7 @@ it('createReactQueryHooks', () => {
         contractName: 'Sg721',
         QueryClient: 'Sg721QueryClient'
       }
-    )))
+    )));
   expectCode(t.program(
     createReactQueryHooks(
       {
@@ -51,7 +51,7 @@ it('createReactQueryHooks', () => {
         contractName: 'Sg721',
         QueryClient: 'Sg721QueryClient'
       }
-    )))
+    )));
   expectCode(t.program(
     createReactQueryHooks(
       {
@@ -65,7 +65,7 @@ it('createReactQueryHooks', () => {
         contractName: 'Sg721',
         QueryClient: 'Sg721QueryClient'
       }
-    )))
+    )));
   expectCode(
     t.program(
       createReactQueryHooks({
@@ -95,7 +95,7 @@ it('createReactQueryHooks', () => {
         contractName: 'Sg721',
         ExecuteClient: 'Sg721Client',
       }
-    )))
+    )));
 });
 
 it('ownership', () => {
@@ -112,7 +112,7 @@ it('ownership', () => {
         contractName: 'Ownership',
         ExecuteClient: 'OwnershipClient',
       }
-    )))
+    )));
 });
 
 

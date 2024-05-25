@@ -28,17 +28,17 @@ const makeReactQuerySwitch = (varName: string) => {
         type: 'import',
         path: '@tanstack/react-query',
         name: varName
-      }
+      };
     case 'v3':
     default:
       return {
         type: 'import',
         path: 'react-query',
         name: varName
-      }
+      };
     }
   };
-}
+};
 
 export const UTILS = {
   selectorFamily: 'recoil',
@@ -122,7 +122,7 @@ export const getImportStatements = (
       return {
         ...imp,
         path: getRelativePath(filepath, `./${name}`)
-      }
+      };
     }
     return imp;
   });
@@ -142,14 +142,14 @@ export const getImportStatements = (
       m[obj.path].push(obj);
     }
     return m;
-  }, {})
+  }, {});
 
 
   return Object.entries(imports)
     .reduce((m, [importPath, imports]: [string, ImportObj[]]) => {
       const defaultImports = imports.filter(a => a.type === 'default');
       if (defaultImports.length) {
-        if (defaultImports.length > 1) throw new Error('more than one default name NOT allowed.')
+        if (defaultImports.length > 1) throw new Error('more than one default name NOT allowed.');
         m.push(
           t.importDeclaration(
             [
@@ -159,7 +159,7 @@ export const getImportStatements = (
             ],
             t.stringLiteral(defaultImports[0].path)
           )
-        )
+        );
       }
       const namedImports = imports.filter(a => a.type === 'import' && (!a.importAs || (a.name === a.importAs)));
       if (namedImports.length) {
@@ -172,7 +172,7 @@ export const getImportStatements = (
 
       const namespaced = imports.filter(a => a.type === 'namespace');
       if (namespaced.length) {
-        if (namespaced.length > 1) throw new Error('more than one namespaced name NOT allowed.')
+        if (namespaced.length > 1) throw new Error('more than one namespaced name NOT allowed.');
         m.push(
           t.importDeclaration(
             [
@@ -182,10 +182,10 @@ export const getImportStatements = (
             ],
             t.stringLiteral(namespaced[0].path)
           )
-        )
+        );
       }
       return m;
-    }, [])
+    }, []);
 };
 
 export const getRelativePath = (f1: string, f2: string) => {
@@ -193,4 +193,4 @@ export const getRelativePath = (f1: string, f2: string) => {
   let importPath = rel.replace(extname(rel), '');
   if (!/^\./.test(importPath)) importPath = `./${importPath}`;
   return importPath;
-}
+};

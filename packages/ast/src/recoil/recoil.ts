@@ -151,7 +151,7 @@ export const createRecoilSelector = (
         )
       )]
     )
-  )
+  );
 
 };
 
@@ -180,25 +180,25 @@ export const createRecoilSelectors = (
 };
 
 export const createRecoilQueryClientType = () => ({
-  'type': 'TSTypeAliasDeclaration',
-  'id': {
-    'type': 'Identifier',
-    'name': 'QueryClientParams'
+  type: 'TSTypeAliasDeclaration',
+  id: {
+    type: 'Identifier',
+    name: 'QueryClientParams'
   },
-  'typeAnnotation': {
-    'type': 'TSTypeLiteral',
-    'members': [
+  typeAnnotation: {
+    type: 'TSTypeLiteral',
+    members: [
       {
-        'type': 'TSPropertySignature',
-        'key': {
-          'type': 'Identifier',
-          'name': 'contractAddress'
+        type: 'TSPropertySignature',
+        key: {
+          type: 'Identifier',
+          name: 'contractAddress'
         },
-        'computed': false,
-        'typeAnnotation': {
-          'type': 'TSTypeAnnotation',
-          'typeAnnotation': {
-            'type': 'TSStringKeyword'
+        computed: false,
+        typeAnnotation: {
+          type: 'TSTypeAnnotation',
+          typeAnnotation: {
+            type: 'TSStringKeyword'
           }
         }
       }
@@ -303,6 +303,6 @@ export const createRecoilQueryClient = (
         )
       )]
     )
-  )
+  );
 
 };

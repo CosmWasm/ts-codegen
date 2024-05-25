@@ -18,7 +18,7 @@ const rnd = () =>
 const getPackages = (names: string[]) => {
   return names.map(pkg => {
     const { name, version } = parse(pkg);
-    return `${name}@${version}`
+    return `${name}@${version}`;
   }).join(' ');
 };
 
@@ -60,7 +60,7 @@ export default async (argv: MinimistArgs) => {
         return {
           name,
           value: `@cosmjson/${name}`
-        }
+        };
       })
     }
   ], argv);
@@ -75,7 +75,7 @@ export default async (argv: MinimistArgs) => {
   // protos
   const pkgs = glob('./smart-contracts/**/package.json');
   const cmds = pkgs
-    .filter((f) => { return f !== './smart-contracts/package.json' })
+    .filter((f) => { return f !== './smart-contracts/package.json'; })
     .map((f) => resolve(join(tmp, f)))
     .map((conf) => {
       const extDir = dirname(conf);

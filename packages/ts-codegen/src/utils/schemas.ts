@@ -7,8 +7,8 @@ import { sync as glob } from 'glob';
 import { cleanse } from './cleanse';
 import { parser } from './parse';
 interface ReadSchemaOpts {
-    schemaDir: string;
-    clean?: boolean;
+  schemaDir: string;
+  clean?: boolean;
 };
 
 export const readSchemas = async ({
@@ -39,8 +39,8 @@ export const readSchemas = async ({
 
   const idlObject: Partial<IDLObject> = schemas[0] as Partial<IDLObject>;
   const {
-    contract_name,
-    contract_version,
+    // contract_name,
+    // contract_version,
     idl_version,
     responses,
     instantiate,

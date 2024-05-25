@@ -13,7 +13,7 @@ it('execute interfaces no extends', () => {
     'OwnershipInstance',
     null,
     ownership as ExecuteMsg
-  ))
+  ));
 });
 
 it('ownership client with tuple', () => {
@@ -24,7 +24,7 @@ it('ownership client with tuple', () => {
     'OwnershipInstance',
     null,
     ownership as ExecuteMsg
-  ))
+  ));
 });
 
 

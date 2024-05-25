@@ -10,15 +10,15 @@ import { expectCode, globIdlBasedContracts,makeContext } from '../../test-utils'
 
 const contract = globIdlBasedContracts('issues/98').find(c => c.name === '/schema.json')!;
 
-const message = contract.content.query
+const message = contract.content.query;
 const ctx = makeContext(message);
 
 it('execute_msg_for__empty', () => {
   expectCode(createTypeInterface(
     ctx,
     message
-  ))
-})
+  ));
+});
 
 
 it('query classes', () => {
@@ -27,7 +27,7 @@ it('query classes', () => {
     'SG721QueryClient',
     'SG721ReadOnlyInstance',
     message
-  ))
+  ));
 });
 
 // it('query classes response', () => {
@@ -45,7 +45,7 @@ it('execute classes array types', () => {
     null,
         // @ts-ignore
         message as ExecuteMsg
-  ))
+  ));
 });
 
 it('execute interfaces no extends', () => {
@@ -55,5 +55,5 @@ it('execute interfaces no extends', () => {
     null,
     // @ts-ignore
     message
-  ))
+  ));
 });

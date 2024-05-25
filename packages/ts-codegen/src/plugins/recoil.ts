@@ -4,7 +4,8 @@ import {
   RenderContext,
   RenderContextBase,
   RenderOptions,
-  UtilMapping} from '@cosmwasm/ts-codegen-ast';
+  UtilMapping
+} from '@cosmwasm/ts-codegen-ast';
 import { pascal } from 'case';
 
 import { BuilderFileType } from '../builder';

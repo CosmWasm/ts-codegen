@@ -3,7 +3,7 @@ import { filter } from 'fuzzy';
 import { prompt as inquirerer } from 'inquirerer';
 
 export const getFuzzySearch = (list) => {
-  return (answers, input) => {
+  return (_answers, input) => {
     input = input || '';
     return new Promise(function (resolve) {
       setTimeout(function () {
@@ -19,8 +19,8 @@ export const getFuzzySearch = (list) => {
 };
 
 export const getFuzzySearchNames = (nameValueItemList) => {
-  const list = nameValueItemList.map(({ name, value }) => name);
-  return (answers, input) => {
+  const list = nameValueItemList.map(({ name, value: _value }) => name);
+  return (_answers, input) => {
     input = input || '';
     return new Promise(function (resolve) {
       setTimeout(function () {
@@ -28,7 +28,7 @@ export const getFuzzySearchNames = (nameValueItemList) => {
         resolve(
           fuzzyResult.map(function (el) {
             return nameValueItemList.find(
-              ({ name, value }) => el.original == name
+              ({ name, value: _value }) => el.original == name
             );
           })
         );

@@ -2,7 +2,7 @@ import {
   createExecuteClass,
   createQueryClass,
   createTypeInterface
-} from '../../src'
+} from '../../src';
 import { expectCode, globIdlBasedContracts, makeContext } from '../../test-utils';
 
 const globbed = globIdlBasedContracts('wager').find(c => c.name === '/cw-wager.json')!;
@@ -15,15 +15,15 @@ it('query', () => {
   expectCode(createTypeInterface(
     queryCtx,
     wagerJson.query
-  ))
-})
+  ));
+});
 
 it('execute', () => {
   expectCode(createTypeInterface(
     executeCtx,
     wagerJson.execute
-  ))
-})
+  ));
+});
 
 it('query classes', () => {
   expectCode(createQueryClass(
@@ -31,7 +31,7 @@ it('query classes', () => {
     'WagerQueryClient',
     'WagerReadOnlyInstance',
     wagerJson.query
-  ))
+  ));
 });
 
 it('execute classes', () => {
@@ -41,5 +41,5 @@ it('execute classes', () => {
     'WagerInstance',
     null,
     wagerJson.execute
-  ))
+  ));
 });

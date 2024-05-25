@@ -19,13 +19,13 @@ export const parser = (codes: string[]) => {
       addType(key: string, node: any) {
         hash[key] = node;
       }
-    })
+    });
     babelTraverse(ast as any, visitor);
   });
 
   return hash;
 
-}
+};
 
 const visitorFn = (parser: any) => ({
   TSTypeAliasDeclaration(path: any) {

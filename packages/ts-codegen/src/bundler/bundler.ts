@@ -34,7 +34,7 @@ export const recursiveModuleBundle = (obj: BundleData): t.ExportNamedDeclaration
         .filter(a => a !== '__export')
         .filter(a => !a.startsWith('_'));
       if (others.length) {
-        throw new Error('namespace and package not supported, yet.')
+        throw new Error('namespace and package not supported, yet.');
       }
 
       // return nmspc;
@@ -47,7 +47,7 @@ export const recursiveModuleBundle = (obj: BundleData): t.ExportNamedDeclaration
           t.identifier(key),
           t.tsModuleBlock(recursiveModuleBundle(obj[key] as BundleData))
         )
-      )
+      );
     } else {
       throw new Error('Invalid structure for BundleData');
     }
@@ -75,4 +75,4 @@ export const createFileBundle = (
   importPaths.push(importNamespace(variable, rel));
   nested.set(bundleVariables, pkg + '.__export', true);
   nested.set(bundleVariables, pkg + '.' + variable, true);
-}
+};

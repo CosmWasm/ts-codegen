@@ -56,7 +56,7 @@ it('create IContractsContext', () => {
   const info: any = {
     Whitelist: {},
     Marketplace: {}
-  }
+  };
 
   info['Whitelist'][PROVIDER_TYPES.SIGNING_CLIENT_TYPE] = {
     classname: 'WhitelistClient'

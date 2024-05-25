@@ -3,7 +3,7 @@ import {
   createExecuteInterface,
   createQueryClass,
   createTypeInterface
-} from '../../src'
+} from '../../src';
 import { getPropertyType } from '../../src/utils';
 import { expectCode, getMsgExecuteLegacyFixture, getMsgQueryLegacyFixture, makeContext } from '../../test-utils';
 const queryMsg = getMsgQueryLegacyFixture('misc/schema', '/arrays.json');
@@ -17,16 +17,16 @@ it('getPropertyType', () => {
     queryMsg.oneOf[0].properties.update_edges,
     'edges3'
   );
-  expectCode(ast.type)
+  expectCode(ast.type);
   // printCode(ast.type)
-})
+});
 
 it('execute_msg_for__empty', () => {
   expectCode(createTypeInterface(
     ctx,
     queryMsg
-  ))
-})
+  ));
+});
 
 
 it('query classes', () => {
@@ -35,7 +35,7 @@ it('query classes', () => {
     'SG721QueryClient',
     'SG721ReadOnlyInstance',
     queryMsg
-  ))
+  ));
 });
 
 it('execute classes array types', () => {
@@ -45,7 +45,7 @@ it('execute classes array types', () => {
     'SG721Instance',
     null,
     execMsg
-  ))
+  ));
 });
 
 it('execute interfaces no extends', () => {
@@ -54,5 +54,5 @@ it('execute interfaces no extends', () => {
     'SG721Instance',
     null,
     execMsg
-  ))
+  ));
 });
