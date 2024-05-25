@@ -1,14 +1,14 @@
-import { pascal } from 'case';
 import * as w from '@cosmwasm/ts-codegen-ast';
-import { findAndParseTypes, findExecuteMsg, findQueryMsg } from '../utils';
 import {
-  getMessageProperties,
   ContractInfo,
-  RenderOptions,
+  getMessageProperties,
+  RenderContext,
   RenderContextBase,
-  RenderContext
-} from '@cosmwasm/ts-codegen-ast';
+  RenderOptions} from '@cosmwasm/ts-codegen-ast';
+import { pascal } from 'case';
+
 import { BuilderFileType } from '../builder';
+import { findAndParseTypes, findExecuteMsg, findQueryMsg } from '../utils';
 import { BuilderPluginBase } from './plugin-base';
 
 export class ReactQueryPlugin extends BuilderPluginBase<RenderOptions> {

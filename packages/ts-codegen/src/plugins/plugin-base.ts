@@ -1,16 +1,17 @@
-import { sync as mkdirp } from "mkdirp";
-import { join } from "path";
-import { writeFileSync } from "fs";
-import { header } from "../utils/header";
-import { ContractInfo, UtilMapping, IContext, defaultOptions } from "@cosmwasm/ts-codegen-ast";
-import generate from "@babel/generator";
-import * as t from "@babel/types";
+import generate from '@babel/generator';
+import * as t from '@babel/types';
+import { ContractInfo, defaultOptions,IContext, UtilMapping } from '@cosmwasm/ts-codegen-ast';
+import deepmerge from 'deepmerge';
+import { writeFileSync } from 'fs';
+import { sync as mkdirp } from 'mkdirp';
+import { join } from 'path';
+
 import {
   BuilderFile,
   BuilderFileType,
   TSBuilder,
-} from "../builder";
-import deepmerge from "deepmerge";
+} from '../builder';
+import { header } from '../utils/header';
 
 /**
  * IBuilderPlugin is a common plugin that render generated code.
@@ -28,7 +29,7 @@ export interface IBuilderPlugin {
   /**
    * prop to indicate to execute the render function in the lifecycle of main process or after
    */
-  readonly lifecycle: "main" | "after";
+  readonly lifecycle: 'main' | 'after';
 
   defaultContractName?: string;
 
@@ -50,21 +51,21 @@ export interface IBuilderPlugin {
  * BuilderPluginBase enable ts-codegen users implement their own plugins by only implement a few functions.
  */
 export abstract class BuilderPluginBase<TOpt extends { enabled?: boolean }>
-  implements IBuilderPlugin {
+implements IBuilderPlugin {
   builder?: TSBuilder;
   options: TOpt;
   utils: UtilMapping;
   /**
    * prop to indicate to execute the render function in the lifecycle of main process or after
    */
-  lifecycle: "main" | "after";
+  lifecycle: 'main' | 'after';
 
   defaultContractName?: string;
 
   constructor(opts?: TOpt, builder?: TSBuilder) {
     this.options = opts;
     this.builder = builder;
-    this.lifecycle = "main";
+    this.lifecycle = 'main';
   }
 
   setBuilder(builder: TSBuilder): void {

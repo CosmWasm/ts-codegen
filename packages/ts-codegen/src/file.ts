@@ -1,7 +1,8 @@
 #!/usr/bin/env node
-import { prompt } from './utils/prompt';
-import { cli } from './cli';
 import { readFileSync } from 'fs';
+
+import { cli } from './cli';
+import { prompt } from './utils/prompt';
 const argv = require('minimist')(process.argv.slice(2));
 
 const question = [

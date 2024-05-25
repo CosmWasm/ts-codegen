@@ -1,14 +1,15 @@
-import { join, dirname, basename, extname } from "path";
-import { sync as mkdirp } from "mkdirp";
-import { writeContentToFile } from "../utils/files";
-import { BuilderFile, TSBuilderInput } from "../builder";
+import { BuilderContext } from '@cosmwasm/ts-codegen-ast';
+import { sync as mkdirp } from 'mkdirp';
+import { basename, dirname, extname,join } from 'path';
+
+import { BuilderFile, TSBuilderInput } from '../builder';
 import {
   contractContextBase,
   contractContextBaseShortHandCtor,
   contractsContextTSX,
-} from "../helpers";
-import { BuilderContext } from "@cosmwasm/ts-codegen-ast";
-import { header } from "../utils/header";
+} from '../helpers';
+import { writeContentToFile } from '../utils/files';
+import { header } from '../utils/header';
 
 const write = (
   outPath: string,
@@ -21,8 +22,8 @@ const write = (
   writeContentToFile(outPath, header + content, outFile);
 
   return {
-    type: "plugin",
-    pluginType: "helper",
+    type: 'plugin',
+    pluginType: 'helper',
     contract: varname ?? basename(file, extname(file)),
     localname: file,
     filename: outFile,
@@ -43,7 +44,7 @@ export const createHelpers = (
     files.push(
       write(
         input.outPath,
-        "contractContextBase.ts",
+        'contractContextBase.ts',
         useShorthandCtor
           ? contractContextBaseShortHandCtor
           : contractContextBase
@@ -52,9 +53,9 @@ export const createHelpers = (
     files.push(
       write(
         input.outPath,
-        "contracts-context.tsx",
+        'contracts-context.tsx',
         contractsContextTSX,
-        "contractsContext"
+        'contractsContext'
       )
     );
   }

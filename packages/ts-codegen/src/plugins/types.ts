@@ -1,14 +1,15 @@
 import * as t from '@babel/types';
-import { clean } from '../utils/clean';
-import { pascal } from 'case';
-import { findExecuteMsg, findAndParseTypes, findQueryMsg } from '../utils';
 import {
   ContractInfo,
   RenderContext,
   RenderContextBase,
   RenderOptions
 } from '@cosmwasm/ts-codegen-ast';
+import { pascal } from 'case';
+
 import { BuilderFileType } from '../builder';
+import { findAndParseTypes, findExecuteMsg } from '../utils';
+import { clean } from '../utils/clean';
 import { BuilderPluginBase } from './plugin-base';
 
 export class TypesPlugin extends BuilderPluginBase<RenderOptions> {

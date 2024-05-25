@@ -1,8 +1,9 @@
 import * as t from '@babel/types';
-import { camel, pascal } from 'case';
-import { propertySignature } from './babel';
-import { RenderContext } from '../context';
 import { JSONSchema } from '@cosmwasm/ts-codegen-types';
+import { camel, pascal } from 'case';
+
+import { RenderContext } from '../context';
+import { propertySignature } from './babel';
 
 export function getResponseType(
   context: RenderContext,
@@ -213,18 +214,18 @@ export const getTypeInfo = (
 
 export const getType = (type: string) => {
   switch (type) {
-    case 'string':
-      return t.tsStringKeyword();
-    case 'boolean':
-      return t.tSBooleanKeyword();
-    case 'integer':
-      return t.tsNumberKeyword();
-    case 'null':
-      return t.tsNullKeyword();
-    case 'number':
-      return t.tsNumberKeyword();
-    default:
-      throw new Error('contact maintainers [unknown type]: ' + type);
+  case 'string':
+    return t.tsStringKeyword();
+  case 'boolean':
+    return t.tSBooleanKeyword();
+  case 'integer':
+    return t.tsNumberKeyword();
+  case 'null':
+    return t.tsNullKeyword();
+  case 'number':
+    return t.tsNumberKeyword();
+  default:
+    throw new Error('contact maintainers [unknown type]: ' + type);
   }
 }
 

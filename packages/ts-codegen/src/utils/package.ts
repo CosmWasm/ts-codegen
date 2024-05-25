@@ -1,5 +1,5 @@
-import { join, dirname, basename, extname } from "path";
-import { readFileSync, existsSync } from "fs";
+import { existsSync,readFileSync } from 'fs';
+import { dirname,join } from 'path';
 
 // need to search due to the dist/ folder and src/, etc. 
 function findPackageJson(currentDir: string) {

@@ -1,16 +1,15 @@
-import { pascal } from 'case';
 import * as w from '@cosmwasm/ts-codegen-ast';
-import { findAndParseTypes, findQueryMsg } from '../utils';
 import {
   ContractInfo,
   RenderContext,
   RenderContextBase,
-  UtilMapping,
-  RenderOptions
-} from '@cosmwasm/ts-codegen-ast';
+  RenderOptions,
+  UtilMapping} from '@cosmwasm/ts-codegen-ast';
+import { pascal } from 'case';
+
 import { BuilderFileType } from '../builder';
+import { findAndParseTypes, findQueryMsg } from '../utils';
 import { BuilderPluginBase } from './plugin-base';
-import { JSONSchema } from '@pyramation/json-schema-to-typescript';
 
 export class RecoilPlugin extends BuilderPluginBase<RenderOptions> {
   utils: UtilMapping = {

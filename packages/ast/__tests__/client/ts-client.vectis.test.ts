@@ -1,9 +1,3 @@
-import {
-  expectCode,
-  getLegacyFixture,
-  makeContext,
-} from '../../test-utils';
-
 import { ExecuteMsg } from '@cosmwasm/ts-codegen-types';
 
 import {
@@ -12,6 +6,11 @@ import {
   createQueryClass,
   createTypeInterface
 } from '../../src';
+import {
+  expectCode,
+  getLegacyFixture,
+  makeContext,
+} from '../../test-utils';
 
 const vectisCanExecuteRelayResponse = getLegacyFixture('vectis/govec', '/can_execute_relay_response.json');
 const vectisCosmosMsgForEmpty = getLegacyFixture('vectis/govec', '/cosmos_msg_for__empty.json');

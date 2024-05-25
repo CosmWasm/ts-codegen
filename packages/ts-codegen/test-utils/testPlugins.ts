@@ -4,10 +4,11 @@ import {
   RenderContext,
   RenderContextBase,
   RenderOptions,
-} from "@cosmwasm/ts-codegen-ast";
-import { ClientPlugin, MessageComposerPlugin, TSBuilderOptions } from "../src";
-import { ContractsContextProviderPlugin } from "../src/plugins/provider";
-import { ContractsProviderBundlePlugin } from "../src/plugins/provider-bundle";
+} from '@cosmwasm/ts-codegen-ast';
+
+import { ClientPlugin, MessageComposerPlugin, TSBuilderOptions } from '../src';
+import { ContractsContextProviderPlugin } from '../src/plugins/provider';
+import { ContractsProviderBundlePlugin } from '../src/plugins/provider-bundle';
 
 export class TestClientPlugin extends ClientPlugin {
   builderContext: BuilderContext;
