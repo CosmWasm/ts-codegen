@@ -30,7 +30,7 @@ const defaultOpts: TSBuilderOptions = {
     bundleFile: 'bundle.ts'
   },
   useShorthandCtor: true
-}
+};
 
 export interface TSBuilderInput {
     contracts: Array<ContractFile | string>;
@@ -79,7 +79,7 @@ function getContract(contractOpt: ContractFile | string): ContractFile {
     return {
       name: contractName,
       dir: contractOpt
-    }
+    };
   }
   return {
     name: pascal(contractOpt.name),
@@ -126,7 +126,7 @@ export class TSBuilder {
       this.plugins.push(...plugins);
     }
 
-    this.plugins.forEach(plugin => plugin.setBuilder(this))
+    this.plugins.forEach(plugin => plugin.setBuilder(this));
   }
 
   async build() {
@@ -229,7 +229,7 @@ export class TSBuilder {
 
     mkdirp(this.outPath);
 
-    if (code.trim() === '') code = 'export {};'
+    if (code.trim() === '') code = 'export {};';
 
     writeFileSync(bundlePath, header + code);
 

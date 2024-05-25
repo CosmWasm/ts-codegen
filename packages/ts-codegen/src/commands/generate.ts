@@ -77,7 +77,7 @@ export default async (argv: MinimistArgs) => {
         message: 'queryKeys?',
         default: false
       },
-    ])
+    ]);
   };
   const { optionalClient, version, queryKeys } = await prompt(questions2, argv);
   const questions3 = [];
@@ -91,7 +91,7 @@ export default async (argv: MinimistArgs) => {
         default: false
       }
 
-    ])
+    ]);
   };
   const { mutations } = await prompt(questions3, argv);
 
@@ -105,7 +105,7 @@ export default async (argv: MinimistArgs) => {
         message: 'queryFactory? ',
         default: false
       }
-    ])
+    ]);
   };
   const { queryFactory } = await prompt(queryFactoryQuestions, argv);
   ///////// END REACT QUERY
@@ -126,7 +126,7 @@ export default async (argv: MinimistArgs) => {
         message: 'bundleScope?',
         default: 'contracts'
       }
-    ])
+    ]);
   };
   const { bundleFile, bundleScope } = await prompt(questions4, argv);
   ///////// END BUNDLE
@@ -175,5 +175,5 @@ export default async (argv: MinimistArgs) => {
     ],
     outPath: out,
     options
-  })
+  });
 };

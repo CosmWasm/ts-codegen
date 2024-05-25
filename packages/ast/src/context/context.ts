@@ -1,7 +1,7 @@
 import * as t from '@babel/types';
 import { JSONSchema } from '@cosmwasm/ts-codegen-types';
 import deepmerge from 'deepmerge';
-import { basename, extname } from 'path'
+import { basename, extname } from 'path';
 
 import { ContractInfo, ProviderInfo, RenderOptions } from '../types';
 import { refLookup } from '../utils';
@@ -86,7 +86,7 @@ export class BuilderContext {
 
   addProviderInfo(contractName: string, type: string, classname: string, filename: string): void {
     if (!this.providers[contractName]) {
-      this.providers[contractName] = {}
+      this.providers[contractName] = {};
     }
 
     this.providers[contractName][type] = {
@@ -132,7 +132,7 @@ export abstract class RenderContextBase<TOpt = RenderOptions> implements IRender
    */
   abstract mergeDefaultOpt(options: TOpt): TOpt;
   refLookup($ref: string): JSONSchema {
-    return refLookup($ref, this.schema)
+    return refLookup($ref, this.schema);
   }
   addUtil(util: string): void {
     this.utils[util] = true;

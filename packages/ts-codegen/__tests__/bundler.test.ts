@@ -1,6 +1,6 @@
 import generate from '@babel/generator';
 import * as t from '@babel/types';
-import cases from 'jest-in-case'
+import cases from 'jest-in-case';
 
 import {
   BundleData,
@@ -10,7 +10,7 @@ import {
 const preview = (ast: any) => {
   // @ts-ignore
   return generate(t.program(ast)).code;
-}
+};
 
 interface JestBundleData {
     name: string;
@@ -168,4 +168,4 @@ cases(`recursiveModuleBundle`, (opts: JestBundleData) => {
       }
     }
   }
-])
+]);

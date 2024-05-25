@@ -22,8 +22,8 @@ describe('query', () => {
     expectCode(createTypeInterface(
       queryCtx,
       queryMessage
-    ))
-  })
+    ));
+  });
 
 
   it('query classes', () => {
@@ -32,14 +32,14 @@ describe('query', () => {
       'QueryClient',
       'ReadOnlyInstance',
       queryMessage
-    ))
+    ));
   });
 
   it('query classes response', () => {
     expectCode(createTypeInterface(
       queryCtx,
       queryMessage
-    ))
+    ));
   });
 
   it('execute classes array types', () => {
@@ -49,7 +49,7 @@ describe('query', () => {
       'Instance',
       null,
       queryMessage
-    ))
+    ));
   });
 
   it('execute interfaces no extends', () => {
@@ -58,7 +58,7 @@ describe('query', () => {
       'SG721Instance',
       null,
       queryMessage
-    ))
+    ));
   });
 
 });
@@ -68,8 +68,8 @@ describe('execute', () => {
     expectCode(createTypeInterface(
       executeCtx,
       executeMessage
-    ))
-  })
+    ));
+  });
 
 
   it('query classes', () => {
@@ -78,7 +78,7 @@ describe('execute', () => {
       'QueryClient',
       'ReadOnlyInstance',
       executeMessage
-    ))
+    ));
   });
 
   it('query classes response', () => {
@@ -86,7 +86,7 @@ describe('execute', () => {
       executeCtx,
       // @ts-ignore
       queryMessage
-    ))
+    ));
   });
 
   it('execute classes array types', () => {
@@ -96,7 +96,7 @@ describe('execute', () => {
       'Instance',
       null,
       executeMessage
-    ))
+    ));
   });
 
   it('execute interfaces no extends', () => {
@@ -105,7 +105,7 @@ describe('execute', () => {
       'SG721Instance',
       null,
       executeMessage
-    ))
+    ));
   });
 
 });

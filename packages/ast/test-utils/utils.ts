@@ -11,13 +11,13 @@ export const expectCode = (ast: any): void => {
   expect(
     generate(ast).code
   ).toMatchSnapshot();
-}
+};
 
 export const printCode = (ast: any): void => {
   console.log(
     generate(ast).code
   );
-}
+};
 
 export const makeContext = (
   schema: JSONSchema,
@@ -27,7 +27,7 @@ export const makeContext = (
   return new RenderContext({
     schemas: [schema],
     responses
-  }, options)
+  }, options);
 };
 
 interface GlobContractLegacy {
@@ -50,7 +50,7 @@ export const globIdlBasedContracts = (p: string): GlobContract[] => {
     return {
       name: file.split(join('__fixtures__', p))[1],
       content: JSON.parse(readFileSync(file, 'utf-8'))
-    }
+    };
   });
   globCache[p] = contracts;
   return contracts;
@@ -63,7 +63,7 @@ export const globLegacyContracts = (p: string): GlobContractLegacy[] => {
     return {
       name: file.split(join('__fixtures__', p))[1],
       content: JSON.parse(readFileSync(file, 'utf-8'))
-    }
+    };
   });
   globCache[p] = contracts;
   return contracts;

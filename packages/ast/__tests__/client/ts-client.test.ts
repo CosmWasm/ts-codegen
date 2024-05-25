@@ -29,7 +29,7 @@ it('approval_response', () => {
   expectCode(createTypeInterface(
     ctx,
     approvalResponseData
-  ))
+  ));
 });
 
 it('all_nft_info_response', () => {
@@ -37,71 +37,71 @@ it('all_nft_info_response', () => {
   expectCode(createTypeInterface(
     ctx,
     allNftInfoResponseData
-  ))
-})
+  ));
+});
 it('approvals_response', () => {
   const ctx = makeContext(approvalsResponseData);
   expectCode(createTypeInterface(
     ctx,
     approvalsResponseData
-  ))
-})
+  ));
+});
 it('collection_info_response', () => {
   const ctx = makeContext(collectionInfoResponseData);
   expectCode(createTypeInterface(
     ctx,
     collectionInfoResponseData
-  ))
-})
+  ));
+});
 it('contract_info_response', () => {
   const ctx = makeContext(contractInfoResponseData);
   expectCode(createTypeInterface(
     ctx,
     contractInfoResponseData
-  ))
-})
+  ));
+});
 it('instantiate_msg', () => {
   const ctx = makeContext(instantiateMsgData);
   expectCode(createTypeInterface(
     ctx,
     instantiateMsgData
-  ))
-})
+  ));
+});
 it('nft_info_response', () => {
   const ctx = makeContext(nftInfoResponseData);
   expectCode(createTypeInterface(
     ctx,
     nftInfoResponseData
-  ))
-})
+  ));
+});
 it('num_tokens_response', () => {
   const ctx = makeContext(numTokensResponseData);
   expectCode(createTypeInterface(
     ctx,
     numTokensResponseData
-  ))
-})
+  ));
+});
 it('operators_response', () => {
   const ctx = makeContext(operatorsResponseData);
   expectCode(createTypeInterface(
     ctx,
     operatorsResponseData
-  ))
-})
+  ));
+});
 it('owner_of_response', () => {
   const ctx = makeContext(ownerOfResponseData);
   expectCode(createTypeInterface(
     ctx,
     ownerOfResponseData
-  ))
-})
+  ));
+});
 it('tokens_response', () => {
   const ctx = makeContext(tokensResponseData);
   expectCode(createTypeInterface(
     ctx,
     tokensResponseData
-  ))
-})
+  ));
+});
 
 it('query classes', () => {
   const ctx = makeContext(queryMsgData);
@@ -110,7 +110,7 @@ it('query classes', () => {
     'SG721QueryClient',
     'SG721ReadOnlyInstance',
     queryMsgData
-  ))
+  ));
 });
 
 it('execute classes', () => {
@@ -121,7 +121,7 @@ it('execute classes', () => {
     'SG721Instance',
     'SG721QueryClient',
     executeMsgData
-  ))
+  ));
 });
 
 it('execute classes no extends', () => {
@@ -132,7 +132,7 @@ it('execute classes no extends', () => {
     'SG721Instance',
     null,
     executeMsgData
-  ))
+  ));
 });
 
 it('execute classes array types', () => {
@@ -143,7 +143,7 @@ it('execute classes array types', () => {
     'SG721Instance',
     null,
     daodaoCwNamedGroupsExecuteMsg
-  ))
+  ));
 });
 
 it('execute interfaces no extends', () => {
@@ -153,7 +153,7 @@ it('execute interfaces no extends', () => {
     'SG721Instance',
     null,
     executeMsgData
-  ))
+  ));
 });
 
 it('query interfaces', () => {
@@ -162,5 +162,5 @@ it('query interfaces', () => {
     ctx,
     'SG721ReadOnlyInstance',
     queryMsgData
-  ))
+  ));
 });

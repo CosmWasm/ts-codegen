@@ -1,6 +1,6 @@
 import {
   createExecuteClass
-} from '../../src'
+} from '../../src';
 import { expectCode, getMsgExecuteLegacyFixture, makeContext } from '../../test-utils';
 
 const execMsg = getMsgExecuteLegacyFixture('sg721', '/execute_msg_for__empty.json');
@@ -15,7 +15,7 @@ it('Impl, execExtends, noExtendsClass', () => {
     'SG721Instance',
     null,
     execMsg
-  ))
+  ));
 });
 
 it('Impl, execExtends, ExtendsClass', () => {
@@ -27,7 +27,7 @@ it('Impl, execExtends, ExtendsClass', () => {
     'SG721Instance',
     'ExtendsClassName',
     execMsg
-  ))
+  ));
 });
 
 it('noImpl, execExtends, ExtendsClass', () => {
@@ -39,7 +39,7 @@ it('noImpl, execExtends, ExtendsClass', () => {
     'SG721Instance',
     'ExtendsClassName',
     execMsg
-  ))
+  ));
 });
 
 it('noImpl, noExecExtends, ExtendsClass', () => {
@@ -51,7 +51,7 @@ it('noImpl, noExecExtends, ExtendsClass', () => {
     'SG721Instance',
     'ExtendsClassName',
     execMsg
-  ))
+  ));
 });
 
 it('noImpl, noExecExtends, noExtendsClass', () => {
@@ -63,5 +63,5 @@ it('noImpl, noExecExtends, noExtendsClass', () => {
     'SG721Instance',
     null,
     execMsg
-  ))
+  ));
 });

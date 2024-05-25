@@ -3,7 +3,7 @@ import {
   createExecuteInterface,
   createQueryClass,
   createTypeInterface
-} from '../../src'
+} from '../../src';
 import { expectCode, getMsgExecuteLegacyFixture, getMsgQueryLegacyFixture, makeContext } from '../../test-utils';
 const execMsg = getMsgExecuteLegacyFixture('daodao/cw-named-groups', '/execute_msg.json');
 const queryMsg = getMsgQueryLegacyFixture('daodao/cw-named-groups', '/execute_msg.json');
@@ -13,8 +13,8 @@ it('execute_msg', () => {
   expectCode(createTypeInterface(
     ctx,
     execMsg
-  ))
-})
+  ));
+});
 
 
 it('query classes', () => {
@@ -23,7 +23,7 @@ it('query classes', () => {
     'SG721QueryClient',
     'SG721ReadOnlyInstance',
     queryMsg
-  ))
+  ));
 });
 
 it('execute classes array types', () => {
@@ -33,7 +33,7 @@ it('execute classes array types', () => {
     'SG721Instance',
     null,
     execMsg
-  ))
+  ));
 });
 
 it('execute interfaces no extends', () => {
@@ -42,5 +42,5 @@ it('execute interfaces no extends', () => {
     'SG721Instance',
     null,
     execMsg
-  ))
+  ));
 });

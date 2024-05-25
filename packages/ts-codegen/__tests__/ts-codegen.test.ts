@@ -13,7 +13,7 @@ it('optionalClient', async () => {
     schemaDir
   });
   await generateReactQuery('Factory', contractInfo, outopt, { optionalClient: true });
-})
+});
 
 it('v4Query', async () => {
   const outopt = OUTPUT_DIR + '/vectis/factory-v4-query';
@@ -22,7 +22,7 @@ it('v4Query', async () => {
     schemaDir
   });
   await generateReactQuery('Factory', contractInfo, outopt, { version: 'v4' });
-})
+});
 
 it('queryKeys', async () => {
   const outopt = OUTPUT_DIR + '/vectis/factory-query-keys';
@@ -31,7 +31,7 @@ it('queryKeys', async () => {
     schemaDir
   });
   await generateReactQuery('Factory', contractInfo, outopt, { queryKeys: true });
-})
+});
 
 it('queryFactory', async () => {
   const outopt = OUTPUT_DIR + '/vectis/factory-query-keys';
@@ -40,7 +40,7 @@ it('queryFactory', async () => {
     schemaDir
   });
   await generateReactQuery('Factory', contractInfo, outopt, { queryKeys: true, queryFactory: true });
-})
+});
 
 
 
@@ -51,7 +51,7 @@ it('queryKeysOptionalClient', async () => {
     schemaDir
   });
   await generateReactQuery('Factory', contractInfo, outopt, { queryKeys: true, optionalClient: true });
-})
+});
 
 it('useMutations', async () => {
   const outopt = OUTPUT_DIR + '/vectis/factory-w-mutations';
@@ -60,7 +60,7 @@ it('useMutations', async () => {
     schemaDir
   });
   await generateReactQuery('Factory', contractInfo, outopt, { version: 'v4', mutations: true });
-})
+});
 
 it('vectis/factory', async () => {
   const out = OUTPUT_DIR + '/vectis/factory';
@@ -74,7 +74,7 @@ it('vectis/factory', async () => {
   await generateMessageComposer('Factory', contractInfo, out);
   await generateRecoil('Factory', contractInfo, out);
   await generateReactQuery('Factory', contractInfo, out);
-})
+});
 
 it('vectis/govec', async () => {
   const out = OUTPUT_DIR + '/vectis/govec';
@@ -88,7 +88,7 @@ it('vectis/govec', async () => {
   await generateMessageComposer('Govec', contractInfo, out);
   await generateRecoil('Govec', contractInfo, out);
   await generateReactQuery('Govec', contractInfo, out);
-})
+});
 
 it('vectis/proxy', async () => {
   const out = OUTPUT_DIR + '/vectis/proxy';
@@ -102,7 +102,7 @@ it('vectis/proxy', async () => {
   await generateMessageComposer('Proxy', contractInfo, out);
   await generateRecoil('Proxy', contractInfo, out);
   await generateReactQuery('Proxy', contractInfo, out);
-})
+});
 
 it('minter', async () => {
   const out = OUTPUT_DIR + '/minter';
@@ -115,7 +115,7 @@ it('minter', async () => {
   await generateMessageComposer('Minter', contractInfo, out);
   await generateRecoil('Minter', contractInfo, out);
   await generateReactQuery('Minter', contractInfo, out);
-})
+});
 
 it('sg721', async () => {
   const out = OUTPUT_DIR + '/sg721';
@@ -134,7 +134,7 @@ it('sg721', async () => {
   await generateRecoil('Sg721', contractInfo, out);
   await generateReactQuery('Sg721', contractInfo, out);
   await generateContractHooks('Sg721', contractInfo, out, builderContext);
-})
+});
 
 it('cw-named-groups', async () => {
   const out = OUTPUT_DIR + '/daodao/cw-named-groups';
@@ -148,7 +148,7 @@ it('cw-named-groups', async () => {
   await generateMessageComposer('CwNamedGroups', contractInfo, out);
   await generateRecoil('CwNamedGroups', contractInfo, out);
   await generateReactQuery('CwNamedGroups', contractInfo, out);
-})
+});
 
 it('cw-proposal-single', async () => {
   const out = OUTPUT_DIR + '/daodao/cw-proposal-single';
@@ -162,7 +162,7 @@ it('cw-proposal-single', async () => {
   await generateMessageComposer('CwProposalSingle', contractInfo, out);
   await generateRecoil('CwProposalSingle', contractInfo, out);
   await generateReactQuery('CwProposalSingle', contractInfo, out);
-})
+});
 
 it('cw-admin-factory', async () => {
   const out = OUTPUT_DIR + '/daodao/cw-admin-factory';
@@ -176,7 +176,7 @@ it('cw-admin-factory', async () => {
   await generateMessageComposer('CwAdminFactory', contractInfo, out);
   await generateRecoil('CwAdminFactory', contractInfo, out);
   await generateReactQuery('CwAdminFactory', contractInfo, out);
-})
+});
 
 it('cw-code-id-registry', async () => {
   const out = OUTPUT_DIR + '/daodao/cw-code-id-registry';
@@ -190,7 +190,7 @@ it('cw-code-id-registry', async () => {
   await generateMessageComposer('CwCodeIdRegistry', contractInfo, out);
   await generateRecoil('CwCodeIdRegistry', contractInfo, out);
   await generateReactQuery('CwCodeIdRegistry', contractInfo, out);
-})
+});
 
 it('idl-version/hackatom', async () => {
   const out = OUTPUT_DIR + '/idl-version/hackatom';
@@ -204,7 +204,7 @@ it('idl-version/hackatom', async () => {
   await generateMessageComposer('HackAtom', contractInfo, out);
   await generateRecoil('HackAtom', contractInfo, out);
   await generateReactQuery('HackAtom', contractInfo, out);
-})
+});
 
 it('idl-version/cyberpunk', async () => {
   const out = OUTPUT_DIR + '/idl-version/cyberpunk';
@@ -219,7 +219,7 @@ it('idl-version/cyberpunk', async () => {
   await generateMessageComposer('CyberPunk', contractInfo, out);
   await generateRecoil('CyberPunk', contractInfo, out);
   await generateReactQuery('CyberPunk', contractInfo, out);
-})
+});
 
 it('idl-version/cw4-group', async () => {
   const out = OUTPUT_DIR + '/idl-version/cw4-group';
@@ -234,7 +234,7 @@ it('idl-version/cw4-group', async () => {
   await generateMessageComposer('Cw4Group', contractInfo, out);
   await generateRecoil('Cw4Group', contractInfo, out);
   await generateReactQuery('Cw4Group', contractInfo, out);
-})
+});
 
 it('idl-version/cw3-fixed-multisig', async () => {
   const out = OUTPUT_DIR + '/idl-version/cw3-fixed-multisig';
@@ -249,7 +249,7 @@ it('idl-version/cw3-fixed-multisig', async () => {
   await generateMessageComposer('Cw3FixedMultiSig', contractInfo, out);
   await generateRecoil('Cw3FixedMultiSig', contractInfo, out);
   await generateReactQuery('Cw3FixedMultiSig', contractInfo, out);
-})
+});
 
 it('idl-version/accounts-nft', async () => {
   const out = OUTPUT_DIR + '/idl-version/accounts-nft';
@@ -264,4 +264,4 @@ it('idl-version/accounts-nft', async () => {
   await generateMessageComposer('AccountsNft', contractInfo, out);
   await generateRecoil('AccountsNft', contractInfo, out);
   await generateReactQuery('AccountsNft', contractInfo, out);
-})
+});

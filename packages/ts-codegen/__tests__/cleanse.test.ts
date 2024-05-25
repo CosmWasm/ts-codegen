@@ -18,7 +18,7 @@ it('sg721', async () => {
   writeFileSync(out + '/orig.json', JSON.stringify(orig, null, 2));
   writeFileSync(out + '/clean.json', JSON.stringify(clean, null, 2));
 
-})
+});
 
 it('daodao/cw-code-id-registry', async () => {
   const out = OUTPUT_DIR + '/daodao/cw-code-id-registry';
@@ -30,7 +30,7 @@ it('daodao/cw-code-id-registry', async () => {
   mkdirp(out);
   writeFileSync(out + '/orig.json', JSON.stringify(orig, null, 2));
   writeFileSync(out + '/clean.json', JSON.stringify(clean, null, 2));
-})
+});
 
 it('issues/103', async () => {
   const out = OUTPUT_DIR + '/issues/103';
@@ -42,5 +42,5 @@ it('issues/103', async () => {
   mkdirp(out);
   writeFileSync(out + '/orig.json', JSON.stringify(orig, null, 2));
   writeFileSync(out + '/clean.json', JSON.stringify(clean, null, 2));
-})
+});
 

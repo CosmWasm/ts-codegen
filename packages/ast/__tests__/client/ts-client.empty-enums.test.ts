@@ -1,7 +1,7 @@
 import {
   createQueryClass,
   createQueryInterface
-} from '../../src'
+} from '../../src';
 import { expectCode, getMsgQueryLegacyFixture, makeContext } from '../../test-utils';
 
 const queryMsg = getMsgQueryLegacyFixture('daodao/cw-admin-factory', '/query_msg.json');
@@ -13,7 +13,7 @@ it('query classes', () => {
     'SG721QueryClient',
     'SG721ReadOnlyInstance',
     queryMsg
-  ))
+  ));
 });
 
 it('query interface', () => {
@@ -23,5 +23,5 @@ it('query interface', () => {
       'ReadOnlyInstance',
       queryMsg
     )
-  )
+  );
 });

@@ -23,17 +23,17 @@ const getTypeStrFromRef = ($ref: string): string => {
     return $ref.replace('#/definitions/', '');
   }
   throw new Error('what is $ref: ' + $ref);
-}
+};
 
 export const getTypeFromRef = ($ref: string) => {
-  return t.tsTypeReference(t.identifier(getTypeStrFromRef($ref)))
-}
+  return t.tsTypeReference(t.identifier(getTypeStrFromRef($ref)));
+};
 
 const getArrayTypeFromRef = ($ref: string) => {
   return t.tsArrayType(
     getTypeFromRef($ref)
   );
-}
+};
 
 
 export const getTypeOrRef = (obj: JSONSchema): t.TSType => {
@@ -83,7 +83,7 @@ const getArrayTypeFromItems = (
         );
       } else {
         // Handle the case where items.items is undefined for array types
-        return t.tsArrayType(t.tsAnyKeyword())
+        return t.tsArrayType(t.tsAnyKeyword());
       }
     }
 
@@ -98,11 +98,11 @@ export const detectType = (type: string | string[]) => {
   let theType = '';
   if (Array.isArray(type)) {
     if (type.length !== 2) {
-      throw new Error('[getType(array length)] case not handled by transpiler. contact maintainers.')
+      throw new Error('[getType(array length)] case not handled by transpiler. contact maintainers.');
     }
     const [nullableType, nullType] = type;
     if (nullType !== 'null') {
-      throw new Error('[getType(null)] case not handled by transpiler. contact maintainers.')
+      throw new Error('[getType(null)] case not handled by transpiler. contact maintainers.');
     }
     theType = nullableType;
     optional = true;
@@ -114,7 +114,7 @@ export const detectType = (type: string | string[]) => {
     type: theType,
     optional
   };
-}
+};
 
 export const getTypeInfo = (
   context: RenderContext,
@@ -227,7 +227,7 @@ export const getType = (type: string) => {
   default:
     throw new Error('contact maintainers [unknown type]: ' + type);
   }
-}
+};
 
 export const getPropertyType = (
   context: RenderContext,
@@ -245,7 +245,7 @@ export const getPropertyType = (
   }
 
   if (typeof info.$ref === 'string') {
-    type = getTypeFromRef(info.$ref)
+    type = getTypeFromRef(info.$ref);
   }
 
   const typeInfo = getTypeInfo(context, info);
@@ -257,7 +257,7 @@ export const getPropertyType = (
   }
 
   if (!type) {
-    throw new Error('cannot find type for ' + JSON.stringify(info))
+    throw new Error('cannot find type for ' + JSON.stringify(info));
   }
 
   if (schema.required?.includes(prop)) {
@@ -389,7 +389,7 @@ export const getParamsTypeAnnotation = (
   const keys = Object.keys(jsonschema.properties ?? {});
 
   if (!keys.length && jsonschema.$ref) {
-    return t.tsTypeAnnotation(getTypeFromRef(jsonschema.$ref))
+    return t.tsTypeAnnotation(getTypeFromRef(jsonschema.$ref));
   }
 
   if (!keys.length) return undefined;
@@ -408,8 +408,8 @@ export const getParamsTypeAnnotation = (
         ...typedParams
       ]
     )
-  )
-}
+  );
+};
 
 export const createTypedObjectParams = (
   context: RenderContext,
@@ -429,7 +429,7 @@ export const createTypedObjectParams = (
         const refName = camel(refType);
         const id = t.identifier(refName);
         id.typeAnnotation = t.tsTypeAnnotation(t.tsTypeReference(t.identifier(refType)));
-        return id
+        return id;
       } else if (obj) {
         return createTypedObjectParams(
           context,

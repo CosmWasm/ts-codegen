@@ -18,7 +18,7 @@ export const propertySignature = (
     kind: 'get',
     typeAnnotation,
     optional
-  }
+  };
 };
 
 export const identifier = (name: string, typeAnnotation: t.TSTypeAnnotation, optional: boolean = false): t.Identifier => {
@@ -46,7 +46,7 @@ export const getMessageProperties = (msg: JSONSchema): JSONSchema[] => {
       results.push(obj);
     } else {
       if (obj.$ref) {
-        const ref = refLookup(obj.$ref, msg)
+        const ref = refLookup(obj.$ref, msg);
 
         const refProps = getMessageProperties(ref);
 
@@ -56,7 +56,7 @@ export const getMessageProperties = (msg: JSONSchema): JSONSchema[] => {
   }
 
   return results;
-}
+};
 
 export const tsPropertySignature = (
   key: t.Expression,
@@ -65,7 +65,7 @@ export const tsPropertySignature = (
 ) => {
   const obj = t.tsPropertySignature(key, typeAnnotation);
   obj.optional = optional;
-  return obj
+  return obj;
 };
 
 
@@ -79,7 +79,7 @@ export const tsObjectPattern = (
   );
   obj.typeAnnotation = typeAnnotation;
   return obj;
-}
+};
 
 export const callExpression = (
   callee: t.Expression | t.V8IntrinsicIdentifier,
@@ -110,15 +110,15 @@ export const bindMethod = (name: string) => {
       ]
     )
     )
-  )
-}
+  );
+};
 
 export const typedIdentifier = (name: string, typeAnnotation: TSTypeAnnotation, optional: boolean = false) => {
   const type = t.identifier(name);
   type.typeAnnotation = typeAnnotation;
   type.optional = optional;
   return type;
-}
+};
 
 export const promiseTypeAnnotation = (name: string): t.TSTypeAnnotation => {
   return t.tsTypeAnnotation(
@@ -131,7 +131,7 @@ export const promiseTypeAnnotation = (name: string): t.TSTypeAnnotation => {
       )
     )
   );
-}
+};
 
 export const abstractClassDeclaration = (name: string, body: any[], implementsExressions: TSExpressionWithTypeArguments[] = [], superClass: t.Identifier = null) => {
   const declaration = classDeclaration(
@@ -140,7 +140,7 @@ export const abstractClassDeclaration = (name: string, body: any[], implementsEx
     implementsExressions,
     superClass
   );
-  declaration.abstract = true
+  declaration.abstract = true;
   return declaration;
 };
 
@@ -207,23 +207,23 @@ export const arrayTypeNDimensions = (body: any, n: number): t.TSArrayType => {
 
 export const FieldTypeAsts = {
   string: () => {
-    return t.tsStringKeyword()
+    return t.tsStringKeyword();
   },
   array: (type: 'string' | 'Duration' | 'Height' | 'Coin' | 'Long'): t.TSArrayType => {
     const result = FieldTypeAsts[type]();
-    return t.tsArrayType(result)
+    return t.tsArrayType(result);
   },
   Duration: () => {
-    return t.tsTypeReference(t.identifier('Duration'))
+    return t.tsTypeReference(t.identifier('Duration'));
   },
   Height: () => {
-    return t.tsTypeReference(t.identifier('Height'))
+    return t.tsTypeReference(t.identifier('Height'));
   },
   Coin: () => {
-    return t.tsTypeReference(t.identifier('Coin'))
+    return t.tsTypeReference(t.identifier('Coin'));
   },
   Long: () => {
-    return t.tsTypeReference(t.identifier('Long'))
+    return t.tsTypeReference(t.identifier('Long'));
   }
 };
 
@@ -246,7 +246,7 @@ export const importAs = (name: string, importAs: string, importPath: string): t.
       )
     ],
     t.stringLiteral(importPath)
-  )
+  );
 };
 
 export const importAminoMsg = (): t.ImportDeclaration => {
@@ -266,11 +266,11 @@ export const getFieldDimensionality = (field: Field) => {
     dimensions,
     isArray
   };
-}
+};
 
 export const memberExpressionOrIdentifier = (names: string[]): t.MemberExpression | t.Identifier => {
   if (names.length === 1) {
-    return t.identifier(names[0])
+    return t.identifier(names[0]);
   }
   if (names.length === 2) {
     const [b, a] = names;
@@ -284,12 +284,12 @@ export const memberExpressionOrIdentifier = (names: string[]): t.MemberExpressio
   return t.memberExpression(
     memberExpressionOrIdentifier(rest),
     t.identifier(name)
-  )
+  );
 };
 
 export const memberExpressionOrIdentifierSnake = (names: string[]): t.MemberExpression | t.Identifier => {
   if (names.length === 1) {
-    return t.identifier(snake(names[0]))
+    return t.identifier(snake(names[0]));
   }
   if (names.length === 2) {
     const [b, a] = names;
@@ -303,7 +303,7 @@ export const memberExpressionOrIdentifierSnake = (names: string[]): t.MemberExpr
   return t.memberExpression(
     memberExpressionOrIdentifierSnake(rest),
     t.identifier(snake(name))
-  )
+  );
 };
 
 /**
@@ -316,18 +316,18 @@ export const optionalConditionalExpression = (test: t.Expression, expression: t.
       expression,
       alternate
     )
-    : expression
-}
+    : expression;
+};
 
 export const typeRefOrUnionWithUndefined = (identifier: t.Identifier, optional: boolean = false): t.TSType => {
-  const typeReference = t.tsTypeReference(identifier)
+  const typeReference = t.tsTypeReference(identifier);
   return optional
     ? t.tsUnionType([
       typeReference,
       t.tsUndefinedKeyword()
     ])
-    : typeReference
-}
+    : typeReference;
+};
 
 export const parameterizedTypeReference = (identifier: string, from: t.TSType, omit: string | Array<string>) => {
   return t.tsTypeReference(
@@ -338,18 +338,18 @@ export const parameterizedTypeReference = (identifier: string, from: t.TSType, o
         ? t.tsLiteralType(t.stringLiteral(omit))
         : t.tsUnionType(omit.map(o => t.tsLiteralType(t.stringLiteral(o))))
     ])
-  )
-}
+  );
+};
 
 /**
  * omitTypeReference(t.tsTypeReference(t.identifier('Cw4UpdateMembersMutation'),),'args').....
  * Omit<Cw4UpdateMembersMutation, 'args'>
  */
 export const omitTypeReference = (from: t.TSType, omit: string | Array<string>) => {
-  return parameterizedTypeReference('Omit', from, omit)
-}
+  return parameterizedTypeReference('Omit', from, omit);
+};
 
 
 export const pickTypeReference = (from: t.TSType, pick: string | Array<string>) => {
-  return parameterizedTypeReference('Pick', from, pick)
-}
+  return parameterizedTypeReference('Pick', from, pick);
+};

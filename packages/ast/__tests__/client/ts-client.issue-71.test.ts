@@ -6,8 +6,8 @@ import {
   createExecuteInterface,
   createQueryClass,
   createTypeInterface
-} from '../../src'
-import { globLegacyContracts, makeContext } from '../../test-utils'
+} from '../../src';
+import { globLegacyContracts, makeContext } from '../../test-utils';
 import { expectCode } from '../../test-utils';
 
 const contracts = globLegacyContracts('issues/71');
@@ -27,7 +27,7 @@ cases('query classes', async opts => {
     'SG721QueryClient',
     'SG721ReadOnlyInstance',
         opts.content as QueryMsg
-  ))
+  ));
 }, contracts);
 
 cases('execute class', async opts => {
@@ -38,7 +38,7 @@ cases('execute class', async opts => {
     'SG721Instance',
     null,
         opts.content as ExecuteMsg
-  ))
+  ));
 }, contracts);
 
 cases('execute interface', async opts => {
@@ -48,6 +48,6 @@ cases('execute interface', async opts => {
     'SG721Instance',
     null,
         opts.content as ExecuteMsg
-  ))
+  ));
 }, contracts);
 

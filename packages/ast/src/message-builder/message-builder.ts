@@ -68,7 +68,7 @@ const createStaticExecMethodMessageBuilder = (
   );
 
   // what the underscore named property in the message is assigned to
-  let actionValue: Expression
+  let actionValue: Expression;
   if (param?.type === 'Identifier') {
     actionValue = t.identifier(param.name);
   } else {

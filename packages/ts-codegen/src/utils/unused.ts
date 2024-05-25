@@ -8,45 +8,45 @@ import * as t from '@babel/types';
 export const unused = {
   Program: {
     exit: (path) => {
-      const UnRefBindings = new Map()
+      const UnRefBindings = new Map();
       for (const [name, binding] of Object.entries(path.scope.bindings)) {
-        if (!binding.path.parentPath || binding.kind !== 'module') continue
+        if (!binding.path.parentPath || binding.kind !== 'module') continue;
 
-        const source = binding.path.parentPath.get('source')
-        const importName = source.node.value
+        const source = binding.path.parentPath.get('source');
+        const importName = source.node.value;
         if (
           !t.isStringLiteral(source)
         )
-          continue
+          continue;
 
         const key = `${importName}(${source.node.loc &&
-          source.node.loc.start.line})`
+          source.node.loc.start.line})`;
 
         if (!UnRefBindings.has(key)) {
-          UnRefBindings.set(key, binding)
+          UnRefBindings.set(key, binding);
         }
 
         if (binding.referenced) {
-          UnRefBindings.set(key, null)
+          UnRefBindings.set(key, null);
         } else {
-          const nodeType = binding.path.node.type
+          const nodeType = binding.path.node.type;
           if (nodeType === 'ImportSpecifier') {
-            binding.path.remove()
+            binding.path.remove();
           } else if (nodeType === 'ImportDefaultSpecifier') {
-            binding.path.remove()
+            binding.path.remove();
           } else if (nodeType === 'ImportNamespaceSpecifier') {
-            binding.path.remove()
+            binding.path.remove();
           } else if (binding.path.parentPath) {
-            binding.path.parentPath.remove()
+            binding.path.parentPath.remove();
           }
         }
       }
 
       UnRefBindings.forEach((binding, key) => {
         if (binding && binding.path.parentPath) {
-          binding.path.parentPath.remove()
+          binding.path.parentPath.remove();
         }
-      })
+      });
     }
   }
 };

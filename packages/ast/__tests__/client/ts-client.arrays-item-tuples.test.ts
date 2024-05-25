@@ -1,7 +1,7 @@
 import {
   createExecuteClass,
   createExecuteInterface,
-  createQueryClass} from '../../src'
+  createQueryClass} from '../../src';
 import { expectCode, getMsgExecuteLegacyFixture, getMsgQueryLegacyFixture, makeContext } from '../../test-utils';
 const queryMsg = getMsgQueryLegacyFixture('misc/schema', '/arrays.json');
 const execMsg = getMsgExecuteLegacyFixture('misc/schema', '/arrays.json');
@@ -17,7 +17,7 @@ it('query classes', () => {
     'SG721QueryClient',
     'SG721ReadOnlyInstance',
     queryMsg
-  ))
+  ));
 });
 
 it('execute classes array types', () => {
@@ -27,7 +27,7 @@ it('execute classes array types', () => {
     'SG721Instance',
     null,
     execMsg
-  ))
+  ));
 });
 
 it('execute interfaces no extends', () => {
@@ -36,5 +36,5 @@ it('execute interfaces no extends', () => {
     'SG721Instance',
     null,
     execMsg
-  ))
+  ));
 });
