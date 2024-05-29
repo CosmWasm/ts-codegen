@@ -23,6 +23,8 @@ import { CONSTANT_EXEC_PARAMS, getWasmMethodArgs } from '../client/client';
 import { createQueryOptionsFactory } from './query-options-factory';
 import { FIXED_EXECUTE_PARAMS } from '../../types';
 
+type ModuleType = 'app' | 'adapter';
+
 export const createAbstractAppClass = (
   context: RenderContext,
   className: string,
@@ -214,7 +216,7 @@ function extractCamelcasedMethodParams(
   };
 
   // TODO: private
-  const QUERY_APP_FN = t.classProperty(
+  const QUERY_APP_FN = (moduleType: ModuleType | undefined) => t.classProperty(
     t.identifier('_query'),
     arrowFunctionExpression(
       [
@@ -242,7 +244,7 @@ function extractCamelcasedMethodParams(
                   ),
                   t.objectProperty(
                     t.identifier('moduleType'),
-                    t.stringLiteral('app')
+                    t.stringLiteral(moduleType ?? 'app')
                   ),
                   shorthandProperty('queryMsg')
                 ])
@@ -270,8 +272,11 @@ function extractCamelcasedMethodParams(
       ABSTRACT_ACCOUNT_CLIENT,
       'ExecuteResult',
       'AppExecuteMsg',
-      'AppExecuteMsgFactory'
+      'AppExecuteMsgFactory',
+      'AdapterExecuteMsg',
+      'AdapterExecuteMsgFactory'
     ]);
+
 
     const methods = getMessageProperties(executeMsg).map((jsonschema) => {
       const underscoreName = Object.keys(jsonschema.properties)[0];
@@ -315,92 +320,108 @@ function extractCamelcasedMethodParams(
     );
   };
 
-  const EXECUTE_APP_FN = t.classProperty(
-    t.identifier('_execute'),
-    arrowFunctionExpression(
-      [
-        identifier(
-          'msg',
-          t.tsTypeAnnotation(t.tsTypeReference(t.identifier('ExecuteMsg')))
+  const EXECUTE_APP_FN = (moduleType: ModuleType) => {
+    const moduleMsgTypeName = moduleType === 'app' ? 'AppExecuteMsg' : 'AdapterExecuteMsg';
+    const moduleMsgFactoryName = moduleType === 'app' ? 'AppExecuteMsg' : 'AdapterExecuteMsg';
+    const moduleMsgExecName = moduleType === 'app' ? 'executeApp' : 'executeAdapter';
+    const moduleMsgExecArgs = moduleType === 'app' ? t.identifier('msg') : t.objectExpression([
+      t.objectProperty(t.identifier('request'), t.identifier('msg')),
+      t.objectProperty(t.identifier('proxyAddress'), t.memberExpression(
+        t.memberExpression(
+          t.thisExpression(),
+          CLASS_VARS.accountQueryClient
         ),
-        ...CONSTANT_EXEC_PARAMS
-      ],
-      t.blockStatement(
+        t.identifier('proxyAddress')
+      ))
+    ])
+
+    return t.classProperty(
+      t.identifier('_execute'),
+      arrowFunctionExpression(
         [
-          t.variableDeclaration('const', [
-            t.variableDeclarator(
-              identifier(
-                'moduleMsg',
-                t.tsTypeAnnotation(
-                  t.tSTypeReference(
-                    t.identifier('AppExecuteMsg'),
-                    t.tsTypeParameterInstantiation([
-                      t.tsTypeReference(t.identifier('ExecuteMsg'))
-                    ])
+          identifier(
+            'msg',
+            t.tsTypeAnnotation(t.tsTypeReference(t.identifier('ExecuteMsg')))
+          ),
+          ...CONSTANT_EXEC_PARAMS
+        ],
+        t.blockStatement(
+          [
+            t.variableDeclaration('const', [
+              t.variableDeclarator(
+                identifier(
+                  'moduleMsg',
+                  t.tsTypeAnnotation(
+                    t.tSTypeReference(
+                      t.identifier(moduleMsgTypeName),
+                      t.tsTypeParameterInstantiation([
+                        t.tsTypeReference(t.identifier('ExecuteMsg'))
+                      ])
+                    )
                   )
-                )
-              ),
-              t.callExpression(
-                t.memberExpression(
-                  t.identifier('AppExecuteMsgFactory'),
-                  t.identifier('executeApp')
                 ),
-                [t.identifier('msg')]
+                t.callExpression(
+                  t.memberExpression(
+                    t.identifier(moduleMsgFactoryName),
+                    t.identifier(moduleMsgExecName)
+                  ),
+                  [moduleMsgExecArgs]
+                )
               )
-            )
-          ]),
-          t.returnStatement(
-            t.awaitExpression(
-              t.callExpression(
-                t.memberExpression(
+            ]),
+            t.returnStatement(
+              t.awaitExpression(
+                t.callExpression(
                   t.memberExpression(
                     t.memberExpression(
                       t.memberExpression(
+                        t.memberExpression(
+                          t.thisExpression(),
+                          t.identifier('accountClient')
+                        ),
+                        t.identifier('abstract')
+                      ),
+                      t.identifier('client')
+                    ),
+                    t.identifier('execute')
+                  ),
+                  [
+                    t.memberExpression(
+                      t.memberExpression(
                         t.thisExpression(),
+
                         t.identifier('accountClient')
                       ),
-                      t.identifier('abstract')
+                      t.identifier('sender')
                     ),
-                    t.identifier('client')
-                  ),
-                  t.identifier('execute')
-                ),
-                [
-                  t.memberExpression(
-                    t.memberExpression(
-                      t.thisExpression(),
-
-                      t.identifier('accountClient')
+                    // get this module address
+                    t.awaitExpression(
+                      t.callExpression(
+                        t.memberExpression(
+                          t.thisExpression(),
+                          t.identifier(ADDRESS_GETTER_FN_NAME)
+                        ),
+                        []
+                      )
                     ),
-                    t.identifier('sender')
-                  ),
-                  // get this module address
-                  t.awaitExpression(
-                    t.callExpression(
-                      t.memberExpression(
-                        t.thisExpression(),
-                        t.identifier(ADDRESS_GETTER_FN_NAME)
-                      ),
-                      []
-                    )
-                  ),
-                  t.identifier('moduleMsg'),
-                  t.identifier('fee'),
-                  t.identifier('memo'),
-                  t.identifier('_funds')
-                ]
+                    t.identifier('moduleMsg'),
+                    t.identifier('fee'),
+                    t.identifier('memo'),
+                    t.identifier('_funds')
+                  ]
+                )
               )
             )
-          )
-        ],
-        []
-      ),
-      // return
-      promiseTypeAnnotation('ExecuteResult'),
-      // async
-      true
-    )
-  );
+          ],
+          []
+        ),
+        // return
+        promiseTypeAnnotation('ExecuteResult'),
+        // async
+        true
+      )
+    );
+  }
 
   export const createAppQueryClass = (
     context: RenderContext,
@@ -429,7 +450,7 @@ function extractCamelcasedMethodParams(
         `${moduleName}${context.options.abstractApp?.clientPrefix ?? ''}Client`
       )
     );
-    methods.push(QUERY_APP_FN);
+    methods.push(QUERY_APP_FN(context.options.abstractApp.moduleType));
 
     return t.exportNamedDeclaration(
       classDeclaration(
@@ -750,6 +771,7 @@ function extractCamelcasedMethodParams(
     execMsg: ExecuteMsg
   ): ExportNamedDeclaration => {
     const moduleName = pascal(uncheckedModuleName);
+    const moduleType = context.options.abstractApp?.moduleType ?? 'app';
 
     context.addUtils([
       ABSTRACT_ACCOUNT_CLIENT,
@@ -769,7 +791,7 @@ function extractCamelcasedMethodParams(
       return createAppExecMethod(context, moduleName, schema);
     });
 
-    methods.push(EXECUTE_APP_FN);
+    methods.push(EXECUTE_APP_FN(moduleType));
 
     return t.exportNamedDeclaration(
       classDeclaration(

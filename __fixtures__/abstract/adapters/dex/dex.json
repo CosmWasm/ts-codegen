@@ -1,0 +1,2528 @@
+{
+  "contract_name": "module-schema",
+  "contract_version": "0.22.1",
+  "idl_version": "1.0.0",
+  "instantiate": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "InstantiateMsg",
+    "description": "Instantiation message for dex adapter",
+    "type": "object",
+    "required": [
+      "recipient_account",
+      "swap_fee"
+    ],
+    "properties": {
+      "recipient_account": {
+        "description": "Recipient account for fees.",
+        "type": "integer",
+        "format": "uint32",
+        "minimum": 0
+      },
+      "swap_fee": {
+        "description": "Fee charged on each swap.",
+        "allOf": [
+          {
+            "$ref": "#/definitions/Decimal"
+          }
+        ]
+      }
+    },
+    "additionalProperties": false,
+    "definitions": {
+      "Decimal": {
+        "description": "A fixed-point decimal value with 18 fractional digits, i.e. Decimal(1_000_000_000_000_000_000) == 1.0\n\nThe greatest possible value that can be represented is 340282366920938463463.374607431768211455 (which is (2^128 - 1) / 10^18)",
+        "type": "string"
+      }
+    }
+  },
+  "execute": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "ExecuteMsg",
+    "description": "Dex Execute msg",
+    "oneOf": [
+      {
+        "description": "Update the fee",
+        "type": "object",
+        "required": [
+          "update_fee"
+        ],
+        "properties": {
+          "update_fee": {
+            "type": "object",
+            "properties": {
+              "recipient_account": {
+                "description": "New recipient account for fees",
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "format": "uint32",
+                "minimum": 0
+              },
+              "swap_fee": {
+                "description": "New fee to set",
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/Decimal"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "description": "Action to perform on the DEX with ans asset denomination",
+        "type": "object",
+        "required": [
+          "ans_action"
+        ],
+        "properties": {
+          "ans_action": {
+            "type": "object",
+            "required": [
+              "action",
+              "dex"
+            ],
+            "properties": {
+              "action": {
+                "description": "The action to perform",
+                "allOf": [
+                  {
+                    "$ref": "#/definitions/DexAnsAction"
+                  }
+                ]
+              },
+              "dex": {
+                "description": "The name of the dex to interact with",
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "description": "Action to perform on the DEX with raw asset denominations",
+        "type": "object",
+        "required": [
+          "raw_action"
+        ],
+        "properties": {
+          "raw_action": {
+            "type": "object",
+            "required": [
+              "action",
+              "dex"
+            ],
+            "properties": {
+              "action": {
+                "description": "The action to perform",
+                "allOf": [
+                  {
+                    "$ref": "#/definitions/DexRawAction"
+                  }
+                ]
+              },
+              "dex": {
+                "description": "The name of the dex to interact with",
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    ],
+    "definitions": {
+      "AnsAsset": {
+        "type": "object",
+        "required": [
+          "amount",
+          "name"
+        ],
+        "properties": {
+          "amount": {
+            "$ref": "#/definitions/Uint128"
+          },
+          "name": {
+            "$ref": "#/definitions/AssetEntry"
+          }
+        }
+      },
+      "AssetBase_for_String": {
+        "description": "Represents a fungible asset with a known amount\n\nEach asset instance contains two values: `info`, which specifies the asset's type (CW20 or native), and its `amount`, which specifies the asset's amount.",
+        "type": "object",
+        "required": [
+          "amount",
+          "info"
+        ],
+        "properties": {
+          "amount": {
+            "description": "Specifies the asset's amount",
+            "allOf": [
+              {
+                "$ref": "#/definitions/Uint128"
+              }
+            ]
+          },
+          "info": {
+            "description": "Specifies the asset's type (CW20 or native)",
+            "allOf": [
+              {
+                "$ref": "#/definitions/AssetInfoBase_for_String"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "AssetEntry": {
+        "description": "An unchecked ANS asset entry. This is a string that is formatted as `src_chain>[intermediate_chain>]asset_name`",
+        "type": "string"
+      },
+      "AssetInfoBase_for_String": {
+        "description": "Represents the type of an fungible asset.\n\nEach **asset info** instance can be one of three variants:\n\n- Native SDK coins. To create an **asset info** instance of this type, provide the denomination. - CW20 tokens. To create an **asset info** instance of this type, provide the contract address.",
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "native"
+            ],
+            "properties": {
+              "native": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "required": [
+              "cw20"
+            ],
+            "properties": {
+              "cw20": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      },
+      "Decimal": {
+        "description": "A fixed-point decimal value with 18 fractional digits, i.e. Decimal(1_000_000_000_000_000_000) == 1.0\n\nThe greatest possible value that can be represented is 340282366920938463463.374607431768211455 (which is (2^128 - 1) / 10^18)",
+        "type": "string"
+      },
+      "DexAnsAction": {
+        "description": "Possible actions to perform on the DEX",
+        "oneOf": [
+          {
+            "description": "Provide arbitrary liquidity",
+            "type": "object",
+            "required": [
+              "provide_liquidity"
+            ],
+            "properties": {
+              "provide_liquidity": {
+                "type": "object",
+                "required": [
+                  "assets"
+                ],
+                "properties": {
+                  "assets": {
+                    "description": "Assets to add",
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/AnsAsset"
+                    }
+                  },
+                  "max_spread": {
+                    "description": "Max spread to accept, is a percentage represented as a decimal.",
+                    "anyOf": [
+                      {
+                        "$ref": "#/definitions/Decimal"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "description": "Provide liquidity equally between assets to a pool",
+            "type": "object",
+            "required": [
+              "provide_liquidity_symmetric"
+            ],
+            "properties": {
+              "provide_liquidity_symmetric": {
+                "type": "object",
+                "required": [
+                  "offer_asset",
+                  "paired_assets"
+                ],
+                "properties": {
+                  "offer_asset": {
+                    "description": "The asset to offer",
+                    "allOf": [
+                      {
+                        "$ref": "#/definitions/AnsAsset"
+                      }
+                    ]
+                  },
+                  "paired_assets": {
+                    "description": "Assets that are paired with the offered asset Should exclude the offer asset",
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/AssetEntry"
+                    }
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "description": "Withdraw liquidity from a pool",
+            "type": "object",
+            "required": [
+              "withdraw_liquidity"
+            ],
+            "properties": {
+              "withdraw_liquidity": {
+                "type": "object",
+                "required": [
+                  "lp_token"
+                ],
+                "properties": {
+                  "lp_token": {
+                    "description": "The asset LP token that is provided.",
+                    "allOf": [
+                      {
+                        "$ref": "#/definitions/AnsAsset"
+                      }
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "description": "Standard swap between one asset to another",
+            "type": "object",
+            "required": [
+              "swap"
+            ],
+            "properties": {
+              "swap": {
+                "type": "object",
+                "required": [
+                  "ask_asset",
+                  "offer_asset"
+                ],
+                "properties": {
+                  "ask_asset": {
+                    "description": "The asset to receive",
+                    "allOf": [
+                      {
+                        "$ref": "#/definitions/AssetEntry"
+                      }
+                    ]
+                  },
+                  "belief_price": {
+                    "description": "The belief price when submitting the transaction.",
+                    "anyOf": [
+                      {
+                        "$ref": "#/definitions/Decimal"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "max_spread": {
+                    "description": "The percentage of spread compared to pre-swap price or belief price (if provided)",
+                    "anyOf": [
+                      {
+                        "$ref": "#/definitions/Decimal"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "offer_asset": {
+                    "description": "The asset to offer",
+                    "allOf": [
+                      {
+                        "$ref": "#/definitions/AnsAsset"
+                      }
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      },
+      "DexRawAction": {
+        "description": "Possible raw actions to perform on the DEX",
+        "oneOf": [
+          {
+            "description": "Provide arbitrary liquidity",
+            "type": "object",
+            "required": [
+              "provide_liquidity"
+            ],
+            "properties": {
+              "provide_liquidity": {
+                "type": "object",
+                "required": [
+                  "assets",
+                  "pool"
+                ],
+                "properties": {
+                  "assets": {
+                    "description": "Assets to add",
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/AssetBase_for_String"
+                    }
+                  },
+                  "max_spread": {
+                    "description": "Max spread to accept, is a percentage represented as a decimal.",
+                    "anyOf": [
+                      {
+                        "$ref": "#/definitions/Decimal"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "pool": {
+                    "description": "Pool to provide liquidity to",
+                    "allOf": [
+                      {
+                        "$ref": "#/definitions/PoolAddressBase_for_String"
+                      }
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "description": "Provide liquidity equally between assets to a pool",
+            "type": "object",
+            "required": [
+              "provide_liquidity_symmetric"
+            ],
+            "properties": {
+              "provide_liquidity_symmetric": {
+                "type": "object",
+                "required": [
+                  "offer_asset",
+                  "paired_assets",
+                  "pool"
+                ],
+                "properties": {
+                  "offer_asset": {
+                    "description": "The asset to offer",
+                    "allOf": [
+                      {
+                        "$ref": "#/definitions/AssetBase_for_String"
+                      }
+                    ]
+                  },
+                  "paired_assets": {
+                    "description": "Assets that are paired with the offered asset Should exclude the offer asset",
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/AssetInfoBase_for_String"
+                    }
+                  },
+                  "pool": {
+                    "description": "Pool to provide liquidity to",
+                    "allOf": [
+                      {
+                        "$ref": "#/definitions/PoolAddressBase_for_String"
+                      }
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "description": "Withdraw liquidity from a pool",
+            "type": "object",
+            "required": [
+              "withdraw_liquidity"
+            ],
+            "properties": {
+              "withdraw_liquidity": {
+                "type": "object",
+                "required": [
+                  "lp_token",
+                  "pool"
+                ],
+                "properties": {
+                  "lp_token": {
+                    "description": "The asset LP token that is provided.",
+                    "allOf": [
+                      {
+                        "$ref": "#/definitions/AssetBase_for_String"
+                      }
+                    ]
+                  },
+                  "pool": {
+                    "description": "Pool to withdraw liquidity from",
+                    "allOf": [
+                      {
+                        "$ref": "#/definitions/PoolAddressBase_for_String"
+                      }
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "description": "Standard swap between one asset to another",
+            "type": "object",
+            "required": [
+              "swap"
+            ],
+            "properties": {
+              "swap": {
+                "type": "object",
+                "required": [
+                  "ask_asset",
+                  "offer_asset",
+                  "pool"
+                ],
+                "properties": {
+                  "ask_asset": {
+                    "description": "The asset to receive",
+                    "allOf": [
+                      {
+                        "$ref": "#/definitions/AssetInfoBase_for_String"
+                      }
+                    ]
+                  },
+                  "belief_price": {
+                    "description": "The belief price when submitting the transaction.",
+                    "anyOf": [
+                      {
+                        "$ref": "#/definitions/Decimal"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "max_spread": {
+                    "description": "The percentage of spread compared to pre-swap price or belief price (if provided)",
+                    "anyOf": [
+                      {
+                        "$ref": "#/definitions/Decimal"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "offer_asset": {
+                    "description": "The asset to offer",
+                    "allOf": [
+                      {
+                        "$ref": "#/definitions/AssetBase_for_String"
+                      }
+                    ]
+                  },
+                  "pool": {
+                    "description": "Pool used to swap",
+                    "allOf": [
+                      {
+                        "$ref": "#/definitions/PoolAddressBase_for_String"
+                      }
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      },
+      "PoolAddressBase_for_String": {
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "separate_addresses"
+            ],
+            "properties": {
+              "separate_addresses": {
+                "type": "object",
+                "required": [
+                  "liquidity",
+                  "swap"
+                ],
+                "properties": {
+                  "liquidity": {
+                    "type": "string"
+                  },
+                  "swap": {
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "required": [
+              "contract"
+            ],
+            "properties": {
+              "contract": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "required": [
+              "id"
+            ],
+            "properties": {
+              "id": {
+                "type": "integer",
+                "format": "uint64",
+                "minimum": 0
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      },
+      "Uint128": {
+        "description": "A thin wrapper around u128 that is using strings for JSON encoding/decoding, such that the full u128 range can be used for clients that convert JSON numbers to floats, like JavaScript and jq.\n\n# Examples\n\nUse `from` to create instances of this and `u128` to get the value out:\n\n``` # use cosmwasm_std::Uint128; let a = Uint128::from(123u128); assert_eq!(a.u128(), 123);\n\nlet b = Uint128::from(42u64); assert_eq!(b.u128(), 42);\n\nlet c = Uint128::from(70u32); assert_eq!(c.u128(), 70); ```",
+        "type": "string"
+      }
+    }
+  },
+  "query": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "QueryMsg",
+    "description": "Query messages for the dex adapter",
+    "oneOf": [
+      {
+        "description": "Simulate a swap between two assets Returns [`SimulateSwapResponse`]",
+        "type": "object",
+        "required": [
+          "simulate_swap"
+        ],
+        "properties": {
+          "simulate_swap": {
+            "type": "object",
+            "required": [
+              "ask_asset",
+              "dex",
+              "offer_asset"
+            ],
+            "properties": {
+              "ask_asset": {
+                "description": "The asset to receive",
+                "allOf": [
+                  {
+                    "$ref": "#/definitions/AssetEntry"
+                  }
+                ]
+              },
+              "dex": {
+                "description": "Name of the dex to simulate the swap on",
+                "type": "string"
+              },
+              "offer_asset": {
+                "description": "The asset to offer",
+                "allOf": [
+                  {
+                    "$ref": "#/definitions/AnsAsset"
+                  }
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "description": "Simulate a swap between two assets Returns [`SimulateSwapResponse`]",
+        "type": "object",
+        "required": [
+          "simulate_swap_raw"
+        ],
+        "properties": {
+          "simulate_swap_raw": {
+            "type": "object",
+            "required": [
+              "ask_asset",
+              "dex",
+              "offer_asset",
+              "pool"
+            ],
+            "properties": {
+              "ask_asset": {
+                "description": "The asset to receive",
+                "allOf": [
+                  {
+                    "$ref": "#/definitions/AssetInfoBase_for_String"
+                  }
+                ]
+              },
+              "dex": {
+                "description": "Name of the dex to simulate the swap on",
+                "type": "string"
+              },
+              "offer_asset": {
+                "description": "The asset to offer",
+                "allOf": [
+                  {
+                    "$ref": "#/definitions/AssetBase_for_String"
+                  }
+                ]
+              },
+              "pool": {
+                "description": "Identifies of the pool to simulate the swap on.",
+                "allOf": [
+                  {
+                    "$ref": "#/definitions/PoolAddressBase_for_String"
+                  }
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "description": "Endpoint can be used by front-end to easily interact with contracts. Returns [`GenerateMessagesResponse`]",
+        "type": "object",
+        "required": [
+          "generate_messages"
+        ],
+        "properties": {
+          "generate_messages": {
+            "type": "object",
+            "required": [
+              "addr_as_sender",
+              "message"
+            ],
+            "properties": {
+              "addr_as_sender": {
+                "description": "Sender Addr generate messages for",
+                "type": "string"
+              },
+              "message": {
+                "description": "Execute message to generate messages for",
+                "allOf": [
+                  {
+                    "$ref": "#/definitions/DexExecuteMsg"
+                  }
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "description": "Fee info for using the different dex actions",
+        "type": "object",
+        "required": [
+          "fees"
+        ],
+        "properties": {
+          "fees": {
+            "type": "object",
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    ],
+    "definitions": {
+      "AnsAsset": {
+        "type": "object",
+        "required": [
+          "amount",
+          "name"
+        ],
+        "properties": {
+          "amount": {
+            "$ref": "#/definitions/Uint128"
+          },
+          "name": {
+            "$ref": "#/definitions/AssetEntry"
+          }
+        }
+      },
+      "AssetBase_for_String": {
+        "description": "Represents a fungible asset with a known amount\n\nEach asset instance contains two values: `info`, which specifies the asset's type (CW20 or native), and its `amount`, which specifies the asset's amount.",
+        "type": "object",
+        "required": [
+          "amount",
+          "info"
+        ],
+        "properties": {
+          "amount": {
+            "description": "Specifies the asset's amount",
+            "allOf": [
+              {
+                "$ref": "#/definitions/Uint128"
+              }
+            ]
+          },
+          "info": {
+            "description": "Specifies the asset's type (CW20 or native)",
+            "allOf": [
+              {
+                "$ref": "#/definitions/AssetInfoBase_for_String"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "AssetEntry": {
+        "description": "An unchecked ANS asset entry. This is a string that is formatted as `src_chain>[intermediate_chain>]asset_name`",
+        "type": "string"
+      },
+      "AssetInfoBase_for_String": {
+        "description": "Represents the type of an fungible asset.\n\nEach **asset info** instance can be one of three variants:\n\n- Native SDK coins. To create an **asset info** instance of this type, provide the denomination. - CW20 tokens. To create an **asset info** instance of this type, provide the contract address.",
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "native"
+            ],
+            "properties": {
+              "native": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "required": [
+              "cw20"
+            ],
+            "properties": {
+              "cw20": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      },
+      "Decimal": {
+        "description": "A fixed-point decimal value with 18 fractional digits, i.e. Decimal(1_000_000_000_000_000_000) == 1.0\n\nThe greatest possible value that can be represented is 340282366920938463463.374607431768211455 (which is (2^128 - 1) / 10^18)",
+        "type": "string"
+      },
+      "DexAnsAction": {
+        "description": "Possible actions to perform on the DEX",
+        "oneOf": [
+          {
+            "description": "Provide arbitrary liquidity",
+            "type": "object",
+            "required": [
+              "provide_liquidity"
+            ],
+            "properties": {
+              "provide_liquidity": {
+                "type": "object",
+                "required": [
+                  "assets"
+                ],
+                "properties": {
+                  "assets": {
+                    "description": "Assets to add",
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/AnsAsset"
+                    }
+                  },
+                  "max_spread": {
+                    "description": "Max spread to accept, is a percentage represented as a decimal.",
+                    "anyOf": [
+                      {
+                        "$ref": "#/definitions/Decimal"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "description": "Provide liquidity equally between assets to a pool",
+            "type": "object",
+            "required": [
+              "provide_liquidity_symmetric"
+            ],
+            "properties": {
+              "provide_liquidity_symmetric": {
+                "type": "object",
+                "required": [
+                  "offer_asset",
+                  "paired_assets"
+                ],
+                "properties": {
+                  "offer_asset": {
+                    "description": "The asset to offer",
+                    "allOf": [
+                      {
+                        "$ref": "#/definitions/AnsAsset"
+                      }
+                    ]
+                  },
+                  "paired_assets": {
+                    "description": "Assets that are paired with the offered asset Should exclude the offer asset",
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/AssetEntry"
+                    }
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "description": "Withdraw liquidity from a pool",
+            "type": "object",
+            "required": [
+              "withdraw_liquidity"
+            ],
+            "properties": {
+              "withdraw_liquidity": {
+                "type": "object",
+                "required": [
+                  "lp_token"
+                ],
+                "properties": {
+                  "lp_token": {
+                    "description": "The asset LP token that is provided.",
+                    "allOf": [
+                      {
+                        "$ref": "#/definitions/AnsAsset"
+                      }
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "description": "Standard swap between one asset to another",
+            "type": "object",
+            "required": [
+              "swap"
+            ],
+            "properties": {
+              "swap": {
+                "type": "object",
+                "required": [
+                  "ask_asset",
+                  "offer_asset"
+                ],
+                "properties": {
+                  "ask_asset": {
+                    "description": "The asset to receive",
+                    "allOf": [
+                      {
+                        "$ref": "#/definitions/AssetEntry"
+                      }
+                    ]
+                  },
+                  "belief_price": {
+                    "description": "The belief price when submitting the transaction.",
+                    "anyOf": [
+                      {
+                        "$ref": "#/definitions/Decimal"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "max_spread": {
+                    "description": "The percentage of spread compared to pre-swap price or belief price (if provided)",
+                    "anyOf": [
+                      {
+                        "$ref": "#/definitions/Decimal"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "offer_asset": {
+                    "description": "The asset to offer",
+                    "allOf": [
+                      {
+                        "$ref": "#/definitions/AnsAsset"
+                      }
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      },
+      "DexExecuteMsg": {
+        "description": "Dex Execute msg",
+        "oneOf": [
+          {
+            "description": "Update the fee",
+            "type": "object",
+            "required": [
+              "update_fee"
+            ],
+            "properties": {
+              "update_fee": {
+                "type": "object",
+                "properties": {
+                  "recipient_account": {
+                    "description": "New recipient account for fees",
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "uint32",
+                    "minimum": 0
+                  },
+                  "swap_fee": {
+                    "description": "New fee to set",
+                    "anyOf": [
+                      {
+                        "$ref": "#/definitions/Decimal"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "description": "Action to perform on the DEX with ans asset denomination",
+            "type": "object",
+            "required": [
+              "ans_action"
+            ],
+            "properties": {
+              "ans_action": {
+                "type": "object",
+                "required": [
+                  "action",
+                  "dex"
+                ],
+                "properties": {
+                  "action": {
+                    "description": "The action to perform",
+                    "allOf": [
+                      {
+                        "$ref": "#/definitions/DexAnsAction"
+                      }
+                    ]
+                  },
+                  "dex": {
+                    "description": "The name of the dex to interact with",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "description": "Action to perform on the DEX with raw asset denominations",
+            "type": "object",
+            "required": [
+              "raw_action"
+            ],
+            "properties": {
+              "raw_action": {
+                "type": "object",
+                "required": [
+                  "action",
+                  "dex"
+                ],
+                "properties": {
+                  "action": {
+                    "description": "The action to perform",
+                    "allOf": [
+                      {
+                        "$ref": "#/definitions/DexRawAction"
+                      }
+                    ]
+                  },
+                  "dex": {
+                    "description": "The name of the dex to interact with",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      },
+      "DexRawAction": {
+        "description": "Possible raw actions to perform on the DEX",
+        "oneOf": [
+          {
+            "description": "Provide arbitrary liquidity",
+            "type": "object",
+            "required": [
+              "provide_liquidity"
+            ],
+            "properties": {
+              "provide_liquidity": {
+                "type": "object",
+                "required": [
+                  "assets",
+                  "pool"
+                ],
+                "properties": {
+                  "assets": {
+                    "description": "Assets to add",
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/AssetBase_for_String"
+                    }
+                  },
+                  "max_spread": {
+                    "description": "Max spread to accept, is a percentage represented as a decimal.",
+                    "anyOf": [
+                      {
+                        "$ref": "#/definitions/Decimal"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "pool": {
+                    "description": "Pool to provide liquidity to",
+                    "allOf": [
+                      {
+                        "$ref": "#/definitions/PoolAddressBase_for_String"
+                      }
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "description": "Provide liquidity equally between assets to a pool",
+            "type": "object",
+            "required": [
+              "provide_liquidity_symmetric"
+            ],
+            "properties": {
+              "provide_liquidity_symmetric": {
+                "type": "object",
+                "required": [
+                  "offer_asset",
+                  "paired_assets",
+                  "pool"
+                ],
+                "properties": {
+                  "offer_asset": {
+                    "description": "The asset to offer",
+                    "allOf": [
+                      {
+                        "$ref": "#/definitions/AssetBase_for_String"
+                      }
+                    ]
+                  },
+                  "paired_assets": {
+                    "description": "Assets that are paired with the offered asset Should exclude the offer asset",
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/AssetInfoBase_for_String"
+                    }
+                  },
+                  "pool": {
+                    "description": "Pool to provide liquidity to",
+                    "allOf": [
+                      {
+                        "$ref": "#/definitions/PoolAddressBase_for_String"
+                      }
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "description": "Withdraw liquidity from a pool",
+            "type": "object",
+            "required": [
+              "withdraw_liquidity"
+            ],
+            "properties": {
+              "withdraw_liquidity": {
+                "type": "object",
+                "required": [
+                  "lp_token",
+                  "pool"
+                ],
+                "properties": {
+                  "lp_token": {
+                    "description": "The asset LP token that is provided.",
+                    "allOf": [
+                      {
+                        "$ref": "#/definitions/AssetBase_for_String"
+                      }
+                    ]
+                  },
+                  "pool": {
+                    "description": "Pool to withdraw liquidity from",
+                    "allOf": [
+                      {
+                        "$ref": "#/definitions/PoolAddressBase_for_String"
+                      }
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "description": "Standard swap between one asset to another",
+            "type": "object",
+            "required": [
+              "swap"
+            ],
+            "properties": {
+              "swap": {
+                "type": "object",
+                "required": [
+                  "ask_asset",
+                  "offer_asset",
+                  "pool"
+                ],
+                "properties": {
+                  "ask_asset": {
+                    "description": "The asset to receive",
+                    "allOf": [
+                      {
+                        "$ref": "#/definitions/AssetInfoBase_for_String"
+                      }
+                    ]
+                  },
+                  "belief_price": {
+                    "description": "The belief price when submitting the transaction.",
+                    "anyOf": [
+                      {
+                        "$ref": "#/definitions/Decimal"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "max_spread": {
+                    "description": "The percentage of spread compared to pre-swap price or belief price (if provided)",
+                    "anyOf": [
+                      {
+                        "$ref": "#/definitions/Decimal"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "offer_asset": {
+                    "description": "The asset to offer",
+                    "allOf": [
+                      {
+                        "$ref": "#/definitions/AssetBase_for_String"
+                      }
+                    ]
+                  },
+                  "pool": {
+                    "description": "Pool used to swap",
+                    "allOf": [
+                      {
+                        "$ref": "#/definitions/PoolAddressBase_for_String"
+                      }
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      },
+      "PoolAddressBase_for_String": {
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "separate_addresses"
+            ],
+            "properties": {
+              "separate_addresses": {
+                "type": "object",
+                "required": [
+                  "liquidity",
+                  "swap"
+                ],
+                "properties": {
+                  "liquidity": {
+                    "type": "string"
+                  },
+                  "swap": {
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "required": [
+              "contract"
+            ],
+            "properties": {
+              "contract": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "required": [
+              "id"
+            ],
+            "properties": {
+              "id": {
+                "type": "integer",
+                "format": "uint64",
+                "minimum": 0
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      },
+      "Uint128": {
+        "description": "A thin wrapper around u128 that is using strings for JSON encoding/decoding, such that the full u128 range can be used for clients that convert JSON numbers to floats, like JavaScript and jq.\n\n# Examples\n\nUse `from` to create instances of this and `u128` to get the value out:\n\n``` # use cosmwasm_std::Uint128; let a = Uint128::from(123u128); assert_eq!(a.u128(), 123);\n\nlet b = Uint128::from(42u64); assert_eq!(b.u128(), 42);\n\nlet c = Uint128::from(70u32); assert_eq!(c.u128(), 70); ```",
+        "type": "string"
+      }
+    }
+  },
+  "migrate": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "MigrateMsg",
+    "description": "An empty struct that serves as a placeholder in different places, such as contracts that don't set a custom message.\n\nIt is designed to be expressable in correct JSON and JSON Schema but contains no meaningful data. Previously we used enums without cases, but those cannot represented as valid JSON Schema (https://github.com/CosmWasm/cosmwasm/issues/451)",
+    "type": "object"
+  },
+  "sudo": null,
+  "responses": {
+    "fees": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "DexFeesResponse",
+      "description": "Response for Dex Fees",
+      "type": "object",
+      "required": [
+        "recipient",
+        "swap_fee"
+      ],
+      "properties": {
+        "recipient": {
+          "description": "Address where all fees will go",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Addr"
+            }
+          ]
+        },
+        "swap_fee": {
+          "description": "Fee for using swap action",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Fee"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "definitions": {
+        "Addr": {
+          "description": "A human readable address.\n\nIn Cosmos, this is typically bech32 encoded. But for multi-chain smart contracts no assumptions should be made other than being UTF-8 encoded and of reasonable length.\n\nThis type represents a validated address. It can be created in the following ways 1. Use `Addr::unchecked(input)` 2. Use `let checked: Addr = deps.api.addr_validate(input)?` 3. Use `let checked: Addr = deps.api.addr_humanize(canonical_addr)?` 4. Deserialize from JSON. This must only be done from JSON that was validated before such as a contract's state. `Addr` must not be used in messages sent by the user because this would result in unvalidated instances.\n\nThis type is immutable. If you really need to mutate it (Really? Are you sure?), create a mutable copy using `let mut mutable = Addr::to_string()` and operate on that `String` instance.",
+          "type": "string"
+        },
+        "Decimal": {
+          "description": "A fixed-point decimal value with 18 fractional digits, i.e. Decimal(1_000_000_000_000_000_000) == 1.0\n\nThe greatest possible value that can be represented is 340282366920938463463.374607431768211455 (which is (2^128 - 1) / 10^18)",
+          "type": "string"
+        },
+        "Fee": {
+          "description": "A wrapper around Decimal to help handle fractional fees.",
+          "type": "object",
+          "required": [
+            "share"
+          ],
+          "properties": {
+            "share": {
+              "description": "fraction of asset to take as fee.",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Decimal"
+                }
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    "generate_messages": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "GenerateMessagesResponse",
+      "description": "Response from GenerateMsgs",
+      "type": "object",
+      "required": [
+        "messages"
+      ],
+      "properties": {
+        "messages": {
+          "description": "Messages generated for dex action",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CosmosMsg_for_Empty"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "definitions": {
+        "BankMsg": {
+          "description": "The message types of the bank module.\n\nSee https://github.com/cosmos/cosmos-sdk/blob/v0.40.0/proto/cosmos/bank/v1beta1/tx.proto",
+          "oneOf": [
+            {
+              "description": "Sends native tokens from the contract to the given address.\n\nThis is translated to a [MsgSend](https://github.com/cosmos/cosmos-sdk/blob/v0.40.0/proto/cosmos/bank/v1beta1/tx.proto#L19-L28). `from_address` is automatically filled with the current contract's address.",
+              "type": "object",
+              "required": [
+                "send"
+              ],
+              "properties": {
+                "send": {
+                  "type": "object",
+                  "required": [
+                    "amount",
+                    "to_address"
+                  ],
+                  "properties": {
+                    "amount": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/definitions/Coin"
+                      }
+                    },
+                    "to_address": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "description": "This will burn the given coins from the contract's account. There is no Cosmos SDK message that performs this, but it can be done by calling the bank keeper. Important if a contract controls significant token supply that must be retired.",
+              "type": "object",
+              "required": [
+                "burn"
+              ],
+              "properties": {
+                "burn": {
+                  "type": "object",
+                  "required": [
+                    "amount"
+                  ],
+                  "properties": {
+                    "amount": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/definitions/Coin"
+                      }
+                    }
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "Binary": {
+          "description": "Binary is a wrapper around Vec<u8> to add base64 de/serialization with serde. It also adds some helper methods to help encode inline.\n\nThis is only needed as serde-json-{core,wasm} has a horrible encoding for Vec<u8>. See also <https://github.com/CosmWasm/cosmwasm/blob/main/docs/MESSAGE_TYPES.md>.",
+          "type": "string"
+        },
+        "Coin": {
+          "type": "object",
+          "required": [
+            "amount",
+            "denom"
+          ],
+          "properties": {
+            "amount": {
+              "$ref": "#/definitions/Uint128"
+            },
+            "denom": {
+              "type": "string"
+            }
+          }
+        },
+        "CosmosMsg_for_Empty": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "bank"
+              ],
+              "properties": {
+                "bank": {
+                  "$ref": "#/definitions/BankMsg"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "required": [
+                "custom"
+              ],
+              "properties": {
+                "custom": {
+                  "$ref": "#/definitions/Empty"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "required": [
+                "staking"
+              ],
+              "properties": {
+                "staking": {
+                  "$ref": "#/definitions/StakingMsg"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "required": [
+                "distribution"
+              ],
+              "properties": {
+                "distribution": {
+                  "$ref": "#/definitions/DistributionMsg"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "description": "A Stargate message encoded the same way as a protobuf [Any](https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/any.proto). This is the same structure as messages in `TxBody` from [ADR-020](https://github.com/cosmos/cosmos-sdk/blob/master/docs/architecture/adr-020-protobuf-transaction-encoding.md)",
+              "type": "object",
+              "required": [
+                "stargate"
+              ],
+              "properties": {
+                "stargate": {
+                  "type": "object",
+                  "required": [
+                    "type_url",
+                    "value"
+                  ],
+                  "properties": {
+                    "type_url": {
+                      "type": "string"
+                    },
+                    "value": {
+                      "$ref": "#/definitions/Binary"
+                    }
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "required": [
+                "ibc"
+              ],
+              "properties": {
+                "ibc": {
+                  "$ref": "#/definitions/IbcMsg"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "required": [
+                "wasm"
+              ],
+              "properties": {
+                "wasm": {
+                  "$ref": "#/definitions/WasmMsg"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "required": [
+                "gov"
+              ],
+              "properties": {
+                "gov": {
+                  "$ref": "#/definitions/GovMsg"
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "Decimal": {
+          "description": "A fixed-point decimal value with 18 fractional digits, i.e. Decimal(1_000_000_000_000_000_000) == 1.0\n\nThe greatest possible value that can be represented is 340282366920938463463.374607431768211455 (which is (2^128 - 1) / 10^18)",
+          "type": "string"
+        },
+        "DistributionMsg": {
+          "description": "The message types of the distribution module.\n\nSee https://github.com/cosmos/cosmos-sdk/blob/v0.42.4/proto/cosmos/distribution/v1beta1/tx.proto",
+          "oneOf": [
+            {
+              "description": "This is translated to a [MsgSetWithdrawAddress](https://github.com/cosmos/cosmos-sdk/blob/v0.42.4/proto/cosmos/distribution/v1beta1/tx.proto#L29-L37). `delegator_address` is automatically filled with the current contract's address.",
+              "type": "object",
+              "required": [
+                "set_withdraw_address"
+              ],
+              "properties": {
+                "set_withdraw_address": {
+                  "type": "object",
+                  "required": [
+                    "address"
+                  ],
+                  "properties": {
+                    "address": {
+                      "description": "The `withdraw_address`",
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "description": "This is translated to a [[MsgWithdrawDelegatorReward](https://github.com/cosmos/cosmos-sdk/blob/v0.42.4/proto/cosmos/distribution/v1beta1/tx.proto#L42-L50). `delegator_address` is automatically filled with the current contract's address.",
+              "type": "object",
+              "required": [
+                "withdraw_delegator_reward"
+              ],
+              "properties": {
+                "withdraw_delegator_reward": {
+                  "type": "object",
+                  "required": [
+                    "validator"
+                  ],
+                  "properties": {
+                    "validator": {
+                      "description": "The `validator_address`",
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "description": "This is translated to a [[MsgFundCommunityPool](https://github.com/cosmos/cosmos-sdk/blob/v0.42.4/proto/cosmos/distribution/v1beta1/tx.proto#LL69C1-L76C2). `depositor` is automatically filled with the current contract's address.",
+              "type": "object",
+              "required": [
+                "fund_community_pool"
+              ],
+              "properties": {
+                "fund_community_pool": {
+                  "type": "object",
+                  "required": [
+                    "amount"
+                  ],
+                  "properties": {
+                    "amount": {
+                      "description": "The amount to spend",
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/definitions/Coin"
+                      }
+                    }
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "Empty": {
+          "description": "An empty struct that serves as a placeholder in different places, such as contracts that don't set a custom message.\n\nIt is designed to be expressable in correct JSON and JSON Schema but contains no meaningful data. Previously we used enums without cases, but those cannot represented as valid JSON Schema (https://github.com/CosmWasm/cosmwasm/issues/451)",
+          "type": "object"
+        },
+        "GovMsg": {
+          "description": "This message type allows the contract interact with the [x/gov] module in order to cast votes.\n\n[x/gov]: https://github.com/cosmos/cosmos-sdk/tree/v0.45.12/x/gov\n\n## Examples\n\nCast a simple vote:\n\n``` # use cosmwasm_std::{ #     HexBinary, #     Storage, Api, Querier, DepsMut, Deps, entry_point, Env, StdError, MessageInfo, #     Response, QueryResponse, # }; # type ExecuteMsg = (); use cosmwasm_std::{GovMsg, VoteOption};\n\n#[entry_point] pub fn execute( deps: DepsMut, env: Env, info: MessageInfo, msg: ExecuteMsg, ) -> Result<Response, StdError> { // ... Ok(Response::new().add_message(GovMsg::Vote { proposal_id: 4, vote: VoteOption::Yes, })) } ```\n\nCast a weighted vote:\n\n``` # use cosmwasm_std::{ #     HexBinary, #     Storage, Api, Querier, DepsMut, Deps, entry_point, Env, StdError, MessageInfo, #     Response, QueryResponse, # }; # type ExecuteMsg = (); # #[cfg(feature = \"cosmwasm_1_2\")] use cosmwasm_std::{Decimal, GovMsg, VoteOption, WeightedVoteOption};\n\n# #[cfg(feature = \"cosmwasm_1_2\")] #[entry_point] pub fn execute( deps: DepsMut, env: Env, info: MessageInfo, msg: ExecuteMsg, ) -> Result<Response, StdError> { // ... Ok(Response::new().add_message(GovMsg::VoteWeighted { proposal_id: 4, options: vec![ WeightedVoteOption { option: VoteOption::Yes, weight: Decimal::percent(65), }, WeightedVoteOption { option: VoteOption::Abstain, weight: Decimal::percent(35), }, ], })) } ```",
+          "oneOf": [
+            {
+              "description": "This maps directly to [MsgVote](https://github.com/cosmos/cosmos-sdk/blob/v0.42.5/proto/cosmos/gov/v1beta1/tx.proto#L46-L56) in the Cosmos SDK with voter set to the contract address.",
+              "type": "object",
+              "required": [
+                "vote"
+              ],
+              "properties": {
+                "vote": {
+                  "type": "object",
+                  "required": [
+                    "proposal_id",
+                    "vote"
+                  ],
+                  "properties": {
+                    "proposal_id": {
+                      "type": "integer",
+                      "format": "uint64",
+                      "minimum": 0
+                    },
+                    "vote": {
+                      "description": "The vote option.\n\nThis should be called \"option\" for consistency with Cosmos SDK. Sorry for that. See <https://github.com/CosmWasm/cosmwasm/issues/1571>.",
+                      "allOf": [
+                        {
+                          "$ref": "#/definitions/VoteOption"
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "description": "This maps directly to [MsgVoteWeighted](https://github.com/cosmos/cosmos-sdk/blob/v0.45.8/proto/cosmos/gov/v1beta1/tx.proto#L66-L78) in the Cosmos SDK with voter set to the contract address.",
+              "type": "object",
+              "required": [
+                "vote_weighted"
+              ],
+              "properties": {
+                "vote_weighted": {
+                  "type": "object",
+                  "required": [
+                    "options",
+                    "proposal_id"
+                  ],
+                  "properties": {
+                    "options": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/definitions/WeightedVoteOption"
+                      }
+                    },
+                    "proposal_id": {
+                      "type": "integer",
+                      "format": "uint64",
+                      "minimum": 0
+                    }
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "IbcMsg": {
+          "description": "These are messages in the IBC lifecycle. Only usable by IBC-enabled contracts (contracts that directly speak the IBC protocol via 6 entry points)",
+          "oneOf": [
+            {
+              "description": "Sends bank tokens owned by the contract to the given address on another chain. The channel must already be established between the ibctransfer module on this chain and a matching module on the remote chain. We cannot select the port_id, this is whatever the local chain has bound the ibctransfer module to.",
+              "type": "object",
+              "required": [
+                "transfer"
+              ],
+              "properties": {
+                "transfer": {
+                  "type": "object",
+                  "required": [
+                    "amount",
+                    "channel_id",
+                    "timeout",
+                    "to_address"
+                  ],
+                  "properties": {
+                    "amount": {
+                      "description": "packet data only supports one coin https://github.com/cosmos/cosmos-sdk/blob/v0.40.0/proto/ibc/applications/transfer/v1/transfer.proto#L11-L20",
+                      "allOf": [
+                        {
+                          "$ref": "#/definitions/Coin"
+                        }
+                      ]
+                    },
+                    "channel_id": {
+                      "description": "existing channel to send the tokens over",
+                      "type": "string"
+                    },
+                    "timeout": {
+                      "description": "when packet times out, measured on remote chain",
+                      "allOf": [
+                        {
+                          "$ref": "#/definitions/IbcTimeout"
+                        }
+                      ]
+                    },
+                    "to_address": {
+                      "description": "address on the remote chain to receive these tokens",
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "description": "Sends an IBC packet with given data over the existing channel. Data should be encoded in a format defined by the channel version, and the module on the other side should know how to parse this.",
+              "type": "object",
+              "required": [
+                "send_packet"
+              ],
+              "properties": {
+                "send_packet": {
+                  "type": "object",
+                  "required": [
+                    "channel_id",
+                    "data",
+                    "timeout"
+                  ],
+                  "properties": {
+                    "channel_id": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/definitions/Binary"
+                    },
+                    "timeout": {
+                      "description": "when packet times out, measured on remote chain",
+                      "allOf": [
+                        {
+                          "$ref": "#/definitions/IbcTimeout"
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "description": "This will close an existing channel that is owned by this contract. Port is auto-assigned to the contract's IBC port",
+              "type": "object",
+              "required": [
+                "close_channel"
+              ],
+              "properties": {
+                "close_channel": {
+                  "type": "object",
+                  "required": [
+                    "channel_id"
+                  ],
+                  "properties": {
+                    "channel_id": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "IbcTimeout": {
+          "description": "In IBC each package must set at least one type of timeout: the timestamp or the block height. Using this rather complex enum instead of two timeout fields we ensure that at least one timeout is set.",
+          "type": "object",
+          "properties": {
+            "block": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/IbcTimeoutBlock"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "timestamp": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Timestamp"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        "IbcTimeoutBlock": {
+          "description": "IBCTimeoutHeight Height is a monotonically increasing data type that can be compared against another Height for the purposes of updating and freezing clients. Ordering is (revision_number, timeout_height)",
+          "type": "object",
+          "required": [
+            "height",
+            "revision"
+          ],
+          "properties": {
+            "height": {
+              "description": "block height after which the packet times out. the height within the given revision",
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0
+            },
+            "revision": {
+              "description": "the version that the client is currently on (e.g. after resetting the chain this could increment 1 as height drops to 0)",
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0
+            }
+          }
+        },
+        "StakingMsg": {
+          "description": "The message types of the staking module.\n\nSee https://github.com/cosmos/cosmos-sdk/blob/v0.40.0/proto/cosmos/staking/v1beta1/tx.proto",
+          "oneOf": [
+            {
+              "description": "This is translated to a [MsgDelegate](https://github.com/cosmos/cosmos-sdk/blob/v0.40.0/proto/cosmos/staking/v1beta1/tx.proto#L81-L90). `delegator_address` is automatically filled with the current contract's address.",
+              "type": "object",
+              "required": [
+                "delegate"
+              ],
+              "properties": {
+                "delegate": {
+                  "type": "object",
+                  "required": [
+                    "amount",
+                    "validator"
+                  ],
+                  "properties": {
+                    "amount": {
+                      "$ref": "#/definitions/Coin"
+                    },
+                    "validator": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "description": "This is translated to a [MsgUndelegate](https://github.com/cosmos/cosmos-sdk/blob/v0.40.0/proto/cosmos/staking/v1beta1/tx.proto#L112-L121). `delegator_address` is automatically filled with the current contract's address.",
+              "type": "object",
+              "required": [
+                "undelegate"
+              ],
+              "properties": {
+                "undelegate": {
+                  "type": "object",
+                  "required": [
+                    "amount",
+                    "validator"
+                  ],
+                  "properties": {
+                    "amount": {
+                      "$ref": "#/definitions/Coin"
+                    },
+                    "validator": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "description": "This is translated to a [MsgBeginRedelegate](https://github.com/cosmos/cosmos-sdk/blob/v0.40.0/proto/cosmos/staking/v1beta1/tx.proto#L95-L105). `delegator_address` is automatically filled with the current contract's address.",
+              "type": "object",
+              "required": [
+                "redelegate"
+              ],
+              "properties": {
+                "redelegate": {
+                  "type": "object",
+                  "required": [
+                    "amount",
+                    "dst_validator",
+                    "src_validator"
+                  ],
+                  "properties": {
+                    "amount": {
+                      "$ref": "#/definitions/Coin"
+                    },
+                    "dst_validator": {
+                      "type": "string"
+                    },
+                    "src_validator": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "Timestamp": {
+          "description": "A point in time in nanosecond precision.\n\nThis type can represent times from 1970-01-01T00:00:00Z to 2554-07-21T23:34:33Z.\n\n## Examples\n\n``` # use cosmwasm_std::Timestamp; let ts = Timestamp::from_nanos(1_000_000_202); assert_eq!(ts.nanos(), 1_000_000_202); assert_eq!(ts.seconds(), 1); assert_eq!(ts.subsec_nanos(), 202);\n\nlet ts = ts.plus_seconds(2); assert_eq!(ts.nanos(), 3_000_000_202); assert_eq!(ts.seconds(), 3); assert_eq!(ts.subsec_nanos(), 202); ```",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Uint64"
+            }
+          ]
+        },
+        "Uint128": {
+          "description": "A thin wrapper around u128 that is using strings for JSON encoding/decoding, such that the full u128 range can be used for clients that convert JSON numbers to floats, like JavaScript and jq.\n\n# Examples\n\nUse `from` to create instances of this and `u128` to get the value out:\n\n``` # use cosmwasm_std::Uint128; let a = Uint128::from(123u128); assert_eq!(a.u128(), 123);\n\nlet b = Uint128::from(42u64); assert_eq!(b.u128(), 42);\n\nlet c = Uint128::from(70u32); assert_eq!(c.u128(), 70); ```",
+          "type": "string"
+        },
+        "Uint64": {
+          "description": "A thin wrapper around u64 that is using strings for JSON encoding/decoding, such that the full u64 range can be used for clients that convert JSON numbers to floats, like JavaScript and jq.\n\n# Examples\n\nUse `from` to create instances of this and `u64` to get the value out:\n\n``` # use cosmwasm_std::Uint64; let a = Uint64::from(42u64); assert_eq!(a.u64(), 42);\n\nlet b = Uint64::from(70u32); assert_eq!(b.u64(), 70); ```",
+          "type": "string"
+        },
+        "VoteOption": {
+          "type": "string",
+          "enum": [
+            "yes",
+            "no",
+            "abstain",
+            "no_with_veto"
+          ]
+        },
+        "WasmMsg": {
+          "description": "The message types of the wasm module.\n\nSee https://github.com/CosmWasm/wasmd/blob/v0.14.0/x/wasm/internal/types/tx.proto",
+          "oneOf": [
+            {
+              "description": "Dispatches a call to another contract at a known address (with known ABI).\n\nThis is translated to a [MsgExecuteContract](https://github.com/CosmWasm/wasmd/blob/v0.14.0/x/wasm/internal/types/tx.proto#L68-L78). `sender` is automatically filled with the current contract's address.",
+              "type": "object",
+              "required": [
+                "execute"
+              ],
+              "properties": {
+                "execute": {
+                  "type": "object",
+                  "required": [
+                    "contract_addr",
+                    "funds",
+                    "msg"
+                  ],
+                  "properties": {
+                    "contract_addr": {
+                      "type": "string"
+                    },
+                    "funds": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/definitions/Coin"
+                      }
+                    },
+                    "msg": {
+                      "description": "msg is the json-encoded ExecuteMsg struct (as raw Binary)",
+                      "allOf": [
+                        {
+                          "$ref": "#/definitions/Binary"
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "description": "Instantiates a new contracts from previously uploaded Wasm code.\n\nThe contract address is non-predictable. But it is guaranteed that when emitting the same Instantiate message multiple times, multiple instances on different addresses will be generated. See also Instantiate2.\n\nThis is translated to a [MsgInstantiateContract](https://github.com/CosmWasm/wasmd/blob/v0.29.2/proto/cosmwasm/wasm/v1/tx.proto#L53-L71). `sender` is automatically filled with the current contract's address.",
+              "type": "object",
+              "required": [
+                "instantiate"
+              ],
+              "properties": {
+                "instantiate": {
+                  "type": "object",
+                  "required": [
+                    "code_id",
+                    "funds",
+                    "label",
+                    "msg"
+                  ],
+                  "properties": {
+                    "admin": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "code_id": {
+                      "type": "integer",
+                      "format": "uint64",
+                      "minimum": 0
+                    },
+                    "funds": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/definitions/Coin"
+                      }
+                    },
+                    "label": {
+                      "description": "A human-readable label for the contract.\n\nValid values should: - not be empty - not be bigger than 128 bytes (or some chain-specific limit) - not start / end with whitespace",
+                      "type": "string"
+                    },
+                    "msg": {
+                      "description": "msg is the JSON-encoded InstantiateMsg struct (as raw Binary)",
+                      "allOf": [
+                        {
+                          "$ref": "#/definitions/Binary"
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "description": "Instantiates a new contracts from previously uploaded Wasm code using a predictable address derivation algorithm implemented in [`cosmwasm_std::instantiate2_address`].\n\nThis is translated to a [MsgInstantiateContract2](https://github.com/CosmWasm/wasmd/blob/v0.29.2/proto/cosmwasm/wasm/v1/tx.proto#L73-L96). `sender` is automatically filled with the current contract's address. `fix_msg` is automatically set to false.",
+              "type": "object",
+              "required": [
+                "instantiate2"
+              ],
+              "properties": {
+                "instantiate2": {
+                  "type": "object",
+                  "required": [
+                    "code_id",
+                    "funds",
+                    "label",
+                    "msg",
+                    "salt"
+                  ],
+                  "properties": {
+                    "admin": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "code_id": {
+                      "type": "integer",
+                      "format": "uint64",
+                      "minimum": 0
+                    },
+                    "funds": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/definitions/Coin"
+                      }
+                    },
+                    "label": {
+                      "description": "A human-readable label for the contract.\n\nValid values should: - not be empty - not be bigger than 128 bytes (or some chain-specific limit) - not start / end with whitespace",
+                      "type": "string"
+                    },
+                    "msg": {
+                      "description": "msg is the JSON-encoded InstantiateMsg struct (as raw Binary)",
+                      "allOf": [
+                        {
+                          "$ref": "#/definitions/Binary"
+                        }
+                      ]
+                    },
+                    "salt": {
+                      "$ref": "#/definitions/Binary"
+                    }
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "description": "Migrates a given contracts to use new wasm code. Passes a MigrateMsg to allow us to customize behavior.\n\nOnly the contract admin (as defined in wasmd), if any, is able to make this call.\n\nThis is translated to a [MsgMigrateContract](https://github.com/CosmWasm/wasmd/blob/v0.14.0/x/wasm/internal/types/tx.proto#L86-L96). `sender` is automatically filled with the current contract's address.",
+              "type": "object",
+              "required": [
+                "migrate"
+              ],
+              "properties": {
+                "migrate": {
+                  "type": "object",
+                  "required": [
+                    "contract_addr",
+                    "msg",
+                    "new_code_id"
+                  ],
+                  "properties": {
+                    "contract_addr": {
+                      "type": "string"
+                    },
+                    "msg": {
+                      "description": "msg is the json-encoded MigrateMsg struct that will be passed to the new code",
+                      "allOf": [
+                        {
+                          "$ref": "#/definitions/Binary"
+                        }
+                      ]
+                    },
+                    "new_code_id": {
+                      "description": "the code_id of the new logic to place in the given contract",
+                      "type": "integer",
+                      "format": "uint64",
+                      "minimum": 0
+                    }
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "description": "Sets a new admin (for migrate) on the given contract. Fails if this contract is not currently admin of the target contract.",
+              "type": "object",
+              "required": [
+                "update_admin"
+              ],
+              "properties": {
+                "update_admin": {
+                  "type": "object",
+                  "required": [
+                    "admin",
+                    "contract_addr"
+                  ],
+                  "properties": {
+                    "admin": {
+                      "type": "string"
+                    },
+                    "contract_addr": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "description": "Clears the admin on the given contract, so no more migration possible. Fails if this contract is not currently admin of the target contract.",
+              "type": "object",
+              "required": [
+                "clear_admin"
+              ],
+              "properties": {
+                "clear_admin": {
+                  "type": "object",
+                  "required": [
+                    "contract_addr"
+                  ],
+                  "properties": {
+                    "contract_addr": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "WeightedVoteOption": {
+          "type": "object",
+          "required": [
+            "option",
+            "weight"
+          ],
+          "properties": {
+            "option": {
+              "$ref": "#/definitions/VoteOption"
+            },
+            "weight": {
+              "$ref": "#/definitions/Decimal"
+            }
+          }
+        }
+      }
+    },
+    "simulate_swap": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "SimulateSwapResponse_for_AssetEntry",
+      "description": "Response for simulating a swap.",
+      "type": "object",
+      "required": [
+        "commission",
+        "pool",
+        "return_amount",
+        "spread_amount",
+        "usage_fee"
+      ],
+      "properties": {
+        "commission": {
+          "description": "Commission charged for the swap",
+          "type": "array",
+          "items": [
+            {
+              "$ref": "#/definitions/AssetEntry"
+            },
+            {
+              "$ref": "#/definitions/Uint128"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2
+        },
+        "pool": {
+          "description": "The pool on which the swap was simulated",
+          "allOf": [
+            {
+              "$ref": "#/definitions/DexAssetPairing_for_AssetEntry"
+            }
+          ]
+        },
+        "return_amount": {
+          "description": "Amount you would receive when performing the swap.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Uint128"
+            }
+          ]
+        },
+        "spread_amount": {
+          "description": "Spread in ask_asset for this swap",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Uint128"
+            }
+          ]
+        },
+        "usage_fee": {
+          "description": "Adapter fee charged for the swap (paid in offer asset)",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Uint128"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "definitions": {
+        "AssetEntry": {
+          "description": "An unchecked ANS asset entry. This is a string that is formatted as `src_chain>[intermediate_chain>]asset_name`",
+          "type": "string"
+        },
+        "DexAssetPairing_for_AssetEntry": {
+          "description": "The key for an asset pairing Consists of the two assets and the dex name TODO: what if we made keys equal based on the two assets either way?",
+          "type": "array",
+          "items": [
+            {
+              "$ref": "#/definitions/AssetEntry"
+            },
+            {
+              "$ref": "#/definitions/AssetEntry"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "maxItems": 3,
+          "minItems": 3
+        },
+        "Uint128": {
+          "description": "A thin wrapper around u128 that is using strings for JSON encoding/decoding, such that the full u128 range can be used for clients that convert JSON numbers to floats, like JavaScript and jq.\n\n# Examples\n\nUse `from` to create instances of this and `u128` to get the value out:\n\n``` # use cosmwasm_std::Uint128; let a = Uint128::from(123u128); assert_eq!(a.u128(), 123);\n\nlet b = Uint128::from(42u64); assert_eq!(b.u128(), 42);\n\nlet c = Uint128::from(70u32); assert_eq!(c.u128(), 70); ```",
+          "type": "string"
+        }
+      }
+    },
+    "simulate_swap_raw": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "SimulateSwapResponse_for_AssetInfoBase_for_String",
+      "description": "Response for simulating a swap.",
+      "type": "object",
+      "required": [
+        "commission",
+        "pool",
+        "return_amount",
+        "spread_amount",
+        "usage_fee"
+      ],
+      "properties": {
+        "commission": {
+          "description": "Commission charged for the swap",
+          "type": "array",
+          "items": [
+            {
+              "$ref": "#/definitions/AssetInfoBase_for_String"
+            },
+            {
+              "$ref": "#/definitions/Uint128"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2
+        },
+        "pool": {
+          "description": "The pool on which the swap was simulated",
+          "allOf": [
+            {
+              "$ref": "#/definitions/DexAssetPairing_for_AssetInfoBase_for_String"
+            }
+          ]
+        },
+        "return_amount": {
+          "description": "Amount you would receive when performing the swap.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Uint128"
+            }
+          ]
+        },
+        "spread_amount": {
+          "description": "Spread in ask_asset for this swap",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Uint128"
+            }
+          ]
+        },
+        "usage_fee": {
+          "description": "Adapter fee charged for the swap (paid in offer asset)",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Uint128"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "definitions": {
+        "AssetInfoBase_for_String": {
+          "description": "Represents the type of an fungible asset.\n\nEach **asset info** instance can be one of three variants:\n\n- Native SDK coins. To create an **asset info** instance of this type, provide the denomination. - CW20 tokens. To create an **asset info** instance of this type, provide the contract address.",
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "native"
+              ],
+              "properties": {
+                "native": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "required": [
+                "cw20"
+              ],
+              "properties": {
+                "cw20": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "DexAssetPairing_for_AssetInfoBase_for_String": {
+          "description": "The key for an asset pairing Consists of the two assets and the dex name TODO: what if we made keys equal based on the two assets either way?",
+          "type": "array",
+          "items": [
+            {
+              "$ref": "#/definitions/AssetInfoBase_for_String"
+            },
+            {
+              "$ref": "#/definitions/AssetInfoBase_for_String"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "maxItems": 3,
+          "minItems": 3
+        },
+        "Uint128": {
+          "description": "A thin wrapper around u128 that is using strings for JSON encoding/decoding, such that the full u128 range can be used for clients that convert JSON numbers to floats, like JavaScript and jq.\n\n# Examples\n\nUse `from` to create instances of this and `u128` to get the value out:\n\n``` # use cosmwasm_std::Uint128; let a = Uint128::from(123u128); assert_eq!(a.u128(), 123);\n\nlet b = Uint128::from(42u64); assert_eq!(b.u128(), 42);\n\nlet c = Uint128::from(70u32); assert_eq!(c.u128(), 70); ```",
+          "type": "string"
+        }
+      }
+    }
+  }
+}

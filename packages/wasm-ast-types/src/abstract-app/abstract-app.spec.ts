@@ -1,5 +1,6 @@
 import autocompounder_schema from '../../../../__fixtures__/abstract/apps/autocompounder.json';
 import ibcmailclient_schema from '../../../../__fixtures__/abstract/apps/ibcmail/client.json';
+import dex_schema from '../../../../__fixtures__/abstract/adapters/dex/dex.json';
 import { expectCode, makeContext } from '../../test-utils';
 import {
   createAppExecuteClass,
@@ -75,6 +76,21 @@ it('IbcMailClientAppClient', () => {
       'IIbcMailClientAppClient',
       'IbcMailClientAppQueryClient',
       ibcmailclient_schema.execute
+    )
+  );
+});
+
+it('DexAdapterClient', () => {
+  const ctx = makeContext(dex_schema.execute, { abstractApp: { moduleType: 'adapter' }});
+
+  expectCode(
+    createAppExecuteClass(
+      ctx,
+      'DexClient',
+      'DexAdapterClient',
+      'IDexAdapterClient',
+      'DexAdapterQueryClient',
+      dex_schema.execute
     )
   );
 });

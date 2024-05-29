@@ -154,6 +154,61 @@ exports[`AutocompounderAppQueryClient 1`] = `
 }"
 `;
 
+exports[`DexAdapterClient 1`] = `
+"export class DexAdapterClient extends DexAdapterQueryClient implements IDexAdapterClient {
+  accountClient: AbstractAccountClient;
+
+  constructor({
+    abstractClient,
+    accountId,
+    managerAddress,
+    proxyAddress,
+    moduleId
+  }: {
+    abstractClient: AbstractClient;
+    accountId: AbstractAccountId;
+    managerAddress: string;
+    proxyAddress: string;
+    moduleId: string;
+  }) {
+    super({
+      abstractQueryClient: abstractClient,
+      accountId,
+      managerAddress,
+      proxyAddress,
+      moduleId
+    });
+    this.accountClient = AbstractAccountClient.fromQueryClient(this.accountQueryClient, abstractClient);
+    this.updateFee = this.updateFee.bind(this);
+    this.ansAction = this.ansAction.bind(this);
+    this.rawAction = this.rawAction.bind(this);
+  }
+
+  updateFee = async (params: CamelCasedProperties<Extract<ExecuteMsg, {
+    update_fee: unknown;
+  }>[\\"update_fee\\"]>, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+    return this._execute(DexClientExecuteMsgBuilder.updateFee(params), fee, memo, _funds);
+  };
+  ansAction = async (params: CamelCasedProperties<Extract<ExecuteMsg, {
+    ans_action: unknown;
+  }>[\\"ans_action\\"]>, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+    return this._execute(DexClientExecuteMsgBuilder.ansAction(params), fee, memo, _funds);
+  };
+  rawAction = async (params: CamelCasedProperties<Extract<ExecuteMsg, {
+    raw_action: unknown;
+  }>[\\"raw_action\\"]>, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+    return this._execute(DexClientExecuteMsgBuilder.rawAction(params), fee, memo, _funds);
+  };
+  _execute = async (msg: ExecuteMsg, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+    const moduleMsg: AdapterExecuteMsg<ExecuteMsg> = AdapterExecuteMsg.executeAdapter({
+      request: msg,
+      proxyAddress: this.accountQueryClient.proxyAddress
+    });
+    return await this.accountClient.abstract.client.execute(this.accountClient.sender, await this.getAddress(), moduleMsg, fee, memo, _funds);
+  };
+}"
+`;
+
 exports[`IAutocompounderAppClient 1`] = `
 "export interface IAutocompounderAppClient extends IAutocompounderAppQueryClient {
   accountClient: AbstractAccountClient;

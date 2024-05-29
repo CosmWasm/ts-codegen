@@ -13,6 +13,7 @@ export interface ReactQueryOptions {
 export interface AbstractAppOptions {
   enabled?: boolean;
   clientPrefix?: boolean;
+  moduleType?: 'app' | 'adapter'
 }
 
 export interface TSClientOptions {
