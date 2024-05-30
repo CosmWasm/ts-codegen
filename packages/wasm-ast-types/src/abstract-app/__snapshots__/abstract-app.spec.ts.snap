@@ -200,7 +200,7 @@ exports[`DexAdapterClient 1`] = `
     return this._execute(DexClientExecuteMsgBuilder.rawAction(params), fee, memo, _funds);
   };
   _execute = async (msg: ExecuteMsg, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
-    const moduleMsg: AdapterExecuteMsg<ExecuteMsg> = AdapterExecuteMsg.executeAdapter({
+    const moduleMsg: AdapterExecuteMsg<ExecuteMsg> = AdapterExecuteMsgFactory.executeAdapter({
       request: msg,
       proxyAddress: this.accountQueryClient.proxyAddress
     });

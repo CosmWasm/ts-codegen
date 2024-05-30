@@ -322,7 +322,7 @@ function extractCamelcasedMethodParams(
 
   const EXECUTE_APP_FN = (moduleType: ModuleType) => {
     const moduleMsgTypeName = moduleType === 'app' ? 'AppExecuteMsg' : 'AdapterExecuteMsg';
-    const moduleMsgFactoryName = moduleType === 'app' ? 'AppExecuteMsg' : 'AdapterExecuteMsg';
+    const moduleMsgFactoryName = moduleType === 'app' ? 'AppExecuteMsgFactory' : 'AdapterExecuteMsgFactory';
     const moduleMsgExecName = moduleType === 'app' ? 'executeApp' : 'executeAdapter';
     const moduleMsgExecArgs = moduleType === 'app' ? t.identifier('msg') : t.objectExpression([
       t.objectProperty(t.identifier('request'), t.identifier('msg')),
