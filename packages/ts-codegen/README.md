@@ -132,6 +132,7 @@ The `client` plugin will generate TS client classes for your contracts. This opt
 | `client.enabled`                        | generate TS client classes for your contracts        |
 | `client.execExtendsQuery`               | execute should extend query message clients          |
 | `client.noImplicitOverride`             | should match your tsconfig noImplicitOverride option |
+| `client.useDeclareKeyword`              | use declare keyword for inherited class fields       |
 
 
 ### React Query

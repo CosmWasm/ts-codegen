@@ -12,6 +12,7 @@ export interface TSClientOptions {
   enabled?: boolean;
   execExtendsQuery?: boolean;
   noImplicitOverride?: boolean;
+  useDeclareKeyword?: boolean;
 }
 export interface MessageComposerOptions {
   enabled?: boolean;
