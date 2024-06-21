@@ -16,6 +16,7 @@ TSBuilder {
       "enabled": true,
       "execExtendsQuery": true,
       "noImplicitOverride": false,
+      "useDeclareKeyword": false,
     },
     "enabled": true,
     "messageBuilder": {
@@ -60,6 +61,7 @@ TSBuilder {
           "enabled": true,
           "execExtendsQuery": true,
           "noImplicitOverride": false,
+          "useDeclareKeyword": false,
         },
         "enabled": true,
         "messageBuilder": {
@@ -105,6 +107,7 @@ TSBuilder {
           "enabled": true,
           "execExtendsQuery": true,
           "noImplicitOverride": false,
+          "useDeclareKeyword": false,
         },
         "enabled": true,
         "messageBuilder": {
@@ -150,6 +153,7 @@ TSBuilder {
           "enabled": true,
           "execExtendsQuery": true,
           "noImplicitOverride": false,
+          "useDeclareKeyword": false,
         },
         "enabled": true,
         "messageBuilder": {
@@ -195,6 +199,7 @@ TSBuilder {
           "enabled": true,
           "execExtendsQuery": true,
           "noImplicitOverride": false,
+          "useDeclareKeyword": false,
         },
         "enabled": true,
         "messageBuilder": {
@@ -240,6 +245,7 @@ TSBuilder {
           "enabled": true,
           "execExtendsQuery": true,
           "noImplicitOverride": false,
+          "useDeclareKeyword": false,
         },
         "enabled": true,
         "messageBuilder": {
@@ -287,6 +293,7 @@ TSBuilder {
           "enabled": true,
           "execExtendsQuery": true,
           "noImplicitOverride": false,
+          "useDeclareKeyword": false,
         },
         "enabled": true,
         "messageBuilder": {
@@ -332,6 +339,7 @@ TSBuilder {
           "enabled": true,
           "execExtendsQuery": true,
           "noImplicitOverride": false,
+          "useDeclareKeyword": false,
         },
         "enabled": true,
         "messageBuilder": {
@@ -381,6 +389,7 @@ TSBuilder {
           "enabled": true,
           "execExtendsQuery": true,
           "noImplicitOverride": false,
+          "useDeclareKeyword": false,
         },
         "enabled": true,
         "messageBuilder": {
@@ -438,6 +447,7 @@ TSBuilder {
       "enabled": true,
       "execExtendsQuery": true,
       "noImplicitOverride": false,
+      "useDeclareKeyword": false,
     },
     "enabled": true,
     "messageBuilder": {
@@ -482,6 +492,7 @@ TSBuilder {
           "enabled": true,
           "execExtendsQuery": true,
           "noImplicitOverride": false,
+          "useDeclareKeyword": false,
         },
         "enabled": true,
         "messageBuilder": {
@@ -527,6 +538,7 @@ TSBuilder {
           "enabled": true,
           "execExtendsQuery": true,
           "noImplicitOverride": false,
+          "useDeclareKeyword": false,
         },
         "enabled": true,
         "messageBuilder": {
@@ -572,6 +584,7 @@ TSBuilder {
           "enabled": true,
           "execExtendsQuery": true,
           "noImplicitOverride": false,
+          "useDeclareKeyword": false,
         },
         "enabled": true,
         "messageBuilder": {
@@ -617,6 +630,7 @@ TSBuilder {
           "enabled": true,
           "execExtendsQuery": true,
           "noImplicitOverride": false,
+          "useDeclareKeyword": false,
         },
         "enabled": true,
         "messageBuilder": {
@@ -662,6 +676,7 @@ TSBuilder {
           "enabled": true,
           "execExtendsQuery": true,
           "noImplicitOverride": false,
+          "useDeclareKeyword": false,
         },
         "enabled": true,
         "messageBuilder": {
@@ -709,6 +724,7 @@ TSBuilder {
           "enabled": true,
           "execExtendsQuery": true,
           "noImplicitOverride": false,
+          "useDeclareKeyword": false,
         },
         "enabled": true,
         "messageBuilder": {
@@ -754,6 +770,7 @@ TSBuilder {
           "enabled": true,
           "execExtendsQuery": true,
           "noImplicitOverride": false,
+          "useDeclareKeyword": false,
         },
         "enabled": true,
         "messageBuilder": {
@@ -803,6 +820,7 @@ TSBuilder {
           "enabled": true,
           "execExtendsQuery": true,
           "noImplicitOverride": false,
+          "useDeclareKeyword": false,
         },
         "enabled": true,
         "messageBuilder": {

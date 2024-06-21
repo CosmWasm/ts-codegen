@@ -13,7 +13,8 @@ import {
   getTypeOrRef,
   OPTIONAL_FUNDS_PARAM,
   promiseTypeAnnotation,
-  typedIdentifier} from '../utils';
+  typedIdentifier
+} from '../utils';
 import { identifier, propertySignature } from '../utils/babel';
 import {
   createTypedObjectParams,
@@ -351,6 +352,11 @@ export const createExecuteClass = (
     extendsClassName &&
     context.options.client.execExtendsQuery;
 
+  const useDeclareKeyword =
+    context.options.client.useDeclareKeyword &&
+    extendsClassName &&
+    context.options.client.execExtendsQuery;
+
   return t.exportNamedDeclaration(
     classDeclaration(
       className,
@@ -363,7 +369,8 @@ export const createExecuteClass = (
           ),
           false,
           false,
-          noImplicitOverride
+          noImplicitOverride,
+          useDeclareKeyword
         ),
 
         // sender
@@ -375,7 +382,8 @@ export const createExecuteClass = (
           t.tsTypeAnnotation(t.tsStringKeyword()),
           false,
           false,
-          noImplicitOverride
+          noImplicitOverride,
+          useDeclareKeyword
         ),
 
         // constructor

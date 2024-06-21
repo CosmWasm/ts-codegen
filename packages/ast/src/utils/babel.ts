@@ -97,18 +97,18 @@ export const bindMethod = (name: string) => {
       t.thisExpression(),
       t.identifier(name)
     ),
-    t.callExpression(
-      t.memberExpression(
+      t.callExpression(
         t.memberExpression(
-          t.thisExpression(),
-          t.identifier(name)
+          t.memberExpression(
+            t.thisExpression(),
+            t.identifier(name)
+          ),
+          t.identifier('bind')
         ),
-        t.identifier('bind')
-      ),
-      [
-        t.thisExpression()
-      ]
-    )
+        [
+          t.thisExpression()
+        ]
+      )
     )
   );
 };
@@ -162,13 +162,15 @@ export const classProperty = (
   typeAnnotation: TSTypeAnnotation = null,
   isReadonly: boolean = false,
   isStatic: boolean = false,
-  noImplicitOverride: boolean = false
+  noImplicitOverride: boolean = false,
+  useDeclareKeyword: boolean = false,
 ) => {
   const prop = t.classProperty(t.identifier(name));
   if (isReadonly) prop.readonly = true;
   if (isStatic) prop.static = true;
   if (typeAnnotation) prop.typeAnnotation = typeAnnotation;
   if (noImplicitOverride) prop.override = true;
+  if (useDeclareKeyword) prop.declare = true;
   return prop;
 };
 

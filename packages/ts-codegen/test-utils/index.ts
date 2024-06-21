@@ -31,6 +31,7 @@ export const testDefaultOptions: RenderOptions = {
     enabled: true,
     execExtendsQuery: true,
     noImplicitOverride: false,
+    useDeclareKeyword: false,
   },
   recoil: {
     enabled: true,
