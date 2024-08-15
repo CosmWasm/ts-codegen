@@ -109,7 +109,7 @@ export class MinterClient extends MinterQueryClient implements MinterInterface {
     this.mintFor = this.mintFor.bind(this);
     this.withdraw = this.withdraw.bind(this);
   }
-  mint = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  mint = async (fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       mint: {}
     }, fee_, memo_, funds_);
@@ -118,14 +118,14 @@ export class MinterClient extends MinterQueryClient implements MinterInterface {
     whitelist
   }: {
     whitelist: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       set_whitelist: {
         whitelist
       }
     }, fee_, memo_, funds_);
   };
-  updateStartTime = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  updateStartTime = async (fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_start_time: {}
     }, fee_, memo_, funds_);
@@ -134,7 +134,7 @@ export class MinterClient extends MinterQueryClient implements MinterInterface {
     perAddressLimit
   }: {
     perAddressLimit: number;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_per_address_limit: {
         per_address_limit: perAddressLimit
@@ -145,7 +145,7 @@ export class MinterClient extends MinterQueryClient implements MinterInterface {
     recipient
   }: {
     recipient: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       mint_to: {
         recipient
@@ -158,7 +158,7 @@ export class MinterClient extends MinterQueryClient implements MinterInterface {
   }: {
     recipient: string;
     tokenId: number;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       mint_for: {
         recipient,
@@ -166,7 +166,7 @@ export class MinterClient extends MinterQueryClient implements MinterInterface {
       }
     }, fee_, memo_, funds_);
   };
-  withdraw = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  withdraw = async (fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       withdraw: {}
     }, fee_, memo_, funds_);

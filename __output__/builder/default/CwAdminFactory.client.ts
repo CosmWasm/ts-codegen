@@ -50,7 +50,7 @@ export class CwAdminFactoryClient extends CwAdminFactoryQueryClient implements C
     codeId: number;
     instantiateMsg: Binary;
     label: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       instantiate_contract_with_self_admin: {
         code_id: codeId,

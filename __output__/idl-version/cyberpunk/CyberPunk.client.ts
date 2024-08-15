@@ -55,7 +55,7 @@ export class CyberPunkClient extends CyberPunkQueryClient implements CyberPunkIn
   }: {
     memCost: number;
     timeCost: number;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       argon2: {
         mem_cost: memCost,
@@ -63,7 +63,7 @@ export class CyberPunkClient extends CyberPunkQueryClient implements CyberPunkIn
       }
     }, fee_, memo_, funds_);
   };
-  mirrorEnv = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  mirrorEnv = async (fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       mirror_env: {}
     }, fee_, memo_, funds_);
