@@ -405,9 +405,9 @@ function extractCamelcasedMethodParams(
                       )
                     ),
                     t.identifier('moduleMsg'),
-                    t.identifier('fee'),
-                    t.identifier('memo'),
-                    t.identifier('_funds')
+                    t.identifier('fee_'),
+                    t.identifier('memo_'),
+                    t.identifier('funds_')
                   ]
                 )
               )

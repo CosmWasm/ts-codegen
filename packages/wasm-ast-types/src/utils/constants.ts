@@ -2,13 +2,13 @@ import { identifier } from './babel';
 import * as t from '@babel/types';
 
 export const OPTIONAL_FUNDS_PARAM = identifier(
-  '_funds',
+  'funds_',
   t.tsTypeAnnotation(t.tsArrayType(t.tsTypeReference(t.identifier('Coin')))),
   true
 );
 
 export const FEE_PARAM = identifier(
-  'fee',
+  'fee_',
   t.tsTypeAnnotation(
     t.tsUnionType([
       t.tsNumberKeyword(),
@@ -24,7 +24,7 @@ export const OPTIONAL_FEE_PARAM: t.Identifier = {
 };
 
 export const OPTIONAL_MEMO_PARAM = identifier(
-  'memo',
+  'memo_',
   t.tsTypeAnnotation(t.tsStringKeyword()),
   true
 );
