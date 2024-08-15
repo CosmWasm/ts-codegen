@@ -34,8 +34,8 @@ export interface CyberPunkInterface extends CyberPunkReadOnlyInterface {
   }: {
     memCost: number;
     timeCost: number;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
-  mirrorEnv: (fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
+  mirrorEnv: (fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
 }
 export class CyberPunkClient extends CyberPunkQueryClient implements CyberPunkInterface {
   client: SigningCosmWasmClient;
@@ -55,17 +55,17 @@ export class CyberPunkClient extends CyberPunkQueryClient implements CyberPunkIn
   }: {
     memCost: number;
     timeCost: number;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       argon2: {
         mem_cost: memCost,
         time_cost: timeCost
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
-  mirrorEnv = async (fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  mirrorEnv = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       mirror_env: {}
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
 }

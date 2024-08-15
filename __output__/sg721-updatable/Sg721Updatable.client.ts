@@ -240,22 +240,22 @@ export class Sg721UpdatableQueryClient implements Sg721UpdatableReadOnlyInterfac
 export interface Sg721UpdatableInterface extends Sg721UpdatableReadOnlyInterface {
   contractAddress: string;
   sender: string;
-  freezeTokenMetadata: (fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  freezeTokenMetadata: (fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   updateTokenMetadata: ({
     tokenId,
     tokenUri
   }: {
     tokenId: string;
     tokenUri?: string;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
-  enableUpdatable: (fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
+  enableUpdatable: (fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   transferNft: ({
     recipient,
     tokenId
   }: {
     recipient: string;
     tokenId: string;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   sendNft: ({
     contract,
     msg,
@@ -264,7 +264,7 @@ export interface Sg721UpdatableInterface extends Sg721UpdatableReadOnlyInterface
     contract: string;
     msg: Binary;
     tokenId: string;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   approve: ({
     expires,
     spender,
@@ -273,38 +273,38 @@ export interface Sg721UpdatableInterface extends Sg721UpdatableReadOnlyInterface
     expires?: Expiration;
     spender: string;
     tokenId: string;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   revoke: ({
     spender,
     tokenId
   }: {
     spender: string;
     tokenId: string;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   approveAll: ({
     expires,
     operator
   }: {
     expires?: Expiration;
     operator: string;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   revokeAll: ({
     operator
   }: {
     operator: string;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   burn: ({
     tokenId
   }: {
     tokenId: string;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   updateCollectionInfo: ({
     collectionInfo
   }: {
     collectionInfo: UpdateCollectionInfoMsgForRoyaltyInfoResponse;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
-  updateTradingStartTime: (fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
-  freezeCollectionInfo: (fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
+  updateTradingStartTime: (fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
+  freezeCollectionInfo: (fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   mint: ({
     extension,
     owner,
@@ -315,12 +315,12 @@ export interface Sg721UpdatableInterface extends Sg721UpdatableReadOnlyInterface
     owner: string;
     tokenId: string;
     tokenUri?: string;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   extension: ({
     msg
   }: {
     msg: Empty;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
 }
 export class Sg721UpdatableClient extends Sg721UpdatableQueryClient implements Sg721UpdatableInterface {
   client: SigningCosmWasmClient;
@@ -347,10 +347,10 @@ export class Sg721UpdatableClient extends Sg721UpdatableQueryClient implements S
     this.mint = this.mint.bind(this);
     this.extension = this.extension.bind(this);
   }
-  freezeTokenMetadata = async (fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  freezeTokenMetadata = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       freeze_token_metadata: {}
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
   updateTokenMetadata = async ({
     tokenId,
@@ -358,18 +358,18 @@ export class Sg721UpdatableClient extends Sg721UpdatableQueryClient implements S
   }: {
     tokenId: string;
     tokenUri?: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_token_metadata: {
         token_id: tokenId,
         token_uri: tokenUri
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
-  enableUpdatable = async (fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  enableUpdatable = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       enable_updatable: {}
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
   transferNft = async ({
     recipient,
@@ -377,13 +377,13 @@ export class Sg721UpdatableClient extends Sg721UpdatableQueryClient implements S
   }: {
     recipient: string;
     tokenId: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       transfer_nft: {
         recipient,
         token_id: tokenId
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
   sendNft = async ({
     contract,
@@ -393,14 +393,14 @@ export class Sg721UpdatableClient extends Sg721UpdatableQueryClient implements S
     contract: string;
     msg: Binary;
     tokenId: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       send_nft: {
         contract,
         msg,
         token_id: tokenId
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
   approve = async ({
     expires,
@@ -410,14 +410,14 @@ export class Sg721UpdatableClient extends Sg721UpdatableQueryClient implements S
     expires?: Expiration;
     spender: string;
     tokenId: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       approve: {
         expires,
         spender,
         token_id: tokenId
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
   revoke = async ({
     spender,
@@ -425,13 +425,13 @@ export class Sg721UpdatableClient extends Sg721UpdatableQueryClient implements S
   }: {
     spender: string;
     tokenId: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       revoke: {
         spender,
         token_id: tokenId
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
   approveAll = async ({
     expires,
@@ -439,56 +439,56 @@ export class Sg721UpdatableClient extends Sg721UpdatableQueryClient implements S
   }: {
     expires?: Expiration;
     operator: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       approve_all: {
         expires,
         operator
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
   revokeAll = async ({
     operator
   }: {
     operator: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       revoke_all: {
         operator
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
   burn = async ({
     tokenId
   }: {
     tokenId: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       burn: {
         token_id: tokenId
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
   updateCollectionInfo = async ({
     collectionInfo
   }: {
     collectionInfo: UpdateCollectionInfoMsgForRoyaltyInfoResponse;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_collection_info: {
         collection_info: collectionInfo
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
-  updateTradingStartTime = async (fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  updateTradingStartTime = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_trading_start_time: {}
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
-  freezeCollectionInfo = async (fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  freezeCollectionInfo = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       freeze_collection_info: {}
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
   mint = async ({
     extension,
@@ -500,7 +500,7 @@ export class Sg721UpdatableClient extends Sg721UpdatableQueryClient implements S
     owner: string;
     tokenId: string;
     tokenUri?: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       mint: {
         extension,
@@ -508,17 +508,17 @@ export class Sg721UpdatableClient extends Sg721UpdatableQueryClient implements S
         token_id: tokenId,
         token_uri: tokenUri
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
   extension = async ({
     msg
   }: {
     msg: Empty;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       extension: {
         msg
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
 }

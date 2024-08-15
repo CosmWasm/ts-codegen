@@ -16,20 +16,20 @@ export interface AccountsNftMsg {
     newOwner
   }: {
     newOwner: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
-  acceptOwnership: (_funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
+  acceptOwnership: (funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   mint: ({
     user
   }: {
     user: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   transferNft: ({
     recipient,
     tokenId
   }: {
     recipient: string;
     tokenId: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   sendNft: ({
     contract,
     msg,
@@ -38,7 +38,7 @@ export interface AccountsNftMsg {
     contract: string;
     msg: Binary;
     tokenId: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   approve: ({
     expires,
     spender,
@@ -47,31 +47,31 @@ export interface AccountsNftMsg {
     expires?: Expiration;
     spender: string;
     tokenId: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   revoke: ({
     spender,
     tokenId
   }: {
     spender: string;
     tokenId: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   approveAll: ({
     expires,
     operator
   }: {
     expires?: Expiration;
     operator: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   revokeAll: ({
     operator
   }: {
     operator: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   burn: ({
     tokenId
   }: {
     tokenId: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
 }
 export class AccountsNftMsgComposer implements AccountsNftMsg {
   sender: string;
@@ -94,7 +94,7 @@ export class AccountsNftMsgComposer implements AccountsNftMsg {
     newOwner
   }: {
     newOwner: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -105,11 +105,11 @@ export class AccountsNftMsgComposer implements AccountsNftMsg {
             new_owner: newOwner
           }
         })),
-        funds: _funds
+        funds: funds_
       })
     };
   };
-  acceptOwnership = (_funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  acceptOwnership = (funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -118,7 +118,7 @@ export class AccountsNftMsgComposer implements AccountsNftMsg {
         msg: toUtf8(JSON.stringify({
           accept_ownership: {}
         })),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -126,7 +126,7 @@ export class AccountsNftMsgComposer implements AccountsNftMsg {
     user
   }: {
     user: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -137,7 +137,7 @@ export class AccountsNftMsgComposer implements AccountsNftMsg {
             user
           }
         })),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -147,7 +147,7 @@ export class AccountsNftMsgComposer implements AccountsNftMsg {
   }: {
     recipient: string;
     tokenId: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -159,7 +159,7 @@ export class AccountsNftMsgComposer implements AccountsNftMsg {
             token_id: tokenId
           }
         })),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -171,7 +171,7 @@ export class AccountsNftMsgComposer implements AccountsNftMsg {
     contract: string;
     msg: Binary;
     tokenId: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -184,7 +184,7 @@ export class AccountsNftMsgComposer implements AccountsNftMsg {
             token_id: tokenId
           }
         })),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -196,7 +196,7 @@ export class AccountsNftMsgComposer implements AccountsNftMsg {
     expires?: Expiration;
     spender: string;
     tokenId: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -209,7 +209,7 @@ export class AccountsNftMsgComposer implements AccountsNftMsg {
             token_id: tokenId
           }
         })),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -219,7 +219,7 @@ export class AccountsNftMsgComposer implements AccountsNftMsg {
   }: {
     spender: string;
     tokenId: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -231,7 +231,7 @@ export class AccountsNftMsgComposer implements AccountsNftMsg {
             token_id: tokenId
           }
         })),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -241,7 +241,7 @@ export class AccountsNftMsgComposer implements AccountsNftMsg {
   }: {
     expires?: Expiration;
     operator: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -253,7 +253,7 @@ export class AccountsNftMsgComposer implements AccountsNftMsg {
             operator
           }
         })),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -261,7 +261,7 @@ export class AccountsNftMsgComposer implements AccountsNftMsg {
     operator
   }: {
     operator: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -272,7 +272,7 @@ export class AccountsNftMsgComposer implements AccountsNftMsg {
             operator
           }
         })),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -280,7 +280,7 @@ export class AccountsNftMsgComposer implements AccountsNftMsg {
     tokenId
   }: {
     tokenId: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -291,7 +291,7 @@ export class AccountsNftMsgComposer implements AccountsNftMsg {
             token_id: tokenId
           }
         })),
-        funds: _funds
+        funds: funds_
       })
     };
   };

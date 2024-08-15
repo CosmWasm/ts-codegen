@@ -10,7 +10,7 @@ exports[`createMessageComposerInterface 1`] = `
   }: {
     recipient: string;
     tokenId: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   sendNft: ({
     contract,
     msg,
@@ -19,7 +19,7 @@ exports[`createMessageComposerInterface 1`] = `
     contract: string;
     msg: Binary;
     tokenId: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   approve: ({
     expires,
     spender,
@@ -28,26 +28,26 @@ exports[`createMessageComposerInterface 1`] = `
     expires?: Expiration;
     spender: string;
     tokenId: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   revoke: ({
     spender,
     tokenId
   }: {
     spender: string;
     tokenId: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   approveAll: ({
     expires,
     operator
   }: {
     expires?: Expiration;
     operator: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   revokeAll: ({
     operator
   }: {
     operator: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   mint: ({
     extension,
     owner,
@@ -58,12 +58,12 @@ exports[`createMessageComposerInterface 1`] = `
     owner: string;
     tokenId: string;
     tokenUri?: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   burn: ({
     tokenId
   }: {
     tokenId: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
 }"
 `;
 
@@ -89,7 +89,7 @@ exports[`execute classes 1`] = `
   }: {
     recipient: string;
     tokenId: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -101,7 +101,7 @@ exports[`execute classes 1`] = `
             token_id: tokenId
           }
         })),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -113,7 +113,7 @@ exports[`execute classes 1`] = `
     contract: string;
     msg: Binary;
     tokenId: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -126,7 +126,7 @@ exports[`execute classes 1`] = `
             token_id: tokenId
           }
         })),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -138,7 +138,7 @@ exports[`execute classes 1`] = `
     expires?: Expiration;
     spender: string;
     tokenId: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -151,7 +151,7 @@ exports[`execute classes 1`] = `
             token_id: tokenId
           }
         })),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -161,7 +161,7 @@ exports[`execute classes 1`] = `
   }: {
     spender: string;
     tokenId: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -173,7 +173,7 @@ exports[`execute classes 1`] = `
             token_id: tokenId
           }
         })),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -183,7 +183,7 @@ exports[`execute classes 1`] = `
   }: {
     expires?: Expiration;
     operator: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -195,7 +195,7 @@ exports[`execute classes 1`] = `
             operator
           }
         })),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -203,7 +203,7 @@ exports[`execute classes 1`] = `
     operator
   }: {
     operator: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -214,7 +214,7 @@ exports[`execute classes 1`] = `
             operator
           }
         })),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -228,7 +228,7 @@ exports[`execute classes 1`] = `
     owner: string;
     tokenId: string;
     tokenUri?: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -242,7 +242,7 @@ exports[`execute classes 1`] = `
             token_uri: tokenUri
           }
         })),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -250,7 +250,7 @@ exports[`execute classes 1`] = `
     tokenId
   }: {
     tokenId: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -261,7 +261,7 @@ exports[`execute classes 1`] = `
             token_id: tokenId
           }
         })),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -282,7 +282,7 @@ exports[`ownershipClass 1`] = `
     newFactory
   }: {
     newFactory: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -293,11 +293,11 @@ exports[`ownershipClass 1`] = `
             new_factory: newFactory
           }
         })),
-        funds: _funds
+        funds: funds_
       })
     };
   };
-  updateOwnership = (action: Action, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  updateOwnership = (action: Action, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -306,7 +306,7 @@ exports[`ownershipClass 1`] = `
         msg: toUtf8(JSON.stringify({
           update_ownership: action
         })),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -321,7 +321,7 @@ exports[`ownershipInterface 1`] = `
     newFactory
   }: {
     newFactory: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
-  updateOwnership: (action: Action, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
+  updateOwnership: (action: Action, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
 }"
 `;

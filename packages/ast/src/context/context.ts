@@ -100,7 +100,7 @@ export class BuilderContext {
     [key: string]: {
       [key: string]: ProviderInfo;
     };
-  } {
+    } {
     return this.providers;
   }
 }
@@ -145,7 +145,7 @@ export abstract class RenderContextBase<TOpt = RenderOptions> implements IRender
     [key: string]: {
       [key: string]: ProviderInfo;
     };
-  } {
+    } {
     return this.builderContext.providers;
   }
   getImports(registeredUtils?: UtilMapping, filepath?: string): (t.ImportNamespaceSpecifier | t.ImportDeclaration | t.ImportDefaultSpecifier)[] {

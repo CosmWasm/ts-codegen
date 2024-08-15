@@ -97,18 +97,18 @@ export const bindMethod = (name: string) => {
       t.thisExpression(),
       t.identifier(name)
     ),
-      t.callExpression(
+    t.callExpression(
+      t.memberExpression(
         t.memberExpression(
-          t.memberExpression(
-            t.thisExpression(),
-            t.identifier(name)
-          ),
-          t.identifier('bind')
+          t.thisExpression(),
+          t.identifier(name)
         ),
-        [
-          t.thisExpression()
-        ]
-      )
+        t.identifier('bind')
+      ),
+      [
+        t.thisExpression()
+      ]
+    )
     )
   );
 };

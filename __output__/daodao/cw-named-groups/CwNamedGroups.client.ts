@@ -112,17 +112,17 @@ export interface CwNamedGroupsInterface extends CwNamedGroupsReadOnlyInterface {
     addressesToAdd?: string[];
     addressesToRemove?: string[];
     group: string;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   removeGroup: ({
     group
   }: {
     group: string;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   updateOwner: ({
     owner
   }: {
     owner: string;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
 }
 export class CwNamedGroupsClient extends CwNamedGroupsQueryClient implements CwNamedGroupsInterface {
   client: SigningCosmWasmClient;
@@ -145,35 +145,35 @@ export class CwNamedGroupsClient extends CwNamedGroupsQueryClient implements CwN
     addressesToAdd?: string[];
     addressesToRemove?: string[];
     group: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update: {
         addresses_to_add: addressesToAdd,
         addresses_to_remove: addressesToRemove,
         group
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
   removeGroup = async ({
     group
   }: {
     group: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       remove_group: {
         group
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
   updateOwner = async ({
     owner
   }: {
     owner: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_owner: {
         owner
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
 }

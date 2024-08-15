@@ -20,7 +20,7 @@ export interface CwAdminFactoryMsg {
     codeId: number;
     instantiateMsg: Binary;
     label: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
 }
 export class CwAdminFactoryMsgComposer implements CwAdminFactoryMsg {
   sender: string;
@@ -38,7 +38,7 @@ export class CwAdminFactoryMsgComposer implements CwAdminFactoryMsg {
     codeId: number;
     instantiateMsg: Binary;
     label: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -51,7 +51,7 @@ export class CwAdminFactoryMsgComposer implements CwAdminFactoryMsg {
             label
           }
         })),
-        funds: _funds
+        funds: funds_
       })
     };
   };

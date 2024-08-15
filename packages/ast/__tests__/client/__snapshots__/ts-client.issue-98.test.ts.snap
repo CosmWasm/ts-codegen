@@ -13,10 +13,10 @@ exports[`execute classes array types 1`] = `
     this.getPlugins = this.getPlugins.bind(this);
     this.getPluginById = this.getPluginById.bind(this);
   }
-  getConfig = async (fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  getConfig = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       get_config: {}
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
   getPlugins = async ({
     limit,
@@ -24,24 +24,24 @@ exports[`execute classes array types 1`] = `
   }: {
     limit?: number;
     startAfter?: number;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       get_plugins: {
         limit,
         start_after: startAfter
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
   getPluginById = async ({
     id
   }: {
     id: number;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       get_plugin_by_id: {
         id
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
 }"
 `;
@@ -50,19 +50,19 @@ exports[`execute interfaces no extends 1`] = `
 "export interface SG721Instance {
   contractAddress: string;
   sender: string;
-  getConfig: (fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  getConfig: (fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   getPlugins: ({
     limit,
     startAfter
   }: {
     limit?: number;
     startAfter?: number;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   getPluginById: ({
     id
   }: {
     id: number;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
 }"
 `;
 

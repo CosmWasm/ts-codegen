@@ -20,7 +20,7 @@ export interface CwCodeIdRegistryMsg {
     amount: Uint128;
     msg: Binary;
     sender: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   register: ({
     chainId,
     checksum,
@@ -33,7 +33,7 @@ export interface CwCodeIdRegistryMsg {
     codeId: number;
     name: string;
     version: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   setOwner: ({
     chainId,
     name,
@@ -42,21 +42,21 @@ export interface CwCodeIdRegistryMsg {
     chainId: string;
     name: string;
     owner?: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   unregister: ({
     chainId,
     codeId
   }: {
     chainId: string;
     codeId: number;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   updateConfig: ({
     admin,
     paymentInfo
   }: {
     admin?: string;
     paymentInfo?: PaymentInfo;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
 }
 export class CwCodeIdRegistryMsgComposer implements CwCodeIdRegistryMsg {
   sender: string;
@@ -78,7 +78,7 @@ export class CwCodeIdRegistryMsgComposer implements CwCodeIdRegistryMsg {
     amount: Uint128;
     msg: Binary;
     sender: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -91,7 +91,7 @@ export class CwCodeIdRegistryMsgComposer implements CwCodeIdRegistryMsg {
             sender
           }
         })),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -107,7 +107,7 @@ export class CwCodeIdRegistryMsgComposer implements CwCodeIdRegistryMsg {
     codeId: number;
     name: string;
     version: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -122,7 +122,7 @@ export class CwCodeIdRegistryMsgComposer implements CwCodeIdRegistryMsg {
             version
           }
         })),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -134,7 +134,7 @@ export class CwCodeIdRegistryMsgComposer implements CwCodeIdRegistryMsg {
     chainId: string;
     name: string;
     owner?: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -147,7 +147,7 @@ export class CwCodeIdRegistryMsgComposer implements CwCodeIdRegistryMsg {
             owner
           }
         })),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -157,7 +157,7 @@ export class CwCodeIdRegistryMsgComposer implements CwCodeIdRegistryMsg {
   }: {
     chainId: string;
     codeId: number;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -169,7 +169,7 @@ export class CwCodeIdRegistryMsgComposer implements CwCodeIdRegistryMsg {
             code_id: codeId
           }
         })),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -179,7 +179,7 @@ export class CwCodeIdRegistryMsgComposer implements CwCodeIdRegistryMsg {
   }: {
     admin?: string;
     paymentInfo?: PaymentInfo;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -191,7 +191,7 @@ export class CwCodeIdRegistryMsgComposer implements CwCodeIdRegistryMsg {
             payment_info: paymentInfo
           }
         })),
-        funds: _funds
+        funds: funds_
       })
     };
   };
