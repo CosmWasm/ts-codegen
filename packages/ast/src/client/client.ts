@@ -21,11 +21,12 @@ import {
   getPropertyType,
   getResponseType
 } from '../utils/types';
+import { OPTIONAL_FEE_PARAM, OPTIONAL_MEMO_PARAM } from "../utils/constants";
 
 export const CONSTANT_EXEC_PARAMS = [
   t.assignmentPattern(
     identifier(
-      'fee',
+      'fee_',
       t.tsTypeAnnotation(
         t.tsUnionType([
           t.tSNumberKeyword(),

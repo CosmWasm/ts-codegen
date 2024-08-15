@@ -13,7 +13,7 @@ exports[`execute classes array types 1`] = `
     this.getPlugins = this.getPlugins.bind(this);
     this.getPluginById = this.getPluginById.bind(this);
   }
-  getConfig = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  getConfig = async (fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       get_config: {}
     }, fee_, memo_, funds_);
@@ -24,7 +24,7 @@ exports[`execute classes array types 1`] = `
   }: {
     limit?: number;
     startAfter?: number;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       get_plugins: {
         limit,
@@ -36,7 +36,7 @@ exports[`execute classes array types 1`] = `
     id
   }: {
     id: number;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       get_plugin_by_id: {
         id

@@ -28,7 +28,7 @@ exports[`execute class /execute_msg.json 1`] = `
     amount: Uint128;
     msg: Binary;
     sender: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       receive: {
         amount,
@@ -45,7 +45,7 @@ exports[`execute class /execute_msg.json 1`] = `
     feeCollector?: string;
     generatorAddress?: string;
     lpTokenCodeId?: number;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_config: {
         fee_collector: feeCollector,
@@ -62,7 +62,7 @@ exports[`execute class /execute_msg.json 1`] = `
     isDisabled?: boolean;
     newFeeInfo?: FeeInfo;
     poolType: PoolType;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_pool_config: {
         is_disabled: isDisabled,
@@ -75,7 +75,7 @@ exports[`execute class /execute_msg.json 1`] = `
     newPoolConfig
   }: {
     newPoolConfig: PoolConfig;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       add_to_registery: {
         new_pool_config: newPoolConfig
@@ -94,7 +94,7 @@ exports[`execute class /execute_msg.json 1`] = `
     lpTokenName?: string;
     lpTokenSymbol?: string;
     poolType: PoolType;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       create_pool_instance: {
         asset_infos: assetInfos,
@@ -119,7 +119,7 @@ exports[`execute class /execute_msg.json 1`] = `
     poolId: Uint128;
     recipient?: string;
     slippageTolerance?: Decimal;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       join_pool: {
         assets,
@@ -137,7 +137,7 @@ exports[`execute class /execute_msg.json 1`] = `
   }: {
     recipient?: string;
     swapRequest: SingleSwapRequest;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       swap: {
         recipient,
@@ -151,7 +151,7 @@ exports[`execute class /execute_msg.json 1`] = `
   }: {
     expiresIn: number;
     owner: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       propose_new_owner: {
         expires_in: expiresIn,
@@ -159,12 +159,12 @@ exports[`execute class /execute_msg.json 1`] = `
       }
     }, fee_, memo_, funds_);
   };
-  dropOwnershipProposal = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  dropOwnershipProposal = async (fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       drop_ownership_proposal: {}
     }, fee_, memo_, funds_);
   };
-  claimOwnership = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  claimOwnership = async (fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       claim_ownership: {}
     }, fee_, memo_, funds_);

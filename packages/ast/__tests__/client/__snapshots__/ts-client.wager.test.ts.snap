@@ -20,7 +20,7 @@ exports[`execute classes 1`] = `
     params
   }: {
     params: ParamInfo;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_config: {
         params
@@ -35,7 +35,7 @@ exports[`execute classes 1`] = `
     currentPrices: number[][];
     prevPrices: number[][];
     wagerKey: Addr[][];
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       set_winner: {
         current_prices: currentPrices,
@@ -54,7 +54,7 @@ exports[`execute classes 1`] = `
     currency: Currency;
     expiry: number;
     token: Addr[][];
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       wager: {
         against_currencies: againstCurrencies,
@@ -68,7 +68,7 @@ exports[`execute classes 1`] = `
     token
   }: {
     token: Addr[][];
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       cancel: {
         token

@@ -29,14 +29,14 @@ exports[`ownership client with tuple 1`] = `
     newFactory
   }: {
     newFactory: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       set_factory: {
         new_factory: newFactory
       }
     }, fee_, memo_, funds_);
   };
-  updateOwnership = async (action: Action, fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  updateOwnership = async (action: Action, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_ownership: action
     }, fee_, memo_, funds_);

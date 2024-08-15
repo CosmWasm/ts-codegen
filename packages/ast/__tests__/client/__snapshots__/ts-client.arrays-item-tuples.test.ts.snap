@@ -23,7 +23,7 @@ exports[`execute classes array types 1`] = `
     edges: number[][];
     nested: number[][][];
     supernested: string[][][][][][];
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_edges: {
         edges3,
