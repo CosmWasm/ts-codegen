@@ -30,7 +30,7 @@ exports[`execute classes array types 1`] = `
   }: {
     amount: number;
     creditor: Addr;
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       create_edge: {
         amount,
@@ -46,7 +46,7 @@ exports[`execute classes array types 1`] = `
     amount: number;
     creditor: Addr;
     edgeId: number;
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       edit_edge: {
         amount,
@@ -59,7 +59,7 @@ exports[`execute classes array types 1`] = `
     edgeId
   }: {
     edgeId: number;
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       remove_edge: {
         edge_id: edgeId
@@ -70,7 +70,7 @@ exports[`execute classes array types 1`] = `
     graph
   }: {
     graph: Edge[];
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       create_graph: {
         graph
@@ -83,7 +83,7 @@ exports[`execute classes array types 1`] = `
   }: {
     graph: Addr[][];
     graphId: number;
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       create_graph_simplified: {
         graph,
@@ -97,7 +97,7 @@ exports[`execute classes array types 1`] = `
   }: {
     graph: Addr[][];
     graphId: number;
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       edit_graph_simplified: {
         graph,
@@ -109,7 +109,7 @@ exports[`execute classes array types 1`] = `
     graphId
   }: {
     graphId: number;
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       remove_graph: {
         graph_id: graphId
@@ -120,14 +120,14 @@ exports[`execute classes array types 1`] = `
     edges
   }: {
     edges: number[][];
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_edges: {
         edges
       }
     }, fee_, memo_, funds_);
   };
-  findSavings = async (fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  findSavings = async (fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       find_savings: {}
     }, fee_, memo_, funds_);
@@ -136,14 +136,14 @@ exports[`execute classes array types 1`] = `
     graphId
   }: {
     graphId: number;
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       find_savings_in_a_graph: {
         graph_id: graphId
       }
     }, fee_, memo_, funds_);
   };
-  reset = async (fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  reset = async (fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       reset: {}
     }, fee_, memo_, funds_);
@@ -152,7 +152,7 @@ exports[`execute classes array types 1`] = `
     filepath
   }: {
     filepath: string;
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       save_network_to_file: {
         filepath
@@ -163,7 +163,7 @@ exports[`execute classes array types 1`] = `
     filepath
   }: {
     filepath: string;
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       create_graph_from_file: {
         filepath
@@ -174,7 +174,7 @@ exports[`execute classes array types 1`] = `
     filepath
   }: {
     filepath: string;
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       apply_set_off_from_file: {
         filepath

@@ -21,7 +21,7 @@ exports[`execute classes array types 1`] = `
     addressesToAdd?: string[];
     addressesToRemove?: string[];
     group: string;
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update: {
         addresses_to_add: addressesToAdd,
@@ -34,7 +34,7 @@ exports[`execute classes array types 1`] = `
     group
   }: {
     group: string;
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       remove_group: {
         group
@@ -45,7 +45,7 @@ exports[`execute classes array types 1`] = `
     owner
   }: {
     owner: string;
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_owner: {
         owner

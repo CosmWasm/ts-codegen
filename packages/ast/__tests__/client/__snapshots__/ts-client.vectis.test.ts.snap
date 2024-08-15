@@ -30,14 +30,14 @@ exports[`execute classes array types 1`] = `
     msgs
   }: {
     msgs: CosmosMsg_for_Empty[];
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       execute: {
         msgs
       }
     }, fee_, memo_, funds_);
   };
-  revertFreezeStatus = async (fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  revertFreezeStatus = async (fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       revert_freeze_status: {}
     }, fee_, memo_, funds_);
@@ -46,7 +46,7 @@ exports[`execute classes array types 1`] = `
     transaction
   }: {
     transaction: RelayTransaction;
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       relay: {
         transaction
@@ -57,7 +57,7 @@ exports[`execute classes array types 1`] = `
     newUserAddress
   }: {
     newUserAddress: string;
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       rotate_user_key: {
         new_user_address: newUserAddress
@@ -68,7 +68,7 @@ exports[`execute classes array types 1`] = `
     newRelayerAddress
   }: {
     newRelayerAddress: Addr;
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       add_relayer: {
         new_relayer_address: newRelayerAddress
@@ -79,7 +79,7 @@ exports[`execute classes array types 1`] = `
     relayerAddress
   }: {
     relayerAddress: Addr;
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       remove_relayer: {
         relayer_address: relayerAddress
@@ -92,7 +92,7 @@ exports[`execute classes array types 1`] = `
   }: {
     guardians: Guardians;
     newMultisigCodeId?: number;
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_guardians: {
         guardians,
@@ -104,7 +104,7 @@ exports[`execute classes array types 1`] = `
     newLabel
   }: {
     newLabel: string;
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_label: {
         new_label: newLabel

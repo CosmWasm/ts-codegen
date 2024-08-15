@@ -69,7 +69,7 @@ exports[`execute class /execute_msg.json 1`] = `
   }: {
     amount: number;
     creditor: Addr;
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       create_edge: {
         amount,
@@ -85,7 +85,7 @@ exports[`execute class /execute_msg.json 1`] = `
     amount: number;
     creditor: Addr;
     edgeId: number;
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       edit_edge: {
         amount,
@@ -98,7 +98,7 @@ exports[`execute class /execute_msg.json 1`] = `
     edgeId
   }: {
     edgeId: number;
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       remove_edge: {
         edge_id: edgeId
@@ -109,7 +109,7 @@ exports[`execute class /execute_msg.json 1`] = `
     graph
   }: {
     graph: Edge[];
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       create_graph: {
         graph
@@ -122,7 +122,7 @@ exports[`execute class /execute_msg.json 1`] = `
   }: {
     graph: Addr[][];
     graphId: number;
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       create_graph_simplified: {
         graph,
@@ -136,7 +136,7 @@ exports[`execute class /execute_msg.json 1`] = `
   }: {
     graph: Addr[][];
     graphId: number;
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       edit_graph_simplified: {
         graph,
@@ -148,7 +148,7 @@ exports[`execute class /execute_msg.json 1`] = `
     graphId
   }: {
     graphId: number;
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       remove_graph: {
         graph_id: graphId
@@ -159,14 +159,14 @@ exports[`execute class /execute_msg.json 1`] = `
     edges
   }: {
     edges: number[][];
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_edges: {
         edges
       }
     }, fee_, memo_, funds_);
   };
-  findSavings = async (fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  findSavings = async (fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       find_savings: {}
     }, fee_, memo_, funds_);
@@ -175,14 +175,14 @@ exports[`execute class /execute_msg.json 1`] = `
     graphId
   }: {
     graphId: number;
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       find_savings_in_a_graph: {
         graph_id: graphId
       }
     }, fee_, memo_, funds_);
   };
-  reset = async (fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  reset = async (fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       reset: {}
     }, fee_, memo_, funds_);
@@ -191,7 +191,7 @@ exports[`execute class /execute_msg.json 1`] = `
     filepath
   }: {
     filepath: string;
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       save_network_to_file: {
         filepath
@@ -202,7 +202,7 @@ exports[`execute class /execute_msg.json 1`] = `
     filepath
   }: {
     filepath: string;
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       create_graph_from_file: {
         filepath
@@ -213,7 +213,7 @@ exports[`execute class /execute_msg.json 1`] = `
     filepath
   }: {
     filepath: string;
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       apply_set_off_from_file: {
         filepath
@@ -271,17 +271,17 @@ exports[`execute class /query_msg.json 1`] = `
     this.getTotalDebtByGraph = this.getTotalDebtByGraph.bind(this);
     this.getTotalDebt = this.getTotalDebt.bind(this);
   }
-  getDenom = async (fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  getDenom = async (fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       get_denom: {}
     }, fee_, memo_, funds_);
   };
-  getOwner = async (fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  getOwner = async (fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       get_owner: {}
     }, fee_, memo_, funds_);
   };
-  allEdges = async (fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  allEdges = async (fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       all_edges: {}
     }, fee_, memo_, funds_);
@@ -290,7 +290,7 @@ exports[`execute class /query_msg.json 1`] = `
     edgeId
   }: {
     edgeId: number;
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       one_edge: {
         edge_id: edgeId
@@ -301,7 +301,7 @@ exports[`execute class /query_msg.json 1`] = `
     batchId
   }: {
     batchId: number;
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       one_batch: {
         batch_id: batchId
@@ -312,7 +312,7 @@ exports[`execute class /query_msg.json 1`] = `
     graphId
   }: {
     graphId: number;
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       one_graph: {
         graph_id: graphId
@@ -323,7 +323,7 @@ exports[`execute class /query_msg.json 1`] = `
     address
   }: {
     address: Addr;
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       get_edges_by_address: {
         address
@@ -334,7 +334,7 @@ exports[`execute class /query_msg.json 1`] = `
     address
   }: {
     address: Addr;
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       get_edges_as_counterparty: {
         address
@@ -345,7 +345,7 @@ exports[`execute class /query_msg.json 1`] = `
     address
   }: {
     address: Addr;
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       get_total_debt_per_address: {
         address
@@ -356,7 +356,7 @@ exports[`execute class /query_msg.json 1`] = `
     address
   }: {
     address: Addr;
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       get_total_credit_per_address: {
         address
@@ -367,14 +367,14 @@ exports[`execute class /query_msg.json 1`] = `
     graphId
   }: {
     graphId: number;
-  }, fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       get_total_debt_by_graph: {
         graph_id: graphId
       }
     }, fee_, memo_, funds_);
   };
-  getTotalDebt = async (fee_: number | StdFee | "auto" = "auto", memo?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+  getTotalDebt = async (fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       get_total_debt: {}
     }, fee_, memo_, funds_);

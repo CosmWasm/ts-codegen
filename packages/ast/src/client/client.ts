@@ -38,7 +38,7 @@ export const CONSTANT_EXEC_PARAMS = [
     ),
     t.stringLiteral('auto')
   ),
-  identifier('memo', t.tsTypeAnnotation(t.tsStringKeyword()), true),
+  OPTIONAL_MEMO_PARAM,
   OPTIONAL_FUNDS_PARAM
 ];
 
