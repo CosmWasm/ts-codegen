@@ -330,15 +330,23 @@ export const createReactQueryHook = ({
         callExpression(
           t.identifier('useQuery'),
           [
-            generateUseQueryQueryKey({
-              hookKeyName,
-              queryKeysName,
-              methodName,
-              props,
-              options
-            }),
-            buildQueryFn(methodName, jsonschema, options),
-            buildQueryOptions(options)
+            t.objectExpression([
+              t.objectProperty(
+                t.identifier('queryKey'),
+                generateUseQueryQueryKey({
+                  hookKeyName,
+                  queryKeysName,
+                  methodName,
+                  props,
+                  options
+                })
+              ),
+              t.objectProperty(
+                t.identifier('queryFn'),
+                buildQueryFn(methodName, jsonschema, options),
+              ),
+              t.spreadElement(buildQueryOptions(options))
+            ])
           ],
           t.tsTypeParameterInstantiation([
             t.tsTypeReference(t.identifier(responseType)),
