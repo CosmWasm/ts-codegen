@@ -7,6 +7,6 @@ Commands['create-boilerplate'] = _create_boilerplate;
 Commands['generate'] = _generate;
 Commands['install'] = _install;
 
-export { Commands }; 
+export { Commands };
 
   
