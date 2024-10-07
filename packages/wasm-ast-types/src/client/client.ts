@@ -256,9 +256,9 @@ export const createWasmExecMethod = (
                 t.objectExpression([
                   t.objectProperty(msgAction, msgActionValue)
                 ]),
-                t.identifier('fee'),
-                t.identifier('memo'),
-                t.identifier('_funds')
+                t.identifier('fee_'),
+                t.identifier('memo_'),
+                t.identifier('funds_')
               ]
             )
           )

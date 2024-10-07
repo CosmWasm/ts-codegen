@@ -34,6 +34,7 @@ export default async (
   const ExecuteMsg = findExecuteMsg(schemas);
   const typeHash = await findAndParseTypes(schemas);
 
+  // TODO: could change this to adapter if it's the type of adapter
   const appPrefix = options.clientPrefix ?? '';
 
   const executeClientName = pascal(`${contractName}Client`);

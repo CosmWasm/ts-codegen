@@ -18,6 +18,7 @@ export interface ReactQueryOptions {
 export interface AbstractAppOptions {
   enabled?: boolean;
   clientPrefix?: string;
+  moduleType?: 'app' | 'adapter'
 }
 
 export interface TSClientOptions {
@@ -127,10 +128,11 @@ export const defaultOptions: RenderOptions = {
     camelize: true,
     queryKeys: false
   },
-abstractApp: {
-  enabled: false,
-    clientPrefix: 'App'
-}
+  abstractApp: {
+    enabled: false,
+    clientPrefix: 'App',
+    moduleType: 'app'
+  }
 };
 
 export const getDefinitionSchema = (schemas: JSONSchema[]): JSONSchema => {

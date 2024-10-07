@@ -34,26 +34,26 @@ exports[`AutocompounderAppClient 1`] = `
 
   updateFeeConfig = async (params: CamelCasedProperties<Extract<ExecuteMsg, {
     update_fee_config: unknown;
-  }>[\\"update_fee_config\\"]>, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
-    return this._execute(AutocompounderExecuteMsgBuilder.updateFeeConfig(params), fee, memo, _funds);
+  }>[\\"update_fee_config\\"]>, fee_: number | StdFee | \\"auto\\" = \\"auto\\", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+    return this._execute(AutocompounderExecuteMsgBuilder.updateFeeConfig(params), fee_, memo_, funds_);
   };
   deposit = async (params: CamelCasedProperties<Extract<ExecuteMsg, {
     deposit: unknown;
-  }>[\\"deposit\\"]>, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
-    return this._execute(AutocompounderExecuteMsgBuilder.deposit(params), fee, memo, _funds);
+  }>[\\"deposit\\"]>, fee_: number | StdFee | \\"auto\\" = \\"auto\\", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+    return this._execute(AutocompounderExecuteMsgBuilder.deposit(params), fee_, memo_, funds_);
   };
-  withdraw = async (fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
-    return this._execute(AutocompounderExecuteMsgBuilder.withdraw(), fee, memo, _funds);
+  withdraw = async (fee_: number | StdFee | \\"auto\\" = \\"auto\\", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+    return this._execute(AutocompounderExecuteMsgBuilder.withdraw(), fee_, memo_, funds_);
   };
-  compound = async (fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
-    return this._execute(AutocompounderExecuteMsgBuilder.compound(), fee, memo, _funds);
+  compound = async (fee_: number | StdFee | \\"auto\\" = \\"auto\\", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+    return this._execute(AutocompounderExecuteMsgBuilder.compound(), fee_, memo_, funds_);
   };
-  batchUnbond = async (fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
-    return this._execute(AutocompounderExecuteMsgBuilder.batchUnbond(), fee, memo, _funds);
+  batchUnbond = async (fee_: number | StdFee | \\"auto\\" = \\"auto\\", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+    return this._execute(AutocompounderExecuteMsgBuilder.batchUnbond(), fee_, memo_, funds_);
   };
-  _execute = async (msg: ExecuteMsg, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  _execute = async (msg: ExecuteMsg, fee_: number | StdFee | \\"auto\\" = \\"auto\\", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     const moduleMsg: AppExecuteMsg<ExecuteMsg> = AppExecuteMsgFactory.executeApp(msg);
-    return await this.accountClient.abstract.client.execute(this.accountClient.sender, await this.getAddress(), moduleMsg, fee, memo, _funds);
+    return await this.accountClient.abstract.client.execute(this.accountClient.sender, await this.getAddress(), moduleMsg, fee_, memo_, funds_);
   };
 }"
 `;
@@ -154,18 +154,73 @@ exports[`AutocompounderAppQueryClient 1`] = `
 }"
 `;
 
+exports[`DexAdapterClient 1`] = `
+"export class DexAdapterClient extends DexAdapterQueryClient implements IDexAdapterClient {
+  accountClient: AbstractAccountClient;
+
+  constructor({
+    abstractClient,
+    accountId,
+    managerAddress,
+    proxyAddress,
+    moduleId
+  }: {
+    abstractClient: AbstractClient;
+    accountId: AbstractAccountId;
+    managerAddress: string;
+    proxyAddress: string;
+    moduleId: string;
+  }) {
+    super({
+      abstractQueryClient: abstractClient,
+      accountId,
+      managerAddress,
+      proxyAddress,
+      moduleId
+    });
+    this.accountClient = AbstractAccountClient.fromQueryClient(this.accountQueryClient, abstractClient);
+    this.updateFee = this.updateFee.bind(this);
+    this.ansAction = this.ansAction.bind(this);
+    this.rawAction = this.rawAction.bind(this);
+  }
+
+  updateFee = async (params: CamelCasedProperties<Extract<ExecuteMsg, {
+    update_fee: unknown;
+  }>[\\"update_fee\\"]>, fee_: number | StdFee | \\"auto\\" = \\"auto\\", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+    return this._execute(DexClientExecuteMsgBuilder.updateFee(params), fee_, memo_, funds_);
+  };
+  ansAction = async (params: CamelCasedProperties<Extract<ExecuteMsg, {
+    ans_action: unknown;
+  }>[\\"ans_action\\"]>, fee_: number | StdFee | \\"auto\\" = \\"auto\\", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+    return this._execute(DexClientExecuteMsgBuilder.ansAction(params), fee_, memo_, funds_);
+  };
+  rawAction = async (params: CamelCasedProperties<Extract<ExecuteMsg, {
+    raw_action: unknown;
+  }>[\\"raw_action\\"]>, fee_: number | StdFee | \\"auto\\" = \\"auto\\", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+    return this._execute(DexClientExecuteMsgBuilder.rawAction(params), fee_, memo_, funds_);
+  };
+  _execute = async (msg: ExecuteMsg, fee_: number | StdFee | \\"auto\\" = \\"auto\\", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+    const moduleMsg: AdapterExecuteMsg<ExecuteMsg> = AdapterExecuteMsgFactory.executeAdapter({
+      request: msg,
+      proxyAddress: this.accountQueryClient.proxyAddress
+    });
+    return await this.accountClient.abstract.client.execute(this.accountClient.sender, await this.getAddress(), moduleMsg, fee_, memo_, funds_);
+  };
+}"
+`;
+
 exports[`IAutocompounderAppClient 1`] = `
 "export interface IAutocompounderAppClient extends IAutocompounderAppQueryClient {
   accountClient: AbstractAccountClient;
   updateFeeConfig: (params: CamelCasedProperties<Extract<ExecuteMsg, {
     update_fee_config: unknown;
-  }>[\\"update_fee_config\\"]>, fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }>[\\"update_fee_config\\"]>, fee_?: number | StdFee | \\"auto\\", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   deposit: (params: CamelCasedProperties<Extract<ExecuteMsg, {
     deposit: unknown;
-  }>[\\"deposit\\"]>, fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
-  withdraw: (fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
-  compound: (fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
-  batchUnbond: (fee?: number | StdFee | \\"auto\\", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }>[\\"deposit\\"]>, fee_?: number | StdFee | \\"auto\\", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
+  withdraw: (fee_?: number | StdFee | \\"auto\\", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
+  compound: (fee_?: number | StdFee | \\"auto\\", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
+  batchUnbond: (fee_?: number | StdFee | \\"auto\\", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
 }"
 `;
 
@@ -226,18 +281,18 @@ exports[`IbcMailClientAppClient 1`] = `
 
   sendMessage = async (params: CamelCasedProperties<Extract<ExecuteMsg, {
     send_message: unknown;
-  }>[\\"send_message\\"]>, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
-    return this._execute(IbcMailClientExecuteMsgBuilder.sendMessage(params), fee, memo, _funds);
+  }>[\\"send_message\\"]>, fee_: number | StdFee | \\"auto\\" = \\"auto\\", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+    return this._execute(IbcMailClientExecuteMsgBuilder.sendMessage(params), fee_, memo_, funds_);
   };
-  receiveMessage = async (message: Message, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
-    return this._execute(IbcMailClientExecuteMsgBuilder.receiveMessage(message), fee, memo, _funds);
+  receiveMessage = async (message: Message, fee_: number | StdFee | \\"auto\\" = \\"auto\\", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+    return this._execute(IbcMailClientExecuteMsgBuilder.receiveMessage(message), fee_, memo_, funds_);
   };
-  updateConfig = async (fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
-    return this._execute(IbcMailClientExecuteMsgBuilder.updateConfig(), fee, memo, _funds);
+  updateConfig = async (fee_: number | StdFee | \\"auto\\" = \\"auto\\", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+    return this._execute(IbcMailClientExecuteMsgBuilder.updateConfig(), fee_, memo_, funds_);
   };
-  _execute = async (msg: ExecuteMsg, fee: number | StdFee | \\"auto\\" = \\"auto\\", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  _execute = async (msg: ExecuteMsg, fee_: number | StdFee | \\"auto\\" = \\"auto\\", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     const moduleMsg: AppExecuteMsg<ExecuteMsg> = AppExecuteMsgFactory.executeApp(msg);
-    return await this.accountClient.abstract.client.execute(this.accountClient.sender, await this.getAddress(), moduleMsg, fee, memo, _funds);
+    return await this.accountClient.abstract.client.execute(this.accountClient.sender, await this.getAddress(), moduleMsg, fee_, memo_, funds_);
   };
 }"
 `;
