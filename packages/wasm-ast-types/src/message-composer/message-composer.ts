@@ -135,7 +135,7 @@ const createWasmExecMethodMessageComposer = (
                     ),
                     t.objectProperty(
                       t.identifier('funds'),
-                      t.identifier('_funds')
+                      t.identifier('funds_')
                     )
                   ])
                 ]

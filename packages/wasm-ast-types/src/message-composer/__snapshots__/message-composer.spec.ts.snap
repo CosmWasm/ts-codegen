@@ -10,7 +10,7 @@ exports[`createMessageComposerInterface 1`] = `
   }: {
     recipient: string;
     tokenId: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   sendNft: ({
     contract,
     msg,
@@ -19,7 +19,7 @@ exports[`createMessageComposerInterface 1`] = `
     contract: string;
     msg: Binary;
     tokenId: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   approve: ({
     expires,
     spender,
@@ -28,26 +28,26 @@ exports[`createMessageComposerInterface 1`] = `
     expires?: Expiration;
     spender: string;
     tokenId: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   revoke: ({
     spender,
     tokenId
   }: {
     spender: string;
     tokenId: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   approveAll: ({
     expires,
     operator
   }: {
     expires?: Expiration;
     operator: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   revokeAll: ({
     operator
   }: {
     operator: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   mint: ({
     extension,
     owner,
@@ -58,12 +58,12 @@ exports[`createMessageComposerInterface 1`] = `
     owner: string;
     tokenId: string;
     tokenUri?: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   burn: ({
     tokenId
   }: {
     tokenId: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
 }"
 `;
 
@@ -91,7 +91,7 @@ exports[`execute classes 1`] = `
   }: {
     recipient: string;
     tokenId: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       transfer_nft: {
         recipient,
@@ -104,7 +104,7 @@ exports[`execute classes 1`] = `
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -116,7 +116,7 @@ exports[`execute classes 1`] = `
     contract: string;
     msg: Binary;
     tokenId: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       send_nft: {
         contract,
@@ -130,7 +130,7 @@ exports[`execute classes 1`] = `
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -142,7 +142,7 @@ exports[`execute classes 1`] = `
     expires?: Expiration;
     spender: string;
     tokenId: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       approve: {
         expires,
@@ -156,7 +156,7 @@ exports[`execute classes 1`] = `
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -166,7 +166,7 @@ exports[`execute classes 1`] = `
   }: {
     spender: string;
     tokenId: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       revoke: {
         spender,
@@ -179,7 +179,7 @@ exports[`execute classes 1`] = `
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -189,7 +189,7 @@ exports[`execute classes 1`] = `
   }: {
     expires?: Expiration;
     operator: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       approve_all: {
         expires,
@@ -202,7 +202,7 @@ exports[`execute classes 1`] = `
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -210,7 +210,7 @@ exports[`execute classes 1`] = `
     operator
   }: {
     operator: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       revoke_all: {
         operator
@@ -222,7 +222,7 @@ exports[`execute classes 1`] = `
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -236,7 +236,7 @@ exports[`execute classes 1`] = `
     owner: string;
     tokenId: string;
     tokenUri?: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       mint: {
         extension,
@@ -251,7 +251,7 @@ exports[`execute classes 1`] = `
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -259,7 +259,7 @@ exports[`execute classes 1`] = `
     tokenId
   }: {
     tokenId: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       burn: {
         token_id: tokenId
@@ -271,7 +271,7 @@ exports[`execute classes 1`] = `
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -294,7 +294,7 @@ exports[`ownershipClass 1`] = `
     newFactory
   }: {
     newFactory: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       set_factory: {
         new_factory: newFactory
@@ -306,11 +306,11 @@ exports[`ownershipClass 1`] = `
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
-  updateOwnership = (action: Action, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  updateOwnership = (action: Action, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       update_ownership: {}
     };
@@ -320,7 +320,7 @@ exports[`ownershipClass 1`] = `
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -335,7 +335,7 @@ exports[`ownershipInterface 1`] = `
     newFactory
   }: {
     newFactory: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
-  updateOwnership: (action: Action, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
+  updateOwnership: (action: Action, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
 }"
 `;
