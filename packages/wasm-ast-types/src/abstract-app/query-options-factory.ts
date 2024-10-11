@@ -1,17 +1,8 @@
 import { RenderContext } from '../context';
 import * as t from '@babel/types';
-import {
-  createExtractTypeAnnotation,
-  createTypedObjectParams,
-  getMessageProperties,
-  getResponseType,
-  identifier,
-  shorthandProperty,
-  tsObjectPattern
-} from '../utils';
+import { createExtractTypeAnnotation, createTypedObjectParams, getMessageProperties, identifier } from '../utils';
 import { camel } from 'case';
-import { ExecuteMsg, QueryMsg } from '../types';
-import { getWasmMethodArgs } from '../client';
+import { QueryMsg } from '../types';
 
 type GenerationType = 'abstract-app' | 'contract';
 
@@ -55,14 +46,16 @@ const ABSTRACT_APP_QUERY_KEYS = t.objectExpression([
   // Abstract account Id
   t.objectProperty(
     t.identifier('accountId'),
-    t.memberExpression(
+    t.callExpression(
       t.memberExpression(
-        t.identifier('queryClient'),
-        t.identifier('accountQueryClient'),
-        false
+        t.memberExpression(
+          t.identifier('queryClient'),
+          t.identifier('accountPublicClient'),
+          false
+        ),
+        t.identifier('getRegistryAccountId')
       ),
-      t.identifier('accountId'),
-      false
+      []
     )
   ),
   // Abstract module Id

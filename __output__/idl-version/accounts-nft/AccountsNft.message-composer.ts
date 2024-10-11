@@ -8,7 +8,7 @@ import { Coin } from "@cosmjs/amino";
 import { MsgExecuteContractEncodeObject } from "@cosmjs/cosmwasm-stargate";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
-import { AppExecuteMsg, AppExecuteMsgFactory } from "@abstract-money/abstract.js";
+import { AppExecuteMsg, AppExecuteMsgFactory } from "@abstract-money/core";
 import { InstantiateMsg, ExecuteMsg, Binary, Expiration, Timestamp, Uint64, QueryMsg, VaultBaseForString, Uint128, ArrayOfSharesResponseItem, SharesResponseItem, AllNftInfoResponseForEmpty, OwnerOfResponse, Approval, NftInfoResponseForEmpty, Empty, OperatorsResponse, String, TokensResponse, ArrayOfVaultBaseForString, ApprovalResponse, ApprovalsResponse, ContractInfoResponse, MinterResponse, NumTokensResponse } from "./AccountsNft.types";
 export interface AccountsNftMessage {
   contractAddress: string;
@@ -17,20 +17,20 @@ export interface AccountsNftMessage {
     newOwner
   }: {
     newOwner: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
-  acceptOwnership: (_funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
+  acceptOwnership: (funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   mint: ({
     user
   }: {
     user: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   transferNft: ({
     recipient,
     tokenId
   }: {
     recipient: string;
     tokenId: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   sendNft: ({
     contract,
     msg,
@@ -39,7 +39,7 @@ export interface AccountsNftMessage {
     contract: string;
     msg: Binary;
     tokenId: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   approve: ({
     expires,
     spender,
@@ -48,31 +48,31 @@ export interface AccountsNftMessage {
     expires?: Expiration;
     spender: string;
     tokenId: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   revoke: ({
     spender,
     tokenId
   }: {
     spender: string;
     tokenId: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   approveAll: ({
     expires,
     operator
   }: {
     expires?: Expiration;
     operator: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   revokeAll: ({
     operator
   }: {
     operator: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   burn: ({
     tokenId
   }: {
     tokenId: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
 }
 export class AccountsNftMessageComposer implements AccountsNftMessage {
   sender: string;
@@ -97,7 +97,7 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
     newOwner
   }: {
     newOwner: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       propose_new_owner: {
         new_owner: newOwner
@@ -109,11 +109,11 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
-  acceptOwnership = (_funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  acceptOwnership = (funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       accept_ownership: {}
     };
@@ -123,7 +123,7 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -131,7 +131,7 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
     user
   }: {
     user: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       mint: {
         user
@@ -143,7 +143,7 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -153,7 +153,7 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
   }: {
     recipient: string;
     tokenId: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       transfer_nft: {
         recipient,
@@ -166,7 +166,7 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -178,7 +178,7 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
     contract: string;
     msg: Binary;
     tokenId: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       send_nft: {
         contract,
@@ -192,7 +192,7 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -204,7 +204,7 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
     expires?: Expiration;
     spender: string;
     tokenId: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       approve: {
         expires,
@@ -218,7 +218,7 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -228,7 +228,7 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
   }: {
     spender: string;
     tokenId: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       revoke: {
         spender,
@@ -241,7 +241,7 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -251,7 +251,7 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
   }: {
     expires?: Expiration;
     operator: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       approve_all: {
         expires,
@@ -264,7 +264,7 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -272,7 +272,7 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
     operator
   }: {
     operator: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       revoke_all: {
         operator
@@ -284,7 +284,7 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -292,7 +292,7 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
     tokenId
   }: {
     tokenId: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       burn: {
         token_id: tokenId
@@ -304,7 +304,7 @@ export class AccountsNftMessageComposer implements AccountsNftMessage {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };

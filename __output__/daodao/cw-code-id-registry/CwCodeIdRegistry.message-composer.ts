@@ -8,7 +8,7 @@ import { Coin } from "@cosmjs/amino";
 import { MsgExecuteContractEncodeObject } from "@cosmjs/cosmwasm-stargate";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
-import { AppExecuteMsg, AppExecuteMsgFactory } from "@abstract-money/abstract.js";
+import { AppExecuteMsg, AppExecuteMsgFactory } from "@abstract-money/core";
 import { Addr, PaymentInfo, Uint128, ConfigResponse, ExecuteMsg, Binary, Cw20ReceiveMsg, GetRegistrationResponse, Registration, InfoForCodeIdResponse, InstantiateMsg, ListRegistrationsResponse, QueryMsg, ReceiveMsg } from "./CwCodeIdRegistry.types";
 export interface CwCodeIdRegistryMessage {
   contractAddress: string;
@@ -21,7 +21,7 @@ export interface CwCodeIdRegistryMessage {
     amount: Uint128;
     msg: Binary;
     sender: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   register: ({
     chainId,
     checksum,
@@ -34,7 +34,7 @@ export interface CwCodeIdRegistryMessage {
     codeId: number;
     name: string;
     version: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   setOwner: ({
     chainId,
     name,
@@ -43,21 +43,21 @@ export interface CwCodeIdRegistryMessage {
     chainId: string;
     name: string;
     owner?: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   unregister: ({
     chainId,
     codeId
   }: {
     chainId: string;
     codeId: number;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   updateConfig: ({
     admin,
     paymentInfo
   }: {
     admin?: string;
     paymentInfo?: PaymentInfo;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
 }
 export class CwCodeIdRegistryMessageComposer implements CwCodeIdRegistryMessage {
   sender: string;
@@ -81,7 +81,7 @@ export class CwCodeIdRegistryMessageComposer implements CwCodeIdRegistryMessage 
     amount: Uint128;
     msg: Binary;
     sender: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       receive: {
         amount,
@@ -95,7 +95,7 @@ export class CwCodeIdRegistryMessageComposer implements CwCodeIdRegistryMessage 
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -111,7 +111,7 @@ export class CwCodeIdRegistryMessageComposer implements CwCodeIdRegistryMessage 
     codeId: number;
     name: string;
     version: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       register: {
         chain_id: chainId,
@@ -127,7 +127,7 @@ export class CwCodeIdRegistryMessageComposer implements CwCodeIdRegistryMessage 
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -139,7 +139,7 @@ export class CwCodeIdRegistryMessageComposer implements CwCodeIdRegistryMessage 
     chainId: string;
     name: string;
     owner?: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       set_owner: {
         chain_id: chainId,
@@ -153,7 +153,7 @@ export class CwCodeIdRegistryMessageComposer implements CwCodeIdRegistryMessage 
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -163,7 +163,7 @@ export class CwCodeIdRegistryMessageComposer implements CwCodeIdRegistryMessage 
   }: {
     chainId: string;
     codeId: number;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       unregister: {
         chain_id: chainId,
@@ -176,7 +176,7 @@ export class CwCodeIdRegistryMessageComposer implements CwCodeIdRegistryMessage 
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -186,7 +186,7 @@ export class CwCodeIdRegistryMessageComposer implements CwCodeIdRegistryMessage 
   }: {
     admin?: string;
     paymentInfo?: PaymentInfo;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       update_config: {
         admin,
@@ -199,7 +199,7 @@ export class CwCodeIdRegistryMessageComposer implements CwCodeIdRegistryMessage 
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };

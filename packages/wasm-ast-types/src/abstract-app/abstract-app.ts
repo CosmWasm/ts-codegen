@@ -57,15 +57,12 @@ export const createAbstractAppQueryFactory = (
 const CLASS_VARS = {
   moduleId: t.identifier('moduleId'),
   _moduleAddress: t.identifier('_moduleAddress'),
-  accountClient: t.identifier('accountClient'),
-  accountQueryClient: t.identifier('accountQueryClient')
+  accountWalletClient: t.identifier('accountWalletClient'),
+  accountPublicClient: t.identifier('accountPublicClient')
 };
 
-const ABSTRACT_ACCOUNT_CLIENT = 'AbstractAccountClient';
-const ABSTRACT_CLIENT = 'AbstractClient';
-const ABSTRACT_QUERY_CLIENT = 'AbstractQueryClient';
-const ABSTRACT_ACCOUNT_ID = 'AbstractAccountId';
-const ABSTRACT_ACCOUNT_QUERY_CLIENT = 'AbstractAccountQueryClient';
+const ACCOUNT_WALLET_CLIENT = 'AccountWalletClient';
+const ACCOUNT_PUBLIC_CLIENT = 'AccountPublicClient';
 const ADDRESS_GETTER_FN_NAME = 'getAddress';
 
 /**
@@ -123,28 +120,6 @@ function extractCamelcasedMethodParams(
   const staticQueryInterfaceMethods = (connectedAppClientName: string) => {
     return [
       t.tsPropertySignature(
-        t.identifier('connectSigningClient'),
-        t.tsTypeAnnotation(
-          t.tsFunctionType(
-            undefined,
-            // params
-            [
-              identifier(
-                'signingClient',
-                t.tsTypeAnnotation(
-                  t.tsTypeReference(t.identifier('SigningCosmWasmClient'))
-                )
-              ),
-              identifier('address', t.tsTypeAnnotation(t.tsStringKeyword()))
-            ],
-            // Return the connected app client
-            t.tsTypeAnnotation(
-              t.tsTypeReference(t.identifier(connectedAppClientName))
-            )
-          )
-        )
-      ),
-      t.tsPropertySignature(
         t.identifier(ADDRESS_GETTER_FN_NAME),
         t.tsTypeAnnotation(
           t.tsFunctionType(
@@ -165,7 +140,7 @@ function extractCamelcasedMethodParams(
     mutClassName: string,
     queryMsg: QueryMsg
   ) => {
-    context.addUtils(['SigningCosmWasmClient', ABSTRACT_QUERY_CLIENT]);
+    context.addUtils(['SigningCosmWasmClient', ACCOUNT_PUBLIC_CLIENT]);
 
     const methods = getMessageProperties(queryMsg).map((jsonschema) => {
       const underscoreName = Object.keys(jsonschema.properties)[0];
@@ -197,9 +172,9 @@ function extractCamelcasedMethodParams(
             t.tsTypeAnnotation(t.tsStringKeyword())
           ),
           t.tSPropertySignature(
-            CLASS_VARS.accountQueryClient,
+            CLASS_VARS.accountPublicClient,
             t.tsTypeAnnotation(
-              t.tsTypeReference(t.identifier(ABSTRACT_ACCOUNT_QUERY_CLIENT))
+              t.tsTypeReference(t.identifier(ACCOUNT_PUBLIC_CLIENT))
             )
           ),
           t.tSPropertySignature(
@@ -232,7 +207,7 @@ function extractCamelcasedMethodParams(
               t.memberExpression(
                 t.memberExpression(
                   t.thisExpression(),
-                  CLASS_VARS.accountQueryClient
+                  CLASS_VARS.accountPublicClient
                 ),
                 t.identifier('queryModule')
               ),
@@ -269,7 +244,7 @@ function extractCamelcasedMethodParams(
   ): t.ExportNamedDeclaration => {
     context.addUtils([
       'SigningCosmWasmClient',
-      ABSTRACT_ACCOUNT_CLIENT,
+      ACCOUNT_WALLET_CLIENT,
       'ExecuteResult',
       'AppExecuteMsg',
       'AppExecuteMsgFactory',
@@ -309,9 +284,9 @@ function extractCamelcasedMethodParams(
         extendsDeclaration,
         t.tSInterfaceBody([
           t.tSPropertySignature(
-            CLASS_VARS.accountClient,
+            CLASS_VARS.accountWalletClient,
             t.tsTypeAnnotation(
-              t.tsTypeReference(t.identifier(ABSTRACT_ACCOUNT_CLIENT))
+              t.tsTypeReference(t.identifier(ACCOUNT_WALLET_CLIENT))
             )
           ),
           ...methods
@@ -329,7 +304,7 @@ function extractCamelcasedMethodParams(
       t.objectProperty(t.identifier('proxyAddress'), t.memberExpression(
         t.memberExpression(
           t.thisExpression(),
-          CLASS_VARS.accountQueryClient
+          CLASS_VARS.accountPublicClient
         ),
         t.identifier('proxyAddress')
       ))
@@ -347,6 +322,40 @@ function extractCamelcasedMethodParams(
         ],
         t.blockStatement(
           [
+            t.variableDeclaration('const', [
+              t.variableDeclarator(
+                t.identifier('signingCwClient'),
+                t.awaitExpression(
+                  t.callExpression(
+                    t.memberExpression(
+                      t.memberExpression(
+                        t.thisExpression(),
+                        CLASS_VARS.accountWalletClient
+                      ),
+                      t.identifier('getSigningCosmWasmClient')
+                    ),
+                    []
+                  )
+                )
+              )
+            ]),
+            t.variableDeclaration('const', [
+              t.variableDeclarator(
+                t.identifier('sender'),
+                t.awaitExpression(
+                  t.callExpression(
+                    t.memberExpression(
+                      t.memberExpression(
+                        t.thisExpression(),
+                        CLASS_VARS.accountWalletClient
+                      ),
+                      t.identifier('getSenderAddress')
+                    ),
+                    []
+                  )
+                )
+              )
+            ]),
             t.variableDeclaration('const', [
               t.variableDeclarator(
                 identifier(
@@ -373,27 +382,11 @@ function extractCamelcasedMethodParams(
               t.awaitExpression(
                 t.callExpression(
                   t.memberExpression(
-                    t.memberExpression(
-                      t.memberExpression(
-                        t.memberExpression(
-                          t.thisExpression(),
-                          t.identifier('accountClient')
-                        ),
-                        t.identifier('abstract')
-                      ),
-                      t.identifier('client')
-                    ),
+                    t.identifier('signingCwClient'),
                     t.identifier('execute')
                   ),
                   [
-                    t.memberExpression(
-                      t.memberExpression(
-                        t.thisExpression(),
-
-                        t.identifier('accountClient')
-                      ),
-                      t.identifier('sender')
-                    ),
+                    t.identifier('sender'),
                     // get this module address
                     t.awaitExpression(
                       t.callExpression(
@@ -432,7 +425,7 @@ function extractCamelcasedMethodParams(
   ): t.ExportNamedDeclaration => {
     const moduleName = pascal(_moduleName);
 
-    context.addUtils([ABSTRACT_QUERY_CLIENT, ABSTRACT_ACCOUNT_QUERY_CLIENT]);
+    context.addUtils([ACCOUNT_PUBLIC_CLIENT, ACCOUNT_WALLET_CLIENT]);
 
     const propertyNames = getMessageProperties(queryMsg)
       .map((method) => Object.keys(method.properties)?.[0])
@@ -445,11 +438,6 @@ function extractCamelcasedMethodParams(
     });
 
     methods.push(ADDRESS_ACCESSOR_FN);
-    methods.push(
-      connectSigningClientMethod(
-        `${moduleName}${context.options.abstractApp?.clientPrefix ?? ''}Client`
-      )
-    );
     methods.push(QUERY_APP_FN(context.options.abstractApp.moduleType));
 
     return t.exportNamedDeclaration(
@@ -458,9 +446,9 @@ function extractCamelcasedMethodParams(
         [
           // client
           classProperty(
-            'accountQueryClient',
+            'accountPublicClient',
             t.tsTypeAnnotation(
-              t.tsTypeReference(t.identifier(ABSTRACT_ACCOUNT_QUERY_CLIENT))
+              t.tsTypeReference(t.identifier(ACCOUNT_PUBLIC_CLIENT))
             )
           ),
 
@@ -485,24 +473,10 @@ function extractCamelcasedMethodParams(
             [
               autoTypedObjectPattern([
                 shorthandProperty(
-                  'abstractQueryClient',
+                  'accountPublicClient',
                   t.tsTypeAnnotation(
-                    t.tsTypeReference(t.identifier(ABSTRACT_QUERY_CLIENT))
+                    t.tsTypeReference(t.identifier(ACCOUNT_PUBLIC_CLIENT))
                   )
-                ),
-                shorthandProperty(
-                  'accountId',
-                  t.tsTypeAnnotation(
-                    t.tsTypeReference(t.identifier(ABSTRACT_ACCOUNT_ID))
-                  )
-                ),
-                shorthandProperty(
-                  'managerAddress',
-                  t.tsTypeAnnotation(t.tsStringKeyword())
-                ),
-                shorthandProperty(
-                  'proxyAddress',
-                  t.tsTypeAnnotation(t.tsStringKeyword())
                 ),
                 shorthandProperty(
                   'moduleId',
@@ -516,21 +490,9 @@ function extractCamelcasedMethodParams(
                   '=',
                   t.memberExpression(
                     t.thisExpression(),
-                    CLASS_VARS.accountQueryClient
+                    CLASS_VARS.accountPublicClient
                   ),
-                  t.newExpression(t.identifier(ABSTRACT_ACCOUNT_QUERY_CLIENT), [
-                    t.objectExpression([
-                      t.objectProperty(
-                        t.identifier('abstract'),
-                        t.identifier('abstractQueryClient'),
-                        false,
-                        true
-                      ),
-                      shorthandProperty('accountId'),
-                      shorthandProperty('managerAddress'),
-                      shorthandProperty('proxyAddress')
-                    ])
-                  ])
+                  t.identifier('accountPublicClient')
                 )
               ),
               t.expressionStatement(
@@ -575,15 +537,21 @@ function extractCamelcasedMethodParams(
                       t.memberExpression(
                         t.memberExpression(
                           t.thisExpression(),
-                          CLASS_VARS.accountQueryClient
+                          CLASS_VARS.accountPublicClient
                         ),
                         t.identifier('getModuleAddress')
                       ),
                       [
-                        t.memberExpression(
-                          t.thisExpression(),
-                          t.identifier('moduleId')
-                        )
+                        t.objectExpression([
+                          t.objectProperty(
+                            t.identifier('id'
+                            ),
+                            t.memberExpression(
+                              t.thisExpression(),
+                              t.identifier('moduleId')
+                            )
+                          )
+                        ])
                       ]
                     )
                   )
@@ -630,82 +598,6 @@ function extractCamelcasedMethodParams(
     )
   );
 
-
-  const connectSigningClientMethod = (mutClientName: string) => {
-    return t.classProperty(
-      t.identifier('connectSigningClient'),
-      arrowFunctionExpression(
-        [
-          identifier(
-            'signingClient',
-            t.tsTypeAnnotation(
-              t.tsTypeReference(t.identifier('SigningCosmWasmClient'))
-            )
-          ),
-          identifier('address', t.tsTypeAnnotation(t.tsStringKeyword()))
-        ],
-        t.blockStatement([
-          t.returnStatement(
-            t.newExpression(t.identifier(mutClientName), [
-              t.objectExpression([
-                t.objectProperty(
-                  t.identifier('accountId'),
-                  t.memberExpression(
-                    t.memberExpression(
-                      t.thisExpression(),
-                      CLASS_VARS.accountQueryClient
-                    ),
-                    t.identifier('accountId')
-                  )
-                ),
-                t.objectProperty(
-                  t.identifier('managerAddress'),
-                  t.memberExpression(
-                    t.memberExpression(
-                      t.thisExpression(),
-                      CLASS_VARS.accountQueryClient
-                    ),
-                    t.identifier('managerAddress')
-                  )
-                ),
-                t.objectProperty(
-                  t.identifier('proxyAddress'),
-                  t.memberExpression(
-                    t.memberExpression(
-                      t.thisExpression(),
-                      CLASS_VARS.accountQueryClient
-                    ),
-                    t.identifier('proxyAddress')
-                  )
-                ),
-                t.objectProperty(
-                  t.identifier('moduleId'),
-                  t.memberExpression(t.thisExpression(), t.identifier('moduleId'))
-                ),
-                t.objectProperty(
-                  t.identifier('abstractClient'),
-                  t.callExpression(
-                    t.memberExpression(
-                      t.memberExpression(
-                        t.memberExpression(
-                          t.thisExpression(),
-                          CLASS_VARS.accountQueryClient
-                        ),
-                        t.identifier('abstract')
-                      ),
-                      t.identifier('connectSigningClient')
-                    ),
-                    [t.identifier('signingClient'), t.identifier('address')]
-                  )
-                )
-              ])
-            ])
-          )
-        ]),
-        t.tsTypeAnnotation(t.tsTypeReference(t.identifier(mutClientName)))
-      )
-    );
-  };
 
   /*
     public pendingClaims = async (
@@ -774,11 +666,9 @@ function extractCamelcasedMethodParams(
     const moduleType = context.options.abstractApp?.moduleType ?? 'app';
 
     context.addUtils([
-      ABSTRACT_ACCOUNT_CLIENT,
+      ACCOUNT_WALLET_CLIENT,
       'StdFee',
       'Coin',
-      ABSTRACT_CLIENT,
-      ABSTRACT_ACCOUNT_ID
     ]);
 
     const propertyNames = getMessageProperties(execMsg)
@@ -799,12 +689,11 @@ function extractCamelcasedMethodParams(
         [
           // client
           classProperty(
-            'accountClient',
+            'accountWalletClient',
             t.tsTypeAnnotation(
-              t.tsTypeReference(t.identifier(ABSTRACT_ACCOUNT_CLIENT))
+              t.tsTypeReference(t.identifier(ACCOUNT_WALLET_CLIENT))
             )
           ),
-
           // constructor
           t.classMethod(
             'constructor',
@@ -813,24 +702,16 @@ function extractCamelcasedMethodParams(
             [
               autoTypedObjectPattern([
                 shorthandProperty(
-                  'abstractClient',
+                  'accountPublicClient',
                   t.tsTypeAnnotation(
-                    t.tsTypeReference(t.identifier(ABSTRACT_CLIENT))
+                    t.tsTypeReference(t.identifier(ACCOUNT_PUBLIC_CLIENT))
                   )
                 ),
                 shorthandProperty(
-                  'accountId',
+                  'accountWalletClient',
                   t.tsTypeAnnotation(
-                    t.tsTypeReference(t.identifier(ABSTRACT_ACCOUNT_ID))
+                    t.tsTypeReference(t.identifier(ACCOUNT_WALLET_CLIENT))
                   )
-                ),
-                shorthandProperty(
-                  'managerAddress',
-                  t.tsTypeAnnotation(t.tsStringKeyword())
-                ),
-                shorthandProperty(
-                  'proxyAddress',
-                  t.tsTypeAnnotation(t.tsStringKeyword())
                 ),
                 shorthandProperty(
                   'moduleId',
@@ -843,15 +724,7 @@ function extractCamelcasedMethodParams(
                 // TODO!
                 t.callExpression(t.super(), [
                   t.objectExpression([
-                    t.objectProperty(
-                      identifier('abstractQueryClient', undefined),
-                      t.identifier('abstractClient'),
-                      false,
-                      true
-                    ),
-                    shorthandProperty('accountId'),
-                    shorthandProperty('managerAddress'),
-                    shorthandProperty('proxyAddress'),
+                    shorthandProperty('accountPublicClient'),
                     shorthandProperty('moduleId')
                   ])
                 ])
@@ -861,27 +734,14 @@ function extractCamelcasedMethodParams(
                   '=',
                   t.memberExpression(
                     t.thisExpression(),
-                    CLASS_VARS.accountClient
+                    CLASS_VARS.accountWalletClient
                   ),
-                  t.callExpression(
-                    t.memberExpression(
-                      t.identifier(ABSTRACT_ACCOUNT_CLIENT),
-                      t.identifier('fromQueryClient')
-                    ),
-                    [
-                      t.memberExpression(
-                        t.thisExpression(),
-                        CLASS_VARS.accountQueryClient
-                      ),
-                      t.identifier('abstractClient')
-                    ]
-                  )
+                  t.identifier('accountWalletClient')
                 )
               ),
               ...bindings
             ])
           ),
-
           ...methods
         ],
         [t.tSExpressionWithTypeArguments(t.identifier(implementsClassName))],

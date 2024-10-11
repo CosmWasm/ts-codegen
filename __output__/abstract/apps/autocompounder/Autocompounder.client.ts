@@ -6,13 +6,13 @@
 
 import { CamelCasedProperties } from "type-fest";
 import { SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
-import { AbstractQueryClient, AbstractAccountQueryClient, AbstractAccountClient, AppExecuteMsg, AppExecuteMsgFactory, AdapterExecuteMsg, AdapterExecuteMsgFactory, AbstractClient, AbstractAccountId } from "@abstract-money/abstract.js";
+import { AccountPublicClient, AccountWalletClient, AppExecuteMsg, AppExecuteMsgFactory, AdapterExecuteMsg, AdapterExecuteMsgFactory } from "@abstract-money/core";
 import { StdFee, Coin } from "@cosmjs/amino";
 import { Decimal, AssetEntry, BondingPeriodSelector, Duration, InstantiateMsg, ExecuteMsg, Uint128, AnsAsset, QueryMsg, MigrateMsg, Expiration, Timestamp, Uint64, ArrayOfTupleOfStringAndArrayOfClaim, Claim, ArrayOfClaim, Addr, PoolAddressBaseForAddr, AssetInfoBaseForAddr, PoolType, Config, PoolMetadata } from "./Autocompounder.types";
 import { AutocompounderQueryMsgBuilder, AutocompounderExecuteMsgBuilder } from "./Autocompounder.message-builder";
 export interface IAutocompounderAppQueryClient {
   moduleId: string;
-  accountQueryClient: AbstractAccountQueryClient;
+  accountPublicClient: AccountPublicClient;
   _moduleAddress: string | undefined;
   config: () => Promise<Config>;
   pendingClaims: (params: CamelCasedProperties<Extract<QueryMsg, {
@@ -29,33 +29,21 @@ export interface IAutocompounderAppQueryClient {
   balance: (params: CamelCasedProperties<Extract<QueryMsg, {
     balance: unknown;
   }>["balance"]>) => Promise<Uint128>;
-  connectSigningClient: (signingClient: SigningCosmWasmClient, address: string) => AutocompounderAppClient;
   getAddress: () => Promise<string>;
 }
 export class AutocompounderAppQueryClient implements IAutocompounderAppQueryClient {
-  accountQueryClient: AbstractAccountQueryClient;
+  accountPublicClient: AccountPublicClient;
   moduleId: string;
   _moduleAddress: string | undefined;
 
   constructor({
-    abstractQueryClient,
-    accountId,
-    managerAddress,
-    proxyAddress,
+    accountPublicClient,
     moduleId
   }: {
-    abstractQueryClient: AbstractQueryClient;
-    accountId: AbstractAccountId;
-    managerAddress: string;
-    proxyAddress: string;
+    accountPublicClient: AccountPublicClient;
     moduleId: string;
   }) {
-    this.accountQueryClient = new AbstractAccountQueryClient({
-      abstract: abstractQueryClient,
-      accountId,
-      managerAddress,
-      proxyAddress
-    });
+    this.accountPublicClient = accountPublicClient;
     this.moduleId = moduleId;
     this.config = this.config.bind(this);
     this.pendingClaims = this.pendingClaims.bind(this);
@@ -97,7 +85,9 @@ export class AutocompounderAppQueryClient implements IAutocompounderAppQueryClie
   };
   getAddress = async (): Promise<string> => {
     if (!this._moduleAddress) {
-      const address = await this.accountQueryClient.getModuleAddress(this.moduleId);
+      const address = await this.accountPublicClient.getModuleAddress({
+        id: this.moduleId
+      });
 
       if (address === null) {
         throw new Error(`Module ${this.moduleId} not installed`);
@@ -108,17 +98,8 @@ export class AutocompounderAppQueryClient implements IAutocompounderAppQueryClie
 
     return this._moduleAddress!;
   };
-  connectSigningClient = (signingClient: SigningCosmWasmClient, address: string): AutocompounderAppClient => {
-    return new AutocompounderAppClient({
-      accountId: this.accountQueryClient.accountId,
-      managerAddress: this.accountQueryClient.managerAddress,
-      proxyAddress: this.accountQueryClient.proxyAddress,
-      moduleId: this.moduleId,
-      abstractClient: this.accountQueryClient.abstract.connectSigningClient(signingClient, address)
-    });
-  };
   _query = async (queryMsg: QueryMsg): Promise<any> => {
-    return this.accountQueryClient.queryModule({
+    return this.accountPublicClient.queryModule({
       moduleId: this.moduleId,
       moduleType: "app",
       queryMsg
@@ -126,41 +107,34 @@ export class AutocompounderAppQueryClient implements IAutocompounderAppQueryClie
   };
 }
 export interface IAutocompounderAppClient extends IAutocompounderAppQueryClient {
-  accountClient: AbstractAccountClient;
+  accountWalletClient: AccountWalletClient;
   updateFeeConfig: (params: CamelCasedProperties<Extract<ExecuteMsg, {
     update_fee_config: unknown;
-  }>["update_fee_config"]>, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }>["update_fee_config"]>, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   deposit: (params: CamelCasedProperties<Extract<ExecuteMsg, {
     deposit: unknown;
-  }>["deposit"]>, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
-  withdraw: (fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
-  compound: (fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
-  batchUnbond: (fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }>["deposit"]>, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
+  withdraw: (fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
+  compound: (fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
+  batchUnbond: (fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
 }
 export class AutocompounderAppClient extends AutocompounderAppQueryClient implements IAutocompounderAppClient {
-  accountClient: AbstractAccountClient;
+  accountWalletClient: AccountWalletClient;
 
   constructor({
-    abstractClient,
-    accountId,
-    managerAddress,
-    proxyAddress,
+    accountPublicClient,
+    accountWalletClient,
     moduleId
   }: {
-    abstractClient: AbstractClient;
-    accountId: AbstractAccountId;
-    managerAddress: string;
-    proxyAddress: string;
+    accountPublicClient: AccountPublicClient;
+    accountWalletClient: AccountWalletClient;
     moduleId: string;
   }) {
     super({
-      abstractQueryClient: abstractClient,
-      accountId,
-      managerAddress,
-      proxyAddress,
+      accountPublicClient,
       moduleId
     });
-    this.accountClient = AbstractAccountClient.fromQueryClient(this.accountQueryClient, abstractClient);
+    this.accountWalletClient = accountWalletClient;
     this.updateFeeConfig = this.updateFeeConfig.bind(this);
     this.deposit = this.deposit.bind(this);
     this.withdraw = this.withdraw.bind(this);
@@ -170,25 +144,27 @@ export class AutocompounderAppClient extends AutocompounderAppQueryClient implem
 
   updateFeeConfig = async (params: CamelCasedProperties<Extract<ExecuteMsg, {
     update_fee_config: unknown;
-  }>["update_fee_config"]>, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
-    return this._execute(AutocompounderExecuteMsgBuilder.updateFeeConfig(params), fee, memo, _funds);
+  }>["update_fee_config"]>, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+    return this._execute(AutocompounderExecuteMsgBuilder.updateFeeConfig(params), fee_, memo_, funds_);
   };
   deposit = async (params: CamelCasedProperties<Extract<ExecuteMsg, {
     deposit: unknown;
-  }>["deposit"]>, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
-    return this._execute(AutocompounderExecuteMsgBuilder.deposit(params), fee, memo, _funds);
+  }>["deposit"]>, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+    return this._execute(AutocompounderExecuteMsgBuilder.deposit(params), fee_, memo_, funds_);
   };
-  withdraw = async (fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
-    return this._execute(AutocompounderExecuteMsgBuilder.withdraw(), fee, memo, _funds);
+  withdraw = async (fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+    return this._execute(AutocompounderExecuteMsgBuilder.withdraw(), fee_, memo_, funds_);
   };
-  compound = async (fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
-    return this._execute(AutocompounderExecuteMsgBuilder.compound(), fee, memo, _funds);
+  compound = async (fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+    return this._execute(AutocompounderExecuteMsgBuilder.compound(), fee_, memo_, funds_);
   };
-  batchUnbond = async (fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
-    return this._execute(AutocompounderExecuteMsgBuilder.batchUnbond(), fee, memo, _funds);
+  batchUnbond = async (fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+    return this._execute(AutocompounderExecuteMsgBuilder.batchUnbond(), fee_, memo_, funds_);
   };
-  _execute = async (msg: ExecuteMsg, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  _execute = async (msg: ExecuteMsg, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+    const signingCwClient = await this.accountWalletClient.getSigningCosmWasmClient();
+    const sender = await this.accountWalletClient.getSenderAddress();
     const moduleMsg: AppExecuteMsg<ExecuteMsg> = AppExecuteMsgFactory.executeApp(msg);
-    return await this.accountClient.abstract.client.execute(this.accountClient.sender, await this.getAddress(), moduleMsg, fee, memo, _funds);
+    return await signingCwClient.execute(sender, await this.getAddress(), moduleMsg, fee_, memo_, funds_);
   };
 }

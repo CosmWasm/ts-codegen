@@ -8,7 +8,7 @@ import { Coin } from "@cosmjs/amino";
 import { MsgExecuteContractEncodeObject } from "@cosmjs/cosmwasm-stargate";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
-import { AppExecuteMsg, AppExecuteMsgFactory } from "@abstract-money/abstract.js";
+import { AppExecuteMsg, AppExecuteMsgFactory } from "@abstract-money/core";
 import { Decimal, AssetEntry, BondingPeriodSelector, Duration, InstantiateMsg, ExecuteMsg, Uint128, AnsAsset, QueryMsg, MigrateMsg, Expiration, Timestamp, Uint64, ArrayOfTupleOfStringAndArrayOfClaim, Claim, ArrayOfClaim, Addr, PoolAddressBaseForAddr, AssetInfoBaseForAddr, PoolType, Config, PoolMetadata } from "./Autocompounder.types";
 export interface AutocompounderMsg {
   contractAddress: string;
@@ -21,15 +21,15 @@ export interface AutocompounderMsg {
     deposit?: Decimal;
     performance?: Decimal;
     withdrawal?: Decimal;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   deposit: ({
     funds
   }: {
     funds: AnsAsset[];
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
-  withdraw: (_funds?: Coin[]) => MsgExecuteContractEncodeObject;
-  compound: (_funds?: Coin[]) => MsgExecuteContractEncodeObject;
-  batchUnbond: (_funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
+  withdraw: (funds_?: Coin[]) => MsgExecuteContractEncodeObject;
+  compound: (funds_?: Coin[]) => MsgExecuteContractEncodeObject;
+  batchUnbond: (funds_?: Coin[]) => MsgExecuteContractEncodeObject;
 }
 export class AutocompounderMsgComposer implements AutocompounderMsg {
   sender: string;
@@ -53,7 +53,7 @@ export class AutocompounderMsgComposer implements AutocompounderMsg {
     deposit?: Decimal;
     performance?: Decimal;
     withdrawal?: Decimal;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       update_fee_config: {
         deposit,
@@ -68,7 +68,7 @@ export class AutocompounderMsgComposer implements AutocompounderMsg {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(moduleMsg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -76,7 +76,7 @@ export class AutocompounderMsgComposer implements AutocompounderMsg {
     funds
   }: {
     funds: AnsAsset[];
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       deposit: {
         funds
@@ -89,11 +89,11 @@ export class AutocompounderMsgComposer implements AutocompounderMsg {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(moduleMsg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
-  withdraw = (_funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  withdraw = (funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       withdraw: {}
     };
@@ -104,11 +104,11 @@ export class AutocompounderMsgComposer implements AutocompounderMsg {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(moduleMsg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
-  compound = (_funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  compound = (funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       compound: {}
     };
@@ -119,11 +119,11 @@ export class AutocompounderMsgComposer implements AutocompounderMsg {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(moduleMsg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
-  batchUnbond = (_funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  batchUnbond = (funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       batch_unbond: {}
     };
@@ -134,7 +134,7 @@ export class AutocompounderMsgComposer implements AutocompounderMsg {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(moduleMsg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };

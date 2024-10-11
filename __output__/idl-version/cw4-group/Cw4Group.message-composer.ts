@@ -8,7 +8,7 @@ import { Coin } from "@cosmjs/amino";
 import { MsgExecuteContractEncodeObject } from "@cosmjs/cosmwasm-stargate";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
-import { AppExecuteMsg, AppExecuteMsgFactory } from "@abstract-money/abstract.js";
+import { AppExecuteMsg, AppExecuteMsgFactory } from "@abstract-money/core";
 import { InstantiateMsg, Member, ExecuteMsg, QueryMsg, AdminResponse, HooksResponse, MemberListResponse, MemberResponse, TotalWeightResponse } from "./Cw4Group.types";
 export interface Cw4GroupMessage {
   contractAddress: string;
@@ -17,24 +17,24 @@ export interface Cw4GroupMessage {
     admin
   }: {
     admin?: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   updateMembers: ({
     add,
     remove
   }: {
     add: Member[];
     remove: string[];
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   addHook: ({
     addr
   }: {
     addr: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   removeHook: ({
     addr
   }: {
     addr: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
 }
 export class Cw4GroupMessageComposer implements Cw4GroupMessage {
   sender: string;
@@ -53,7 +53,7 @@ export class Cw4GroupMessageComposer implements Cw4GroupMessage {
     admin
   }: {
     admin?: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       update_admin: {
         admin
@@ -65,7 +65,7 @@ export class Cw4GroupMessageComposer implements Cw4GroupMessage {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -75,7 +75,7 @@ export class Cw4GroupMessageComposer implements Cw4GroupMessage {
   }: {
     add: Member[];
     remove: string[];
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       update_members: {
         add,
@@ -88,7 +88,7 @@ export class Cw4GroupMessageComposer implements Cw4GroupMessage {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -96,7 +96,7 @@ export class Cw4GroupMessageComposer implements Cw4GroupMessage {
     addr
   }: {
     addr: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       add_hook: {
         addr
@@ -108,7 +108,7 @@ export class Cw4GroupMessageComposer implements Cw4GroupMessage {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -116,7 +116,7 @@ export class Cw4GroupMessageComposer implements Cw4GroupMessage {
     addr
   }: {
     addr: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       remove_hook: {
         addr
@@ -128,7 +128,7 @@ export class Cw4GroupMessageComposer implements Cw4GroupMessage {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };

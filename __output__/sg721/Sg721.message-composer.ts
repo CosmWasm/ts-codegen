@@ -8,7 +8,7 @@ import { Coin } from "@cosmjs/amino";
 import { MsgExecuteContractEncodeObject } from "@cosmjs/cosmwasm-stargate";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
-import { AppExecuteMsg, AppExecuteMsgFactory } from "@abstract-money/abstract.js";
+import { AppExecuteMsg, AppExecuteMsgFactory } from "@abstract-money/core";
 import { Expiration, Timestamp, Uint64, AllNftInfoResponse, OwnerOfResponse, Approval, NftInfoResponseForEmpty, Empty, AllOperatorsResponse, AllTokensResponse, ApprovalResponse, ApprovalsResponse, Decimal, CollectionInfoResponse, RoyaltyInfoResponse, ContractInfoResponse, ExecuteMsgForEmpty, Binary, MintMsgForEmpty, InstantiateMsg, CollectionInfoForRoyaltyInfoResponse, MinterResponse, NftInfoResponse, NumTokensResponse, OperatorsResponse, QueryMsg, TokensResponse } from "./Sg721.types";
 export interface Sg721Message {
   contractAddress: string;
@@ -19,7 +19,7 @@ export interface Sg721Message {
   }: {
     recipient: string;
     tokenId: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   sendNft: ({
     contract,
     msg,
@@ -28,7 +28,7 @@ export interface Sg721Message {
     contract: string;
     msg: Binary;
     tokenId: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   approve: ({
     expires,
     spender,
@@ -37,26 +37,26 @@ export interface Sg721Message {
     expires?: Expiration;
     spender: string;
     tokenId: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   revoke: ({
     spender,
     tokenId
   }: {
     spender: string;
     tokenId: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   approveAll: ({
     expires,
     operator
   }: {
     expires?: Expiration;
     operator: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   revokeAll: ({
     operator
   }: {
     operator: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   mint: ({
     extension,
     owner,
@@ -67,12 +67,12 @@ export interface Sg721Message {
     owner: string;
     tokenId: string;
     tokenUri?: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   burn: ({
     tokenId
   }: {
     tokenId: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
 }
 export class Sg721MessageComposer implements Sg721Message {
   sender: string;
@@ -97,7 +97,7 @@ export class Sg721MessageComposer implements Sg721Message {
   }: {
     recipient: string;
     tokenId: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       transfer_nft: {
         recipient,
@@ -110,7 +110,7 @@ export class Sg721MessageComposer implements Sg721Message {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -122,7 +122,7 @@ export class Sg721MessageComposer implements Sg721Message {
     contract: string;
     msg: Binary;
     tokenId: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       send_nft: {
         contract,
@@ -136,7 +136,7 @@ export class Sg721MessageComposer implements Sg721Message {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -148,7 +148,7 @@ export class Sg721MessageComposer implements Sg721Message {
     expires?: Expiration;
     spender: string;
     tokenId: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       approve: {
         expires,
@@ -162,7 +162,7 @@ export class Sg721MessageComposer implements Sg721Message {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -172,7 +172,7 @@ export class Sg721MessageComposer implements Sg721Message {
   }: {
     spender: string;
     tokenId: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       revoke: {
         spender,
@@ -185,7 +185,7 @@ export class Sg721MessageComposer implements Sg721Message {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -195,7 +195,7 @@ export class Sg721MessageComposer implements Sg721Message {
   }: {
     expires?: Expiration;
     operator: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       approve_all: {
         expires,
@@ -208,7 +208,7 @@ export class Sg721MessageComposer implements Sg721Message {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -216,7 +216,7 @@ export class Sg721MessageComposer implements Sg721Message {
     operator
   }: {
     operator: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       revoke_all: {
         operator
@@ -228,7 +228,7 @@ export class Sg721MessageComposer implements Sg721Message {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -242,7 +242,7 @@ export class Sg721MessageComposer implements Sg721Message {
     owner: string;
     tokenId: string;
     tokenUri?: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       mint: {
         extension,
@@ -257,7 +257,7 @@ export class Sg721MessageComposer implements Sg721Message {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -265,7 +265,7 @@ export class Sg721MessageComposer implements Sg721Message {
     tokenId
   }: {
     tokenId: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       burn: {
         token_id: tokenId
@@ -277,7 +277,7 @@ export class Sg721MessageComposer implements Sg721Message {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };

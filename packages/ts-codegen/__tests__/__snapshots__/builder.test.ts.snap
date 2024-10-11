@@ -10,6 +10,7 @@ TSBuilder {
     "abstractApp": Object {
       "clientPrefix": "App",
       "enabled": false,
+      "moduleType": "app",
     },
     "bundle": Object {
       "bundleFile": "bundle.ts",
@@ -52,6 +53,7 @@ TSBuilder {
         "abstractApp": Object {
           "clientPrefix": "App",
           "enabled": false,
+          "moduleType": "app",
         },
         "bundle": Object {
           "bundleFile": "bundle.ts",
@@ -95,6 +97,7 @@ TSBuilder {
         "abstractApp": Object {
           "clientPrefix": "App",
           "enabled": false,
+          "moduleType": "app",
         },
         "bundle": Object {
           "bundleFile": "bundle.ts",
@@ -138,6 +141,7 @@ TSBuilder {
         "abstractApp": Object {
           "clientPrefix": "App",
           "enabled": false,
+          "moduleType": "app",
         },
         "bundle": Object {
           "bundleFile": "bundle.ts",
@@ -181,6 +185,7 @@ TSBuilder {
         "abstractApp": Object {
           "clientPrefix": "App",
           "enabled": false,
+          "moduleType": "app",
         },
         "bundle": Object {
           "bundleFile": "bundle.ts",
@@ -224,6 +229,7 @@ TSBuilder {
         "abstractApp": Object {
           "clientPrefix": "App",
           "enabled": false,
+          "moduleType": "app",
         },
         "bundle": Object {
           "bundleFile": "bundle.ts",
@@ -267,6 +273,7 @@ TSBuilder {
         "abstractApp": Object {
           "clientPrefix": "App",
           "enabled": false,
+          "moduleType": "app",
         },
         "bundle": Object {
           "bundleFile": "bundle.ts",
@@ -312,6 +319,7 @@ TSBuilder {
         "abstractApp": Object {
           "clientPrefix": "App",
           "enabled": false,
+          "moduleType": "app",
         },
         "bundle": Object {
           "bundleFile": "bundle.ts",
@@ -355,6 +363,7 @@ TSBuilder {
         "abstractApp": Object {
           "clientPrefix": "App",
           "enabled": false,
+          "moduleType": "app",
         },
         "bundle": Object {
           "bundleFile": "bundle.ts",
@@ -410,6 +419,7 @@ TSBuilder {
     "abstractApp": Object {
       "clientPrefix": "App",
       "enabled": false,
+      "moduleType": "app",
     },
     "bundle": Object {
       "bundleFile": "bundle.ts",
@@ -452,6 +462,7 @@ TSBuilder {
         "abstractApp": Object {
           "clientPrefix": "App",
           "enabled": false,
+          "moduleType": "app",
         },
         "bundle": Object {
           "bundleFile": "bundle.ts",
@@ -495,6 +506,7 @@ TSBuilder {
         "abstractApp": Object {
           "clientPrefix": "App",
           "enabled": false,
+          "moduleType": "app",
         },
         "bundle": Object {
           "bundleFile": "bundle.ts",
@@ -538,6 +550,7 @@ TSBuilder {
         "abstractApp": Object {
           "clientPrefix": "App",
           "enabled": false,
+          "moduleType": "app",
         },
         "bundle": Object {
           "bundleFile": "bundle.ts",
@@ -581,6 +594,7 @@ TSBuilder {
         "abstractApp": Object {
           "clientPrefix": "App",
           "enabled": false,
+          "moduleType": "app",
         },
         "bundle": Object {
           "bundleFile": "bundle.ts",
@@ -624,6 +638,7 @@ TSBuilder {
         "abstractApp": Object {
           "clientPrefix": "App",
           "enabled": false,
+          "moduleType": "app",
         },
         "bundle": Object {
           "bundleFile": "bundle.ts",
@@ -667,6 +682,7 @@ TSBuilder {
         "abstractApp": Object {
           "clientPrefix": "App",
           "enabled": false,
+          "moduleType": "app",
         },
         "bundle": Object {
           "bundleFile": "bundle.ts",
@@ -712,6 +728,7 @@ TSBuilder {
         "abstractApp": Object {
           "clientPrefix": "App",
           "enabled": false,
+          "moduleType": "app",
         },
         "bundle": Object {
           "bundleFile": "bundle.ts",
@@ -755,6 +772,7 @@ TSBuilder {
         "abstractApp": Object {
           "clientPrefix": "App",
           "enabled": false,
+          "moduleType": "app",
         },
         "bundle": Object {
           "bundleFile": "bundle.ts",

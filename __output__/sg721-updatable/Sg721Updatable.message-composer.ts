@@ -8,27 +8,27 @@ import { Coin } from "@cosmjs/amino";
 import { MsgExecuteContractEncodeObject } from "@cosmjs/cosmwasm-stargate";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
-import { AppExecuteMsg, AppExecuteMsgFactory } from "@abstract-money/abstract.js";
+import { AppExecuteMsg, AppExecuteMsgFactory } from "@abstract-money/core";
 import { Expiration, Timestamp, Uint64, AllNftInfoResponse, OwnerOfResponse, Approval, NftInfoResponseForEmpty, Empty, AllOperatorsResponse, AllTokensResponse, ApprovalResponse, ApprovalsResponse, Decimal, CollectionInfoResponse, RoyaltyInfoResponse, ContractInfoResponse, ExecuteMsgForNullable_EmptyAndEmpty, Binary, UpdateCollectionInfoMsgForRoyaltyInfoResponse, InstantiateMsg, CollectionInfoForRoyaltyInfoResponse, MinterResponse, NftInfoResponse, NumTokensResponse, QueryMsg, TokensResponse } from "./Sg721Updatable.types";
 export interface Sg721UpdatableMsg {
   contractAddress: string;
   sender: string;
-  freezeTokenMetadata: (_funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  freezeTokenMetadata: (funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   updateTokenMetadata: ({
     tokenId,
     tokenUri
   }: {
     tokenId: string;
     tokenUri?: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
-  enableUpdatable: (_funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
+  enableUpdatable: (funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   transferNft: ({
     recipient,
     tokenId
   }: {
     recipient: string;
     tokenId: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   sendNft: ({
     contract,
     msg,
@@ -37,7 +37,7 @@ export interface Sg721UpdatableMsg {
     contract: string;
     msg: Binary;
     tokenId: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   approve: ({
     expires,
     spender,
@@ -46,38 +46,38 @@ export interface Sg721UpdatableMsg {
     expires?: Expiration;
     spender: string;
     tokenId: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   revoke: ({
     spender,
     tokenId
   }: {
     spender: string;
     tokenId: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   approveAll: ({
     expires,
     operator
   }: {
     expires?: Expiration;
     operator: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   revokeAll: ({
     operator
   }: {
     operator: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   burn: ({
     tokenId
   }: {
     tokenId: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   updateCollectionInfo: ({
     collectionInfo
   }: {
     collectionInfo: UpdateCollectionInfoMsgForRoyaltyInfoResponse;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
-  updateTradingStartTime: (_funds?: Coin[]) => MsgExecuteContractEncodeObject;
-  freezeCollectionInfo: (_funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
+  updateTradingStartTime: (funds_?: Coin[]) => MsgExecuteContractEncodeObject;
+  freezeCollectionInfo: (funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   mint: ({
     extension,
     owner,
@@ -88,12 +88,12 @@ export interface Sg721UpdatableMsg {
     owner: string;
     tokenId: string;
     tokenUri?: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   extension: ({
     msg
   }: {
     msg: Empty;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
 }
 export class Sg721UpdatableMsgComposer implements Sg721UpdatableMsg {
   sender: string;
@@ -119,7 +119,7 @@ export class Sg721UpdatableMsgComposer implements Sg721UpdatableMsg {
     this.extension = this.extension.bind(this);
   }
 
-  freezeTokenMetadata = (_funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  freezeTokenMetadata = (funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       freeze_token_metadata: {}
     };
@@ -129,7 +129,7 @@ export class Sg721UpdatableMsgComposer implements Sg721UpdatableMsg {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -139,7 +139,7 @@ export class Sg721UpdatableMsgComposer implements Sg721UpdatableMsg {
   }: {
     tokenId: string;
     tokenUri?: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       update_token_metadata: {
         token_id: tokenId,
@@ -152,11 +152,11 @@ export class Sg721UpdatableMsgComposer implements Sg721UpdatableMsg {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
-  enableUpdatable = (_funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  enableUpdatable = (funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       enable_updatable: {}
     };
@@ -166,7 +166,7 @@ export class Sg721UpdatableMsgComposer implements Sg721UpdatableMsg {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -176,7 +176,7 @@ export class Sg721UpdatableMsgComposer implements Sg721UpdatableMsg {
   }: {
     recipient: string;
     tokenId: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       transfer_nft: {
         recipient,
@@ -189,7 +189,7 @@ export class Sg721UpdatableMsgComposer implements Sg721UpdatableMsg {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -201,7 +201,7 @@ export class Sg721UpdatableMsgComposer implements Sg721UpdatableMsg {
     contract: string;
     msg: Binary;
     tokenId: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       send_nft: {
         contract,
@@ -215,7 +215,7 @@ export class Sg721UpdatableMsgComposer implements Sg721UpdatableMsg {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -227,7 +227,7 @@ export class Sg721UpdatableMsgComposer implements Sg721UpdatableMsg {
     expires?: Expiration;
     spender: string;
     tokenId: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       approve: {
         expires,
@@ -241,7 +241,7 @@ export class Sg721UpdatableMsgComposer implements Sg721UpdatableMsg {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -251,7 +251,7 @@ export class Sg721UpdatableMsgComposer implements Sg721UpdatableMsg {
   }: {
     spender: string;
     tokenId: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       revoke: {
         spender,
@@ -264,7 +264,7 @@ export class Sg721UpdatableMsgComposer implements Sg721UpdatableMsg {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -274,7 +274,7 @@ export class Sg721UpdatableMsgComposer implements Sg721UpdatableMsg {
   }: {
     expires?: Expiration;
     operator: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       approve_all: {
         expires,
@@ -287,7 +287,7 @@ export class Sg721UpdatableMsgComposer implements Sg721UpdatableMsg {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -295,7 +295,7 @@ export class Sg721UpdatableMsgComposer implements Sg721UpdatableMsg {
     operator
   }: {
     operator: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       revoke_all: {
         operator
@@ -307,7 +307,7 @@ export class Sg721UpdatableMsgComposer implements Sg721UpdatableMsg {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -315,7 +315,7 @@ export class Sg721UpdatableMsgComposer implements Sg721UpdatableMsg {
     tokenId
   }: {
     tokenId: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       burn: {
         token_id: tokenId
@@ -327,7 +327,7 @@ export class Sg721UpdatableMsgComposer implements Sg721UpdatableMsg {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -335,7 +335,7 @@ export class Sg721UpdatableMsgComposer implements Sg721UpdatableMsg {
     collectionInfo
   }: {
     collectionInfo: UpdateCollectionInfoMsgForRoyaltyInfoResponse;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       update_collection_info: {
         collection_info: collectionInfo
@@ -347,11 +347,11 @@ export class Sg721UpdatableMsgComposer implements Sg721UpdatableMsg {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
-  updateTradingStartTime = (_funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  updateTradingStartTime = (funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       update_trading_start_time: {}
     };
@@ -361,11 +361,11 @@ export class Sg721UpdatableMsgComposer implements Sg721UpdatableMsg {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
-  freezeCollectionInfo = (_funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  freezeCollectionInfo = (funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       freeze_collection_info: {}
     };
@@ -375,7 +375,7 @@ export class Sg721UpdatableMsgComposer implements Sg721UpdatableMsg {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -389,7 +389,7 @@ export class Sg721UpdatableMsgComposer implements Sg721UpdatableMsg {
     owner: string;
     tokenId: string;
     tokenUri?: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       mint: {
         extension,
@@ -404,7 +404,7 @@ export class Sg721UpdatableMsgComposer implements Sg721UpdatableMsg {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -412,7 +412,7 @@ export class Sg721UpdatableMsgComposer implements Sg721UpdatableMsg {
     msg
   }: {
     msg: Empty;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       extension: {
         msg
@@ -424,7 +424,7 @@ export class Sg721UpdatableMsgComposer implements Sg721UpdatableMsg {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };

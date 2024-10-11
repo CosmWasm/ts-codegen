@@ -1,6 +1,6 @@
 {
   "name": "@abstract-money/ts-codegen",
-  "version": "0.36.0-beta-1",
+  "version": "0.37.0-beta-3",
   "description": "@cosmwasm/ts-codegen converts your CosmWasm smart contracts into dev-friendly TypeScript classes so you can focus on shipping code.",
   "author": "Dan Lynch <pyramation@gmail.com>",
   "homepage": "https://github.com/cosmwasm/ts-codegen",
@@ -101,6 +101,6 @@
     "parse-package-name": "1.0.0",
     "rimraf": "3.0.2",
     "shelljs": "0.8.5",
-    "wasm-ast-types": "npm:@abstract-money/wasm-ast-types@0.27.0-beta-1"
+    "wasm-ast-types": "npm:@abstract-money/wasm-ast-types@0.28.0-beta-3"
   }
 }

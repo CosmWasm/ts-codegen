@@ -7,7 +7,7 @@
 import { MsgExecuteContractEncodeObject } from "@cosmjs/cosmwasm-stargate";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
-import { AppExecuteMsg, AppExecuteMsgFactory } from "@abstract-money/abstract.js";
+import { AppExecuteMsg, AppExecuteMsgFactory } from "@abstract-money/core";
 import { Addr, Uint128, Duration, Threshold, PercentageThreshold, Decimal, ConfigResponse, CheckedDepositInfo, ExecuteMsg, CosmosMsgForEmpty, BankMsg, StakingMsg, DistributionMsg, Binary, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Vote, DepositToken, Coin, Empty, IbcTimeout, IbcTimeoutBlock, DepositInfo, GovernanceModulesResponse, InfoResponse, ContractVersion, InstantiateMsg, Expiration, Status, ListProposalsResponse, ProposalResponse, Proposal, Votes, ListVotesResponse, VoteInfo, MigrateMsg, ProposalCountResponse, ProposalHooksResponse, QueryMsg, ReverseProposalsResponse, VoteHooksResponse, VoteResponse } from "./CwProposalSingle.types";
 export interface CwProposalSingleMessage {
   contractAddress: string;
@@ -20,24 +20,24 @@ export interface CwProposalSingleMessage {
     description: string;
     msgs: CosmosMsgForEmpty[];
     title: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   vote: ({
     proposalId,
     vote
   }: {
     proposalId: number;
     vote: Vote;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   execute: ({
     proposalId
   }: {
     proposalId: number;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   close: ({
     proposalId
   }: {
     proposalId: number;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   updateConfig: ({
     allowRevoting,
     dao,
@@ -54,27 +54,27 @@ export interface CwProposalSingleMessage {
     minVotingPeriod?: Duration;
     onlyMembersExecute: boolean;
     threshold: Threshold;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   addProposalHook: ({
     address
   }: {
     address: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   removeProposalHook: ({
     address
   }: {
     address: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   addVoteHook: ({
     address
   }: {
     address: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   removeVoteHook: ({
     address
   }: {
     address: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
 }
 export class CwProposalSingleMessageComposer implements CwProposalSingleMessage {
   sender: string;
@@ -102,7 +102,7 @@ export class CwProposalSingleMessageComposer implements CwProposalSingleMessage 
     description: string;
     msgs: CosmosMsgForEmpty[];
     title: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       propose: {
         description,
@@ -116,7 +116,7 @@ export class CwProposalSingleMessageComposer implements CwProposalSingleMessage 
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -126,7 +126,7 @@ export class CwProposalSingleMessageComposer implements CwProposalSingleMessage 
   }: {
     proposalId: number;
     vote: Vote;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       vote: {
         proposal_id: proposalId,
@@ -139,7 +139,7 @@ export class CwProposalSingleMessageComposer implements CwProposalSingleMessage 
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -147,7 +147,7 @@ export class CwProposalSingleMessageComposer implements CwProposalSingleMessage 
     proposalId
   }: {
     proposalId: number;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       execute: {
         proposal_id: proposalId
@@ -159,7 +159,7 @@ export class CwProposalSingleMessageComposer implements CwProposalSingleMessage 
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -167,7 +167,7 @@ export class CwProposalSingleMessageComposer implements CwProposalSingleMessage 
     proposalId
   }: {
     proposalId: number;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       close: {
         proposal_id: proposalId
@@ -179,7 +179,7 @@ export class CwProposalSingleMessageComposer implements CwProposalSingleMessage 
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -199,7 +199,7 @@ export class CwProposalSingleMessageComposer implements CwProposalSingleMessage 
     minVotingPeriod?: Duration;
     onlyMembersExecute: boolean;
     threshold: Threshold;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       update_config: {
         allow_revoting: allowRevoting,
@@ -217,7 +217,7 @@ export class CwProposalSingleMessageComposer implements CwProposalSingleMessage 
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -225,7 +225,7 @@ export class CwProposalSingleMessageComposer implements CwProposalSingleMessage 
     address
   }: {
     address: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       add_proposal_hook: {
         address
@@ -237,7 +237,7 @@ export class CwProposalSingleMessageComposer implements CwProposalSingleMessage 
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -245,7 +245,7 @@ export class CwProposalSingleMessageComposer implements CwProposalSingleMessage 
     address
   }: {
     address: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       remove_proposal_hook: {
         address
@@ -257,7 +257,7 @@ export class CwProposalSingleMessageComposer implements CwProposalSingleMessage 
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -265,7 +265,7 @@ export class CwProposalSingleMessageComposer implements CwProposalSingleMessage 
     address
   }: {
     address: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       add_vote_hook: {
         address
@@ -277,7 +277,7 @@ export class CwProposalSingleMessageComposer implements CwProposalSingleMessage 
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -285,7 +285,7 @@ export class CwProposalSingleMessageComposer implements CwProposalSingleMessage 
     address
   }: {
     address: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       remove_vote_hook: {
         address
@@ -297,7 +297,7 @@ export class CwProposalSingleMessageComposer implements CwProposalSingleMessage 
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };

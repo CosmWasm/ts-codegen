@@ -7,7 +7,7 @@
 import { MsgExecuteContractEncodeObject } from "@cosmjs/cosmwasm-stargate";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
-import { AppExecuteMsg, AppExecuteMsgFactory } from "@abstract-money/abstract.js";
+import { AppExecuteMsg, AppExecuteMsgFactory } from "@abstract-money/core";
 import { Duration, Threshold, Decimal, InstantiateMsg, Voter, ExecuteMsg, Expiration, Timestamp, Uint64, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, WasmMsg, Binary, Vote, Coin, Empty, QueryMsg, Status, ThresholdResponse, ProposalListResponse, ProposalResponseForEmpty, VoterListResponse, VoterDetail, VoteListResponse, VoteInfo, VoteResponse, VoterResponse } from "./Cw3FixedMultiSig.types";
 export interface Cw3FixedMultiSigMessage {
   contractAddress: string;
@@ -22,24 +22,24 @@ export interface Cw3FixedMultiSigMessage {
     latest?: Expiration;
     msgs: CosmosMsgForEmpty[];
     title: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   vote: ({
     proposalId,
     vote
   }: {
     proposalId: number;
     vote: Vote;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   execute: ({
     proposalId
   }: {
     proposalId: number;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   close: ({
     proposalId
   }: {
     proposalId: number;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
 }
 export class Cw3FixedMultiSigMessageComposer implements Cw3FixedMultiSigMessage {
   sender: string;
@@ -64,7 +64,7 @@ export class Cw3FixedMultiSigMessageComposer implements Cw3FixedMultiSigMessage 
     latest?: Expiration;
     msgs: CosmosMsgForEmpty[];
     title: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       propose: {
         description,
@@ -79,7 +79,7 @@ export class Cw3FixedMultiSigMessageComposer implements Cw3FixedMultiSigMessage 
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -89,7 +89,7 @@ export class Cw3FixedMultiSigMessageComposer implements Cw3FixedMultiSigMessage 
   }: {
     proposalId: number;
     vote: Vote;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       vote: {
         proposal_id: proposalId,
@@ -102,7 +102,7 @@ export class Cw3FixedMultiSigMessageComposer implements Cw3FixedMultiSigMessage 
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -110,7 +110,7 @@ export class Cw3FixedMultiSigMessageComposer implements Cw3FixedMultiSigMessage 
     proposalId
   }: {
     proposalId: number;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       execute: {
         proposal_id: proposalId
@@ -122,7 +122,7 @@ export class Cw3FixedMultiSigMessageComposer implements Cw3FixedMultiSigMessage 
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -130,7 +130,7 @@ export class Cw3FixedMultiSigMessageComposer implements Cw3FixedMultiSigMessage 
     proposalId
   }: {
     proposalId: number;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       close: {
         proposal_id: proposalId
@@ -142,7 +142,7 @@ export class Cw3FixedMultiSigMessageComposer implements Cw3FixedMultiSigMessage 
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };

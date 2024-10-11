@@ -109,7 +109,7 @@ export interface CwCodeIdRegistryInterface extends CwCodeIdRegistryReadOnlyInter
     amount: Uint128;
     msg: Binary;
     sender: string;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   register: ({
     chainId,
     checksum,
@@ -122,7 +122,7 @@ export interface CwCodeIdRegistryInterface extends CwCodeIdRegistryReadOnlyInter
     codeId: number;
     name: string;
     version: string;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   setOwner: ({
     chainId,
     name,
@@ -131,21 +131,21 @@ export interface CwCodeIdRegistryInterface extends CwCodeIdRegistryReadOnlyInter
     chainId: string;
     name: string;
     owner?: string;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   unregister: ({
     chainId,
     codeId
   }: {
     chainId: string;
     codeId: number;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   updateConfig: ({
     admin,
     paymentInfo
   }: {
     admin?: string;
     paymentInfo?: PaymentInfo;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
 }
 export class CwCodeIdRegistryClient extends CwCodeIdRegistryQueryClient implements CwCodeIdRegistryInterface {
   client: SigningCosmWasmClient;
@@ -172,14 +172,14 @@ export class CwCodeIdRegistryClient extends CwCodeIdRegistryQueryClient implemen
     amount: Uint128;
     msg: Binary;
     sender: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       receive: {
         amount,
         msg,
         sender
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
   register = async ({
     chainId,
@@ -193,7 +193,7 @@ export class CwCodeIdRegistryClient extends CwCodeIdRegistryQueryClient implemen
     codeId: number;
     name: string;
     version: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       register: {
         chain_id: chainId,
@@ -202,7 +202,7 @@ export class CwCodeIdRegistryClient extends CwCodeIdRegistryQueryClient implemen
         name,
         version
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
   setOwner = async ({
     chainId,
@@ -212,14 +212,14 @@ export class CwCodeIdRegistryClient extends CwCodeIdRegistryQueryClient implemen
     chainId: string;
     name: string;
     owner?: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       set_owner: {
         chain_id: chainId,
         name,
         owner
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
   unregister = async ({
     chainId,
@@ -227,13 +227,13 @@ export class CwCodeIdRegistryClient extends CwCodeIdRegistryQueryClient implemen
   }: {
     chainId: string;
     codeId: number;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       unregister: {
         chain_id: chainId,
         code_id: codeId
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
   updateConfig = async ({
     admin,
@@ -241,12 +241,12 @@ export class CwCodeIdRegistryClient extends CwCodeIdRegistryQueryClient implemen
   }: {
     admin?: string;
     paymentInfo?: PaymentInfo;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_config: {
         admin,
         payment_info: paymentInfo
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
 }
