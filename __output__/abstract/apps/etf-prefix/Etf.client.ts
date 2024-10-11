@@ -4,77 +4,106 @@
 * and run the @abstract-money/ts-codegen generate command to regenerate this file.
 */
 
-import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
-import { Coin, StdFee } from "@cosmjs/amino";
+import { CamelCasedProperties } from "type-fest";
+import { SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
+import { AccountPublicClient, AccountWalletClient, AppExecuteMsg, AppExecuteMsgFactory, AdapterExecuteMsg, AdapterExecuteMsgFactory } from "@abstract-money/core";
+import { StdFee, Coin } from "@cosmjs/amino";
 import { Decimal, InstantiateMsg, ExecuteMsg, Uint128, AssetInfoBaseForString, AssetBaseForString, QueryMsg, MigrateMsg, StateResponse } from "./Etf.types";
-export interface EtfReadOnlyInterface {
-  contractAddress: string;
+import { EtfQueryMsgBuilder, EtfExecuteMsgBuilder } from "./Etf.message-builder";
+export interface IEtfTestQueryClient {
+  moduleId: string;
+  accountPublicClient: AccountPublicClient;
+  _moduleAddress: string | undefined;
   state: () => Promise<StateResponse>;
+  getAddress: () => Promise<string>;
 }
-export class EtfQueryClient implements EtfReadOnlyInterface {
-  client: CosmWasmClient;
-  contractAddress: string;
+export class EtfTestQueryClient implements IEtfTestQueryClient {
+  accountPublicClient: AccountPublicClient;
+  moduleId: string;
+  _moduleAddress: string | undefined;
 
-  constructor(client: CosmWasmClient, contractAddress: string) {
-    this.client = client;
-    this.contractAddress = contractAddress;
+  constructor({
+    accountPublicClient,
+    moduleId
+  }: {
+    accountPublicClient: AccountPublicClient;
+    moduleId: string;
+  }) {
+    this.accountPublicClient = accountPublicClient;
+    this.moduleId = moduleId;
     this.state = this.state.bind(this);
   }
 
   state = async (): Promise<StateResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      state: {}
+    return this._query(EtfQueryMsgBuilder.state());
+  };
+  getAddress = async (): Promise<string> => {
+    if (!this._moduleAddress) {
+      const address = await this.accountPublicClient.getModuleAddress({
+        id: this.moduleId
+      });
+
+      if (address === null) {
+        throw new Error(`Module ${this.moduleId} not installed`);
+      }
+
+      this._moduleAddress = address;
+    }
+
+    return this._moduleAddress!;
+  };
+  _query = async (queryMsg: QueryMsg): Promise<any> => {
+    return this.accountPublicClient.queryModule({
+      moduleId: this.moduleId,
+      moduleType: "app",
+      queryMsg
     });
   };
 }
-export interface EtfInterface extends EtfReadOnlyInterface {
-  contractAddress: string;
-  sender: string;
-  provideLiquidity: ({
-    asset
-  }: {
-    asset: AssetBaseForString;
-  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
-  setFee: ({
-    fee
-  }: {
-    fee: Decimal;
-  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
+export interface IEtfTestClient extends IEtfTestQueryClient {
+  accountWalletClient: AccountWalletClient;
+  provideLiquidity: (params: CamelCasedProperties<Extract<ExecuteMsg, {
+    provide_liquidity: unknown;
+  }>["provide_liquidity"]>, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
+  setFee: (params: CamelCasedProperties<Extract<ExecuteMsg, {
+    set_fee: unknown;
+  }>["set_fee"]>, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
 }
-export class EtfClient extends EtfQueryClient implements EtfInterface {
-  client: SigningCosmWasmClient;
-  sender: string;
-  contractAddress: string;
+export class EtfTestClient extends EtfTestQueryClient implements IEtfTestClient {
+  accountWalletClient: AccountWalletClient;
 
-  constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
-    super(client, contractAddress);
-    this.client = client;
-    this.sender = sender;
-    this.contractAddress = contractAddress;
+  constructor({
+    accountPublicClient,
+    accountWalletClient,
+    moduleId
+  }: {
+    accountPublicClient: AccountPublicClient;
+    accountWalletClient: AccountWalletClient;
+    moduleId: string;
+  }) {
+    super({
+      accountPublicClient,
+      moduleId
+    });
+    this.accountWalletClient = accountWalletClient;
     this.provideLiquidity = this.provideLiquidity.bind(this);
     this.setFee = this.setFee.bind(this);
   }
 
-  provideLiquidity = async ({
-    asset
-  }: {
-    asset: AssetBaseForString;
-  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
-      provide_liquidity: {
-        asset
-      }
-    }, fee_, memo_, funds_);
+  provideLiquidity = async (params: CamelCasedProperties<Extract<ExecuteMsg, {
+    provide_liquidity: unknown;
+  }>["provide_liquidity"]>, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+    return this._execute(EtfExecuteMsgBuilder.provideLiquidity(params), fee_, memo_, funds_);
   };
-  setFee = async ({
-    fee
-  }: {
-    fee: Decimal;
-  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
-      set_fee: {
-        fee
-      }
-    }, fee_, memo_, funds_);
+  setFee = async (params: CamelCasedProperties<Extract<ExecuteMsg, {
+    set_fee: unknown;
+  }>["set_fee"]>, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+    return this._execute(EtfExecuteMsgBuilder.setFee(params), fee_, memo_, funds_);
+  };
+  _execute = async (msg: ExecuteMsg, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+    const signingCwClient = await this.accountWalletClient.getSigningCosmWasmClient();
+    const sender = await this.accountWalletClient.getSenderAddress();
+    const moduleMsg: AppExecuteMsg<ExecuteMsg> = AppExecuteMsgFactory.executeApp(msg);
+    return await signingCwClient.execute(sender, await this.getAddress(), moduleMsg, fee_, memo_, funds_);
   };
 }

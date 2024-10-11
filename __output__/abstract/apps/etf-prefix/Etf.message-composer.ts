@@ -8,7 +8,7 @@ import { Coin } from "@cosmjs/amino";
 import { MsgExecuteContractEncodeObject } from "@cosmjs/cosmwasm-stargate";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
-import { AppExecuteMsg, AppExecuteMsgFactory } from "@abstract-money/abstract.js";
+import { AppExecuteMsg, AppExecuteMsgFactory } from "@abstract-money/core";
 import { Decimal, InstantiateMsg, ExecuteMsg, Uint128, AssetInfoBaseForString, AssetBaseForString, QueryMsg, MigrateMsg, StateResponse } from "./Etf.types";
 export interface EtfMsg {
   contractAddress: string;
@@ -17,12 +17,12 @@ export interface EtfMsg {
     asset
   }: {
     asset: AssetBaseForString;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   setFee: ({
     fee
   }: {
     fee: Decimal;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
 }
 export class EtfMsgComposer implements EtfMsg {
   sender: string;
@@ -39,7 +39,7 @@ export class EtfMsgComposer implements EtfMsg {
     asset
   }: {
     asset: AssetBaseForString;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       provide_liquidity: {
         asset
@@ -52,7 +52,7 @@ export class EtfMsgComposer implements EtfMsg {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(moduleMsg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -60,7 +60,7 @@ export class EtfMsgComposer implements EtfMsg {
     fee
   }: {
     fee: Decimal;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       set_fee: {
         fee
@@ -73,7 +73,7 @@ export class EtfMsgComposer implements EtfMsg {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(moduleMsg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
