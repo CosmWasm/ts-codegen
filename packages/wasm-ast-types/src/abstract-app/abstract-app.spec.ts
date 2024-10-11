@@ -1,4 +1,5 @@
 import autocompounder_schema from '../../../../__fixtures__/abstract/apps/autocompounder.json';
+import betting_schema from '../../../../__fixtures__/abstract/apps/betting.json';
 import ibcmailclient_schema from '../../../../__fixtures__/abstract/apps/ibcmail/client.json';
 import dex_schema from '../../../../__fixtures__/abstract/adapters/dex/dex.json';
 import { expectCode, makeContext } from '../../test-utils';
@@ -61,6 +62,62 @@ it('AutocompounderAppClient', () => {
       'IAutocompounderAppClient',
       'AutocompounderAppQueryClient',
       autocompounder_schema.execute
+    )
+  );
+});
+
+it('IBettingAppQueryClient', () => {
+  const ctx = makeContext(betting_schema.query);
+
+  expectCode(
+    createAppQueryInterface(
+      ctx,
+      'IBettingAppQueryClient',
+      'BettingAppClient',
+      betting_schema.query
+    )
+  );
+});
+
+it('BettingAppQueryClient', () => {
+  const ctx = makeContext(betting_schema.query);
+
+  expectCode(
+    createAppQueryClass(
+      ctx,
+      'Betting',
+      'BettingAppQueryClient',
+      'IBettingAppQueryClient',
+      betting_schema.query
+    )
+  );
+});
+
+it('IBettingAppClient', () => {
+  const ctx = makeContext(betting_schema.execute);
+
+  expectCode(
+    createAppExecuteInterface(
+      ctx,
+      'IBettingAppClient',
+      'BettingAppClient',
+      'IBettingAppQueryClient',
+      betting_schema.execute
+    )
+  );
+});
+
+it('BettingAppClient', () => {
+  const ctx = makeContext(betting_schema.execute);
+
+  expectCode(
+    createAppExecuteClass(
+      ctx,
+      'Betting',
+      'BettingAppClient',
+      'IBettingAppClient',
+      'BettingAppQueryClient',
+      betting_schema.execute
     )
   );
 });

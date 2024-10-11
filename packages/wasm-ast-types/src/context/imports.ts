@@ -54,15 +54,13 @@ export const UTILS = {
   CamelCasedProperties: 'type-fest',
 
   // Abstract
-  AbstractClient: '@abstract-money/abstract.js',
-  AbstractQueryClient: '@abstract-money/abstract.js',
-  AbstractAccountId: '@abstract-money/abstract.js',
-  AbstractAccountClient: '@abstract-money/abstract.js',
-  AbstractAccountQueryClient: '@abstract-money/abstract.js',
-  AppExecuteMsg: '@abstract-money/abstract.js',
-  AppExecuteMsgFactory: '@abstract-money/abstract.js',
-  AdapterExecuteMsg: '@abstract-money/abstract.js',
-  AdapterExecuteMsgFactory: '@abstract-money/abstract.js',
+  AccountPublicClient: '@abstract-money/core',
+  AccountWalletClient: '@abstract-money/core',
+  AccountId: '@abstract-money/core',
+  AppExecuteMsg: '@abstract-money/core',
+  AppExecuteMsgFactory: '@abstract-money/core',
+  AdapterExecuteMsg: '@abstract-money/core',
+  AdapterExecuteMsgFactory: '@abstract-money/core',
 
   // react-query
   createQueryKeys: '@lukemorales/query-key-factory',
