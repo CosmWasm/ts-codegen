@@ -7,7 +7,7 @@
 import { MsgExecuteContractEncodeObject } from "@cosmjs/cosmwasm-stargate";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
-import { AppExecuteMsg, AppExecuteMsgFactory } from "@abstract-money/abstract.js";
+import { AppExecuteMsg, AppExecuteMsgFactory } from "@abstract-money/core";
 import { AdminAddrResponse, CodeIdResponse, CodeIdType, Uint128, Binary, CreateWalletMsg, Guardians, MultiSig, Coin, Cw20Coin, ExecuteMsg, Addr, ProxyMigrationTxMsg, WalletAddr, CanonicalAddr, RelayTransaction, FeeResponse, GovecAddrResponse, InstantiateMsg, QueryMsg, WalletQueryPrefix, Duration, StakingOptions, WalletInfo, ContractVersion, WalletsOfResponse, WalletsResponse } from "./Factory.types";
 export interface FactoryMsg {
   contractAddress: string;
@@ -16,43 +16,43 @@ export interface FactoryMsg {
     createWalletMsg
   }: {
     createWalletMsg: CreateWalletMsg;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   updateProxyUser: ({
     newUser,
     oldUser
   }: {
     newUser: Addr;
     oldUser: Addr;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   migrateWallet: ({
     migrationMsg,
     walletAddress
   }: {
     migrationMsg: ProxyMigrationTxMsg;
     walletAddress: WalletAddr;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   updateCodeId: ({
     newCodeId,
     ty
   }: {
     newCodeId: number;
     ty: CodeIdType;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   updateWalletFee: ({
     newFee
   }: {
     newFee: Coin;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   updateGovecAddr: ({
     addr
   }: {
     addr: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   updateAdmin: ({
     addr
   }: {
     addr: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
 }
 export class FactoryMsgComposer implements FactoryMsg {
   sender: string;
@@ -74,7 +74,7 @@ export class FactoryMsgComposer implements FactoryMsg {
     createWalletMsg
   }: {
     createWalletMsg: CreateWalletMsg;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       create_wallet: {
         create_wallet_msg: createWalletMsg
@@ -86,7 +86,7 @@ export class FactoryMsgComposer implements FactoryMsg {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -96,7 +96,7 @@ export class FactoryMsgComposer implements FactoryMsg {
   }: {
     newUser: Addr;
     oldUser: Addr;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       update_proxy_user: {
         new_user: newUser,
@@ -109,7 +109,7 @@ export class FactoryMsgComposer implements FactoryMsg {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -119,7 +119,7 @@ export class FactoryMsgComposer implements FactoryMsg {
   }: {
     migrationMsg: ProxyMigrationTxMsg;
     walletAddress: WalletAddr;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       migrate_wallet: {
         migration_msg: migrationMsg,
@@ -132,7 +132,7 @@ export class FactoryMsgComposer implements FactoryMsg {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -142,7 +142,7 @@ export class FactoryMsgComposer implements FactoryMsg {
   }: {
     newCodeId: number;
     ty: CodeIdType;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       update_code_id: {
         new_code_id: newCodeId,
@@ -155,7 +155,7 @@ export class FactoryMsgComposer implements FactoryMsg {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -163,7 +163,7 @@ export class FactoryMsgComposer implements FactoryMsg {
     newFee
   }: {
     newFee: Coin;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       update_wallet_fee: {
         new_fee: newFee
@@ -175,7 +175,7 @@ export class FactoryMsgComposer implements FactoryMsg {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -183,7 +183,7 @@ export class FactoryMsgComposer implements FactoryMsg {
     addr
   }: {
     addr: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       update_govec_addr: {
         addr
@@ -195,7 +195,7 @@ export class FactoryMsgComposer implements FactoryMsg {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -203,7 +203,7 @@ export class FactoryMsgComposer implements FactoryMsg {
     addr
   }: {
     addr: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       update_admin: {
         addr
@@ -215,7 +215,7 @@ export class FactoryMsgComposer implements FactoryMsg {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };

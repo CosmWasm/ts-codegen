@@ -7,7 +7,7 @@
 import { MsgExecuteContractEncodeObject } from "@cosmjs/cosmwasm-stargate";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
-import { AppExecuteMsg, AppExecuteMsgFactory } from "@abstract-money/abstract.js";
+import { AppExecuteMsg, AppExecuteMsgFactory } from "@abstract-money/core";
 import { CanExecuteRelayResponse, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, WasmMsg, Binary, Coin, Empty, ExecuteMsgForEmpty, Addr, RelayTransaction, Guardians, MultiSig, InfoResponse, ContractVersion, InstantiateMsg, CreateWalletMsg, QueryMsg, Uint64 } from "./Govec.types";
 export interface GovecMessage {
   contractAddress: string;
@@ -16,40 +16,40 @@ export interface GovecMessage {
     msgs
   }: {
     msgs: CosmosMsgForEmpty[];
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
-  revertFreezeStatus: (_funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
+  revertFreezeStatus: (funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   relay: ({
     transaction
   }: {
     transaction: RelayTransaction;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   rotateUserKey: ({
     newUserAddress
   }: {
     newUserAddress: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   addRelayer: ({
     newRelayerAddress
   }: {
     newRelayerAddress: Addr;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   removeRelayer: ({
     relayerAddress
   }: {
     relayerAddress: Addr;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   updateGuardians: ({
     guardians,
     newMultisigCodeId
   }: {
     guardians: Guardians;
     newMultisigCodeId?: number;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   updateLabel: ({
     newLabel
   }: {
     newLabel: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
 }
 export class GovecMessageComposer implements GovecMessage {
   sender: string;
@@ -72,7 +72,7 @@ export class GovecMessageComposer implements GovecMessage {
     msgs
   }: {
     msgs: CosmosMsgForEmpty[];
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       execute: {
         msgs
@@ -84,11 +84,11 @@ export class GovecMessageComposer implements GovecMessage {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
-  revertFreezeStatus = (_funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  revertFreezeStatus = (funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       revert_freeze_status: {}
     };
@@ -98,7 +98,7 @@ export class GovecMessageComposer implements GovecMessage {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -106,7 +106,7 @@ export class GovecMessageComposer implements GovecMessage {
     transaction
   }: {
     transaction: RelayTransaction;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       relay: {
         transaction
@@ -118,7 +118,7 @@ export class GovecMessageComposer implements GovecMessage {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -126,7 +126,7 @@ export class GovecMessageComposer implements GovecMessage {
     newUserAddress
   }: {
     newUserAddress: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       rotate_user_key: {
         new_user_address: newUserAddress
@@ -138,7 +138,7 @@ export class GovecMessageComposer implements GovecMessage {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -146,7 +146,7 @@ export class GovecMessageComposer implements GovecMessage {
     newRelayerAddress
   }: {
     newRelayerAddress: Addr;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       add_relayer: {
         new_relayer_address: newRelayerAddress
@@ -158,7 +158,7 @@ export class GovecMessageComposer implements GovecMessage {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -166,7 +166,7 @@ export class GovecMessageComposer implements GovecMessage {
     relayerAddress
   }: {
     relayerAddress: Addr;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       remove_relayer: {
         relayer_address: relayerAddress
@@ -178,7 +178,7 @@ export class GovecMessageComposer implements GovecMessage {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -188,7 +188,7 @@ export class GovecMessageComposer implements GovecMessage {
   }: {
     guardians: Guardians;
     newMultisigCodeId?: number;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       update_guardians: {
         guardians,
@@ -201,7 +201,7 @@ export class GovecMessageComposer implements GovecMessage {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -209,7 +209,7 @@ export class GovecMessageComposer implements GovecMessage {
     newLabel
   }: {
     newLabel: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       update_label: {
         new_label: newLabel
@@ -221,7 +221,7 @@ export class GovecMessageComposer implements GovecMessage {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };

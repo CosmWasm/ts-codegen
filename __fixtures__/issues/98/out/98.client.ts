@@ -75,7 +75,7 @@ export interface 98Interface extends 98ReadOnlyInterface {
   }: {
     id: number;
     instantiateMsg: Binary;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   registerPlugin: ({
     checksum,
     codeId,
@@ -90,12 +90,12 @@ export interface 98Interface extends 98ReadOnlyInterface {
     ipfsHash: string;
     name: string;
     version: string;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   unregisterPlugin: ({
     id
   }: {
     id: number;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   updatePlugin: ({
     checksum,
     codeId,
@@ -112,17 +112,17 @@ export interface 98Interface extends 98ReadOnlyInterface {
     ipfsHash?: string;
     name?: string;
     version?: string;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   updateRegistryFee: ({
     newFee
   }: {
     newFee: Coin;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   updateDaoAddr: ({
     newAddr
   }: {
     newAddr: string;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
 }
 export class 98Client extends 98QueryClient implements 98Interface {
   client: SigningCosmWasmClient;
@@ -148,13 +148,13 @@ export class 98Client extends 98QueryClient implements 98Interface {
   }: {
     id: number;
     instantiateMsg: Binary;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       proxy_install_plugin: {
         id,
         instantiate_msg: instantiateMsg
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
   registerPlugin = async ({
     checksum,
@@ -170,7 +170,7 @@ export class 98Client extends 98QueryClient implements 98Interface {
     ipfsHash: string;
     name: string;
     version: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       register_plugin: {
         checksum,
@@ -180,18 +180,18 @@ export class 98Client extends 98QueryClient implements 98Interface {
         name,
         version
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
   unregisterPlugin = async ({
     id
   }: {
     id: number;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       unregister_plugin: {
         id
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
   updatePlugin = async ({
     checksum,
@@ -209,7 +209,7 @@ export class 98Client extends 98QueryClient implements 98Interface {
     ipfsHash?: string;
     name?: string;
     version?: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_plugin: {
         checksum,
@@ -220,28 +220,28 @@ export class 98Client extends 98QueryClient implements 98Interface {
         name,
         version
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
   updateRegistryFee = async ({
     newFee
   }: {
     newFee: Coin;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_registry_fee: {
         new_fee: newFee
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
   updateDaoAddr = async ({
     newAddr
   }: {
     newAddr: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_dao_addr: {
         new_addr: newAddr
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
 }

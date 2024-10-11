@@ -114,43 +114,43 @@ export interface FactoryInterface {
     createWalletMsg
   }: {
     createWalletMsg: CreateWalletMsg;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   updateProxyUser: ({
     newUser,
     oldUser
   }: {
     newUser: Addr;
     oldUser: Addr;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   migrateWallet: ({
     migrationMsg,
     walletAddress
   }: {
     migrationMsg: ProxyMigrationTxMsg;
     walletAddress: WalletAddr;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   updateCodeId: ({
     newCodeId,
     ty
   }: {
     newCodeId: number;
     ty: CodeIdType;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   updateWalletFee: ({
     newFee
   }: {
     newFee: Coin;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   updateGovecAddr: ({
     addr
   }: {
     addr: string;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   updateAdmin: ({
     addr
   }: {
     addr: string;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
 }
 export class FactoryClient implements FactoryInterface {
   client: SigningCosmWasmClient;
@@ -174,12 +174,12 @@ export class FactoryClient implements FactoryInterface {
     createWalletMsg
   }: {
     createWalletMsg: CreateWalletMsg;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       create_wallet: {
         create_wallet_msg: createWalletMsg
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
   updateProxyUser = async ({
     newUser,
@@ -187,13 +187,13 @@ export class FactoryClient implements FactoryInterface {
   }: {
     newUser: Addr;
     oldUser: Addr;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_proxy_user: {
         new_user: newUser,
         old_user: oldUser
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
   migrateWallet = async ({
     migrationMsg,
@@ -201,13 +201,13 @@ export class FactoryClient implements FactoryInterface {
   }: {
     migrationMsg: ProxyMigrationTxMsg;
     walletAddress: WalletAddr;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       migrate_wallet: {
         migration_msg: migrationMsg,
         wallet_address: walletAddress
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
   updateCodeId = async ({
     newCodeId,
@@ -215,45 +215,45 @@ export class FactoryClient implements FactoryInterface {
   }: {
     newCodeId: number;
     ty: CodeIdType;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_code_id: {
         new_code_id: newCodeId,
         ty
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
   updateWalletFee = async ({
     newFee
   }: {
     newFee: Coin;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_wallet_fee: {
         new_fee: newFee
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
   updateGovecAddr = async ({
     addr
   }: {
     addr: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_govec_addr: {
         addr
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
   updateAdmin = async ({
     addr
   }: {
     addr: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_admin: {
         addr
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
 }

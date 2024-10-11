@@ -8,7 +8,7 @@ import { Coin } from "@cosmjs/amino";
 import { MsgExecuteContractEncodeObject } from "@cosmjs/cosmwasm-stargate";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
-import { AppExecuteMsg, AppExecuteMsgFactory } from "@abstract-money/abstract.js";
+import { AppExecuteMsg, AppExecuteMsgFactory } from "@abstract-money/core";
 import { InstantiateMsg, ExecuteMsg, QueryMsg, Timestamp, Uint64, Addr, Env, BlockInfo, ContractInfo, TransactionInfo } from "./CyberPunk.types";
 export interface CyberPunkMessage {
   contractAddress: string;
@@ -19,8 +19,8 @@ export interface CyberPunkMessage {
   }: {
     memCost: number;
     timeCost: number;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
-  mirrorEnv: (_funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
+  mirrorEnv: (funds_?: Coin[]) => MsgExecuteContractEncodeObject;
 }
 export class CyberPunkMessageComposer implements CyberPunkMessage {
   sender: string;
@@ -39,7 +39,7 @@ export class CyberPunkMessageComposer implements CyberPunkMessage {
   }: {
     memCost: number;
     timeCost: number;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       argon2: {
         mem_cost: memCost,
@@ -52,11 +52,11 @@ export class CyberPunkMessageComposer implements CyberPunkMessage {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
-  mirrorEnv = (_funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  mirrorEnv = (funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       mirror_env: {}
     };
@@ -66,7 +66,7 @@ export class CyberPunkMessageComposer implements CyberPunkMessage {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };

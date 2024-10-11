@@ -2,29 +2,22 @@
 
 exports[`AutocompounderAppClient 1`] = `
 "export class AutocompounderAppClient extends AutocompounderAppQueryClient implements IAutocompounderAppClient {
-  accountWalletClient: AbstractAccountClient;
+  accountWalletClient: AccountWalletClient;
 
   constructor({
-    abstractClient,
-    accountId,
-    managerAddress,
-    proxyAddress,
+    accountPublicClient,
+    accountWalletClient,
     moduleId
   }: {
-    abstractClient: AbstractClient;
-    accountId: AbstractAccountId;
-    managerAddress: string;
-    proxyAddress: string;
+    accountPublicClient: AccountPublicClient;
+    accountWalletClient: AccountWalletClient;
     moduleId: string;
   }) {
     super({
-      abstractQueryClient: abstractClient,
-      accountId,
-      managerAddress,
-      proxyAddress,
+      accountPublicClient,
       moduleId
     });
-    this.accountWalletClient = AbstractAccountClient.fromQueryClient(this.accountPublicClient, abstractClient);
+    this.accountWalletClient = accountWalletClient;
     this.updateFeeConfig = this.updateFeeConfig.bind(this);
     this.deposit = this.deposit.bind(this);
     this.withdraw = this.withdraw.bind(this);
@@ -52,37 +45,28 @@ exports[`AutocompounderAppClient 1`] = `
     return this._execute(AutocompounderExecuteMsgBuilder.batchUnbond(), fee_, memo_, funds_);
   };
   _execute = async (msg: ExecuteMsg, fee_: number | StdFee | \\"auto\\" = \\"auto\\", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+    const signingCwClient = await this.accountWalletClient.getSigningCosmWasmClient();
+    const sender = await this.accountWalletClient.getSenderAddress();
     const moduleMsg: AppExecuteMsg<ExecuteMsg> = AppExecuteMsgFactory.executeApp(msg);
-    return await this.accountWalletClient.abstract.client.execute(this.accountWalletClient.sender, await this.getAddress(), moduleMsg, fee_, memo_, funds_);
+    return await signingCwClient.execute(sender, await this.getAddress(), moduleMsg, fee_, memo_, funds_);
   };
 }"
 `;
 
 exports[`AutocompounderAppQueryClient 1`] = `
 "export class AutocompounderAppQueryClient implements IAutocompounderAppQueryClient {
-  accountPublicClient: AbstractAccountQueryClient;
+  accountPublicClient: AccountPublicClient;
   moduleId: string;
   _moduleAddress: string | undefined;
 
   constructor({
-    abstractQueryClient,
-    accountId,
-    managerAddress,
-    proxyAddress,
+    accountPublicClient,
     moduleId
   }: {
-    abstractQueryClient: AbstractQueryClient;
-    accountId: AbstractAccountId;
-    managerAddress: string;
-    proxyAddress: string;
+    accountPublicClient: AccountPublicClient;
     moduleId: string;
   }) {
-    this.accountPublicClient = new AbstractAccountQueryClient({
-      abstract: abstractQueryClient,
-      accountId,
-      managerAddress,
-      proxyAddress
-    });
+    this.accountPublicClient = accountPublicClient;
     this.moduleId = moduleId;
     this.config = this.config.bind(this);
     this.pendingClaims = this.pendingClaims.bind(this);
@@ -124,7 +108,9 @@ exports[`AutocompounderAppQueryClient 1`] = `
   };
   getAddress = async (): Promise<string> => {
     if (!this._moduleAddress) {
-      const address = await this.accountPublicClient.getModuleAddress(this.moduleId);
+      const address = await this.accountPublicClient.getModuleAddress({
+        id: this.moduleId
+      });
 
       if (address === null) {
         throw new Error(\`Module \${this.moduleId} not installed\`);
@@ -134,15 +120,6 @@ exports[`AutocompounderAppQueryClient 1`] = `
     }
 
     return this._moduleAddress!;
-  };
-  connectSigningClient = (signingClient: SigningCosmWasmClient, address: string): AutocompounderAppClient => {
-    return new AutocompounderAppClient({
-      accountId: this.accountPublicClient.accountId,
-      managerAddress: this.accountPublicClient.managerAddress,
-      proxyAddress: this.accountPublicClient.proxyAddress,
-      moduleId: this.moduleId,
-      abstractClient: this.accountPublicClient.abstract.connectSigningClient(signingClient, address)
-    });
   };
   _query = async (queryMsg: QueryMsg): Promise<any> => {
     return this.accountPublicClient.queryModule({
@@ -172,6 +149,7 @@ exports[`BettingAppClient 1`] = `
       moduleId
     });
     this.accountWalletClient = accountWalletClient;
+    this.createRound = this.createRound.bind(this);
     this.register = this.register.bind(this);
     this.updateAccounts = this.updateAccounts.bind(this);
     this.placeBet = this.placeBet.bind(this);
@@ -180,8 +158,15 @@ exports[`BettingAppClient 1`] = `
     this.updateConfig = this.updateConfig.bind(this);
   }
 
-  register = async (fee_: number | StdFee | \\"auto\\" = \\"auto\\", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
-    return this._execute(BettingExecuteMsgBuilder.register(), fee_, memo_, funds_);
+  createRound = async (params: CamelCasedProperties<Extract<ExecuteMsg, {
+    create_round: unknown;
+  }>[\\"create_round\\"]>, fee_: number | StdFee | \\"auto\\" = \\"auto\\", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+    return this._execute(BettingExecuteMsgBuilder.createRound(params), fee_, memo_, funds_);
+  };
+  register = async (params: CamelCasedProperties<Extract<ExecuteMsg, {
+    register: unknown;
+  }>[\\"register\\"]>, fee_: number | StdFee | \\"auto\\" = \\"auto\\", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+    return this._execute(BettingExecuteMsgBuilder.register(params), fee_, memo_, funds_);
   };
   updateAccounts = async (params: CamelCasedProperties<Extract<ExecuteMsg, {
     update_accounts: unknown;
@@ -193,8 +178,10 @@ exports[`BettingAppClient 1`] = `
   }>[\\"place_bet\\"]>, fee_: number | StdFee | \\"auto\\" = \\"auto\\", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return this._execute(BettingExecuteMsgBuilder.placeBet(params), fee_, memo_, funds_);
   };
-  distributeWinnings = async (fee_: number | StdFee | \\"auto\\" = \\"auto\\", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
-    return this._execute(BettingExecuteMsgBuilder.distributeWinnings(), fee_, memo_, funds_);
+  distributeWinnings = async (params: CamelCasedProperties<Extract<ExecuteMsg, {
+    distribute_winnings: unknown;
+  }>[\\"distribute_winnings\\"]>, fee_: number | StdFee | \\"auto\\" = \\"auto\\", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+    return this._execute(BettingExecuteMsgBuilder.distributeWinnings(params), fee_, memo_, funds_);
   };
   closeRound = async (params: CamelCasedProperties<Extract<ExecuteMsg, {
     close_round: unknown;
@@ -293,29 +280,22 @@ exports[`BettingAppQueryClient 1`] = `
 
 exports[`DexAdapterClient 1`] = `
 "export class DexAdapterClient extends DexAdapterQueryClient implements IDexAdapterClient {
-  accountWalletClient: AbstractAccountClient;
+  accountWalletClient: AccountWalletClient;
 
   constructor({
-    abstractClient,
-    accountId,
-    managerAddress,
-    proxyAddress,
+    accountPublicClient,
+    accountWalletClient,
     moduleId
   }: {
-    abstractClient: AbstractClient;
-    accountId: AbstractAccountId;
-    managerAddress: string;
-    proxyAddress: string;
+    accountPublicClient: AccountPublicClient;
+    accountWalletClient: AccountWalletClient;
     moduleId: string;
   }) {
     super({
-      abstractQueryClient: abstractClient,
-      accountId,
-      managerAddress,
-      proxyAddress,
+      accountPublicClient,
       moduleId
     });
-    this.accountWalletClient = AbstractAccountClient.fromQueryClient(this.accountPublicClient, abstractClient);
+    this.accountWalletClient = accountWalletClient;
     this.updateFee = this.updateFee.bind(this);
     this.ansAction = this.ansAction.bind(this);
     this.rawAction = this.rawAction.bind(this);
@@ -337,18 +317,20 @@ exports[`DexAdapterClient 1`] = `
     return this._execute(DexClientExecuteMsgBuilder.rawAction(params), fee_, memo_, funds_);
   };
   _execute = async (msg: ExecuteMsg, fee_: number | StdFee | \\"auto\\" = \\"auto\\", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+    const signingCwClient = await this.accountWalletClient.getSigningCosmWasmClient();
+    const sender = await this.accountWalletClient.getSenderAddress();
     const moduleMsg: AdapterExecuteMsg<ExecuteMsg> = AdapterExecuteMsgFactory.executeAdapter({
       request: msg,
       proxyAddress: this.accountPublicClient.proxyAddress
     });
-    return await this.accountWalletClient.abstract.client.execute(this.accountWalletClient.sender, await this.getAddress(), moduleMsg, fee_, memo_, funds_);
+    return await signingCwClient.execute(sender, await this.getAddress(), moduleMsg, fee_, memo_, funds_);
   };
 }"
 `;
 
 exports[`IAutocompounderAppClient 1`] = `
 "export interface IAutocompounderAppClient extends IAutocompounderAppQueryClient {
-  accountWalletClient: AbstractAccountClient;
+  accountWalletClient: AccountWalletClient;
   updateFeeConfig: (params: CamelCasedProperties<Extract<ExecuteMsg, {
     update_fee_config: unknown;
   }>[\\"update_fee_config\\"]>, fee_?: number | StdFee | \\"auto\\", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
@@ -364,7 +346,7 @@ exports[`IAutocompounderAppClient 1`] = `
 exports[`IAutocompounderAppQueryClient 1`] = `
 "export interface IAutocompounderAppQueryClient {
   moduleId: string;
-  accountPublicClient: AbstractAccountQueryClient;
+  accountPublicClient: AccountPublicClient;
   _moduleAddress: string | undefined;
   config: () => Promise<ConfigResponse>;
   pendingClaims: (params: CamelCasedProperties<Extract<QueryMsg, {
@@ -381,7 +363,6 @@ exports[`IAutocompounderAppQueryClient 1`] = `
   balance: (params: CamelCasedProperties<Extract<QueryMsg, {
     balance: unknown;
   }>[\\"balance\\"]>) => Promise<BalanceResponse>;
-  connectSigningClient: (signingClient: SigningCosmWasmClient, address: string) => AutocompounderAppClient;
   getAddress: () => Promise<string>;
 }"
 `;
@@ -418,42 +399,44 @@ exports[`IBettingAppQueryClient 1`] = `
   moduleId: string;
   accountPublicClient: AccountPublicClient;
   _moduleAddress: string | undefined;
-  round: () => Promise<RoundResponse>;
+  round: (params: CamelCasedProperties<Extract<QueryMsg, {
+    round: unknown;
+  }>[\\"round\\"]>) => Promise<RoundResponse>;
+  listRounds: (params: CamelCasedProperties<Extract<QueryMsg, {
+    list_rounds: unknown;
+  }>[\\"list_rounds\\"]>) => Promise<ListRoundsResponse>;
   odds: (params: CamelCasedProperties<Extract<QueryMsg, {
     odds: unknown;
   }>[\\"odds\\"]>) => Promise<OddsResponse>;
-  listOdds: () => Promise<ListOddsResponse>;
+  listOdds: (params: CamelCasedProperties<Extract<QueryMsg, {
+    list_odds: unknown;
+  }>[\\"list_odds\\"]>) => Promise<ListOddsResponse>;
   config: () => Promise<ConfigResponse>;
-  bets: () => Promise<BetsResponse>;
+  bets: (params: CamelCasedProperties<Extract<QueryMsg, {
+    bets: unknown;
+  }>[\\"bets\\"]>) => Promise<BetsResponse>;
   getAddress: () => Promise<string>;
 }"
 `;
 
 exports[`IbcMailClientAppClient 1`] = `
 "export class IbcMailClientAppClient extends IbcMailClientAppQueryClient implements IIbcMailClientAppClient {
-  accountWalletClient: AbstractAccountClient;
+  accountWalletClient: AccountWalletClient;
 
   constructor({
-    abstractClient,
-    accountId,
-    managerAddress,
-    proxyAddress,
+    accountPublicClient,
+    accountWalletClient,
     moduleId
   }: {
-    abstractClient: AbstractClient;
-    accountId: AbstractAccountId;
-    managerAddress: string;
-    proxyAddress: string;
+    accountPublicClient: AccountPublicClient;
+    accountWalletClient: AccountWalletClient;
     moduleId: string;
   }) {
     super({
-      abstractQueryClient: abstractClient,
-      accountId,
-      managerAddress,
-      proxyAddress,
+      accountPublicClient,
       moduleId
     });
-    this.accountWalletClient = AbstractAccountClient.fromQueryClient(this.accountPublicClient, abstractClient);
+    this.accountWalletClient = accountWalletClient;
     this.sendMessage = this.sendMessage.bind(this);
     this.receiveMessage = this.receiveMessage.bind(this);
     this.updateConfig = this.updateConfig.bind(this);
@@ -471,8 +454,10 @@ exports[`IbcMailClientAppClient 1`] = `
     return this._execute(IbcMailClientExecuteMsgBuilder.updateConfig(), fee_, memo_, funds_);
   };
   _execute = async (msg: ExecuteMsg, fee_: number | StdFee | \\"auto\\" = \\"auto\\", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
+    const signingCwClient = await this.accountWalletClient.getSigningCosmWasmClient();
+    const sender = await this.accountWalletClient.getSenderAddress();
     const moduleMsg: AppExecuteMsg<ExecuteMsg> = AppExecuteMsgFactory.executeApp(msg);
-    return await this.accountWalletClient.abstract.client.execute(this.accountWalletClient.sender, await this.getAddress(), moduleMsg, fee_, memo_, funds_);
+    return await signingCwClient.execute(sender, await this.getAddress(), moduleMsg, fee_, memo_, funds_);
   };
 }"
 `;

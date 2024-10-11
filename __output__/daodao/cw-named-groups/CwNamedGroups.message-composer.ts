@@ -8,7 +8,7 @@ import { Coin } from "@cosmjs/amino";
 import { MsgExecuteContractEncodeObject } from "@cosmjs/cosmwasm-stargate";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
-import { AppExecuteMsg, AppExecuteMsgFactory } from "@abstract-money/abstract.js";
+import { AppExecuteMsg, AppExecuteMsgFactory } from "@abstract-money/core";
 import { DumpResponse, Group, ExecuteMsg, InstantiateMsg, Addr, ListAddressesResponse, ListGroupsResponse, QueryMsg } from "./CwNamedGroups.types";
 export interface CwNamedGroupsMessage {
   contractAddress: string;
@@ -21,17 +21,17 @@ export interface CwNamedGroupsMessage {
     addressesToAdd?: string[];
     addressesToRemove?: string[];
     group: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   removeGroup: ({
     group
   }: {
     group: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   updateOwner: ({
     owner
   }: {
     owner: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
 }
 export class CwNamedGroupsMessageComposer implements CwNamedGroupsMessage {
   sender: string;
@@ -53,7 +53,7 @@ export class CwNamedGroupsMessageComposer implements CwNamedGroupsMessage {
     addressesToAdd?: string[];
     addressesToRemove?: string[];
     group: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       update: {
         addresses_to_add: addressesToAdd,
@@ -67,7 +67,7 @@ export class CwNamedGroupsMessageComposer implements CwNamedGroupsMessage {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -75,7 +75,7 @@ export class CwNamedGroupsMessageComposer implements CwNamedGroupsMessage {
     group
   }: {
     group: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       remove_group: {
         group
@@ -87,7 +87,7 @@ export class CwNamedGroupsMessageComposer implements CwNamedGroupsMessage {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -95,7 +95,7 @@ export class CwNamedGroupsMessageComposer implements CwNamedGroupsMessage {
     owner
   }: {
     owner: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     const msg = {
       update_owner: {
         owner
@@ -107,7 +107,7 @@ export class CwNamedGroupsMessageComposer implements CwNamedGroupsMessage {
         sender: this.sender,
         contract: this.contractAddress,
         msg: toUtf8(JSON.stringify(msg)),
-        funds: _funds
+        funds: funds_
       })
     };
   };
