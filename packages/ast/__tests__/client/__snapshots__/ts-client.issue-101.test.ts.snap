@@ -8,8 +8,8 @@ exports[`execute interfaces no extends 1`] = `
     newFactory
   }: {
     newFactory: string;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
-  updateOwnership: (action: Action, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
+  updateOwnership: (action: Action, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
 }"
 `;
 
@@ -29,17 +29,17 @@ exports[`ownership client with tuple 1`] = `
     newFactory
   }: {
     newFactory: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       set_factory: {
         new_factory: newFactory
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
-  updateOwnership = async (action: Action, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  updateOwnership = async (action: Action, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_ownership: action
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
 }"
 `;

@@ -20,17 +20,17 @@ export interface CwNamedGroupsMsg {
     addressesToAdd?: string[];
     addressesToRemove?: string[];
     group: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   removeGroup: ({
     group
   }: {
     group: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   updateOwner: ({
     owner
   }: {
     owner: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
 }
 export class CwNamedGroupsMsgComposer implements CwNamedGroupsMsg {
   sender: string;
@@ -50,7 +50,7 @@ export class CwNamedGroupsMsgComposer implements CwNamedGroupsMsg {
     addressesToAdd?: string[];
     addressesToRemove?: string[];
     group: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -63,7 +63,7 @@ export class CwNamedGroupsMsgComposer implements CwNamedGroupsMsg {
             group
           }
         })),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -71,7 +71,7 @@ export class CwNamedGroupsMsgComposer implements CwNamedGroupsMsg {
     group
   }: {
     group: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -82,7 +82,7 @@ export class CwNamedGroupsMsgComposer implements CwNamedGroupsMsg {
             group
           }
         })),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -90,7 +90,7 @@ export class CwNamedGroupsMsgComposer implements CwNamedGroupsMsg {
     owner
   }: {
     owner: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -101,7 +101,7 @@ export class CwNamedGroupsMsgComposer implements CwNamedGroupsMsg {
             owner
           }
         })),
-        funds: _funds
+        funds: funds_
       })
     };
   };

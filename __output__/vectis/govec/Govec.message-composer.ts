@@ -15,40 +15,40 @@ export interface GovecMsg {
     msgs
   }: {
     msgs: CosmosMsgForEmpty[];
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
-  revertFreezeStatus: (_funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
+  revertFreezeStatus: (funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   relay: ({
     transaction
   }: {
     transaction: RelayTransaction;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   rotateUserKey: ({
     newUserAddress
   }: {
     newUserAddress: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   addRelayer: ({
     newRelayerAddress
   }: {
     newRelayerAddress: Addr;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   removeRelayer: ({
     relayerAddress
   }: {
     relayerAddress: Addr;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   updateGuardians: ({
     guardians,
     newMultisigCodeId
   }: {
     guardians: Guardians;
     newMultisigCodeId?: number;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
   updateLabel: ({
     newLabel
   }: {
     newLabel: string;
-  }, _funds?: Coin[]) => MsgExecuteContractEncodeObject;
+  }, funds_?: Coin[]) => MsgExecuteContractEncodeObject;
 }
 export class GovecMsgComposer implements GovecMsg {
   sender: string;
@@ -69,7 +69,7 @@ export class GovecMsgComposer implements GovecMsg {
     msgs
   }: {
     msgs: CosmosMsgForEmpty[];
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -80,11 +80,11 @@ export class GovecMsgComposer implements GovecMsg {
             msgs
           }
         })),
-        funds: _funds
+        funds: funds_
       })
     };
   };
-  revertFreezeStatus = (_funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  revertFreezeStatus = (funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -93,7 +93,7 @@ export class GovecMsgComposer implements GovecMsg {
         msg: toUtf8(JSON.stringify({
           revert_freeze_status: {}
         })),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -101,7 +101,7 @@ export class GovecMsgComposer implements GovecMsg {
     transaction
   }: {
     transaction: RelayTransaction;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -112,7 +112,7 @@ export class GovecMsgComposer implements GovecMsg {
             transaction
           }
         })),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -120,7 +120,7 @@ export class GovecMsgComposer implements GovecMsg {
     newUserAddress
   }: {
     newUserAddress: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -131,7 +131,7 @@ export class GovecMsgComposer implements GovecMsg {
             new_user_address: newUserAddress
           }
         })),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -139,7 +139,7 @@ export class GovecMsgComposer implements GovecMsg {
     newRelayerAddress
   }: {
     newRelayerAddress: Addr;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -150,7 +150,7 @@ export class GovecMsgComposer implements GovecMsg {
             new_relayer_address: newRelayerAddress
           }
         })),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -158,7 +158,7 @@ export class GovecMsgComposer implements GovecMsg {
     relayerAddress
   }: {
     relayerAddress: Addr;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -169,7 +169,7 @@ export class GovecMsgComposer implements GovecMsg {
             relayer_address: relayerAddress
           }
         })),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -179,7 +179,7 @@ export class GovecMsgComposer implements GovecMsg {
   }: {
     guardians: Guardians;
     newMultisigCodeId?: number;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -191,7 +191,7 @@ export class GovecMsgComposer implements GovecMsg {
             new_multisig_code_id: newMultisigCodeId
           }
         })),
-        funds: _funds
+        funds: funds_
       })
     };
   };
@@ -199,7 +199,7 @@ export class GovecMsgComposer implements GovecMsg {
     newLabel
   }: {
     newLabel: string;
-  }, _funds?: Coin[]): MsgExecuteContractEncodeObject => {
+  }, funds_?: Coin[]): MsgExecuteContractEncodeObject => {
     return {
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
@@ -210,7 +210,7 @@ export class GovecMsgComposer implements GovecMsg {
             new_label: newLabel
           }
         })),
-        funds: _funds
+        funds: funds_
       })
     };
   };

@@ -30,13 +30,13 @@ exports[`execute classes array types 1`] = `
   }: {
     amount: number;
     creditor: Addr;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       create_edge: {
         amount,
         creditor
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
   editEdge = async ({
     amount,
@@ -46,36 +46,36 @@ exports[`execute classes array types 1`] = `
     amount: number;
     creditor: Addr;
     edgeId: number;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       edit_edge: {
         amount,
         creditor,
         edge_id: edgeId
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
   removeEdge = async ({
     edgeId
   }: {
     edgeId: number;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       remove_edge: {
         edge_id: edgeId
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
   createGraph = async ({
     graph
   }: {
     graph: Edge[];
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       create_graph: {
         graph
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
   createGraphSimplified = async ({
     graph,
@@ -83,13 +83,13 @@ exports[`execute classes array types 1`] = `
   }: {
     graph: Addr[][];
     graphId: number;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       create_graph_simplified: {
         graph,
         graph_id: graphId
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
   editGraphSimplified = async ({
     graph,
@@ -97,89 +97,89 @@ exports[`execute classes array types 1`] = `
   }: {
     graph: Addr[][];
     graphId: number;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       edit_graph_simplified: {
         graph,
         graph_id: graphId
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
   removeGraph = async ({
     graphId
   }: {
     graphId: number;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       remove_graph: {
         graph_id: graphId
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
   updateEdges = async ({
     edges
   }: {
     edges: number[][];
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_edges: {
         edges
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
-  findSavings = async (fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  findSavings = async (fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       find_savings: {}
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
   findSavingsInAGraph = async ({
     graphId
   }: {
     graphId: number;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       find_savings_in_a_graph: {
         graph_id: graphId
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
-  reset = async (fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  reset = async (fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       reset: {}
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
   saveNetworkToFile = async ({
     filepath
   }: {
     filepath: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       save_network_to_file: {
         filepath
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
   createGraphFromFile = async ({
     filepath
   }: {
     filepath: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       create_graph_from_file: {
         filepath
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
   applySetOffFromFile = async ({
     filepath
   }: {
     filepath: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+  }, fee_: number | StdFee | "auto" = "auto", memo_?: string, funds_?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       apply_set_off_from_file: {
         filepath
       }
-    }, fee, memo, _funds);
+    }, fee_, memo_, funds_);
   };
 }"
 `;
@@ -194,7 +194,7 @@ exports[`execute interfaces no extends 1`] = `
   }: {
     amount: number;
     creditor: Addr;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   editEdge: ({
     amount,
     creditor,
@@ -203,63 +203,63 @@ exports[`execute interfaces no extends 1`] = `
     amount: number;
     creditor: Addr;
     edgeId: number;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   removeEdge: ({
     edgeId
   }: {
     edgeId: number;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   createGraph: ({
     graph
   }: {
     graph: Edge[];
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   createGraphSimplified: ({
     graph,
     graphId
   }: {
     graph: Addr[][];
     graphId: number;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   editGraphSimplified: ({
     graph,
     graphId
   }: {
     graph: Addr[][];
     graphId: number;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   removeGraph: ({
     graphId
   }: {
     graphId: number;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   updateEdges: ({
     edges
   }: {
     edges: number[][];
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
-  findSavings: (fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
+  findSavings: (fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   findSavingsInAGraph: ({
     graphId
   }: {
     graphId: number;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
-  reset: (fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
+  reset: (fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   saveNetworkToFile: ({
     filepath
   }: {
     filepath: string;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   createGraphFromFile: ({
     filepath
   }: {
     filepath: string;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
   applySetOffFromFile: ({
     filepath
   }: {
     filepath: string;
-  }, fee?: number | StdFee | "auto", memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+  }, fee_?: number | StdFee | "auto", memo_?: string, funds_?: Coin[]) => Promise<ExecuteResult>;
 }"
 `;
 

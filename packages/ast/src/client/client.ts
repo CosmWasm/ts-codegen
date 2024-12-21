@@ -21,11 +21,12 @@ import {
   getPropertyType,
   getResponseType
 } from '../utils/types';
+import { OPTIONAL_MEMO_PARAM } from "../utils/constants";
 
 export const CONSTANT_EXEC_PARAMS = [
   t.assignmentPattern(
     identifier(
-      'fee',
+      'fee_',
       t.tsTypeAnnotation(
         t.tsUnionType([
           t.tSNumberKeyword(),
@@ -37,7 +38,7 @@ export const CONSTANT_EXEC_PARAMS = [
     ),
     t.stringLiteral('auto')
   ),
-  identifier('memo', t.tsTypeAnnotation(t.tsStringKeyword()), true),
+  OPTIONAL_MEMO_PARAM,
   OPTIONAL_FUNDS_PARAM
 ];
 
@@ -266,9 +267,9 @@ export const createWasmExecMethod = (
                 t.objectExpression([
                   t.objectProperty(msgAction, msgActionValue)
                 ]),
-                t.identifier('fee'),
-                t.identifier('memo'),
-                t.identifier('_funds')
+                t.identifier('fee_'),
+                t.identifier('memo_'),
+                t.identifier('funds_')
               ]
             )
           )
