@@ -8,7 +8,7 @@ const glob = require('glob').sync;
 const fs = require('fs');
 const path = require('path');
 
-const repo = 'https://github.com/cosmology-tech/ts-codegen-module-boilerplate';
+const repo = 'https://github.com/hyperweb-io/ts-codegen-module-boilerplate';
 export default async (argv: MinimistArgs) => {
   if (!shell.which('git')) {
     shell.echo('Sorry, this script requires git');
