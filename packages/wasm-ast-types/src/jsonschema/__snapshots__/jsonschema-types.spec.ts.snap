@@ -1,0 +1,97 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`arrays 1`] = `"edges: [] | number[];"`;
+
+exports[`createType 1`] = `
+"export type HelloInterface = {
+  update_edges: {
+    edges: [] | ([] | number[][]);
+    nested: [] | ([] | [number, number][]);
+    supernested: [] | ([] | ([] | ([] | string[][])[])[]);
+  };
+};"
+`;
+
+exports[`createType 2`] = `
+"export type HelloInterface = {
+  mint: object;
+} | {
+  set_whitelist: {
+    whitelist: string;
+  };
+} | {
+  update_start_time: Timestamp;
+} | {
+  update_per_address_limit: {
+    per_address_limit: number;
+  };
+} | {
+  mint_to: {
+    recipient: string;
+  };
+} | {
+  mint_for: {
+    recipient: string;
+    token_id: number;
+  };
+} | {
+  withdraw: object;
+};"
+`;
+
+exports[`createType 3`] = `"export type HelloInterface = Uint64;"`;
+
+exports[`min max items 1`] = `"edges: [] | [number, number];"`;
+
+exports[`mint 1`] = `"mint: object;"`;
+
+exports[`nested 1`] = `"nested: [] | ([] | [number, number][]);"`;
+
+exports[`processTypes 1`] = `
+"export type ExecuteMsg = {
+  mint: object;
+} | {
+  set_whitelist: {
+    whitelist: string;
+  };
+} | {
+  update_start_time: Timestamp;
+} | {
+  update_per_address_limit: {
+    per_address_limit: number;
+  };
+} | {
+  mint_to: {
+    recipient: string;
+  };
+} | {
+  mint_for: {
+    recipient: string;
+    token_id: number;
+  };
+} | {
+  withdraw: object;
+};"
+`;
+
+exports[`processTypes 2`] = `"export type Timestamp = Uint64;"`;
+
+exports[`processTypes 3`] = `"export type Uint64 = string;"`;
+
+exports[`set_whitelist 1`] = `
+"set_whitelist: {
+  whitelist: string;
+};"
+`;
+
+exports[`supernested 1`] = `"supernested: [] | ([] | ([] | ([] | string[][])[])[]);"`;
+
+exports[`update_edges 1`] = `
+"update_edges: {
+  edges: [] | ([] | number[][]);
+  nested: [] | ([] | [number, number][]);
+  supernested: [] | ([] | ([] | ([] | string[][])[])[]);
+};"
+`;
+
+exports[`whitelist 1`] = `"whitelist: string;"`;

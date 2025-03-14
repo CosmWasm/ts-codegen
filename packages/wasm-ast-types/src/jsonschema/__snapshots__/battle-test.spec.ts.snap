@@ -1,0 +1,173 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`minter /Users/pyramation/code/cosmwasm/ts-codegen/__fixtures__/minter/execute_msg.json 1`] = `
+"export type ExecuteMsg = {
+  mint: object;
+} | {
+  set_whitelist: {
+    whitelist: string;
+  };
+} | {
+  update_start_time: Timestamp;
+} | {
+  update_per_address_limit: {
+    per_address_limit: number;
+  };
+} | {
+  mint_to: {
+    recipient: string;
+  };
+} | {
+  mint_for: {
+    recipient: string;
+    token_id: number;
+  };
+} | {
+  withdraw: object;
+};"
+`;
+
+exports[`minter /Users/pyramation/code/cosmwasm/ts-codegen/__fixtures__/minter/execute_msg.json 2`] = `"export type Timestamp = Uint64;"`;
+
+exports[`minter /Users/pyramation/code/cosmwasm/ts-codegen/__fixtures__/minter/execute_msg.json 3`] = `"export type Uint64 = string;"`;
+
+exports[`minter /Users/pyramation/code/cosmwasm/ts-codegen/__fixtures__/minter/query_msg.json 1`] = `
+"export type QueryMsg = {
+  config: object;
+} | {
+  mintable_num_tokens: object;
+} | {
+  start_time: object;
+} | {
+  mint_price: object;
+} | {
+  mint_count: {
+    address: string;
+  };
+};"
+`;
+
+exports[`minter /minter/execute_msg.json 1`] = `
+"export type ExecuteMsg = {
+  mint: object;
+} | {
+  set_whitelist: {
+    whitelist: string;
+  };
+} | {
+  update_start_time: Timestamp;
+} | {
+  update_per_address_limit: {
+    per_address_limit: number;
+  };
+} | {
+  mint_to: {
+    recipient: string;
+  };
+} | {
+  mint_for: {
+    recipient: string;
+    token_id: number;
+  };
+} | {
+  withdraw: object;
+};"
+`;
+
+exports[`minter /minter/execute_msg.json 2`] = `"export type Timestamp = Uint64;"`;
+
+exports[`minter /minter/execute_msg.json 3`] = `"export type Uint64 = string;"`;
+
+exports[`minter /minter/query_msg.json 1`] = `
+"export type QueryMsg = {
+  config: object;
+} | {
+  mintable_num_tokens: object;
+} | {
+  start_time: object;
+} | {
+  mint_price: object;
+} | {
+  mint_count: {
+    address: string;
+  };
+};"
+`;
+
+exports[`minter case: 3 1`] = `
+"export type ExecuteMsg = {
+  mint: object;
+} | {
+  set_whitelist: {
+    whitelist: string;
+  };
+} | {
+  update_start_time: Timestamp;
+} | {
+  update_per_address_limit: {
+    per_address_limit: number;
+  };
+} | {
+  mint_to: {
+    recipient: string;
+  };
+} | {
+  mint_for: {
+    recipient: string;
+    token_id: number;
+  };
+} | {
+  withdraw: object;
+};"
+`;
+
+exports[`minter case: 3 2`] = `"export type Timestamp = Uint64;"`;
+
+exports[`minter case: 3 3`] = `"export type Uint64 = string;"`;
+
+exports[`minter case: 5 1`] = `
+"export type QueryMsg = {
+  config: object;
+} | {
+  mintable_num_tokens: object;
+} | {
+  start_time: object;
+} | {
+  mint_price: object;
+} | {
+  mint_count: {
+    address: string;
+  };
+};"
+`;
+
+exports[`processTypes 1`] = `
+"export type ExecuteMsg = {
+  mint: object;
+} | {
+  set_whitelist: {
+    whitelist: string;
+  };
+} | {
+  update_start_time: Timestamp;
+} | {
+  update_per_address_limit: {
+    per_address_limit: number;
+  };
+} | {
+  mint_to: {
+    recipient: string;
+  };
+} | {
+  mint_for: {
+    recipient: string;
+    token_id: number;
+  };
+} | {
+  withdraw: object;
+};"
+`;
+
+exports[`processTypes 2`] = `"export type Timestamp = Uint64;"`;
+
+exports[`processTypes 3`] = `"export type Uint64 = string;"`;
